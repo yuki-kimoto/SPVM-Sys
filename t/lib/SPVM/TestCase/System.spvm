@@ -1,5 +1,21 @@
 class TestCase::System {
+  use System;
+  
   static method test : int () {
+    
+    return 1;
+  }
+
+  static method ftest : int () {
+    
+    # f
+    {
+      my $file = "t/ftest/file_empty.txt";
+      my $result = System->ftest_f($file);
+      unless ($result) {
+        return 0;
+      }
+    }
     
     return 1;
   }

@@ -10,4 +10,7 @@ use SPVM 'TestCase::System';
 
 ok(SPVM::TestCase::System->test);
 
+# File tests
+ok(SPVM::TestCase::System->ftest);
+
 done_testing;

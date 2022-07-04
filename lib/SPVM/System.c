@@ -1,190 +1,219 @@
 #include "spvm_native.h"
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 const char* FILE_NAME = "SPVM/System.c";
 
-int32_t SPVM__System__ftest_ftest_r(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_r(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_w(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_w(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_x(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_x(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_o(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_o(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_R(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_R(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_W(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_W(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_X(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_X(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_O(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_O(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_e(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_e(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_z(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_z(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_s(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_s(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_f(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_f(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_file = stack[0].oval;
+  
+  if (!obj_file) {
+    return env->die(env, stack, "A file name must be specified", FILE_NAME, __LINE__);
+  }
+  
+  const char* file = env->get_chars(env, stack, obj_file);
+  
+  int32_t result;
+  
+  struct stat st;
+  int32_t stat_result = stat(file, &st);
+  if (stat_result != 0) {
+    result = 0;
+  }
+  else {
+    if ((st.st_mode & S_IFMT) == S_IFDIR) {
+      result = 0;
+    }
+    else {
+      result = 1;
+    }
+  }
+  
+  stack[0].ival = result;
+  
+  return 0;
+}
+
+int32_t SPVM__System__ftest_d(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_d(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_l(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_l(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_p(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_p(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_S(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_S(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_b(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_b(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_c(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_c(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_t(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_t(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_u(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_u(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_g(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_g(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_k(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_k(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_T(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_T(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_B(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_B(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_M(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_M(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_A(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
   return 0;
 }
 
-int32_t SPVM__System__ftest_ftest_A(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
-
-  return 0;
-}
-
-int32_t SPVM__System__ftest_ftest_C(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__System__ftest_C(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return env->die(env, stack, "Not yet implemented", FILE_NAME, __LINE__);
 
