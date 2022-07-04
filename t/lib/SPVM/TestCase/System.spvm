@@ -1,0 +1,6 @@
+class TestCase::System {
+  static method test : int () {
+    
+    return 1;
+  }
+}
