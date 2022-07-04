@@ -1,3 +1,31 @@
 class System {
-
+  use System::Stat;
+  
+  native static method ftest_r : int ($file : string);
+  native static method ftest_w : int ($file : string);
+  native static method ftest_x : int ($file : string);
+  native static method ftest_o : int ($file : string);
+  native static method ftest_R : int ($file : string);
+  native static method ftest_W : int ($file : string);
+  native static method ftest_X : int ($file : string);
+  native static method ftest_O : int ($file : string);
+  native static method ftest_e : int ($file : string);
+  native static method ftest_z : int ($file : string);
+  native static method ftest_s : int ($file : string);
+  native static method ftest_f : int ($file : string);
+  native static method ftest_d : int ($file : string);
+  native static method ftest_l : int ($file : string);
+  native static method ftest_p : int ($file : string);
+  native static method ftest_S : int ($file : string);
+  native static method ftest_b : int ($file : string);
+  native static method ftest_c : int ($file : string);
+  native static method ftest_t : int ($file : string);
+  native static method ftest_u : int ($file : string);
+  native static method ftest_g : int ($file : string);
+  native static method ftest_k : int ($file : string);
+  native static method ftest_T : int ($file : string);
+  native static method ftest_B : int ($file : string);
+  native static method ftest_M : int ($file : string);
+  native static method ftest_A : int ($file : string);
+  native static method ftest_C : int ($file : string);
 }
