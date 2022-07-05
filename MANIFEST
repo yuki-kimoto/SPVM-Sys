@@ -18,5 +18,6 @@ MANIFEST			This list of files
 MANIFEST.SKIP
 README.md
 t/basic.t
+t/ftest/dir_empty/.gitkeep
 t/ftest/file_empty.txt
 t/lib/SPVM/TestCase/System.spvm
