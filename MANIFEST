@@ -5,6 +5,7 @@
 .github/workflows/windows-2019.yml
 .gitignore
 Changes
+cpanm
 lib/SPVM/System.c
 lib/SPVM/System.config
 lib/SPVM/System.native/include/.gitkeep
