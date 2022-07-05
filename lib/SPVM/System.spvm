@@ -1,6 +1,7 @@
 class System {
   use System::Stat;
   
+  native static method getcwd : string ();
   native static method ftest_r : int ($file : string);
   native static method ftest_w : int ($file : string);
   native static method ftest_x : int ($file : string);

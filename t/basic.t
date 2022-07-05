@@ -6,11 +6,19 @@ use FindBin;
 use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 
+use Cwd 'getcwd';
+
 use SPVM 'TestCase::System';
 
 ok(SPVM::TestCase::System->test);
 
 # File tests
 ok(SPVM::TestCase::System->ftest);
+
+# getcwd
+{
+  my $cur_dir = getcwd;
+  is(SPVM::TestCase::System->getcwd_value, $cur_dir);
+}
 
 done_testing;

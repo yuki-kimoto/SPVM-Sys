@@ -4,8 +4,24 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 const char* FILE_NAME = "SPVM/System.c";
+
+int32_t SPVM__System__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  void* cur_dir = getcwd(NULL, 0);
+  
+  void* obj_cur_dir = NULL;
+  if (cur_dir) {
+    obj_cur_dir = env->new_string_nolen(env, stack, cur_dir);
+    free(cur_dir);
+  }
+  
+  stack[0].oval = obj_cur_dir;
+
+  return 0;
+}
 
 int32_t SPVM__System__ftest_r(SPVM_ENV* env, SPVM_VALUE* stack) {
 
