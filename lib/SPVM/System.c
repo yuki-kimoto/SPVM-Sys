@@ -8,6 +8,24 @@
 
 const char* FILE_NAME = "SPVM/System.c";
 
+int32_t SPVM__System__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_file = stack[0].oval;
+  
+  int32_t count = 0;
+  if (obj_file) {
+    const char* file = env->get_chars(env, stack, obj_file);
+    int32_t error_code = unlink(file);
+    if (error_code == 0) {
+      count++;
+    }
+  }
+  
+  stack[0].ival = count;
+  
+  return 0;
+}
+
 int32_t SPVM__System__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   void* cur_dir = getcwd(NULL, 0);
