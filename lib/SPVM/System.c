@@ -28,10 +28,16 @@ int32_t SPVM__System__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__System__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  void* cur_dir = getcwd(NULL, 0);
+  char* cur_dir = getcwd(NULL, 0);
   
   void* obj_cur_dir = NULL;
   if (cur_dir) {
+    int32_t cur_dir_len = strlen(cur_dir);
+    for (int32_t i = 0; i < cur_dir_len; i++) {
+      if (cur_dir[i] == '\\') {
+        cur_dir[i] = '/';
+      }
+    }
     obj_cur_dir = env->new_string_nolen(env, stack, cur_dir);
     free(cur_dir);
   }
