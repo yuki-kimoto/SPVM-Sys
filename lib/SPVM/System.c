@@ -5,8 +5,16 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
 
 const char* FILE_NAME = "SPVM/System.c";
+
+int32_t SPVM__System__errno(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  stack[0].ival = errno;
+  
+  return 0;
+}
 
 int32_t SPVM__System__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
