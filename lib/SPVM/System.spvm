@@ -1,6 +1,7 @@
 class System {
   use System::Stat;
   
+  native static method rmdir : int ($file : string);
   native static method unlink : int ($file : string);
   
   static method unlink_list : int ($files : string[]...) {
