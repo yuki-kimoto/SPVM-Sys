@@ -1,5 +1,5 @@
-class System {
-  use System::Stat;
+class Sys {
+  use Sys::Stat;
   
   native static method rmdir : int ($file : string);
   native static method unlink : int ($file : string);

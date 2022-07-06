@@ -6,13 +6,13 @@
 .gitignore
 Changes
 cpanm
-lib/SPVM/System.c
-lib/SPVM/System.config
-lib/SPVM/System.native/include/.gitkeep
-lib/SPVM/System.native/src/.gitkeep
-lib/SPVM/System.pm
-lib/SPVM/System.spvm
-lib/SPVM/System/Stat.spvm
+lib/SPVM/Sys.c
+lib/SPVM/Sys.config
+lib/SPVM/Sys.native/include/.gitkeep
+lib/SPVM/Sys.native/src/.gitkeep
+lib/SPVM/Sys.pm
+lib/SPVM/Sys.spvm
+lib/SPVM/Sys/Stat.spvm
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP

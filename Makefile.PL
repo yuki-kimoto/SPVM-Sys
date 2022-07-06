@@ -6,12 +6,12 @@ use Config;
 use SPVM::Builder::Util::API;
 
 WriteMakefile(
-  NAME              => 'SPVM::System',
-  VERSION_FROM      => 'lib/SPVM/System.pm',
+  NAME              => 'SPVM::Sys',
+  VERSION_FROM      => 'lib/SPVM/Sys.pm',
   PREREQ_PM         => {}, # e.g., Module::Name => 1.1
   LICENSE           => 'perl_5',
   ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-    (ABSTRACT_FROM  => 'lib/SPVM/System.pm',
+    (ABSTRACT_FROM  => 'lib/SPVM/Sys.pm',
      AUTHOR         => 'USER_NAME<USER_MAIL>') : ()),
   test => {TESTS => 't/*.t'},
   clean => {FILES => ['.spvm_build', 't/.spvm_build']},
@@ -35,7 +35,7 @@ sub MY::postamble {
 
   my $make_rule = '';
   
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('System');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys');
   
   
   return $make_rule;

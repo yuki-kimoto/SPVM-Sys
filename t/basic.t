@@ -8,11 +8,11 @@ BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 
 use Cwd 'getcwd';
 
-use SPVM 'TestCase::System';
+use SPVM 'TestCase::Sys';
 
-ok(SPVM::TestCase::System->test);
+ok(SPVM::TestCase::Sys->test);
 
 # File tests
-ok(SPVM::TestCase::System->ftest);
+ok(SPVM::TestCase::Sys->ftest);
 
 done_testing;

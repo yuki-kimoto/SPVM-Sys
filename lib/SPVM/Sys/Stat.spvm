@@ -1,0 +1,3 @@
+class Sys::Stat : pointer_t {
+  
+}

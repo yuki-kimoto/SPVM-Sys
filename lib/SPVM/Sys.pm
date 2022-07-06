@@ -1,4 +1,4 @@
-package SPVM::System;
+package SPVM::Sys;
 
 our $VERSION = '0.01';
 
@@ -6,15 +6,15 @@ our $VERSION = '0.01';
 
 =head1 Name
 
-SPVM::System - System is a SPVM module
+SPVM::Sys - Sys is a SPVM module
 
 =head1 Synopsys
 
-  use System;
+  use Sys;
   
 =head1 Description
 
-C<System> is a L<SPVM> module.
+C<Sys> is a L<SPVM> module.
 
 =head1 Field Methods
 
