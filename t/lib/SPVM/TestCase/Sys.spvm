@@ -1,5 +1,6 @@
 class TestCase::Sys {
   use Sys;
+  use Sys::FileTest;
   
   static method test : int () {
     
@@ -13,7 +14,7 @@ class TestCase::Sys {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        my $result = Sys->ftest_e($file);
+        my $result = Sys::FileTest->e($file);
         unless ($result == 0) {
           return 0;
         }
@@ -22,7 +23,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $result = Sys->ftest_e($file);
+        my $result = Sys::FileTest->e($file);
         unless ($result) {
           return 0;
         }
@@ -31,7 +32,7 @@ class TestCase::Sys {
       # Directory
       {
         my $file = "t/ftest/dir_empty";
-        my $result = Sys->ftest_e($file);
+        my $result = Sys::FileTest->e($file);
         unless ($result) {
           return 0;
         }
@@ -43,7 +44,7 @@ class TestCase::Sys {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        my $result = Sys->ftest_f($file);
+        my $result = Sys::FileTest->f($file);
         unless ($result == 0) {
           return 0;
         }
@@ -52,7 +53,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $result = Sys->ftest_f($file);
+        my $result = Sys::FileTest->f($file);
         unless ($result) {
           return 0;
         }
@@ -61,7 +62,7 @@ class TestCase::Sys {
       # Directory
       {
         my $file = "t/ftest/dir_empty";
-        my $result = Sys->ftest_f($file);
+        my $result = Sys::FileTest->f($file);
         unless ($result == 0) {
           return 0;
         }
@@ -73,7 +74,7 @@ class TestCase::Sys {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        my $result = Sys->ftest_d($file);
+        my $result = Sys::FileTest->d($file);
         unless ($result == 0) {
           return 0;
         }
@@ -82,7 +83,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $result = Sys->ftest_d($file);
+        my $result = Sys::FileTest->d($file);
         unless ($result == 0) {
           return 0;
         }
@@ -91,7 +92,7 @@ class TestCase::Sys {
       # Directory
       {
         my $file = "t/ftest/dir_empty";
-        my $result = Sys->ftest_d($file);
+        my $result = Sys::FileTest->d($file);
         unless ($result) {
           return 0;
         }

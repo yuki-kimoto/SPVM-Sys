@@ -1,0 +1,29 @@
+class Sys::FileTest {
+  native static method r : int ($file : string);
+  native static method w : int ($file : string);
+  native static method x : int ($file : string);
+  native static method o : int ($file : string);
+  native static method R : int ($file : string);
+  native static method W : int ($file : string);
+  native static method X : int ($file : string);
+  native static method O : int ($file : string);
+  native static method e : int ($file : string);
+  native static method z : int ($file : string);
+  native static method s : int ($file : string);
+  native static method f : int ($file : string);
+  native static method d : int ($file : string);
+  native static method l : int ($file : string);
+  native static method p : int ($file : string);
+  native static method S : int ($file : string);
+  native static method b : int ($file : string);
+  native static method c : int ($file : string);
+  native static method t : int ($file : string);
+  native static method u : int ($file : string);
+  native static method g : int ($file : string);
+  native static method k : int ($file : string);
+  native static method T : int ($file : string);
+  native static method B : int ($file : string);
+  native static method M : int ($file : string);
+  native static method A : int ($file : string);
+  native static method C : int ($file : string);
+}
