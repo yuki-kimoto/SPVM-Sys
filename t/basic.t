@@ -15,10 +15,4 @@ ok(SPVM::TestCase::System->test);
 # File tests
 ok(SPVM::TestCase::System->ftest);
 
-# getcwd
-{
-  my $cur_dir = getcwd;
-  is(SPVM::TestCase::System->getcwd_value, $cur_dir);
-}
-
 done_testing;

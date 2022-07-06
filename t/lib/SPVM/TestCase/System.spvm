@@ -6,12 +6,6 @@ class TestCase::System {
     return 1;
   }
 
-  static method getcwd_value : string () {
-    my $cur_dir = System->getcwd;
-    
-    return $cur_dir;
-  }
-
   static method ftest : int () {
     
     # ftest_e

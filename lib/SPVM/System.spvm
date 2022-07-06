@@ -1,7 +1,6 @@
 class System {
   use System::Stat;
   
-  native static method errno : int ();
   native static method rmdir : int ($file : string);
   native static method unlink : int ($file : string);
   
@@ -21,7 +20,6 @@ class System {
     return $count;
   }
   
-  native static method getcwd : string ();
   native static method ftest_r : int ($file : string);
   native static method ftest_w : int ($file : string);
   native static method ftest_x : int ($file : string);
