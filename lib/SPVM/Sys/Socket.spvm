@@ -1,3 +1,13 @@
 class Sys::Socket {
 
+=pod
+
+Low-level socket functions
+
+accept, bind, connect, getpeername, getsockname, getsockopt, listen, recv, send, setsockopt, shutdown, socket, socketpair
+
+Socket.pm
+
+=cut
+
 }

@@ -1,3 +1,11 @@
 class Sys::Process {
 
+=pod
+
+Functions for processes and process groups
+
+alarm, exec, fork, getpgrp, getppid, getpriority, kill, pipe, qx//, readpipe, setpgrp, setpriority, sleep, system, times, wait, waitpid
+
+=cut
+
 }
