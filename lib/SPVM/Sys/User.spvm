@@ -2,8 +2,11 @@ class Sys::User {
 
 =pod
 
-Fetching user and group info
-endgrent, endhostent, endnetent, endpwent, getgrent, getgrgid, getgrnam, getlogin, getpwent, getpwnam, getpwuid, setgrent, setpwent
+setpwent, endpwent, getpwent, getpwuid, getpwnam, getuid, geteuid
+
+setgrent, endgrent, getgrent, getgrgid, getgrnam, getgid, getegid
+
+getlogin
 
 =cut
 
