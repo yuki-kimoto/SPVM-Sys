@@ -1,0 +1,31 @@
+class TestCase::Sys::User {
+  use Sys::User;
+  
+  static method getuid_value : int () {
+    
+    my $getuid = Sys::User->getuid;
+    
+    return $getuid;
+  }
+
+  static method geteuid_value : int () {
+    
+    my $geteuid = Sys::User->geteuid;
+    
+    return $geteuid;
+  }
+
+  static method getgid_value : int () {
+    
+    my $getgid = Sys::User->getgid;
+    
+    return $getgid;
+  }
+
+  static method getegid_value : int () {
+    
+    my $getegid = Sys::User->getegid;
+    
+    return $getegid;
+  }
+}

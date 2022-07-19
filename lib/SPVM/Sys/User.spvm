@@ -1,10 +1,16 @@
 class Sys::User {
 
+native static method getuid : int ();
+native static method geteuid : int ();
+native static method getgid : int ();
+native static method getegid : int ();
+
+
 =pod
 
-setpwent, endpwent, getpwent, getpwuid, getpwnam, getuid, geteuid
+setpwent, endpwent, getpwent, getpwuid, getpwnam, *getuid, *geteuid, setuid, 
 
-setgrent, endgrent, getgrent, getgrgid, getgrnam, getgid, getegid
+setgrent, endgrent, getgrent, getgrgid, getgrnam, *getgid, *getegid, getgroups, setgroups, setgid
 
 getlogin
 
