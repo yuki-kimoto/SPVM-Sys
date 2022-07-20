@@ -1,3 +1,1 @@
-class Sys::Ent::Hostent {
-
-}
+class Sys::Ent::Hostent : pointer_t;

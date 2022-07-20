@@ -1,3 +1,1 @@
-class Sys::Ent::Netent {
-
-}
+class Sys::Ent::Netent : pointer_t;
