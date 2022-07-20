@@ -9,9 +9,9 @@ int32_t SPVM__Sys__User__getuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t real_user_id = getuid();
+  int32_t uid = getuid();
   
-  stack[0].ival = real_user_id;
+  stack[0].ival = uid;
   
   return 0;
 }
@@ -20,9 +20,9 @@ int32_t SPVM__Sys__User__geteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t effective_user_id = geteuid();
+  int32_t euid = geteuid();
   
-  stack[0].ival  = effective_user_id;
+  stack[0].ival  = euid;
   
   return 0;
 }
@@ -31,9 +31,9 @@ int32_t SPVM__Sys__User__getgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t real_group_id = getgid();
+  int32_t gid = getgid();
   
-  stack[0].ival = real_group_id;
+  stack[0].ival = gid;
 
   return 0;
 }
@@ -42,9 +42,57 @@ int32_t SPVM__Sys__User__getegid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t effective_group_id = getegid();
+  int32_t egid = getegid();
   
-  stack[0].ival = effective_group_id;
+  stack[0].ival = egid;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__User__setuid(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t uid = stack[0].ival;
+  int32_t error_code = setuid(uid);
+  
+  stack[0].ival = error_code;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__User__seteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t euid = stack[0].ival;
+  int32_t error_code = seteuid(euid);
+  
+  stack[0].ival = error_code;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__User__setgid(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t gid = stack[0].ival;
+  int32_t error_code = setgid(gid);
+  
+  stack[0].ival = error_code;
+
+  return 0;
+}
+
+int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t egid = stack[0].ival;
+  int32_t error_code = setegid(egid);
+  
+  stack[0].ival = error_code;
   
   return 0;
 }

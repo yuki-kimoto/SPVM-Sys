@@ -13,4 +13,9 @@ is(SPVM::TestCase::Sys::User->geteuid_value, "$>");
 is(SPVM::TestCase::Sys::User->getgid_value, (split(/\s+/, "$("))[0]);
 is(SPVM::TestCase::Sys::User->getegid_value, (split(/\s+/, "$)"))[0]);
 
+ok(SPVM::TestCase::Sys::User->setuid);
+ok(SPVM::TestCase::Sys::User->seteuid);
+ok(SPVM::TestCase::Sys::User->setgid);
+ok(SPVM::TestCase::Sys::User->setegid);
+
 done_testing;

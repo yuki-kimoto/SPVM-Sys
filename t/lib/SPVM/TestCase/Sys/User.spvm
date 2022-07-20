@@ -28,4 +28,48 @@ class TestCase::Sys::User {
     
     return $getegid;
   }
+
+  static method setuid : int () {
+    
+    my $error_code = Sys::User->setuid(Sys::User->getuid);
+    
+    unless ($error_code == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method seteuid : int () {
+    
+    my $error_code = Sys::User->seteuid(Sys::User->geteuid);
+    
+    unless ($error_code == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method setgid : int () {
+    
+    my $error_code = Sys::User->setgid(Sys::User->getgid);
+    
+    unless ($error_code == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method setegid : int () {
+    
+    my $error_code = Sys::User->setegid(Sys::User->getegid);
+    
+    unless ($error_code == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
