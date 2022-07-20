@@ -18,4 +18,9 @@ ok(SPVM::TestCase::Sys::User->seteuid);
 ok(SPVM::TestCase::Sys::User->setgid);
 ok(SPVM::TestCase::Sys::User->setegid);
 
+ok(SPVM::TestCase::Sys::User->setpwent);
+ok(SPVM::TestCase::Sys::User->endpwent);
+ok(SPVM::TestCase::Sys::User->setgrent);
+ok(SPVM::TestCase::Sys::User->endgrent);
+
 done_testing;

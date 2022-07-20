@@ -97,6 +97,45 @@ int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__User__setpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  setpwent();
+  
+  return 0;
+}
+
+
+int32_t SPVM__Sys__User__endpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  endpwent();
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  setgrent();
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  endgrent();
+  
+  return 0;
+}
+
+/* TODO
+
 int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
@@ -153,16 +192,4 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__User__setpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  return 0;
-}
+*/

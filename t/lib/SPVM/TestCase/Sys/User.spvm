@@ -72,4 +72,32 @@ class TestCase::Sys::User {
     
     return 1;
   }
+
+  static method setpwent : int () {
+    
+    Sys::User->setpwent;
+    
+    return 1;
+  }
+
+  static method endpwent : int () {
+    
+    Sys::User->endpwent;
+    
+    return 1;
+  }
+  
+  static method setgrent : int () {
+    
+    Sys::User->setgrent;
+    
+    return 1;
+  }
+  
+  static method endgrent : int () {
+    
+    Sys::User->endgrent;
+    
+    return 1;
+  }
 }
