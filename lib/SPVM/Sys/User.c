@@ -141,9 +141,13 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+  int32_t error_system_class_id = env->get_class_id(env, "Error::System");
+  assert(error_system_class_id >= 2);
+  
   int32_t groups_length = getgroups(0, NULL);
   if (groups_length < 0) {
-    return env->die(env, stack, "getgroups fails", FILE_NAME, __LINE__);
+    env->die(env, stack, "getgroups fails", FILE_NAME, __LINE__);
+    return error_system_class_id;
   }
   
   void* obj_groups = env->new_int_array(env, stack, groups_length);
@@ -153,7 +157,8 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t ret = getgroups(groups_length, groups);
   if (ret < 0) {
-    return env->die(env, stack, "getgroups fails", FILE_NAME, __LINE__);
+    env->die(env, stack, "getgroups fails", FILE_NAME, __LINE__);
+    return error_system_class_id;
   }
   
   stack[0].oval = obj_groups;
