@@ -4,6 +4,9 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include <grp.h>
+#include <assert.h>
+
+const char* FILE_NAME = "SPVM/Sys/User.c";
 
 int32_t SPVM__Sys__User__getuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
@@ -134,62 +137,26 @@ int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-/* TODO
-
-int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  return 0;
-}
-
-int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
+  int32_t groups_length = getgroups(0, NULL);
+  if (groups_length < 0) {
+    return env->die(env, stack, "getgroups fails", FILE_NAME, __LINE__);
+  }
+  
+  void* obj_groups = env->new_int_array(env, stack, groups_length);
+  int32_t* groups = env->get_elems_int(env, stack, obj_groups);
+  
+  assert(sizeof(gid_t) == sizeof(int32_t));
+  
+  int32_t ret = getgroups(groups_length, groups);
+  if (ret < 0) {
+    return env->die(env, stack, "getgroups fails", FILE_NAME, __LINE__);
+  }
+  
+  stack[0].oval = obj_groups;
   
   return 0;
 }
-
-int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__User__getlogin(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  return 0;
-}
-
-*/

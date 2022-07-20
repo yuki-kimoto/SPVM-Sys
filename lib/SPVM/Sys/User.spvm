@@ -1,5 +1,6 @@
 class Sys::User {
-
+  use IntList;
+  
   native static method getuid : int ();
   native static method geteuid : int ();
   native static method getgid : int ();
@@ -15,6 +16,8 @@ class Sys::User {
   
   native static method setgrent : void ();
   native static method endgrent : void ();
+  
+  native static method getgroups : int[] ();
 
 =pod
 

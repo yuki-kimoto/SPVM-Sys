@@ -23,4 +23,8 @@ ok(SPVM::TestCase::Sys::User->endpwent);
 ok(SPVM::TestCase::Sys::User->setgrent);
 ok(SPVM::TestCase::Sys::User->endgrent);
 
+my @groups_expected = split(/\s+/, "$)");
+shift @groups_expected;
+is_deeply(SPVM::TestCase::Sys::User->getgroups_value->to_elems, \@groups_expected);
+
 done_testing;

@@ -100,4 +100,11 @@ class TestCase::Sys::User {
     
     return 1;
   }
+  
+  static method getgroups_value : int[] () {
+    
+    my $groups = Sys::User->getgroups;
+    
+    return $groups;
+  }
 }
