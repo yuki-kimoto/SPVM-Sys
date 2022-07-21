@@ -25,7 +25,7 @@ class Sys::User {
 
 *setpwent, *endpwent, getpwent, getpwuid, getpwnam, *setuid, *seteuid, *getuid, *geteuid,
 
-*setgrent, *endgrent, getgrent, getgrgid, getgrnam, *getgroups, setgroups, *setgid, *setegid, *getgid, *getegid,
+*setgrent, *endgrent, getgrent, getgrgid, getgrnam, *getgroups, *setgroups, *setgid, *setegid, *getgid, *getegid,
 
 getlogin
 
