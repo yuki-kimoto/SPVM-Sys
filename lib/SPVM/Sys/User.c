@@ -5,6 +5,8 @@
 #include <pwd.h>
 #include <grp.h>
 #include <assert.h>
+#include <errno.h>
+#include <string.h>
 
 const char* FILE_NAME = "SPVM/Sys/User.c";
 
@@ -146,7 +148,7 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t groups_length = getgroups(0, NULL);
   if (groups_length < 0) {
-    env->die(env, stack, "getgroups fails", FILE_NAME, __LINE__);
+    env->die(env, stack, "getgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
   
@@ -157,11 +159,37 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t ret = getgroups(groups_length, groups);
   if (ret < 0) {
-    env->die(env, stack, "getgroups fails", FILE_NAME, __LINE__);
+    env->die(env, stack, "getgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
   
   stack[0].oval = obj_groups;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+
+  int32_t error_system_class_id = env->get_class_id(env, "Error::System");
+
+  assert(sizeof(gid_t) == sizeof(int32_t));
+  
+  void* obj_groups = stack[0].oval;
+  if (!obj_groups) {
+    return env->die(env, stack, "Groups must be defined", FILE_NAME, __LINE__);
+  }
+  
+  int32_t* groups = env->get_elems_int(env, stack, obj_groups);
+  int32_t groups_length = env->length(env, stack, obj_groups);
+  
+  errno = 0;
+  int32_t ret = setgroups(groups_length, groups);
+  if (ret < 0) {
+    env->die(env, stack, "setgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
   
   return 0;
 }

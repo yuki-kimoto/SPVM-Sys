@@ -19,6 +19,7 @@ class Sys::User {
   native static method endgrent : void ();
   
   native static method getgroups : int[] ();
+  native static method setgroups : void ($groups : int[]);
 
 =pod
 
