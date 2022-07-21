@@ -1,6 +1,7 @@
 class Sys::User {
   use IntList;
   use Error::System;
+  use Sys::Ent::Passwd;
   
   native static method getuid : int ();
   native static method geteuid : int ();
