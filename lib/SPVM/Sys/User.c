@@ -154,7 +154,7 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t groups_length = getgroups(0, NULL);
   if (groups_length < 0) {
-    env->die(env, stack, "getgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
   
@@ -165,7 +165,7 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t ret = getgroups(groups_length, groups);
   if (ret < 0) {
-    env->die(env, stack, "getgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
   
@@ -192,7 +192,7 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t ret = setgroups(groups_length, groups);
   if (ret < 0) {
-    env->die(env, stack, "setgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
   
@@ -213,7 +213,7 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (pwent == NULL) {
     if (errno) {
-      env->die(env, stack, "getpwent failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]getpwent failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
       return error_system_class_id;
     }
     else {
@@ -245,7 +245,7 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (pwent == NULL) {
     if (errno) {
-      env->die(env, stack, "getpwuid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]getpwuid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
       return error_system_class_id;
     }
     else {
@@ -282,7 +282,7 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (pwent == NULL) {
     if (errno) {
-      env->die(env, stack, "getpwnam failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]getpwnam failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
       return error_system_class_id;
     }
     else {
@@ -312,7 +312,7 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (grent == NULL) {
     if (errno) {
-      env->die(env, stack, "getgrent failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]getgrent failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
       return error_system_class_id;
     }
     else {
@@ -344,7 +344,7 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (grent == NULL) {
     if (errno) {
-      env->die(env, stack, "getgrgid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]getgrgid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
       return error_system_class_id;
     }
     else {
@@ -381,7 +381,7 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (grent == NULL) {
     if (errno) {
-      env->die(env, stack, "getgrnam failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]getgrnam failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
       return error_system_class_id;
     }
     else {
