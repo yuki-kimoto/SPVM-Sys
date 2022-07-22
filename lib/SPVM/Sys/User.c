@@ -205,11 +205,20 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
+  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
   errno = 0;
   struct passwd* pwent = getpwent();
   
   if (pwent == NULL) {
-    stack[0].oval = NULL;
+    if (errno) {
+      env->die(env, stack, "getpwent failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      return error_system_class_id;
+    }
+    else {
+      stack[0].oval = NULL;
+    }
   }
   else {
     void* obj_sys_ent_passwd = env->new_pointer_by_name(env, stack, "Sys::Ent::Passwd", pwent, &e, FILE_NAME, __LINE__);
@@ -226,13 +235,22 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
+  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
   int32_t uid = stack[0].ival;
   
   errno = 0;
   struct passwd* pwent = getpwuid(uid);
   
   if (pwent == NULL) {
-    stack[0].oval = NULL;
+    if (errno) {
+      env->die(env, stack, "getpwuid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      return error_system_class_id;
+    }
+    else {
+      stack[0].oval = NULL;
+    }
   }
   else {
     void* obj_sys_ent_passwd = env->new_pointer_by_name(env, stack, "Sys::Ent::Passwd", pwent, &e, FILE_NAME, __LINE__);
@@ -249,6 +267,9 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
+  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
   void* obj_pwnam = stack[0].oval;
   
   if (!obj_pwnam) {
@@ -260,7 +281,13 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct passwd* pwent = getpwnam(pwnam);
   
   if (pwent == NULL) {
-    stack[0].oval = NULL;
+    if (errno) {
+      env->die(env, stack, "getpwnam failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      return error_system_class_id;
+    }
+    else {
+      stack[0].oval = NULL;
+    }
   }
   else {
     void* obj_sys_ent_passwd = env->new_pointer_by_name(env, stack, "Sys::Ent::Passwd", pwent, &e, FILE_NAME, __LINE__);
@@ -276,12 +303,21 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
   
   int32_t e = 0;
+
+  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
   
   errno = 0;
   struct group* grent = getgrent();
   
   if (grent == NULL) {
-    stack[0].oval = NULL;
+    if (errno) {
+      env->die(env, stack, "getgrent failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      return error_system_class_id;
+    }
+    else {
+      stack[0].oval = NULL;
+    }
   }
   else {
     void* obj_sys_ent_group = env->new_pointer_by_name(env, stack, "Sys::Ent::Group", grent, &e, FILE_NAME, __LINE__);
@@ -297,6 +333,9 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
   
   int32_t e = 0;
+
+  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
   
   int32_t gid = stack[0].ival;
   
@@ -304,7 +343,13 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct group* grent = getgrgid(gid);
   
   if (grent == NULL) {
-    stack[0].oval = NULL;
+    if (errno) {
+      env->die(env, stack, "getgrgid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      return error_system_class_id;
+    }
+    else {
+      stack[0].oval = NULL;
+    }
   }
   else {
     void* obj_sys_ent_group = env->new_pointer_by_name(env, stack, "Sys::Ent::Group", grent, &e, FILE_NAME, __LINE__);
@@ -321,6 +366,9 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
+  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
   void* obj_grnam = stack[0].oval;
   
   if (!obj_grnam) {
@@ -329,13 +377,19 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* grnam = env->get_chars(env, stack, obj_grnam);
   
   errno = 0;
-  struct group* pwent = getgrnam(grnam);
+  struct group* grent = getgrnam(grnam);
   
-  if (pwent == NULL) {
-    stack[0].oval = NULL;
+  if (grent == NULL) {
+    if (errno) {
+      env->die(env, stack, "getgrnam failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      return error_system_class_id;
+    }
+    else {
+      stack[0].oval = NULL;
+    }
   }
   else {
-    void* obj_sys_ent_group = env->new_pointer_by_name(env, stack, "Sys::Ent::Group", pwent, &e, FILE_NAME, __LINE__);
+    void* obj_sys_ent_group = env->new_pointer_by_name(env, stack, "Sys::Ent::Group", grent, &e, FILE_NAME, __LINE__);
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_group;
   }
