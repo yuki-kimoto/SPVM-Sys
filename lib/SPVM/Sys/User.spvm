@@ -30,15 +30,4 @@ class Sys::User {
   native static method getgrent : Sys::Ent::Group ();
   native static method getgrgid : Sys::Ent::Group ($id : int);
   native static method getgrnam : Sys::Ent::Group ($name : string);
-
-=pod
-
-*setpwent, *endpwent, getpwent, getpwuid, getpwnam, *setuid, *seteuid, *getuid, *geteuid,
-
-*setgrent, *endgrent, getgrent, getgrgid, getgrnam, *getgroups, *setgroups, *setgid, *setegid, *getgid, *getegid,
-
-getlogin
-
-=cut
-
 }
