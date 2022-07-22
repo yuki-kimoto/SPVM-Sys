@@ -204,7 +204,7 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct passwd* pwent = getpwent();
   
   if (pwent == NULL) {
-    stack[0].oval = pwent;
+    stack[0].oval = NULL;
   }
   else {
     void* obj_sys_ent_passwd = env->new_pointer_by_name(env, stack, "Sys::Ent::Passwd", pwent, &e, FILE_NAME, __LINE__);
@@ -218,6 +218,22 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
+  
+  int32_t e = 0;
+  
+  int32_t uid = stack[0].ival;
+  
+  errno = 0;
+  struct passwd* pwent = getpwuid(uid);
+  
+  if (pwent == NULL) {
+    stack[0].oval = NULL;
+  }
+  else {
+    void* obj_sys_ent_passwd = env->new_pointer_by_name(env, stack, "Sys::Ent::Passwd", pwent, &e, FILE_NAME, __LINE__);
+    if (e) { return e; }
+    stack[0].oval = obj_sys_ent_passwd;
+  }
   
   return 0;
 }
@@ -239,7 +255,7 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct group* grent = getgrent();
   
   if (grent == NULL) {
-    stack[0].oval = grent;
+    stack[0].oval = NULL;
   }
   else {
     void* obj_sys_ent_group = env->new_pointer_by_name(env, stack, "Sys::Ent::Group", grent, &e, FILE_NAME, __LINE__);
@@ -253,6 +269,22 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
+  
+  int32_t e = 0;
+  
+  int32_t gid = stack[0].ival;
+  
+  errno = 0;
+  struct group* grent = getgrgid(gid);
+  
+  if (grent == NULL) {
+    stack[0].oval = NULL;
+  }
+  else {
+    void* obj_sys_ent_group = env->new_pointer_by_name(env, stack, "Sys::Ent::Group", grent, &e, FILE_NAME, __LINE__);
+    if (e) { return e; }
+    stack[0].oval = obj_sys_ent_group;
+  }
   
   return 0;
 }
