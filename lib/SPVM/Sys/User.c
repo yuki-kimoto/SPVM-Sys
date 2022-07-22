@@ -83,6 +83,7 @@ int32_t SPVM__Sys__User__setgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
   
   int32_t gid = stack[0].ival;
+  errno = 0;
   int32_t error_code = setgid(gid);
   
   stack[0].ival = error_code;
@@ -95,6 +96,7 @@ int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
   
   int32_t egid = stack[0].ival;
+  errno = 0;
   int32_t error_code = setegid(egid);
   
   stack[0].ival = error_code;
@@ -106,6 +108,7 @@ int32_t SPVM__Sys__User__setpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+  errno = 0;
   setpwent();
   
   return 0;
@@ -116,6 +119,7 @@ int32_t SPVM__Sys__User__endpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+  errno = 0;
   endpwent();
   
   return 0;
@@ -125,6 +129,7 @@ int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+  errno = 0;
   setgrent();
   
   return 0;
@@ -134,6 +139,7 @@ int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+  errno = 0;
   endgrent();
   
   return 0;
@@ -184,7 +190,6 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t* groups = env->get_elems_int(env, stack, obj_groups);
   int32_t groups_length = env->length(env, stack, obj_groups);
   
-  errno = 0;
   int32_t ret = setgroups(groups_length, groups);
   if (ret < 0) {
     env->die(env, stack, "setgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
@@ -242,6 +247,27 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+  int32_t e = 0;
+  
+  void* obj_pwnam = stack[0].oval;
+  
+  if (!obj_pwnam) {
+    return env->die(env, stack, "The group name must be defined", FILE_NAME, __LINE__);
+  }
+  const char* pwnam = env->get_chars(env, stack, obj_pwnam);
+  
+  errno = 0;
+  struct passwd* pwent = getpwnam(pwnam);
+  
+  if (pwent == NULL) {
+    stack[0].oval = NULL;
+  }
+  else {
+    void* obj_sys_ent_passwd = env->new_pointer_by_name(env, stack, "Sys::Ent::Passwd", pwent, &e, FILE_NAME, __LINE__);
+    if (e) { return e; }
+    stack[0].oval = obj_sys_ent_passwd;
+  }
+  
   return 0;
 }
 
@@ -292,6 +318,27 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
+  
+  int32_t e = 0;
+  
+  void* obj_grnam = stack[0].oval;
+  
+  if (!obj_grnam) {
+    return env->die(env, stack, "The group name must be defined", FILE_NAME, __LINE__);
+  }
+  const char* grnam = env->get_chars(env, stack, obj_grnam);
+  
+  errno = 0;
+  struct group* pwent = getgrnam(grnam);
+  
+  if (pwent == NULL) {
+    stack[0].oval = NULL;
+  }
+  else {
+    void* obj_sys_ent_group = env->new_pointer_by_name(env, stack, "Sys::Ent::Group", pwent, &e, FILE_NAME, __LINE__);
+    if (e) { return e; }
+    stack[0].oval = obj_sys_ent_group;
+  }
   
   return 0;
 }
