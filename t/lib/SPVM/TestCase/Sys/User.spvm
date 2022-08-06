@@ -110,11 +110,8 @@ class TestCase::Sys::User {
 
   static method setgroups : int () {
     
-    eval { Sys::User->setgroups(Sys::User->getgroups); };
-    
-    unless (Fn->contains($@, "setgroups fails")) {
-      return 0;
-    }
+    # TODO
+    Sys::User->setgroups(Sys::User->getgroups);
     
     return 1;
   }

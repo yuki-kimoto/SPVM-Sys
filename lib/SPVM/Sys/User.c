@@ -1,3 +1,5 @@
+#define _GNU_SOURCE
+
 #include "spvm_native.h"
 
 #include <unistd.h>
@@ -175,7 +177,7 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t groups_length = getgroups(0, NULL);
   if (groups_length < 0) {
-    env->die(env, stack, "[System Error]getgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getgroups failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
   
@@ -186,7 +188,7 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t ret = getgroups(groups_length, groups);
   if (ret < 0) {
-    env->die(env, stack, "[System Error]getgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getgroups failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
   
@@ -215,9 +217,11 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t* groups = env->get_elems_int(env, stack, obj_groups);
   int32_t groups_length = env->length(env, stack, obj_groups);
   
+  spvm_warn("AAAA %s", env->get_chars(env, stack, env->dump(env, stack, obj_groups)));
+  
   int32_t ret = setgroups(groups_length, groups);
   if (ret < 0) {
-    env->die(env, stack, "[System Error]setgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setgroups failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
 #endif
