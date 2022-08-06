@@ -1,12 +1,15 @@
 #include "spvm_native.h"
 
 #include <unistd.h>
-#include <sys/types.h>
-#include <pwd.h>
-#include <grp.h>
 #include <assert.h>
 #include <errno.h>
-#include <string.h>
+
+#ifdef _WIN32
+  
+#else
+#  include <pwd.h>
+#  include <grp.h>
+#endif
 
 const char* FILE_NAME = "SPVM/Sys/User.c";
 
