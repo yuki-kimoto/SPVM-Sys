@@ -171,8 +171,7 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
   return env->die(env, stack, "getgroups can't be supported in this system", FILE_NAME, __LINE__);
 #else
-  int32_t error_system_class_id = env->get_class_id(env, "Error::System");
-  assert(error_system_class_id >= 2);
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
   int32_t groups_length = getgroups(0, NULL);
   if (groups_length < 0) {
@@ -204,7 +203,7 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
   return env->die(env, stack, "setgroups can't be supported in this system", FILE_NAME, __LINE__);
 #else
-  int32_t error_system_class_id = env->get_class_id(env, "Error::System");
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
   assert(sizeof(gid_t) == sizeof(int32_t));
   
@@ -235,8 +234,7 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t e = 0;
   
-  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
   errno = 0;
   struct passwd* pwent = getpwent();
@@ -269,8 +267,7 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t e = 0;
   
-  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
   int32_t uid = stack[0].ival;
   
@@ -305,8 +302,7 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t e = 0;
   
-  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
   void* obj_pwnam = stack[0].oval;
   
@@ -346,8 +342,7 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t e = 0;
   
-  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
   errno = 0;
   struct group* grent = getgrent();
@@ -380,8 +375,7 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t e = 0;
   
-  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
   int32_t gid = stack[0].ival;
   
@@ -416,8 +410,7 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t e = 0;
   
-  int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
   void* obj_grnam = stack[0].oval;
   
