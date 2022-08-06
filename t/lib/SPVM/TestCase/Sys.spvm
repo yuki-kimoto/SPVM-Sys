@@ -1,5 +1,4 @@
 class TestCase::Sys {
-  use Sys;
   use Sys::FileTest;
   
   static method test : int () {

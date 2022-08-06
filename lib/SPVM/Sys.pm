@@ -6,39 +6,31 @@ our $VERSION = '0.01';
 
 =head1 Name
 
-SPVM::Sys - Sys is a SPVM module
+SPVM::Sys - System Utilities, File Tests, IO, User, Network, Process, Socket,
 
-=head1 Synopsys
-
-  use Sys;
-  
 =head1 Description
 
-C<Sys> is a L<SPVM> module.
+C<Sys> is the system utilities for File Tests, IO, User, Network, Process, Socket,
 
-=head1 Field Methods
+=head2 Modules
 
+=item * L<Sys::IO|SPVM::Sys::IO>
 
+=item * L<Sys::User|SPVM::Sys::User>
 
-=head1 Class Methods
+=item * L<Sys::Socket|SPVM::Sys::Socket>
 
+=item * L<Sys::Network|SPVM::Sys::Network>
 
+=item * L<Sys::Process|SPVM::Sys::Process>
 
-=head1 Instance Methods
+=over 2
 
-
-
-=head1 Repository
-
-
-
-=head1 Author
-
-
+=back
 
 =head1 Copyright & License
 
-Copyright YYYY-YYYY AUTHOR_NAME, all rights reserved.
+Copyright Yuki Kimoto, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
