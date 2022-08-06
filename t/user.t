@@ -18,10 +18,37 @@ ok(SPVM::TestCase::Sys::User->seteuid);
 ok(SPVM::TestCase::Sys::User->setgid);
 ok(SPVM::TestCase::Sys::User->setegid);
 
-ok(SPVM::TestCase::Sys::User->setpwent);
-ok(SPVM::TestCase::Sys::User->endpwent);
-ok(SPVM::TestCase::Sys::User->setgrent);
-ok(SPVM::TestCase::Sys::User->endgrent);
+if ($^O eq 'Win32') {
+  eval { SPVM::TestCase::Sys::User->setpwent };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::User->setpwent);
+}
+
+if ($^O eq 'Win32') {
+  eval { SPVM::TestCase::Sys::User->endpwent };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::User->endpwent);
+}
+
+if ($^O eq 'Win32') {
+  eval { SPVM::TestCase::Sys::User->setgrent };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::User->setgrent);
+}
+
+if ($^O eq 'Win32') {
+  eval { SPVM::TestCase::Sys::User->endgrent };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::User->endgrent);
+}
 
 # TODO
 # This test failed. Maybe permission problems
