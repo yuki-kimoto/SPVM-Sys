@@ -1,12 +1,7 @@
-class TestCase::Sys {
+class TestCase::Sys::FileTest {
   use Sys::FileTest;
   
-  static method test : int () {
-    
-    return 1;
-  }
-
-  static method ftest : int () {
+  static method e : int () {
     
     # ftest_e
     {
@@ -37,6 +32,10 @@ class TestCase::Sys {
         }
       }
     }
+    return 1;
+  }
+  
+  static method f : int () {
     
     # ftest_f
     {
@@ -67,7 +66,12 @@ class TestCase::Sys {
         }
       }
     }
+    
+    return 1;
+  }
 
+  static method d : int () {
+    
     # ftest_d
     {
       # Not exists
