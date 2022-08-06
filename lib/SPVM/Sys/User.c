@@ -140,8 +140,12 @@ int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "setgrent can't be supported in this system", FILE_NAME, __LINE__);
+#else
   errno = 0;
   setgrent();
+#endif
   
   return 0;
 }
@@ -150,8 +154,12 @@ int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "endgrent can't be supported in this system", FILE_NAME, __LINE__);
+#else
   errno = 0;
   endgrent();
+#endif
   
   return 0;
 }
@@ -160,6 +168,9 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getgroups can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t error_system_class_id = env->get_class_id(env, "Error::System");
   assert(error_system_class_id >= 2);
   
@@ -181,6 +192,7 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].oval = obj_groups;
+#endif
   
   return 0;
 }
@@ -188,9 +200,12 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
-
+  
+#ifdef _WIN32
+  return env->die(env, stack, "setgroups can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t error_system_class_id = env->get_class_id(env, "Error::System");
-
+  
   assert(sizeof(gid_t) == sizeof(int32_t));
   
   void* obj_groups = stack[0].oval;
@@ -206,6 +221,7 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]setgroups fails:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
+#endif
   
   return 0;
 }
@@ -295,7 +311,7 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_pwnam = stack[0].oval;
   
   if (!obj_pwnam) {
-    return env->die(env, stack, "The group name must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The user name must be defined", FILE_NAME, __LINE__);
   }
   const char* pwnam = env->get_chars(env, stack, obj_pwnam);
   
@@ -325,8 +341,11 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getgrent can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t e = 0;
-
+  
   int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
@@ -347,6 +366,7 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_group;
   }
+#endif
   
   return 0;
 }
@@ -355,8 +375,11 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getgrgid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t e = 0;
-
+  
   int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
@@ -379,6 +402,7 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_group;
   }
+#endif
   
   return 0;
 }
@@ -387,6 +411,9 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getgrnam can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t e = 0;
   
   int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
@@ -416,6 +443,7 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_group;
   }
+#endif
   
   return 0;
 }
