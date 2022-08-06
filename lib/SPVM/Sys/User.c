@@ -110,10 +110,14 @@ int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__User__setpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
-  
+
+#ifdef _WIN32
+  return env->die(env, stack, "setpwend can't be supported in this system", FILE_NAME, __LINE__);
+#else
   errno = 0;
   setpwent();
-  
+#endif
+
   return 0;
 }
 
@@ -122,8 +126,12 @@ int32_t SPVM__Sys__User__endpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "endpwent can't be supported in this system", FILE_NAME, __LINE__);
+#else
   errno = 0;
   endpwent();
+#endif
   
   return 0;
 }
@@ -206,6 +214,9 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getpwent can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t e = 0;
   
   int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
@@ -228,6 +239,7 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_passwd;
   }
+#endif
   
   return 0;
 }
@@ -236,6 +248,9 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getpwuid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t e = 0;
   
   int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
@@ -260,6 +275,7 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_passwd;
   }
+#endif
   
   return 0;
 }
@@ -268,6 +284,9 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getpwnam can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t e = 0;
   
   int32_t error_system_class_id = env->get_class_id_by_name(env, stack, "Error::System", &e, FILE_NAME, __LINE__);
@@ -297,6 +316,7 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_passwd;
   }
+#endif
   
   return 0;
 }
