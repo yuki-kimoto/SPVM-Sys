@@ -4,13 +4,13 @@ class Sys::IO {
 
 Input and output functions
 
-binmode, close, closedir, dbmclose, dbmopen, die, eof, fileno, flock, format, getc, print, printf, read, readdir, readline, rewinddir, say, seek, seekdir, select, syscall, sysread, sysseek, syswrite, tell, telldir, truncate, warn, write
+binmode, close, closedir, dbmclose, dbmopen, eof, fileno, flock, format, getc, print, printf, read, readdir, readline, rewinddir, say, seek, seekdir, select, syscall, sysread, sysseek, syswrite, tell, telldir, truncate, warn, write
 
   say is available only if the "say" feature is enabled or if it is prefixed with CORE::. The "say" feature is enabled automatically with a use v5.10 (or higher) declaration in the current scope.
 
 Functions for fixed-length data or records
 
-  pack, read, syscall, sysread, sysseek, syswrite, unpack, vec
+  read, syscall, sysread, sysseek, syswrite, vec
 
 Functions for filehandles, files, or directories
 
