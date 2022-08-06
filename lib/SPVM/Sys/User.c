@@ -1,5 +1,3 @@
-#define _GNU_SOURCE
-
 #include "spvm_native.h"
 
 #include <unistd.h>
