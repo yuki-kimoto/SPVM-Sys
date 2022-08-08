@@ -7,7 +7,11 @@ class Sys::IO {
   native static method unlink : void ($file : string);
   native static method close : void ($fd : int);
   native static method fclose : void ($stream : Sys::FileStream);
-  
+  native static method clearerr : void ($stream : Sys::FileStream);
+  native static method feof : int ($stream : Sys::FileStream);
+  native static method ferror : int ($stream : Sys::FileStream);
+  native static method fileno : int ($stream : Sys::FileStream);
+
 =pod
 
 Input and output functions
