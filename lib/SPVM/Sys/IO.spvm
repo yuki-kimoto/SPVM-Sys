@@ -4,12 +4,13 @@ class Sys::IO {
   
   native static method rmdir : void ($dir : string);
   native static method unlink : void ($file : string);
+  native static method close : void ($fd : int);
   
 =pod
 
 Input and output functions
 
-binmode, close, closedir, dbmclose, dbmopen, eof, fileno, flock, format, getc, print, printf, read, readdir, readline, rewinddir, say, seek, seekdir, select, syscall, sysread, sysseek, syswrite, tell, telldir, truncate, warn, write
+closedir, dbmopen, eof, fileno, flock, getc, print, printf, read, readdir, readline, rewinddir, say, seek, seekdir, select, syscall, sysread, sysseek, syswrite, tell, telldir, truncate, warn, write
 
   say is available only if the "say" feature is enabled or if it is prefixed with CORE::. The "say" feature is enabled automatically with a use v5.10 (or higher) declaration in the current scope.
 
@@ -20,6 +21,12 @@ Functions for fixed-length data or records
 Functions for filehandles, files, or directories
 
   -X, chdir, chmod, chown, chroot, fcntl, glob, ioctl, link, lstat, mkdir, open, opendir, readlink, rename, rmdir, select, stat, symlink, sysopen, umask, unlink, utime
+
+TODO
+
+I don't know these are needed yet.
+
+binmode, close, dbmclose, format
 
 =cut
 

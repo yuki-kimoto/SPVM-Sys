@@ -42,3 +42,17 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t fd = stack[0].ival;
+
+  int32_t status = close(fd);
+  if (!(status == 0)) {
+    return env->die(env, stack, "[System Error]close failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+  }
+  
+  return 0;
+}
+
+
