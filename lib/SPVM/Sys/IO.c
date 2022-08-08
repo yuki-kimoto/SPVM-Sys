@@ -382,3 +382,52 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_buffer = stack[0].oval;
+  
+  if (!obj_buffer) {
+    return env->die(env, stack, "The mode must be defined", FILE_NAME, __LINE__);
+  }
+  
+  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
+  int32_t buffer_length = env->length(env, stack, obj_buffer);
+  
+  int32_t size = stack[1].ival;
+  if (!(size >= 0)) {
+    return env->die(env, stack, "The size must be more than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  int32_t data_length = stack[2].ival;
+  if (!(data_length >= 0)) {
+    return env->die(env, stack, "The data length must be more than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (size == 0 || data_length == 0) {
+    stack[0].ival = 0;
+    return 0;
+  }
+  
+  if (!((buffer_length / size) <= data_length)) {
+    return env->die(env, stack, "The buffer length / the size must be less than or equal to the data length", FILE_NAME, __LINE__);
+  }
+  
+  void* obj_stream = stack[3].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t fwrite_length = fwrite(buffer, size, data_length, stream);
+  
+  stack[0].ival = fwrite_length;
+  
+  return 0;
+}
