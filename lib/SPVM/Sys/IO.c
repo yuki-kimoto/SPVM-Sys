@@ -192,21 +192,19 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
-  int32_t items = env->get_args_stack_length(env, stack);
-  
   void* obj_path = stack[0].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
   }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
 
   void* obj_mode = stack[1].oval;
   
   if (!obj_mode) {
     return env->die(env, stack, "The mode must be defined", FILE_NAME, __LINE__);
   }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
   
   const char* mode = env->get_chars(env, stack, obj_mode);
   
@@ -229,8 +227,6 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;
   
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  
-  int32_t items = env->get_args_stack_length(env, stack);
   
   int32_t fd = stack[0].ival;
   
@@ -261,8 +257,6 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;
   
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  
-  int32_t items = env->get_args_stack_length(env, stack);
   
   void* obj_path = stack[0].oval;
   
@@ -308,8 +302,6 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
-  int32_t items = env->get_args_stack_length(env, stack);
-  
   int32_t fd = stack[0].ival;
   
   void* obj_buffer = stack[1].oval;
@@ -323,6 +315,10 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t count = stack[2].ival;
   
+  if (!(count >= 0)) {
+    return env->die(env, stack, "The count must be more than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
   if (!(count < buffer_length)) {
     return env->die(env, stack, "The count must be less than the length of the buffer", FILE_NAME, __LINE__);
   }
@@ -334,6 +330,55 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = read_length;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_buffer = stack[0].oval;
+  
+  if (!obj_buffer) {
+    return env->die(env, stack, "The mode must be defined", FILE_NAME, __LINE__);
+  }
+  
+  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
+  int32_t buffer_length = env->length(env, stack, obj_buffer);
+  
+  int32_t size = stack[1].ival;
+  if (!(size >= 0)) {
+    return env->die(env, stack, "The size must be more than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  int32_t data_length = stack[2].ival;
+  if (!(data_length >= 0)) {
+    return env->die(env, stack, "The data length must be more than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (size == 0 || data_length == 0) {
+    stack[0].ival = 0;
+    return 0;
+  }
+  
+  if (!((buffer_length / size) <= data_length)) {
+    return env->die(env, stack, "The buffer length / the size must be less than or equal to the data length", FILE_NAME, __LINE__);
+  }
+  
+  void* obj_stream = stack[3].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t fread_length = fread(buffer, size, data_length, stream);
+  
+  stack[0].ival = fread_length;
   
   return 0;
 }
