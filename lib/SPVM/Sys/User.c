@@ -17,9 +17,13 @@ int32_t SPVM__Sys__User__getuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getuid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t uid = getuid();
   
   stack[0].ival = uid;
+#endif
   
   return 0;
 }
@@ -28,9 +32,13 @@ int32_t SPVM__Sys__User__geteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "geteuid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t euid = geteuid();
   
   stack[0].ival  = euid;
+#endif
   
   return 0;
 }
@@ -39,9 +47,13 @@ int32_t SPVM__Sys__User__getgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getgid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t gid = getgid();
   
   stack[0].ival = gid;
+#endif
 
   return 0;
 }
@@ -50,9 +62,13 @@ int32_t SPVM__Sys__User__getegid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "getegid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t egid = getegid();
   
   stack[0].ival = egid;
+#endif
   
   return 0;
 }
@@ -61,10 +77,14 @@ int32_t SPVM__Sys__User__setuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "setuid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t uid = stack[0].ival;
   int32_t error_code = setuid(uid);
   
   stack[0].ival = error_code;
+#endif
   
   return 0;
 }
@@ -73,10 +93,14 @@ int32_t SPVM__Sys__User__seteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "seteuid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t euid = stack[0].ival;
   int32_t error_code = seteuid(euid);
   
   stack[0].ival = error_code;
+#endif
   
   return 0;
 }
@@ -85,11 +109,15 @@ int32_t SPVM__Sys__User__setgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "setgid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t gid = stack[0].ival;
   errno = 0;
   int32_t error_code = setgid(gid);
   
   stack[0].ival = error_code;
+#endif
 
   return 0;
 }
@@ -98,11 +126,15 @@ int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
+#ifdef _WIN32
+  return env->die(env, stack, "setegid can't be supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t egid = stack[0].ival;
   errno = 0;
   int32_t error_code = setegid(egid);
   
   stack[0].ival = error_code;
+#endif
   
   return 0;
 }
@@ -112,7 +144,7 @@ int32_t SPVM__Sys__User__setpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
 
 #ifdef _WIN32
-  return env->die(env, stack, "setpwend can't be supported in this system", FILE_NAME, __LINE__);
+  return env->die(env, stack, "setpwent can't be supported in this system", FILE_NAME, __LINE__);
 #else
   errno = 0;
   setpwent();
