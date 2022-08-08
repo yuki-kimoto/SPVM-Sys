@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <fcntl.h>
 
 const char* FILE_NAME = "SPVM/Sys/IO.c";
 
@@ -137,6 +138,35 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t ret = fileno(stream);
   
   stack[0].ival = ret;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t items = env->get_args_stack_length(env, stack);
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  int32_t flags = stack[1].ival;
+  
+  int32_t mode = 0;
+  if (items > 2) {
+    mode = stack[2].ival;
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t fd = open(path, flags, mode);
+  if (fd == -1) {
+    return env->die(env, stack, "[System Error]open failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+  }
+  
+  stack[0].ival = fd;
   
   return 0;
 }
