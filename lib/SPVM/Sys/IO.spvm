@@ -20,12 +20,13 @@ class Sys::IO {
   native static method read : int ($fd : int, $buffer : mutable string, $count : int);
   native static method write : int ($fd : int, $buffer : mutable string, $count : int);
   native static method getc : int ($stream : Sys::FileStream);
+  native static method EOF : int ();
               
 =pod
 
 Input and output functions
 
-closedir, dbmopen, eof, fileno, flock, readdir, rewinddir, seek, seekdir, select, syscall, sysseek, tell, telldir, truncate, *write, *sysread, *syswrite, *read, *getc
+closedir, dbmopen, fileno, flock, readdir, rewinddir, seek, seekdir, select, syscall, sysseek, tell, telldir, truncate, *write, *sysread, *syswrite, *read, *getc
 
   say is available only if the "say" feature is enabled or if it is prefixed with CORE::. The "say" feature is enabled automatically with a use v5.10 (or higher) declaration in the current scope.
 
@@ -41,7 +42,7 @@ binmode, close, dbmclose, format
 
 Don't need
 
-, warn, say, readline, printf, print
+, warn, say, readline, printf, print, eof
 
 =cut
 
