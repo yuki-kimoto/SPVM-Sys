@@ -12,6 +12,7 @@ class Sys::IO {
   native static method ferror : int ($stream : Sys::FileStream);
   native static method fileno : int ($stream : Sys::FileStream);
   native static method open : int ($path : string, $flags : int, $mode = 0 : int);
+  native static method fopen : Sys::FileStream ($path : string, $mode : string);
 
 =pod
 
