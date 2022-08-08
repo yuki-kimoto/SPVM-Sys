@@ -55,4 +55,21 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t status = fclose(stream);
+  if (!(status == 0)) {
+    return env->die(env, stack, "[System Error]fclose failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+  }
+  
+  return 0;
+}
 

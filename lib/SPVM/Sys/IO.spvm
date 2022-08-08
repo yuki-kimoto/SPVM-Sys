@@ -1,10 +1,12 @@
 class Sys::IO {
 
   use Sys::Stat;
+  use Sys::FileStream;
   
   native static method rmdir : void ($dir : string);
   native static method unlink : void ($file : string);
   native static method close : void ($fd : int);
+  native static method fclose : void ($stream : Sys::FileStream);
   
 =pod
 
