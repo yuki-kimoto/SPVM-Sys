@@ -1,0 +1,4 @@
+class TestCase::Sys::IO {
+  use Sys::IO;
+  
+}
