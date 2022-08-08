@@ -15,6 +15,7 @@ class Sys::IO {
   native static method fopen : Sys::FileStream ($path : string, $mode : string);
   native static method fdopen : Sys::FileStream ($fd : int, $mode : string);
   native static method freopen : Sys::FileStream ($path : string, $mode : string, $stream : Sys::FileStream);
+  native static method read : int ($fd : int, $buffer : mutable string, $count : int);
 
 =pod
 
