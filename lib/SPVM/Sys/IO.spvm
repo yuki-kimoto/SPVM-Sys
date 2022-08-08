@@ -33,7 +33,7 @@ closedir, dbmopen, fileno, flock, readdir, rewinddir, seek, seekdir, select, sys
 
 Functions for filehandles, files, or directories
 
-  chdir, chmod, chown, chroot, fcntl, glob, ioctl, link, lstat, mkdir, opendir, readlink, rename, rmdir, select, stat, symlink, sysopen, umask, utime, *unlink, *open
+  chmod, chown, chroot, fcntl, glob, ioctl, link, lstat, mkdir, opendir, readlink, rename, rmdir, select, stat, symlink, sysopen, umask, utime, *unlink, *open, *chdir
 
 TODO
 
