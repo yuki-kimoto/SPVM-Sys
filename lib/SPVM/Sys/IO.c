@@ -223,3 +223,81 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  int32_t items = env->get_args_stack_length(env, stack);
+  
+  int32_t fd = stack[0].ival;
+  
+  void* obj_mode = stack[1].oval;
+  
+  if (!obj_mode) {
+    return env->die(env, stack, "The mode must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* mode = env->get_chars(env, stack, obj_mode);
+  
+  FILE* stream = fdopen(fd, mode);
+  if (!stream) {
+    env->die(env, stack, "[System Error]fdopen failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  void* obj_stream = env->new_pointer_by_name(env, stack, "Sys::FileStream", stream, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  int32_t items = env->get_args_stack_length(env, stack);
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+
+  void* obj_mode = stack[1].oval;
+  
+  if (!obj_mode) {
+    return env->die(env, stack, "The mode must be defined", FILE_NAME, __LINE__);
+  }
+  
+  void* obj_stream = stack[1].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  const char* mode = env->get_chars(env, stack, obj_mode);
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+
+  FILE* new_stream = freopen(path, mode, stream);
+  if (!new_stream) {
+    env->die(env, stack, "[System Error]freopen failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  void* obj_new_stream = env->new_pointer_by_name(env, stack, "Sys::FileStream", new_stream, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
+  stack[0].oval = obj_new_stream;
+  
+  return 0;
+}
