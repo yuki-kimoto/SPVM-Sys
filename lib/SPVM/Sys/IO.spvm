@@ -15,32 +15,33 @@ class Sys::IO {
   native static method fopen : Sys::FileStream ($path : string, $mode : string);
   native static method fdopen : Sys::FileStream ($fd : int, $mode : string);
   native static method freopen : Sys::FileStream ($path : string, $mode : string, $stream : Sys::FileStream);
-  native static method read : int ($fd : int, $buffer : mutable string, $count : int);
-  native static method write : int ($fd : int, $buffer : mutable string, $count : int);
   native static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::FileStream);
   native static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::FileStream);
+  native static method read : int ($fd : int, $buffer : mutable string, $count : int);
+  native static method write : int ($fd : int, $buffer : mutable string, $count : int);
+  native static method getc : int ($stream : Sys::FileStream);
               
 =pod
 
 Input and output functions
 
-closedir, dbmopen, eof, fileno, flock, getc, print, printf, read, readdir, readline, rewinddir, say, seek, seekdir, select, syscall, sysread, sysseek, syswrite, tell, telldir, truncate, warn, write
+closedir, dbmopen, eof, fileno, flock, readdir, rewinddir, seek, seekdir, select, syscall, sysseek, tell, telldir, truncate, *write, *sysread, *syswrite, *read, *getc
 
   say is available only if the "say" feature is enabled or if it is prefixed with CORE::. The "say" feature is enabled automatically with a use v5.10 (or higher) declaration in the current scope.
 
-Functions for fixed-length data or records
-
-  read, syscall, sysread, sysseek, syswrite, vec
-
 Functions for filehandles, files, or directories
 
-  -X, chdir, chmod, chown, chroot, fcntl, glob, ioctl, link, lstat, mkdir, open, opendir, readlink, rename, rmdir, select, stat, symlink, sysopen, umask, unlink, utime
+  chdir, chmod, chown, chroot, fcntl, glob, ioctl, link, lstat, mkdir, opendir, readlink, rename, rmdir, select, stat, symlink, sysopen, umask, utime, *unlink, *open
 
 TODO
 
 I don't know these are needed yet.
 
 binmode, close, dbmclose, format
+
+Don't need
+
+, warn, say, readline, printf, print
 
 =cut
 

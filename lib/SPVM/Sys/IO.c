@@ -469,3 +469,22 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  int32_t e = 0;
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t ch = getc(stream);
+  
+  stack[0].ival = ch;
+  
+  return 0;
+}
