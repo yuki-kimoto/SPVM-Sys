@@ -803,6 +803,29 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_dh = stack[0].oval;
+  
+  if (!obj_dh) {
+    return env->die(env, stack, "The directory object must be defined", FILE_NAME, __LINE__);
+  }
+  
+  DIR* dh = env->get_pointer(env, stack, obj_dh);
+
+  int64_t offset = stack[1].ival;
+  
+  if (!(offset >= 0)) {
+    return env->die(env, stack, "The offset must be less than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  seekdir(dh, offset);
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
