@@ -538,3 +538,28 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  int32_t owner = stack[0].ival;
+
+  int32_t group = stack[0].ival;
+
+  int32_t status = chown(path, owner, group);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]chown failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  return 0;
+}

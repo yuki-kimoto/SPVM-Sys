@@ -22,6 +22,7 @@ class Sys::IO {
   native static method getc : int ($stream : Sys::FileStream);
   native static method EOF : int ();
   native static method chdir : int ($path : string, $mode : int);
+  native static method chown : int ($path : string, $owner : int, $group : int);
 
 =pod
 
@@ -33,7 +34,7 @@ closedir, dbmopen, fileno, flock, readdir, rewinddir, seek, seekdir, select, sys
 
 Functions for filehandles, files, or directories
 
-  chmod, chown, chroot, fcntl, glob, ioctl, link, lstat, mkdir, opendir, readlink, rename, rmdir, select, stat, symlink, sysopen, umask, utime, *unlink, *open, *chdir
+  chown, chroot, fcntl, glob, ioctl, link, lstat, mkdir, opendir, readlink, rename, rmdir, select, stat, symlink, sysopen, umask, utime, *unlink, *open, *chdir, *chmod,
 
 TODO
 
