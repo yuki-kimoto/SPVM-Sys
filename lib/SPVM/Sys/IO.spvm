@@ -31,8 +31,8 @@ class Sys::IO {
   native static method ftell : long ($stream : Sys::FileStream);
   native static method chroot : void ($dir : string);
   native static method opendir : Sys::Ent::Dir ($dir : string);
+  native static method closedir : void ($dir : Sys::Ent::Dir);
 
-  # native static method closedir : void ($dir : Sys::Ent::Dir);
   # native static method stat : Sys::Stat  ($path : string);
   # native static method lstat : Sys::Stat  ($path : string);
 
