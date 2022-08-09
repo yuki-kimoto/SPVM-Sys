@@ -26,11 +26,9 @@ class Sys::IO {
   native static method chdir : void ($path : string);
   native static method chmod : void ($path : string, $mode :int);
   native static method chown : void ($path : string, $owner : int, $group : int);
-  native static method flock : void ($fd : int, $operation : int);
   native static method mkdir : void ($path : string, $mode : int);
   native static method fseek : void ($stream : Sys::FileHandle, $offset : long, $whence : int);
   native static method ftell : long ($stream : Sys::FileHandle);
-  native static method chroot : void ($dir : string);
   native static method opendir : Sys::DirHandle ($dir : string);
   native static method closedir : void ($dh : Sys::DirHandle);
   native static method readdir : Sys::Ent::Dir ($dh : Sys::DirHandle);
@@ -42,15 +40,22 @@ class Sys::IO {
   # native static method stat : Sys::Stat  ($path : string);
   # native static method lstat : Sys::Stat  ($path : string);
 
+  # native static method chroot : void ($dir : string);
+  # native static method flock : void ($fd : int, $operation : int);
+
 =pod
 
 Input and output functions
 
-, sysseek, select, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno
+, sysseek, select, *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno
 
-fcntl, glob, ioctl, link, lstat, readlink, rename, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *chroot, *opendir
+fcntl, glob, ioctl, link, lstat, readlink, rename, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir
 
 TODO
+
+flock is not portable on Mac and Windows
+
+chroot is deprecated.
 
 I don't know these are needed yet.
 

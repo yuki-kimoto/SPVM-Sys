@@ -569,23 +569,6 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  
-  int32_t fd = stack[0].ival;
-  
-  int32_t operation = stack[1].ival;
-
-  int32_t status = flock(fd, operation);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]flock failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return error_system_class_id;
-  }
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
@@ -657,26 +640,6 @@ int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].lval = offset;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__chroot(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  
-  void* obj_dir = stack[0].oval;
-  
-  if (!obj_dir) {
-    return env->die(env, stack, "The directory must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* dir = env->get_chars(env, stack, obj_dir);
-  int32_t status = chroot(dir);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]chroot failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return error_system_class_id;
-  }
   
   return 0;
 }
@@ -852,3 +815,44 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+/*
+int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t operation = stack[1].ival;
+
+  int32_t status = flock(fd, operation);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]flock failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  return 0;
+}
+
+
+int32_t SPVM__Sys__IO__chroot(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_dir = stack[0].oval;
+  
+  if (!obj_dir) {
+    return env->die(env, stack, "The directory must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* dir = env->get_chars(env, stack, obj_dir);
+  int32_t status = chroot(dir);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]chroot failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  return 0;
+}
+
+*/
