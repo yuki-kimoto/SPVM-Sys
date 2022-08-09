@@ -36,6 +36,7 @@ class Sys::IO {
   native static method readdir : Sys::Ent::Dir ($dh : Sys::DirHandle);
   native static method rewinddir : void ($dh : Sys::DirHandle);
   native static method telldir : long ($dh : Sys::DirHandle);
+  native static method truncate : long ($path : string, $offset : long);
 
   # native static method stat : Sys::Stat  ($path : string);
   # native static method lstat : Sys::Stat  ($path : string);
@@ -44,7 +45,7 @@ class Sys::IO {
 
 Input and output functions
 
-fileno, sysseek, seekdir, select, syscall, telldir, truncate, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell, *close, *closedir, *readdir, *rewinddir
+fileno, sysseek, seekdir, select, syscall, truncate, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir
 
 fcntl, glob, ioctl, link, lstat, opendir, readlink, rename, select, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, chroot
 
