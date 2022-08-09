@@ -46,6 +46,8 @@ lib/SPVM/Sys/Process.spvm
 lib/SPVM/Sys/Socket.c
 lib/SPVM/Sys/Socket.config
 lib/SPVM/Sys/Socket.spvm
+lib/SPVM/Sys/Stat.c
+lib/SPVM/Sys/Stat.config
 lib/SPVM/Sys/Stat.spvm
 lib/SPVM/Sys/User.c
 lib/SPVM/Sys/User.config
