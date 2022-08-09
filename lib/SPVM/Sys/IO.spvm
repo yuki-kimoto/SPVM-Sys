@@ -36,6 +36,9 @@ class Sys::IO {
   native static method telldir : long ($dh : Sys::DirHandle);
   native static method seekdir : void ($dh : Sys::DirHandle, $offset : long);
   native static method truncate : long ($path : string, $offset : long);
+  # native static method fcntl : long ($fd : int, $command : int, $arg = undef : object of Int|Long|byte[]);
+
+  # int fcntl(int fd, int cmd, ... /* arg */ );
 
   # native static method stat : Sys::Stat  ($path : string);
   # native static method lstat : Sys::Stat  ($path : string);
@@ -49,9 +52,11 @@ Input and output functions
 
 , sysseek, select, *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno
 
-fcntl, glob, ioctl, link, lstat, readlink, rename, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir
+fcntl, ioctl, lstat, readlink, rename, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir
 
 TODO
+
+glob is too difficut.
 
 flock is not portable on Mac and Windows
 
@@ -63,7 +68,7 @@ binmode, dbmclose, format
 
 Don't need
 
-, warn, say, readline, printf, print, eof, dbmopen, syscall
+, warn, say, readline, printf, print, eof, dbmopen, syscall, link
 
 =cut
 

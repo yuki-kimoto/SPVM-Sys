@@ -1,11 +1,18 @@
 #include "spvm_native.h"
 
+#ifndef _WIN32
+
 #include <grp.h>
+
+#endif
 
 static const char* FILE_NAME = "Sys/Ent/Group.c";
 
 int32_t SPVM__Sys__Ent__Group__gr_name(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+
+#ifdef _WIN32
+  return env->die(env, stack, "The method \"gr_name\" in the class \"Sys::Ent::Group\" is not supported on this system", FILE_NAME, __LINE__);
+#else
   void* obj_group = stack[0].oval;
   
   struct group* st_group = env->get_pointer(env, stack, obj_group);
@@ -13,10 +20,14 @@ int32_t SPVM__Sys__Ent__Group__gr_name(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].oval = env->new_string(env, stack, st_group->gr_name, strlen(st_group->gr_name));
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Ent__Group__gr_passwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+#ifdef _WIN32
+  return env->die(env, stack, "The method \"gr_passwd\" in the class \"Sys::Ent::Group\" is not supported on this system", FILE_NAME, __LINE__);
+#else
   void* obj_group = stack[0].oval;
   
   struct group* st_group = env->get_pointer(env, stack, obj_group);
@@ -24,9 +35,13 @@ int32_t SPVM__Sys__Ent__Group__gr_passwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].oval = env->new_string(env, stack, st_group->gr_passwd, strlen(st_group->gr_passwd));
   
   return 0;
+#endif
 }
 int32_t SPVM__Sys__Ent__Group__gr_gid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+#ifdef _WIN32
+  return env->die(env, stack, "The method \"gr_gid\" in the class \"Sys::Ent::Group\" is not supported on this system", FILE_NAME, __LINE__);
+#else
   void* obj_group = stack[0].oval;
   
   struct group* st_group = env->get_pointer(env, stack, obj_group);
@@ -34,10 +49,14 @@ int32_t SPVM__Sys__Ent__Group__gr_gid(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = st_group->gr_gid;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Ent__Group__gr_mem(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+#ifdef _WIN32
+  return env->die(env, stack, "The method \"gr_mem\" in the class \"Sys::Ent::Group\" is not supported on this system", FILE_NAME, __LINE__);
+#else
   void* obj_group = stack[0].oval;
   
   struct group* st_group = env->get_pointer(env, stack, obj_group);
@@ -63,4 +82,5 @@ int32_t SPVM__Sys__Ent__Group__gr_mem(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].oval = obj_gr_mems;
   
   return 0;
+#endif
 }

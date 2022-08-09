@@ -45,6 +45,9 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::FileHandle');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::DirHandle');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Passwd');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Group');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Dir');
   
   return $make_rule;
 }
