@@ -46,9 +46,9 @@ class Sys::IO {
 
 Input and output functions
 
-fileno, sysseek, select, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir
+, sysseek, select, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno
 
-fcntl, glob, ioctl, link, lstat, opendir, readlink, rename, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, chroot
+fcntl, glob, ioctl, link, lstat, readlink, rename, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *chroot, *opendir
 
 TODO
 
