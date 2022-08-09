@@ -1,4 +1,7 @@
+// _XOPEN_SOURCE is needed for the following functions
+// chroot
 #define _XOPEN_SOURCE
+
 
 #include "spvm_native.h"
 
