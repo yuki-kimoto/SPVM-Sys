@@ -219,7 +219,7 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_system_class_id;
   }
   
-  void* obj_stream = env->new_pointer_by_name(env, stack, "Sys::FileStream", stream, &e, FILE_NAME, __LINE__);
+  void* obj_stream = env->new_pointer_by_name(env, stack, "Sys::FileHandle", stream, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_stream;
@@ -249,7 +249,7 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_system_class_id;
   }
   
-  void* obj_stream = env->new_pointer_by_name(env, stack, "Sys::FileStream", stream, &e, FILE_NAME, __LINE__);
+  void* obj_stream = env->new_pointer_by_name(env, stack, "Sys::FileHandle", stream, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_stream;
@@ -293,7 +293,7 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_system_class_id;
   }
   
-  void* obj_new_stream = env->new_pointer_by_name(env, stack, "Sys::FileStream", new_stream, &e, FILE_NAME, __LINE__);
+  void* obj_new_stream = env->new_pointer_by_name(env, stack, "Sys::FileHandle", new_stream, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_new_stream;
@@ -701,7 +701,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_system_class_id;
   }
   
-  void* obj_dirent = env->new_pointer_by_name(env, stack, "Sys::Ent::Dir", dirent, &e, FILE_NAME, __LINE__);
+  void* obj_dirent = env->new_pointer_by_name(env, stack, "Sys::DirHandle", dirent, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_dirent;
@@ -725,6 +725,39 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (status == -1) {
     env->die(env, stack, "[System Error]closedir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_dh = stack[0].oval;
+  
+  if (!obj_dh) {
+    return env->die(env, stack, "The directory entry must be defined", FILE_NAME, __LINE__);
+  }
+  
+  DIR* dh = env->get_pointer(env, stack, obj_dh);
+  
+  errno = 0;
+  struct dirent* dirent = readdir(dh);
+  if (!dirent && errno != 0) {
+    env->die(env, stack, "[System Error]freopen failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  if (dirent) {
+    void* obj_dirent = env->new_pointer_by_name(env, stack, "Sys::Ent::Dir", dirent, &e, FILE_NAME, __LINE__);
+    if (e) { return e; }
+    stack[0].oval = obj_dirent;
+  }
+  else {
+    stack[0].oval = NULL;
   }
   
   return 0;
