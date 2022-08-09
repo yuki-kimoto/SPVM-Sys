@@ -581,3 +581,26 @@ int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  int32_t mode = stack[1].ival;
+
+  int32_t status = mkdir(path, mode);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]mkdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  return 0;
+}
