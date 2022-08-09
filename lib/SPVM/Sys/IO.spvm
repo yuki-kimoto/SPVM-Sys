@@ -34,6 +34,7 @@ class Sys::IO {
   native static method opendir : Sys::DirHandle ($dir : string);
   native static method closedir : void ($dirent : Sys::DirHandle);
   native static method readdir : Sys::Ent::Dir ($dirent : Sys::DirHandle);
+  native static method rewinddir : void ($dirent : Sys::DirHandle);
 
   # native static method stat : Sys::Stat  ($path : string);
   # native static method lstat : Sys::Stat  ($path : string);
@@ -42,7 +43,7 @@ class Sys::IO {
 
 Input and output functions
 
-closedir, dbmopen, fileno, readdir, rewinddir, sysseek, seekdir, select, syscall, telldir, truncate, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell, *close
+fileno, rewinddir, sysseek, seekdir, select, syscall, telldir, truncate, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell, *close, *closedir, *readdir
 
 fcntl, glob, ioctl, link, lstat, opendir, readlink, rename, select, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, chroot
 
@@ -54,7 +55,7 @@ binmode, dbmclose, format
 
 Don't need
 
-, warn, say, readline, printf, print, eof
+, warn, say, readline, printf, print, eof, dbmopen
 
 =cut
 

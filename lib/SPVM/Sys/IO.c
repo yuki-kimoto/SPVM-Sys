@@ -713,15 +713,15 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
-  void* obj_dirent = stack[0].oval;
+  void* obj_dh = stack[0].oval;
   
-  if (!obj_dirent) {
+  if (!obj_dh) {
     return env->die(env, stack, "The directory object must be defined", FILE_NAME, __LINE__);
   }
   
-  DIR* dirent = env->get_pointer(env, stack, obj_dirent);
+  DIR* dh = env->get_pointer(env, stack, obj_dh);
   
-  int32_t status = closedir(dirent);
+  int32_t status = closedir(dh);
   if (status == -1) {
     env->die(env, stack, "[System Error]closedir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
@@ -762,3 +762,21 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_dh = stack[0].oval;
+  
+  if (!obj_dh) {
+    return env->die(env, stack, "The directory object must be defined", FILE_NAME, __LINE__);
+  }
+  
+  DIR* dh = env->get_pointer(env, stack, obj_dh);
+  
+  rewinddir(dh);
+  
+  return 0;
+}
+
