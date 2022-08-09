@@ -2,7 +2,7 @@
 
 #include <pwd.h>
 
-static const char* FILE_NAME = "SPVM/Sys/Ent/Passwd.c";
+static const char* FILE_NAME = "Sys/Ent/Passwd.c";
 
 int32_t SPVM__Sys__Ent__Passwd__pw_name(SPVM_ENV* env, SPVM_VALUE* stack) {
   

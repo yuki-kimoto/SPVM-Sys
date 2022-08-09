@@ -7,6 +7,9 @@
 Changes
 cpanm
 lib/SPVM/Sys.pm
+lib/SPVM/Sys/Ent/Dir.c
+lib/SPVM/Sys/Ent/Dir.config
+lib/SPVM/Sys/Ent/Dir.spvm
 lib/SPVM/Sys/Ent/Group.c
 lib/SPVM/Sys/Ent/Group.config
 lib/SPVM/Sys/Ent/Group.spvm
@@ -19,6 +22,10 @@ lib/SPVM/Sys/Ent/Netent.spvm
 lib/SPVM/Sys/Ent/Passwd.c
 lib/SPVM/Sys/Ent/Passwd.config
 lib/SPVM/Sys/Ent/Passwd.spvm
+lib/SPVM/Sys/FileStream.c
+lib/SPVM/Sys/FileStream.config
+lib/SPVM/Sys/FileStream.pm
+lib/SPVM/Sys/FileStream.spvm
 lib/SPVM/Sys/FileTest.c
 lib/SPVM/Sys/FileTest.config
 lib/SPVM/Sys/FileTest.spvm
@@ -45,6 +52,8 @@ README.md
 t/FileTest.t
 t/ftest/dir_empty/.gitkeep
 t/ftest/file_empty.txt
+t/IO.t
 t/lib/SPVM/TestCase/Sys/FileTest.spvm
+t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
 t/User.t

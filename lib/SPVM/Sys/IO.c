@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/file.h>
+#include <dirent.h>
 
 const char* FILE_NAME = "SPVM/Sys/IO.c";
 
@@ -664,18 +665,46 @@ int32_t SPVM__Sys__IO__chroot(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
-  void* obj_path = stack[0].oval;
+  void* obj_dir = stack[0].oval;
   
-  if (!obj_path) {
-    return env->die(env, stack, "The pathectory must be defined", FILE_NAME, __LINE__);
+  if (!obj_dir) {
+    return env->die(env, stack, "The directory must be defined", FILE_NAME, __LINE__);
   }
   
-  const char* path = env->get_chars(env, stack, obj_path);
-  int32_t status = chroot(path);
+  const char* dir = env->get_chars(env, stack, obj_dir);
+  int32_t status = chroot(dir);
   if (status == -1) {
     env->die(env, stack, "[System Error]chroot failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_dir = stack[0].oval;
+  
+  if (!obj_dir) {
+    return env->die(env, stack, "The dir must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* dir = env->get_chars(env, stack, obj_dir);
+
+  DIR* dirent = opendir(dir);
+  if (!dirent) {
+    env->die(env, stack, "[System Error]opendir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  void* obj_dirent = env->new_pointer_by_name(env, stack, "Sys::Ent::Dir", dirent, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
+  stack[0].oval = obj_dirent;
   
   return 0;
 }

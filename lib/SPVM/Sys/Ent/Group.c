@@ -2,7 +2,7 @@
 
 #include <grp.h>
 
-static const char* FILE_NAME = "SPVM/Sys/Ent/Group.c";
+static const char* FILE_NAME = "Sys/Ent/Group.c";
 
 int32_t SPVM__Sys__Ent__Group__gr_name(SPVM_ENV* env, SPVM_VALUE* stack) {
   

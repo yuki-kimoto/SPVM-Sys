@@ -2,6 +2,7 @@ class Sys::IO {
 
   use Sys::Stat;
   use Sys::FileStream;
+  use Sys::Ent::Dir;
   
   native static method rmdir : void ($dir : string);
   native static method unlink : void ($file : string);
@@ -28,8 +29,10 @@ class Sys::IO {
   native static method mkdir : void ($path : string, $mode : int);
   native static method fseek : void ($stream : Sys::FileStream, $offset : long, $whence : int);
   native static method ftell : long ($stream : Sys::FileStream);
-  native static method chroot : void ($path : string);
+  native static method chroot : void ($dir : string);
+  native static method opendir : Sys::Ent::Dir ($dir : string);
 
+  # native static method closedir : void ($dir : Sys::Ent::Dir);
   # native static method stat : Sys::Stat  ($path : string);
   # native static method lstat : Sys::Stat  ($path : string);
 
@@ -37,19 +40,15 @@ class Sys::IO {
 
 Input and output functions
 
-closedir, dbmopen, fileno, readdir, rewinddir, sysseek, seekdir, select, syscall, telldir, truncate, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell
+closedir, dbmopen, fileno, readdir, rewinddir, sysseek, seekdir, select, syscall, telldir, truncate, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell, *close
 
-  say is available only if the "say" feature is enabled or if it is prefixed with CORE::. The "say" feature is enabled automatically with a use v5.10 (or higher) declaration in the current scope.
-
-Functions for filehandles, files, or directories
-
-  chroot, fcntl, glob, ioctl, link, lstat, opendir, readlink, rename, select, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir
+fcntl, glob, ioctl, link, lstat, opendir, readlink, rename, select, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, chroot
 
 TODO
 
 I don't know these are needed yet.
 
-binmode, close, dbmclose, format
+binmode, dbmclose, format
 
 Don't need
 

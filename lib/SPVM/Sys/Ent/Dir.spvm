@@ -1,0 +1,1 @@
+class Sys::Ent::Dir : pointer_t;
