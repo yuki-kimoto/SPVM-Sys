@@ -1,4 +1,4 @@
-#define _POSIX_C_SOURCE 1
+#define _XOPEN_SOURCE
 
 #include "spvm_native.h"
 
@@ -653,6 +653,26 @@ int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].lval = offset;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__chroot(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The pathectory must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  int32_t status = chroot(path);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]chroot failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
   
   return 0;
 }

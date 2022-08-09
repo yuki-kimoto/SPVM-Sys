@@ -28,6 +28,10 @@ class Sys::IO {
   native static method mkdir : void ($path : string, $mode : int);
   native static method fseek : void ($stream : Sys::FileStream, $offset : long, $whence : int);
   native static method ftell : long ($stream : Sys::FileStream);
+  native static method chroot : void ($path : string);
+
+  # native static method stat : Sys::Stat  ($path : string);
+  # native static method lstat : Sys::Stat  ($path : string);
 
 =pod
 
