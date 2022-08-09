@@ -29,13 +29,13 @@ class Sys::IO {
 
 Input and output functions
 
-closedir, dbmopen, fileno, flock, readdir, rewinddir, seek, seekdir, select, syscall, sysseek, tell, telldir, truncate, *write, *sysread, *syswrite, *read, *getc
+closedir, dbmopen, fileno, readdir, rewinddir, seek, seekdir, select, syscall, sysseek, tell, telldir, truncate, *write, *sysread, *syswrite, *read, *getc, *flock
 
   say is available only if the "say" feature is enabled or if it is prefixed with CORE::. The "say" feature is enabled automatically with a use v5.10 (or higher) declaration in the current scope.
 
 Functions for filehandles, files, or directories
 
-  chown, chroot, fcntl, glob, ioctl, link, lstat, mkdir, opendir, readlink, rename, rmdir, select, stat, symlink, sysopen, umask, utime, *unlink, *open, *chdir, *chmod,
+  chroot, fcntl, glob, ioctl, link, lstat, mkdir, opendir, readlink, rename, select, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir
 
 TODO
 
