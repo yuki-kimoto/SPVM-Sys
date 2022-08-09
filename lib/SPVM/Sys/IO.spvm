@@ -21,9 +21,10 @@ class Sys::IO {
   native static method write : int ($fd : int, $buffer : mutable string, $count : int);
   native static method getc : int ($stream : Sys::FileStream);
   native static method EOF : int ();
-  native static method chdir : int ($path : string, $mode : int);
-  native static method chown : int ($path : string, $owner : int, $group : int);
-  native static method flock : int ($fd : int, $operation : int);
+  native static method chdir : void ($path : string, $mode : int);
+  native static method chmod : void ($path : string, $owner : int, $group : int);
+  native static method chown : void ($path : string, $owner : int, $group : int);
+  native static method flock : void ($fd : int, $operation : int);
 
 =pod
 
