@@ -26,12 +26,14 @@ class Sys::IO {
   native static method chown : void ($path : string, $owner : int, $group : int);
   native static method flock : void ($fd : int, $operation : int);
   native static method mkdir : void ($path : string, $mode : int);
+  native static method fseek : void ($stream : Sys::FileStream, $offset : long, $whence : int);
+  native static method ftell : long ($stream : Sys::FileStream);
 
 =pod
 
 Input and output functions
 
-closedir, dbmopen, fileno, readdir, rewinddir, seek, seekdir, select, syscall, sysseek, tell, telldir, truncate, *write, *sysread, *syswrite, *read, *getc, *flock
+closedir, dbmopen, fileno, readdir, rewinddir, sysseek, seekdir, select, syscall, telldir, truncate, *write, *sysread, *syswrite, *read, *getc, *flock, *seek, *tell
 
   say is available only if the "say" feature is enabled or if it is prefixed with CORE::. The "say" feature is enabled automatically with a use v5.10 (or higher) declaration in the current scope.
 

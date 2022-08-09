@@ -264,22 +264,22 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!obj_path) {
     return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
   }
-
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
   void* obj_mode = stack[1].oval;
   
   if (!obj_mode) {
     return env->die(env, stack, "The mode must be defined", FILE_NAME, __LINE__);
   }
   
+  const char* mode = env->get_chars(env, stack, obj_mode);
+  
   void* obj_stream = stack[1].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
   }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  const char* mode = env->get_chars(env, stack, obj_mode);
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
 
@@ -601,6 +601,58 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]mkdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+
+  void* obj_stream = stack[1].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int64_t offset = stack[1].lval;
+  
+  if (!(offset >= 0)) {
+    return env->die(env, stack, "The offset must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+
+  int32_t whence = stack[2].ival;
+
+  int32_t status = fseek(stream, offset, whence);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]fseek failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+
+  void* obj_stream = stack[1].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int64_t offset = ftell(stream);
+  if (offset == -1) {
+    env->die(env, stack, "[System Error]ftell failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  stack[0].lval = offset;
   
   return 0;
 }
