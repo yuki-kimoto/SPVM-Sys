@@ -4,11 +4,12 @@
 
 #include <unistd.h>
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/file.h>
 
 const char* FILE_NAME = "SPVM/Sys/IO.c";
 
@@ -528,7 +529,7 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
 
-  int32_t mode = stack[0].ival;
+  int32_t mode = stack[1].ival;
 
   int32_t status = chmod(path, mode);
   if (status == -1) {
@@ -551,13 +552,30 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
 
-  int32_t owner = stack[0].ival;
+  int32_t owner = stack[1].ival;
 
-  int32_t group = stack[0].ival;
+  int32_t group = stack[2].ival;
 
   int32_t status = chown(path, owner, group);
   if (status == -1) {
     env->die(env, stack, "[System Error]chown failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t operation = stack[1].ival;
+
+  int32_t status = flock(fd, operation);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]flock failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
   }
   

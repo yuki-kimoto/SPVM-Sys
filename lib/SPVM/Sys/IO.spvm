@@ -23,6 +23,7 @@ class Sys::IO {
   native static method EOF : int ();
   native static method chdir : int ($path : string, $mode : int);
   native static method chown : int ($path : string, $owner : int, $group : int);
+  native static method flock : int ($fd : int, $operation : int);
 
 =pod
 
