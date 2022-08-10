@@ -12,6 +12,7 @@
 #include <sys/stat.h>
 #include <sys/file.h>
 #include <dirent.h>
+#include <poll.h>
 
 const char* FILE_NAME = "SPVM/Sys/IO.c";
 

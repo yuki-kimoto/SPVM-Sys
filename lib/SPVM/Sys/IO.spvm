@@ -53,7 +53,7 @@ class Sys::IO {
 
 Input and output functions
 
-, select, *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
+poll, *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
 
 fcntl, ioctl, lstat, readlink, rename, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir
 
@@ -71,7 +71,7 @@ binmode, dbmclose, format
 
 Don't need
 
-, warn, say, readline, printf, print, eof, dbmopen, syscall, link
+, warn, say, readline, printf, print, eof, dbmopen, syscall, link, select
 
 =cut
 
