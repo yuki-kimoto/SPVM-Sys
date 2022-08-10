@@ -4,6 +4,7 @@ class Sys::IO {
   use Sys::FileHandle;
   use Sys::DirHandle;
   use Sys::Ent::Dir;
+  use Sys::Fcntl;
   
   native static method rmdir : void ($dir : string);
   native static method unlink : void ($file : string);
