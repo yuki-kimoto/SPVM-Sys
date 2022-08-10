@@ -28,6 +28,8 @@ C<Sys> is the system utilities for File Tests, IO, User, Network, Process, Socke
 
 =item * L<Sys::Ent::Dir|SPVM::Sys::Ent::Dir>
 
+=item * L<Sys::Fcntl|SPVM::Sys::Fcntl>
+
 =back
 
 =head2 User
