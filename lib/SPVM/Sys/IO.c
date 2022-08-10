@@ -846,6 +846,17 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__umask(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t mode = stack[0].ival;
+  
+  int32_t old_mode = umask(mode);
+  
+  stack[0].ival = old_mode;
+  
+  return 0;
+}
+
 /*
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   

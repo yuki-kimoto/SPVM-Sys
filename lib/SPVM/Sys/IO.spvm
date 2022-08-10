@@ -38,6 +38,7 @@ class Sys::IO {
   native static method seekdir : void ($dh : Sys::DirHandle, $offset : long);
   native static method truncate : long ($path : string, $offset : long);
   native static method lseek : long ($fd : int, $offset : long, $whence : int);
+  native static method umask : int ($mode : int);
 
   # int stat(const char *pathname, struct stat *buf);
   # int fstat(int fd, struct stat *buf);
@@ -54,13 +55,15 @@ class Sys::IO {
 
 Input and output functions
 
-poll, *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
+*write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
 
-fcntl, ioctl, lstat, readlink, rename, stat, symlink, umask, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir
+fcntl, ioctl, lstat, readlink, rename, stat, symlink, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask
 
 TODO
 
-glob is too difficut.
+poll is sokect feature on Windows
+
+glob is too difficut. File::Glob porting is needed.
 
 flock is not portable on Mac and Windows
 
@@ -72,7 +75,7 @@ binmode, dbmclose, format
 
 Don't need
 
-, warn, say, readline, printf, print, eof, dbmopen, syscall, link, select
+warn, say, readline, printf, print, eof, dbmopen, syscall, link, select
 
 =cut
 
