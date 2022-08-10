@@ -544,6 +544,9 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+#ifdef _WIN32
+  return env->die(env, stack, "chown is not supported in this system", FILE_NAME, __LINE__);
+#else
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
   void* obj_path = stack[0].oval;
@@ -565,6 +568,7 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
