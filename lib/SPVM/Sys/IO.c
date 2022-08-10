@@ -13,7 +13,7 @@
 #include <sys/file.h>
 #include <dirent.h>
 
-const char* FILE_NAME = "SPVM/Sys/IO.c";
+const char* FILE_NAME = "Sys/IO.c";
 
 int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   

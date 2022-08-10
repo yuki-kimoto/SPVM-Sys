@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 
-const char* FILE_NAME = "SPVM/Sys/FileTest.c";
+const char* FILE_NAME = "Sys/FileTest.c";
 
 int32_t SPVM__Sys__FileTest__r(SPVM_ENV* env, SPVM_VALUE* stack) {
 
