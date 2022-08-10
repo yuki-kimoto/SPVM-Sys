@@ -8,7 +8,7 @@ BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 
 use SPVM 'TestCase::Sys::User';
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->getuid_value };
   ok($@);
 }
@@ -16,7 +16,7 @@ else {
   is(SPVM::TestCase::Sys::User->getuid_value, "$<");
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->geteuid_value };
   ok($@);
 }
@@ -24,7 +24,7 @@ else {
   is(SPVM::TestCase::Sys::User->geteuid_value, "$>");
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->getgid_value };
   ok($@);
 }
@@ -32,7 +32,7 @@ else {
   is(SPVM::TestCase::Sys::User->getgid_value, (split(/\s+/, "$("))[0]);
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->getegid_value };
   ok($@);
 }
@@ -40,7 +40,7 @@ else {
   is(SPVM::TestCase::Sys::User->getegid_value, (split(/\s+/, "$)"))[0]);
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->setuid };
   ok($@);
 }
@@ -48,7 +48,7 @@ else {
   ok(SPVM::TestCase::Sys::User->setuid);
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->seteuid };
   ok($@);
 }
@@ -56,7 +56,7 @@ else {
   ok(SPVM::TestCase::Sys::User->seteuid);
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->setgid };
   ok($@);
 }
@@ -64,7 +64,7 @@ else {
   ok(SPVM::TestCase::Sys::User->setgid);
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->setegid };
   ok($@);
 }
@@ -72,7 +72,7 @@ else {
   ok(SPVM::TestCase::Sys::User->setegid);
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->setpwent };
   ok($@);
 }
@@ -80,7 +80,7 @@ else {
   ok(SPVM::TestCase::Sys::User->setpwent);
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->endpwent };
   ok($@);
 }
@@ -88,7 +88,7 @@ else {
   ok(SPVM::TestCase::Sys::User->endpwent);
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->setgrent };
   ok($@);
 }
@@ -96,7 +96,7 @@ else {
   ok(SPVM::TestCase::Sys::User->setgrent);
 }
 
-if ($^O eq 'Win32') {
+if ($^O eq 'MSWin32') {
   eval { SPVM::TestCase::Sys::User->endgrent };
   ok($@);
 }
