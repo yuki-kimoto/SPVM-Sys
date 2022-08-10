@@ -39,15 +39,16 @@ class Sys::IO {
   native static method truncate : long ($path : string, $offset : long);
   native static method lseek : long ($fd : int, $offset : long, $whence : int);
 
+  # int stat(const char *pathname, struct stat *buf);
+  # int fstat(int fd, struct stat *buf);
+  # int lstat(const char *pathname, struct stat *buf);
+
   # native static method fcntl : long ($fd : int, $command : int, $arg = undef : object of Int|Long|byte[]);
 
   # int fcntl(int fd, int cmd, ... /* arg */ );
 
   # native static method stat : Sys::Stat  ($path : string);
   # native static method lstat : Sys::Stat  ($path : string);
-
-  # native static method chroot : void ($dir : string);
-  # native static method flock : void ($fd : int, $operation : int);
 
 =pod
 
