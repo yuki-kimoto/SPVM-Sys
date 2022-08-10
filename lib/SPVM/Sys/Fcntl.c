@@ -2,6 +2,8 @@
 
 const char* FILE_NAME = "Sys/Fcntl.c";
 
+#include <sys/fcntl.h>
+
 int32_t SPVM__Sys__Fcntl__DN_ACCESS(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef DN_ACCESS
