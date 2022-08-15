@@ -40,6 +40,7 @@ class Sys::IO {
   native static method lseek : long ($fd : int, $offset : long, $whence : int);
   native static method umask : int ($mode : int);
   native static method rename : int ($old_path : string, $new_path : string);
+  native static method readlink : int ($path : string, $buffer : mutable string);
 
   # native static method fcntl : long ($fd : int, $command : int, $arg = undef : object of Int|Long|byte[]);
   # int fcntl(int fd, int cmd, ... /* arg */ );
@@ -50,7 +51,7 @@ Input and output functions
 
 *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
 
-fcntl, ioctl, readlink, rename, symlink, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::Stat), *lstat(Sys::Stat)
+fcntl, ioctl, symlink, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::Stat), *lstat(Sys::Stat), *rename, *readlink
 
 TODO
 
