@@ -857,6 +857,39 @@ int32_t SPVM__Sys__IO__umask(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_old_path = stack[0].oval;
+  
+  if (!obj_old_path) {
+    return env->die(env, stack, "The old path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* old_path = env->get_chars(env, stack, obj_old_path);
+
+  void* obj_new_path = stack[0].oval;
+  
+  if (!obj_new_path) {
+    return env->die(env, stack, "The new path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* new_path = env->get_chars(env, stack, obj_new_path);
+  
+  int32_t status = rename(old_path, new_path);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]rename failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 /*
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   

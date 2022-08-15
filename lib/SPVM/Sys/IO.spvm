@@ -39,6 +39,7 @@ class Sys::IO {
   native static method truncate : long ($path : string, $offset : long);
   native static method lseek : long ($fd : int, $offset : long, $whence : int);
   native static method umask : int ($mode : int);
+  native static method rename : int ($old_path : string, $new_path : string);
 
   # native static method fcntl : long ($fd : int, $command : int, $arg = undef : object of Int|Long|byte[]);
   # int fcntl(int fd, int cmd, ... /* arg */ );
