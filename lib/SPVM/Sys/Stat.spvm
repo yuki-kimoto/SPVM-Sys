@@ -1,4 +1,5 @@
 class Sys::Stat : pointer_t {
+  # Class methods
   native static method S_CDF : int ();
   native static method S_ENFMT : int ();
   native static method S_IF : int ();
@@ -42,4 +43,10 @@ class Sys::Stat : pointer_t {
   native static method S_IWUSR : int ();
   native static method S_IXGRP : int ();
   native static method S_IXOTH : int ();
-  native static method S_IXUSR : int ();}
+  native static method S_IXUSR : int ();
+
+  native static method new : Sys::Stat ();
+  
+  # Instance methods
+  native method DESTROY : void ();
+}

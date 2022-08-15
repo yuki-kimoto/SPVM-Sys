@@ -5,6 +5,35 @@
 const char* FILE_NAME = "Errno.c";
 
 
+
+int32_t SPVM__Sys__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  struct stat* stat = env->new_memory_stack(env, stack, sizeof(struct stat));
+  
+  void* obj_stat = env->new_object_by_name(env, stack, "Sys::Stat", &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
+  env->set_pointer(env, stack, obj_stat, stat);
+  
+  stack[0].oval = obj_stat;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stat = stack[0].oval;
+  
+  struct stat* stat = env->get_pointer(env, stack, obj_stat);
+  
+  if (stat) {
+    env->free_memory_stack(env, stack, stat);
+    env->set_pointer(env, stack, obj_stat, NULL);
+  }
+}
+
 int32_t SPVM__Sys__Stat__S_CDF(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef S_CDF
