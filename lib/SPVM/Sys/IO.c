@@ -924,6 +924,39 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_target = stack[0].oval;
+  
+  if (!obj_target) {
+    return env->die(env, stack, "The target must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* target = env->get_chars(env, stack, obj_target);
+
+  void* obj_link_path = stack[0].oval;
+  
+  if (!obj_link_path) {
+    return env->die(env, stack, "The link path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* link_path = env->get_chars(env, stack, obj_link_path);
+  
+  int32_t status = symlink(target, link_path);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]symlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 /*
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   

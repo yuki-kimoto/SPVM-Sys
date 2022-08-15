@@ -41,6 +41,7 @@ class Sys::IO {
   native static method umask : int ($mode : int);
   native static method rename : int ($old_path : string, $new_path : string);
   native static method readlink : int ($path : string, $buffer : mutable string);
+  native static method symlink : int ($target : string, $link_path : string);
 
   # native static method fcntl : long ($fd : int, $command : int, $arg = undef : object of Int|Long|byte[]);
   # int fcntl(int fd, int cmd, ... /* arg */ );
