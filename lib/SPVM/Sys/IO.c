@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/file.h>
+#include <sys/ioctl.h>
 #include <dirent.h>
 
 const char* FILE_NAME = "Sys/IO.c";
@@ -953,6 +954,31 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  int32_t fd = stack[0].ival;
+  
+  int64_t request = stack[1].lval;
+  
+  void* obj_argp = stack[2].oval;
+  
+  int8_t* argp = NULL;
+  if (obj_argp) {
+    argp = env->get_elems_byte(env, stack, obj_argp);
+  }
+  
+  errno = 0;
+  int32_t ret = ioctl(fd, request, (char*)argp);
+  
+  stack[0].ival = ret;
   
   return 0;
 }
