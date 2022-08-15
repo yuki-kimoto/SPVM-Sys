@@ -1,10 +1,11 @@
 #include "spvm_native.h"
 
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
+#include <errno.h>
 
-const char* FILE_NAME = "Errno.c";
-
-
+const char* FILE_NAME = "Sys/Stat.c";
 
 int32_t SPVM__Sys__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
@@ -18,6 +19,39 @@ int32_t SPVM__Sys__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->set_pointer(env, stack, obj_stat, stat);
   
   stack[0].oval = obj_stat;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  int32_t e = 0;
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  void* obj_stat = stack[0].oval;
+  
+  if (!obj_stat) {
+    return env->die(env, stack, "The stat must be defined", FILE_NAME, __LINE__);
+  }
+  
+  struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
+  
+  int32_t status = stat(path, stat_buf);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]stat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  stack[0].ival = status;
   
   return 0;
 }

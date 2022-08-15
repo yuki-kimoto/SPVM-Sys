@@ -44,8 +44,10 @@ class Sys::Stat : pointer_t {
   native static method S_IXGRP : int ();
   native static method S_IXOTH : int ();
   native static method S_IXUSR : int ();
-
+  
   native static method new : Sys::Stat ();
+  
+  native static method stat : int ($path : string, $stat : Sys::Stat);
   
   # Instance methods
   native method DESTROY : void ();
