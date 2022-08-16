@@ -13,6 +13,7 @@
 #include <sys/file.h>
 #include <sys/ioctl.h>
 #include <dirent.h>
+#include <utime.h>
 
 const char* FILE_NAME = "Sys/IO.c";
 
@@ -982,6 +983,43 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+  
+
+int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  void* obj_file = stack[0].oval;
+  
+  if (!obj_file) {
+    return env->die(env, stack, "The file must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* file = env->get_chars(env, stack, obj_file);
+
+  void* obj_buffer = stack[0].oval;
+  struct utimbuf* st_buffer;
+  if (obj_buffer) {
+    st_buffer = env->get_pointer(env, stack, obj_buffer);
+  }
+  else {
+    st_buffer = NULL;
+  }
+  
+  int32_t status = utime(file, st_buffer);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]utime failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return error_system_class_id;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 
 /*
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
