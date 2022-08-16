@@ -1,3 +1,7 @@
-class Sys::Utimbuf {
-
+class Sys::Utimbuf : pointer_t {
+  # Class methods
+  native static method new : Sys::Utimbuf ();
+  
+  # Instance methods
+  native method DESTROY : void ();
 }
