@@ -55,7 +55,7 @@ Input and output functions
 
 *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
 
-fcntl, utime, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::Stat), *lstat(Sys::Stat), *rename, *readlink, *symlink, *ioctl
+fcntl, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::Stat), *lstat(Sys::Stat), *rename, *readlink, *symlink, *ioctl, *utime
 
 TODO
 

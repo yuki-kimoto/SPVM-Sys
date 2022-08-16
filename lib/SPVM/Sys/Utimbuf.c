@@ -35,3 +35,51 @@ int32_t SPVM__Sys__Utimbuf__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Utimbuf__actime(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_time_info = stack[0].oval;
+  
+  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_time_info);
+  
+  stack[0].lval = st_buffer->actime;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Utimbuf__set_actime(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_time_info = stack[0].oval;
+  
+  int32_t actime = stack[1].lval;
+  
+  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_time_info);
+  
+  st_buffer->actime = actime;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Utimbuf__modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_time_info = stack[0].oval;
+  
+  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_time_info);
+  
+  stack[0].lval = st_buffer->modtime;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Utimbuf__set_modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_time_info = stack[0].oval;
+  
+  int32_t modtime = stack[1].lval;
+  
+  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_time_info);
+  
+  st_buffer->modtime = modtime;
+  
+  return 0;
+}
