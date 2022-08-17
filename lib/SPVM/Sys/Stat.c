@@ -57,6 +57,9 @@ int32_t SPVM__Sys__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  return env->die(env, stack, "lstat is not supported in this system", FILE_NAME, __LINE__);
+#else
 
   int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   
@@ -87,6 +90,7 @@ int32_t SPVM__Sys__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
