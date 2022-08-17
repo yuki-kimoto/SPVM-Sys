@@ -170,3 +170,32 @@ int32_t SPVM__Sys__Process__system(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+/*
+int32_t SPVM__Sys__Process__pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  void* obj_pipefd = stack[0].oval;
+  
+  if (!obj_pipefd) {
+    return env->die(env, stack, "The pipe file descriptors must be defined", FILE_NAME, __LINE__);
+  }
+  
+  int32_t pipefd_length = env->length(env, stack, obj_pipefd);
+  if (!(pipefd_length == 2)) {
+    return env->die(env, stack, "The length of the pipe file descriptors must 2", FILE_NAME, __LINE__);
+  }
+  
+  int32_t* pipefd = env->get_elems_int(env, stack, obj_pipefd);
+
+  void* flags = stack[1].ival;
+  
+  int pipefd_int[2];
+  int32_t status = pipe2(pipefd_int, flags);
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+*/
