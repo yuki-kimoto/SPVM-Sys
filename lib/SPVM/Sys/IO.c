@@ -11,9 +11,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/file.h>
-#include <sys/ioctl.h>
 #include <dirent.h>
 #include <utime.h>
+
+#ifndef _WIN32
+  #include <sys/ioctl.h>
+#endif
+
 
 const char* FILE_NAME = "Sys/IO.c";
 
@@ -960,6 +964,10 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _WIN32
+  return env->die(env, stack, "ioctl is not supported in this system", FILE_NAME, __LINE__);
+#else
   
   int32_t e = 0;
   
@@ -982,9 +990,8 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = ret;
   
   return 0;
+#endif
 }
-
-  
 
 int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
