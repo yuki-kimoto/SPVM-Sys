@@ -5,6 +5,7 @@ class Sys::Process {
   native static method getpriority : int ($which : int, $who : int);
   native static method setpriority : int ($which : int, $who : int, $prio : int);
   native static method sleep : int ($seconds : int);
+  native static method kill : int ($pid : int, $sig : int);
 
 =pod
 
