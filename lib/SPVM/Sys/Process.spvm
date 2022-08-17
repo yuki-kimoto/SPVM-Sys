@@ -6,12 +6,14 @@ class Sys::Process {
   native static method setpriority : int ($which : int, $who : int, $prio : int);
   native static method sleep : int ($seconds : int);
   native static method kill : int ($pid : int, $sig : int);
+  native static method wait : int ($wstatus : int*);
+  native static method waitpid : int ($pid : int, $wstatus : int*, $options : int);
 
 =pod
 
 Functions for processes and process groups
 
-kill, pipe, qx//, readpipe, getpgrp, getppid, setpgrp, exec, system, times, wait, waitpid, *alarm, *fork, *getpriority, *setpriority, *sleep
+pipe, readpipe, getpgrp, getppid, setpgrp, exec, system, times, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid
 
 =cut
 

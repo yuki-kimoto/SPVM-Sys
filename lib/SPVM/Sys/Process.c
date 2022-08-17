@@ -6,6 +6,7 @@
 #include <sys/resource.h>
 #include <errno.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 const char* FILE_NAME = "Sys/Process.c";
 
@@ -105,6 +106,48 @@ int32_t SPVM__Sys__Process__kill(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Process__wait(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t* wstatus_ref = stack[0].iref;
+  
+  int* wstatus_int;
+  int32_t process_id = wait(wstatus_int);
+  *wstatus_ref = *wstatus_int;
+  
+  if (process_id == -1) {
+    env->die(env, stack, "[System Error]wait failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = process_id;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t pid = stack[0].ival;
+  int32_t* wstatus_ref = stack[1].iref;
+  int32_t options = stack[2].ival;
+  
+  int* wstatus_int;
+  int32_t process_id = waitpid(pid, wstatus_int, options);
+  *wstatus_ref = *wstatus_int;
+  
+  if (process_id == -1) {
+    env->die(env, stack, "[System Error]waitpid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = process_id;
   
   return 0;
 }
