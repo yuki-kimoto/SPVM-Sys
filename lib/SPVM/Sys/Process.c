@@ -27,9 +27,14 @@ int32_t SPVM__Sys__Process__fork(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t seconds = stack[0].ival;
   
-  int32_t ret = fork();
+  int32_t status = fork();
   
-  stack[0].ival = ret;
+  if (status == -1) {
+    env->die(env, stack, "[System Error]fork failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status ;
   
   return 0;
 }
