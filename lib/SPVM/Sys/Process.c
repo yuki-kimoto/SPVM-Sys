@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <stdlib.h>
 
 const char* FILE_NAME = "Sys/Process.c";
 
@@ -148,6 +149,24 @@ int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = process_id;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Process__system(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  void* obj_command = stack[0].oval;
+  
+  if (!obj_command) {
+    return env->die(env, stack, "The command must be defined", FILE_NAME, __LINE__);
+  }
+  const char* command = env->get_chars(env, stack, obj_command);
+  
+  int32_t status = system(command);
+  
+  stack[0].ival = status;
   
   return 0;
 }

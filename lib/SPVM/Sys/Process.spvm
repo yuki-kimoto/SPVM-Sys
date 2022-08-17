@@ -8,6 +8,7 @@ class Sys::Process {
   native static method kill : int ($pid : int, $sig : int);
   native static method wait : int ($wstatus : int*);
   native static method waitpid : int ($pid : int, $wstatus : int*, $options : int);
+  native static method system : int ($command : string);
 
 =pod
 
