@@ -1,5 +1,7 @@
 class Sys::Process {
 
+  native static method alarm : int ($seconds : int);
+
 =pod
 
 Functions for processes and process groups
