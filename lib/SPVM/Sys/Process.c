@@ -76,3 +76,16 @@ int32_t SPVM__Sys__Process__setpriority(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Process__sleep(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t seconds = stack[0].ival;
+  
+  int32_t rest_time = sleep(seconds);
+  
+  stack[0].ival = rest_time;
+  
+  return 0;
+}
