@@ -1,12 +1,13 @@
 class Sys::Process {
 
   native static method alarm : int ($seconds : int);
+  native static method fork : int ();
 
 =pod
 
 Functions for processes and process groups
 
-alarm, exec, fork, getpgrp, getppid, getpriority, kill, pipe, qx//, readpipe, setpgrp, setpriority, sleep, system, times, wait, waitpid
+exec, getpgrp, getppid, getpriority, kill, pipe, qx//, readpipe, setpgrp, setpriority, sleep, system, times, wait, waitpid, *alarm, *fork
 
 =cut
 
