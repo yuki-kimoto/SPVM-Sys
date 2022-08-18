@@ -1,0 +1,17 @@
+class TestCase::Sys::Net {
+  use Sys::Net;
+  
+  static method sethostent : int () {
+    
+    Sys::Net->sethostent(1);
+    
+    return 1;
+  }
+
+  static method endhostent : int () {
+    
+    Sys::Net->endhostent;
+    
+    return 1;
+  }
+}

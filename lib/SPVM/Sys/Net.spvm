@@ -2,9 +2,13 @@ class Sys::Net {
   use Sys::Ent::Hostent;
   use Sys::Ent::Netent;
 
-  native static method sethostent : void ();
+  native static method sethostent : void ($stayopen : int);
   native static method endhostent : void ();
-  native static method gethostent : Sys::Ent::Netent ();
+  native static method gethostent : Sys::Ent::Hostent ();
+
+  native static method setnetent : void ($stayopen : int);
+  native static method endnetent : void ();
+  native static method getnetent : Sys::Ent::Netent ();
 
 =pod
   native static method gethostbyname : Sys::Ent::Netent ($name : string);
