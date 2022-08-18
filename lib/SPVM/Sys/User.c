@@ -168,6 +168,39 @@ int32_t SPVM__Sys__User__endpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+#ifdef _WIN32
+  return env->die(env, stack, "getpwent is not supported in this system", FILE_NAME, __LINE__);
+#else
+  int32_t e = 0;
+  
+  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  
+  errno = 0;
+  struct passwd* pwent = getpwent();
+  
+  if (pwent == NULL) {
+    if (errno) {
+      env->die(env, stack, "[System Error]getpwent failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+      return error_system_class_id;
+    }
+    else {
+      stack[0].oval = NULL;
+    }
+  }
+  else {
+    void* obj_sys_ent_passwd = env->new_pointer_by_name(env, stack, "Sys::Ent::Passwd", pwent, &e, FILE_NAME, __LINE__);
+    if (e) { return e; }
+    stack[0].oval = obj_sys_ent_passwd;
+  }
+#endif
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
@@ -253,39 +286,6 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (ret < 0) {
     env->die(env, stack, "[System Error]setgroups failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return error_system_class_id;
-  }
-#endif
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-#ifdef _WIN32
-  return env->die(env, stack, "getpwent is not supported in this system", FILE_NAME, __LINE__);
-#else
-  int32_t e = 0;
-  
-  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  
-  errno = 0;
-  struct passwd* pwent = getpwent();
-  
-  if (pwent == NULL) {
-    if (errno) {
-      env->die(env, stack, "[System Error]getpwent failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-      return error_system_class_id;
-    }
-    else {
-      stack[0].oval = NULL;
-    }
-  }
-  else {
-    void* obj_sys_ent_passwd = env->new_pointer_by_name(env, stack, "Sys::Ent::Passwd", pwent, &e, FILE_NAME, __LINE__);
-    if (e) { return e; }
-    stack[0].oval = obj_sys_ent_passwd;
   }
 #endif
   

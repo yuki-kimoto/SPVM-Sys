@@ -16,18 +16,18 @@ class Sys::User {
   
   native static method setpwent : void ();
   native static method endpwent : void ();
+  native static method getpwent : Sys::Ent::Passwd ();
   
   native static method setgrent : void ();
   native static method endgrent : void ();
+  native static method getgrent : Sys::Ent::Group ();
   
   native static method getgroups : int[] ();
   native static method setgroups : void ($groups : int[]);
 
-  native static method getpwent : Sys::Ent::Passwd ();
   native static method getpwuid : Sys::Ent::Passwd ($id : int);
   native static method getpwnam : Sys::Ent::Passwd ($name : string);
 
-  native static method getgrent : Sys::Ent::Group ();
   native static method getgrgid : Sys::Ent::Group ($id : int);
   native static method getgrnam : Sys::Ent::Group ($name : string);
 }

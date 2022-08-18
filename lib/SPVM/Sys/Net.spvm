@@ -1,14 +1,31 @@
 class Sys::Net {
+  use Sys::Ent::Hostent;
+  use Sys::Ent::Netent;
 
+  native static method sethostent : void ();
+  native static method endhostent : void ();
+  native static method gethostent : Sys::Ent::Netent ();
+
+=pod
+  native static method gethostbyname : Sys::Ent::Netent ($name : string);
+struct hostent *gethostbyaddr(const void *addr,
+                              socklen_t len, int type);
+
+struct hostent *gethostbyname(const char *name);
+
+#include <sys/socket.h>       /* AF_INET を使う場合 */
+# struct hostent *gethostbyaddr(const void *addr,
+#                               socklen_t len, int type);
+
+=cut
+                          
 =pod
 
 Fetching network info
 
-endprotoent, endservent, gethostbyaddr, gethostbyname, gethostent, getnetbyaddr, getnetbyname, getnetent, getprotobyname, getprotobynumber, getprotoent, getservbyname, getservbyport, getservent, sethostent, setnetent, setprotoent, setservent
+endprotoent, endservent, gethostbyaddr, gethostbyname, getnetbyaddr, getnetbyname, getnetent, getprotobyname, getprotobynumber, getprotoent, getservbyname, getservbyport, getservent, setnetent, setprotoent, setservent, endnetent
 
-endnetent, 
-
-endhostent,
+*sethostent, *endhostent, *gethostent
 
 =cut
 
