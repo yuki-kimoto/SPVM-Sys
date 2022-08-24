@@ -3,9 +3,10 @@
 #include <errno.h>
 
 #ifdef _WIN32
-  
+#  include <ws2tcpip.h>
+#  include <io.h>
 #else
-#include <netdb.h>
+#  include <netdb.h>
 #endif
 
 const char* FILE_NAME = "Sys/Net.c";
