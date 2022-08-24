@@ -1,4 +1,4 @@
-package SPVM::Sys::Ent::Serveent;
+package SPVM::Sys::Ent::Servent;
 
 our $VERSION = '0.01';
 
@@ -6,15 +6,15 @@ our $VERSION = '0.01';
 
 =head1 Name
 
-SPVM::Sys::Ent::Serveent - Sys::Ent::Serveent is a SPVM module
+SPVM::Sys::Ent::Servent - Sys::Ent::Servent is a SPVM module
 
 =head1 Usage
 
-  use Sys::Ent::Serveent;
+  use Sys::Ent::Servent;
   
 =head1 Description
 
-C<Sys::Ent::Serveent> is a L<SPVM> module.
+C<Sys::Ent::Servent> is a L<SPVM> module.
 
 =head1 Fields
 

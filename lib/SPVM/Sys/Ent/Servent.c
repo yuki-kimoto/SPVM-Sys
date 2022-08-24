@@ -2,7 +2,7 @@
 
 
 
-int32_t SPVM__Sys__Ent__Serveent__foo(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Ent__Servent__foo(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
