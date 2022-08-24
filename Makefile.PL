@@ -49,6 +49,10 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Passwd');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Group');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Dir');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Hostent');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Netent');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Serveent');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Protoent');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Utimbuf');
   
   return $make_rule;
