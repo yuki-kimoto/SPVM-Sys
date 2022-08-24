@@ -3,11 +3,16 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/time.h>
-#include <sys/resource.h>
 #include <errno.h>
 #include <signal.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+
+#ifdef _WIN32
+
+#else
+#include <sys/resource.h>
+#endif
 
 const char* FILE_NAME = "Sys/Process.c";
 
