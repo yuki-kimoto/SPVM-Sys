@@ -1,7 +1,12 @@
 #include "spvm_native.h"
 
-#include <netdb.h>
 #include <errno.h>
+
+#ifdef _WIN32
+  
+#else
+#include <netdb.h>
+#endif
 
 const char* FILE_NAME = "Sys/Net.c";
 
