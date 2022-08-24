@@ -31,6 +31,18 @@ lib/SPVM/Sys/Ent/Passwd.c
 lib/SPVM/Sys/Ent/Passwd.config
 lib/SPVM/Sys/Ent/Passwd.pm
 lib/SPVM/Sys/Ent/Passwd.spvm
+lib/SPVM/Sys/Ent/Protoent.c
+lib/SPVM/Sys/Ent/Protoent.config
+lib/SPVM/Sys/Ent/Protoent.native/include/.gitkeep
+lib/SPVM/Sys/Ent/Protoent.native/src/.gitkeep
+lib/SPVM/Sys/Ent/Protoent.pm
+lib/SPVM/Sys/Ent/Protoent.spvm
+lib/SPVM/Sys/Ent/Serveent.c
+lib/SPVM/Sys/Ent/Serveent.config
+lib/SPVM/Sys/Ent/Serveent.native/include/.gitkeep
+lib/SPVM/Sys/Ent/Serveent.native/src/.gitkeep
+lib/SPVM/Sys/Ent/Serveent.pm
+lib/SPVM/Sys/Ent/Serveent.spvm
 lib/SPVM/Sys/F_owner_ex.c
 lib/SPVM/Sys/F_owner_ex.config
 lib/SPVM/Sys/F_owner_ex.native/include/.gitkeep
@@ -93,5 +105,7 @@ t/ftest/file_empty.txt
 t/IO.t
 t/lib/SPVM/TestCase/Sys/FileTest.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
+t/lib/SPVM/TestCase/Sys/Net.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
+t/Net.t
 t/User.t
