@@ -15,7 +15,8 @@ int32_t SPVM__Sys__Net__sethostent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
 
 #ifdef _WIN32
-  return env->die(env, stack, "sethostent is not supported in this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "sethostent is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   int32_t stayopen = stack[0].ival;
   errno = 0;
@@ -31,7 +32,8 @@ int32_t SPVM__Sys__Net__endhostent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
   
 #ifdef _WIN32
-  return env->die(env, stack, "endhostent is not supported in this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "endhostent is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   errno = 0;
   endhostent();
@@ -45,7 +47,8 @@ int32_t SPVM__Sys__Net__gethostent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
   
 #ifdef _WIN32
-  return env->die(env, stack, "gethostent is not supported in this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "gethostent is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   int32_t e = 0;
   
@@ -77,7 +80,8 @@ int32_t SPVM__Sys__Net__setnetent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
 
 #ifdef _WIN32
-  return env->die(env, stack, "setnetent is not supported in this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "setnetent is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   int32_t stayopen = stack[0].ival;
   errno = 0;
@@ -93,7 +97,8 @@ int32_t SPVM__Sys__Net__endnetent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
   
 #ifdef _WIN32
-  return env->die(env, stack, "endnetent is not supported in this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "endnetent is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   errno = 0;
   endnetent();
@@ -107,7 +112,8 @@ int32_t SPVM__Sys__Net__getnetent(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)stack;
   
 #ifdef _WIN32
-  return env->die(env, stack, "getnetent is not supported in this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "getnetent is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   int32_t e = 0;
   
