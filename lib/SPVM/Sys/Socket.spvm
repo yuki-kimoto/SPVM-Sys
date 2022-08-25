@@ -1,5 +1,10 @@
 class Sys::Socket {
-
+  use Sys::Addrinfo;
+  
+  native static method getaddrinfo : int ($node : string, $service : string,
+                $hints : Sys::Addrinfo,
+                $res : Sys::Addrinfo[]);
+                
   native static method gai_strerror : string($gai_error_code : int);
 
 =pod
