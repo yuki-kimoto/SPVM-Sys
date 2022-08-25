@@ -16,6 +16,9 @@
 
 static const char* FILE_NAME = "Sys/Socket.c";
 
+static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
+static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
+
 int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;
   
