@@ -1,10 +1,14 @@
 class Sys::Socket {
 
+  native static method gai_strerror : string($gai_error_code : int);
+
 =pod
 
 Low-level socket functions
 
 accept, bind, connect, getpeername, getsockname, getsockopt, listen, recv, send, setsockopt, shutdown, socket, socketpair
+
+getaddrinfo, getnameinfo, gai_strerror
 
 Socket.pm
 

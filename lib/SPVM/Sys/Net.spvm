@@ -35,7 +35,7 @@ struct hostent *gethostbyname(const char *name);
 
 Fetching network info
 
-gethostbyaddr, gethostbyname, getnetbyaddr, getnetbyname, getprotobyname, getprotobynumber, getservbyname, getservbyport
+gethostbyaddr, gethostbyname, getnetbyaddr, getnetbyname, getprotobyname, getprotobynumber, , getservbyname, getservbyport
 
 *setnetent, *endnetent, *getnetent,
 
