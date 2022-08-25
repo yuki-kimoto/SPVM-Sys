@@ -54,6 +54,7 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Servent');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Protoent');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Utimbuf');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Addrinfo');
   
   return $make_rule;
 }
