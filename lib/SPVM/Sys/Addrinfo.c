@@ -16,6 +16,7 @@
 # define closesocket(fd) close(fd)
 #endif
 
+static int32_t FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED = 0;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
 
@@ -29,8 +30,10 @@ int32_t SPVM__Sys__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct addrinfo* addrinfo = env->new_memory_stack(env, stack, sizeof(struct addrinfo*));
 
-  void* obj_addrinfo = env->new_pointer_by_name(env, stack, "Sys::Addrinfo", addrinfo, &e, FILE_NAME, __LINE__);
-  env->set_pointer_any_info(env, stack, obj_addrinfo, (void*)(intptr_t)ADDRINFO_MEMORY_ALLOCATED_BY_NEW);
+  int32_t fields_length = 1;
+  void* obj_addrinfo = env->new_pointer_with_fields_by_name(env, stack, "Sys::Addrinfo", addrinfo, fields_length, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  env->set_pointer_field_int(env, stack, obj_addrinfo, FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED, ADDRINFO_MEMORY_ALLOCATED_BY_NEW);
   
   return 0;
 }
@@ -42,7 +45,7 @@ int32_t SPVM__Sys__Addrinfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (obj_addrinfo != NULL) {
     struct addrinfo* addrinfo = env->get_pointer(env, stack, obj_addrinfo);
     if (addrinfo) {
-      int32_t memory_allocated_way = (intptr_t)env->get_pointer_any_info(env, stack, obj_addrinfo);
+      int32_t memory_allocated_way = (intptr_t)env->get_pointer_field_int(env, stack, obj_addrinfo, FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED);
       if (memory_allocated_way == ADDRINFO_MEMORY_ALLOCATED_BY_NEW) {
         env->free_memory_stack(env, stack, addrinfo);
       }

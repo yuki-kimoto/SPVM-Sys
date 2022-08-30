@@ -16,6 +16,7 @@
 
 static const char* FILE_NAME = "Sys/Socket.c";
 
+static int32_t FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED = 0;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
 
@@ -43,13 +44,13 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
     hints = env->get_pointer(env, stack, obj_hints);
   }
   
-  void* obj_res = stack[3].oval;
+  void* obj_res_array = stack[3].oval;
   
-  if (!obj_res) {
+  if (!obj_res_array) {
     return env->die(env, stack, "The response must be defined", FILE_NAME, __LINE__);
   }
   
-  int32_t res_length = env->length(env, stack, obj_res);
+  int32_t res_length = env->length(env, stack, obj_res_array);
   
   if (res_length == 1) {
     return env->die(env, stack, "The length of the response must be 1", FILE_NAME, __LINE__);
@@ -59,9 +60,11 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = getaddrinfo(node, service, hints, &res);
   
   if (status == 0) {
-    void* obj_res_elem = env->new_pointer_by_name(env, stack, "Sys::Addrinfo", res, &e, FILE_NAME, __LINE__);
+    int32_t fields_length = 1;
+    void* obj_res = env->new_pointer_with_fields_by_name(env, stack, "Sys::Addrinfo", res, fields_length, &e, FILE_NAME, __LINE__);
     if (e) { return e; }
-    env->set_elem_object(env, stack, res, 0, obj_res_elem);
+    env->set_pointer_field_int(env, stack, obj_res, FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED, ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO);
+    env->set_elem_object(env, stack, obj_res_array, 0, obj_res);
   }
   
   stack[0].ival = status;
