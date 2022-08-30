@@ -14,13 +14,15 @@ class Sys::Socket {
 
   native static method socket : int ($socket_family : int, $socket_type : int, $protocol : int);
 
+  native static method connect : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int);
+            
   # native static method accept : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int*);
 
 =pod
 
 Low-level socket functions
 
-accept, bind, connect, getpeername, getsockname, getsockopt, listen, recv, send, setsockopt, shutdown, socketpair, *socket
+accept, bind, getpeername, getsockname, getsockopt, listen, recv, send, setsockopt, shutdown, socketpair, *socket, *connect
 
 getaddrinfo, getnameinfo, gai_strerror
 
