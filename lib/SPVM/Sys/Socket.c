@@ -119,7 +119,7 @@ int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_buf = stack[1].oval;
   
   if (!obj_buf) {
-    return env->die(env, stack, "The bufess must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
   }
   
   char* buf = (char*)env->get_chars(env, stack, obj_buf);
@@ -147,7 +147,7 @@ int32_t SPVM__Sys__Socket__send(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_buf = stack[1].oval;
   
   if (!obj_buf) {
-    return env->die(env, stack, "The bufess must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
   }
   
   const char* buf = env->get_chars(env, stack, obj_buf);
@@ -164,6 +164,43 @@ int32_t SPVM__Sys__Socket__send(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = bytes_length;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t domain = stack[0].ival;
+
+  int32_t type = stack[1].ival;
+
+  int32_t protocol = stack[2].ival;
+
+  void* obj_pair = stack[3].oval;
+  
+  if (!obj_pair) {
+    return env->die(env, stack, "The output of the pair must be defined", FILE_NAME, __LINE__);
+  }
+  
+  int32_t* pair = env->get_elems_int(env, stack, obj_pair);
+  int32_t pair_length = env->length(env, stack, obj_pair);
+  
+  if (!(pair_length >= 2)) {
+    return env->die(env, stack, "The length of the output of the pair must be greater than or equal to 2", FILE_NAME, __LINE__);
+  }
+  
+  int i_pair[2];
+  int32_t status = socketpair(domain, type, protocol, i_pair);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]socketpair failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  pair[0] = i_pair[0];
+  pair[1] = i_pair[1];
+  
+  stack[0].ival = status;
   
   return 0;
 }
