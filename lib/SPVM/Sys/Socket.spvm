@@ -30,11 +30,13 @@ class Sys::Socket {
 
   native static method getpeername : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen_ref : int*);
 
+  native static method getsockname : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen_ref : int*);
+
 =pod
 
 Low-level socket functions
 
-getsockname, getsockopt, setsockopt, socketpair, *socket, *connect, *bind, *accept, *listen, *shutdown, *recv, *send, *getpeername, 
+, getsockopt, setsockopt, socketpair, *socket, *connect, *bind, *accept, *listen, *shutdown, *recv, *send, *getpeername, *getsockname
 
 *getaddrinfo, *getnameinfo, *gai_strerror
 
