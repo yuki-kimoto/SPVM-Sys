@@ -1,5 +1,7 @@
 #include "spvm_native.h"
 
+#include <errno.h>
+
 #ifdef _WIN32
 # include <ws2tcpip.h>
 # include <io.h>
@@ -19,6 +21,26 @@ static const char* FILE_NAME = "Sys/Socket.c";
 static int32_t FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED = 0;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
+
+int32_t SPVM__Sys__Socket__socket(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t socket_family = stack[0].ival;
+  
+  int32_t socket_type = stack[1].ival;
+  
+  int32_t protocol = stack[2].ival;
+  
+  int32_t sockfd = socket(socket_family, socket_type, protocol);
+  
+  if (sockfd == -1) {
+    env->die(env, stack, "[System Error]socket failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = sockfd;
+  
+  return 0;
+}
 
 int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;

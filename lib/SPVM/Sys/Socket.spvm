@@ -12,6 +12,10 @@ class Sys::Socket {
 
   native static method gai_strerror : string($gai_error_code : int);
 
+  native static method socket : int ($socket_family : int, $socket_type : int, $protocol : int);
+
+  # native static method accept : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int*);
+
 =pod
 
 Low-level socket functions
