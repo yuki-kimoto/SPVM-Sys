@@ -27,9 +27,7 @@ Low-level socket functions
 
 accept, getpeername, getsockname, getsockopt, listen, recv, send, setsockopt, shutdown, socketpair, *socket, *connect, *bind
 
-getaddrinfo, getnameinfo, gai_strerror
-
-Socket.pm
+*getaddrinfo, *getnameinfo, *gai_strerror
 
 =cut
 
