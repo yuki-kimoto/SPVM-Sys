@@ -112,6 +112,34 @@ int32_t SPVM__Sys__Socket__listen(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t sockfd = stack[0].ival;
+
+  void* obj_buf = stack[1].oval;
+  
+  if (!obj_buf) {
+    return env->die(env, stack, "The bufess must be defined", FILE_NAME, __LINE__);
+  }
+  
+  char* buf = (char*)env->get_chars(env, stack, obj_buf);
+  
+  int32_t len = stack[2].ival;
+  
+  int32_t flags = stack[3].ival;
+  
+  int32_t bytes_length = recv(sockfd, buf, len, flags);
+  
+  if (bytes_length == -1) {
+    env->die(env, stack, "[System Error]recv failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = bytes_length;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;

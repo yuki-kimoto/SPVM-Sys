@@ -24,6 +24,8 @@ class Sys::Socket {
 
   native static method shutdown : int ($sockfd : int, $how : int);
 
+  native static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int);
+
 =pod
 
 Low-level socket functions
