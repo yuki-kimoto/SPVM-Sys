@@ -216,6 +216,36 @@ int32_t SPVM__Sys__Socket__accept(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__getpeername(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t sockfd = stack[0].ival;
+  
+  void* obj_addr = stack[1].oval;
+  
+  if (!obj_addr) {
+    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
+  }
+  
+  struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
+  
+  int32_t* addrlen_ref = stack[2].iref;
+  
+  socklen_t sl_addrlen = *addrlen_ref;
+  
+  int32_t status = getpeername(sockfd, addr, &sl_addrlen);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]getpeername failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  *addrlen_ref = sl_addrlen;
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;
   

@@ -18,7 +18,7 @@ class Sys::Socket {
 
   native static method bind : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int);
                  
-  native static method accept : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int*);
+  native static method accept : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen_ref : int*);
 
   native static method listen : int ($sockfd : int, $backlog : int);
 
@@ -28,11 +28,13 @@ class Sys::Socket {
 
   native static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int);
 
+  native static method getpeername : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen_ref : int*);
+
 =pod
 
 Low-level socket functions
 
-getpeername, getsockname, getsockopt, setsockopt, socketpair, *socket, *connect, *bind, *accept, *listen, *shutdown, *recv, *send
+getsockname, getsockopt, setsockopt, socketpair, *socket, *connect, *bind, *accept, *listen, *shutdown, *recv, *send, *getpeername, 
 
 *getaddrinfo, *getnameinfo, *gai_strerror
 
