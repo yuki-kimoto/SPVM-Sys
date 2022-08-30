@@ -72,6 +72,45 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
+  int32_t e = 0;
+  
+  void* obj_addr = stack[0].oval;
+  
+  if (obj_addr) {
+    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
+
+  int32_t addrlen = stack[1].ival;
+  
+  void* obj_host = stack[2].oval;
+  char* host = NULL;
+  if (obj_host) {
+    host = (char*)env->get_chars(env, stack, obj_host);
+  }
+  
+  int32_t hostlen = stack[3].ival;
+  
+  void* obj_serv = stack[4].oval;
+  char* serv = NULL;
+  if (obj_serv) {
+    serv = (char*)env->get_chars(env, stack, obj_serv);
+  }
+  
+  int32_t servlen = stack[5].ival;
+
+  int32_t flag = stack[6].ival;
+  
+  struct addrinfo *res = NULL;
+  int32_t status = getnameinfo(addr, addrlen, host, hostlen, serv, servlen, flag);
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;

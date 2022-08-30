@@ -1,21 +1,15 @@
 class Sys::Socket {
   use Sys::Addrinfo;
+  use Sys::Sockaddr;
   
   native static method getaddrinfo : int ($node : string, $service : string,
                 $hints : Sys::Addrinfo,
                 $res : Sys::Addrinfo[]);
 
-  native static method getnameinfo : int ($node : string, $service : string,
-                $hints : Sys::Addrinfo,
-                $res : Sys::Addrinfo[]);
+  native static method getnameinfo : int ($addr : Sys::Sockaddr, $addrlen : int,
+                $host : mutable string, $hostlen : int,
+                $serv : mutable string, $servlen : int, $flag : int);
 
-=pod
-int getnameinfo(const struct sockaddr *addr, socklen_t addrlen,
-                char *host, socklen_t hostlen,
-                char *serv, socklen_t servlen, int flags);
-                
-=cut
-                
   native static method gai_strerror : string($gai_error_code : int);
 
 =pod
