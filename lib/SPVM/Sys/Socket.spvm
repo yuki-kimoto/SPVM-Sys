@@ -22,6 +22,8 @@ class Sys::Socket {
 
   native static method listen : int ($sockfd : int, $backlog : int);
 
+  native static method shutdown : int ($sockfd : int, $how : int);
+
 =pod
 
 Low-level socket functions
