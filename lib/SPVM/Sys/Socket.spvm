@@ -17,9 +17,8 @@ class Sys::Socket {
   native static method connect : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int);
 
   native static method bind : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int);
-
                  
-  # native static method accept : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int*);
+  native static method accept : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int*);
 
 =pod
 
