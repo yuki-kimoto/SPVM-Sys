@@ -7,6 +7,12 @@
 Changes
 cpanm
 lib/SPVM/Sys.pm
+lib/SPVM/Sys/Addrinfo.c
+lib/SPVM/Sys/Addrinfo.config
+lib/SPVM/Sys/Addrinfo.native/include/.gitkeep
+lib/SPVM/Sys/Addrinfo.native/src/.gitkeep
+lib/SPVM/Sys/Addrinfo.pm
+lib/SPVM/Sys/Addrinfo.spvm
 lib/SPVM/Sys/DirHandle.c
 lib/SPVM/Sys/DirHandle.config
 lib/SPVM/Sys/DirHandle.pm
@@ -79,6 +85,12 @@ lib/SPVM/Sys/Process.c
 lib/SPVM/Sys/Process.config
 lib/SPVM/Sys/Process.pm
 lib/SPVM/Sys/Process.spvm
+lib/SPVM/Sys/Sockaddr.c
+lib/SPVM/Sys/Sockaddr.config
+lib/SPVM/Sys/Sockaddr.native/include/.gitkeep
+lib/SPVM/Sys/Sockaddr.native/src/.gitkeep
+lib/SPVM/Sys/Sockaddr.pm
+lib/SPVM/Sys/Sockaddr.spvm
 lib/SPVM/Sys/Socket.c
 lib/SPVM/Sys/Socket.config
 lib/SPVM/Sys/Socket.pm
