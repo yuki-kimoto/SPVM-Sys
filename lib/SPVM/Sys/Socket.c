@@ -1,6 +1,7 @@
 #include "spvm_native.h"
 
 #include <errno.h>
+#include <assert.h>
 
 #ifdef _WIN32
 # include <ws2tcpip.h>
@@ -189,16 +190,13 @@ int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The length of the output of the pair must be greater than or equal to 2", FILE_NAME, __LINE__);
   }
   
-  int i_pair[2];
-  int32_t status = socketpair(domain, type, protocol, i_pair);
+  assert(sizeof(int) == sizeof(int32_t));
+  int32_t status = socketpair(domain, type, protocol, pair);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]socketpair failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
-  
-  pair[0] = i_pair[0];
-  pair[1] = i_pair[1];
   
   stack[0].ival = status;
   
