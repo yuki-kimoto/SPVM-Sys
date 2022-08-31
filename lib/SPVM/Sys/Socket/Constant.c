@@ -22,7 +22,7 @@
 static const char* FILE_NAME = "Sys/Socket/Constant.c";
 
 
-int32_t SPVM__Errno__AF_ALG(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_ALG(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_ALG
   stack[0].ival = AF_ALG;
@@ -34,7 +34,7 @@ int32_t SPVM__Errno__AF_ALG(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_APPLETALK(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_APPLETALK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_APPLETALK
   stack[0].ival = AF_APPLETALK;
@@ -46,7 +46,7 @@ int32_t SPVM__Errno__AF_APPLETALK(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_AX25(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_AX25(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_AX25
   stack[0].ival = AF_AX25;
@@ -58,7 +58,7 @@ int32_t SPVM__Errno__AF_AX25(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_BLUETOOTH(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_BLUETOOTH(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_BLUETOOTH
   stack[0].ival = AF_BLUETOOTH;
@@ -70,7 +70,7 @@ int32_t SPVM__Errno__AF_BLUETOOTH(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_CAN(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_CAN(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_CAN
   stack[0].ival = AF_CAN;
@@ -82,7 +82,7 @@ int32_t SPVM__Errno__AF_CAN(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_DEC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_DEC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_DEC
   stack[0].ival = AF_DEC;
@@ -94,7 +94,7 @@ int32_t SPVM__Errno__AF_DEC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_IB(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_IB(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_IB
   stack[0].ival = AF_IB;
@@ -106,7 +106,7 @@ int32_t SPVM__Errno__AF_IB(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_INET(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_INET(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_INET
   stack[0].ival = AF_INET;
@@ -118,7 +118,7 @@ int32_t SPVM__Errno__AF_INET(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_INET6(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_INET6(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_INET6
   stack[0].ival = AF_INET6;
@@ -130,7 +130,7 @@ int32_t SPVM__Errno__AF_INET6(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_IPX(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_IPX(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_IPX
   stack[0].ival = AF_IPX;
@@ -142,7 +142,7 @@ int32_t SPVM__Errno__AF_IPX(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_KCM(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_KCM(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_KCM
   stack[0].ival = AF_KCM;
@@ -154,7 +154,7 @@ int32_t SPVM__Errno__AF_KCM(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_KEY(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_KEY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_KEY
   stack[0].ival = AF_KEY;
@@ -166,7 +166,7 @@ int32_t SPVM__Errno__AF_KEY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_LLC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_LLC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_LLC
   stack[0].ival = AF_LLC;
@@ -178,7 +178,7 @@ int32_t SPVM__Errno__AF_LLC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_LOCAL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_LOCAL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_LOCAL
   stack[0].ival = AF_LOCAL;
@@ -190,7 +190,7 @@ int32_t SPVM__Errno__AF_LOCAL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_MPLS(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_MPLS(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_MPLS
   stack[0].ival = AF_MPLS;
@@ -202,7 +202,7 @@ int32_t SPVM__Errno__AF_MPLS(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_NETLINK(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_NETLINK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_NETLINK
   stack[0].ival = AF_NETLINK;
@@ -214,7 +214,7 @@ int32_t SPVM__Errno__AF_NETLINK(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_PACKET(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_PACKET(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_PACKET
   stack[0].ival = AF_PACKET;
@@ -226,7 +226,7 @@ int32_t SPVM__Errno__AF_PACKET(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_PPPOX(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_PPPOX(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_PPPOX
   stack[0].ival = AF_PPPOX;
@@ -238,7 +238,7 @@ int32_t SPVM__Errno__AF_PPPOX(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_RDS(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_RDS(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_RDS
   stack[0].ival = AF_RDS;
@@ -250,7 +250,7 @@ int32_t SPVM__Errno__AF_RDS(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_TIPC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_TIPC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_TIPC
   stack[0].ival = AF_TIPC;
@@ -262,7 +262,7 @@ int32_t SPVM__Errno__AF_TIPC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_UNIX(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_UNIX(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_UNIX
   stack[0].ival = AF_UNIX;
@@ -274,7 +274,7 @@ int32_t SPVM__Errno__AF_UNIX(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_UNSPEC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_UNSPEC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_UNSPEC
   stack[0].ival = AF_UNSPEC;
@@ -286,7 +286,7 @@ int32_t SPVM__Errno__AF_UNSPEC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_VSOCK(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_VSOCK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_VSOCK
   stack[0].ival = AF_VSOCK;
@@ -298,7 +298,7 @@ int32_t SPVM__Errno__AF_VSOCK(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_X25(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_X25(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_X25
   stack[0].ival = AF_X25;
@@ -310,7 +310,7 @@ int32_t SPVM__Errno__AF_X25(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__AF_XDP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__AF_XDP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef AF_XDP
   stack[0].ival = AF_XDP;
@@ -322,7 +322,7 @@ int32_t SPVM__Errno__AF_XDP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__INADDR_ANY(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__INADDR_ANY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef INADDR_ANY
   stack[0].ival = INADDR_ANY;
@@ -334,7 +334,7 @@ int32_t SPVM__Errno__INADDR_ANY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__INADDR_BROADCAST(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__INADDR_BROADCAST(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef INADDR_BROADCAST
   stack[0].ival = INADDR_BROADCAST;
@@ -346,7 +346,7 @@ int32_t SPVM__Errno__INADDR_BROADCAST(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__INADDR_LOOPBACK(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__INADDR_LOOPBACK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef INADDR_LOOPBACK
   stack[0].ival = INADDR_LOOPBACK;
@@ -358,7 +358,7 @@ int32_t SPVM__Errno__INADDR_LOOPBACK(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IPPROTO_IP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IPPROTO_IP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPPROTO_IP
   stack[0].ival = IPPROTO_IP;
@@ -370,7 +370,7 @@ int32_t SPVM__Errno__IPPROTO_IP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IPPROTO_SCTP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IPPROTO_SCTP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPPROTO_SCTP
   stack[0].ival = IPPROTO_SCTP;
@@ -382,7 +382,7 @@ int32_t SPVM__Errno__IPPROTO_SCTP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IPPROTO_TCP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IPPROTO_TCP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPPROTO_TCP
   stack[0].ival = IPPROTO_TCP;
@@ -394,7 +394,7 @@ int32_t SPVM__Errno__IPPROTO_TCP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IPPROTO_UDP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IPPROTO_UDP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPPROTO_UDP
   stack[0].ival = IPPROTO_UDP;
@@ -406,7 +406,7 @@ int32_t SPVM__Errno__IPPROTO_UDP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IPPROTO_UDPLITE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IPPROTO_UDPLITE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPPROTO_UDPLITE
   stack[0].ival = IPPROTO_UDPLITE;
@@ -418,7 +418,7 @@ int32_t SPVM__Errno__IPPROTO_UDPLITE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IPTOS_LOWDELAY(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IPTOS_LOWDELAY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPTOS_LOWDELAY
   stack[0].ival = IPTOS_LOWDELAY;
@@ -430,7 +430,7 @@ int32_t SPVM__Errno__IPTOS_LOWDELAY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IPTOS_MINCOST(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IPTOS_MINCOST(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPTOS_MINCOST
   stack[0].ival = IPTOS_MINCOST;
@@ -442,7 +442,7 @@ int32_t SPVM__Errno__IPTOS_MINCOST(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IPTOS_RELIABILITY(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IPTOS_RELIABILITY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPTOS_RELIABILITY
   stack[0].ival = IPTOS_RELIABILITY;
@@ -454,7 +454,7 @@ int32_t SPVM__Errno__IPTOS_RELIABILITY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IPTOS_THROUGHPUT(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IPTOS_THROUGHPUT(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPTOS_THROUGHPUT
   stack[0].ival = IPTOS_THROUGHPUT;
@@ -466,7 +466,7 @@ int32_t SPVM__Errno__IPTOS_THROUGHPUT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_ADD_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_ADD_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_ADD_MEMBERSHIP
   stack[0].ival = IP_ADD_MEMBERSHIP;
@@ -478,7 +478,7 @@ int32_t SPVM__Errno__IP_ADD_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_ADD_SOURCE_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_ADD_SOURCE_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_ADD_SOURCE_MEMBERSHIP
   stack[0].ival = IP_ADD_SOURCE_MEMBERSHIP;
@@ -490,7 +490,7 @@ int32_t SPVM__Errno__IP_ADD_SOURCE_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) 
   
 }
 
-int32_t SPVM__Errno__IP_BIND_ADDRESS_NO_PORT(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_BIND_ADDRESS_NO_PORT(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_BIND_ADDRESS_NO_PORT
   stack[0].ival = IP_BIND_ADDRESS_NO_PORT;
@@ -502,7 +502,7 @@ int32_t SPVM__Errno__IP_BIND_ADDRESS_NO_PORT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_BLOCK_SOURCE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_BLOCK_SOURCE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_BLOCK_SOURCE
   stack[0].ival = IP_BLOCK_SOURCE;
@@ -514,7 +514,7 @@ int32_t SPVM__Errno__IP_BLOCK_SOURCE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_DROP_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_DROP_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_DROP_MEMBERSHIP
   stack[0].ival = IP_DROP_MEMBERSHIP;
@@ -526,7 +526,7 @@ int32_t SPVM__Errno__IP_DROP_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_DROP_SOURCE_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_DROP_SOURCE_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_DROP_SOURCE_MEMBERSHIP
   stack[0].ival = IP_DROP_SOURCE_MEMBERSHIP;
@@ -538,7 +538,7 @@ int32_t SPVM__Errno__IP_DROP_SOURCE_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack)
   
 }
 
-int32_t SPVM__Errno__IP_FREEBIND(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_FREEBIND(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_FREEBIND
   stack[0].ival = IP_FREEBIND;
@@ -550,7 +550,7 @@ int32_t SPVM__Errno__IP_FREEBIND(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_HDRINCL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_HDRINCL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_HDRINCL
   stack[0].ival = IP_HDRINCL;
@@ -562,7 +562,7 @@ int32_t SPVM__Errno__IP_HDRINCL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_MSFILTER(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_MSFILTER(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_MSFILTER
   stack[0].ival = IP_MSFILTER;
@@ -574,7 +574,7 @@ int32_t SPVM__Errno__IP_MSFILTER(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_MTU(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_MTU(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_MTU
   stack[0].ival = IP_MTU;
@@ -586,7 +586,7 @@ int32_t SPVM__Errno__IP_MTU(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_MTU_DISCOVER(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_MTU_DISCOVER(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_MTU_DISCOVER
   stack[0].ival = IP_MTU_DISCOVER;
@@ -598,7 +598,7 @@ int32_t SPVM__Errno__IP_MTU_DISCOVER(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_MULTICAST_ALL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_MULTICAST_ALL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_MULTICAST_ALL
   stack[0].ival = IP_MULTICAST_ALL;
@@ -610,7 +610,7 @@ int32_t SPVM__Errno__IP_MULTICAST_ALL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_MULTICAST_IF(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_MULTICAST_IF(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_MULTICAST_IF
   stack[0].ival = IP_MULTICAST_IF;
@@ -622,7 +622,7 @@ int32_t SPVM__Errno__IP_MULTICAST_IF(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_MULTICAST_LOOP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_MULTICAST_LOOP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_MULTICAST_LOOP
   stack[0].ival = IP_MULTICAST_LOOP;
@@ -634,7 +634,7 @@ int32_t SPVM__Errno__IP_MULTICAST_LOOP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_MULTICAST_TTL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_MULTICAST_TTL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_MULTICAST_TTL
   stack[0].ival = IP_MULTICAST_TTL;
@@ -646,7 +646,7 @@ int32_t SPVM__Errno__IP_MULTICAST_TTL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_NODEFRAG(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_NODEFRAG(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_NODEFRAG
   stack[0].ival = IP_NODEFRAG;
@@ -658,7 +658,7 @@ int32_t SPVM__Errno__IP_NODEFRAG(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_OPTION(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_OPTION(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_OPTION
   stack[0].ival = IP_OPTION;
@@ -670,7 +670,7 @@ int32_t SPVM__Errno__IP_OPTION(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_OPTIONS(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_OPTIONS(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_OPTIONS
   stack[0].ival = IP_OPTIONS;
@@ -682,7 +682,7 @@ int32_t SPVM__Errno__IP_OPTIONS(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_ORIGDSTADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_ORIGDSTADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_ORIGDSTADDR
   stack[0].ival = IP_ORIGDSTADDR;
@@ -694,7 +694,7 @@ int32_t SPVM__Errno__IP_ORIGDSTADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_PASSSEC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_PASSSEC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_PASSSEC
   stack[0].ival = IP_PASSSEC;
@@ -706,7 +706,7 @@ int32_t SPVM__Errno__IP_PASSSEC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_PKTINFO(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_PKTINFO(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_PKTINFO
   stack[0].ival = IP_PKTINFO;
@@ -718,7 +718,7 @@ int32_t SPVM__Errno__IP_PKTINFO(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_PMTUDISC_DO(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_PMTUDISC_DO(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_PMTUDISC_DO
   stack[0].ival = IP_PMTUDISC_DO;
@@ -730,7 +730,7 @@ int32_t SPVM__Errno__IP_PMTUDISC_DO(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_PMTUDISC_DONT(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_PMTUDISC_DONT(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_PMTUDISC_DONT
   stack[0].ival = IP_PMTUDISC_DONT;
@@ -742,7 +742,7 @@ int32_t SPVM__Errno__IP_PMTUDISC_DONT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_PMTUDISC_PROBE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_PMTUDISC_PROBE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_PMTUDISC_PROBE
   stack[0].ival = IP_PMTUDISC_PROBE;
@@ -754,7 +754,7 @@ int32_t SPVM__Errno__IP_PMTUDISC_PROBE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_PMTUDISC_WANT(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_PMTUDISC_WANT(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_PMTUDISC_WANT
   stack[0].ival = IP_PMTUDISC_WANT;
@@ -766,7 +766,7 @@ int32_t SPVM__Errno__IP_PMTUDISC_WANT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_RCVDSTADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_RCVDSTADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_RCVDSTADDR
   stack[0].ival = IP_RCVDSTADDR;
@@ -778,7 +778,7 @@ int32_t SPVM__Errno__IP_RCVDSTADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_RECVERR(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_RECVERR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_RECVERR
   stack[0].ival = IP_RECVERR;
@@ -790,7 +790,7 @@ int32_t SPVM__Errno__IP_RECVERR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_RECVIF(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_RECVIF(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_RECVIF
   stack[0].ival = IP_RECVIF;
@@ -802,7 +802,7 @@ int32_t SPVM__Errno__IP_RECVIF(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_RECVOPTS(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_RECVOPTS(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_RECVOPTS
   stack[0].ival = IP_RECVOPTS;
@@ -814,7 +814,7 @@ int32_t SPVM__Errno__IP_RECVOPTS(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_RECVORIGDSTADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_RECVORIGDSTADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_RECVORIGDSTADDR
   stack[0].ival = IP_RECVORIGDSTADDR;
@@ -826,7 +826,7 @@ int32_t SPVM__Errno__IP_RECVORIGDSTADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_RECVTOS(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_RECVTOS(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_RECVTOS
   stack[0].ival = IP_RECVTOS;
@@ -838,7 +838,7 @@ int32_t SPVM__Errno__IP_RECVTOS(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_RECVTTL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_RECVTTL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_RECVTTL
   stack[0].ival = IP_RECVTTL;
@@ -850,7 +850,7 @@ int32_t SPVM__Errno__IP_RECVTTL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_RETOPTS(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_RETOPTS(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_RETOPTS
   stack[0].ival = IP_RETOPTS;
@@ -862,7 +862,7 @@ int32_t SPVM__Errno__IP_RETOPTS(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_ROUTER_ALERT(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_ROUTER_ALERT(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_ROUTER_ALERT
   stack[0].ival = IP_ROUTER_ALERT;
@@ -874,7 +874,7 @@ int32_t SPVM__Errno__IP_ROUTER_ALERT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_TOS(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_TOS(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_TOS
   stack[0].ival = IP_TOS;
@@ -886,7 +886,7 @@ int32_t SPVM__Errno__IP_TOS(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_TRANSPARENT(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_TRANSPARENT(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_TRANSPARENT
   stack[0].ival = IP_TRANSPARENT;
@@ -898,7 +898,7 @@ int32_t SPVM__Errno__IP_TRANSPARENT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_TTL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_TTL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_TTL
   stack[0].ival = IP_TTL;
@@ -910,7 +910,7 @@ int32_t SPVM__Errno__IP_TTL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__IP_UNBLOCK_SOURCE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__IP_UNBLOCK_SOURCE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IP_UNBLOCK_SOURCE
   stack[0].ival = IP_UNBLOCK_SOURCE;
@@ -922,7 +922,7 @@ int32_t SPVM__Errno__IP_UNBLOCK_SOURCE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MCAST_EXCLUDE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MCAST_EXCLUDE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MCAST_EXCLUDE
   stack[0].ival = MCAST_EXCLUDE;
@@ -934,7 +934,7 @@ int32_t SPVM__Errno__MCAST_EXCLUDE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MCAST_INCLUDE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MCAST_INCLUDE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MCAST_INCLUDE
   stack[0].ival = MCAST_INCLUDE;
@@ -946,7 +946,7 @@ int32_t SPVM__Errno__MCAST_INCLUDE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_CMSG_CLOEXEC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_CMSG_CLOEXEC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_CMSG_CLOEXEC
   stack[0].ival = MSG_CMSG_CLOEXEC;
@@ -958,7 +958,7 @@ int32_t SPVM__Errno__MSG_CMSG_CLOEXEC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_CONFIRM(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_CONFIRM(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_CONFIRM
   stack[0].ival = MSG_CONFIRM;
@@ -970,7 +970,7 @@ int32_t SPVM__Errno__MSG_CONFIRM(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_CTRUNC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_CTRUNC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_CTRUNC
   stack[0].ival = MSG_CTRUNC;
@@ -982,7 +982,7 @@ int32_t SPVM__Errno__MSG_CTRUNC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_DONTROUTE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_DONTROUTE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_DONTROUTE
   stack[0].ival = MSG_DONTROUTE;
@@ -994,7 +994,7 @@ int32_t SPVM__Errno__MSG_DONTROUTE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_DONTWAIT(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_DONTWAIT(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_DONTWAIT
   stack[0].ival = MSG_DONTWAIT;
@@ -1006,7 +1006,7 @@ int32_t SPVM__Errno__MSG_DONTWAIT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_EOR(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_EOR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_EOR
   stack[0].ival = MSG_EOR;
@@ -1018,7 +1018,7 @@ int32_t SPVM__Errno__MSG_EOR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_ERRQUEUE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_ERRQUEUE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_ERRQUEUE
   stack[0].ival = MSG_ERRQUEUE;
@@ -1030,7 +1030,7 @@ int32_t SPVM__Errno__MSG_ERRQUEUE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_ERRQUIE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_ERRQUIE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_ERRQUIE
   stack[0].ival = MSG_ERRQUIE;
@@ -1042,7 +1042,7 @@ int32_t SPVM__Errno__MSG_ERRQUIE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_MORE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_MORE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_MORE
   stack[0].ival = MSG_MORE;
@@ -1054,7 +1054,7 @@ int32_t SPVM__Errno__MSG_MORE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_NOSIGNAL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_NOSIGNAL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_NOSIGNAL
   stack[0].ival = MSG_NOSIGNAL;
@@ -1066,7 +1066,7 @@ int32_t SPVM__Errno__MSG_NOSIGNAL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_OOB(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_OOB(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_OOB
   stack[0].ival = MSG_OOB;
@@ -1078,7 +1078,7 @@ int32_t SPVM__Errno__MSG_OOB(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_PEEK(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_PEEK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_PEEK
   stack[0].ival = MSG_PEEK;
@@ -1090,7 +1090,7 @@ int32_t SPVM__Errno__MSG_PEEK(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_TRUNC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_TRUNC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_TRUNC
   stack[0].ival = MSG_TRUNC;
@@ -1102,7 +1102,7 @@ int32_t SPVM__Errno__MSG_TRUNC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__MSG_WAITALL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__MSG_WAITALL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef MSG_WAITALL
   stack[0].ival = MSG_WAITALL;
@@ -1114,7 +1114,7 @@ int32_t SPVM__Errno__MSG_WAITALL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__PF_INET(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__PF_INET(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef PF_INET
   stack[0].ival = PF_INET;
@@ -1126,7 +1126,7 @@ int32_t SPVM__Errno__PF_INET(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__PF_UNIX(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__PF_UNIX(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef PF_UNIX
   stack[0].ival = PF_UNIX;
@@ -1138,7 +1138,7 @@ int32_t SPVM__Errno__PF_UNIX(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SCM_RIGHTS(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SCM_RIGHTS(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SCM_RIGHTS
   stack[0].ival = SCM_RIGHTS;
@@ -1150,7 +1150,7 @@ int32_t SPVM__Errno__SCM_RIGHTS(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SCM_SECURITY(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SCM_SECURITY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SCM_SECURITY
   stack[0].ival = SCM_SECURITY;
@@ -1162,7 +1162,7 @@ int32_t SPVM__Errno__SCM_SECURITY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOCK_CLOEXEC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOCK_CLOEXEC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOCK_CLOEXEC
   stack[0].ival = SOCK_CLOEXEC;
@@ -1174,7 +1174,7 @@ int32_t SPVM__Errno__SOCK_CLOEXEC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOCK_DGRAM(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOCK_DGRAM(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOCK_DGRAM
   stack[0].ival = SOCK_DGRAM;
@@ -1186,7 +1186,7 @@ int32_t SPVM__Errno__SOCK_DGRAM(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOCK_NONBLOCK(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOCK_NONBLOCK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOCK_NONBLOCK
   stack[0].ival = SOCK_NONBLOCK;
@@ -1198,7 +1198,7 @@ int32_t SPVM__Errno__SOCK_NONBLOCK(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOCK_PACKET(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOCK_PACKET(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOCK_PACKET
   stack[0].ival = SOCK_PACKET;
@@ -1210,7 +1210,7 @@ int32_t SPVM__Errno__SOCK_PACKET(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOCK_RAW(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOCK_RAW(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOCK_RAW
   stack[0].ival = SOCK_RAW;
@@ -1222,7 +1222,7 @@ int32_t SPVM__Errno__SOCK_RAW(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOCK_RDM(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOCK_RDM(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOCK_RDM
   stack[0].ival = SOCK_RDM;
@@ -1234,7 +1234,7 @@ int32_t SPVM__Errno__SOCK_RDM(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOCK_SEQPACKET(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOCK_SEQPACKET(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOCK_SEQPACKET
   stack[0].ival = SOCK_SEQPACKET;
@@ -1246,7 +1246,7 @@ int32_t SPVM__Errno__SOCK_SEQPACKET(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOCK_STREAM(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOCK_STREAM(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOCK_STREAM
   stack[0].ival = SOCK_STREAM;
@@ -1258,7 +1258,7 @@ int32_t SPVM__Errno__SOCK_STREAM(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOL_IP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOL_IP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOL_IP
   stack[0].ival = SOL_IP;
@@ -1270,7 +1270,7 @@ int32_t SPVM__Errno__SOL_IP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SOL_SOCKET(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SOL_SOCKET(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SOL_SOCKET
   stack[0].ival = SOL_SOCKET;
@@ -1282,7 +1282,7 @@ int32_t SPVM__Errno__SOL_SOCKET(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_BROADCAST(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_BROADCAST(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_BROADCAST
   stack[0].ival = SO_BROADCAST;
@@ -1294,7 +1294,7 @@ int32_t SPVM__Errno__SO_BROADCAST(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_EE_OFFENDER(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_EE_OFFENDER(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_EE_OFFENDER
   stack[0].ival = SO_EE_OFFENDER;
@@ -1306,7 +1306,7 @@ int32_t SPVM__Errno__SO_EE_OFFENDER(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_EE_ORIGIN_ICMP(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_EE_ORIGIN_ICMP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_EE_ORIGIN_ICMP
   stack[0].ival = SO_EE_ORIGIN_ICMP;
@@ -1318,7 +1318,7 @@ int32_t SPVM__Errno__SO_EE_ORIGIN_ICMP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_EE_ORIGIN_ICMP6(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_EE_ORIGIN_ICMP6(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_EE_ORIGIN_ICMP6
   stack[0].ival = SO_EE_ORIGIN_ICMP6;
@@ -1330,7 +1330,7 @@ int32_t SPVM__Errno__SO_EE_ORIGIN_ICMP6(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_EE_ORIGIN_LOCAL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_EE_ORIGIN_LOCAL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_EE_ORIGIN_LOCAL
   stack[0].ival = SO_EE_ORIGIN_LOCAL;
@@ -1342,7 +1342,7 @@ int32_t SPVM__Errno__SO_EE_ORIGIN_LOCAL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_EE_ORIGIN_NONE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_EE_ORIGIN_NONE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_EE_ORIGIN_NONE
   stack[0].ival = SO_EE_ORIGIN_NONE;
@@ -1354,7 +1354,7 @@ int32_t SPVM__Errno__SO_EE_ORIGIN_NONE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_ERROR(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_ERROR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_ERROR
   stack[0].ival = SO_ERROR;
@@ -1366,7 +1366,7 @@ int32_t SPVM__Errno__SO_ERROR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_KEEPALIVE(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_KEEPALIVE(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_KEEPALIVE
   stack[0].ival = SO_KEEPALIVE;
@@ -1378,7 +1378,7 @@ int32_t SPVM__Errno__SO_KEEPALIVE(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_PEERSEC(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_PEERSEC(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_PEERSEC
   stack[0].ival = SO_PEERSEC;
@@ -1390,7 +1390,7 @@ int32_t SPVM__Errno__SO_PEERSEC(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__SO_REUSEADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__SO_REUSEADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_REUSEADDR
   stack[0].ival = SO_REUSEADDR;
@@ -1402,7 +1402,7 @@ int32_t SPVM__Errno__SO_REUSEADDR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__TCP_CORK(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__TCP_CORK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef TCP_CORK
   stack[0].ival = TCP_CORK;
@@ -1414,7 +1414,7 @@ int32_t SPVM__Errno__TCP_CORK(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
-int32_t SPVM__Errno__UDP_CORK(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Constant__UDP_CORK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef UDP_CORK
   stack[0].ival = UDP_CORK;
