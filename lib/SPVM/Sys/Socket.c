@@ -180,21 +180,53 @@ int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_pair = stack[3].oval;
   
   if (!obj_pair) {
-    return env->die(env, stack, "The output of the pair must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The pair must be defined", FILE_NAME, __LINE__);
   }
   
   int32_t* pair = env->get_elems_int(env, stack, obj_pair);
   int32_t pair_length = env->length(env, stack, obj_pair);
   
   if (!(pair_length >= 2)) {
-    return env->die(env, stack, "The length of the output of the pair must be greater than or equal to 2", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The length of the pair must be greater than or equal to 2", FILE_NAME, __LINE__);
   }
   
-  assert(sizeof(int) == sizeof(int32_t));
-  int32_t status = socketpair(domain, type, protocol, pair);
+  int int_pair[2];
+  int32_t status = socketpair(domain, type, protocol, int_pair);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]socketpair failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  pair[0] = int_pair[0];
+  pair[1] = int_pair[1];
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t sockfd = stack[0].ival;
+
+  int32_t level = stack[1].ival;
+
+  int32_t optname = stack[2].ival;
+
+  void* obj_optval = stack[3].oval;
+  char* optval = NULL;
+  if (!obj_optval) {
+    return env->die(env, stack, "The option value must be defined", FILE_NAME, __LINE__);
+  }
+  optval = (char*)env->get_elems_byte(env, stack, obj_optval);
+
+  int32_t optlen = stack[4].ival;
+  
+  int32_t status = setsockopt(sockfd, level, optname, optval, optlen);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]setsockopt failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
@@ -202,6 +234,16 @@ int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+/*
+  native static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : byte[], $optlen : int);
+
+  native static method setsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval : int);
+
+  native static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval_ref : byte[][], $optlen_ref : int*);
+
+  native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
+*/
 
 int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
