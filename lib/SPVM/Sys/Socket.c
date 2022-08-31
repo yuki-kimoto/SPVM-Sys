@@ -235,11 +235,26 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__setsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t int32_optval = stack[3].ival;
+  
+  int int_optval = int32_optval;
+  
+  int32_t optlen = sizeof(int);
+
+  void* obj_optval = env->new_string(env, stack, NULL, optlen);
+  char* optval = (char*)env->get_chars(env, stack, obj_optval);
+  memcpy(optval, &int_optval, optlen);
+  
+  stack[3].oval = obj_optval;
+
+  stack[4].ival = optlen;
+  
+  return SPVM__Sys__Socket__setsockopt(env, stack);
+}
+
 /*
-  native static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : byte[], $optlen : int);
-
-  native static method setsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval : int);
-
   native static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval_ref : byte[][], $optlen_ref : int*);
 
   native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
