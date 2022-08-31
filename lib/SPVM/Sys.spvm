@@ -1,0 +1,10 @@
+class Sys {
+  
+}
+
+=pod
+
+exit
+EXIT_FAILURE
+
+=cut

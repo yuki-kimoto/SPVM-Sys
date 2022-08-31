@@ -42,6 +42,7 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Net');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Process');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Constant');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Fcntl');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::FileHandle');

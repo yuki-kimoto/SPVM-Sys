@@ -21,6 +21,9 @@ TODO
 
 pipe is implemented Sys::Pipe.
 
+CAP_NET_ADMIN
+CAP_NET_BIND_SERVICE
+
 =cut
 
 }

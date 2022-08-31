@@ -75,6 +75,12 @@ Don't need
 
 warn, say, readline, printf, print, eof, dbmopen, syscall, link, select
 
+Constant
+
+F_SETFL
+O_XXX
+FD_CLOEXEC
+
 =cut
 
 }
