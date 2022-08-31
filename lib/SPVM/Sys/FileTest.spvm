@@ -1,4 +1,6 @@
 class Sys::FileTest {
+  use Sys::Stat;
+  
   native static method r : int ($file : string);
   native static method w : int ($file : string);
   native static method x : int ($file : string);
@@ -7,7 +9,14 @@ class Sys::FileTest {
   native static method W : int ($file : string);
   native static method X : int ($file : string);
   native static method O : int ($file : string);
-  native static method e : int ($file : string);
+  static method e : int ($file : string) {
+    my $stat = Sys::Stat->new;
+    
+    my $file_exist = 1;
+    
+    return $file_exist;
+  }
+  
   native static method z : int ($file : string);
   native static method s : int ($file : string);
   native static method f : int ($file : string);

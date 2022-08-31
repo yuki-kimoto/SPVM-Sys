@@ -14,7 +14,7 @@ int32_t SPVM__Sys__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* stat = env->new_memory_stack(env, stack, sizeof(struct stat));
   
-  void* obj_stat = env->new_object_by_name(env, stack, "Sys::Stat", &e, FILE_NAME, __LINE__);
+  void* obj_stat = env->new_pointer_by_name(env, stack, "Sys::Stat", stat, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   env->set_pointer(env, stack, obj_stat, stat);
@@ -26,8 +26,6 @@ int32_t SPVM__Sys__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  
   int32_t e = 0;
   
   void* obj_path = stack[0].oval;
@@ -49,8 +47,10 @@ int32_t SPVM__Sys__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == -1) {
     env->die(env, stack, "[System Error]stat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return error_system_class_id;
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  warn("AAAAAA %d", status);
   
   stack[0].ival = status;
   
@@ -62,8 +62,6 @@ int32_t SPVM__Sys__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   return env->die(env, stack, "lstat is not supported in this system", FILE_NAME, __LINE__);
 #else
 
-  int32_t error_system_class_id = SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  
   int32_t e = 0;
   
   void* obj_path = stack[0].oval;
@@ -85,7 +83,7 @@ int32_t SPVM__Sys__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == -1) {
     env->die(env, stack, "[System Error]lstat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return error_system_class_id;
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
   stack[0].ival = status;
@@ -104,6 +102,8 @@ int32_t SPVM__Sys__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->free_memory_stack(env, stack, stat);
     env->set_pointer(env, stack, obj_stat, NULL);
   }
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__Stat__st_mode(SPVM_ENV* env, SPVM_VALUE* stack) {

@@ -9,6 +9,7 @@ class TestCase::Sys::FileTest {
       {
         my $file = "t/ftest/not_found_file";
         my $result = Sys::FileTest->e($file);
+        warn "BBBB $result";
         unless ($result == 0) {
           return 0;
         }

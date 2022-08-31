@@ -13,6 +13,6 @@ use SPVM 'TestCase::Sys::FileTest';
 # File tests
 ok(SPVM::TestCase::Sys::FileTest->e);
 ok(SPVM::TestCase::Sys::FileTest->f);
-ok(SPVM::TestCase::Sys::FileTest->e);
+ok(SPVM::TestCase::Sys::FileTest->d);
 
 done_testing;
