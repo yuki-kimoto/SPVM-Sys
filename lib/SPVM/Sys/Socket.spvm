@@ -46,7 +46,7 @@ class Sys::Socket {
 
 Low-level socket functions
 
-, getsockopt, setsockopt, *socketpair, *socket, *connect, *bind, *accept, *listen, *shutdown, *recv, *send, *getpeername, *getsockname
+*getsockopt, *setsockopt, *socketpair, *socket, *connect, *bind, *accept, *listen, *shutdown, *recv, *send, *getpeername, *getsockname
 
 *getaddrinfo, *getnameinfo, *gai_strerror
 
