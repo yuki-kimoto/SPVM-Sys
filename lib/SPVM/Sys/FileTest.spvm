@@ -12,7 +12,17 @@ class Sys::FileTest {
   static method e : int ($file : string) {
     my $stat = Sys::Stat->new;
     
-    my $file_exist = 1;
+    eval { Sys::Stat->stat($file, $stat); };
+    
+    my $file_exist = 0;
+    if ($@) {
+      unless (error == class_id Error::System) {
+        die $@;
+      }
+    }
+    else {
+      $file_exist = 1;
+    }
     
     return $file_exist;
   }

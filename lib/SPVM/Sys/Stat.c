@@ -17,8 +17,6 @@ int32_t SPVM__Sys__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stat = env->new_pointer_by_name(env, stack, "Sys::Stat", stat, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
-  env->set_pointer(env, stack, obj_stat, stat);
-  
   stack[0].oval = obj_stat;
   
   return 0;
