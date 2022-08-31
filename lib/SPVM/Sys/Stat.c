@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+#include <assert.h>
 
 const char* FILE_NAME = "Sys/Stat.c";
 
@@ -102,6 +103,20 @@ int32_t SPVM__Sys__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (stat) {
     env->free_memory_stack(env, stack, stat);
     env->set_pointer(env, stack, obj_stat, NULL);
+  }
+}
+
+int32_t SPVM__Sys__Stat__st_mode(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stat = stack[0].oval;
+  
+  struct stat* stat = env->get_pointer(env, stack, obj_stat);
+  
+  if (stat) {
+    stack[0].ival = stat->st_mode;
+  }
+  else {
+    assert(0);
   }
 }
 

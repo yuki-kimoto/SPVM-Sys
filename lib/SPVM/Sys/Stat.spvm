@@ -51,5 +51,6 @@ class Sys::Stat : pointer_t {
   native static method lstat : int ($path : string, $stat : Sys::Stat);
   
   # Instance methods
+  native method st_mode : int ();
   native method DESTROY : void ();
 }
