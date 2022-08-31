@@ -40,7 +40,7 @@ class Sys::Socket {
 
   native static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval_ref : string[], $optlen_ref : int*);
 
-  # native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
+  native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
 
 =pod
 

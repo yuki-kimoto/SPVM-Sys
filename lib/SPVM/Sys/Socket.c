@@ -294,9 +294,28 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-/*
-  native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
-*/
+
+int32_t SPVM__Sys__Socket__getsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t int32_optval = stack[3].ival;
+  
+  int int_optval = int32_optval;
+  
+  int32_t optlen = sizeof(int);
+  
+  void* obj_optval_ref = env->new_string_array(env, stack, 1);
+  
+  void* obj_optval = env->new_string(env, stack, NULL, optlen);
+  char* optval = (char*)env->get_chars(env, stack, obj_optval);
+  memcpy(optval, &int_optval, optlen);
+  env->set_elem_object(env, stack, obj_optval_ref, 0, obj_optval);
+  
+  stack[3].oval = obj_optval_ref;
+  
+  stack[4].iref = &optlen;
+  
+  return SPVM__Sys__Socket__getsockopt(env, stack);
+}
 
 int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
