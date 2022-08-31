@@ -219,7 +219,7 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!obj_optval) {
     return env->die(env, stack, "The option value must be defined", FILE_NAME, __LINE__);
   }
-  optval = (char*)env->get_elems_byte(env, stack, obj_optval);
+  optval = (char*)env->get_chars(env, stack, obj_optval);
 
   int32_t optlen = stack[4].ival;
   
@@ -254,9 +254,47 @@ int32_t SPVM__Sys__Socket__setsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM__Sys__Socket__setsockopt(env, stack);
 }
 
-/*
-  native static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval_ref : byte[][], $optlen_ref : int*);
+int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t sockfd = stack[0].ival;
 
+  int32_t level = stack[1].ival;
+
+  int32_t optname = stack[2].ival;
+  
+  // string[1]
+  void* obj_optval_ref = stack[3].oval;
+  if (!obj_optval_ref) {
+    return env->die(env, stack, "The reference of the option value must be defined", FILE_NAME, __LINE__);
+  }
+  int32_t optval_ref_length = env->length(env, stack, obj_optval_ref);
+  if (!(optval_ref_length >= 1)) {
+    return env->die(env, stack, "The length of the reference of the option value must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  void* obj_optval = env->get_elem_object(env, stack, obj_optval_ref, 0);
+  char* optval = (char*)env->get_chars(env, stack, obj_optval);
+
+  int32_t* optlen_ref = stack[4].iref;
+  
+  int int_optlen = *optlen_ref;
+  int32_t status = getsockopt(sockfd, level, optname, optval, &int_optlen);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]getsockopt failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  void* obj_got_optval = env->new_string(env, stack, optval, int_optlen);
+  env->set_elem_object(env, stack, obj_optval_ref, 0, obj_got_optval);
+  
+  *optlen_ref = int_optlen;
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+/*
   native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
 */
 
