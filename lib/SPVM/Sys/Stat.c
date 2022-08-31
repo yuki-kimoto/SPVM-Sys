@@ -13,7 +13,7 @@ int32_t SPVM__Sys__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;
   
   struct stat* stat = env->new_memory_stack(env, stack, sizeof(struct stat));
-  
+
   void* obj_stat = env->new_pointer_by_name(env, stack, "Sys::Stat", stat, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
@@ -33,7 +33,7 @@ int32_t SPVM__Sys__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
-  void* obj_stat = stack[0].oval;
+  void* obj_stat = stack[1].oval;
   
   if (!obj_stat) {
     return env->die(env, stack, "The stat must be defined", FILE_NAME, __LINE__);
@@ -47,8 +47,6 @@ int32_t SPVM__Sys__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]stat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
-  
-  warn("AAAAAA %d", status);
   
   stack[0].ival = status;
   
