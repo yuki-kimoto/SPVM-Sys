@@ -1,6 +1,8 @@
 class Sys::Net {
   use Sys::Ent::Hostent;
   use Sys::Ent::Netent;
+  use Sys::Ent::Servent;
+  use Sys::Ent::Protoent;
 
   native static method sethostent : void ($stayopen : int);
   native static method endhostent : void ();
@@ -12,11 +14,11 @@ class Sys::Net {
 
   native static method setservent : void ($stayopen : int);
   native static method endservent : void ();
-  native static method getservent : Sys::Ent::Hostent ();
+  native static method getservent : Sys::Ent::Servent ();
 
   native static method setprotoent : void ($stayopen : int);
   native static method endprotoent : void ();
-  native static method getprotoent : Sys::Ent::Hostent ();
+  native static method getprotoent : Sys::Ent::Protoent ();
 
 =pod
   native static method gethostbyname : Sys::Ent::Netent ($name : string);
