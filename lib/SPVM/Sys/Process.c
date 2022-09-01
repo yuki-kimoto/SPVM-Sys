@@ -17,6 +17,10 @@
 const char* FILE_NAME = "Sys/Process.c";
 
 int32_t SPVM__Sys__Process__alarm(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "alarm is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   (void)env;
   (void)stack;
   
@@ -27,6 +31,7 @@ int32_t SPVM__Sys__Process__alarm(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = rest_time;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__fork(SPVM_ENV* env, SPVM_VALUE* stack) {
