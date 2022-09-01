@@ -66,6 +66,12 @@ lib/SPVM/Sys/Flock.c
 lib/SPVM/Sys/Flock.config
 lib/SPVM/Sys/Flock.pm
 lib/SPVM/Sys/Flock.spvm
+lib/SPVM/Sys/In6_addr.c
+lib/SPVM/Sys/In6_addr.config
+lib/SPVM/Sys/In6_addr.native/include/.gitkeep
+lib/SPVM/Sys/In6_addr.native/src/.gitkeep
+lib/SPVM/Sys/In6_addr.pm
+lib/SPVM/Sys/In6_addr.spvm
 lib/SPVM/Sys/In_addr.c
 lib/SPVM/Sys/In_addr.config
 lib/SPVM/Sys/In_addr.pm
