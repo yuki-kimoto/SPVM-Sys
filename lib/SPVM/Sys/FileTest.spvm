@@ -177,6 +177,10 @@ class Sys::FileTest {
       }
     }
     else {
+      $stat->st_mode;
+      Sys::Stat->S_IFMT;
+      Sys::Stat->S_IFREG;
+      
       if (($stat->st_mode & Sys::Stat->S_IFMT) == Sys::Stat->S_IFREG) {
         $regular_file_exist = 1;
       }
