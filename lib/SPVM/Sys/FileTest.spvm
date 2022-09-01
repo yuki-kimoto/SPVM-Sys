@@ -1,11 +1,57 @@
 class Sys::FileTest {
   use Sys::Stat;
+  use Sys::IO;
+  use Sys::IO::Constant as IOC;
   
   # static method r : int ($file : string);
   # static method w : int ($file : string);
   # static method x : int ($file : string);
   # static method o : int ($file : string);
-  # static method R : int ($file : string);
+  static method R : int ($file : string) {
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $status = Sys::IO->access($file, IOC->R_OK);
+    
+    my $ok = 0;
+    if ($status == 0) {
+      $ok = 0;
+    }
+    
+    return $ok;
+  }
+  
+  static method W : int ($file : string) {
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $status = Sys::IO->access($file, IOC->W_OK);
+    
+    my $ok = 0;
+    if ($status == 0) {
+      $ok = 0;
+    }
+    
+    return $ok;
+  }
+
+  static method X : int ($file : string) {
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $status = Sys::IO->access($file, IOC->X_OK);
+    
+    my $ok = 0;
+    if ($status == 0) {
+      $ok = 0;
+    }
+    
+    return $ok;
+  }
+  
   # static method W : int ($file : string);
   # static method X : int ($file : string);
   # static method O : int ($file : string);

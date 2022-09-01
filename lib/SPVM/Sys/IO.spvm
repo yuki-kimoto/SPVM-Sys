@@ -48,6 +48,8 @@ class Sys::IO {
 
   native static method access : int ($path : string, $mode : int);
 
+  # native static method eaccess : int ($path : string, $mode : int);
+
   # native static method fcntl : long ($fd : int, $command : int, $arg = undef : object of Int|Long|byte[]);
   # int fcntl(int fd, int cmd, ... /* arg */ );
 
@@ -82,6 +84,8 @@ Constant
 F_SETFL
 O_XXX
 FD_CLOEXEC
+
+eaccess needs _GNU_SOURCE.
 
 =cut
 

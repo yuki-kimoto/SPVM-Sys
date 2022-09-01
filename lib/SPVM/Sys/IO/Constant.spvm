@@ -179,5 +179,11 @@ class Sys::IO::Constant {
 
   native static method SEEK_SET : int ();
 
+  native static method R_OK : int ();
 
+  native static method W_OK : int ();
+
+  native static method X_OK : int ();
+
+  native static method F_OK : int ();
 }

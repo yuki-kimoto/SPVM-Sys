@@ -1082,5 +1082,50 @@ int32_t SPVM__Sys__IO__Constant__SEEK_SET(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
+int32_t SPVM__Sys__IO__Constant__R_OK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
+#ifdef R_OK
+  stack[0].ival = R_OK;
+  return 0;
+#else
+  env->die(env, stack, "R_OK is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+  
+}
 
+int32_t SPVM__Sys__IO__Constant__W_OK(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef W_OK
+  stack[0].ival = W_OK;
+  return 0;
+#else
+  env->die(env, stack, "W_OK is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+  
+}
+
+int32_t SPVM__Sys__IO__Constant__X_OK(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef X_OK
+  stack[0].ival = X_OK;
+  return 0;
+#else
+  env->die(env, stack, "X_OK is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+  
+}
+
+int32_t SPVM__Sys__IO__Constant__F_OK(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef F_OK
+  stack[0].ival = F_OK;
+  return 0;
+#else
+  env->die(env, stack, "F_OK is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+  
+}
