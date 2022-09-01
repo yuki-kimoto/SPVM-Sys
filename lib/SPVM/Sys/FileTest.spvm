@@ -7,7 +7,31 @@ class Sys::FileTest {
   # static method r : int ($file : string);
   # static method w : int ($file : string);
   # static method x : int ($file : string);
-  # static method o : int ($file : string);
+  static method o : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    Sys::Stat->stat($file, $stat);
+    
+    my $ok = 0;
+    if ($@) {
+      unless (error == class_id Error::System) {
+        die $@;
+      }
+    }
+    else {
+      if ($stat->st_uid == Sys::User->geteuid) {
+        $ok = 1;
+      }
+    }
+    
+    return $ok;
+  }
+  
   static method R : int ($file : string) {
     unless ($file) {
       die "The file must be defined";
@@ -53,9 +77,31 @@ class Sys::FileTest {
     return $ok;
   }
   
-  # static method W : int ($file : string);
-  # static method X : int ($file : string);
-  # static method O : int ($file : string);
+  static method O : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    Sys::Stat->stat($file, $stat);
+    
+    my $ok = 0;
+    if ($@) {
+      unless (error == class_id Error::System) {
+        die $@;
+      }
+    }
+    else {
+      if ($stat->st_uid == Sys::User->getuid) {
+        $ok = 1;
+      }
+    }
+    
+    return $ok;
+  }
+  
   static method e : int ($file : string) {
     
     unless ($file) {
