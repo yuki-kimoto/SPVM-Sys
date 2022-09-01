@@ -78,37 +78,6 @@ int32_t SPVM__Sys__FileTest__s(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__FileTest__f(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_file = stack[0].oval;
-  
-  if (!obj_file) {
-    return env->die(env, stack, "A file name must be specified", FILE_NAME, __LINE__);
-  }
-  
-  const char* file = env->get_chars(env, stack, obj_file);
-  
-  int32_t result;
-  
-  struct stat st;
-  int32_t stat_result = stat(file, &st);
-  if (stat_result != 0) {
-    result = 0;
-  }
-  else {
-    if ((st.st_mode & S_IFMT) == S_IFDIR) {
-      result = 0;
-    }
-    else {
-      result = 1;
-    }
-  }
-  
-  stack[0].ival = result;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__FileTest__d(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_file = stack[0].oval;
