@@ -126,8 +126,9 @@ class Sys::FileTest {
     my $stat = Sys::Stat->new;
     
     eval { Sys::Stat->stat($file, $stat); };
-
-    my $regular_file_exist = 0;
+    
+    # Symbolic link
+    my $ok = 0;
     if ($@) {
       unless (error == class_id Error::System) {
         die $@;
@@ -135,11 +136,11 @@ class Sys::FileTest {
     }
     else {
       if (($stat->st_mode & Sys::Stat->S_IFMT) == Sys::Stat->S_IFLNK) {
-        $regular_file_exist = 1;
+        $ok = 1;
       }
     }
     
-    return $regular_file_exist;
+    return $ok;
   }
   
   static method p : int ($file : string) {
@@ -151,8 +152,9 @@ class Sys::FileTest {
     my $stat = Sys::Stat->new;
     
     eval { Sys::Stat->stat($file, $stat); };
-
-    my $regular_file_exist = 0;
+    
+    # FIFO/PIPE
+    my $ok = 0;
     if ($@) {
       unless (error == class_id Error::System) {
         die $@;
@@ -160,11 +162,11 @@ class Sys::FileTest {
     }
     else {
       if (($stat->st_mode & Sys::Stat->S_IFMT) == Sys::Stat->S_IFIFO) {
-        $regular_file_exist = 1;
+        $ok = 1;
       }
     }
     
-    return $regular_file_exist;
+    return $ok;
   }
   
   static method S : int ($file : string) {
@@ -176,8 +178,9 @@ class Sys::FileTest {
     my $stat = Sys::Stat->new;
     
     eval { Sys::Stat->stat($file, $stat); };
-
-    my $regular_file_exist = 0;
+    
+    # Socket
+    my $ok = 0;
     if ($@) {
       unless (error == class_id Error::System) {
         die $@;
@@ -185,11 +188,11 @@ class Sys::FileTest {
     }
     else {
       if (($stat->st_mode & Sys::Stat->S_IFMT) == Sys::Stat->S_IFSOCK) {
-        $regular_file_exist = 1;
+        $ok = 1;
       }
     }
     
-    return $regular_file_exist;
+    return $ok;
   }
   
   static method b : int ($file : string) {
@@ -201,8 +204,9 @@ class Sys::FileTest {
     my $stat = Sys::Stat->new;
     
     eval { Sys::Stat->stat($file, $stat); };
-
-    my $regular_file_exist = 0;
+    
+    # Block device
+    my $ok = 0;
     if ($@) {
       unless (error == class_id Error::System) {
         die $@;
@@ -210,11 +214,11 @@ class Sys::FileTest {
     }
     else {
       if (($stat->st_mode & Sys::Stat->S_IFMT) == Sys::Stat->S_IFBLK) {
-        $regular_file_exist = 1;
+        $ok = 1;
       }
     }
     
-    return $regular_file_exist;
+    return $ok;
   }
   
   static method c : int ($file : string) {
@@ -226,8 +230,9 @@ class Sys::FileTest {
     my $stat = Sys::Stat->new;
     
     eval { Sys::Stat->stat($file, $stat); };
-
-    my $regular_file_exist = 0;
+    
+    # Character device
+    my $ok = 0;
     if ($@) {
       unless (error == class_id Error::System) {
         die $@;
@@ -235,17 +240,93 @@ class Sys::FileTest {
     }
     else {
       if (($stat->st_mode & Sys::Stat->S_IFMT) == Sys::Stat->S_IFCHR) {
-        $regular_file_exist = 1;
+        $ok = 1;
       }
     }
     
-    return $regular_file_exist;
+    return $ok;
   }
   
   # static method t : int ($file : string);
-  # static method u : int ($file : string);
-  # static method g : int ($file : string);
-  # static method k : int ($file : string);
+  
+  static method u : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    eval { Sys::Stat->stat($file, $stat); };
+    
+    # Character device
+    my $ok = 0;
+    if ($@) {
+      unless (error == class_id Error::System) {
+        die $@;
+      }
+    }
+    else {
+      if ($stat->st_mode & Sys::Stat->S_ISUID) {
+        $ok = 1;
+      }
+    }
+    
+    return $ok;
+  }
+  
+  static method g : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    eval { Sys::Stat->stat($file, $stat); };
+    
+    # Character device
+    my $ok = 0;
+    if ($@) {
+      unless (error == class_id Error::System) {
+        die $@;
+      }
+    }
+    else {
+      if ($stat->st_mode & Sys::Stat->S_ISGID) {
+        $ok = 1;
+      }
+    }
+    
+    return $ok;
+  }
+  
+  static method k : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    eval { Sys::Stat->stat($file, $stat); };
+    
+    # Character device
+    my $ok = 0;
+    if ($@) {
+      unless (error == class_id Error::System) {
+        die $@;
+      }
+    }
+    else {
+      if ($stat->st_mode & Sys::Stat->S_ISVTX) {
+        $ok = 1;
+      }
+    }
+    
+    return $ok;
+  }
+  
   # static method T : int ($file : string);
   # static method B : int ($file : string);
   
