@@ -248,7 +248,55 @@ class Sys::FileTest {
   # static method k : int ($file : string);
   # static method T : int ($file : string);
   # static method B : int ($file : string);
-  # static method M : int ($file : string);
-  # static method A : int ($file : string);
-  # static method C : int ($file : string);
+  
+  static method M : double ($file : string, $base_time : long) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    Sys::Stat->stat($file, $stat);
+    
+    my $mtime = $stat->st_mtime;
+    
+    my $result_time = ($base_time - $mtime) / 86400.0;
+    
+    return $result_time;
+  }
+  
+  static method A : double ($file : string, $base_time : long) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    Sys::Stat->stat($file, $stat);
+    
+    my $atime = $stat->st_atime;
+    
+    my $result_time = ($base_time - $atime) / 86400.0;
+    
+    return $result_time;
+  }
+  
+  static method C : double ($file : string, $base_time : long) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    Sys::Stat->stat($file, $stat);
+    
+    my $ctime = $stat->st_ctime;
+    
+    my $result_time = ($base_time - $ctime) / 86400.0;
+    
+    return $result_time;
+  }
 }
