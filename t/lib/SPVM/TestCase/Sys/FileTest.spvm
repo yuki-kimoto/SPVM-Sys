@@ -1,6 +1,22 @@
 class TestCase::Sys::FileTest {
   use Sys::FileTest;
   
+  static method s : int () {
+    
+    {
+      # File
+      {
+        my $file = "t/ftest/file_empty.txt";
+        my $size = Sys::FileTest->s($file);
+        unless ($size == 0) {
+          return 0;
+        }
+      }
+    }
+    
+    return 1;
+  }
+  
   static method e : int () {
     
     {

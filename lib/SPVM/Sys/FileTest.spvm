@@ -33,7 +33,22 @@ class Sys::FileTest {
   }
   
   # static method z : int ($file : string);
-  # static method s : int ($file : string);
+  
+  static method s : long ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    Sys::Stat->stat($file, $stat);
+    
+    my $size = $stat->st_size;
+    
+    return $size;
+  }
+  
   static method f : int ($file : string) {
     
     unless ($file) {

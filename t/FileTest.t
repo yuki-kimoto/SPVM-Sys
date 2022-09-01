@@ -14,5 +14,6 @@ use SPVM 'TestCase::Sys::FileTest';
 ok(SPVM::TestCase::Sys::FileTest->e);
 ok(SPVM::TestCase::Sys::FileTest->f);
 ok(SPVM::TestCase::Sys::FileTest->d);
+ok(SPVM::TestCase::Sys::FileTest->s);
 
 done_testing;
