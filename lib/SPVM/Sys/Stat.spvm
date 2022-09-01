@@ -56,5 +56,6 @@ class Sys::Stat : pointer_t {
   native method st_mtime : long ();
   native method st_atime : long ();
   native method st_ctime : long ();
+  native method st_uid : long ();
   native method DESTROY : void ();
 }

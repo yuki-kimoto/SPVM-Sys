@@ -2,7 +2,8 @@ class Sys::FileTest {
   use Sys::Stat;
   use Sys::IO;
   use Sys::IO::Constant as IOC;
-  
+  use Sys::User;
+
   # static method r : int ($file : string);
   # static method w : int ($file : string);
   # static method x : int ($file : string);
