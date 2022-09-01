@@ -7,6 +7,7 @@
 Changes
 cpanm
 lib/SPVM/Sys.pm
+lib/SPVM/Sys.spvm
 lib/SPVM/Sys/Addrinfo.c
 lib/SPVM/Sys/Addrinfo.config
 lib/SPVM/Sys/Addrinfo.native/include/.gitkeep
@@ -64,8 +65,6 @@ lib/SPVM/Sys/FileHandle.config
 lib/SPVM/Sys/FileHandle.pm
 lib/SPVM/Sys/FileHandle.spvm
 lib/SPVM/Sys/FileStream.c
-lib/SPVM/Sys/FileTest.c
-lib/SPVM/Sys/FileTest.config
 lib/SPVM/Sys/FileTest.spvm
 lib/SPVM/Sys/Flock.c
 lib/SPVM/Sys/Flock.config
@@ -77,6 +76,12 @@ lib/SPVM/Sys/IO.c
 lib/SPVM/Sys/IO.config
 lib/SPVM/Sys/IO.pm
 lib/SPVM/Sys/IO.spvm
+lib/SPVM/Sys/IO/Constant.c
+lib/SPVM/Sys/IO/Constant.config
+lib/SPVM/Sys/IO/Constant.native/include/.gitkeep
+lib/SPVM/Sys/IO/Constant.native/src/.gitkeep
+lib/SPVM/Sys/IO/Constant.pm
+lib/SPVM/Sys/IO/Constant.spvm
 lib/SPVM/Sys/Net.c
 lib/SPVM/Sys/Net.config
 lib/SPVM/Sys/Net.pm
@@ -95,6 +100,12 @@ lib/SPVM/Sys/Socket.c
 lib/SPVM/Sys/Socket.config
 lib/SPVM/Sys/Socket.pm
 lib/SPVM/Sys/Socket.spvm
+lib/SPVM/Sys/Socket/Constant.c
+lib/SPVM/Sys/Socket/Constant.config
+lib/SPVM/Sys/Socket/Constant.native/include/.gitkeep
+lib/SPVM/Sys/Socket/Constant.native/src/.gitkeep
+lib/SPVM/Sys/Socket/Constant.pm
+lib/SPVM/Sys/Socket/Constant.spvm
 lib/SPVM/Sys/Stat.c
 lib/SPVM/Sys/Stat.config
 lib/SPVM/Sys/Stat.pm

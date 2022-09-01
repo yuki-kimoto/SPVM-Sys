@@ -1,14 +1,14 @@
 class Sys::FileTest {
   use Sys::Stat;
   
-  native static method r : int ($file : string);
-  native static method w : int ($file : string);
-  native static method x : int ($file : string);
-  native static method o : int ($file : string);
-  native static method R : int ($file : string);
-  native static method W : int ($file : string);
-  native static method X : int ($file : string);
-  native static method O : int ($file : string);
+  # static method r : int ($file : string);
+  # static method w : int ($file : string);
+  # static method x : int ($file : string);
+  # static method o : int ($file : string);
+  # static method R : int ($file : string);
+  # static method W : int ($file : string);
+  # static method X : int ($file : string);
+  # static method O : int ($file : string);
   static method e : int ($file : string) {
     
     unless ($file) {
@@ -32,8 +32,8 @@ class Sys::FileTest {
     return $file_exist;
   }
   
-  native static method z : int ($file : string);
-  native static method s : int ($file : string);
+  # static method z : int ($file : string);
+  # static method s : int ($file : string);
   static method f : int ($file : string) {
     
     unless ($file) {
@@ -84,18 +84,18 @@ class Sys::FileTest {
     return $directory_exist;
   }
   
-  native static method l : int ($file : string);
-  native static method p : int ($file : string);
-  native static method S : int ($file : string);
-  native static method b : int ($file : string);
-  native static method c : int ($file : string);
-  native static method t : int ($file : string);
-  native static method u : int ($file : string);
-  native static method g : int ($file : string);
-  native static method k : int ($file : string);
-  native static method T : int ($file : string);
-  native static method B : int ($file : string);
-  native static method M : int ($file : string);
-  native static method A : int ($file : string);
-  native static method C : int ($file : string);
+  # static method l : int ($file : string);
+  # static method p : int ($file : string);
+  # static method S : int ($file : string);
+  # static method b : int ($file : string);
+  # static method c : int ($file : string);
+  # static method t : int ($file : string);
+  # static method u : int ($file : string);
+  # static method g : int ($file : string);
+  # static method k : int ($file : string);
+  # static method T : int ($file : string);
+  # static method B : int ($file : string);
+  # static method M : int ($file : string);
+  # static method A : int ($file : string);
+  # static method C : int ($file : string);
 }
