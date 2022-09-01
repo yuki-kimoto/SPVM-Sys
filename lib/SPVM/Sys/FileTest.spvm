@@ -84,7 +84,31 @@ class Sys::FileTest {
     return $directory_exist;
   }
   
-  # static method l : int ($file : string);
+  static method l : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::Stat->new;
+    
+    eval { Sys::Stat->stat($file, $stat); };
+
+    my $regular_file_exist = 0;
+    if ($@) {
+      unless (error == class_id Error::System) {
+        die $@;
+      }
+    }
+    else {
+      if (($stat->st_mode & Sys::Stat->S_IFMT) == Sys::Stat->S_IFLNK) {
+        $regular_file_exist = 1;
+      }
+    }
+    
+    return $regular_file_exist;
+  }
+  
   # static method p : int ($file : string);
   # static method S : int ($file : string);
   # static method b : int ($file : string);
