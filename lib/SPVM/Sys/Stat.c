@@ -116,6 +116,20 @@ int32_t SPVM__Sys__Stat__st_mode(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
 }
 
+int32_t SPVM__Sys__Stat__st_size(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stat = stack[0].oval;
+  
+  struct stat* stat = env->get_pointer(env, stack, obj_stat);
+  
+  if (stat) {
+    stack[0].lval = stat->st_size;
+  }
+  else {
+    assert(0);
+  }
+}
+
 int32_t SPVM__Sys__Stat__S_CDF(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef S_CDF
