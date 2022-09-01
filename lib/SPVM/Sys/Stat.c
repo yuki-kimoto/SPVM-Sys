@@ -114,6 +114,8 @@ int32_t SPVM__Sys__Stat__st_mode(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     assert(0);
   }
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__Stat__st_size(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -128,6 +130,8 @@ int32_t SPVM__Sys__Stat__st_size(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     assert(0);
   }
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__Stat__st_mtime(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -142,6 +146,8 @@ int32_t SPVM__Sys__Stat__st_mtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     assert(0);
   }
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__Stat__st_atime(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -156,6 +162,8 @@ int32_t SPVM__Sys__Stat__st_atime(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     assert(0);
   }
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__Stat__st_ctime(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -170,6 +178,8 @@ int32_t SPVM__Sys__Stat__st_ctime(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     assert(0);
   }
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__Stat__st_uid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -184,6 +194,8 @@ int32_t SPVM__Sys__Stat__st_uid(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     assert(0);
   }
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__Stat__S_CDF(SPVM_ENV* env, SPVM_VALUE* stack) {
