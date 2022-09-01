@@ -10,8 +10,6 @@ lib/SPVM/Sys.pm
 lib/SPVM/Sys.spvm
 lib/SPVM/Sys/Addrinfo.c
 lib/SPVM/Sys/Addrinfo.config
-lib/SPVM/Sys/Addrinfo.native/include/.gitkeep
-lib/SPVM/Sys/Addrinfo.native/src/.gitkeep
 lib/SPVM/Sys/Addrinfo.pm
 lib/SPVM/Sys/Addrinfo.spvm
 lib/SPVM/Sys/DirHandle.c
@@ -52,8 +50,6 @@ lib/SPVM/Sys/Ent/Servent.pm
 lib/SPVM/Sys/Ent/Servent.spvm
 lib/SPVM/Sys/F_owner_ex.c
 lib/SPVM/Sys/F_owner_ex.config
-lib/SPVM/Sys/F_owner_ex.native/include/.gitkeep
-lib/SPVM/Sys/F_owner_ex.native/src/.gitkeep
 lib/SPVM/Sys/F_owner_ex.pm
 lib/SPVM/Sys/F_owner_ex.spvm
 lib/SPVM/Sys/Fcntl.c
@@ -68,10 +64,12 @@ lib/SPVM/Sys/FileStream.c
 lib/SPVM/Sys/FileTest.spvm
 lib/SPVM/Sys/Flock.c
 lib/SPVM/Sys/Flock.config
-lib/SPVM/Sys/Flock.native/include/.gitkeep
-lib/SPVM/Sys/Flock.native/src/.gitkeep
 lib/SPVM/Sys/Flock.pm
 lib/SPVM/Sys/Flock.spvm
+lib/SPVM/Sys/In_addr.c
+lib/SPVM/Sys/In_addr.config
+lib/SPVM/Sys/In_addr.pm
+lib/SPVM/Sys/In_addr.spvm
 lib/SPVM/Sys/IO.c
 lib/SPVM/Sys/IO.config
 lib/SPVM/Sys/IO.pm
@@ -92,8 +90,6 @@ lib/SPVM/Sys/Process.pm
 lib/SPVM/Sys/Process.spvm
 lib/SPVM/Sys/Sockaddr.c
 lib/SPVM/Sys/Sockaddr.config
-lib/SPVM/Sys/Sockaddr.native/include/.gitkeep
-lib/SPVM/Sys/Sockaddr.native/src/.gitkeep
 lib/SPVM/Sys/Sockaddr.pm
 lib/SPVM/Sys/Sockaddr.spvm
 lib/SPVM/Sys/Socket.c
@@ -129,6 +125,8 @@ t/IO.t
 t/lib/SPVM/TestCase/Sys/FileTest.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/Net.spvm
+t/lib/SPVM/TestCase/Sys/Socket.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
 t/Net.t
+t/Socket.t
 t/User.t

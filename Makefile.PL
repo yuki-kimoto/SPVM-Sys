@@ -57,6 +57,7 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Utimbuf');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Addrinfo');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Sockaddr');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::In_addr');
   
   return $make_rule;
 }
