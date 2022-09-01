@@ -17,6 +17,22 @@ class TestCase::Sys::FileTest {
     return 1;
   }
   
+  static method z : int () {
+    
+    {
+      # File
+      {
+        my $file = "t/ftest/file_empty.txt";
+        my $non_zero = Sys::FileTest->z($file);
+        unless ($non_zero) {
+          return 0;
+        }
+      }
+    }
+    
+    return 1;
+  }
+  
   static method e : int () {
     
     {
