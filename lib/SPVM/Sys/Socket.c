@@ -23,6 +23,32 @@ static int32_t FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED = 0;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
 
+
+int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_host = stack[0].oval;
+  
+  if (!obj_host) {
+    return env->die(env, stack, "The host address must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* host = env->get_chars(env, stack, obj_host);
+  
+  void* obj_in_addr = stack[0].oval;
+  
+  if (!obj_in_addr) {
+    return env->die(env, stack, "The Sys::In_addr object must be defined", FILE_NAME, __LINE__);
+  }
+  
+  struct in_addr * in_addr = env->get_pointer(env, stack, obj_in_addr);
+  
+  int32_t ret = inet_aton(host, in_addr);
+  
+  stack[0].ival = ret;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__socket(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t socket_family = stack[0].ival;
