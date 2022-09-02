@@ -43,7 +43,9 @@ class Sys::Socket {
 
   native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
   
-  native static method inet_aton : int ($host : string, $inp : Sys::In_addr);
+  native static method inet_aton : int ($host : string, $in_addr : Sys::In_addr);
+
+  native static method inet_ntoa : string ($in_addr : Sys::In_addr);
 
 =pod
 
@@ -52,6 +54,10 @@ Low-level socket functions
 *getsockopt, *setsockopt, *socketpair, *socket, *connect, *bind, *accept, *listen, *shutdown, *recv, *send, *getpeername, *getsockname
 
 *getaddrinfo, *getnameinfo, *gai_strerror
+
+* $ip_address = inet_aton $string
+* $string = inet_ntoa $ip_address
+
 
 CONSTANTS
 PF_INET, PF_INET6, PF_UNIX, ...
@@ -91,8 +97,6 @@ $ip_mreq_source = pack_ip_mreq_source $multiaddr, $source, $interface
 $ipv6_mreq = pack_ipv6_mreq $multiaddr6, $ifindex
 ($multiaddr6, $ifindex) = unpack_ipv6_mreq $ipv6_mreq
 FUNCTIONS
-$ip_address = inet_aton $string
-$string = inet_ntoa $ip_address
 $address = inet_pton $family, $string
 $string = inet_ntop $family, $address
 ($err, @result) = getaddrinfo $host, $service, [$hints]

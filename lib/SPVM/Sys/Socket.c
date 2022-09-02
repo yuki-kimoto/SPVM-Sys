@@ -49,6 +49,31 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_in_addr = stack[0].oval;
+  
+  if (!obj_in_addr) {
+    return env->die(env, stack, "The Sys::In_addr object must be defined", FILE_NAME, __LINE__);
+  }
+  
+  struct in_addr* in_addr = env->get_pointer(env, stack, obj_in_addr);
+  
+  char* address = inet_ntoa(*in_addr);
+  
+  void* obj_address;
+  if (address) {
+    obj_address = env->new_string(env, stack, address, strlen(address));
+  }
+  else {
+    assert(0);
+  }
+  
+  stack[0].oval = obj_address;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__socket(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t socket_family = stack[0].ival;
