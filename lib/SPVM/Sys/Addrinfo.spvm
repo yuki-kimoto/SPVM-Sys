@@ -1,5 +1,0 @@
-class Sys::Addrinfo {
-  native static method new : Sys::Addrinfo ();
-  
-  native method DESTROY : void ();
-}

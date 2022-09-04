@@ -39,26 +39,25 @@ sub MY::postamble {
   
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Constant');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Net');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Fcntl');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::FileHandle');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::DirHandle');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Dirent');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Utimbuf');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Process');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User::Passwd');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User::Group');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Constant');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Fcntl');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::FileHandle');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::DirHandle');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Passwd');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Group');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Dir');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Hostent');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Netent');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Servent');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ent::Protoent');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Utimbuf');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Addrinfo');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Sockaddr');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::In_addr');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::In6_addr');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Hostent');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Netent');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Servent');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Protoent');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Addrinfo');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Sockaddr');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::In_addr');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::In6_addr');
   
   return $make_rule;
 }

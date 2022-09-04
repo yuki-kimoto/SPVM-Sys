@@ -1,13 +1,34 @@
 class Sys::Socket {
-  use Sys::Addrinfo;
-  use Sys::Sockaddr;
-  use Sys::In_addr;
+  use Sys::Socket::Addrinfo;
+  use Sys::Socket::Sockaddr;
+  use Sys::Socket::In_addr;
+  use Sys::Socket::In6_addr;
+  use Sys::Socket::Hostent;
+  use Sys::Socket::Netent;
+  use Sys::Socket::Servent;
+  use Sys::Socket::Protoent;
+
+  native static method sethostent : void ($stayopen : int);
+  native static method endhostent : void ();
+  native static method gethostent : Sys::Socket::Hostent ();
+
+  native static method setnetent : void ($stayopen : int);
+  native static method endnetent : void ();
+  native static method getnetent : Sys::Socket::Netent ();
+
+  native static method setservent : void ($stayopen : int);
+  native static method endservent : void ();
+  native static method getservent : Sys::Socket::Servent ();
+
+  native static method setprotoent : void ($stayopen : int);
+  native static method endprotoent : void ();
+  native static method getprotoent : Sys::Socket::Protoent ();
   
   native static method getaddrinfo : int ($node : string, $service : string,
-                $hints : Sys::Addrinfo,
-                $res : Sys::Addrinfo[]);
+                $hints : Sys::Socket::Addrinfo,
+                $res : Sys::Socket::Addrinfo[]);
 
-  native static method getnameinfo : int ($addr : Sys::Sockaddr, $addrlen : int,
+  native static method getnameinfo : int ($addr : Sys::Socket::Sockaddr, $addrlen : int,
                 $host : mutable string, $hostlen : int,
                 $serv : mutable string, $servlen : int, $flag : int);
 
@@ -15,11 +36,11 @@ class Sys::Socket {
 
   native static method socket : int ($socket_family : int, $socket_type : int, $protocol : int);
 
-  native static method connect : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int);
+  native static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
 
-  native static method bind : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen : int);
+  native static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
                  
-  native static method accept : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen_ref : int*);
+  native static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
 
   native static method listen : int ($sockfd : int, $backlog : int);
 
@@ -29,9 +50,9 @@ class Sys::Socket {
 
   native static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int);
 
-  native static method getpeername : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen_ref : int*);
+  native static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
 
-  native static method getsockname : int ($sockfd : int, $addr : Sys::Sockaddr, $addrlen_ref : int*);
+  native static method getsockname : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
 
   native static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
 
@@ -43,9 +64,9 @@ class Sys::Socket {
 
   native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
   
-  native static method inet_aton : int ($host : string, $in_addr : Sys::In_addr);
+  native static method inet_aton : int ($host : string, $in_addr : Sys::Socket::In_addr);
 
-  native static method inet_ntoa : string ($in_addr : Sys::In_addr);
+  native static method inet_ntoa : string ($in_addr : Sys::Socket::In_addr);
 
 =pod
 
@@ -96,12 +117,8 @@ $ip_mreq_source = pack_ip_mreq_source $multiaddr, $source, $interface
 ($multiaddr, $source, $interface) = unpack_ip_mreq_source $ip_mreq
 $ipv6_mreq = pack_ipv6_mreq $multiaddr6, $ifindex
 ($multiaddr6, $ifindex) = unpack_ipv6_mreq $ipv6_mreq
-FUNCTIONS
 $address = inet_pton $family, $string
 $string = inet_ntop $family, $address
-($err, @result) = getaddrinfo $host, $service, [$hints]
-($err, $hostname, $servicename) = getnameinfo $sockaddr, [$flags, [$xflags]]
-getaddrinfo() / getnameinfo() ERROR CONSTANTS
 
 
 =cut

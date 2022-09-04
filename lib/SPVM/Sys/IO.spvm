@@ -1,42 +1,42 @@
 class Sys::IO {
 
-  use Sys::Stat;
-  use Sys::FileHandle;
-  use Sys::DirHandle;
-  use Sys::Ent::Dir;
-  use Sys::Fcntl;
-  use Sys::Utimbuf;
+  use Sys::IO::Stat;
+  use Sys::IO::FileHandle;
+  use Sys::IO::DirHandle;
+  use Sys::IO::Dirent;
+  use Sys::IO::Fcntl;
+  use Sys::IO::Utimbuf;
   
   native static method rmdir : void ($dir : string);
   native static method unlink : void ($file : string);
   native static method close : void ($fd : int);
-  native static method fclose : void ($stream : Sys::FileHandle);
-  native static method clearerr : void ($stream : Sys::FileHandle);
-  native static method feof : int ($stream : Sys::FileHandle);
-  native static method ferror : int ($stream : Sys::FileHandle);
-  native static method fileno : int ($stream : Sys::FileHandle);
+  native static method fclose : void ($stream : Sys::IO::FileHandle);
+  native static method clearerr : void ($stream : Sys::IO::FileHandle);
+  native static method feof : int ($stream : Sys::IO::FileHandle);
+  native static method ferror : int ($stream : Sys::IO::FileHandle);
+  native static method fileno : int ($stream : Sys::IO::FileHandle);
   native static method open : int ($path : string, $flags : int, $mode = 0 : int);
-  native static method fopen : Sys::FileHandle ($path : string, $mode : string);
-  native static method fdopen : Sys::FileHandle ($fd : int, $mode : string);
-  native static method freopen : Sys::FileHandle ($path : string, $mode : string, $stream : Sys::FileHandle);
-  native static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::FileHandle);
-  native static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::FileHandle);
+  native static method fopen : Sys::IO::FileHandle ($path : string, $mode : string);
+  native static method fdopen : Sys::IO::FileHandle ($fd : int, $mode : string);
+  native static method freopen : Sys::IO::FileHandle ($path : string, $mode : string, $stream : Sys::IO::FileHandle);
+  native static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileHandle);
+  native static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileHandle);
   native static method read : int ($fd : int, $buffer : mutable string, $count : int);
   native static method write : int ($fd : int, $buffer : mutable string, $count : int);
-  native static method getc : int ($stream : Sys::FileHandle);
+  native static method getc : int ($stream : Sys::IO::FileHandle);
   native static method EOF : int ();
   native static method chdir : void ($path : string);
   native static method chmod : void ($path : string, $mode :int);
   native static method chown : void ($path : string, $owner : int, $group : int);
   native static method mkdir : void ($path : string, $mode : int);
-  native static method fseek : void ($stream : Sys::FileHandle, $offset : long, $whence : int);
-  native static method ftell : long ($stream : Sys::FileHandle);
-  native static method opendir : Sys::DirHandle ($dir : string);
-  native static method closedir : void ($dh : Sys::DirHandle);
-  native static method readdir : Sys::Ent::Dir ($dh : Sys::DirHandle);
-  native static method rewinddir : void ($dh : Sys::DirHandle);
-  native static method telldir : long ($dh : Sys::DirHandle);
-  native static method seekdir : void ($dh : Sys::DirHandle, $offset : long);
+  native static method fseek : void ($stream : Sys::IO::FileHandle, $offset : long, $whence : int);
+  native static method ftell : long ($stream : Sys::IO::FileHandle);
+  native static method opendir : Sys::IO::DirHandle ($dir : string);
+  native static method closedir : void ($dh : Sys::IO::DirHandle);
+  native static method readdir : Sys::IO::Dirent ($dh : Sys::IO::DirHandle);
+  native static method rewinddir : void ($dh : Sys::IO::DirHandle);
+  native static method telldir : long ($dh : Sys::IO::DirHandle);
+  native static method seekdir : void ($dh : Sys::IO::DirHandle, $offset : long);
   native static method truncate : long ($path : string, $offset : long);
   native static method lseek : long ($fd : int, $offset : long, $whence : int);
   native static method umask : int ($mode : int);
@@ -44,7 +44,7 @@ class Sys::IO {
   native static method readlink : int ($path : string, $buffer : mutable string);
   native static method symlink : int ($target : string, $link_path : string);
   native static method ioctl : int ($fd : int, $request : long, $argp : byte[]);
-  native static method utime : int ($file : string, $buffer : Sys::Utimbuf);
+  native static method utime : int ($file : string, $buffer : Sys::IO::Utimbuf);
 
   native static method access : int ($path : string, $mode : int);
 
@@ -59,7 +59,7 @@ Input and output functions
 
 *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
 
-fcntl, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::Stat), *lstat(Sys::Stat), *rename, *readlink, *symlink, *ioctl, *utime
+fcntl, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::IO::Stat), *lstat(Sys::IO::Stat), *rename, *readlink, *symlink, *ioctl, *utime
 
 TODO
 

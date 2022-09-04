@@ -1,1 +1,0 @@
-class Sys::Ent::Hostent : pointer_t;

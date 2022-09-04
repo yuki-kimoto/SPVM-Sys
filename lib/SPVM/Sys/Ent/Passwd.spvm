@@ -1,9 +1,0 @@
-class Sys::Ent::Passwd : pointer_t {
-  native method pw_name : string ();
-  native method pw_passwd : string ();
-  native method pw_uid : int ();
-  native method pw_gid : int ();
-  native method pw_gecos : string ();
-  native method pw_dir : string ();
-  native method pw_shell : string ();
-}
