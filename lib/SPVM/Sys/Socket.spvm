@@ -7,6 +7,7 @@ class Sys::Socket {
   use Sys::Socket::Netent;
   use Sys::Socket::Servent;
   use Sys::Socket::Protoent;
+  use Fn;
 
   native static method sethostent : void ($stayopen : int);
   native static method endhostent : void ();
@@ -72,6 +73,21 @@ class Sys::Socket {
   
   native static method inet_ntop : string ($address_family : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $output_address : string, $size : int);
 
+  private static method shorten_null_char : void ($string : mutable string) {
+    
+    my $null_char_offset = -1;
+    for (my $i = 0; $i < length $string; $i++) {
+      my $char = $string->[$i];
+      if ($char == '\0') {
+        $null_char_offset = $i;
+        last;
+      }
+    }
+    
+    if ($null_char_offset >= 0) {
+      Fn->shorten($string, $null_char_offset);
+    }
+  }
 
 =pod
 
