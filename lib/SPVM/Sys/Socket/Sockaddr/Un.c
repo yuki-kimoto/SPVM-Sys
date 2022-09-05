@@ -1,5 +1,7 @@
 #include "spvm_native.h"
 
+#include <assert.h>
+
 #ifdef _WIN32
 # include <ws2tcpip.h>
 # include <io.h>
@@ -7,6 +9,7 @@
 # include <sys/fcntl.h>
 # include <sys/types.h>
 # include <sys/socket.h>
+# include <sys/un.h>
 # include <netinet/in.h>
 # include <netdb.h>
 # include <arpa/inet.h>
@@ -52,6 +55,22 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__sin_family(SPVM_ENV* env, SPVM_VALUE* s
   
   if (socket_address) {
     stack[0].ival = socket_address->sun_family;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__Sockaddr__Un__set_sin_family(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_un* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    socket_address->sun_family = stack[1].ival;
   }
   else {
     assert(0);

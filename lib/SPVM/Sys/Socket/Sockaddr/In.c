@@ -1,5 +1,7 @@
 #include "spvm_native.h"
 
+#include <assert.h>
+
 #ifdef _WIN32
 # include <ws2tcpip.h>
 # include <io.h>
@@ -67,7 +69,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_family(SPVM_ENV* env, SPVM_VALU
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
   if (socket_address) {
-    socket_address->sin_family; = stack[1].ival;
+    socket_address->sin_family = stack[1].ival;
   }
   else {
     assert(0);
@@ -78,21 +80,22 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_family(SPVM_ENV* env, SPVM_VALU
 
 int32_t SPVM__Sys__Socket__Sockaddr__In__sin_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t e = 0;
+  
   void* obj_self = stack[0].oval;
   
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
   if (socket_address) {
-    struct in_addr* address = socket_address->sin_addr;
+    struct in_addr address = socket_address->sin_addr;
 
     struct in_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in_addr));
-    memcpy(address_ret, address, sizeof(struct in_addr));
+    *address_ret = address;
 
-    void* obj_address_retr = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, FILE_NAME, __LINE__);
+    void* obj_address_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, FILE_NAME, __LINE__);
     if (e) { return e; }
     
     stack[0].oval = obj_address_ret;
-    
   }
   else {
     assert(0);
@@ -109,12 +112,9 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_addr(SPVM_ENV* env, SPVM_VALUE*
   
   if (socket_address) {
     void* obj_address = stack[1].oval;
-    struct in6_addr* address = env->get_pointer(env, stack, obj_address);
+    struct in_addr* address = env->get_pointer(env, stack, obj_address);
 
-    struct in_addr address_copy;
-    memcpy(&address_copy, address, sizeof(struct in_addr);
-    
-    socket_address->sin_addr = address_copy;
+    socket_address->sin_addr = *address;
   }
   else {
     assert(0);
@@ -146,7 +146,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_port(SPVM_ENV* env, SPVM_VALUE*
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
   if (socket_address) {
-    socket_address->sin_port = stack[1].sval
+    socket_address->sin_port = stack[1].sval;
   }
   else {
     assert(0);

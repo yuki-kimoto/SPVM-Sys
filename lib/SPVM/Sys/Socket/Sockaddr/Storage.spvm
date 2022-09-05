@@ -5,10 +5,12 @@ class Sys::Socket::Sockaddr::Storage extends Sys::Socket::Sockaddr : pointer_t {
   
   native method DESTROY : void ();
   
-  static method sa_family : int () {
-    my sin_family = $self->ss_family;
+  method sa_family : int () {
+    my $sin_family = $self->ss_family;
     return $sin_family;
   }
   
   native method ss_family : int ();
+
+  native method set_ss_family : int ();
 }
