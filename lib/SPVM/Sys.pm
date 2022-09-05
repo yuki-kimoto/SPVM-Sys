@@ -20,15 +20,8 @@ C<Sys> is the system utilities for File Tests, IO, User, Network, Process, Socke
 
 =item * L<Sys::IO|SPVM::Sys::IO>
 
-=item * L<Sys::Stat|SPVM::Sys::Stat>
+=item * L<Sys::Sys::FiteTest|SPVM::Sys::FiteTest>
 
-=item * L<Sys::FileHandle|SPVM::Sys::FileHandle>
-
-=item * L<Sys::DirHandle|SPVM::Sys::DirHandle>
-
-=item * L<Sys::Ent::Dir|SPVM::Sys::Ent::Dir>
-
-=item * L<Sys::Fcntl|SPVM::Sys::Fcntl>
 
 =back
 
@@ -38,10 +31,6 @@ C<Sys> is the system utilities for File Tests, IO, User, Network, Process, Socke
 
 =item * L<Sys::User|SPVM::Sys::User>
 
-=item * L<Sys::Ent::User|SPVM::Sys::Ent::User>
-
-=item * L<Sys::Ent::Group|SPVM::Sys::Ent::Group>
-
 =head2 Socket
 
 =back
@@ -49,18 +38,6 @@ C<Sys> is the system utilities for File Tests, IO, User, Network, Process, Socke
 =over
 
 =item * L<Sys::Socket|SPVM::Sys::Socket>
-
-=back
-
-=head2 Network
-
-=over
-
-=item * L<Sys::Network|SPVM::Sys::Network>
-
-=item * L<Sys::Ent::Hostent|SPVM::Sys::Ent::Hostent>
-
-=item * L<Sys::Ent::Netent|SPVM::Sys::Ent::Netent>
 
 =back
 
