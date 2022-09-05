@@ -143,12 +143,12 @@ Low-level socket functions
 * IN6ADDR_ANY, IN6ADDR_LOOPBACK
 * IPV6_ADD_MEMBERSHIP, IPV6_MTU, IPV6_V6ONLY, ...
 * $family = sockaddr_family $sockaddr
+* $sockaddr = pack_sockaddr_in $port, $ip_address
+* ($port, $ip_address) = unpack_sockaddr_in $sockaddr
+* $sockaddr = sockaddr_in $port, $ip_address
+* ($port, $ip_address) = sockaddr_in $sockaddr
 
 STRUCTURE MANIPULATORS
-$sockaddr = pack_sockaddr_in $port, $ip_address
-($port, $ip_address) = unpack_sockaddr_in $sockaddr
-$sockaddr = sockaddr_in $port, $ip_address
-($port, $ip_address) = sockaddr_in $sockaddr
 $sockaddr = pack_sockaddr_in6 $port, $ip6_address, [$scope_id, [$flowinfo]]
 ($port, $ip6_address, $scope_id, $flowinfo) = unpack_sockaddr_in6 $sockaddr
 $sockaddr = sockaddr_in6 $port, $ip6_address, [$scope_id, [$flowinfo]]
@@ -163,7 +163,6 @@ $ip_mreq_source = pack_ip_mreq_source $multiaddr, $source, $interface
 ($multiaddr, $source, $interface) = unpack_ip_mreq_source $ip_mreq
 $ipv6_mreq = pack_ipv6_mreq $multiaddr6, $ifindex
 ($multiaddr6, $ifindex) = unpack_ipv6_mreq $ipv6_mreq
-
 
 =cut
 
