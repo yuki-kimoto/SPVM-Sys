@@ -8,6 +8,7 @@ class Sys::Socket {
   use Sys::Socket::Servent;
   use Sys::Socket::Protoent;
   use Fn;
+  use Sys::Socket::Constant as Sock;
 
   native static method sethostent : void ($stayopen : int);
   native static method endhostent : void ();
@@ -71,9 +72,25 @@ class Sys::Socket {
 
   native static method inet_pton : int ($address_family : int, $input_address : string, $output_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
   
-  native static method inet_ntop : string ($address_family : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $output_address : string, $size : int);
+  native static method inet_ntop : string ($address_family : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $output_address : mutable string, $size : int);
+  
+  static  method inet_ntop_simple : string ($address_family : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr) {
+    my $output_address = (mutable string)new_string_len(Sock->INET6_ADDRSTRLEN);
+    
+    my $output_address_ret = (mutable string)&inet_ntop($address_family, $input_address, $output_address, length $output_address);
+    
+    if ($output_address_ret) {
+      &shorten_null_char($output_address_ret);
+    }
+    
+    return $output_address_ret;
+  }
   
   private static method shorten_null_char : void ($string : mutable string) {
+    
+    if (!$string) {
+      die "The string must be defined";
+    }
     
     my $null_char_offset = -1;
     for (my $i = 0; $i < length $string; $i++) {
@@ -100,6 +117,7 @@ Low-level socket functions
 * $ip_address = inet_aton $string
 * $string = inet_ntoa $ip_address
 * $address = inet_pton $family, $string
+* $string = inet_ntop $family, $address
 
 
 CONSTANTS
@@ -139,7 +157,6 @@ $ip_mreq_source = pack_ip_mreq_source $multiaddr, $source, $interface
 ($multiaddr, $source, $interface) = unpack_ip_mreq_source $ip_mreq
 $ipv6_mreq = pack_ipv6_mreq $multiaddr6, $ifindex
 ($multiaddr6, $ifindex) = unpack_ipv6_mreq $ipv6_mreq
-$string = inet_ntop $family, $address
 
 
 =cut
