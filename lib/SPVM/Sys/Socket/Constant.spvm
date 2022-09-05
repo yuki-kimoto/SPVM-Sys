@@ -55,6 +55,8 @@ class Sys::Socket::Constant {
 
   native static method INADDR_LOOPBACK : int ();
 
+  native static method INADDR_NONE : int ();
+
   native static method IPPROTO_IP : int ();
 
   native static method IPPROTO_SCTP : int ();
@@ -366,4 +368,10 @@ class Sys::Socket::Constant {
   native static method MSG_MCAST : int ();
 
   native static method MSG_NOERROR : int ();
+
+  native static method SHUT_RD : int ();
+
+  native static method SHUT_WR : int ();
+
+  native static method SHUT_RDWR : int ();
 }

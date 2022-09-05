@@ -358,6 +358,18 @@ int32_t SPVM__Sys__Socket__Constant__INADDR_LOOPBACK(SPVM_ENV* env, SPVM_VALUE* 
   
 }
 
+int32_t SPVM__Sys__Socket__Constant__INADDR_NONE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef INADDR_NONE
+  stack[0].ival = INADDR_NONE;
+  return 0;
+#else
+  env->die(env, stack, "INADDR_NONE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+  
+}
+
 int32_t SPVM__Sys__Socket__Constant__IPPROTO_IP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPPROTO_IP
@@ -2230,3 +2242,41 @@ int32_t SPVM__Sys__Socket__Constant__MSG_NOERROR(SPVM_ENV* env, SPVM_VALUE* stac
 
 }
 
+
+int32_t SPVM__Sys__Socket__Constant__SHUT_RD(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SHUT_RD
+  stack[0].ival = SHUT_RD;
+  return 0;
+#else
+  env->die(env, stack, "SHUT_RD is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+
+int32_t SPVM__Sys__Socket__Constant__SHUT_WR(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SHUT_WR
+  stack[0].ival = SHUT_WR;
+  return 0;
+#else
+  env->die(env, stack, "SHUT_WR is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+
+int32_t SPVM__Sys__Socket__Constant__SHUT_RDWR(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SHUT_RDWR
+  stack[0].ival = SHUT_RDWR;
+  return 0;
+#else
+  env->die(env, stack, "SHUT_RDWR is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}

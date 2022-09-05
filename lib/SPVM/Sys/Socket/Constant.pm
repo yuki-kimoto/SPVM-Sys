@@ -187,6 +187,12 @@ Get the error number of C<INADDR_BROADCAST>. If the system doesn't define this c
 
 Get the error number of C<INADDR_LOOPBACK>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 INADDR_NONE
+
+  static method INADDR_NONE : int ();
+
+Get the error number of C<INADDR_NONE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
 =head2 IPPROTO_IP
 
   static method IPPROTO_IP : int ();
@@ -1122,4 +1128,22 @@ Get the error number of C<MSG_MCAST>. If the system doesn't define this constant
   static method MSG_NOERROR : int ();
 
 Get the error number of C<MSG_NOERROR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SHUT_RD
+
+  static method SHUT_RD : int ();
+
+Get the error number of C<SHUT_RD>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SHUT_WR
+
+  static method SHUT_WR : int ();
+
+Get the error number of C<SHUT_WR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SHUT_RDWR
+
+  static method SHUT_RDWR : int ();
+
+Get the error number of C<SHUT_RDWR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
