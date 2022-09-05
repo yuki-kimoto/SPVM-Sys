@@ -1,4 +1,6 @@
 class Sys::Socket::Constant {
+  use Sys::Socket::In6_addr;
+  
   native static method AF_ALG : int ();
 
   native static method AF_APPLETALK : int ();
@@ -402,4 +404,6 @@ class Sys::Socket::Constant {
   native static method TCP_USER_TIMEOUT : int ();
 
   native static method TCP_WINDOW_CLAMP : int ();
+
+  native static method IN6ADDR_LOOPBACK : Sys::Socket::In6_addr ();
 }

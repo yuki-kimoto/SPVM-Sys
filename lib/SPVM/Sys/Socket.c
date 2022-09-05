@@ -926,3 +926,4 @@ int32_t SPVM__Sys__Socket__getprotoent(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
