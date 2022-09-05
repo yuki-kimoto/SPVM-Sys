@@ -2449,6 +2449,26 @@ int32_t SPVM__Sys__Socket__Constant__TCP_WINDOW_CLAMP(SPVM_ENV* env, SPVM_VALUE*
 
 }
 
+int32_t SPVM__Sys__Socket__Constant__IN6ADDR_ANY(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IN6ADDR_ANY_INIT
+  struct in6_addr address_init = IN6ADDR_ANY_INIT;
+  
+  struct in6_addr* address = env->new_memory_stack(env, stack, sizeof(struct in6_addr));
+  
+  int32_t e = 0;
+  void* obj_address = env->new_pointer_by_name(env, stack, "Sys::Socket::In6_addr", address, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
+  stack[0].oval = obj_address;
+  return 0;
+#else
+  env->die(env, stack, "IN6ADDR_ANY is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
 int32_t SPVM__Sys__Socket__Constant__IN6ADDR_LOOPBACK(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IN6ADDR_LOOPBACK_INIT

@@ -1231,6 +1231,12 @@ Get the constant value of C<TCP_USER_TIMEOUT>. If the system doesn't define this
 
 Get the constant value of C<TCP_WINDOW_CLAMP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 IN6ADDR_ANY
+
+  static method IN6ADDR_ANY : int ();
+
+Get the value initialized by C<IN6ADDR_ANY_INIT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
 =head2 IN6ADDR_LOOPBACK
 
   static method IN6ADDR_LOOPBACK : int ();
