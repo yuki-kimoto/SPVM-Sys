@@ -236,4 +236,46 @@ class Sys::Socket::Constant {
   native static method INET_ADDRSTRLEN : int ();
 
   native static method INET6_ADDRSTRLEN : int ();
+
+  native static method IPPROTO_IPV6 : int ();
+
+  native static method IPV6_ADDRFORM : int ();
+
+  native static method IPV6_ADD_MEMBERSHIP : int ();
+
+  native static method IPV6_AUTHHDR : int ();
+
+  native static method IPV6_DROP_MEMBERSHIP : int ();
+
+  native static method IPV6_DSTOPS : int ();
+
+  native static method IPV6_DSTOPTS : int ();
+
+  native static method IPV6_FLOWINFO : int ();
+
+  native static method IPV6_HOPLIMIT : int ();
+
+  native static method IPV6_HOPOPTS : int ();
+
+  native static method IPV6_MTU : int ();
+
+  native static method IPV6_MTU_DISCOVER : int ();
+
+  native static method IPV6_MULTICAST_HOPS : int ();
+
+  native static method IPV6_MULTICAST_IF : int ();
+
+  native static method IPV6_MULTICAST_LOOP : int ();
+
+  native static method IPV6_PKTINFO : int ();
+
+  native static method IPV6_RECVERR : int ();
+
+  native static method IPV6_ROUTER_ALERT : int ();
+
+  native static method IPV6_RTHDR : int ();
+
+  native static method IPV6_UNICAST_HOPS : int ();
+
+  native static method PF_INET6 : int ();
 }

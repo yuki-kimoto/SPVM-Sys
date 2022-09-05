@@ -733,9 +733,128 @@ Get the error number of C<INET_ADDRSTRLEN>. If the system doesn't define this co
 
 Get the error number of C<INET6_ADDRSTRLEN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
-=head1 Copyright & License
+=head2 IPPROTO_IPV6
 
-Copyright 2022-2022 Yuki Kimoto, all rights reserved.
+  static method IPPROTO_IPV6 : int ();
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+Get the error number of C<IPPROTO_IPV6>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_ADDRFORM
+
+  static method IPV6_ADDRFORM : int ();
+
+Get the error number of C<IPV6_ADDRFORM>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_ADD_MEMBERSHIP
+
+  static method IPV6_ADD_MEMBERSHIP : int ();
+
+Get the error number of C<IPV6_ADD_MEMBERSHIP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_AUTHHDR
+
+  static method IPV6_AUTHHDR : int ();
+
+Get the error number of C<IPV6_AUTHHDR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_DROP_MEMBERSHIP
+
+  static method IPV6_DROP_MEMBERSHIP : int ();
+
+Get the error number of C<IPV6_DROP_MEMBERSHIP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_DSTOPS
+
+  static method IPV6_DSTOPS : int ();
+
+Get the error number of C<IPV6_DSTOPS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_DSTOPTS
+
+  static method IPV6_DSTOPTS : int ();
+
+Get the error number of C<IPV6_DSTOPTS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_FLOWINFO
+
+  static method IPV6_FLOWINFO : int ();
+
+Get the error number of C<IPV6_FLOWINFO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_HOPLIMIT
+
+  static method IPV6_HOPLIMIT : int ();
+
+Get the error number of C<IPV6_HOPLIMIT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_HOPOPTS
+
+  static method IPV6_HOPOPTS : int ();
+
+Get the error number of C<IPV6_HOPOPTS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_MTU
+
+  static method IPV6_MTU : int ();
+
+Get the error number of C<IPV6_MTU>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_MTU_DISCOVER
+
+  static method IPV6_MTU_DISCOVER : int ();
+
+Get the error number of C<IPV6_MTU_DISCOVER>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_MULTICAST_HOPS
+
+  static method IPV6_MULTICAST_HOPS : int ();
+
+Get the error number of C<IPV6_MULTICAST_HOPS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_MULTICAST_IF
+
+  static method IPV6_MULTICAST_IF : int ();
+
+Get the error number of C<IPV6_MULTICAST_IF>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_MULTICAST_LOOP
+
+  static method IPV6_MULTICAST_LOOP : int ();
+
+Get the error number of C<IPV6_MULTICAST_LOOP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_PKTINFO
+
+  static method IPV6_PKTINFO : int ();
+
+Get the error number of C<IPV6_PKTINFO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_RECVERR
+
+  static method IPV6_RECVERR : int ();
+
+Get the error number of C<IPV6_RECVERR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_ROUTER_ALERT
+
+  static method IPV6_ROUTER_ALERT : int ();
+
+Get the error number of C<IPV6_ROUTER_ALERT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_RTHDR
+
+  static method IPV6_RTHDR : int ();
+
+Get the error number of C<IPV6_RTHDR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 IPV6_UNICAST_HOPS
+
+  static method IPV6_UNICAST_HOPS : int ();
+
+Get the error number of C<IPV6_UNICAST_HOPS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 PF_INET6
+
+  static method PF_INET6 : int ();
+
+Get the error number of C<PF_INET6>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.

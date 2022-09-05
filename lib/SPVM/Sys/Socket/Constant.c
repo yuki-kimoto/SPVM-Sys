@@ -1449,3 +1449,255 @@ int32_t SPVM__Sys__Socket__Constant__INET6_ADDRSTRLEN(SPVM_ENV* env, SPVM_VALUE*
 #endif
   
 }
+
+int32_t SPVM__Sys__Socket__Constant__IPPROTO_IPV6(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPPROTO_IPV6
+  stack[0].ival = IPPROTO_IPV6;
+  return 0;
+#else
+  env->die(env, stack, "IPPROTO_IPV6 is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_ADDRFORM(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_ADDRFORM
+  stack[0].ival = IPV6_ADDRFORM;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_ADDRFORM is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_ADD_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_ADD_MEMBERSHIP
+  stack[0].ival = IPV6_ADD_MEMBERSHIP;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_ADD_MEMBERSHIP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_AUTHHDR(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_AUTHHDR
+  stack[0].ival = IPV6_AUTHHDR;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_AUTHHDR is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_DROP_MEMBERSHIP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_DROP_MEMBERSHIP
+  stack[0].ival = IPV6_DROP_MEMBERSHIP;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_DROP_MEMBERSHIP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_DSTOPS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_DSTOPS
+  stack[0].ival = IPV6_DSTOPS;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_DSTOPS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_DSTOPTS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_DSTOPTS
+  stack[0].ival = IPV6_DSTOPTS;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_DSTOPTS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_FLOWINFO(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_FLOWINFO
+  stack[0].ival = IPV6_FLOWINFO;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_FLOWINFO is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_HOPLIMIT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_HOPLIMIT
+  stack[0].ival = IPV6_HOPLIMIT;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_HOPLIMIT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_HOPOPTS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_HOPOPTS
+  stack[0].ival = IPV6_HOPOPTS;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_HOPOPTS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_MTU(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_MTU
+  stack[0].ival = IPV6_MTU;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_MTU is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_MTU_DISCOVER(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_MTU_DISCOVER
+  stack[0].ival = IPV6_MTU_DISCOVER;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_MTU_DISCOVER is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_MULTICAST_HOPS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_MULTICAST_HOPS
+  stack[0].ival = IPV6_MULTICAST_HOPS;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_MULTICAST_HOPS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_MULTICAST_IF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_MULTICAST_IF
+  stack[0].ival = IPV6_MULTICAST_IF;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_MULTICAST_IF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_MULTICAST_LOOP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_MULTICAST_LOOP
+  stack[0].ival = IPV6_MULTICAST_LOOP;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_MULTICAST_LOOP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_PKTINFO(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_PKTINFO
+  stack[0].ival = IPV6_PKTINFO;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_PKTINFO is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_RECVERR(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_RECVERR
+  stack[0].ival = IPV6_RECVERR;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_RECVERR is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_ROUTER_ALERT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_ROUTER_ALERT
+  stack[0].ival = IPV6_ROUTER_ALERT;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_ROUTER_ALERT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_RTHDR(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_RTHDR
+  stack[0].ival = IPV6_RTHDR;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_RTHDR is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__IPV6_UNICAST_HOPS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_UNICAST_HOPS
+  stack[0].ival = IPV6_UNICAST_HOPS;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_UNICAST_HOPS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__PF_INET6(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef PF_INET6
+  stack[0].ival = PF_INET6;
+  return 0;
+#else
+  env->die(env, stack, "PF_INET6 is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
