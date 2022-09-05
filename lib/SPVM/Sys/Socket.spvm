@@ -134,9 +134,9 @@ Low-level socket functions
 * TCP_CORK, TCP_KEEPALIVE(?), TCP_NODELAY, ...
 * IN6ADDR_ANY, IN6ADDR_LOOPBACK
 * IPV6_ADD_MEMBERSHIP, IPV6_MTU, IPV6_V6ONLY, ...
+* $family = sockaddr_family $sockaddr
 
 STRUCTURE MANIPULATORS
-$family = sockaddr_family $sockaddr
 $sockaddr = pack_sockaddr_in $port, $ip_address
 ($port, $ip_address) = unpack_sockaddr_in $sockaddr
 $sockaddr = sockaddr_in $port, $ip_address
