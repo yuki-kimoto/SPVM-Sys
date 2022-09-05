@@ -60,6 +60,53 @@ int32_t SPVM__Sys__Socket__Sockaddr__In6__sin_family(SPVM_ENV* env, SPVM_VALUE* 
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__Sockaddr__In__sin6_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    struct in6_addr* address = socket_address->sin6_addr;
+
+    struct in6_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in6_addr));
+    memcpy(address_ret, address, sizeof(struct in6_addr));
+
+    void* obj_address_retr = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, FILE_NAME, __LINE__);
+    if (e) { return e; }
+    
+    stack[0].oval = obj_address_ret;
+    
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin6_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    void* obj_address = stack[1].oval;
+    struct in6_addr* address = env->get_pointer(env, stack, obj_address);
+
+    struct in6_addr address_copy;
+    memcpy(&address_copy, address, sizeof(struct in6_addr);
+    
+    socket_address->sin6_addr = address_copy;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__Sockaddr__In6__sin6_port(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;

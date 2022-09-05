@@ -1,5 +1,6 @@
 class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
   use Sys::Socket::Constant as Sock;
+  use Sys::Socket::In6_addr;
   
   native static method new : Sys::Socket::Sockaddr::In6 ();
 
@@ -9,6 +10,10 @@ class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
     my sin6_family = $self->sin6_family;
     return $sin6_family;
   }
+  
+  native method sin6_addr : Sys::Socket::In6_addr ();
+  
+  native method set_sin6_addr : void ($addr : Sys::Socket::In6_addr);
   
   native method sin6_family : int ();
   
