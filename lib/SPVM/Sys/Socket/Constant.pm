@@ -1093,3 +1093,33 @@ Get the error number of C<SO_TIMESTAMPNS>. If the system doesn't define this con
 
 Get the error number of C<SO_TYPE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 MSG_BCAST
+
+  static method MSG_BCAST : int ();
+
+Get the error number of C<MSG_BCAST>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 MSG_COPY
+
+  static method MSG_COPY : int ();
+
+Get the error number of C<MSG_COPY>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 MSG_EXCEPT
+
+  static method MSG_EXCEPT : int ();
+
+Get the error number of C<MSG_EXCEPT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 MSG_MCAST
+
+  static method MSG_MCAST : int ();
+
+Get the error number of C<MSG_MCAST>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 MSG_NOERROR
+
+  static method MSG_NOERROR : int ();
+
+Get the error number of C<MSG_NOERROR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+

@@ -2169,3 +2169,64 @@ int32_t SPVM__Sys__Socket__Constant__SO_TYPE(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
 }
+
+int32_t SPVM__Sys__Socket__Constant__MSG_BCAST(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef MSG_BCAST
+  stack[0].ival = MSG_BCAST;
+  return 0;
+#else
+  env->die(env, stack, "MSG_BCAST is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__MSG_COPY(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef MSG_COPY
+  stack[0].ival = MSG_COPY;
+  return 0;
+#else
+  env->die(env, stack, "MSG_COPY is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__MSG_EXCEPT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef MSG_EXCEPT
+  stack[0].ival = MSG_EXCEPT;
+  return 0;
+#else
+  env->die(env, stack, "MSG_EXCEPT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__MSG_MCAST(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef MSG_MCAST
+  stack[0].ival = MSG_MCAST;
+  return 0;
+#else
+  env->die(env, stack, "MSG_MCAST is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__MSG_NOERROR(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef MSG_NOERROR
+  stack[0].ival = MSG_NOERROR;
+  return 0;
+#else
+  env->die(env, stack, "MSG_NOERROR is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+

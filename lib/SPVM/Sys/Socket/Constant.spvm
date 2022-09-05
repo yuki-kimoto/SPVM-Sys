@@ -356,4 +356,14 @@ class Sys::Socket::Constant {
   native static method SO_TIMESTAMPNS : int ();
 
   native static method SO_TYPE : int ();
+
+  native static method MSG_BCAST : int ();
+
+  native static method MSG_COPY : int ();
+
+  native static method MSG_EXCEPT : int ();
+
+  native static method MSG_MCAST : int ();
+
+  native static method MSG_NOERROR : int ();
 }
