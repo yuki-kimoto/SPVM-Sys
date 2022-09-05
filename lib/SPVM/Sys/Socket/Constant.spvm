@@ -281,6 +281,8 @@ class Sys::Socket::Constant {
 
   native static method IPV6_UNICAST_HOPS : int ();
 
+  native static method IPV6_V6ONLY : int ();
+
   native static method PF_INET6 : int ();
 
   native static method SO_ACCEPTCONN : int ();

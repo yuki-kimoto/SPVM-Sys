@@ -1702,6 +1702,18 @@ int32_t SPVM__Sys__Socket__Constant__IPV6_UNICAST_HOPS(SPVM_ENV* env, SPVM_VALUE
 
 }
 
+int32_t SPVM__Sys__Socket__Constant__IPV6_V6ONLY(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPV6_V6ONLY
+  stack[0].ival = IPV6_V6ONLY;
+  return 0;
+#else
+  env->die(env, stack, "IPV6_V6ONLY is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
 int32_t SPVM__Sys__Socket__Constant__PF_INET6(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef PF_INET6

@@ -859,6 +859,12 @@ Get the constant value of C<IPV6_RTHDR>. If the system doesn't define this const
 
 Get the constant value of C<IPV6_UNICAST_HOPS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 IPV6_V6ONLY
+
+  static method IPV6_V6ONLY : int ();
+
+Get the constant value of C<IPV6_V6ONLY>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
 =head2 PF_INET6
 
   static method PF_INET6 : int ();
