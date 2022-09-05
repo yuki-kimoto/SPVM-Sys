@@ -927,3 +927,46 @@ int32_t SPVM__Sys__Socket__getprotoent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__htonl(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t host_int = stack[0].ival;
+  
+  int32_t net_int = htonl(host_int);
+  
+  stack[0].ival = net_int;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__htons(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int16_t host_short = stack[0].sval;
+  
+  int16_t net_short = htons(host_short);
+  
+  stack[0].sval = net_short;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__ntohl(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t net_int = stack[0].ival;
+  
+  int32_t host_int = ntohl(net_int);
+  
+  stack[0].ival = host_int;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int16_t net_short = stack[0].sval;
+  
+  int16_t host_short = htons(net_short);
+  
+  stack[0].sval = host_short;
+  
+  return 0;
+}

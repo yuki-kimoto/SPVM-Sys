@@ -105,6 +105,14 @@ class Sys::Socket {
       Fn->shorten($string, $null_char_offset);
     }
   }
+  
+  native static method htonl : int ($host_int : int);
+  
+  native static method htons : short ($host_short : short);
+
+  native static method ntohl : int ($net_int : int);
+  
+  native static method ntohs : short ($net_short : short);
 
 =pod
 
