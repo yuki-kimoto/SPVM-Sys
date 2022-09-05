@@ -64,9 +64,11 @@ class Sys::Socket {
 
   native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
   
-  native static method inet_aton : int ($host : string, $in_addr : Sys::Socket::In_addr);
+  native static method inet_aton : int ($input_address : string, $output_address : Sys::Socket::In_addr);
 
   native static method inet_ntoa : string ($in_addr : Sys::Socket::In_addr);
+
+  native static method inet_pton : int ($address_family : int, $input_address : string, $output_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
 
 =pod
 

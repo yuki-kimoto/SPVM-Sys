@@ -24,27 +24,61 @@ static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
 
 
-int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
+int inet_pton(int af, const char *src, void *dst);
+
+int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_host = stack[0].oval;
+  int32_t address_family = stack[0].ival;
   
-  if (!obj_host) {
-    return env->die(env, stack, "The host address must be defined", FILE_NAME, __LINE__);
+  void* obj_input_address = stack[1].oval;
+  
+  if (!obj_input_address) {
+    return env->die(env, stack, "The address family must be defined", FILE_NAME, __LINE__);
   }
   
-  const char* host = env->get_chars(env, stack, obj_host);
+  const char* input_address = env->get_chars(env, stack, obj_input_address);
   
-  void* obj_in_addr = stack[0].oval;
+  void* obj_output_address = stack[2].oval;
   
-  if (!obj_in_addr) {
+  if (!obj_output_address) {
     return env->die(env, stack, "The Sys::In_addr object must be defined", FILE_NAME, __LINE__);
   }
   
-  struct in_addr * in_addr = env->get_pointer(env, stack, obj_in_addr);
+  void* output_address = env->get_pointer(env, stack, obj_output_address);
   
-  int32_t ret = inet_aton(host, in_addr);
+  int32_t success = inet_pton(address_family, input_address, output_address);
   
-  stack[0].ival = ret;
+  if (success == -1) {
+    env->die(env, stack, "[System Error]inet_pton failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = success;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_input_address = stack[0].oval;
+  
+  if (!obj_input_address) {
+    return env->die(env, stack, "The input_address address must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* input_address = env->get_chars(env, stack, obj_input_address);
+  
+  void* obj_output_address = stack[0].oval;
+  
+  if (!obj_output_address) {
+    return env->die(env, stack, "The Sys::In_addr object must be defined", FILE_NAME, __LINE__);
+  }
+  
+  struct in_addr* output_address = env->get_pointer(env, stack, obj_output_address);
+  
+  int32_t success = inet_aton(input_address, output_address);
+  
+  stack[0].ival = success;
   
   return 0;
 }
