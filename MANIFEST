@@ -63,8 +63,6 @@ lib/SPVM/Sys/Socket/Addrinfo.pm
 lib/SPVM/Sys/Socket/Addrinfo.spvm
 lib/SPVM/Sys/Socket/Constant.c
 lib/SPVM/Sys/Socket/Constant.config
-lib/SPVM/Sys/Socket/Constant.native/include/.gitkeep
-lib/SPVM/Sys/Socket/Constant.native/src/.gitkeep
 lib/SPVM/Sys/Socket/Constant.pm
 lib/SPVM/Sys/Socket/Constant.spvm
 lib/SPVM/Sys/Socket/Hostent.c

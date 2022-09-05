@@ -1425,3 +1425,27 @@ int32_t SPVM__Sys__Socket__Constant__UDP_CORK(SPVM_ENV* env, SPVM_VALUE* stack) 
 #endif
   
 }
+
+int32_t SPVM__Sys__Socket__Constant__INET_ADDRSTRLEN(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef INET_ADDRSTRLEN
+  stack[0].ival = INET_ADDRSTRLEN;
+  return 0;
+#else
+  env->die(env, stack, "INET_ADDRSTRLEN is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+  
+}
+
+int32_t SPVM__Sys__Socket__Constant__INET6_ADDRSTRLEN(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef INET6_ADDRSTRLEN
+  stack[0].ival = INET6_ADDRSTRLEN;
+  return 0;
+#else
+  env->die(env, stack, "INET6_ADDRSTRLEN is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+  
+}

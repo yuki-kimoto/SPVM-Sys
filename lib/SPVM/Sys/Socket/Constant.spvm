@@ -232,4 +232,8 @@ class Sys::Socket::Constant {
   native static method TCP_CORK : int ();
 
   native static method UDP_CORK : int ();
+
+  native static method INET_ADDRSTRLEN : int ();
+
+  native static method INET6_ADDRSTRLEN : int ();
 }

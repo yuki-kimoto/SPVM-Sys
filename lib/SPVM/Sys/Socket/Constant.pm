@@ -721,6 +721,18 @@ Get the error number of C<TCP_CORK>. If the system doesn't define this constant,
 
 Get the error number of C<UDP_CORK>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 INET_ADDRSTRLEN
+
+  static method INET_ADDRSTRLEN : int ();
+
+Get the error number of C<INET_ADDRSTRLEN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 INET6_ADDRSTRLEN
+
+  static method INET6_ADDRSTRLEN : int ();
+
+Get the error number of C<INET6_ADDRSTRLEN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
 =head1 Copyright & License
 
 Copyright 2022-2022 Yuki Kimoto, all rights reserved.

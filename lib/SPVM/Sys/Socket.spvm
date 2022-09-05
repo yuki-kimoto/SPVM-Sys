@@ -72,7 +72,7 @@ class Sys::Socket {
   native static method inet_pton : int ($address_family : int, $input_address : string, $output_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
   
   native static method inet_ntop : string ($address_family : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $output_address : string, $size : int);
-
+  
   private static method shorten_null_char : void ($string : mutable string) {
     
     my $null_char_offset = -1;
