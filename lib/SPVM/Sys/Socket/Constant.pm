@@ -858,3 +858,238 @@ Get the error number of C<IPV6_UNICAST_HOPS>. If the system doesn't define this 
   static method PF_INET6 : int ();
 
 Get the error number of C<PF_INET6>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_ACCEPTCONN
+
+  static method SO_ACCEPTCONN : int ();
+
+Get the error number of C<SO_ACCEPTCONN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_ATTACH_BPF
+
+  static method SO_ATTACH_BPF : int ();
+
+Get the error number of C<SO_ATTACH_BPF>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_ATTACH_FILTER
+
+  static method SO_ATTACH_FILTER : int ();
+
+Get the error number of C<SO_ATTACH_FILTER>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_ATTACH_REUSEPORT_CBPF
+
+  static method SO_ATTACH_REUSEPORT_CBPF : int ();
+
+Get the error number of C<SO_ATTACH_REUSEPORT_CBPF>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_ATTACH_REUSEPORT_EBPF
+
+  static method SO_ATTACH_REUSEPORT_EBPF : int ();
+
+Get the error number of C<SO_ATTACH_REUSEPORT_EBPF>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_BINDTODEVICE
+
+  static method SO_BINDTODEVICE : int ();
+
+Get the error number of C<SO_BINDTODEVICE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_BSDCOMPAT
+
+  static method SO_BSDCOMPAT : int ();
+
+Get the error number of C<SO_BSDCOMPAT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_BUSY_POLL
+
+  static method SO_BUSY_POLL : int ();
+
+Get the error number of C<SO_BUSY_POLL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_DEBUG
+
+  static method SO_DEBUG : int ();
+
+Get the error number of C<SO_DEBUG>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_DETACH_BPF
+
+  static method SO_DETACH_BPF : int ();
+
+Get the error number of C<SO_DETACH_BPF>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_DETACH_FILTER
+
+  static method SO_DETACH_FILTER : int ();
+
+Get the error number of C<SO_DETACH_FILTER>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_DOMAIN
+
+  static method SO_DOMAIN : int ();
+
+Get the error number of C<SO_DOMAIN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_DONTROUTE
+
+  static method SO_DONTROUTE : int ();
+
+Get the error number of C<SO_DONTROUTE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_INCOMING_CPU
+
+  static method SO_INCOMING_CPU : int ();
+
+Get the error number of C<SO_INCOMING_CPU>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_INCOMING_NAPI_ID
+
+  static method SO_INCOMING_NAPI_ID : int ();
+
+Get the error number of C<SO_INCOMING_NAPI_ID>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_LINGER
+
+  static method SO_LINGER : int ();
+
+Get the error number of C<SO_LINGER>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_LOCK_FILTER
+
+  static method SO_LOCK_FILTER : int ();
+
+Get the error number of C<SO_LOCK_FILTER>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_MARK
+
+  static method SO_MARK : int ();
+
+Get the error number of C<SO_MARK>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_OOBINLINE
+
+  static method SO_OOBINLINE : int ();
+
+Get the error number of C<SO_OOBINLINE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_PASSCRED
+
+  static method SO_PASSCRED : int ();
+
+Get the error number of C<SO_PASSCRED>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_PASSSEC
+
+  static method SO_PASSSEC : int ();
+
+Get the error number of C<SO_PASSSEC>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_PEEK_OFF
+
+  static method SO_PEEK_OFF : int ();
+
+Get the error number of C<SO_PEEK_OFF>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_PEERCRED
+
+  static method SO_PEERCRED : int ();
+
+Get the error number of C<SO_PEERCRED>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_PRIORITY
+
+  static method SO_PRIORITY : int ();
+
+Get the error number of C<SO_PRIORITY>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_PROTOCOL
+
+  static method SO_PROTOCOL : int ();
+
+Get the error number of C<SO_PROTOCOL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_RCVBUF
+
+  static method SO_RCVBUF : int ();
+
+Get the error number of C<SO_RCVBUF>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_RCVBUFFORCE
+
+  static method SO_RCVBUFFORCE : int ();
+
+Get the error number of C<SO_RCVBUFFORCE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_RCVLOWAT
+
+  static method SO_RCVLOWAT : int ();
+
+Get the error number of C<SO_RCVLOWAT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_RCVTIMEO
+
+  static method SO_RCVTIMEO : int ();
+
+Get the error number of C<SO_RCVTIMEO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_REUSEPORT
+
+  static method SO_REUSEPORT : int ();
+
+Get the error number of C<SO_REUSEPORT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_RXQ_OVFL
+
+  static method SO_RXQ_OVFL : int ();
+
+Get the error number of C<SO_RXQ_OVFL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_SELECT_ERR_QUEUE
+
+  static method SO_SELECT_ERR_QUEUE : int ();
+
+Get the error number of C<SO_SELECT_ERR_QUEUE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_SNDBUF
+
+  static method SO_SNDBUF : int ();
+
+Get the error number of C<SO_SNDBUF>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_SNDBUFFORCE
+
+  static method SO_SNDBUFFORCE : int ();
+
+Get the error number of C<SO_SNDBUFFORCE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_SNDLOWAT
+
+  static method SO_SNDLOWAT : int ();
+
+Get the error number of C<SO_SNDLOWAT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_SNDTIMEO
+
+  static method SO_SNDTIMEO : int ();
+
+Get the error number of C<SO_SNDTIMEO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_TIMESTAMP
+
+  static method SO_TIMESTAMP : int ();
+
+Get the error number of C<SO_TIMESTAMP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_TIMESTAMPNS
+
+  static method SO_TIMESTAMPNS : int ();
+
+Get the error number of C<SO_TIMESTAMPNS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SO_TYPE
+
+  static method SO_TYPE : int ();
+
+Get the error number of C<SO_TYPE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+

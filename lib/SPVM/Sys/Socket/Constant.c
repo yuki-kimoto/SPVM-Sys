@@ -1701,3 +1701,471 @@ int32_t SPVM__Sys__Socket__Constant__PF_INET6(SPVM_ENV* env, SPVM_VALUE* stack) 
 #endif
 
 }
+
+int32_t SPVM__Sys__Socket__Constant__SO_ACCEPTCONN(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_ACCEPTCONN
+  stack[0].ival = SO_ACCEPTCONN;
+  return 0;
+#else
+  env->die(env, stack, "SO_ACCEPTCONN is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_ATTACH_BPF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_ATTACH_BPF
+  stack[0].ival = SO_ATTACH_BPF;
+  return 0;
+#else
+  env->die(env, stack, "SO_ATTACH_BPF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_ATTACH_FILTER(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_ATTACH_FILTER
+  stack[0].ival = SO_ATTACH_FILTER;
+  return 0;
+#else
+  env->die(env, stack, "SO_ATTACH_FILTER is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_ATTACH_REUSEPORT_CBPF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_ATTACH_REUSEPORT_CBPF
+  stack[0].ival = SO_ATTACH_REUSEPORT_CBPF;
+  return 0;
+#else
+  env->die(env, stack, "SO_ATTACH_REUSEPORT_CBPF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_ATTACH_REUSEPORT_EBPF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_ATTACH_REUSEPORT_EBPF
+  stack[0].ival = SO_ATTACH_REUSEPORT_EBPF;
+  return 0;
+#else
+  env->die(env, stack, "SO_ATTACH_REUSEPORT_EBPF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_BINDTODEVICE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_BINDTODEVICE
+  stack[0].ival = SO_BINDTODEVICE;
+  return 0;
+#else
+  env->die(env, stack, "SO_BINDTODEVICE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_BSDCOMPAT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_BSDCOMPAT
+  stack[0].ival = SO_BSDCOMPAT;
+  return 0;
+#else
+  env->die(env, stack, "SO_BSDCOMPAT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_BUSY_POLL(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_BUSY_POLL
+  stack[0].ival = SO_BUSY_POLL;
+  return 0;
+#else
+  env->die(env, stack, "SO_BUSY_POLL is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_DEBUG(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_DEBUG
+  stack[0].ival = SO_DEBUG;
+  return 0;
+#else
+  env->die(env, stack, "SO_DEBUG is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_DETACH_BPF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_DETACH_BPF
+  stack[0].ival = SO_DETACH_BPF;
+  return 0;
+#else
+  env->die(env, stack, "SO_DETACH_BPF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_DETACH_FILTER(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_DETACH_FILTER
+  stack[0].ival = SO_DETACH_FILTER;
+  return 0;
+#else
+  env->die(env, stack, "SO_DETACH_FILTER is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_DOMAIN(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_DOMAIN
+  stack[0].ival = SO_DOMAIN;
+  return 0;
+#else
+  env->die(env, stack, "SO_DOMAIN is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_DONTROUTE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_DONTROUTE
+  stack[0].ival = SO_DONTROUTE;
+  return 0;
+#else
+  env->die(env, stack, "SO_DONTROUTE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_INCOMING_CPU(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_INCOMING_CPU
+  stack[0].ival = SO_INCOMING_CPU;
+  return 0;
+#else
+  env->die(env, stack, "SO_INCOMING_CPU is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_INCOMING_NAPI_ID(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_INCOMING_NAPI_ID
+  stack[0].ival = SO_INCOMING_NAPI_ID;
+  return 0;
+#else
+  env->die(env, stack, "SO_INCOMING_NAPI_ID is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_LINGER(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_LINGER
+  stack[0].ival = SO_LINGER;
+  return 0;
+#else
+  env->die(env, stack, "SO_LINGER is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_LOCK_FILTER(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_LOCK_FILTER
+  stack[0].ival = SO_LOCK_FILTER;
+  return 0;
+#else
+  env->die(env, stack, "SO_LOCK_FILTER is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_MARK(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_MARK
+  stack[0].ival = SO_MARK;
+  return 0;
+#else
+  env->die(env, stack, "SO_MARK is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_OOBINLINE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_OOBINLINE
+  stack[0].ival = SO_OOBINLINE;
+  return 0;
+#else
+  env->die(env, stack, "SO_OOBINLINE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_PASSCRED(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_PASSCRED
+  stack[0].ival = SO_PASSCRED;
+  return 0;
+#else
+  env->die(env, stack, "SO_PASSCRED is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_PASSSEC(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_PASSSEC
+  stack[0].ival = SO_PASSSEC;
+  return 0;
+#else
+  env->die(env, stack, "SO_PASSSEC is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_PEEK_OFF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_PEEK_OFF
+  stack[0].ival = SO_PEEK_OFF;
+  return 0;
+#else
+  env->die(env, stack, "SO_PEEK_OFF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_PEERCRED(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_PEERCRED
+  stack[0].ival = SO_PEERCRED;
+  return 0;
+#else
+  env->die(env, stack, "SO_PEERCRED is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_PRIORITY(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_PRIORITY
+  stack[0].ival = SO_PRIORITY;
+  return 0;
+#else
+  env->die(env, stack, "SO_PRIORITY is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_PROTOCOL(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_PROTOCOL
+  stack[0].ival = SO_PROTOCOL;
+  return 0;
+#else
+  env->die(env, stack, "SO_PROTOCOL is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_RCVBUF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_RCVBUF
+  stack[0].ival = SO_RCVBUF;
+  return 0;
+#else
+  env->die(env, stack, "SO_RCVBUF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_RCVBUFFORCE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_RCVBUFFORCE
+  stack[0].ival = SO_RCVBUFFORCE;
+  return 0;
+#else
+  env->die(env, stack, "SO_RCVBUFFORCE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_RCVLOWAT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_RCVLOWAT
+  stack[0].ival = SO_RCVLOWAT;
+  return 0;
+#else
+  env->die(env, stack, "SO_RCVLOWAT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_RCVTIMEO(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_RCVTIMEO
+  stack[0].ival = SO_RCVTIMEO;
+  return 0;
+#else
+  env->die(env, stack, "SO_RCVTIMEO is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_REUSEPORT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_REUSEPORT
+  stack[0].ival = SO_REUSEPORT;
+  return 0;
+#else
+  env->die(env, stack, "SO_REUSEPORT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_RXQ_OVFL(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_RXQ_OVFL
+  stack[0].ival = SO_RXQ_OVFL;
+  return 0;
+#else
+  env->die(env, stack, "SO_RXQ_OVFL is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_SELECT_ERR_QUEUE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_SELECT_ERR_QUEUE
+  stack[0].ival = SO_SELECT_ERR_QUEUE;
+  return 0;
+#else
+  env->die(env, stack, "SO_SELECT_ERR_QUEUE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_SNDBUF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_SNDBUF
+  stack[0].ival = SO_SNDBUF;
+  return 0;
+#else
+  env->die(env, stack, "SO_SNDBUF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_SNDBUFFORCE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_SNDBUFFORCE
+  stack[0].ival = SO_SNDBUFFORCE;
+  return 0;
+#else
+  env->die(env, stack, "SO_SNDBUFFORCE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_SNDLOWAT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_SNDLOWAT
+  stack[0].ival = SO_SNDLOWAT;
+  return 0;
+#else
+  env->die(env, stack, "SO_SNDLOWAT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_SNDTIMEO(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_SNDTIMEO
+  stack[0].ival = SO_SNDTIMEO;
+  return 0;
+#else
+  env->die(env, stack, "SO_SNDTIMEO is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_TIMESTAMP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_TIMESTAMP
+  stack[0].ival = SO_TIMESTAMP;
+  return 0;
+#else
+  env->die(env, stack, "SO_TIMESTAMP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_TIMESTAMPNS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_TIMESTAMPNS
+  stack[0].ival = SO_TIMESTAMPNS;
+  return 0;
+#else
+  env->die(env, stack, "SO_TIMESTAMPNS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__SO_TYPE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SO_TYPE
+  stack[0].ival = SO_TYPE;
+  return 0;
+#else
+  env->die(env, stack, "SO_TYPE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}

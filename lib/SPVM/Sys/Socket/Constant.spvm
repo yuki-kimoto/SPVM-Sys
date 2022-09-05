@@ -278,4 +278,82 @@ class Sys::Socket::Constant {
   native static method IPV6_UNICAST_HOPS : int ();
 
   native static method PF_INET6 : int ();
+
+  native static method SO_ACCEPTCONN : int ();
+
+  native static method SO_ATTACH_BPF : int ();
+
+  native static method SO_ATTACH_FILTER : int ();
+
+  native static method SO_ATTACH_REUSEPORT_CBPF : int ();
+
+  native static method SO_ATTACH_REUSEPORT_EBPF : int ();
+
+  native static method SO_BINDTODEVICE : int ();
+
+  native static method SO_BSDCOMPAT : int ();
+
+  native static method SO_BUSY_POLL : int ();
+
+  native static method SO_DEBUG : int ();
+
+  native static method SO_DETACH_BPF : int ();
+
+  native static method SO_DETACH_FILTER : int ();
+
+  native static method SO_DOMAIN : int ();
+
+  native static method SO_DONTROUTE : int ();
+
+  native static method SO_INCOMING_CPU : int ();
+
+  native static method SO_INCOMING_NAPI_ID : int ();
+
+  native static method SO_LINGER : int ();
+
+  native static method SO_LOCK_FILTER : int ();
+
+  native static method SO_MARK : int ();
+
+  native static method SO_OOBINLINE : int ();
+
+  native static method SO_PASSCRED : int ();
+
+  native static method SO_PASSSEC : int ();
+
+  native static method SO_PEEK_OFF : int ();
+
+  native static method SO_PEERCRED : int ();
+
+  native static method SO_PRIORITY : int ();
+
+  native static method SO_PROTOCOL : int ();
+
+  native static method SO_RCVBUF : int ();
+
+  native static method SO_RCVBUFFORCE : int ();
+
+  native static method SO_RCVLOWAT : int ();
+
+  native static method SO_RCVTIMEO : int ();
+
+  native static method SO_REUSEPORT : int ();
+
+  native static method SO_RXQ_OVFL : int ();
+
+  native static method SO_SELECT_ERR_QUEUE : int ();
+
+  native static method SO_SNDBUF : int ();
+
+  native static method SO_SNDBUFFORCE : int ();
+
+  native static method SO_SNDLOWAT : int ();
+
+  native static method SO_SNDTIMEO : int ();
+
+  native static method SO_TIMESTAMP : int ();
+
+  native static method SO_TIMESTAMPNS : int ();
+
+  native static method SO_TYPE : int ();
 }
