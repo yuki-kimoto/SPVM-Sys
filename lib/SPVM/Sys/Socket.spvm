@@ -147,12 +147,12 @@ Low-level socket functions
 * ($port, $ip_address) = unpack_sockaddr_in $sockaddr
 * $sockaddr = sockaddr_in $port, $ip_address
 * ($port, $ip_address) = sockaddr_in $sockaddr
+* $sockaddr = pack_sockaddr_in6 $port, $ip6_address, [$scope_id, [$flowinfo]]
+* ($port, $ip6_address, $scope_id, $flowinfo) = unpack_sockaddr_in6 $sockaddr
+* $sockaddr = sockaddr_in6 $port, $ip6_address, [$scope_id, [$flowinfo]]
+* ($port, $ip6_address, $scope_id, $flowinfo) = sockaddr_in6 $sockaddr
 
 STRUCTURE MANIPULATORS
-$sockaddr = pack_sockaddr_in6 $port, $ip6_address, [$scope_id, [$flowinfo]]
-($port, $ip6_address, $scope_id, $flowinfo) = unpack_sockaddr_in6 $sockaddr
-$sockaddr = sockaddr_in6 $port, $ip6_address, [$scope_id, [$flowinfo]]
-($port, $ip6_address, $scope_id, $flowinfo) = sockaddr_in6 $sockaddr
 $sockaddr = pack_sockaddr_un $path
 ($path) = unpack_sockaddr_un $sockaddr
 $sockaddr = sockaddr_un $path

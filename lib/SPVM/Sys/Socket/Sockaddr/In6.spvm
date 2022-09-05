@@ -11,11 +11,21 @@ class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
     return $sin6_family;
   }
   
+  native method sin6_family : int ();
+  
+  native method set_sin6_family : int ();
+
+  native method sin6_flowinfo : int ();
+  
+  native method set_sin6_flowinfo : int ();
+  
+  native method sin6_scope_id : int ();
+  
+  native method set_sin6_scope_id : int ();
+
   native method sin6_addr : Sys::Socket::In6_addr ();
   
-  native method set_sin6_addr : void ($addr : Sys::Socket::In6_addr);
-  
-  native method sin6_family : int ();
+  native method set_sin6_addr : void ($address : Sys::Socket::In6_addr);
   
   native method sin6_port : short ();
   

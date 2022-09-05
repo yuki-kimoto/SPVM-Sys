@@ -44,7 +44,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In6__DESTROY(SPVM_ENV* env, SPVM_VALUE* sta
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__Sockaddr__In6__sin_family(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Sockaddr__In6__sin6_family(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   
@@ -52,6 +52,86 @@ int32_t SPVM__Sys__Socket__Sockaddr__In6__sin_family(SPVM_ENV* env, SPVM_VALUE* 
   
   if (socket_address) {
     stack[0].ival = socket_address->sin6_family;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__Sockaddr__In6__set_sin6_family(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    socket_address->sin6_family = stack[1].ival;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__Sockaddr__In6__sin6_scope_id(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    stack[0].ival = socket_address->sin6_scope_id;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__Sockaddr__In6__set_sin6_scope_id(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    socket_address->sin6_scope_id = stack[1].ival;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__Sockaddr__In6__sin6_flowinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    stack[0].ival = socket_address->sin6_flowinfo;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__Sockaddr__In6__set_sin6_flowinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    socket_address->sin6_flowinfo = stack[1].ival;
   }
   else {
     assert(0);
@@ -130,7 +210,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In6__sin6_port(SPVM_ENV* env, SPVM_VALUE* s
   struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
   
   if (socket_address) {
-    socket_address->sin6_port = stack[0].sval;
+    socket_address->sin6_port = stack[1].sval;
   }
   else {
     assert(0);
