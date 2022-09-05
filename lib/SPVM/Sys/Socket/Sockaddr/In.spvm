@@ -1,0 +1,5 @@
+class Sys::Socket::Sockaddr::In extends Sys::Socket::Sockaddr : pointer_t {
+  native static method new : Sys::Socket::Sockaddr::In ();
+  
+  native method DESTROY : void ();
+}

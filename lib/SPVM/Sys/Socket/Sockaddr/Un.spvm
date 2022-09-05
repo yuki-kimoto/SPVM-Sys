@@ -1,0 +1,5 @@
+class Sys::Socket::Sockaddr::Un extends Sys::Socket::Sockaddr : pointer_t {
+  native static method new : Sys::Socket::Sockaddr::Un ();
+  
+  native method DESTROY : void ();
+}
