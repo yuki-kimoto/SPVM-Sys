@@ -43,3 +43,19 @@ int32_t SPVM__Sys__Socket__Sockaddr__In6__DESTROY(SPVM_ENV* env, SPVM_VALUE* sta
   
   return 0;
 }
+
+int32_t SPVM__Sys__Socket__Sockaddr__In6__sin_family(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    stack[0].ival = socket_address->sin6_family;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}

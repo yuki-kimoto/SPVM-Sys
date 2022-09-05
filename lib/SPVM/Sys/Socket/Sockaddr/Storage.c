@@ -43,3 +43,19 @@ int32_t SPVM__Sys__Socket__Sockaddr__Storage__DESTROY(SPVM_ENV* env, SPVM_VALUE*
   
   return 0;
 }
+
+int32_t SPVM__Sys__Socket__Sockaddr__Storage__sin_family(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  struct sockaddr_strage* socket_address = env->get_pointer(env, stack, obj_self);
+  
+  if (socket_address) {
+    stack[0].ival = socket_address->ss_family;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}

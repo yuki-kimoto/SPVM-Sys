@@ -1,6 +1,10 @@
 class Sys::Socket::In6_addr : pointer_t {
   native static method new : Sys::Socket::In6_addr ();
-  
+
   # Instance methods
   native method DESTROY : void ();
+
+  static method sa_family : int () {
+    die "This method will be implemented by a child class";
+  }
 }

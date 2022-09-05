@@ -1,5 +1,14 @@
 class Sys::Socket::Sockaddr::Un extends Sys::Socket::Sockaddr : pointer_t {
+  use Sys::Socket::Constant as Sock;
+  
   native static method new : Sys::Socket::Sockaddr::Un ();
   
   native method DESTROY : void ();
+
+  static method sa_family : int () {
+    my sin_family = $self->sun_family;
+    return $sun_family;
+  }
+  
+  native method sun_family : int ();
 }

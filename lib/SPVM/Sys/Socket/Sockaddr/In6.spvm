@@ -1,5 +1,15 @@
 class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
-  native static method new : Sys::Socket::Sockaddr::In6 ();
+  use Sys::Socket::Constant as Sock;
   
+  native static method new : Sys::Socket::Sockaddr::In6 ();
+
   native method DESTROY : void ();
+  
+  static method sa_family : int () {
+    my sin6_family = $self->sin6_family;
+    return $sin6_family;
+  }
+  
+  native method sin6_family : int ();
+  
 }
