@@ -80,6 +80,7 @@ Low-level socket functions
 
 * $ip_address = inet_aton $string
 * $string = inet_ntoa $ip_address
+* $address = inet_pton $family, $string
 
 
 CONSTANTS
@@ -119,7 +120,6 @@ $ip_mreq_source = pack_ip_mreq_source $multiaddr, $source, $interface
 ($multiaddr, $source, $interface) = unpack_ip_mreq_source $ip_mreq
 $ipv6_mreq = pack_ipv6_mreq $multiaddr6, $ifindex
 ($multiaddr6, $ifindex) = unpack_ipv6_mreq $ipv6_mreq
-$address = inet_pton $family, $string
 $string = inet_ntop $family, $address
 
 
