@@ -374,4 +374,32 @@ class Sys::Socket::Constant {
   native static method SHUT_WR : int ();
 
   native static method SHUT_RDWR : int ();
+
+  native static method TCP_CONGESTION : int ();
+
+  native static method TCP_DEFER_ACCEPT : int ();
+
+  native static method TCP_INFO : int ();
+
+  native static method TCP_KEEPCNT : int ();
+
+  native static method TCP_KEEPIDLE : int ();
+
+  native static method TCP_KEEPINTVL : int ();
+
+  native static method TCP_LINGER2 : int ();
+
+  native static method TCP_MAXSEG : int ();
+
+  native static method TCP_NODELAY : int ();
+
+  native static method TCP_QUICKACK : int ();
+
+  native static method TCP_SYNCNT : int ();
+
+  native static method TCP_SYNQ_HSIZE : int ();
+
+  native static method TCP_USER_TIMEOUT : int ();
+
+  native static method TCP_WINDOW_CLAMP : int ();
 }

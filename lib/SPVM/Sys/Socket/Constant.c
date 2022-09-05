@@ -2280,3 +2280,171 @@ int32_t SPVM__Sys__Socket__Constant__SHUT_RDWR(SPVM_ENV* env, SPVM_VALUE* stack)
 #endif
 
 }
+
+int32_t SPVM__Sys__Socket__Constant__TCP_CONGESTION(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_CONGESTION
+  stack[0].ival = TCP_CONGESTION;
+  return 0;
+#else
+  env->die(env, stack, "TCP_CONGESTION is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_DEFER_ACCEPT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_DEFER_ACCEPT
+  stack[0].ival = TCP_DEFER_ACCEPT;
+  return 0;
+#else
+  env->die(env, stack, "TCP_DEFER_ACCEPT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_INFO(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_INFO
+  stack[0].ival = TCP_INFO;
+  return 0;
+#else
+  env->die(env, stack, "TCP_INFO is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_KEEPCNT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_KEEPCNT
+  stack[0].ival = TCP_KEEPCNT;
+  return 0;
+#else
+  env->die(env, stack, "TCP_KEEPCNT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_KEEPIDLE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_KEEPIDLE
+  stack[0].ival = TCP_KEEPIDLE;
+  return 0;
+#else
+  env->die(env, stack, "TCP_KEEPIDLE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_KEEPINTVL(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_KEEPINTVL
+  stack[0].ival = TCP_KEEPINTVL;
+  return 0;
+#else
+  env->die(env, stack, "TCP_KEEPINTVL is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_LINGER2(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_LINGER2
+  stack[0].ival = TCP_LINGER2;
+  return 0;
+#else
+  env->die(env, stack, "TCP_LINGER2 is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_MAXSEG(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_MAXSEG
+  stack[0].ival = TCP_MAXSEG;
+  return 0;
+#else
+  env->die(env, stack, "TCP_MAXSEG is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_NODELAY(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_NODELAY
+  stack[0].ival = TCP_NODELAY;
+  return 0;
+#else
+  env->die(env, stack, "TCP_NODELAY is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_QUICKACK(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_QUICKACK
+  stack[0].ival = TCP_QUICKACK;
+  return 0;
+#else
+  env->die(env, stack, "TCP_QUICKACK is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_SYNCNT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_SYNCNT
+  stack[0].ival = TCP_SYNCNT;
+  return 0;
+#else
+  env->die(env, stack, "TCP_SYNCNT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_SYNQ_HSIZE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_SYNQ_HSIZE
+  stack[0].ival = TCP_SYNQ_HSIZE;
+  return 0;
+#else
+  env->die(env, stack, "TCP_SYNQ_HSIZE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_USER_TIMEOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_USER_TIMEOUT
+  stack[0].ival = TCP_USER_TIMEOUT;
+  return 0;
+#else
+  env->die(env, stack, "TCP_USER_TIMEOUT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__TCP_WINDOW_CLAMP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_WINDOW_CLAMP
+  stack[0].ival = TCP_WINDOW_CLAMP;
+  return 0;
+#else
+  env->die(env, stack, "TCP_WINDOW_CLAMP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}

@@ -1147,3 +1147,86 @@ Get the error number of C<SHUT_WR>. If the system doesn't define this constant, 
 
 Get the error number of C<SHUT_RDWR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 TCP_CONGESTION
+
+  static method TCP_CONGESTION : int ();
+
+Get the error number of C<TCP_CONGESTION>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_DEFER_ACCEPT
+
+  static method TCP_DEFER_ACCEPT : int ();
+
+Get the error number of C<TCP_DEFER_ACCEPT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_INFO
+
+  static method TCP_INFO : int ();
+
+Get the error number of C<TCP_INFO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_KEEPCNT
+
+  static method TCP_KEEPCNT : int ();
+
+Get the error number of C<TCP_KEEPCNT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_KEEPIDLE
+
+  static method TCP_KEEPIDLE : int ();
+
+Get the error number of C<TCP_KEEPIDLE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_KEEPINTVL
+
+  static method TCP_KEEPINTVL : int ();
+
+Get the error number of C<TCP_KEEPINTVL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_LINGER2
+
+  static method TCP_LINGER2 : int ();
+
+Get the error number of C<TCP_LINGER2>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_MAXSEG
+
+  static method TCP_MAXSEG : int ();
+
+Get the error number of C<TCP_MAXSEG>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_NODELAY
+
+  static method TCP_NODELAY : int ();
+
+Get the error number of C<TCP_NODELAY>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_QUICKACK
+
+  static method TCP_QUICKACK : int ();
+
+Get the error number of C<TCP_QUICKACK>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_SYNCNT
+
+  static method TCP_SYNCNT : int ();
+
+Get the error number of C<TCP_SYNCNT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_SYNQ_HSIZE
+
+  static method TCP_SYNQ_HSIZE : int ();
+
+Get the error number of C<TCP_SYNQ_HSIZE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_USER_TIMEOUT
+
+  static method TCP_USER_TIMEOUT : int ();
+
+Get the error number of C<TCP_USER_TIMEOUT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 TCP_WINDOW_CLAMP
+
+  static method TCP_WINDOW_CLAMP : int ();
+
+Get the error number of C<TCP_WINDOW_CLAMP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
