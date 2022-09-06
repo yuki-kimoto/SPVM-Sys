@@ -1,0 +1,3 @@
+class Sys::Socket::Ip_mreq {
+
+}
