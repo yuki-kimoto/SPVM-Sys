@@ -50,10 +50,6 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User::Group');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Constant');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Hostent');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Netent');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Servent');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Protoent');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Addrinfo');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Sockaddr');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Sockaddr::In');

@@ -3,29 +3,9 @@ class Sys::Socket {
   use Sys::Socket::Sockaddr;
   use Sys::Socket::In_addr;
   use Sys::Socket::In6_addr;
-  use Sys::Socket::Hostent;
-  use Sys::Socket::Netent;
-  use Sys::Socket::Servent;
-  use Sys::Socket::Protoent;
   use Fn;
   use Sys::Socket::Constant as Sock;
 
-  native static method sethostent : void ($stayopen : int);
-  native static method endhostent : void ();
-  native static method gethostent : Sys::Socket::Hostent ();
-
-  native static method setnetent : void ($stayopen : int);
-  native static method endnetent : void ();
-  native static method getnetent : Sys::Socket::Netent ();
-
-  native static method setservent : void ($stayopen : int);
-  native static method endservent : void ();
-  native static method getservent : Sys::Socket::Servent ();
-
-  native static method setprotoent : void ($stayopen : int);
-  native static method endprotoent : void ();
-  native static method getprotoent : Sys::Socket::Protoent ();
-  
   native static method getaddrinfo : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
                 $res : Sys::Socket::Addrinfo[]);
