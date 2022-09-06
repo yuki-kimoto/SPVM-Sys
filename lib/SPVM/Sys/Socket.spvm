@@ -177,12 +177,8 @@ Low-level socket functions
 * ($multiaddr, $source, $interface) = unpack_ip_mreq_source $ip_mreq
 * $ipv6_mreq = pack_ipv6_mreq $multiaddr6, $ifindex
 * ($multiaddr6, $ifindex) = unpack_ipv6_mreq $ipv6_mreq
-
-TODO
-
-poll is sokect feature on Windows
-
-ioctlsocket is Windows only
+* WSAPoll(Windows)
+* ioctlsocket(Windows)
 
 =cut
 
