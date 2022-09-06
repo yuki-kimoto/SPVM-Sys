@@ -1,5 +1,0 @@
-class Sys::Poll {
-  use Sys::Poll::PollfdArray;
-  
-  native static method poll : int ($fds : Sys::Poll::PollfdArray, $nfds : int, $timeout : int);
-}
