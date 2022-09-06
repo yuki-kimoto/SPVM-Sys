@@ -12,5 +12,5 @@ class Sys::Socket::Sockaddr::Storage extends Sys::Socket::Sockaddr : pointer_t {
   
   native method ss_family : int ();
 
-  native method set_ss_family : int ();
+  native method set_ss_family : void ();
 }

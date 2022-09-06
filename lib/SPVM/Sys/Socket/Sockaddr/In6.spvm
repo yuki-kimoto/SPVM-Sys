@@ -13,15 +13,15 @@ class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
   
   native method sin6_family : int ();
   
-  native method set_sin6_family : int ();
+  native method set_sin6_family : void ();
 
   native method sin6_flowinfo : int ();
   
-  native method set_sin6_flowinfo : int ();
+  native method set_sin6_flowinfo : void ();
   
   native method sin6_scope_id : int ();
   
-  native method set_sin6_scope_id : int ();
+  native method set_sin6_scope_id : void ();
 
   native method sin6_addr : Sys::Socket::In6_addr ();
   
