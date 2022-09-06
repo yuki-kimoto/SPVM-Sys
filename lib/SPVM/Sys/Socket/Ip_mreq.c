@@ -18,14 +18,36 @@
 
 const char* FILE_NAME = "Sys/Socket/Ip_mreq.c";
 
-int32_t SPVM__Sys__Socket__Ip_mreq__foo(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
+int32_t SPVM__Sys__Socket__Ip_mreq__new(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  struct ip_mreq* multi_request = env->new_memory_stack(env, stack, sizeof(struct ip_mreq));
+
+  void* obj_multi_request = env->new_pointer_by_name(env, stack, "Sys::Socket::Ip_mreq", multi_request, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
+  stack[0].oval = obj_multi_request;
   
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__Sockaddr__In__imr_multiaddr(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+int32_t SPVM__Sys__Socket__Ip_mreq__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_multi_request = stack[0].oval;
+  
+  struct ip_mreq* multi_request = env->get_pointer(env, stack, obj_multi_request);
+  
+  if (multi_request) {
+    env->free_memory_stack(env, stack, multi_request);
+    env->set_pointer(env, stack, obj_multi_request, NULL);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__Ip_mreq__imr_multiaddr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
@@ -51,7 +73,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__imr_multiaddr(SPVM_ENV* env, SPVM_VALUE
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__Sockaddr__In__set_imr_multiaddr(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Ip_mreq__set_imr_multiaddr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   
@@ -70,7 +92,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_imr_multiaddr(SPVM_ENV* env, SPVM_V
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__Sockaddr__In__imr_interface(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Ip_mreq__imr_interface(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
@@ -96,7 +118,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__imr_interface(SPVM_ENV* env, SPVM_VALUE
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__Sockaddr__In__set_imr_interface(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Ip_mreq__set_imr_interface(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   

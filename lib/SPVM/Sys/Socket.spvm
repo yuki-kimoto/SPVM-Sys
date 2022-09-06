@@ -157,10 +157,10 @@ Low-level socket functions
 * ($path) = sockaddr_un $sockaddr
 * $ip_mreq = pack_ip_mreq $multiaddr, $interface
 * ($multiaddr, $interface) = unpack_ip_mreq $ip_mreq
+* $ip_mreq_source = pack_ip_mreq_source $multiaddr, $source, $interface
+* ($multiaddr, $source, $interface) = unpack_ip_mreq_source $ip_mreq
 
 STRUCTURE MANIPULATORS
-$ip_mreq_source = pack_ip_mreq_source $multiaddr, $source, $interface
-($multiaddr, $source, $interface) = unpack_ip_mreq_source $ip_mreq
 $ipv6_mreq = pack_ipv6_mreq $multiaddr6, $ifindex
 ($multiaddr6, $ifindex) = unpack_ipv6_mreq $ipv6_mreq
 
