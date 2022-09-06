@@ -63,7 +63,7 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ip_mreq');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::Constant');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::Pollfd');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::PollfdArray');
   
   return $make_rule;
 }

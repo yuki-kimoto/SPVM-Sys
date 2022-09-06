@@ -1,4 +1,4 @@
-package SPVM::Sys::Poll::Pollfd;
+package SPVM::Sys::Poll::PollfdArray;
 
 our $VERSION = '0.01';
 
@@ -6,15 +6,15 @@ our $VERSION = '0.01';
 
 =head1 Name
 
-SPVM::Sys::Poll::Pollfd - Sys::Poll::Pollfd is a SPVM module
+SPVM::Sys::Poll::PollfdArray - Sys::Poll::PollfdArray is a SPVM module
 
 =head1 Usage
 
-  use Sys::Poll::Pollfd;
+  use Sys::Poll::PollfdArray;
   
 =head1 Description
 
-C<Sys::Poll::Pollfd> is a L<SPVM> module.
+C<Sys::Poll::PollfdArray> is a L<SPVM> module.
 
 =head1 Fields
 
