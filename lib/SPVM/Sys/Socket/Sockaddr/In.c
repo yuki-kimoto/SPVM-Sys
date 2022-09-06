@@ -6,14 +6,9 @@
 # include <ws2tcpip.h>
 # include <io.h>
 #else
-# include <sys/fcntl.h>
-# include <sys/types.h>
 # include <sys/socket.h>
 # include <netinet/in.h>
-# include <netdb.h>
-# include <arpa/inet.h>
-# include <unistd.h>
-# define closesocket(fd) close(fd)
+# include <netinet/ip.h>
 #endif
 
 const char* FILE_NAME = "Sys/Socket/Sockaddr/In.c";

@@ -8,6 +8,7 @@
 #else
 # include <sys/socket.h>
 # include <netinet/in.h>
+# include <netinet/ip.h>
 #endif
 
 const char* FILE_NAME = "Sys/Socket/Sockaddr/Storage.c";

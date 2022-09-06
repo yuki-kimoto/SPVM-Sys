@@ -6,14 +6,9 @@
 # include <ws2tcpip.h>
 # include <io.h>
 #else
-# include <sys/fcntl.h>
-# include <sys/types.h>
-# include <sys/socket.h>
-# include <netinet/in.h>
-# include <netdb.h>
-# include <arpa/inet.h>
-# include <unistd.h>
-# define closesocket(fd) close(fd)
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
 #endif
 
 static int32_t FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED = 0;
