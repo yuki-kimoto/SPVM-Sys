@@ -19,7 +19,6 @@
   #include <sys/poll.h>
 #endif
 
-
 const char* FILE_NAME = "Sys/IO.c";
 
 int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -1100,7 +1099,7 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
-  int64_t request = stack[1].lval;
+  int32_t request = stack[1].ival;
   
   void* obj_argp = stack[2].oval;
   
