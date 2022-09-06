@@ -935,35 +935,6 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef _WIN32
-  env->die(env, stack, "ioctl is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  
-  int32_t e = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  int64_t request = stack[1].lval;
-  
-  void* obj_argp = stack[2].oval;
-  
-  int8_t* argp = NULL;
-  if (obj_argp) {
-    argp = env->get_elems_byte(env, stack, obj_argp);
-  }
-  
-  errno = 0;
-  int32_t ret = ioctl(fd, request, (char*)argp);
-  
-  stack[0].ival = ret;
-  
-  return 0;
-#endif
-}
-
 int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
@@ -1118,7 +1089,41 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _WIN32
+  env->die(env, stack, "ioctl is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  
+  int32_t e = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  int64_t request = stack[1].lval;
+  
+  void* obj_argp = stack[2].oval;
+  
+  int8_t* argp = NULL;
+  if (obj_argp) {
+    argp = env->get_elems_byte(env, stack, obj_argp);
+  }
+  
+  errno = 0;
+  int32_t ret = ioctl(fd, request, (char*)argp);
+  
+  stack[0].ival = ret;
+  
+  return 0;
+#endif
+}
+
+
 int32_t SPVM__Sys__IO__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The \"poll\" method in the class \"Sys::IO\" is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   
   void* obj_fds = stack[0].oval;
   
@@ -1138,4 +1143,5 @@ int32_t SPVM__Sys__IO__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
+#endif
 }

@@ -142,7 +142,11 @@ Low-level socket functions
 * $ipv6_mreq = pack_ipv6_mreq $multiaddr6, $ifindex
 * ($multiaddr6, $ifindex) = unpack_ipv6_mreq $ipv6_mreq
 
-gethostbyaddr, gethostbyname, gethostent, getnetbyaddr, getnetbyname, getnetent, getprotobyname, getprotobynumber, getprotoent, getservbyname, getservbyport, getservent
+TODO
+
+poll is sokect feature on Windows
+
+ioctlsocket is Windows only
 
 =cut
 
