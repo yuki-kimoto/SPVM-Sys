@@ -15,7 +15,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    Sys::IO::Stat->stat($file, $stat);
+    Sys::IO->stat($file, $stat);
     
     my $ok = 0;
     if ($@) {
@@ -85,7 +85,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    Sys::IO::Stat->stat($file, $stat);
+    Sys::IO->stat($file, $stat);
     
     my $ok = 0;
     if ($@) {
@@ -110,7 +110,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
     
     my $file_exist = 0;
     if ($@) {
@@ -133,7 +133,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    Sys::IO::Stat->stat($file, $stat);
+    Sys::IO->stat($file, $stat);
     
     my $size = $stat->st_size;
     
@@ -153,7 +153,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    Sys::IO::Stat->stat($file, $stat);
+    Sys::IO->stat($file, $stat);
     
     my $size = $stat->st_size;
     
@@ -168,7 +168,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
 
     my $regular_file_exist = 0;
     if ($@) {
@@ -197,7 +197,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
 
     my $directory_exist = 0;
     if ($@) {
@@ -222,7 +222,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
     
     # Symbolic link
     my $ok = 0;
@@ -248,7 +248,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
     
     # FIFO/PIPE
     my $ok = 0;
@@ -274,7 +274,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
     
     # Socket
     my $ok = 0;
@@ -300,7 +300,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
     
     # Block device
     my $ok = 0;
@@ -326,7 +326,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
     
     # Character device
     my $ok = 0;
@@ -354,7 +354,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
     
     # Character device
     my $ok = 0;
@@ -380,7 +380,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
     
     # Character device
     my $ok = 0;
@@ -406,7 +406,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO::Stat->stat($file, $stat); };
+    eval { Sys::IO->stat($file, $stat); };
     
     # Character device
     my $ok = 0;
@@ -435,7 +435,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    Sys::IO::Stat->stat($file, $stat);
+    Sys::IO->stat($file, $stat);
     
     my $mtime = $stat->st_mtime;
     
@@ -452,7 +452,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    Sys::IO::Stat->stat($file, $stat);
+    Sys::IO->stat($file, $stat);
     
     my $atime = $stat->st_atime;
     
@@ -469,7 +469,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    Sys::IO::Stat->stat($file, $stat);
+    Sys::IO->stat($file, $stat);
     
     my $ctime = $stat->st_ctime;
     

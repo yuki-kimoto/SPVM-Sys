@@ -47,6 +47,11 @@ class Sys::IO {
 
   native static method access : int ($path : string, $mode : int);
 
+  native static method stat : int ($path : string, $stat : Sys::IO::Stat);
+
+  native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
+  
+
   # native static method eaccess : int ($path : string, $mode : int);
 
   # native static method fcntl : long ($fd : int, $command : int, $arg = undef : object of Int|Long|byte[]);
