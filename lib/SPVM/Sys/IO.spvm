@@ -53,7 +53,7 @@ class Sys::IO {
 
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
   
-  # native static method fcntl : int ($fd : int, $command : int, $arg = undef : object of Int|Sys::IO::Flock|Sys::IO::F_owner_ex);
+  native static method fcntl : int ($fd : int, $command : int, $arg = undef : object of Int|Sys::IO::Flock|Sys::IO::F_owner_ex);
 
 =pod
 

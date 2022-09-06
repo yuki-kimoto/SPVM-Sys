@@ -1061,3 +1061,58 @@ int32_t SPVM__Sys__IO__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
+int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t items = env->get_args_stack_length(env, stack);
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t command = stack[1].ival;
+  
+  int32_t status;
+  
+  void* obj_arg;
+  if (items <= 2) {
+    status = fcntl(fd, command);
+  }
+  else {
+    void* obj_arg = stack[2].oval;
+    
+    if (!obj_arg) {
+      status = fcntl(fd, command, NULL);
+    }
+    else {
+      int32_t arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_arg);
+      int32_t arg_type_dimension = env->get_object_type_dimension(env, stack, obj_arg);
+      
+      // Int
+      if (arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && arg_type_dimension == 0) {
+        int32_t arg_int32 = env->get_field_int_by_name(env, stack, obj_arg, "Int", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        int arg_int = arg_int32;
+        
+        status = fcntl(fd, command, arg_int);
+      }
+      // A pointer class
+      else if (env->is_pointer_class(env, stack, obj_arg)) {
+        void* arg = env->get_pointer(env, stack, obj_arg);
+        status = fcntl(fd, command, arg);
+      }
+      else {
+        return env->die(env, stack, "The arg must be an Int object or the object that is a pointer class", FILE_NAME, __LINE__);
+      }
+    }
+  }
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]fcntl failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
