@@ -6,6 +6,7 @@ class Sys::Socket {
   use Fn;
   use Sys::Socket::Constant as Sock;
   use Sys::IO;
+  use Sys;
 
   native static method getaddrinfo : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
@@ -100,11 +101,21 @@ class Sys::Socket {
   native static method ioctlsocket_int : int ($fd : int, $request : int, $arg : int);
 
   static method ioctl_portable : int ($fd : int, $request : int, $arg : byte[]) {
-    
+    if (Sys->is_D_WIN32) {
+      return Sys::Socket->ioctlsocket($fd, $request, $arg);
+    }
+    else {
+      return Sys::IO->ioctl($fd, $request, $arg);
+    }
   }
   
-  static method ioctl_int_portable : : int ($fd : int, $request : int, $arg : int) {
-    
+  static method ioctl_int_portable : int ($fd : int, $request : int, $arg : int) {
+    if (Sys->is_D_WIN32) {
+      return Sys::Socket->ioctlsocket_int($fd, $request, $arg);
+    }
+    else {
+      return Sys::IO->ioctl_int($fd, $request, $arg);
+    }
   }
 
 =pod
