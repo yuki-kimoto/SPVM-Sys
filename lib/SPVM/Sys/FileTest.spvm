@@ -178,10 +178,10 @@ class Sys::FileTest {
     }
     else {
       $stat->st_mode;
-      Sys::IO::Stat->S_IFMT;
-      Sys::IO::Stat->S_IFREG;
+      IOC->S_IFMT;
+      IOC->S_IFREG;
       
-      if (($stat->st_mode & Sys::IO::Stat->S_IFMT) == Sys::IO::Stat->S_IFREG) {
+      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFREG) {
         $regular_file_exist = 1;
       }
     }
@@ -206,7 +206,7 @@ class Sys::FileTest {
       }
     }
     else {
-      if (($stat->st_mode & Sys::IO::Stat->S_IFMT) == Sys::IO::Stat->S_IFDIR) {
+      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFDIR) {
         $directory_exist = 1;
       }
     }
@@ -232,7 +232,7 @@ class Sys::FileTest {
       }
     }
     else {
-      if (($stat->st_mode & Sys::IO::Stat->S_IFMT) == Sys::IO::Stat->S_IFLNK) {
+      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFLNK) {
         $ok = 1;
       }
     }
@@ -258,7 +258,7 @@ class Sys::FileTest {
       }
     }
     else {
-      if (($stat->st_mode & Sys::IO::Stat->S_IFMT) == Sys::IO::Stat->S_IFIFO) {
+      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFIFO) {
         $ok = 1;
       }
     }
@@ -284,7 +284,7 @@ class Sys::FileTest {
       }
     }
     else {
-      if (($stat->st_mode & Sys::IO::Stat->S_IFMT) == Sys::IO::Stat->S_IFSOCK) {
+      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFSOCK) {
         $ok = 1;
       }
     }
@@ -310,7 +310,7 @@ class Sys::FileTest {
       }
     }
     else {
-      if (($stat->st_mode & Sys::IO::Stat->S_IFMT) == Sys::IO::Stat->S_IFBLK) {
+      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFBLK) {
         $ok = 1;
       }
     }
@@ -336,7 +336,7 @@ class Sys::FileTest {
       }
     }
     else {
-      if (($stat->st_mode & Sys::IO::Stat->S_IFMT) == Sys::IO::Stat->S_IFCHR) {
+      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFCHR) {
         $ok = 1;
       }
     }
@@ -364,7 +364,7 @@ class Sys::FileTest {
       }
     }
     else {
-      if ($stat->st_mode & Sys::IO::Stat->S_ISUID) {
+      if ($stat->st_mode & IOC->S_ISUID) {
         $ok = 1;
       }
     }
@@ -390,7 +390,7 @@ class Sys::FileTest {
       }
     }
     else {
-      if ($stat->st_mode & Sys::IO::Stat->S_ISGID) {
+      if ($stat->st_mode & IOC->S_ISGID) {
         $ok = 1;
       }
     }
@@ -416,7 +416,7 @@ class Sys::FileTest {
       }
     }
     else {
-      if ($stat->st_mode & Sys::IO::Stat->S_ISVTX) {
+      if ($stat->st_mode & IOC->S_ISVTX) {
         $ok = 1;
       }
     }
