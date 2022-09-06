@@ -33,7 +33,7 @@ class Sys::IO {
   native static method ftell : long ($stream : Sys::IO::FileHandle);
   native static method opendir : Sys::IO::DirHandle ($dir : string);
   native static method closedir : void ($dh : Sys::IO::DirHandle);
-  native static method readdir : Sys::IO::Dirent ($dh : Sys::IO::DirHandle);
+  native static method readdir : Sys::IO::Dirent ($dh : Sys::IO::DirHandle); # Non-thead safe
   native static method rewinddir : void ($dh : Sys::IO::DirHandle);
   native static method telldir : long ($dh : Sys::IO::DirHandle);
   native static method seekdir : void ($dh : Sys::IO::DirHandle, $offset : long);
@@ -78,14 +78,6 @@ binmode, dbmclose, format
 Don't need
 
 warn, say, readline, printf, print, eof, dbmopen, syscall, link, select
-
-Constant
-
-F_SETFL
-O_XXX
-FD_CLOEXEC
-
-eaccess needs _GNU_SOURCE.
 
 =cut
 
