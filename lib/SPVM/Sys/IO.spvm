@@ -6,7 +6,6 @@ class Sys::IO {
   use Sys::IO::Dirent;
   use Sys::IO::Utimbuf;
   use Sys::IO::Flock;
-  use Sys::IO::F_owner_ex;
   
   native static method rmdir : void ($dir : string);
   native static method unlink : void ($file : string);
@@ -53,7 +52,7 @@ class Sys::IO {
 
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
   
-  native static method fcntl : int ($fd : int, $command : int, $arg = undef : object of Int|Sys::IO::Flock|Sys::IO::F_owner_ex);
+  native static method fcntl : int ($fd : int, $command : int, $arg = undef : object of Int|Sys::IO::Flock|object);
 
 =pod
 
@@ -61,7 +60,7 @@ Input and output functions
 
 *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
 
-fcntl, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::IO::Stat), *lstat(Sys::IO::Stat), *rename, *readlink, *symlink, *ioctl, *utime
+*fcntl, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::IO::Stat), *lstat(Sys::IO::Stat), *rename, *readlink, *symlink, *ioctl, *utime
 
 TODO
 
