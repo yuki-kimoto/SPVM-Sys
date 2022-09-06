@@ -1108,13 +1108,32 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
     argp = env->get_elems_byte(env, stack, obj_argp);
   }
   
-  errno = 0;
   int32_t ret = ioctl(fd, request, (char*)argp);
+
+  if (ret == -1) {
+    env->die(env, stack, "[System Error]ioctl failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
   
   stack[0].ival = ret;
   
   return 0;
 #endif
+}
+
+int32_t SPVM__Sys__IO__ioctl_int(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t int32_arg = stack[2].ival;
+  
+  int int_arg = int32_arg;
+  
+  void* obj_arg = env->new_string(env, stack, NULL, sizeof(int));
+  char* arg = (char*)env->get_chars(env, stack, obj_arg);
+  memcpy(arg, &int_arg, sizeof(int));
+  
+  stack[2].oval = obj_arg;
+  
+  return SPVM__Sys__IO__ioctl(env, stack);
 }
 
 

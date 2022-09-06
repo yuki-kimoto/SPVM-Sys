@@ -45,6 +45,7 @@ class Sys::IO {
   native static method readlink : int ($path : string, $buffer : mutable string);
   native static method symlink : int ($target : string, $link_path : string);
   native static method ioctl : int ($fd : int, $request : int, $argp : byte[]);
+  native static method ioctl_int : int ($fd : int, $request : int, $arg : int);
   native static method utime : int ($file : string, $buffer : Sys::IO::Utimbuf);
 
   native static method access : int ($path : string, $mode : int);
