@@ -1,5 +1,7 @@
 #include "spvm_native.h"
 
+#include <sys/fcntl.h>
+
 static const char* FILE_NAME = "Sys/Io/Constant.c";
 
 int32_t SPVM__Sys__IO__Constant__AT_EMPTY_PATH(SPVM_ENV* env, SPVM_VALUE* stack) {
