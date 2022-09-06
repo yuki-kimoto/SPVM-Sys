@@ -61,6 +61,9 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ipv6_mreq');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ip_mreq_source');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ip_mreq');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::Constant');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::Pollfd');
   
   return $make_rule;
 }
