@@ -6,6 +6,8 @@
 .gitignore
 Changes
 cpanm
+lib/SPVM/Sys.c
+lib/SPVM/Sys.config
 lib/SPVM/Sys.pm
 lib/SPVM/Sys.spvm
 lib/SPVM/Sys/FileTest.spvm
