@@ -5,6 +5,8 @@ class Sys::IO {
   use Sys::IO::DirHandle;
   use Sys::IO::Dirent;
   use Sys::IO::Utimbuf;
+  use Sys::IO::Flock;
+  use Sys::IO::F_owner_ex;
   
   native static method rmdir : void ($dir : string);
   native static method unlink : void ($file : string);
@@ -51,11 +53,7 @@ class Sys::IO {
 
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
   
-
-  # native static method eaccess : int ($path : string, $mode : int);
-
-  # native static method fcntl : long ($fd : int, $command : int, $arg = undef : object of Int|Long|byte[]);
-  # int fcntl(int fd, int cmd, ... /* arg */ );
+  # native static method fcntl : int ($fd : int, $command : int, $arg = undef : object of Int|Sys::IO::Flock|Sys::IO::F_owner_ex);
 
 =pod
 
