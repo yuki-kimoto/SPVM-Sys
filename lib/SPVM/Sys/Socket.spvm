@@ -151,14 +151,14 @@ Low-level socket functions
 * ($port, $ip6_address, $scope_id, $flowinfo) = unpack_sockaddr_in6 $sockaddr
 * $sockaddr = sockaddr_in6 $port, $ip6_address, [$scope_id, [$flowinfo]]
 * ($port, $ip6_address, $scope_id, $flowinfo) = sockaddr_in6 $sockaddr
+* $sockaddr = pack_sockaddr_un $path
+* ($path) = unpack_sockaddr_un $sockaddr
+* $sockaddr = sockaddr_un $path
+* ($path) = sockaddr_un $sockaddr
+* $ip_mreq = pack_ip_mreq $multiaddr, $interface
+* ($multiaddr, $interface) = unpack_ip_mreq $ip_mreq
 
 STRUCTURE MANIPULATORS
-$sockaddr = pack_sockaddr_un $path
-($path) = unpack_sockaddr_un $sockaddr
-$sockaddr = sockaddr_un $path
-($path) = sockaddr_un $sockaddr
-$ip_mreq = pack_ip_mreq $multiaddr, $interface
-($multiaddr, $interface) = unpack_ip_mreq $ip_mreq
 $ip_mreq_source = pack_ip_mreq_source $multiaddr, $source, $interface
 ($multiaddr, $source, $interface) = unpack_ip_mreq_source $ip_mreq
 $ipv6_mreq = pack_ipv6_mreq $multiaddr6, $ifindex
