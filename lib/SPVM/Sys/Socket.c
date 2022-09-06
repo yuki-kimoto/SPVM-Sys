@@ -760,3 +760,30 @@ int32_t SPVM__Sys__Socket__ioctlsocket_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return SPVM__Sys__Socket__ioctlsocket(env, stack);
 }
+
+int32_t SPVM__Sys__Socket__WSAPoll(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifndef _WIN32
+  env->die(env, stack, "The \"WSAPoll\" method in the class \"Sys::Socket\" is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  
+  void* obj_fds = stack[0].oval;
+  
+  struct pollfd* fds = env->get_pointer(env, stack, obj_fds);
+  
+  int32_t nfds = stack[1].ival;
+  
+  int32_t timeout = stack[2].ival;
+  
+  int32_t status = WSAPoll(fds, nfds, timeout);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]WSAPoll failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}

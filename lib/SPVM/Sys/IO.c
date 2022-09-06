@@ -1136,7 +1136,6 @@ int32_t SPVM__Sys__IO__ioctl_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM__Sys__IO__ioctl(env, stack);
 }
 
-
 int32_t SPVM__Sys__IO__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
   env->die(env, stack, "The \"poll\" method in the class \"Sys::IO\" is not supported on this system", FILE_NAME, __LINE__);

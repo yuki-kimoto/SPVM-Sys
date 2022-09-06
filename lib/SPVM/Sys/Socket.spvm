@@ -7,6 +7,7 @@ class Sys::Socket {
   use Sys::Socket::Constant as Sock;
   use Sys::IO;
   use Sys;
+  use Sys::IO::PollfdArray;
 
   native static method getaddrinfo : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
@@ -115,6 +116,17 @@ class Sys::Socket {
     }
     else {
       return Sys::IO->ioctl_int($fd, $request, $arg);
+    }
+  }
+
+  native static method WSAPoll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
+
+  static method poll_portable : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int) {
+    if (Sys->is_D_WIN32) {
+      return Sys::Socket->WSAPoll($fds, $nfds, $timeout);
+    }
+    else {
+      return Sys::IO->poll($fds, $nfds, $timeout);
     }
   }
 
