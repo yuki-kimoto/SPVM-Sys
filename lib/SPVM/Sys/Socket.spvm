@@ -5,6 +5,7 @@ class Sys::Socket {
   use Sys::Socket::In6_addr;
   use Fn;
   use Sys::Socket::Constant as Sock;
+  use Sys::IO;
 
   native static method getaddrinfo : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
@@ -97,6 +98,14 @@ class Sys::Socket {
   native static method ioctlsocket : int ($fd : int, $request : int, $arg : byte[]);
   
   native static method ioctlsocket_int : int ($fd : int, $request : int, $arg : int);
+
+  static method ioctl_portable : int ($fd : int, $request : int, $arg : byte[]) {
+    
+  }
+  
+  static method ioctl_int_portable : : int ($fd : int, $request : int, $arg : int) {
+    
+  }
 
 =pod
 

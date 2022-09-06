@@ -37,6 +37,7 @@ sub MY::postamble {
 
   my $make_rule = '';
   
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Constant');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::FileHandle');
