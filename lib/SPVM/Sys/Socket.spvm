@@ -94,6 +94,10 @@ class Sys::Socket {
   
   native static method ntohs : short ($net_short : short);
 
+  native static method ioctlsocket : int ($fd : int, $request : int, $arg : byte[]);
+  
+  native static method ioctlsocket_int : int ($fd : int, $request : int, $arg : int);
+
 =pod
 
 Low-level socket functions

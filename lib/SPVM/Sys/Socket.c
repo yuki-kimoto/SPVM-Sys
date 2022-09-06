@@ -712,3 +712,51 @@ int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Socket__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifndef _WIN32
+  env->die(env, stack, "ioctlsocket is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  
+  int32_t e = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t request = stack[1].ival;
+  
+  void* obj_argp = stack[2].oval;
+  
+  int8_t* argp = NULL;
+  if (obj_argp) {
+    argp = env->get_elems_byte(env, stack, obj_argp);
+  }
+  
+  int32_t ret = ioctlsocket(fd, request, (char*)argp);
+
+  if (ret == -1) {
+    env->die(env, stack, "[System Error]ioctlsocket failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = ret;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__Socket__ioctlsocket_int(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t int32_arg = stack[2].ival;
+  
+  int int_arg = int32_arg;
+  
+  void* obj_arg = env->new_string(env, stack, NULL, sizeof(int));
+  char* arg = (char*)env->get_chars(env, stack, obj_arg);
+  memcpy(arg, &int_arg, sizeof(int));
+  
+  stack[2].oval = obj_arg;
+  
+  return SPVM__Sys__Socket__ioctlsocket(env, stack);
+}
