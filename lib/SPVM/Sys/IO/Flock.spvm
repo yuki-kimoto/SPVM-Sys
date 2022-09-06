@@ -1,3 +1,25 @@
 class Sys::IO::Flock {
+  native static method new : Sys::IO::Flock ();
 
+  native method DESTROY : void ();
+
+  native method l_type : short ();
+
+  native method set_l_type : void ($address : short);
+
+  native method l_whence : short ();
+
+  native method set_l_whence : void ($address : short);
+
+  native method l_start : long ();
+
+  native method set_l_start : void ($address : long);
+
+  native method l_len : long ();
+
+  native method set_l_len : void ($address : long);
+
+  native method l_pid : int ();
+
+  native method set_l_pid : void ($address : int);
 }
