@@ -761,9 +761,9 @@ int32_t SPVM__Sys__Socket__ioctlsocket_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM__Sys__Socket__ioctlsocket(env, stack);
 }
 
-int32_t SPVM__Sys__Socket__poll_win(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__WSAPoll(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifndef _WIN32
-  env->die(env, stack, "The \"poll_win\" method in the class \"Sys::Socket\" is not supported on this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "The \"WSAPoll\" method in the class \"Sys::Socket\" is not supported on this system", FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   
@@ -775,10 +775,10 @@ int32_t SPVM__Sys__Socket__poll_win(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t timeout = stack[2].ival;
   
-  int32_t status = poll(fds, nfds, timeout);
+  int32_t status = WSAPoll(fds, nfds, timeout);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]poll failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]WSAPoll failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
