@@ -97,15 +97,15 @@ int32_t SPVM__Sys__Socket__Ip_mreq__imr_interface(SPVM_ENV* env, SPVM_VALUE* sta
   struct ip_mreq* multi_request = env->get_pointer(env, stack, obj_self);
   
   if (multi_request) {
-    struct in_addr interface = multi_request->imr_interface;
+    struct in_addr imr_interface = multi_request->imr_interface;
 
-    struct in_addr* interface_ret = env->new_memory_stack(env, stack, sizeof(struct in_addr));
-    *interface_ret = interface;
+    struct in_addr* imr_interface_ret = env->new_memory_stack(env, stack, sizeof(struct in_addr));
+    *imr_interface_ret = imr_interface;
 
-    void* obj_interface_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", interface_ret, &e, FILE_NAME, __LINE__);
+    void* obj_imr_interface_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", imr_interface_ret, &e, FILE_NAME, __LINE__);
     if (e) { return e; }
     
-    stack[0].oval = obj_interface_ret;
+    stack[0].oval = obj_imr_interface_ret;
   }
   else {
     assert(0);
@@ -121,10 +121,10 @@ int32_t SPVM__Sys__Socket__Ip_mreq__set_imr_interface(SPVM_ENV* env, SPVM_VALUE*
   struct ip_mreq* multi_request = env->get_pointer(env, stack, obj_self);
   
   if (multi_request) {
-    void* obj_interface = stack[1].oval;
-    struct in_addr* interface = env->get_pointer(env, stack, obj_interface);
+    void* obj_imr_interface = stack[1].oval;
+    struct in_addr* imr_interface = env->get_pointer(env, stack, obj_imr_interface);
 
-    multi_request->imr_interface = *interface;
+    multi_request->imr_interface = *imr_interface;
   }
   else {
     assert(0);
