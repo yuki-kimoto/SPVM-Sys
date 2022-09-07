@@ -6,11 +6,12 @@ our $VERSION = '0.01';
 
 =head1 Name
 
-SPVM::Sys - System Utilities, File Tests, IO, User, Network, Process, Socket,
+SPVM::Sys - System Utilities, File IO, User, Process, Socket,
+
 
 =head1 Description
 
-C<Sys> is the system utilities for File Tests, IO, User, Network, Process, Socket,
+C<Sys> is the system utilities file IO, user, process, socket,
 
 =head1 Modules
 
@@ -21,7 +22,6 @@ C<Sys> is the system utilities for File Tests, IO, User, Network, Process, Socke
 =item * L<Sys::IO|SPVM::Sys::IO>
 
 =item * L<Sys::Sys::FiteTest|SPVM::Sys::FiteTest>
-
 
 =back
 
