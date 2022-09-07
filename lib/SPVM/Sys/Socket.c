@@ -3,8 +3,6 @@
 #include <errno.h>
 #include <assert.h>
 
-#include <poll.h>
-
 #ifdef _WIN32
 # include <ws2tcpip.h>
 # include <winsock2.h>
@@ -16,6 +14,7 @@
 # include <netinet/ip.h>
 # include <netdb.h>
 # include <arpa/inet.h>
+# include <poll.h>
 #endif
 
 static const char* FILE_NAME = "Sys/Socket.c";

@@ -13,9 +13,9 @@
 #include <sys/file.h>
 #include <dirent.h>
 #include <utime.h>
-#include <poll.h>
 
 #ifndef _WIN32
+  #include <poll.h>
   #include <sys/ioctl.h>
 #endif
 
