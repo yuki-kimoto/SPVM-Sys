@@ -2,6 +2,7 @@
 
 #include <sys/fcntl.h>
 #include <sys/stat.h>
+#include <sys/file.h>
 
 static const char* FILE_NAME = "Sys/Io/Constant.c";
 
@@ -1744,6 +1745,42 @@ int32_t SPVM__Sys__IO__Constant__POLLWRNORM(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 #else
   env->die(env, stack, "POLLWRNORM is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Constant__LOCK_SH(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef LOCK_SH
+  stack[0].ival = LOCK_SH;
+  return 0;
+#else
+  env->die(env, stack, "LOCK_SH is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Constant__LOCK_EX(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef LOCK_EX
+  stack[0].ival = LOCK_EX;
+  return 0;
+#else
+  env->die(env, stack, "LOCK_EX is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Constant__LOCK_UN(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef LOCK_UN
+  stack[0].ival = LOCK_UN;
+  return 0;
+#else
+  env->die(env, stack, "LOCK_UN is not defined on this system", FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #endif
 

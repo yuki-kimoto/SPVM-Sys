@@ -254,4 +254,10 @@ class Sys::IO::Constant {
 
   native static method POLLWRNORM : int ();
 
+  native static method LOCK_SH : int ();
+
+  native static method LOCK_EX : int ();
+
+  native static method LOCK_UN : int ();
+
 }
