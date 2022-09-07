@@ -13,10 +13,10 @@
 #include <sys/file.h>
 #include <dirent.h>
 #include <utime.h>
+#include <poll.h>
 
 #ifndef _WIN32
   #include <sys/ioctl.h>
-  #include <sys/poll.h>
 #endif
 
 const char* FILE_NAME = "Sys/IO.c";
