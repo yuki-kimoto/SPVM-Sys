@@ -108,11 +108,11 @@ class Sys::Socket {
     }
   }
 
-  native static method WSAPoll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
+  native static method poll_win : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 
   static method poll_portable : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int) {
     if (Sys->is_D_WIN32) {
-      return Sys::Socket->WSAPoll($fds, $nfds, $timeout);
+      return Sys::Socket->poll_win($fds, $nfds, $timeout);
     }
     else {
       return Sys::IO->poll($fds, $nfds, $timeout);
