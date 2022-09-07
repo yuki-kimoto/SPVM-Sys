@@ -1,3 +1,5 @@
 class Sys::IO::PollfdArray {
-
+  native static method new : Sys::IO::PollfdArray ($length : int);
+  
+  native method DESTROY : void ();
 }
