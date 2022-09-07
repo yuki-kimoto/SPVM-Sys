@@ -13,10 +13,10 @@
 #include <sys/file.h>
 #include <dirent.h>
 #include <utime.h>
+#include <sys/poll.h>
 
 #ifndef _WIN32
   #include <sys/ioctl.h>
-  #include <sys/poll.h>
 #endif
 
 const char* FILE_NAME = "Sys/IO.c";
@@ -1148,10 +1148,6 @@ int32_t SPVM__Sys__IO__ioctl_int(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifdef _WIN32
-  env->die(env, stack, "The \"poll\" method in the class \"Sys::IO\" is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
   
   void* obj_fds = stack[0].oval;
   
@@ -1171,7 +1167,6 @@ int32_t SPVM__Sys__IO__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
