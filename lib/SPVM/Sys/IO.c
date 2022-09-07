@@ -999,7 +999,7 @@ int32_t SPVM__Sys__IO__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
-  return env->die(env, stack, "lstat is not supported in this system", FILE_NAME, __LINE__);
+  return env->die(env, stack, "lstat is not supported on this system", FILE_NAME, __LINE__);
 #else
 
   int32_t e = 0;
@@ -1033,6 +1033,9 @@ int32_t SPVM__Sys__IO__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  return env->die(env, stack, "fcntl is not supported on this system", FILE_NAME, __LINE__);
+#else
   
   int32_t e = 0;
   
@@ -1086,6 +1089,7 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
