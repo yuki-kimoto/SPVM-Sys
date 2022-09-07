@@ -97,10 +97,6 @@ int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-const char *inet_ntop(int af, const void *src,
-                      char *dst, socklen_t size);
-                      
-
 int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_input_address = stack[0].oval;
