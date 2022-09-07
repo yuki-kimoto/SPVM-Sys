@@ -66,25 +66,13 @@ Input and output functions
 
 *write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
 
-*fcntl, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::IO::Stat), *lstat(Sys::IO::Stat), *rename, *readlink, *symlink, *ioctl, *utime
+*flock, *fcntl, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::IO::Stat), *lstat(Sys::IO::Stat), *rename, *readlink, *symlink, *ioctl, *utime
 
 TODO
-
-poll is sokect feature on Windows
 
 glob is too difficut. File::Glob porting is needed.
 
 flock is not portable on Mac and Windows
-
-chroot is deprecated.
-
-I don't know these are needed yet.
-
-binmode, dbmclose, format
-
-Don't need
-
-warn, say, readline, printf, print, eof, dbmopen, syscall, link, select
 
 =cut
 
