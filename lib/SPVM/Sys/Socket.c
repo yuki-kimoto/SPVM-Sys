@@ -728,19 +728,18 @@ int32_t SPVM__Sys__Socket__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t request = stack[1].ival;
   
-  void* obj_argp = stack[2].oval;
+  int32_t* arg_ref = stack[2].iref;
   
-  int8_t* argp = NULL;
-  if (obj_argp) {
-    argp = env->get_elems_byte(env, stack, obj_argp);
-  }
+  int arg_int = *arg_ref;
   
-  int32_t ret = ioctlsocket(fd, request, (char*)argp);
+  int32_t ret = ioctlsocket(fd, request, &arg_int);
 
   if (ret == -1) {
     env->die(env, stack, "[System Error]ioctlsocket failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  *arg_ref = arg_int;
   
   stack[0].ival = ret;
   

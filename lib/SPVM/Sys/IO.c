@@ -1105,14 +1105,14 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t request = stack[1].ival;
   
-  void* obj_argp = stack[2].oval;
+  void* obj_arg = stack[2].oval;
   
-  int8_t* argp = NULL;
-  if (obj_argp) {
-    argp = env->get_elems_byte(env, stack, obj_argp);
+  char* arg = NULL;
+  if (obj_arg) {
+    arg = (char*)env->get_chars(env, stack, obj_arg);
   }
   
-  int32_t ret = ioctl(fd, request, (char*)argp);
+  int32_t ret = ioctl(fd, request, arg);
 
   if (ret == -1) {
     env->die(env, stack, "[System Error]ioctl failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
@@ -1127,9 +1127,9 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__ioctl_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t int32_arg = stack[2].ival;
+  int32_t* int32_arg_ref = stack[2].iref;
   
-  int int_arg = int32_arg;
+  int int_arg = *int32_arg_ref;
   
   void* obj_arg = env->new_string(env, stack, NULL, sizeof(int));
   char* arg = (char*)env->get_chars(env, stack, obj_arg);
@@ -1137,7 +1137,14 @@ int32_t SPVM__Sys__IO__ioctl_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   stack[2].oval = obj_arg;
   
-  return SPVM__Sys__IO__ioctl(env, stack);
+  int32_t error = SPVM__Sys__IO__ioctl(env, stack);
+  
+  int int_arg_output;
+  memcpy(&int_arg_output, arg, sizeof(int));
+  
+  *int32_arg_ref = int_arg_output;
+  
+  return error;
 }
 
 int32_t SPVM__Sys__IO__poll(SPVM_ENV* env, SPVM_VALUE* stack) {

@@ -97,25 +97,14 @@ class Sys::Socket {
   
   native static method ntohs : short ($net_short : short);
 
-  native static method ioctlsocket : int ($fd : int, $request : int, $arg : byte[]);
+  native static method ioctlsocket : int ($fd : int, $request : int, $arg_ref : int*);
   
-  native static method ioctlsocket_int : int ($fd : int, $request : int, $arg : int);
-
-  static method ioctl_portable : int ($fd : int, $request : int, $arg : byte[]) {
+  static method ioctl_portable : int ($fd : int, $request : int, $arg_ref : int*) {
     if (Sys->is_D_WIN32) {
-      return Sys::Socket->ioctlsocket($fd, $request, $arg);
+      return Sys::Socket->ioctlsocket($fd, $request, $arg_ref);
     }
     else {
-      return Sys::IO->ioctl($fd, $request, $arg);
-    }
-  }
-  
-  static method ioctl_int_portable : int ($fd : int, $request : int, $arg : int) {
-    if (Sys->is_D_WIN32) {
-      return Sys::Socket->ioctlsocket_int($fd, $request, $arg);
-    }
-    else {
-      return Sys::IO->ioctl_int($fd, $request, $arg);
+      return Sys::IO->ioctl_int($fd, $request, $arg_ref);
     }
   }
 
