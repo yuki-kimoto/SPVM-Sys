@@ -111,3 +111,127 @@ int32_t SPVM__Sys__IO__PollfdArray__set_fd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__IO__PollfdArray__events(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  void* obj_self = stack[0].oval;
+  
+  int32_t index = stack[1].ival;
+  
+  int32_t length = env->get_pointer_field_int(env, stack, obj_self, FIELD_LENGTH);
+  
+  if (!(index >= 0)) {
+    return env->die(env, stack, "The index must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(index < length)) {
+    return env->die(env, stack, "The index must be less than the length of the file descripters", FILE_NAME, __LINE__);
+  }
+
+  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  
+  if (fds) {
+    int64_t events = fds[index].events;
+    
+    stack[0].sval = events;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__PollfdArray__set_events(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+
+  int32_t index = stack[1].ival;
+  
+  int32_t length = env->get_pointer_field_int(env, stack, obj_self, FIELD_LENGTH);
+  
+  if (!(index >= 0)) {
+    return env->die(env, stack, "The index must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(index < length)) {
+    return env->die(env, stack, "The index must be less than the length of the file descripters", FILE_NAME, __LINE__);
+  }
+
+  int16_t events = stack[2].sval;
+  
+  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  
+  if (fds) {
+    fds[index].events = events;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__PollfdArray__revents(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  void* obj_self = stack[0].oval;
+  
+  int32_t index = stack[1].ival;
+  
+  int32_t length = env->get_pointer_field_int(env, stack, obj_self, FIELD_LENGTH);
+  
+  if (!(index >= 0)) {
+    return env->die(env, stack, "The index must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(index < length)) {
+    return env->die(env, stack, "The index must be less than the length of the file descripters", FILE_NAME, __LINE__);
+  }
+
+  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  
+  if (fds) {
+    int64_t revents = fds[index].revents;
+    
+    stack[0].sval = revents;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__PollfdArray__set_revents(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+
+  int32_t index = stack[1].ival;
+  
+  int32_t length = env->get_pointer_field_int(env, stack, obj_self, FIELD_LENGTH);
+  
+  if (!(index >= 0)) {
+    return env->die(env, stack, "The index must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(index < length)) {
+    return env->die(env, stack, "The index must be less than the length of the file descripters", FILE_NAME, __LINE__);
+  }
+
+  int16_t revents = stack[2].sval;
+  
+  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  
+  if (fds) {
+    fds[index].revents = revents;
+  }
+  else {
+    assert(0);
+  }
+  
+  return 0;
+}
