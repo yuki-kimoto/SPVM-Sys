@@ -58,6 +58,8 @@ class Sys::IO {
 
   native static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 
+  native static method flock : int ($fd : int, $operation : int);
+
 =pod
 
 Input and output functions

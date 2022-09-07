@@ -1162,3 +1162,26 @@ int32_t SPVM__Sys__IO__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 #endif
 }
+
+int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The \"flock\" method in the class \"Sys::IO\" is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  
+  int32_t fd = stack[0].ival;
+
+  int32_t operation = stack[1].ival;
+  
+  int32_t status = flock(fd, operation);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]flock failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
