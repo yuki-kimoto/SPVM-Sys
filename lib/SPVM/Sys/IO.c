@@ -50,10 +50,12 @@ int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* dir = env->get_chars(env, stack, obj_dir);
   int32_t status = rmdir(dir);
-  if (!(status == 0)) {
+  if (status == -1) {
     env->die(env, stack, "[System Error]rmdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  stack[0].ival = status;
   
   return 0;
 }
@@ -68,10 +70,12 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* file = env->get_chars(env, stack, obj_file);
   int32_t status = unlink(file);
-  if (!(status == 0)) {
+  if (status == -1) {
     env->die(env, stack, "[System Error]unlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+
+  stack[0].ival = status;
   
   return 0;
 }
@@ -81,10 +85,12 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t fd = stack[0].ival;
 
   int32_t status = close(fd);
-  if (!(status == 0)) {
+  if (status == -1) {
     env->die(env, stack, "[System Error]close failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  stack[0].ival = status;
   
   return 0;
 }
@@ -100,10 +106,12 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
   int32_t status = fclose(stream);
-  if (!(status == 0)) {
+  if (status == -1) {
     env->die(env, stack, "[System Error]fclose failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  stack[0].ival = status;
   
   return 0;
 }
@@ -515,6 +523,8 @@ int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
+  stack[0].ival = status;
+  
   return 0;
 }
 
@@ -535,6 +545,8 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]chmod failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+
+  stack[0].ival = status;
   
   return 0;
 }
@@ -563,6 +575,8 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]chown failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+
+  stack[0].ival = status;
   
   return 0;
 #endif
@@ -591,6 +605,8 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
+  stack[0].ival = status;
+  
   return 0;
 }
 
@@ -617,6 +633,8 @@ int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]fseek failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+
+  stack[0].ival = status;
   
   return 0;
 }
@@ -683,6 +701,8 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]closedir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+
+  stack[0].ival = status;
   
   return 0;
 }

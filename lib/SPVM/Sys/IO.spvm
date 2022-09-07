@@ -8,10 +8,10 @@ class Sys::IO {
   use Sys::IO::Flock;
   use Sys::IO::PollfdArray;
   
-  native static method rmdir : void ($dir : string);
-  native static method unlink : void ($file : string);
-  native static method close : void ($fd : int);
-  native static method fclose : void ($stream : Sys::IO::FileHandle);
+  native static method rmdir : int ($dir : string);
+  native static method unlink : int ($file : string);
+  native static method close : int ($fd : int);
+  native static method fclose : int ($stream : Sys::IO::FileHandle);
   native static method clearerr : void ($stream : Sys::IO::FileHandle);
   native static method feof : int ($stream : Sys::IO::FileHandle);
   native static method ferror : int ($stream : Sys::IO::FileHandle);
@@ -26,14 +26,14 @@ class Sys::IO {
   native static method write : int ($fd : int, $buffer : mutable string, $count : int);
   native static method getc : int ($stream : Sys::IO::FileHandle);
   native static method EOF : int ();
-  native static method chdir : void ($path : string);
-  native static method chmod : void ($path : string, $mode :int);
-  native static method chown : void ($path : string, $owner : int, $group : int);
-  native static method mkdir : void ($path : string, $mode : int);
-  native static method fseek : void ($stream : Sys::IO::FileHandle, $offset : long, $whence : int);
+  native static method chdir : int ($path : string);
+  native static method chmod : int ($path : string, $mode :int);
+  native static method chown : int ($path : string, $owner : int, $group : int);
+  native static method mkdir : int ($path : string, $mode : int);
+  native static method fseek : int ($stream : Sys::IO::FileHandle, $offset : long, $whence : int);
   native static method ftell : long ($stream : Sys::IO::FileHandle);
   native static method opendir : Sys::IO::DirHandle ($dir : string);
-  native static method closedir : void ($dh : Sys::IO::DirHandle);
+  native static method closedir : int ($dh : Sys::IO::DirHandle);
   native static method readdir : Sys::IO::Dirent ($dh : Sys::IO::DirHandle); # Non-thead safe
   native static method rewinddir : void ($dh : Sys::IO::DirHandle);
   native static method telldir : long ($dh : Sys::IO::DirHandle);

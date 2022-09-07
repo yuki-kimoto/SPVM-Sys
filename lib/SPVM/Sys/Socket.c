@@ -14,7 +14,6 @@
 # include <netinet/ip.h>
 # include <netdb.h>
 # include <arpa/inet.h>
-# define closesocket(fd) close(fd)
 #endif
 
 static const char* FILE_NAME = "Sys/Socket.c";
@@ -784,6 +783,27 @@ int32_t SPVM__Sys__Socket__poll_win(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifndef _WIN32
+  env->die(env, stack, "The \"closesocket\" method in the class \"Sys::Socket\" is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t status = closesocket(fd);
+  
+  if (sockfd == -1) {
+    env->die(env, stack, "[System Error]socket failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = sockfd;
   
   return 0;
 #endif

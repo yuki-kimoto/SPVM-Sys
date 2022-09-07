@@ -118,4 +118,16 @@ class Sys::Socket {
       return Sys::IO->poll($fds, $nfds, $timeout);
     }
   }
+  
+  native static method closesocket : int ($fd : int);
+  
+  static method close : int ($fd : int) {
+    if (Sys->is_D_WIN32) {
+      return Sys::Socket->closesocket($fd);
+    }
+    else {
+      return Sys::IO->close($fd);
+    }
+  }
+
 }
