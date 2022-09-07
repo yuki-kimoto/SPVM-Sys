@@ -1,3 +1,5 @@
+#define _WIN32_WINNT 0x0600
+
 #include "spvm_native.h"
 
 #include <errno.h>
@@ -22,9 +24,6 @@ static const char* FILE_NAME = "Sys/Socket.c";
 static int32_t FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED = 0;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
-
-
-int inet_pton(int af, const char *src, void *dst);
 
 int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
