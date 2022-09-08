@@ -1,11 +1,18 @@
 #include "spvm_native.h"
 
 #include <assert.h>
-#include <sys/times.h>
+
+#ifndef _WIN32
+#  include <sys/times.h>
+#endif
 
 static const char* FILE_NAME = "Sys/Process/Tms.c";
 
 int32_t SPVM__Sys__Process__Tms__new(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The new method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   
   int32_t e = 0;
   
@@ -17,9 +24,14 @@ int32_t SPVM__Sys__Process__Tms__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].oval = obj_st_tms;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__Tms__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The DESTROY method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   
   void* obj_self = stack[0].oval;
   
@@ -31,9 +43,14 @@ int32_t SPVM__Sys__Process__Tms__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__Tms__tms_utime(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The tms_utime method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   
   void* obj_self = stack[0].oval;
   
@@ -47,9 +64,14 @@ int32_t SPVM__Sys__Process__Tms__tms_utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__set_tms_utime(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The set_tms_utime method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
@@ -63,9 +85,14 @@ int32_t SPVM__Sys__Process__set_tms_utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__Tms__tms_stime(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The tms_stime method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   
   void* obj_self = stack[0].oval;
   
@@ -79,9 +106,14 @@ int32_t SPVM__Sys__Process__Tms__tms_stime(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__set_tms_stime(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The set_tms_stime method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
@@ -95,9 +127,14 @@ int32_t SPVM__Sys__Process__set_tms_stime(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__Tms__tms_cutime(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The tms_cutime method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   
   void* obj_self = stack[0].oval;
   
@@ -111,9 +148,14 @@ int32_t SPVM__Sys__Process__Tms__tms_cutime(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__set_tms_cutime(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The set_tms_cutime method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
@@ -127,9 +169,14 @@ int32_t SPVM__Sys__Process__set_tms_cutime(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__Tms__tms_cstime(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The tms_cstime method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   
   void* obj_self = stack[0].oval;
   
@@ -143,9 +190,14 @@ int32_t SPVM__Sys__Process__Tms__tms_cstime(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__set_tms_cstime(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The set_tms_cstime method in the Sys::Process::Tms is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
@@ -159,4 +211,5 @@ int32_t SPVM__Sys__Process__set_tms_cstime(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+#endif
 }

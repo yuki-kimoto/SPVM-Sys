@@ -53,14 +53,10 @@ lib/SPVM/Sys/Process.pm
 lib/SPVM/Sys/Process.spvm
 lib/SPVM/Sys/Process/Constant.c
 lib/SPVM/Sys/Process/Constant.config
-lib/SPVM/Sys/Process/Constant.native/include/.gitkeep
-lib/SPVM/Sys/Process/Constant.native/src/.gitkeep
 lib/SPVM/Sys/Process/Constant.pm
 lib/SPVM/Sys/Process/Constant.spvm
 lib/SPVM/Sys/Process/Tms.c
 lib/SPVM/Sys/Process/Tms.config
-lib/SPVM/Sys/Process/Tms.native/include/.gitkeep
-lib/SPVM/Sys/Process/Tms.native/src/.gitkeep
 lib/SPVM/Sys/Process/Tms.pm
 lib/SPVM/Sys/Process/Tms.spvm
 lib/SPVM/Sys/Socket.c
