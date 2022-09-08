@@ -12,21 +12,11 @@ class Sys::Process {
   native static method waitpid : int ($pid : int, $wstatus : int*, $options : int);
   native static method system : int ($command : string);
   native static method exit : int ($status : int);
-  
-  # native static method pipe : int ($spipefd : int[], $flags = 0 : int);
+  native static method pipe : int ($pipe_fds : int[]);
 
 =pod
 
-Functions for processes and process groups
-
-getpgrp, getppid, setpgrp, exec, times, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid, *system
-
-TODO
-
-pipe is implemented Sys::Pipe.
-
-CAP_NET_ADMIN
-CAP_NET_BIND_SERVICE
+getpgrp, getppid, setpgrp, exec, times, *pipe, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid, *system
 
 =cut
 
