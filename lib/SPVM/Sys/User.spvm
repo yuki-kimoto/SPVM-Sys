@@ -21,7 +21,7 @@ class Sys::User {
   native static method getgrent : Sys::User::Group ();
   
   native static method getgroups : int[] ();
-  native static method setgroups : void ($groups : int[]);
+  native static method setgroups : int ($groups : int[]);
 
   native static method getpwuid : Sys::User::Passwd ($id : int);
   native static method getpwnam : Sys::User::Passwd ($name : string);
