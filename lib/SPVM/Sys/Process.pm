@@ -23,7 +23,7 @@ SPVM::Sys::Process - Process Manipulation
   
   # sleep
   Sys::Process->sleep(5);
-  
+
 =head1 Description
 
 C<Sys::Process> is the class for the process manipulation.
