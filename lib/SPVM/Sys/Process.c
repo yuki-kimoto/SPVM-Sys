@@ -251,3 +251,20 @@ int32_t SPVM__Sys__Process__pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Process__getpgrp(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t pgid = getpgrp();
+  
+  if (pgid == -1) {
+    env->die(env, stack, "[System Error]getpgrp failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = pgid;
+  
+  return 0;
+}
+
