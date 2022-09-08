@@ -4,7 +4,7 @@ package SPVM::Sys::User;
 
 =head1 Name
 
-SPVM::Sys::User - Dir Handle
+SPVM::Sys::User - User Manipulation
 
 =head1 Usage
   
