@@ -1,6 +1,5 @@
 class Sys {
   native static method is_D_WIN32 : int ();
-  native static method is_D_WIN64 : int ();
 }
 
 =pod
