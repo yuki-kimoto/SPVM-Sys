@@ -30,6 +30,24 @@ Get the constant value of C<EXIT_FAILURE>. If the system doesn't define this con
 
 Get the constant value of C<EXIT_SUCCESS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 WNOHANG
+
+  static method WNOHANG : int ();
+
+Get the constant value of C<WNOHANG>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 WUNTRACED
+
+  static method WUNTRACED : int ();
+
+Get the constant value of C<WUNTRACED>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 WCONTINUED
+
+  static method WCONTINUED : int ();
+
+Get the constant value of C<WCONTINUED>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
 =head1 Copyright & License
 
 Copyright 2022-2022 Yuki Kimoto, all rights reserved.
