@@ -6,13 +6,13 @@
 #include <errno.h>
 #include <signal.h>
 #include <stdlib.h>
-#include <sys/times.h>
 
 #ifdef _WIN32
 
 #else
 #include <sys/resource.h>
 #include <sys/wait.h>
+#include <sys/times.h>
 #endif
 
 const char* FILE_NAME = "Sys/Process.c";
