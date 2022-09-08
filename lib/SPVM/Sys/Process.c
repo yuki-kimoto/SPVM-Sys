@@ -368,3 +368,99 @@ int32_t SPVM__Sys__Process__times(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Process__WIFEXITED(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef WCONTINUED
+  stack[0].ival = WIFEXITED(stack[0].ival);
+  return 0;
+#else
+  env->die(env, stack, "WIFEXITED is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Process__WEXITSTATUS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef WEXITSTATUS
+  stack[0].ival = WEXITSTATUS(stack[0].ival);
+  return 0;
+#else
+  env->die(env, stack, "WEXITSTATUS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Process__WIFSIGNALED(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef WIFSIGNALED
+  stack[0].ival = WIFSIGNALED(stack[0].ival);
+  return 0;
+#else
+  env->die(env, stack, "WIFSIGNALED is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Process__WTERMSIG(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef WTERMSIG
+  stack[0].ival = WTERMSIG(stack[0].ival);
+  return 0;
+#else
+  env->die(env, stack, "WTERMSIG is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Process__WCOREDUMP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef WCOREDUMP
+  stack[0].ival = WCOREDUMP(stack[0].ival);
+  return 0;
+#else
+  env->die(env, stack, "WCOREDUMP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Process__WIFSTOPPED(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef WIFSTOPPED
+  stack[0].ival = WIFSTOPPED(stack[0].ival);
+  return 0;
+#else
+  env->die(env, stack, "WIFSTOPPED is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Process__WSTOPSIG(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef WSTOPSIG
+  stack[0].ival = WSTOPSIG(stack[0].ival);
+  return 0;
+#else
+  env->die(env, stack, "WSTOPSIG is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Process__WIFCONTINUED(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef WIFCONTINUED
+  stack[0].ival = WIFCONTINUED(stack[0].ival);
+  return 0;
+#else
+  env->die(env, stack, "WIFCONTINUED is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
