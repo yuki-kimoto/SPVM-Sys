@@ -179,9 +179,9 @@ int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t* wstatus_ref = stack[1].iref;
   int32_t options = stack[2].ival;
   
-  int* wstatus_int;
-  int32_t process_id = waitpid(pid, wstatus_int, options);
-  *wstatus_ref = *wstatus_int;
+  int wstatus_int;
+  int32_t process_id = waitpid(pid, &wstatus_int, options);
+  *wstatus_ref = wstatus_int;
   
   if (process_id == -1) {
     env->die(env, stack, "[System Error]waitpid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
@@ -200,10 +200,10 @@ int32_t SPVM__Sys__Process__system(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_command = stack[0].oval;
   
-  if (!obj_command) {
-    return env->die(env, stack, "The command must be defined", FILE_NAME, __LINE__);
+  const char* command = NULL;
+  if (obj_command) {
+    command = env->get_chars(env, stack, obj_command);
   }
-  const char* command = env->get_chars(env, stack, obj_command);
   
   int32_t status = system(command);
   
