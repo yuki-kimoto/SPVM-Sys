@@ -24,9 +24,9 @@ int32_t SPVM__Sys__User__getuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t uid = getuid();
   
   stack[0].ival = uid;
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__geteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -40,9 +40,9 @@ int32_t SPVM__Sys__User__geteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t euid = geteuid();
   
   stack[0].ival  = euid;
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__getgid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -56,9 +56,9 @@ int32_t SPVM__Sys__User__getgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t gid = getgid();
   
   stack[0].ival = gid;
-#endif
 
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__getegid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -72,9 +72,9 @@ int32_t SPVM__Sys__User__getegid(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t egid = getegid();
   
   stack[0].ival = egid;
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__setuid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -94,9 +94,9 @@ int32_t SPVM__Sys__User__setuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__seteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -116,9 +116,9 @@ int32_t SPVM__Sys__User__seteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__setgid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -138,9 +138,9 @@ int32_t SPVM__Sys__User__setgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
 
   stack[0].ival = status;
-#endif
 
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -160,9 +160,9 @@ int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__setpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -174,9 +174,9 @@ int32_t SPVM__Sys__User__setpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   setpwent();
-#endif
 
   return 0;
+#endif
 }
 
 
@@ -189,9 +189,9 @@ int32_t SPVM__Sys__User__endpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   endpwent();
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -220,9 +220,9 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_passwd;
   }
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -234,9 +234,9 @@ int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   setgrent();
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -248,9 +248,9 @@ int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   endgrent();
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -279,9 +279,9 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_group;
   }
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -311,9 +311,9 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].oval = obj_groups;
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -340,11 +340,9 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]setgroups failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
-#endif
-
   stack[0].ival = status;
-  
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -374,9 +372,9 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_passwd;
   }
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -412,9 +410,9 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_passwd;
   }
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -445,9 +443,9 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_group;
   }
-#endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -483,7 +481,7 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
     stack[0].oval = obj_sys_ent_group;
   }
-#endif
   
   return 0;
+#endif
 }
