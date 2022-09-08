@@ -211,6 +211,17 @@ int32_t SPVM__Sys__Process__system(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Process__exit(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t stauts = stack[0].ival;
+  
+  exit(stauts);
+  
+  return 0;
+}
+
 /*
 int32_t SPVM__Sys__Process__pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;

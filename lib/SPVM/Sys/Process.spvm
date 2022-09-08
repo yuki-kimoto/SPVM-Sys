@@ -11,7 +11,9 @@ class Sys::Process {
   native static method wait : int ($wstatus : int*);
   native static method waitpid : int ($pid : int, $wstatus : int*, $options : int);
   native static method system : int ($command : string);
-  # native static method pipe : int ($pipefd : int[], $flags = 0 : int);
+  native static method exit : int ($status : int);
+  
+  # native static method pipe : int ($spipefd : int[], $flags = 0 : int);
 
 =pod
 
