@@ -17,10 +17,11 @@ class Sys::Process {
   native static method setpgrp : int ();
   native static method getpid : int ();
   native static method getppid : int ();
+  native static method execv : int ($path : string, $args : string[]);
 
 =pod
 
-exec, times, *getpgrp, *pipe, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid, *system, *getpid, *getppid, *setpgrp, 
+times, *getpgrp, *pipe, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid, *system, *getpid, *getppid, *setpgrp, *execv
 
 =cut
 

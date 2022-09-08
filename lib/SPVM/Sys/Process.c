@@ -305,3 +305,43 @@ int32_t SPVM__Sys__Process__getppid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  void* obj_args = stack[1].oval;
+  char** argv;
+  if (obj_args) {
+    int32_t args_length = env->length(env, stack, obj_args);
+    char** argv = env->new_memory_stack(env, stack, sizeof(char*) * args_length + 1);
+    for (int32_t i = 0; i < args_length; i++) {
+      void* obj_arg = env->get_elem_object(env, stack, obj_args, i);
+      char* arg = (char*)env->get_chars(env, stack, obj_arg);
+      argv[i] = arg;
+    }
+  }
+  else {
+    argv = env->new_memory_stack(env, stack, sizeof(char*) * 1);
+  }
+  
+  int32_t status = execv(path, argv);
+  
+  env->free_memory_stack(env, stack, argv);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]execv failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
