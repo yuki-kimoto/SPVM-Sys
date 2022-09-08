@@ -256,15 +256,36 @@ int32_t SPVM__Sys__Process__getpgrp(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t pgid = getpgrp();
+  int32_t process_group_id = getpgrp();
   
-  if (pgid == -1) {
+  if (process_group_id == -1) {
     env->die(env, stack, "[System Error]getpgrp failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  stack[0].ival = pgid;
+  stack[0].ival = process_group_id;
   
   return 0;
 }
 
+int32_t SPVM__Sys__Process__getpid(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t process_id = getpid();
+  
+  stack[0].ival = process_id;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Process__getppid(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t parent_process_id = getppid();
+  
+  stack[0].ival = parent_process_id;
+  
+  return 0;
+}

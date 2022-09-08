@@ -14,10 +14,12 @@ class Sys::Process {
   native static method exit : int ($status : int);
   native static method pipe : int ($pipe_fds : int[]);
   native static method getpgrp : int ();
+  native static method getpid : int ();
+  native static method getppid : int ();
 
 =pod
 
-getppid, setpgrp, exec, times, *getpgrp, *pipe, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid, *system
+setpgrp, exec, times, *getpgrp, *pipe, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid, *system, *getpid, *getppid, 
 
 =cut
 
