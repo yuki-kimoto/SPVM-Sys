@@ -59,21 +59,4 @@ class Sys::IO {
   native static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 
   native static method flock : int ($fd : int, $operation : int);
-
-=pod
-
-Input and output functions
-
-*write, *sysread, *syswrite, *read, *getc, *seek, *tell, *close, *closedir, *readdir, *rewinddir, *telldir, *truncate, *seekdir, *fileno, *sysseek
-
-*flock, *fcntl, *unlink, *open, *chdir, *chmod, *chown, *sysopen, *rmdir, *mkdir, *opendir, *umask, *stat(Sys::IO::Stat), *lstat(Sys::IO::Stat), *rename, *readlink, *symlink, *ioctl, *utime
-
-TODO
-
-glob is too difficut. File::Glob porting is needed.
-
-flock is not portable on Mac and Windows
-
-=cut
-
 }
