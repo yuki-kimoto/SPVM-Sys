@@ -1,5 +1,7 @@
 class Sys::Process {
-
+  
+  use Sys::Process::Constant;
+  
   native static method alarm : int ($seconds : int);
   native static method fork : int ();
   native static method getpriority : int ($which : int, $who : int);

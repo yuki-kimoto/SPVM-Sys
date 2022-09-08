@@ -51,6 +51,12 @@ lib/SPVM/Sys/Process.c
 lib/SPVM/Sys/Process.config
 lib/SPVM/Sys/Process.pm
 lib/SPVM/Sys/Process.spvm
+lib/SPVM/Sys/Process/Constant.c
+lib/SPVM/Sys/Process/Constant.config
+lib/SPVM/Sys/Process/Constant.native/include/.gitkeep
+lib/SPVM/Sys/Process/Constant.native/src/.gitkeep
+lib/SPVM/Sys/Process/Constant.pm
+lib/SPVM/Sys/Process/Constant.spvm
 lib/SPVM/Sys/Socket.c
 lib/SPVM/Sys/Socket.config
 lib/SPVM/Sys/Socket.pm
@@ -130,4 +136,5 @@ t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/Socket.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
 t/Socket.t
+t/Sys.t
 t/User.t

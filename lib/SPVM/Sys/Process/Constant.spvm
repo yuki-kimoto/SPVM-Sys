@@ -1,0 +1,5 @@
+class Sys::Process::Constant {
+  native static method EXIT_FAILURE : int ();
+
+  native static method EXIT_SUCCESS : int ();
+}
