@@ -20,11 +20,4 @@ class Sys::Process {
   native static method getppid : int ();
   native static method execv : int ($path : string, $args : string[]);
   native static method times : long ($buffer : Sys::Process::Tms);
-
-=pod
-
-times, *getpgrp, *pipe, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid, *system, *getpid, *getppid, *setpgrp, *execv
-
-=cut
-
 }
