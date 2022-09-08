@@ -1,6 +1,7 @@
 class Sys::Process {
   
   use Sys::Process::Constant;
+  use Sys::Process::Tms;
   
   native static method alarm : int ($seconds : int);
   native static method fork : int ();
@@ -18,6 +19,7 @@ class Sys::Process {
   native static method getpid : int ();
   native static method getppid : int ();
   native static method execv : int ($path : string, $args : string[]);
+  native static method times : long ($buffer : Sys::Process::Tms);
 
 =pod
 
