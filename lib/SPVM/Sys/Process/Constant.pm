@@ -48,6 +48,38 @@ Get the constant value of C<WUNTRACED>. If the system doesn't define this consta
 
 Get the constant value of C<WCONTINUED>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 WIFEXITED
+
+  native static method WIFEXITED : int ($wstatus : int);
+
+=head2 WEXITSTATUS
+
+  native static method WEXITSTATUS : int ($wstatus : int);
+
+=head2 WIFSIGNALED
+
+  native static method WIFSIGNALED : int ($wstatus : int);
+
+=head2 WTERMSIG
+
+  native static method WTERMSIG : int ($wstatus : int);
+
+=head2 WCOREDUMP
+
+  native static method WCOREDUMP : int ($wstatus : int);
+
+=head2 WIFSTOPPED
+
+  native static method WIFSTOPPED : int ($wstatus : int);
+
+=head2 WSTOPSIG
+
+  native static method WSTOPSIG : int ($wstatus : int);
+
+=head2 WIFCONTINUED
+
+  native static method WIFCONTINUED : int ($wstatus : int);
+
 =head1 Copyright & License
 
 Copyright 2022-2022 Yuki Kimoto, all rights reserved.
