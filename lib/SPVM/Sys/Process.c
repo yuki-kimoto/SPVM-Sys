@@ -152,9 +152,9 @@ int32_t SPVM__Sys__Process__wait(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t* wstatus_ref = stack[0].iref;
   
-  int* wstatus_int;
-  int32_t process_id = wait(wstatus_int);
-  *wstatus_ref = *wstatus_int;
+  int wstatus_int;
+  int32_t process_id = wait(&wstatus_int);
+  *wstatus_ref = wstatus_int;
   
   if (process_id == -1) {
     env->die(env, stack, "[System Error]wait failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
