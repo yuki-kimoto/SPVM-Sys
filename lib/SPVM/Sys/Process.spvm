@@ -20,7 +20,7 @@ class Sys::Process {
 
 =pod
 
-setpgrp, exec, times, *getpgrp, *pipe, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid, *system, *getpid, *getppid, 
+exec, times, *getpgrp, *pipe, *alarm, *fork, *getpriority, *setpriority, *sleep, *kill, *wait, *waitpid, *system, *getpid, *getppid, *setpgrp, 
 
 =cut
 
