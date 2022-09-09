@@ -87,7 +87,7 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
   int32_t status = fclose(stream);
-  if (status == -1) {
+  if (status == EOF) {
     env->die(env, stack, "[System Error]fclose failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
@@ -1209,3 +1209,25 @@ int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 #endif
 }
+
+int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t status = fflush(stream);
+  if (status == EOF) {
+    env->die(env, stack, "[System Error]fflush failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+

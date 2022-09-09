@@ -370,8 +370,8 @@ Apply or remove an advisory lock on the open file specified by fd. The argument 
 
 See the detail of the L<flock|https://linux.die.net/man/2/flock> function in the case of Linux.
 
-=pod
+=head2 fflush
 
-fflush
+For output streams, fflush() forces a write of all user-space buffered data for the given output or update stream via the stream's underlying write function. For input streams, fflush() discards any buffered data that has been fetched from the underlying file, but has not been consumed by the application. The open status of the stream is unaffected.
 
-=cut
+See the detail of the L<fflush|https://linux.die.net/man/3/fflush> function in the case of Linux.
