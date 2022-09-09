@@ -7,6 +7,7 @@ class Sys::IO {
   use Sys::IO::Utimbuf;
   use Sys::IO::Flock;
   use Sys::IO::PollfdArray;
+  use Sys::IO::Constant;
   
   native static method rmdir : int ($path : string);
   
