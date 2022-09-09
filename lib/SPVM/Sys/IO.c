@@ -156,9 +156,14 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  int32_t ret = fileno(stream);
+  int32_t fd = fileno(stream);
+
+  if (fd == -1) {
+    env->die(env, stack, "[System Error]fileno failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
   
-  stack[0].ival = ret;
+  stack[0].ival = fd;
   
   return 0;
 }
