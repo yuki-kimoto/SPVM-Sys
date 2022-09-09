@@ -1155,35 +1155,68 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t command = stack[1].ival;
   
-  int32_t status;
+  int32_t ret;
   
-  void* obj_arg;
+  void* obj_command_arg;
   if (items <= 2) {
     ret = fcntl(fd, command);
   }
   else {
-    void* obj_arg = stack[2].oval;
+    void* obj_command_arg = stack[2].oval;
     
-    if (!obj_arg) {
+    if (!obj_command_arg) {
       ret = fcntl(fd, command, NULL);
     }
     else {
-      int32_t arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_arg);
-      int32_t arg_type_dimension = env->get_object_type_dimension(env, stack, obj_arg);
+      int32_t command_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_command_arg);
+      int32_t command_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_command_arg);
       
-      // Int
-      if (arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && arg_type_dimension == 0) {
-        int32_t arg_int32 = env->get_field_int_by_name(env, stack, obj_arg, "Int", "value", &e, FILE_NAME, __LINE__);
+      // Byte
+      if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_BYTE_CLASS && command_arg_type_dimension == 0) {
+        int8_t command_arg_int8 = env->get_field_byte_by_name(env, stack, obj_command_arg, "Byte", "value", &e, FILE_NAME, __LINE__);
         if (e) { return e; }
         
-        int arg_int = arg_int32;
+        ret = fcntl(fd, command, &command_arg_int8);
+      }
+      // Short
+      else if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_SHORT_CLASS && command_arg_type_dimension == 0) {
+        int16_t command_arg_int16 = env->get_field_byte_by_name(env, stack, obj_command_arg, "Short", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
         
-        ret = fcntl(fd, command, arg_int);
+        ret = fcntl(fd, command, &command_arg_int16);
+      }
+      // Int
+      else if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && command_arg_type_dimension == 0) {
+        int32_t command_arg_int32 = env->get_field_int_by_name(env, stack, obj_command_arg, "Int", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, command, &command_arg_int32);
+      }
+      // Long
+      else if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_LONG_CLASS && command_arg_type_dimension == 0) {
+        int64_t command_arg_int64 = env->get_field_byte_by_name(env, stack, obj_command_arg, "Long", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, command, &command_arg_int64);
+      }
+      // Float
+      else if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_FLOAT_CLASS && command_arg_type_dimension == 0) {
+        float command_arg_float = env->get_field_byte_by_name(env, stack, obj_command_arg, "Float", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, command, &command_arg_float);
+      }
+      // Double
+      else if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_DOUBLE_CLASS && command_arg_type_dimension == 0) {
+        double command_arg_double = env->get_field_byte_by_name(env, stack, obj_command_arg, "Double", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, command, (void*)&command_arg_double);
       }
       // A pointer class
-      else if (env->is_pointer_class(env, stack, obj_arg)) {
-        void* arg = env->get_pointer(env, stack, obj_arg);
-        ret = fcntl(fd, command, arg);
+      else if (env->is_pointer_class(env, stack, obj_command_arg)) {
+        void* command_arg = env->get_pointer(env, stack, obj_command_arg);
+        ret = fcntl(fd, command, command_arg);
       }
       else {
         return env->die(env, stack, "The command argument must be an Int object or the object that is a pointer class such as Sys::IO::Flock", FILE_NAME, __LINE__);
@@ -1206,50 +1239,85 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
+  int32_t items = env->get_args_stack_length(env, stack);
+  
   int32_t fd = stack[0].ival;
   
   int32_t request = stack[1].ival;
   
-  void* obj_arg = stack[2].oval;
+  int32_t ret;
   
-  char* arg = NULL;
-  if (obj_arg) {
-    arg = (char*)env->get_chars(env, stack, obj_arg);
+  void* obj_request_arg;
+  if (items <= 2) {
+    ret = ioctl(fd, request);
   }
-  
-  int32_t ret = ioctl(fd, request, arg);
-
-  if (ret == -1) {
-    env->die(env, stack, "[System Error]ioctl failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  else {
+    void* obj_request_arg = stack[2].oval;
+    
+    if (!obj_request_arg) {
+      ret = ioctl(fd, request, NULL);
+    }
+    else {
+      int32_t request_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_request_arg);
+      int32_t request_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_request_arg);
+      
+      // Byte
+      if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_BYTE_CLASS && request_arg_type_dimension == 0) {
+        int8_t request_arg_int8 = env->get_field_byte_by_name(env, stack, obj_request_arg, "Byte", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, request, &request_arg_int8);
+      }
+      // Short
+      else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_SHORT_CLASS && request_arg_type_dimension == 0) {
+        int16_t request_arg_int16 = env->get_field_byte_by_name(env, stack, obj_request_arg, "Short", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, request, &request_arg_int16);
+      }
+      // Int
+      else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && request_arg_type_dimension == 0) {
+        int32_t request_arg_int32 = env->get_field_int_by_name(env, stack, obj_request_arg, "Int", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, request, &request_arg_int32);
+      }
+      // Long
+      else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_LONG_CLASS && request_arg_type_dimension == 0) {
+        int64_t request_arg_int64 = env->get_field_byte_by_name(env, stack, obj_request_arg, "Long", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, request, &request_arg_int64);
+      }
+      // Float
+      else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_FLOAT_CLASS && request_arg_type_dimension == 0) {
+        float request_arg_float = env->get_field_byte_by_name(env, stack, obj_request_arg, "Float", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, request, &request_arg_float);
+      }
+      // Double
+      else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_DOUBLE_CLASS && request_arg_type_dimension == 0) {
+        double request_arg_double = env->get_field_byte_by_name(env, stack, obj_request_arg, "Double", "value", &e, FILE_NAME, __LINE__);
+        if (e) { return e; }
+        
+        ret = fcntl(fd, request, (void*)&request_arg_double);
+      }
+      // A pointer class
+      else if (env->is_pointer_class(env, stack, obj_request_arg)) {
+        void* request_arg = env->get_pointer(env, stack, obj_request_arg);
+        ret = ioctl(fd, request, request_arg);
+      }
+      else {
+        return env->die(env, stack, "The request argument must be an Byte/Short/Int/Long/Float/Double object or the object that is a pointer class such as Sys::IO::Flock", FILE_NAME, __LINE__);
+      }
+    }
   }
   
   stack[0].ival = ret;
   
   return 0;
 #endif
-}
-
-int32_t SPVM__Sys__IO__ioctl_int(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t* int32_arg_ref = stack[2].iref;
-  
-  int int_arg = *int32_arg_ref;
-  
-  void* obj_arg = env->new_string(env, stack, NULL, sizeof(int));
-  char* arg = (char*)env->get_chars(env, stack, obj_arg);
-  memcpy(arg, &int_arg, sizeof(int));
-  
-  stack[2].oval = obj_arg;
-  
-  int32_t error = SPVM__Sys__IO__ioctl(env, stack);
-  
-  int int_arg_output;
-  memcpy(&int_arg_output, arg, sizeof(int));
-  
-  *int32_arg_ref = int_arg_output;
-  
-  return error;
 }
 
 int32_t SPVM__Sys__IO__poll(SPVM_ENV* env, SPVM_VALUE* stack) {

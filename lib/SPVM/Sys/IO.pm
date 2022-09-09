@@ -355,17 +355,11 @@ See the detail of the L<lstat|https://linux.die.net/man/2/fcntl> function in the
 
 =head2 ioctl
 
-  static method ioctl : int ($fd : int, $request : int, $arg_ref : string[]);
+  static method ioctl : int ($fd : int, $request : int, $request_arg_ref = undef : object of Byte|Short|Int|Long|Float|Double|object);
 
 The ioctl() function manipulates the underlying device parameters of special files. In particular, many operating characteristics of character special files (e.g., terminals) may be controlled with ioctl() requests. The argument d must be an open file descriptor.
 
 See the detail of the L<ioctl|https://linux.die.net/man/2/ioctl> function in the case of Linux.
-
-=head2 ioctl_int
-
-  static method ioctl_int : int ($fd : int, $request : int, $arg_ref : int*);
-
-The same as L</"ioctl"> except that the third argument is the reference of the int type.
 
 =head2 poll
 

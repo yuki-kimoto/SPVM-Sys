@@ -97,8 +97,10 @@ class Sys::Socket {
   
   native static method ntohs : short ($net_short : short);
 
-  native static method ioctlsocket : int ($fd : int, $request : int, $arg_ref : int*);
-  
+  native static method ioctlsocket : int ($fd : int, $request : int, $arg : int*);
+
+=pod
+
   static method ioctl_portable : int ($fd : int, $request : int, $arg_ref : int*) {
     if (Sys->is_D_WIN32) {
       return Sys::Socket->ioctlsocket($fd, $request, $arg_ref);
@@ -107,6 +109,8 @@ class Sys::Socket {
       return Sys::IO->ioctl_int($fd, $request, $arg_ref);
     }
   }
+
+=cut
 
   native static method WSAPoll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 

@@ -93,11 +93,9 @@ class Sys::IO {
   
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
   
-  native static method ioctl : int ($fd : int, $request : int, $arg_ref : string[]);
+  native static method fcntl : int ($fd : int, $command : int, $command_arg = undef : object of Byte|Short|Int|Long|Float|Double|Sys::IO::Flock|object);
   
-  native static method ioctl_int : int ($fd : int, $request : int, $arg_ref : int*);
-  
-  native static method fcntl : int ($fd : int, $command : int, $arg = undef : object of Int|Sys::IO::Flock|object);
+  native static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
   
   native static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 }
