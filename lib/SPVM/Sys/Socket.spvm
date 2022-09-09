@@ -97,21 +97,19 @@ class Sys::Socket {
   
   native static method ntohs : short ($net_short : short);
 
-  native static method ioctlsocket : int ($fd : int, $request : int, $arg : int*);
+  native static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int*);
 
-=pod
-
-  static method ioctl_portable : int ($fd : int, $request : int, $arg_ref : int*) {
+  static method ioctl_int_portable : int ($fd : int, $request : int, $request_arg_ref : int*) {
     if (Sys->is_D_WIN32) {
-      return Sys::Socket->ioctlsocket($fd, $request, $arg_ref);
+      return Sys::Socket->ioctlsocket($fd, $request, $request_arg_ref);
     }
     else {
-      return Sys::IO->ioctl_int($fd, $request, $arg_ref);
+      my $int_object = Int->new($$request_arg_ref);
+      return Sys::IO->ioctl($fd, $request, $int_object);
+      $$request_arg_ref = $int_object->value;
     }
   }
-
-=cut
-
+  
   native static method WSAPoll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 
   static method poll_portable : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int) {
