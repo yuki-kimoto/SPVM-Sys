@@ -20,7 +20,7 @@ C<Sys::IO> is the class for the file IO.
 
   static method rmdir : int ($path : string);
 
-The rmdir() function shall remove a directory whose name is given by path. The directory shall be removed only if it is an empty directory.
+rmdir() deletes a directory, which must be empty.
 
 See the detail of the L<rmdir|https://linux.die.net/man/2/rmdir> function in the case of Linux.
 
@@ -28,7 +28,7 @@ See the detail of the L<rmdir|https://linux.die.net/man/2/rmdir> function in the
 
   static method unlink : int ($path : string);
 
-The unlink() function shall remove a link to a file. If path names a symbolic link, unlink() shall remove the symbolic link named by path and shall not affect any file or directory named by the contents of the symbolic link. Otherwise, unlink() shall remove the link named by the pathname pointed to by path and shall decrement the link count of the file referenced by the link.
+unlink() deletes a name from the file system. If that name was the last link to a file and no processes have the file open the file is deleted and the space it was using is made available for reuse.
 
 See the detail of the L<unlink|https://linux.die.net/man/2/unlink> function in the case of Linux.
 
@@ -36,29 +36,49 @@ See the detail of the L<unlink|https://linux.die.net/man/2/unlink> function in t
 
   static method close : int ($fd : int);
 
-The close() function shall deallocate the file descriptor indicated by fildes($fd). To deallocate means to make the file descriptor available for return by subsequent calls to open() or other functions that allocate file descriptors. All outstanding record locks owned by the process on the file associated with the file descriptor shall be removed (that is, unlocked).
+close() closes a file descriptor, so that it no longer refers to any file and may be reused. Any record locks (see fcntl(2)) held on the file it was associated with, and owned by the process, are removed (regardless of the file descriptor that was used to obtain the lock).
 
-
+See the detail of the L<close|https://linux.die.net/man/2/close> function in the case of Linux.
 
 =head2 fclose
 
   static method fclose : int ($stream : Sys::IO::FileHandle);
 
+The fclose() function flushes the stream pointed to by fp (writing any buffered output data using fflush(3)) and closes the underlying file descriptor.
+
+See the detail of the L<fclose|https://linux.die.net/man/3/fclose> function in the case of Linux.
+
 =head2 clearerr
 
   static method clearerr : void ($stream : Sys::IO::FileHandle);
+
+The function clearerr() clears the end-of-file and error indicators for the stream pointed to by stream.
+
+See the detail of the L<clearerr|https://linux.die.net/man/3/clearerr> function in the case of Linux.
 
 =head2 feof
 
   static method feof : int ($stream : Sys::IO::FileHandle);
 
+The function feof() tests the end-of-file indicator for the stream pointed to by stream, returning nonzero if it is set. The end-of-file indicator can only be cleared by the function clearerr().
+
+See the detail of the L<feof|https://linux.die.net/man/3/feof> function in the case of Linux.
+
 =head2 ferror
 
   static method ferror : int ($stream : Sys::IO::FileHandle);
 
+The function ferror() tests the error indicator for the stream pointed to by stream, returning nonzero if it is set. The error indicator can only be reset by the clearerr() function.
+
+See the detail of the L<ferror|https://linux.die.net/man/3/ferror> function in the case of Linux.
+
 =head2 fileno
 
   static method fileno : int ($stream : Sys::IO::FileHandle);
+
+The function fileno() examines the argument stream and returns its integer descriptor.
+
+See the detail of the L<fileno|https://linux.die.net/man/3/fileno> function in the case of Linux.
 
 =head2 open
 
@@ -208,3 +228,8 @@ The close() function shall deallocate the file descriptor indicated by fildes($f
 
   static method flock : int ($fd : int, $operation : int);
 
+=pod
+
+fflush
+
+=cut
