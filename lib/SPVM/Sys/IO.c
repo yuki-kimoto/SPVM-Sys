@@ -915,7 +915,7 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
 
-  void* obj_buffer = stack[0].oval;
+  void* obj_buffer = stack[1].oval;
   
   if (!obj_buffer) {
     return env->die(env, stack, "The new path must be defined", FILE_NAME, __LINE__);
@@ -924,13 +924,23 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
   int32_t buffer_length = env->length(env, stack, obj_buffer);
   
-  int32_t read_length = readlink(path, buffer, buffer_length);
-  if (read_length == -1) {
+  int32_t arg_buffer_length = stack[2].ival;
+  
+  if (!(arg_buffer_length >= 0)) {
+    return env->die(env, stack, "The buffer length of the argument must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(arg_buffer_length <= buffer_length)) {
+    return env->die(env, stack, "The buffer length of the argument must be less than or equal to the length of the buffer", FILE_NAME, __LINE__);
+  }
+  
+  int32_t placed_length = readlink(path, buffer, arg_buffer_length);
+  if (placed_length == -1) {
     env->die(env, stack, "[System Error]readlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  stack[0].ival = read_length;
+  stack[0].ival = placed_length;
   
   return 0;
 #endif

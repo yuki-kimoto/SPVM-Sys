@@ -42,7 +42,7 @@ class Sys::IO {
   native static method lseek : long ($fd : int, $offset : long, $whence : int);
   native static method umask : int ($mode : int);
   native static method rename : int ($old_path : string, $new_path : string);
-  native static method readlink : int ($path : string, $buffer : mutable string);
+  native static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
   native static method symlink : int ($target : string, $link_path : string);
   native static method ioctl : int ($fd : int, $request : int, $arg_ref : string[]);
   native static method ioctl_int : int ($fd : int, $request : int, $arg_ref : int*);
