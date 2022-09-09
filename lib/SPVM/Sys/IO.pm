@@ -245,7 +245,6 @@ See the detail of the L<telldir|https://linux.die.net/man/3/telldir> function in
   static method seekdir : void ($dir_stream : Sys::IO::DirStream, $offset : long);
 
 The seekdir() function sets the location in the directory stream from which the next readdir(2) call will start. seekdir() should be used with an offset returned by telldir(3).
-
 See the detail of the L<seekdir|https://linux.die.net/man/3/seekdir> function in the case of Linux.
 
 =head2 truncate

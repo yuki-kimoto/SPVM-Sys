@@ -629,7 +629,7 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[1].oval;
+  void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
@@ -881,7 +881,7 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
 
-  void* obj_new_path = stack[0].oval;
+  void* obj_new_path = stack[1].oval;
   
   if (!obj_new_path) {
     return env->die(env, stack, "The new path must be defined", FILE_NAME, __LINE__);
