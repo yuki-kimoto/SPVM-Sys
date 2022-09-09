@@ -76,27 +76,6 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_stream = stack[0].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  int32_t status = fclose(stream);
-  if (status == EOF) {
-    env->die(env, stack, "[System Error]fclose failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__clearerr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_stream = stack[0].oval;
@@ -392,6 +371,48 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t fwrite_length = fwrite(buffer, size, data_length, stream);
   
   stack[0].ival = fwrite_length;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t status = fclose(stream);
+  if (status == EOF) {
+    env->die(env, stack, "[System Error]fclose failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t status = fflush(stream);
+  if (status == EOF) {
+    env->die(env, stack, "[System Error]fflush failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
   
   return 0;
 }
@@ -961,7 +982,7 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* target = env->get_chars(env, stack, obj_target);
 
-  void* obj_link_path = stack[0].oval;
+  void* obj_link_path = stack[1].oval;
   
   if (!obj_link_path) {
     return env->die(env, stack, "The link path must be defined", FILE_NAME, __LINE__);
@@ -993,7 +1014,7 @@ int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* file = env->get_chars(env, stack, obj_file);
 
-  void* obj_buffer = stack[0].oval;
+  void* obj_buffer = stack[1].oval;
   struct utimbuf* st_buffer;
   if (obj_buffer) {
     st_buffer = env->get_pointer(env, stack, obj_buffer);
@@ -1261,26 +1282,5 @@ int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
-}
-
-int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_stream = stack[0].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  int32_t status = fflush(stream);
-  if (status == EOF) {
-    env->die(env, stack, "[System Error]fflush failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
 }
 

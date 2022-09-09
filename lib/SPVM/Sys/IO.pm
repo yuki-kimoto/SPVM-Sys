@@ -40,14 +40,6 @@ close() closes a file descriptor, so that it no longer refers to any file and ma
 
 See the detail of the L<close|https://linux.die.net/man/2/close> function in the case of Linux.
 
-=head2 fclose
-
-  static method fclose : int ($stream : Sys::IO::FileStream);
-
-The fclose() function flushes the stream pointed to by fp (writing any buffered output data using fflush(3)) and closes the underlying file descriptor.
-
-See the detail of the L<fclose|https://linux.die.net/man/3/fclose> function in the case of Linux.
-
 =head2 clearerr
 
   static method clearerr : void ($stream : Sys::IO::FileStream);
@@ -127,6 +119,20 @@ See the detail of the L<fread|https://linux.die.net/man/3/fread> function in the
 The function fwrite() writes nmemb elements of data, each size bytes long, to the stream pointed to by stream, obtaining them from the location given by ptr.
 
 See the detail of the L<fread|https://linux.die.net/man/3/fwrite> function in the case of Linux.
+
+=head2 fclose
+
+  static method fclose : int ($stream : Sys::IO::FileStream);
+
+The fclose() function flushes the stream pointed to by fp (writing any buffered output data using fflush(3)) and closes the underlying file descriptor.
+
+See the detail of the L<fclose|https://linux.die.net/man/3/fclose> function in the case of Linux.
+
+=head2 fflush
+
+For output streams, fflush() forces a write of all user-space buffered data for the given output or update stream via the stream's underlying write function. For input streams, fflush() discards any buffered data that has been fetched from the underlying file, but has not been consumed by the application. The open status of the stream is unaffected.
+
+See the detail of the L<fflush|https://linux.die.net/man/3/fflush> function in the case of Linux.
 
 =head2 read
 
@@ -295,20 +301,6 @@ symlink() creates a symbolic link named newpath which contains the string oldpat
 
 See the detail of the L<symlink|https://linux.die.net/man/2/symlink> function in the case of Linux.
 
-=head2 ioctl
-
-  static method ioctl : int ($fd : int, $request : int, $arg_ref : string[]);
-
-The ioctl() function manipulates the underlying device parameters of special files. In particular, many operating characteristics of character special files (e.g., terminals) may be controlled with ioctl() requests. The argument d must be an open file descriptor.
-
-See the detail of the L<ioctl|https://linux.die.net/man/2/ioctl> function in the case of Linux.
-
-=head2 ioctl_int
-
-  static method ioctl_int : int ($fd : int, $request : int, $arg_ref : int*);
-
-The same as L</"ioctl"> except that the third argument is the reference of the int type.
-
 =head2 utime
 
   static method utime : int ($file : string, $buffer : Sys::IO::Utimbuf);
@@ -345,6 +337,14 @@ lstat() is identical to stat(), except that if path is a symbolic link, then the
 
 See the detail of the L<lstat|https://linux.die.net/man/2/lstat> function in the case of Linux.
 
+=head2 flock
+
+  static method flock : int ($fd : int, $operation : int);
+
+Apply or remove an advisory lock on the open file specified by fd. The argument operation is one of the following:
+
+See the detail of the L<flock|https://linux.die.net/man/2/flock> function in the case of Linux.
+
 =head2 fcntl
 
   static method fcntl : int ($fd : int, $command : int, $arg = undef : object of Int|Sys::IO::Flock|object);
@@ -352,6 +352,20 @@ See the detail of the L<lstat|https://linux.die.net/man/2/lstat> function in the
 fcntl() performs one of the operations described below on the open file descriptor fd. The operation is determined by cmd.
 
 See the detail of the L<lstat|https://linux.die.net/man/2/fcntl> function in the case of Linux.
+
+=head2 ioctl
+
+  static method ioctl : int ($fd : int, $request : int, $arg_ref : string[]);
+
+The ioctl() function manipulates the underlying device parameters of special files. In particular, many operating characteristics of character special files (e.g., terminals) may be controlled with ioctl() requests. The argument d must be an open file descriptor.
+
+See the detail of the L<ioctl|https://linux.die.net/man/2/ioctl> function in the case of Linux.
+
+=head2 ioctl_int
+
+  static method ioctl_int : int ($fd : int, $request : int, $arg_ref : int*);
+
+The same as L</"ioctl"> except that the third argument is the reference of the int type.
 
 =head2 poll
 
@@ -361,16 +375,3 @@ poll() performs a similar task to select(2): it waits for one of a set of file d
 
 See the detail of the L<poll|https://linux.die.net/man/2/poll> function in the case of Linux.
 
-=head2 flock
-
-  static method flock : int ($fd : int, $operation : int);
-
-Apply or remove an advisory lock on the open file specified by fd. The argument operation is one of the following:
-
-See the detail of the L<flock|https://linux.die.net/man/2/flock> function in the case of Linux.
-
-=head2 fflush
-
-For output streams, fflush() forces a write of all user-space buffered data for the given output or update stream via the stream's underlying write function. For input streams, fflush() discards any buffered data that has been fetched from the underlying file, but has not been consumed by the application. The open status of the stream is unaffected.
-
-See the detail of the L<fflush|https://linux.die.net/man/3/fflush> function in the case of Linux.
