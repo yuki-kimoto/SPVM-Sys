@@ -134,6 +134,14 @@ For output streams, fflush() forces a write of all user-space buffered data for 
 
 See the detail of the L<fflush|https://linux.die.net/man/3/fflush> function in the case of Linux.
 
+=head2 flock
+
+  static method flock : int ($fd : int, $operation : int);
+
+Apply or remove an advisory lock on the open file specified by fd. The argument operation is one of the following:
+
+See the detail of the L<flock|https://linux.die.net/man/2/flock> function in the case of Linux.
+
 =head2 read
 
   static method read : int ($fd : int, $buffer : mutable string, $count : int);
@@ -336,14 +344,6 @@ These functions return information about a file. No permissions are required on 
 lstat() is identical to stat(), except that if path is a symbolic link, then the link itself is stat-ed, not the file that it refers to.
 
 See the detail of the L<lstat|https://linux.die.net/man/2/lstat> function in the case of Linux.
-
-=head2 flock
-
-  static method flock : int ($fd : int, $operation : int);
-
-Apply or remove an advisory lock on the open file specified by fd. The argument operation is one of the following:
-
-See the detail of the L<flock|https://linux.die.net/man/2/flock> function in the case of Linux.
 
 =head2 fcntl
 
