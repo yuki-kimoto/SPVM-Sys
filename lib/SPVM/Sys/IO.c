@@ -658,7 +658,7 @@ int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[1].oval;
+  void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
