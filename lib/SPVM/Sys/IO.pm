@@ -20,13 +20,25 @@ C<Sys::IO> is the class for the file IO.
 
   static method rmdir : int ($path : string);
 
+The rmdir() function shall remove a directory whose name is given by path. The directory shall be removed only if it is an empty directory.
+
+See the detail of the L<rmdir|https://linux.die.net/man/2/rmdir> function in the case of Linux.
+
 =head2 unlink
 
-  static method unlink : int ($file : string);
+  static method unlink : int ($path : string);
+
+The unlink() function shall remove a link to a file. If path names a symbolic link, unlink() shall remove the symbolic link named by path and shall not affect any file or directory named by the contents of the symbolic link. Otherwise, unlink() shall remove the link named by the pathname pointed to by path and shall decrement the link count of the file referenced by the link.
+
+See the detail of the L<unlink|https://linux.die.net/man/2/unlink> function in the case of Linux.
 
 =head2 close
 
   static method close : int ($fd : int);
+
+The close() function shall deallocate the file descriptor indicated by fildes($fd). To deallocate means to make the file descriptor available for return by subsequent calls to open() or other functions that allocate file descriptors. All outstanding record locks owned by the process on the file associated with the file descriptor shall be removed (that is, unlocked).
+
+
 
 =head2 fclose
 

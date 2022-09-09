@@ -43,14 +43,14 @@ int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_file = stack[0].oval;
+  void* obj_path = stack[0].oval;
 
-  if (!obj_file) {
-    return env->die(env, stack, "The file must be defined", FILE_NAME, __LINE__);
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
   }
   
-  const char* file = env->get_chars(env, stack, obj_file);
-  int32_t status = unlink(file);
+  const char* path = env->get_chars(env, stack, obj_path);
+  int32_t status = unlink(path);
   if (status == -1) {
     env->die(env, stack, "[System Error]unlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;

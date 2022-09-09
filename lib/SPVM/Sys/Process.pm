@@ -34,33 +34,33 @@ C<Sys::Process> is the class for the process manipulation.
 
   native static method alarm : int ($seconds : int);
 
-The alarm() function shall cause the system to generate a SIGALRM signal for the process after the number of realtime seconds specified by seconds have elapsed. Processor scheduling delays may prevent the process from handling the signal as soon as it is generated.
+alarm() arranges for a SIGALRM signal to be delivered to the calling process in seconds seconds.
 
-See the detail of the L<alerm|https://linux.die.net/man/3/alarm> function in the case of Linux.
+See the detail of the L<alerm|https://linux.die.net/man/2/alarm> function in the case of Linux.
 
 =head2 fork
 
   native static method fork : int ();
 
-The fork() function shall create a new process. The new process (child process) shall be an exact copy of the calling process (parent process) except as detailed below:
+fork() creates a new process by duplicating the calling process. The new process, referred to as the child, is an exact duplicate of the calling process, referred to as the parent, except for the following points:
 
-See the detail of the L<fork|https://linux.die.net/man/3/fork> function in the case of Linux.
+See the detail of the L<fork|https://linux.die.net/man/2/fork> function in the case of Linux.
 
 =head2 getpriority
 
   native static method getpriority : int ($which : int, $who : int);
 
-The getpriority() function shall obtain the nice value of a process, process group, or user. The setpriority() function shall set the nice value of a process, process group, or user to value+ {NZERO}.
+The scheduling priority of the process, process group, or user, as indicated by which and who is obtained with the getpriority() call and set with the setpriority() call.
 
-See the detail of the L<getpriority|https://linux.die.net/man/3/getpriority> function in the case of Linux.
+See the detail of the L<getpriority|https://linux.die.net/man/2/getpriority> function in the case of Linux.
 
 =head2 setpriority
 
   native static method setpriority : int ($which : int, $who : int, $prio : int);
 
-The getpriority() function shall obtain the nice value of a process, process group, or user. The setpriority() function shall set the nice value of a process, process group, or user to value+ {NZERO}.
+The scheduling priority of the process, process group, or user, as indicated by which and who is obtained with the getpriority() call and set with the setpriority() call.
 
-See the detail of the L<setpriority|https://linux.die.net/man/3/setpriority> function in the case of Linux.
+See the detail of the L<setpriority|https://linux.die.net/man/2/setpriority> function in the case of Linux.
 
 =head2 sleep
 
@@ -74,17 +74,17 @@ See the detail of the L<sleep|https://linux.die.net/man/3/sleep> function in the
 
   native static method kill : int ($pid : int, $sig : int);
 
-The kill() function shall send a signal to a process or a group of processes specified by pid. The signal to be sent is specified by sig and is either one from the list given in <signal.h> or 0. If sig is 0 (the null signal), error checking is performed but no signal is actually sent. The null signal can be used to check the validity of pid.
+The kill() system call can be used to send any signal to any process group or process.
 
-See the detail of the L<kill|https://linux.die.net/man/3/kill> function in the case of Linux.
+See the detail of the L<kill|https://linux.die.net/man/2/kill> function in the case of Linux.
 
 =head2 wait
 
   native static method wait : int ($wstatus : int*);
 
-The wait() and waitpid() functions shall obtain status information pertaining to one of the caller's child processes. Various options permit status information to be obtained for child processes that have terminated or stopped. If status information is available for two or more child processes, the order in which their status is reported is unspecified.
+All of these system calls are used to wait for state changes in a child of the calling process, and obtain information about the child whose state has changed. A state change is considered to be: the child terminated; the child was stopped by a signal; or the child was resumed by a signal. In the case of a terminated child, performing a wait allows the system to release the resources associated with the child; if a wait is not performed, then the terminated child remains in a "zombie" state (see NOTES below).
 
-See the detail of the L<wait|https://linux.die.net/man/3/wait> function in the case of Linux.
+See the detail of the L<wait|https://linux.die.net/man/2/wait> function in the case of Linux.
 
 See L</"Waiting Status Checking Methods"> about checking the waiting status.
 
@@ -92,9 +92,9 @@ See L</"Waiting Status Checking Methods"> about checking the waiting status.
 
   native static method waitpid : int ($pid : int, $wstatus : int*, $options : int);
 
-The wait() and waitpid() functions shall obtain status information pertaining to one of the caller's child processes. Various options permit status information to be obtained for child processes that have terminated or stopped. If status information is available for two or more child processes, the order in which their status is reported is unspecified.
+All of these system calls are used to wait for state changes in a child of the calling process, and obtain information about the child whose state has changed. A state change is considered to be: the child terminated; the child was stopped by a signal; or the child was resumed by a signal. In the case of a terminated child, performing a wait allows the system to release the resources associated with the child; if a wait is not performed, then the terminated child remains in a "zombie" state (see NOTES below).
 
-See the detail of the L<waitpid|https://linux.die.net/man/3/wait> function in the case of Linux.
+See the detail of the L<waitpid|https://linux.die.net/man/2/waitpid> function in the case of Linux.
 
 See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> about the constant value for the options.
 
@@ -104,7 +104,7 @@ See L</"Waiting Status Checking Methods"> about checking the waiting status.
 
   native static method system : int ($command : string);
 
-The value returned is -1 on error (e.g., fork(2) failed), and the return status of the command otherwise. This latter return status is in the format specified in wait(2). Thus, the exit code of the command will be WEXITSTATUS(status). In case /bin/sh could not be executed, the exit status will be that of a command that does exit(127).
+system() executes a command specified in command by calling /bin/sh -c command, and returns after the command has been completed. During execution of the command, SIGCHLD will be blocked, and SIGINT and SIGQUIT will be ignored.
 
 See the detail of the L<system|https://linux.die.net/man/3/system> function in the case of Linux.
 
@@ -124,57 +124,57 @@ See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> about the constant va
 
   native static method pipe : int ($pipe_fds : int[]);
 
-The pipe() function shall create a pipe and place two file descriptors, one each into the arguments fildes[0] and fildes[1], that refer to the open file descriptions for the read and write ends of the pipe. Their integer values shall be the two lowest available at the time of the pipe() call. The O_NONBLOCK and FD_CLOEXEC flags shall be clear on both file descriptors. (The fcntl() function can be used to set both these flags.)
+pipe() creates a pipe, a unidirectional data channel that can be used for interprocess communication. The array pipefd is used to return two file descriptors referring to the ends of the pipe. pipefd[0] refers to the read end of the pipe. pipefd[1] refers to the write end of the pipe. Data written to the write end of the pipe is buffered by the kernel until it is read from the read end of the pipe. For further details, see pipe(7).
 
-See the detail of the L<pipe|https://linux.die.net/man/3/pipe> function in the case of Linux.
+See the detail of the L<pipe|https://linux.die.net/man/2/pipe> function in the case of Linux.
 
 =head2 getpgrp
 
   native static method getpgrp : int ();
 
-The getpgrp() function shall return the process group ID of the calling process.
+All of these interfaces are available on Linux, and are used for getting and setting the process group ID (PGID) of a process. The preferred, POSIX.1-specified ways of doing this are: getpgrp(void), for retrieving the calling process's PGID; and setpgid(), for setting a process's PGID.
 
-See the detail of the L<getpgrp|https://linux.die.net/man/3/getpgrp> function in the case of Linux.
+See the detail of the L<getpgrp|https://linux.die.net/man/2/getpgrp> function in the case of Linux.
 
 =head2 setpgrp
 
   native static method setpgrp : int ();
 
-If the calling process is not already a session leader, setpgrp() sets the process group ID of the calling process to the process ID of the calling process. If setpgrp() creates a new session, then the new session has no controlling terminal.
+All of these interfaces are available on Linux, and are used for getting and setting the process group ID (PGID) of a process. The preferred, POSIX.1-specified ways of doing this are: getpgrp(void), for retrieving the calling process's PGID; and setpgid(), for setting a process's PGID.
 
-See the detail of the L<setpgrp|https://linux.die.net/man/3/setpgrp> function in the case of Linux.
+See the detail of the L<setpgrp|https://linux.die.net/man/2/setpgrp> function in the case of Linux.
 
 =head2 getpid
 
   native static method getpid : int ();
 
-The getpid() function shall return the process ID of the calling process.
+getpid() returns the process ID of the calling process. (This is often used by routines that generate unique temporary filenames.)
 
-See the detail of the L<getpid|https://linux.die.net/man/3/getpid> function in the case of Linux.
+See the detail of the L<getpid|https://linux.die.net/man/2/getpid> function in the case of Linux.
 
 =head2 getppid
 
   native static method getppid : int ();
 
-The getppid() function shall return the parent process ID of the calling process.
+getppid() returns the process ID of the parent of the calling process.
 
-See the detail of the L<getppid|https://linux.die.net/man/3/getppid> function in the case of Linux.
+See the detail of the L<getppid|https://linux.die.net/man/2/getppid> function in the case of Linux.
 
 =head2 execv
 
   native static method execv : int ($path : string, $args : string[]);
 
-The exec() family of functions replaces the current process image with a new process image. The functions described in this manual page are front-ends for execve(2). (See the manual page for execve(2) for further details about the replacement of the current process image.)
+The execv(), execvp(), and execvpe() functions provide an array of pointers to null-terminated strings that represent the argument list available to the new program. The first argument, by convention, should point to the filename associated with the file being executed. The array of pointers must be terminated by a NULL pointer.
 
-See the detail of the L<execv|https://linux.die.net/man/3/execv> function in the case of Linux.
+See the detail of the L<https://linux.die.net/man/3/execv> function in the case of Linux.
 
 =head2 times
 
   native static method times : long ($buffer : Sys::Process::Tms);
 
-The times() function shall fill the tms structure pointed to by buffer with time-accounting information. The tms structure is defined in <sys/times.h>.
+times() stores the current process times in the struct tms that buf points to. The struct tms is as defined in <sys/times.h>:
 
-See the detail of the L<times|https://linux.die.net/man/3/times> function in the case of Linux.
+See the detail of the L<times|https://linux.die.net/man/2/times> function in the case of Linux.
 
 =head2 Waiting Status Checking Methods
 
