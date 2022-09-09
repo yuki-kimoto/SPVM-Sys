@@ -156,109 +156,219 @@ See the detail of the L<getc|https://linux.die.net/man/3/getc> function in the c
 
   static method chdir : int ($path : string);
 
+chdir() changes the current working directory of the calling process to the directory specified in path.
+
+See the detail of the L<chdir|https://linux.die.net/man/2/chdir> function in the case of Linux.
+
 =head2 chmod
 
   static method chmod : int ($path : string, $mode :int);
+
+chmod() changes the permissions of the file specified whose pathname is given in path, which is dereferenced if it is a symbolic link.
+
+See the detail of the L<chmod|https://linux.die.net/man/2/chmod> function in the case of Linux.
 
 =head2 chown
 
   static method chown : int ($path : string, $owner : int, $group : int);
 
+chown() changes the ownership of the file specified by path, which is dereferenced if it is a symbolic link.
+
+See the detail of the L<chown|https://linux.die.net/man/2/chown> function in the case of Linux.
+
 =head2 mkdir
 
   static method mkdir : int ($path : string, $mode : int);
+
+mkdir() attempts to create a directory named pathname.
+
+See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the case of Linux.
 
 =head2 fseek
 
   static method fseek : int ($stream : Sys::IO::FileHandle, $offset : long, $whence : int);
 
+The fseek() function sets the file position indicator for the stream pointed to by stream. The new position, measured in bytes, is obtained by adding offset bytes to the position specified by whence. If whence is set to SEEK_SET, SEEK_CUR, or SEEK_END, the offset is relative to the start of the file, the current position indicator, or end-of-file, respectively. A successful call to the fseek() function clears the end-of-file indicator for the stream and undoes any effects of the ungetc(3) function on the same stream.
+
+See the detail of the L<fseek|https://linux.die.net/man/3/fseek> function in the case of Linux.
+
 =head2 ftell
 
   static method ftell : long ($stream : Sys::IO::FileHandle);
+
+The ftell() function obtains the current value of the file position indicator for the stream pointed to by stream.
+
+See the detail of the L<ftell|https://linux.die.net/man/3/ftell> function in the case of Linux.
 
 =head2 opendir
 
   static method opendir : Sys::IO::DirHandle ($dir : string);
 
+The opendir() function opens a directory stream corresponding to the directory name, and returns a pointer to the directory stream. The stream is positioned at the first entry in the directory.
+
+See the detail of the L<opendir|https://linux.die.net/man/3/opendir> function in the case of Linux.
+
 =head2 closedir
 
   static method closedir : int ($dh : Sys::IO::DirHandle);
 
-=head2readdir
+The closedir() function closes the directory stream associated with dirp. A successful call to closedir() also closes the underlying file descriptor associated with dirp. The directory stream descriptor dirp is not available after this call.
+
+See the detail of the L<closedir|https://linux.die.net/man/3/closedir> function in the case of Linux.
+
+=head2 readdir
 
   static method readdir : Sys::IO::Dirent ($dh : Sys::IO::DirHandle); # Non-thead safe
 
-=head2rewinddir
+The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred.
+
+See the detail of the L<readdir|https://linux.die.net/man/3/readdir> function in the case of Linux.
+
+=head2 rewinddir
 
   static method rewinddir : void ($dh : Sys::IO::DirHandle);
+
+The rewinddir() function resets the position of the directory stream dirp to the beginning of the directory.
+
+See the detail of the L<rewinddir|https://linux.die.net/man/3/rewinddir> function in the case of Linux.
 
 =head2 telldir
 
   static method telldir : long ($dh : Sys::IO::DirHandle);
 
+The telldir() function returns the current location associated with the directory stream dirp.
+
+See the detail of the L<telldir|https://linux.die.net/man/3/telldir> function in the case of Linux.
+
 =head2 seekdir
 
   static method seekdir : void ($dh : Sys::IO::DirHandle, $offset : long);
+
+The seekdir() function sets the location in the directory stream from which the next readdir(2) call will start. seekdir() should be used with an offset returned by telldir(3).
+
+See the detail of the L<seekdir|https://linux.die.net/man/3/seekdir> function in the case of Linux.
 
 =head2 truncate
 
   static method truncate : long ($path : string, $offset : long);
 
+The truncate() and ftruncate() functions cause the regular file named by path or referenced by fd to be truncated to a size of precisely length bytes.
+
+See the detail of the L<truncate|https://linux.die.net/man/2/truncate> function in the case of Linux.
+
 =head2 lseek
 
   static method lseek : long ($fd : int, $offset : long, $whence : int);
+
+The lseek() function repositions the offset of the open file associated with the file descriptor fd to the argument offset according to the directive whence as follows:
+
+See the detail of the L<lseek|https://linux.die.net/man/2/lseek> function in the case of Linux.
 
 =head2 umask
 
   static method umask : int ($mode : int);
 
+umask() sets the calling process's file mode creation mask (umask) to mask & 0777 (i.e., only the file permission bits of mask are used), and returns the previous value of the mask.
+
+See the detail of the L<lseek|https://linux.die.net/man/2/umask> function in the case of Linux.
+
 =head2 rename
 
   static method rename : int ($old_path : string, $new_path : string);
+
+rename() renames a file, moving it between directories if required. Any other hard links to the file (as created using link(2)) are unaffected. Open file descriptors for oldpath are also unaffected.
+
+See the detail of the L<rename|https://linux.die.net/man/2/rename> function in the case of Linux.
 
 =head2 readlink
 
   static method readlink : int ($path : string, $buffer : mutable string);
 
+readlink() places the contents of the symbolic link path in the buffer buf, which has size bufsiz. readlink() does not append a null byte to buf. It will truncate the contents (to a length of bufsiz characters), in case the buffer is too small to hold all of the contents.
+
+See the detail of the L<readlink|https://linux.die.net/man/2/readlink> function in the case of Linux.
+
 =head2 symlink
 
   static method symlink : int ($target : string, $link_path : string);
+
+symlink() creates a symbolic link named newpath which contains the string oldpath.
+
+See the detail of the L<symlink|https://linux.die.net/man/2/symlink> function in the case of Linux.
 
 =head2 ioctl
 
   static method ioctl : int ($fd : int, $request : int, $arg_ref : string[]);
 
+The ioctl() function manipulates the underlying device parameters of special files. In particular, many operating characteristics of character special files (e.g., terminals) may be controlled with ioctl() requests. The argument d must be an open file descriptor.
+
+See the detail of the L<ioctl|https://linux.die.net/man/2/ioctl> function in the case of Linux.
+
 =head2 ioctl_int
 
   static method ioctl_int : int ($fd : int, $request : int, $arg_ref : int*);
+
+The same as L</"ioctl"> except that the third argument is the reference of the int type.
 
 =head2 utime
 
   static method utime : int ($file : string, $buffer : Sys::IO::Utimbuf);
 
-=head2access
+The utime() system call changes the access and modification times of the inode specified by filename to the actime and modtime fields of times respectively.
+
+See the detail of the L<utime|https://linux.die.net/man/2/utime> function in the case of Linux.
+
+=head2 access
 
   static method access : int ($path : string, $mode : int);
+
+access() checks whether the calling process can access the file pathname. If pathname is a symbolic link, it is dereferenced.
+
+See the detail of the L<access|https://linux.die.net/man/2/access> function in the case of Linux.
 
 =head2 stat
 
   static method stat : int ($path : string, $stat : Sys::IO::Stat);
 
+These functions return information about a file. No permissions are required on the file itself, but-in the case of stat() and lstat() - execute (search) permission is required on all of the directories in path that lead to the file.
+
+stat() stats the file pointed to by path and fills in buf.
+
+See the detail of the L<stat|https://linux.die.net/man/2/stat> function in the case of Linux.
+
 =head2 lstat
 
   static method lstat : int ($path : string, $stat : Sys::IO::Stat);
-  
+
+These functions return information about a file. No permissions are required on the file itself, but-in the case of stat() and lstat() - execute (search) permission is required on all of the directories in path that lead to the file.
+
+lstat() is identical to stat(), except that if path is a symbolic link, then the link itself is stat-ed, not the file that it refers to.
+
+See the detail of the L<lstat|https://linux.die.net/man/2/lstat> function in the case of Linux.
+
 =head2 fcntl
 
   static method fcntl : int ($fd : int, $command : int, $arg = undef : object of Int|Sys::IO::Flock|object);
+
+fcntl() performs one of the operations described below on the open file descriptor fd. The operation is determined by cmd.
+
+See the detail of the L<lstat|https://linux.die.net/man/2/fcntl> function in the case of Linux.
 
 =head2 poll
 
   static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 
+poll() performs a similar task to select(2): it waits for one of a set of file descriptors to become ready to perform I/O.
+
+See the detail of the L<poll|https://linux.die.net/man/2/poll> function in the case of Linux.
+
 =head2 flock
 
   static method flock : int ($fd : int, $operation : int);
+
+Apply or remove an advisory lock on the open file specified by fd. The argument operation is one of the following:
+
+See the detail of the L<flock|https://linux.die.net/man/2/flock> function in the case of Linux.
 
 =pod
 
