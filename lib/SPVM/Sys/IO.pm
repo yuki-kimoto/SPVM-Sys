@@ -347,7 +347,7 @@ See the detail of the L<lstat|https://linux.die.net/man/2/lstat> function in the
 
 =head2 fcntl
 
-  static method fcntl : int ($fd : int, $command : int, $arg = undef : object of Int|Sys::IO::Flock|object);
+  static method fcntl : int ($fd : int, $command : int, $command_arg = undef : object of Int|Sys::IO::Flock|object);
 
 fcntl() performs one of the operations described below on the open file descriptor fd. The operation is determined by cmd.
 
