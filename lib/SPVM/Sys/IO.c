@@ -527,14 +527,14 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_dir = stack[0].oval;
+  void* obj_path = stack[0].oval;
   
-  if (!obj_dir) {
-    return env->die(env, stack, "The directory must be defined", FILE_NAME, __LINE__);
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
   }
   
-  const char* dir = env->get_chars(env, stack, obj_dir);
-  int32_t status = chdir(dir);
+  const char* path = env->get_chars(env, stack, obj_path);
+  int32_t status = chdir(path);
   if (status == -1) {
     env->die(env, stack, "[System Error]chdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
