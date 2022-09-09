@@ -738,13 +738,13 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   errno = 0;
   struct dirent* dirent = readdir(dir_stream);
-  if (!dirent && errno != 0) {
-    env->die(env, stack, "[System Error]freopen failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+  if (errno != 0) {
+    env->die(env, stack, "[System Error]readdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
   if (dirent) {
-    void* obj_dirent = env->new_pointer_by_name(env, stack, "Sys::Ent::Dir", dirent, &e, FILE_NAME, __LINE__);
+    void* obj_dirent = env->new_pointer_by_name(env, stack, "Sys::IO::Dirent", dirent, &e, FILE_NAME, __LINE__);
     if (e) { return e; }
     stack[0].oval = obj_dirent;
   }

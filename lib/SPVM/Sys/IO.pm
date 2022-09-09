@@ -210,7 +210,7 @@ See the detail of the L<opendir|https://linux.die.net/man/3/opendir> function in
 
 =head2 closedir
 
-  static method closedir : int ($dh : Sys::IO::DirStream);
+  static method closedir : int ($dir_stream : Sys::IO::DirStream);
 
 The closedir() function closes the directory stream associated with dirp. A successful call to closedir() also closes the underlying file descriptor associated with dirp. The directory stream descriptor dirp is not available after this call.
 
@@ -218,7 +218,7 @@ See the detail of the L<closedir|https://linux.die.net/man/3/closedir> function 
 
 =head2 readdir
 
-  static method readdir : Sys::IO::Dirent ($dh : Sys::IO::DirStream); # Non-thead safe
+  static method readdir : Sys::IO::Dirent ($dir_stream : Sys::IO::DirStream); # Non-thead safe
 
 The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred.
 
@@ -226,7 +226,7 @@ See the detail of the L<readdir|https://linux.die.net/man/3/readdir> function in
 
 =head2 rewinddir
 
-  static method rewinddir : void ($dh : Sys::IO::DirStream);
+  static method rewinddir : void ($dir_stream : Sys::IO::DirStream);
 
 The rewinddir() function resets the position of the directory stream dirp to the beginning of the directory.
 
@@ -234,7 +234,7 @@ See the detail of the L<rewinddir|https://linux.die.net/man/3/rewinddir> functio
 
 =head2 telldir
 
-  static method telldir : long ($dh : Sys::IO::DirStream);
+  static method telldir : long ($dir_stream : Sys::IO::DirStream);
 
 The telldir() function returns the current location associated with the directory stream dirp.
 
@@ -242,7 +242,7 @@ See the detail of the L<telldir|https://linux.die.net/man/3/telldir> function in
 
 =head2 seekdir
 
-  static method seekdir : void ($dh : Sys::IO::DirStream, $offset : long);
+  static method seekdir : void ($dir_stream : Sys::IO::DirStream, $offset : long);
 
 The seekdir() function sets the location in the directory stream from which the next readdir(2) call will start. seekdir() should be used with an offset returned by telldir(3).
 

@@ -33,11 +33,11 @@ class Sys::IO {
   native static method fseek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
   native static method ftell : long ($stream : Sys::IO::FileStream);
   native static method opendir : Sys::IO::DirStream ($dir : string);
-  native static method closedir : int ($dh : Sys::IO::DirStream);
-  native static method readdir : Sys::IO::Dirent ($dh : Sys::IO::DirStream); # Non-thead safe
-  native static method rewinddir : void ($dh : Sys::IO::DirStream);
-  native static method telldir : long ($dh : Sys::IO::DirStream);
-  native static method seekdir : void ($dh : Sys::IO::DirStream, $offset : long);
+  native static method closedir : int ($dir_stream : Sys::IO::DirStream);
+  native static method readdir : Sys::IO::Dirent ($dir_stream : Sys::IO::DirStream); # Non-thead safe
+  native static method rewinddir : void ($dir_stream : Sys::IO::DirStream);
+  native static method telldir : long ($dir_stream : Sys::IO::DirStream);
+  native static method seekdir : void ($dir_stream : Sys::IO::DirStream, $offset : long);
   native static method truncate : long ($path : string, $offset : long);
   native static method lseek : long ($fd : int, $offset : long, $whence : int);
   native static method umask : int ($mode : int);
