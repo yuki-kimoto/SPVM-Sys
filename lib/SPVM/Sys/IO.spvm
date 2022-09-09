@@ -8,7 +8,7 @@ class Sys::IO {
   use Sys::IO::Flock;
   use Sys::IO::PollfdArray;
   
-  native static method rmdir : int ($dir : string);
+  native static method rmdir : int ($path : string);
   native static method unlink : int ($file : string);
   native static method close : int ($fd : int);
   native static method fclose : int ($stream : Sys::IO::FileHandle);

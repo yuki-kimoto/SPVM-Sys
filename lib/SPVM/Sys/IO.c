@@ -21,7 +21,7 @@
 
 const char* FILE_NAME = "Sys/IO.c";
 
-int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   
@@ -30,26 +30,7 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   const char* path = env->get_chars(env, stack, obj_path);
-  
-  int32_t mode = stack[1].ival;
-  
-  int32_t status = access(path, mode);
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_dir = stack[0].oval;
-  
-  if (!obj_dir) {
-    return env->die(env, stack, "The directory must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* dir = env->get_chars(env, stack, obj_dir);
-  int32_t status = rmdir(dir);
+  int32_t status = rmdir(path);
   if (status == -1) {
     env->die(env, stack, "[System Error]rmdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
@@ -980,6 +961,25 @@ int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]utime failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t mode = stack[1].ival;
+  
+  int32_t status = access(path, mode);
   
   stack[0].ival = status;
   
