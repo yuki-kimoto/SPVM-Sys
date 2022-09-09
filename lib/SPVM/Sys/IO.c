@@ -689,31 +689,31 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* dir = env->get_chars(env, stack, obj_dir);
 
-  DIR* dirent = opendir(dir);
-  if (!dirent) {
+  DIR* dir_stream = opendir(dir);
+  if (!dir_stream) {
     env->die(env, stack, "[System Error]opendir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  void* obj_dirent = env->new_pointer_by_name(env, stack, "Sys::DirStream", dirent, &e, FILE_NAME, __LINE__);
+  void* obj_dir_stream = env->new_pointer_by_name(env, stack, "Sys::DirStream", dir_stream, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
-  stack[0].oval = obj_dirent;
+  stack[0].oval = obj_dir_stream;
   
   return 0;
 }
 
 int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_dh = stack[0].oval;
+  void* obj_dir_stream = stack[0].oval;
   
-  if (!obj_dh) {
+  if (!obj_dir_stream) {
     return env->die(env, stack, "The directory object must be defined", FILE_NAME, __LINE__);
   }
   
-  DIR* dh = env->get_pointer(env, stack, obj_dh);
+  DIR* dir_stream = env->get_pointer(env, stack, obj_dir_stream);
   
-  int32_t status = closedir(dh);
+  int32_t status = closedir(dir_stream);
   if (status == -1) {
     env->die(env, stack, "[System Error]closedir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
@@ -728,16 +728,16 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
-  void* obj_dh = stack[0].oval;
+  void* obj_dir_stream = stack[0].oval;
   
-  if (!obj_dh) {
+  if (!obj_dir_stream) {
     return env->die(env, stack, "The directory entry must be defined", FILE_NAME, __LINE__);
   }
   
-  DIR* dh = env->get_pointer(env, stack, obj_dh);
+  DIR* dir_stream = env->get_pointer(env, stack, obj_dir_stream);
   
   errno = 0;
-  struct dirent* dirent = readdir(dh);
+  struct dirent* dirent = readdir(dir_stream);
   if (!dirent && errno != 0) {
     env->die(env, stack, "[System Error]freopen failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
@@ -757,30 +757,30 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_dh = stack[0].oval;
+  void* obj_dir_stream = stack[0].oval;
   
-  if (!obj_dh) {
+  if (!obj_dir_stream) {
     return env->die(env, stack, "The directory object must be defined", FILE_NAME, __LINE__);
   }
   
-  DIR* dh = env->get_pointer(env, stack, obj_dh);
+  DIR* dir_stream = env->get_pointer(env, stack, obj_dir_stream);
   
-  rewinddir(dh);
+  rewinddir(dir_stream);
   
   return 0;
 }
 
 int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_dh = stack[0].oval;
+  void* obj_dir_stream = stack[0].oval;
   
-  if (!obj_dh) {
+  if (!obj_dir_stream) {
     return env->die(env, stack, "The directory object must be defined", FILE_NAME, __LINE__);
   }
   
-  DIR* dh = env->get_pointer(env, stack, obj_dh);
+  DIR* dir_stream = env->get_pointer(env, stack, obj_dir_stream);
   
-  int64_t offset = telldir(dh);
+  int64_t offset = telldir(dir_stream);
   if (offset == -1) {
     env->die(env, stack, "[System Error]telldir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
@@ -793,13 +793,13 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_dh = stack[0].oval;
+  void* obj_dir_stream = stack[0].oval;
   
-  if (!obj_dh) {
+  if (!obj_dir_stream) {
     return env->die(env, stack, "The directory object must be defined", FILE_NAME, __LINE__);
   }
   
-  DIR* dh = env->get_pointer(env, stack, obj_dh);
+  DIR* dir_stream = env->get_pointer(env, stack, obj_dir_stream);
 
   int64_t offset = stack[1].ival;
   
@@ -807,7 +807,7 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The offset must be less than or equal to 0", FILE_NAME, __LINE__);
   }
   
-  seekdir(dh, offset);
+  seekdir(dir_stream, offset);
   
   return 0;
 }
