@@ -40,6 +40,8 @@ Given a pathname for a file, open() returns a file descriptor, a small, nonnegat
 
 See the detail of the L<open|https://linux.die.net/man/2/open> function in the case of Linux.
 
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the flags and the mode.
+
 =head2 close
 
   static method close : int ($fd : int);
@@ -166,6 +168,8 @@ See the detail of the L<fseek|https://linux.die.net/man/3/fseek> function in the
 
 The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
+
 =head2 ftell
 
   static method ftell : long ($stream : Sys::IO::FileStream);
@@ -188,6 +192,8 @@ The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 fflush
 
+  static method fflush : int ($stream : Sys::IO::FileStream);
+
 For output streams, fflush() forces a write of all user-space buffered data for the given output or update stream via the stream's underlying write function. For input streams, fflush() discards any buffered data that has been fetched from the underlying file, but has not been consumed by the application. The open status of the stream is unaffected.
 
 See the detail of the L<fflush|https://linux.die.net/man/3/fflush> function in the case of Linux.
@@ -200,6 +206,8 @@ Apply or remove an advisory lock on the open file specified by fd. The argument 
 
 See the detail of the L<flock|https://linux.die.net/man/2/flock> function in the case of Linux.
 
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the operation.
+
 =head2 read
 
   static method read : int ($fd : int, $buffer : mutable string, $count : int);
@@ -210,12 +218,11 @@ See the detail of the L<read|https://linux.die.net/man/2/read> function in the c
 
 =head2 write
 
-  static method write : int ($fd : int, $buffer : mutable string, $count : int);
+  static method write : int ($fd : int, $buffer : string, $count : int);
 
 write() writes up to count bytes from the buffer pointed buf to the file referred to by the file descriptor fd.
 
 See the detail of the L<write|https://linux.die.net/man/2/write> function in the case of Linux.
-
 
 =head2 chdir
 
@@ -233,6 +240,8 @@ chmod() changes the permissions of the file specified whose pathname is given in
 
 See the detail of the L<chmod|https://linux.die.net/man/2/chmod> function in the case of Linux.
 
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
+
 =head2 chown
 
   static method chown : int ($path : string, $owner : int, $group : int);
@@ -249,6 +258,8 @@ mkdir() attempts to create a directory named pathname.
 
 See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the case of Linux.
 
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
+
 =head2 opendir
 
   static method opendir : Sys::IO::DirStream ($dir : string);
@@ -256,6 +267,8 @@ See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the
 The opendir() function opens a directory stream corresponding to the directory name, and returns a pointer to the directory stream. The stream is positioned at the first entry in the directory.
 
 See the detail of the L<opendir|https://linux.die.net/man/3/opendir> function in the case of Linux.
+
+The return value is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
 
 =head2 closedir
 
@@ -265,6 +278,8 @@ The closedir() function closes the directory stream associated with dirp. A succ
 
 See the detail of the L<closedir|https://linux.die.net/man/3/closedir> function in the case of Linux.
 
+The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+
 =head2 readdir
 
   static method readdir : Sys::IO::Dirent ($dir_stream : Sys::IO::DirStream); # Non-thead safe
@@ -273,6 +288,9 @@ The readdir() function returns a pointer to a dirent structure representing the 
 
 See the detail of the L<readdir|https://linux.die.net/man/3/readdir> function in the case of Linux.
 
+The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+
+The return value is a L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> object.
 =head2 rewinddir
 
   static method rewinddir : void ($dir_stream : Sys::IO::DirStream);
@@ -280,6 +298,8 @@ See the detail of the L<readdir|https://linux.die.net/man/3/readdir> function in
 The rewinddir() function resets the position of the directory stream dirp to the beginning of the directory.
 
 See the detail of the L<rewinddir|https://linux.die.net/man/3/rewinddir> function in the case of Linux.
+
+The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
 
 =head2 telldir
 
@@ -289,12 +309,16 @@ The telldir() function returns the current location associated with the director
 
 See the detail of the L<telldir|https://linux.die.net/man/3/telldir> function in the case of Linux.
 
+The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+
 =head2 seekdir
 
   static method seekdir : void ($dir_stream : Sys::IO::DirStream, $offset : long);
 
 The seekdir() function sets the location in the directory stream from which the next readdir(2) call will start. seekdir() should be used with an offset returned by telldir(3).
 See the detail of the L<seekdir|https://linux.die.net/man/3/seekdir> function in the case of Linux.
+
+The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
 
 =head2 truncate
 
@@ -311,6 +335,8 @@ See the detail of the L<truncate|https://linux.die.net/man/2/truncate> function 
 The lseek() function repositions the offset of the open file associated with the file descriptor fd to the argument offset according to the directive whence as follows:
 
 See the detail of the L<lseek|https://linux.die.net/man/2/lseek> function in the case of Linux.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
 
 =head2 umask
 
@@ -352,6 +378,8 @@ The utime() system call changes the access and modification times of the inode s
 
 See the detail of the L<utime|https://linux.die.net/man/2/utime> function in the case of Linux.
 
+The buffer is a L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> object.
+
 =head2 access
 
   static method access : int ($path : string, $mode : int);
@@ -359,6 +387,8 @@ See the detail of the L<utime|https://linux.die.net/man/2/utime> function in the
 access() checks whether the calling process can access the file pathname. If pathname is a symbolic link, it is dereferenced.
 
 See the detail of the L<access|https://linux.die.net/man/2/access> function in the case of Linux.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
 
 =head2 stat
 
@@ -370,6 +400,8 @@ stat() stats the file pointed to by path and fills in buf.
 
 See the detail of the L<stat|https://linux.die.net/man/2/stat> function in the case of Linux.
 
+The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+
 =head2 lstat
 
   static method lstat : int ($path : string, $stat : Sys::IO::Stat);
@@ -380,6 +412,8 @@ lstat() is identical to stat(), except that if path is a symbolic link, then the
 
 See the detail of the L<lstat|https://linux.die.net/man/2/lstat> function in the case of Linux.
 
+The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+
 =head2 fcntl
 
   static method fcntl : int ($fd : int, $command : int, $command_arg = undef : object of Int|Sys::IO::Flock|object);
@@ -387,6 +421,8 @@ See the detail of the L<lstat|https://linux.die.net/man/2/lstat> function in the
 fcntl() performs one of the operations described below on the open file descriptor fd. The operation is determined by cmd.
 
 See the detail of the L<lstat|https://linux.die.net/man/2/fcntl> function in the case of Linux.
+
+The command argument can receive a L<Sys::IO::Flock|SPVM::Sys::IO::Flock> object.
 
 =head2 ioctl
 
@@ -404,3 +440,4 @@ poll() performs a similar task to select(2): it waits for one of a set of file d
 
 See the detail of the L<poll|https://linux.die.net/man/2/poll> function in the case of Linux.
 
+The file discritors are a L<Sys::IO::PollfdArray|SPVM::Sys::IO::PollfdArray> object.

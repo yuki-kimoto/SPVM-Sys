@@ -51,7 +51,7 @@ class Sys::IO {
   
   native static method read : int ($fd : int, $buffer : mutable string, $count : int);
   
-  native static method write : int ($fd : int, $buffer : mutable string, $count : int);
+  native static method write : int ($fd : int, $buffer : string, $count : int);
   
   native static method chdir : int ($path : string);
   
