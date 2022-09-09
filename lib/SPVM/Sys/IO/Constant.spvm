@@ -35,6 +35,8 @@ class Sys::IO::Constant {
 
   native static method DN_RENAME : int ();
 
+  native static method EOF : int ();
+
   native static method FD_CLOEXEC : int ();
 
   native static method F_ADD_SEALS : int ();

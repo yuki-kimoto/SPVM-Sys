@@ -1,5 +1,6 @@
 #include "spvm_native.h"
 
+#include <stdio.h>
 #include <sys/fcntl.h>
 #include <sys/stat.h>
 #include <sys/file.h>
@@ -220,6 +221,13 @@ int32_t SPVM__Sys__IO__Constant__DN_RENAME(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #endif
   
+}
+
+int32_t SPVM__Sys__IO__Constant__EOF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  stack[0].ival = EOF;
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__IO__Constant__FD_CLOEXEC(SPVM_ENV* env, SPVM_VALUE* stack) {

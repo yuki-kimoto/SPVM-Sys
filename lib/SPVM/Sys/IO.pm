@@ -84,41 +84,73 @@ See the detail of the L<fileno|https://linux.die.net/man/3/fileno> function in t
 
   static method open : int ($path : string, $flags : int, $mode = 0 : int);
 
+Given a pathname for a file, open() returns a file descriptor, a small, nonnegative integer for use in subsequent system calls (read(2), write(2), lseek(2), fcntl(2), etc.). The file descriptor returned by a successful call will be the lowest-numbered file descriptor not currently open for the process.
+
+See the detail of the L<open|https://linux.die.net/man/2/open> function in the case of Linux.
+
 =head2 fopen
 
   static method fopen : Sys::IO::FileHandle ($path : string, $mode : string);
+
+The fopen() function opens the file whose name is the string pointed to by path and associates a stream with it.
+
+See the detail of the L<fopen|https://linux.die.net/man/3/fopen> function in the case of Linux.
 
 =head2 fdopen
 
   static method fdopen : Sys::IO::FileHandle ($fd : int, $mode : string);
 
+The fdopen() function associates a stream with the existing file descriptor, fd. The mode of the stream (one of the values "r", "r+", "w", "w+", "a", "a+") must be compatible with the mode of the file descriptor. The file position indicator of the new stream is set to that belonging to fd, and the error and end-of-file indicators are cleared. Modes "w" or "w+" do not cause truncation of the file. The file descriptor is not dup'ed, and will be closed when the stream created by fdopen() is closed. The result of applying fdopen() to a shared memory object is undefined.
+
+See the detail of the L<fdopen|https://linux.die.net/man/3/fdopen> function in the case of Linux.
+
 =head2 freopen
 
   static method freopen : Sys::IO::FileHandle ($path : string, $mode : string, $stream : Sys::IO::FileHandle);
+
+The freopen() function opens the file whose name is the string pointed to by path and associates the stream pointed to by stream with it. The original stream (if it exists) is closed. The mode argument is used just as in the fopen() function. The primary use of the freopen() function is to change the file associated with a standard text stream (stderr, stdin, or stdout).
+
+See the detail of the L<freopen|https://linux.die.net/man/3/freopen> function in the case of Linux.
 
 =head2 fread
 
   static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileHandle);
 
+The function fread() reads nmemb elements of data, each size bytes long, from the stream pointed to by stream, storing them at the location given by ptr.
+
+See the detail of the L<fread|https://linux.die.net/man/3/fread> function in the case of Linux.
+
 =head2 fwrite
 
   static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileHandle);
+
+The function fwrite() writes nmemb elements of data, each size bytes long, to the stream pointed to by stream, obtaining them from the location given by ptr.
+
+See the detail of the L<fread|https://linux.die.net/man/3/fwrite> function in the case of Linux.
 
 =head2 read
 
   static method read : int ($fd : int, $buffer : mutable string, $count : int);
 
+read() attempts to read up to count bytes from file descriptor fd into the buffer starting at buf.
+
+See the detail of the L<read|https://linux.die.net/man/2/read> function in the case of Linux.
+
 =head2 write
 
   static method write : int ($fd : int, $buffer : mutable string, $count : int);
+
+write() writes up to count bytes from the buffer pointed buf to the file referred to by the file descriptor fd.
+
+See the detail of the L<write|https://linux.die.net/man/2/write> function in the case of Linux.
 
 =head2 getc
 
   static method getc : int ($stream : Sys::IO::FileHandle);
 
-=head2 EOF
+getc() is equivalent to fgetc() except that it may be implemented as a macro which evaluates stream more than once.
 
-  static method EOF : int ();
+See the detail of the L<getc|https://linux.die.net/man/3/getc> function in the case of Linux.
 
 =head2 chdir
 

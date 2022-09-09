@@ -129,6 +129,12 @@ Get the constant value of C<DN_MULTISHOT>. If the system doesn't define this con
 
 Get the constant value of C<DN_RENAME>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 EOF
+
+  static method EOF : int ();
+
+Get the constant value of C<EOF>.
+
 =head2 FD_CLOEXEC
 
   static method FD_CLOEXEC : int ();

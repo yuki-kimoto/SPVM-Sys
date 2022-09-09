@@ -482,13 +482,6 @@ int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__EOF(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  stack[0].ival = EOF;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_dir = stack[0].oval;
