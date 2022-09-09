@@ -32,6 +32,14 @@ unlink() deletes a name from the file system. If that name was the last link to 
 
 See the detail of the L<unlink|https://linux.die.net/man/2/unlink> function in the case of Linux.
 
+=head2 open
+
+  static method open : int ($path : string, $flags : int, $mode = 0 : int);
+
+Given a pathname for a file, open() returns a file descriptor, a small, nonnegative integer for use in subsequent system calls (read(2), write(2), lseek(2), fcntl(2), etc.). The file descriptor returned by a successful call will be the lowest-numbered file descriptor not currently open for the process.
+
+See the detail of the L<open|https://linux.die.net/man/2/open> function in the case of Linux.
+
 =head2 close
 
   static method close : int ($fd : int);
@@ -48,6 +56,8 @@ The function clearerr() clears the end-of-file and error indicators for the stre
 
 See the detail of the L<clearerr|https://linux.die.net/man/3/clearerr> function in the case of Linux.
 
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
 =head2 feof
 
   static method feof : int ($stream : Sys::IO::FileStream);
@@ -55,6 +65,8 @@ See the detail of the L<clearerr|https://linux.die.net/man/3/clearerr> function 
 The function feof() tests the end-of-file indicator for the stream pointed to by stream, returning nonzero if it is set. The end-of-file indicator can only be cleared by the function clearerr().
 
 See the detail of the L<feof|https://linux.die.net/man/3/feof> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 ferror
 
@@ -64,6 +76,8 @@ The function ferror() tests the error indicator for the stream pointed to by str
 
 See the detail of the L<ferror|https://linux.die.net/man/3/ferror> function in the case of Linux.
 
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
 =head2 fileno
 
   static method fileno : int ($stream : Sys::IO::FileStream);
@@ -72,13 +86,7 @@ The function fileno() examines the argument stream and returns its integer descr
 
 See the detail of the L<fileno|https://linux.die.net/man/3/fileno> function in the case of Linux.
 
-=head2 open
-
-  static method open : int ($path : string, $flags : int, $mode = 0 : int);
-
-Given a pathname for a file, open() returns a file descriptor, a small, nonnegative integer for use in subsequent system calls (read(2), write(2), lseek(2), fcntl(2), etc.). The file descriptor returned by a successful call will be the lowest-numbered file descriptor not currently open for the process.
-
-See the detail of the L<open|https://linux.die.net/man/2/open> function in the case of Linux.
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 fopen
 
@@ -88,6 +96,8 @@ The fopen() function opens the file whose name is the string pointed to by path 
 
 See the detail of the L<fopen|https://linux.die.net/man/3/fopen> function in the case of Linux.
 
+The return value is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
 =head2 fdopen
 
   static method fdopen : Sys::IO::FileStream ($fd : int, $mode : string);
@@ -96,6 +106,8 @@ The fdopen() function associates a stream with the existing file descriptor, fd.
 
 See the detail of the L<fdopen|https://linux.die.net/man/3/fdopen> function in the case of Linux.
 
+The return value is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
 =head2 freopen
 
   static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
@@ -103,6 +115,10 @@ See the detail of the L<fdopen|https://linux.die.net/man/3/fdopen> function in t
 The freopen() function opens the file whose name is the string pointed to by path and associates the stream pointed to by stream with it. The original stream (if it exists) is closed. The mode argument is used just as in the fopen() function. The primary use of the freopen() function is to change the file associated with a standard text stream (stderr, stdin, or stdout).
 
 See the detail of the L<freopen|https://linux.die.net/man/3/freopen> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
+The return value is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 fread
 
@@ -120,6 +136,46 @@ The function fwrite() writes nmemb elements of data, each size bytes long, to th
 
 See the detail of the L<fread|https://linux.die.net/man/3/fwrite> function in the case of Linux.
 
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
+=head2 getc
+
+  static method getc : int ($stream : Sys::IO::FileStream);
+
+getc() is equivalent to fgetc() except that it may be implemented as a macro which evaluates stream more than once.
+
+See the detail of the L<getc|https://linux.die.net/man/3/getc> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
+=head2 fgets
+
+  static method fgets : mutable string ($buffer : mutable string, $size : int, $stream : Sys::IO::FileStream);
+
+fgets() reads in at most one less than size characters from stream and stores them into the buffer pointed to by s. Reading stops after an EOF or a newline. If a newline is read, it is stored into the buffer. A terminating null byte (aq\0aq) is stored after the last character in the buffer.
+
+See the detail of the L<fgets|https://linux.die.net/man/3/fgets> function in the case of Linux.
+
+=head2 fseek
+
+  static method fseek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
+
+The fseek() function sets the file position indicator for the stream pointed to by stream. The new position, measured in bytes, is obtained by adding offset bytes to the position specified by whence. If whence is set to SEEK_SET, SEEK_CUR, or SEEK_END, the offset is relative to the start of the file, the current position indicator, or end-of-file, respectively. A successful call to the fseek() function clears the end-of-file indicator for the stream and undoes any effects of the ungetc(3) function on the same stream.
+
+See the detail of the L<fseek|https://linux.die.net/man/3/fseek> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
+=head2 ftell
+
+  static method ftell : long ($stream : Sys::IO::FileStream);
+
+The ftell() function obtains the current value of the file position indicator for the stream pointed to by stream.
+
+See the detail of the L<ftell|https://linux.die.net/man/3/ftell> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
 =head2 fclose
 
   static method fclose : int ($stream : Sys::IO::FileStream);
@@ -127,6 +183,8 @@ See the detail of the L<fread|https://linux.die.net/man/3/fwrite> function in th
 The fclose() function flushes the stream pointed to by fp (writing any buffered output data using fflush(3)) and closes the underlying file descriptor.
 
 See the detail of the L<fclose|https://linux.die.net/man/3/fclose> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 fflush
 
@@ -158,13 +216,6 @@ write() writes up to count bytes from the buffer pointed buf to the file referre
 
 See the detail of the L<write|https://linux.die.net/man/2/write> function in the case of Linux.
 
-=head2 getc
-
-  static method getc : int ($stream : Sys::IO::FileStream);
-
-getc() is equivalent to fgetc() except that it may be implemented as a macro which evaluates stream more than once.
-
-See the detail of the L<getc|https://linux.die.net/man/3/getc> function in the case of Linux.
 
 =head2 chdir
 
@@ -197,22 +248,6 @@ See the detail of the L<chown|https://linux.die.net/man/2/chown> function in the
 mkdir() attempts to create a directory named pathname.
 
 See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the case of Linux.
-
-=head2 fseek
-
-  static method fseek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
-
-The fseek() function sets the file position indicator for the stream pointed to by stream. The new position, measured in bytes, is obtained by adding offset bytes to the position specified by whence. If whence is set to SEEK_SET, SEEK_CUR, or SEEK_END, the offset is relative to the start of the file, the current position indicator, or end-of-file, respectively. A successful call to the fseek() function clears the end-of-file indicator for the stream and undoes any effects of the ungetc(3) function on the same stream.
-
-See the detail of the L<fseek|https://linux.die.net/man/3/fseek> function in the case of Linux.
-
-=head2 ftell
-
-  static method ftell : long ($stream : Sys::IO::FileStream);
-
-The ftell() function obtains the current value of the file position indicator for the stream pointed to by stream.
-
-See the detail of the L<ftell|https://linux.die.net/man/3/ftell> function in the case of Linux.
 
 =head2 opendir
 

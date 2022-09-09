@@ -61,6 +61,36 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t items = env->get_args_stack_length(env, stack);
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  int32_t flags = stack[1].ival;
+  
+  int32_t mode = 0;
+  if (items > 2) {
+    mode = stack[2].ival;
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t fd = open(path, flags, mode);
+  if (fd == -1) {
+    env->die(env, stack, "[System Error]open failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = fd;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
@@ -139,36 +169,6 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   if (fd == -1) {
     env->die(env, stack, "[System Error]fileno failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = fd;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t items = env->get_args_stack_length(env, stack);
-  
-  void* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  int32_t flags = stack[1].ival;
-  
-  int32_t mode = 0;
-  if (items > 2) {
-    mode = stack[2].ival;
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  int32_t fd = open(path, flags, mode);
-  if (fd == -1) {
-    env->die(env, stack, "[System Error]open failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
@@ -375,6 +375,63 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  int32_t e = 0;
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t ch = getc(stream);
+  
+  stack[0].ival = ch;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  int32_t e = 0;
+  
+  void* obj_buffer = stack[0].oval;
+  
+  if (!obj_buffer) {
+    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
+  }
+  
+  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
+  int32_t buffer_length = env->length(env, stack, obj_buffer);
+  
+  int32_t size = stack[1].ival;
+  if (!(size >= 0)) {
+    return env->die(env, stack, "The size must be more than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  void* obj_stream = stack[2].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  char* ret_buffer = fgets(buffer, size, stream);
+  
+  if (ret_buffer) {
+    stack[0].oval = obj_buffer;
+  }
+  else {
+    stack[0].oval = NULL;
+  }
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_stream = stack[0].oval;
@@ -392,6 +449,56 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int64_t offset = stack[1].lval;
+  
+  if (!(offset >= 0)) {
+    return env->die(env, stack, "The offset must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+
+  int32_t whence = stack[2].ival;
+
+  int32_t status = fseek(stream, offset, whence);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]fseek failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int64_t offset = ftell(stream);
+  if (offset == -1) {
+    env->die(env, stack, "[System Error]ftell failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].lval = offset;
   
   return 0;
 }
@@ -512,63 +619,6 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  int32_t e = 0;
-  
-  void* obj_stream = stack[0].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  int32_t ch = getc(stream);
-  
-  stack[0].ival = ch;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  int32_t e = 0;
-  
-  void* obj_buffer = stack[0].oval;
-  
-  if (!obj_buffer) {
-    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
-  }
-  
-  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
-  int32_t buffer_length = env->length(env, stack, obj_buffer);
-  
-  int32_t size = stack[1].ival;
-  if (!(size >= 0)) {
-    return env->die(env, stack, "The size must be more than or equal to 0", FILE_NAME, __LINE__);
-  }
-  
-  void* obj_stream = stack[2].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  char* ret_buffer = fgets(buffer, size, stream);
-  
-  if (ret_buffer) {
-    stack[0].oval = obj_buffer;
-  }
-  else {
-    stack[0].oval = NULL;
-  }
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
@@ -667,56 +717,6 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_stream = stack[0].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  int64_t offset = stack[1].lval;
-  
-  if (!(offset >= 0)) {
-    return env->die(env, stack, "The offset must be greater than or equal to 0", FILE_NAME, __LINE__);
-  }
-
-  int32_t whence = stack[2].ival;
-
-  int32_t status = fseek(stream, offset, whence);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]fseek failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_stream = stack[0].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The stream must be defined", FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  int64_t offset = ftell(stream);
-  if (offset == -1) {
-    env->die(env, stack, "[System Error]ftell failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].lval = offset;
   
   return 0;
 }

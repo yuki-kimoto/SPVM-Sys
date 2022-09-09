@@ -1,7 +1,7 @@
 class Sys::IO {
 
-  use Sys::IO::Stat;
   use Sys::IO::FileStream;
+  use Sys::IO::Stat;
   use Sys::IO::DirStream;
   use Sys::IO::Dirent;
   use Sys::IO::Utimbuf;
@@ -13,6 +13,8 @@ class Sys::IO {
   
   native static method unlink : int ($file : string);
   
+  native static method open : int ($path : string, $flags : int, $mode = 0 : int);
+  
   native static method close : int ($fd : int);
   
   native static method clearerr : void ($stream : Sys::IO::FileStream);
@@ -22,8 +24,6 @@ class Sys::IO {
   native static method ferror : int ($stream : Sys::IO::FileStream);
   
   native static method fileno : int ($stream : Sys::IO::FileStream);
-  
-  native static method open : int ($path : string, $flags : int, $mode = 0 : int);
   
   native static method fopen : Sys::IO::FileStream ($path : string, $mode : string);
   
@@ -35,6 +35,14 @@ class Sys::IO {
   
   native static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
   
+  native static method getc : int ($stream : Sys::IO::FileStream);
+  
+  native static method fgets : mutable string ($buffer : mutable string, $size : int, $stream : Sys::IO::FileStream);
+  
+  native static method fseek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
+  
+  native static method ftell : long ($stream : Sys::IO::FileStream);
+  
   native static method fclose : int ($stream : Sys::IO::FileStream);
   
   native static method fflush : int ($stream : Sys::IO::FileStream);
@@ -45,10 +53,6 @@ class Sys::IO {
   
   native static method write : int ($fd : int, $buffer : mutable string, $count : int);
   
-  native static method getc : int ($stream : Sys::IO::FileStream);
-  
-  native static method fgets : mutable string ($buffer : mutable string, $size : int, $stream : Sys::IO::FileStream);
-  
   native static method chdir : int ($path : string);
   
   native static method chmod : int ($path : string, $mode :int);
@@ -56,10 +60,6 @@ class Sys::IO {
   native static method chown : int ($path : string, $owner : int, $group : int);
   
   native static method mkdir : int ($path : string, $mode : int);
-  
-  native static method fseek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
-  
-  native static method ftell : long ($stream : Sys::IO::FileStream);
   
   native static method opendir : Sys::IO::DirStream ($dir : string);
   
