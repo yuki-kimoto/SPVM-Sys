@@ -1,9 +1,9 @@
 #include "spvm_native.h"
 #include <stdio.h>
 
-const char* FILE_NAME = "IO/FileHandle.c";
+const char* FILE_NAME = "IO/FileStream.c";
 
-int32_t SPVM__Sys__IO__FileHandle__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   // File handle
   void* ofh = stack[0].oval;

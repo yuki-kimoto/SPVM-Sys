@@ -1,3 +1,0 @@
-class Sys::IO::DirHandle : pointer_t {
-  native method DESTROY : void ();
-}

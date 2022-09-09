@@ -42,7 +42,7 @@ See the detail of the L<close|https://linux.die.net/man/2/close> function in the
 
 =head2 fclose
 
-  static method fclose : int ($stream : Sys::IO::FileHandle);
+  static method fclose : int ($stream : Sys::IO::FileStream);
 
 The fclose() function flushes the stream pointed to by fp (writing any buffered output data using fflush(3)) and closes the underlying file descriptor.
 
@@ -50,7 +50,7 @@ See the detail of the L<fclose|https://linux.die.net/man/3/fclose> function in t
 
 =head2 clearerr
 
-  static method clearerr : void ($stream : Sys::IO::FileHandle);
+  static method clearerr : void ($stream : Sys::IO::FileStream);
 
 The function clearerr() clears the end-of-file and error indicators for the stream pointed to by stream.
 
@@ -58,7 +58,7 @@ See the detail of the L<clearerr|https://linux.die.net/man/3/clearerr> function 
 
 =head2 feof
 
-  static method feof : int ($stream : Sys::IO::FileHandle);
+  static method feof : int ($stream : Sys::IO::FileStream);
 
 The function feof() tests the end-of-file indicator for the stream pointed to by stream, returning nonzero if it is set. The end-of-file indicator can only be cleared by the function clearerr().
 
@@ -66,7 +66,7 @@ See the detail of the L<feof|https://linux.die.net/man/3/feof> function in the c
 
 =head2 ferror
 
-  static method ferror : int ($stream : Sys::IO::FileHandle);
+  static method ferror : int ($stream : Sys::IO::FileStream);
 
 The function ferror() tests the error indicator for the stream pointed to by stream, returning nonzero if it is set. The error indicator can only be reset by the clearerr() function.
 
@@ -74,7 +74,7 @@ See the detail of the L<ferror|https://linux.die.net/man/3/ferror> function in t
 
 =head2 fileno
 
-  static method fileno : int ($stream : Sys::IO::FileHandle);
+  static method fileno : int ($stream : Sys::IO::FileStream);
 
 The function fileno() examines the argument stream and returns its integer descriptor.
 
@@ -90,7 +90,7 @@ See the detail of the L<open|https://linux.die.net/man/2/open> function in the c
 
 =head2 fopen
 
-  static method fopen : Sys::IO::FileHandle ($path : string, $mode : string);
+  static method fopen : Sys::IO::FileStream ($path : string, $mode : string);
 
 The fopen() function opens the file whose name is the string pointed to by path and associates a stream with it.
 
@@ -98,7 +98,7 @@ See the detail of the L<fopen|https://linux.die.net/man/3/fopen> function in the
 
 =head2 fdopen
 
-  static method fdopen : Sys::IO::FileHandle ($fd : int, $mode : string);
+  static method fdopen : Sys::IO::FileStream ($fd : int, $mode : string);
 
 The fdopen() function associates a stream with the existing file descriptor, fd. The mode of the stream (one of the values "r", "r+", "w", "w+", "a", "a+") must be compatible with the mode of the file descriptor. The file position indicator of the new stream is set to that belonging to fd, and the error and end-of-file indicators are cleared. Modes "w" or "w+" do not cause truncation of the file. The file descriptor is not dup'ed, and will be closed when the stream created by fdopen() is closed. The result of applying fdopen() to a shared memory object is undefined.
 
@@ -106,7 +106,7 @@ See the detail of the L<fdopen|https://linux.die.net/man/3/fdopen> function in t
 
 =head2 freopen
 
-  static method freopen : Sys::IO::FileHandle ($path : string, $mode : string, $stream : Sys::IO::FileHandle);
+  static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
 
 The freopen() function opens the file whose name is the string pointed to by path and associates the stream pointed to by stream with it. The original stream (if it exists) is closed. The mode argument is used just as in the fopen() function. The primary use of the freopen() function is to change the file associated with a standard text stream (stderr, stdin, or stdout).
 
@@ -114,7 +114,7 @@ See the detail of the L<freopen|https://linux.die.net/man/3/freopen> function in
 
 =head2 fread
 
-  static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileHandle);
+  static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
 
 The function fread() reads nmemb elements of data, each size bytes long, from the stream pointed to by stream, storing them at the location given by ptr.
 
@@ -122,7 +122,7 @@ See the detail of the L<fread|https://linux.die.net/man/3/fread> function in the
 
 =head2 fwrite
 
-  static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileHandle);
+  static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
 
 The function fwrite() writes nmemb elements of data, each size bytes long, to the stream pointed to by stream, obtaining them from the location given by ptr.
 
@@ -146,7 +146,7 @@ See the detail of the L<write|https://linux.die.net/man/2/write> function in the
 
 =head2 getc
 
-  static method getc : int ($stream : Sys::IO::FileHandle);
+  static method getc : int ($stream : Sys::IO::FileStream);
 
 getc() is equivalent to fgetc() except that it may be implemented as a macro which evaluates stream more than once.
 
@@ -186,7 +186,7 @@ See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the
 
 =head2 fseek
 
-  static method fseek : int ($stream : Sys::IO::FileHandle, $offset : long, $whence : int);
+  static method fseek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
 
 The fseek() function sets the file position indicator for the stream pointed to by stream. The new position, measured in bytes, is obtained by adding offset bytes to the position specified by whence. If whence is set to SEEK_SET, SEEK_CUR, or SEEK_END, the offset is relative to the start of the file, the current position indicator, or end-of-file, respectively. A successful call to the fseek() function clears the end-of-file indicator for the stream and undoes any effects of the ungetc(3) function on the same stream.
 
@@ -194,7 +194,7 @@ See the detail of the L<fseek|https://linux.die.net/man/3/fseek> function in the
 
 =head2 ftell
 
-  static method ftell : long ($stream : Sys::IO::FileHandle);
+  static method ftell : long ($stream : Sys::IO::FileStream);
 
 The ftell() function obtains the current value of the file position indicator for the stream pointed to by stream.
 
@@ -202,7 +202,7 @@ See the detail of the L<ftell|https://linux.die.net/man/3/ftell> function in the
 
 =head2 opendir
 
-  static method opendir : Sys::IO::DirHandle ($dir : string);
+  static method opendir : Sys::IO::DirStream ($dir : string);
 
 The opendir() function opens a directory stream corresponding to the directory name, and returns a pointer to the directory stream. The stream is positioned at the first entry in the directory.
 
@@ -210,7 +210,7 @@ See the detail of the L<opendir|https://linux.die.net/man/3/opendir> function in
 
 =head2 closedir
 
-  static method closedir : int ($dh : Sys::IO::DirHandle);
+  static method closedir : int ($dh : Sys::IO::DirStream);
 
 The closedir() function closes the directory stream associated with dirp. A successful call to closedir() also closes the underlying file descriptor associated with dirp. The directory stream descriptor dirp is not available after this call.
 
@@ -218,7 +218,7 @@ See the detail of the L<closedir|https://linux.die.net/man/3/closedir> function 
 
 =head2 readdir
 
-  static method readdir : Sys::IO::Dirent ($dh : Sys::IO::DirHandle); # Non-thead safe
+  static method readdir : Sys::IO::Dirent ($dh : Sys::IO::DirStream); # Non-thead safe
 
 The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred.
 
@@ -226,7 +226,7 @@ See the detail of the L<readdir|https://linux.die.net/man/3/readdir> function in
 
 =head2 rewinddir
 
-  static method rewinddir : void ($dh : Sys::IO::DirHandle);
+  static method rewinddir : void ($dh : Sys::IO::DirStream);
 
 The rewinddir() function resets the position of the directory stream dirp to the beginning of the directory.
 
@@ -234,7 +234,7 @@ See the detail of the L<rewinddir|https://linux.die.net/man/3/rewinddir> functio
 
 =head2 telldir
 
-  static method telldir : long ($dh : Sys::IO::DirHandle);
+  static method telldir : long ($dh : Sys::IO::DirStream);
 
 The telldir() function returns the current location associated with the directory stream dirp.
 
@@ -242,7 +242,7 @@ See the detail of the L<telldir|https://linux.die.net/man/3/telldir> function in
 
 =head2 seekdir
 
-  static method seekdir : void ($dh : Sys::IO::DirHandle, $offset : long);
+  static method seekdir : void ($dh : Sys::IO::DirStream, $offset : long);
 
 The seekdir() function sets the location in the directory stream from which the next readdir(2) call will start. seekdir() should be used with an offset returned by telldir(3).
 

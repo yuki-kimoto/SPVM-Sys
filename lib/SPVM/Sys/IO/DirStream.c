@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <dirent.h>
 
-const char* FILE_NAME = "IO/DirHandle.c";
+const char* FILE_NAME = "IO/DirStream.c";
 
-int32_t SPVM__Sys__IO__DirHandle__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__DirStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   // Dir handle
   void* odh = stack[0].oval;

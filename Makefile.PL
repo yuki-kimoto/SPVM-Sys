@@ -40,11 +40,12 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Constant');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::FileHandle');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::DirHandle');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::FileStream');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::DirStream');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Dirent');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Utimbuf');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Flock');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::PollfdArray');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Process');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Process::Constant');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Process::Tms');
@@ -64,7 +65,6 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ipv6_mreq');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ip_mreq_source');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ip_mreq');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::PollfdArray');
   
   return $make_rule;
 }
