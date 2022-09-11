@@ -1,5 +1,6 @@
 #include "spvm_native.h"
 
+#include <assert.h>
 #include <utime.h>
 
 static const char* FILE_NAME = "Sys/IO/Utimbuf.c";
@@ -28,19 +29,20 @@ int32_t SPVM__Sys__IO__Utimbuf__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_utimbuf = stack[0].oval;
   
   struct utimbuf* st_utimbuf = env->get_pointer(env, stack, obj_utimbuf);
-  if (st_utimbuf) {
-    env->free_memory_stack(env, stack, st_utimbuf);
-    env->set_pointer(env, stack, obj_utimbuf, NULL);
-  }
+  
+  assert(st_utimbuf);
+  
+  env->free_memory_stack(env, stack, st_utimbuf);
+  env->set_pointer(env, stack, obj_utimbuf, NULL);
   
   return 0;
 }
 
 int32_t SPVM__Sys__IO__Utimbuf__actime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_time_info = stack[0].oval;
+  void* obj_utimbuf = stack[0].oval;
   
-  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_time_info);
+  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_utimbuf);
   
   stack[0].lval = st_buffer->actime;
   
@@ -49,11 +51,11 @@ int32_t SPVM__Sys__IO__Utimbuf__actime(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Utimbuf__set_actime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_time_info = stack[0].oval;
+  void* obj_utimbuf = stack[0].oval;
   
   int32_t actime = stack[1].lval;
   
-  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_time_info);
+  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_utimbuf);
   
   st_buffer->actime = actime;
   
@@ -62,9 +64,9 @@ int32_t SPVM__Sys__IO__Utimbuf__set_actime(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Utimbuf__modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_time_info = stack[0].oval;
+  void* obj_utimbuf = stack[0].oval;
   
-  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_time_info);
+  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_utimbuf);
   
   stack[0].lval = st_buffer->modtime;
   
@@ -73,11 +75,11 @@ int32_t SPVM__Sys__IO__Utimbuf__modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Utimbuf__set_modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_time_info = stack[0].oval;
+  void* obj_utimbuf = stack[0].oval;
   
   int32_t modtime = stack[1].lval;
   
-  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_time_info);
+  struct utimbuf* st_buffer = env->get_pointer(env, stack, obj_utimbuf);
   
   st_buffer->modtime = modtime;
   
