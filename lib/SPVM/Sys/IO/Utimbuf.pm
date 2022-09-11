@@ -9,6 +9,11 @@ SPVM::Sys::IO::Utimbuf - struct utimbuf in C language
 =head1 Usage
 
   use Sys::IO::Utimbuf;
+  
+  my $utimbuf = Sys::IO::Utimbuf->new;
+  
+  my $actime = $utimbuf->actime;
+  my $modtime = $utimbuf->modtime;
 
 =head1 Description
 

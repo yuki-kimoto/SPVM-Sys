@@ -2,235 +2,123 @@ package SPVM::Sys::IO::Stat;
 
 1;
 
-=head1 NAME
+=head1 Name
 
-SPVM::Sys::IO::Stat - Dir Handle
+SPVM::Sys::IO::Stat - struct stat in C language
 
-=head1 SYNOPSYS
+=head1 Usage
   
+  use Sys::IO;
   use Sys::IO::Stat;
+  
+  my $file = "foo.txt";
+  my $stat =  Sys::IO::Stat->new;
+  Sys::IO->stat($file, $stat);
+  
+  my $st_mode = $stat->st_mode;
+  my $st_size = $stat->st_size;
 
-=head1 DESCRIPTION
+=head1 Description
 
-C<Sys::IO::Stat> is directory handle object that represent C<DIR> structure of C<C language>.
+C<Sys::IO::Stat> is the class for the C<struct stat> in C<C language>.
+
+This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head1 Class Methods
 
-=head2 S_CDF
+  static method new : Sys::IO::Stat ();
 
-  native static method S_CDF : int ();
+Create a new C<Sys::IO::Stat> object.
 
+=head1 Instance Methods
 
-=head2 S_ENFMT
+=head2 
 
-  native static method S_ENFMT : int ();
+  method DESTROY : void ();
 
+The destructor.
 
-=head2 S_IF
+=head2 st_dev
 
-  native static method S_IF : int ();
+  method st_dev : int ();
 
+Get C<st_dev>.
 
-=head2 S_IFBLK
+=head2 st_ino
 
-  native static method S_IFBLK : int ();
+  method st_ino : int ();
 
+Get C<st_ino>.
 
-=head2 S_IFCHR
+=head2 st_mode
 
-  native static method S_IFCHR : int ();
+  method st_mode : int ();
 
+Get C<st_mode>.
 
-=head2 S_IFCMP
+=head2 st_nlink
 
-  native static method S_IFCMP : int ();
+  method st_nlink : int ();
 
+Get C<st_nlink>.
 
-=head2 S_IFDIR
+=head2 st_uid
 
-  native static method S_IFDIR : int ();
+  method st_uid : int ();
 
+Get C<st_uid>.
 
-=head2 S_IFDOOR
+=head2 st_gid
 
-  native static method S_IFDOOR : int ();
+  method st_gid : int ();
 
+Get C<st_gid>.
 
-=head2 S_IFIFO
+=head2 st_size
 
-  native static method S_IFIFO : int ();
+  method st_size : long ();
 
+Get C<st_size>.
 
-=head2 S_IFLNK
+=head2 st_blksize
 
-  native static method S_IFLNK : int ();
+  method st_blksize : long ();
 
+Get C<st_blksize>.
 
-=head2 S_IFMPB
+=head2 st_blocks
 
-  native static method S_IFMPB : int ();
+  method st_blocks : long ();
 
+Get C<st_blocks>.
 
-=head2 S_IFMPC
+=head2 st_mtime
 
-  native static method S_IFMPC : int ();
+  method st_mtime : long ();
 
+Get C<st_mtime>.
 
-=head2 S_IFMT
+=head2 st_atime
 
-  native static method S_IFMT : int ();
+  method st_atime : long ();
 
+Get C<st_atime>.
 
-=head2 S_IFNAM
+=head2 st_ctime
 
-  native static method S_IFNAM : int ();
+  method st_ctime : long ();
 
+Get C<st_ctime>.
 
-=head2 S_IFNWK
+=head2 st_uid
 
-  native static method S_IFNWK : int ();
+  method st_uid : long ();
 
+Get C<st_uid>.
 
-=head2 S_IFREG
+=head1 Copyright & License
 
-  native static method S_IFREG : int ();
+Copyright 2022-2022 Yuki Kimoto, all rights reserved.
 
-
-=head2 S_IFSHAD
-
-  native static method S_IFSHAD : int ();
-
-
-=head2 S_IFSOCK
-
-  native static method S_IFSOCK : int ();
-
-
-=head2 S_IFWHT
-
-  native static method S_IFWHT : int ();
-
-
-=head2 S_INSEM
-
-  native static method S_INSEM : int ();
-
-
-=head2 S_INSHD
-
-  native static method S_INSHD : int ();
-
-
-=head2 S_IREAD
-
-  native static method S_IREAD : int ();
-
-
-=head2 S_IRGRP
-
-  native static method S_IRGRP : int ();
-
-
-=head2 S_IROTH
-
-  native static method S_IROTH : int ();
-
-
-=head2 S_IRUSR
-
-  native static method S_IRUSR : int ();
-
-
-=head2 S_IRWXG
-
-  native static method S_IRWXG : int ();
-
-
-=head2 S_IRWXO
-
-  native static method S_IRWXO : int ();
-
-
-=head2 S_IRWXU
-
-  native static method S_IRWXU : int ();
-
-
-=head2 S_ISBLK
-
-  native static method S_ISBLK : int ($mode : int);
-
-
-=head2 S_ISCHR
-
-  native static method S_ISCHR : int ($mode : int);
-
-
-=head2 S_ISDIR
-
-  native static method S_ISDIR : int ($mode : int);
-
-
-=head2 S_ISFIFO
-
-  native static method S_ISFIFO : int ($mode : int);
-
-
-=head2 S_ISGID
-
-  native static method S_ISGID : int ();
-
-
-=head2 S_ISLNK
-
-  native static method S_ISLNK : int ($mode : int);
-
-
-=head2 S_ISREG
-
-  native static method S_ISREG : int ($mode : int);
-
-
-=head2 S_ISSOCK
-
-  native static method S_ISSOCK : int ($mode : int);
-
-
-=head2 S_ISUID
-
-  native static method S_ISUID : int ();
-
-
-=head2 S_ISVTX
-
-  native static method S_ISVTX : int ();
-
-
-=head2 S_IWGRP
-
-  native static method S_IWGRP : int ();
-
-
-=head2 S_IWOTH
-
-  native static method S_IWOTH : int ();
-
-
-=head2 S_IWUSR
-
-  native static method S_IWUSR : int ();
-
-
-=head2 S_IXGRP
-
-  native static method S_IXGRP : int ();
-
-
-=head2 S_IXOTH
-
-  native static method S_IXOTH : int ();
-
-
-=head2 S_IXUSR
-
-  native static method S_IXUSR : int ();
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
