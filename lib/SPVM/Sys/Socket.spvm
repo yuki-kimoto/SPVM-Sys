@@ -9,17 +9,7 @@ class Sys::Socket {
   use Sys;
   use Sys::IO::PollfdArray;
 
-  native static method getaddrinfo : int ($node : string, $service : string,
-                $hints : Sys::Socket::Addrinfo,
-                $res : Sys::Socket::Addrinfo[]);
-
-  native static method getnameinfo : int ($addr : Sys::Socket::Sockaddr, $addrlen : int,
-                $host : mutable string, $hostlen : int,
-                $serv : mutable string, $servlen : int, $flag : int);
-
-  native static method gai_strerror : string($gai_error_code : int);
-
-  native static method socket : int ($socket_family : int, $socket_type : int, $protocol : int);
+  native static method socket : int ($domain : int, $type : int, $protocol : int);
 
   native static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
 
@@ -49,6 +39,16 @@ class Sys::Socket {
 
   native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
   
+  native static method getaddrinfo : int ($node : string, $service : string,
+                $hints : Sys::Socket::Addrinfo,
+                $res : Sys::Socket::Addrinfo[]);
+
+  native static method getnameinfo : int ($addr : Sys::Socket::Sockaddr, $addrlen : int,
+                $host : mutable string, $hostlen : int,
+                $serv : mutable string, $servlen : int, $flag : int);
+
+  native static method gai_strerror : string($gai_error_code : int);
+
   native static method inet_aton : int ($input_address : string, $output_address : Sys::Socket::In_addr);
 
   native static method inet_ntoa : string ($in_addr : Sys::Socket::In_addr);

@@ -4,7 +4,7 @@ package SPVM::Sys::User;
 
 =head1 Name
 
-SPVM::Sys::User - User Manipulation
+SPVM::Sys::User - User System Call
 
 =head1 Usage
   

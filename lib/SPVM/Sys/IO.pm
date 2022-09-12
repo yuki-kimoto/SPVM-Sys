@@ -4,7 +4,7 @@ package SPVM::Sys::IO;
 
 =head1 Name
 
-SPVM::Sys::IO - File IO
+SPVM::Sys::IO - IO System Call
 
 =head1 Usage
   

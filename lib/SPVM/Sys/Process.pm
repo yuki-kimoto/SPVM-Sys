@@ -4,7 +4,7 @@ package SPVM::Sys::Process;
 
 =head1 Name
 
-SPVM::Sys::Process - Process Manipulation
+SPVM::Sys::Process - Process System Call
 
 =head1 Usage
   
