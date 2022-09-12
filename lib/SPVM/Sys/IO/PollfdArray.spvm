@@ -4,6 +4,8 @@ class Sys::IO::PollfdArray {
   # Instance methods
   native method DESTROY : void ();
   
+  native method length : int ();
+  
   native method fd : int ($index : int);
   native method set_fd : void ($index : int, $fd : int);
   
