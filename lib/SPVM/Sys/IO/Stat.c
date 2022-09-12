@@ -132,6 +132,17 @@ int32_t SPVM__Sys__IO__Stat__st_gid(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__Stat__st_rdev(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stat = stack[0].oval;
+  
+  struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
+  
+  stack[0].ival = st_stat->st_rdev;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__Stat__st_mtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_stat = stack[0].oval;
@@ -164,22 +175,4 @@ int32_t SPVM__Sys__IO__Stat__st_ctime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
-
-int32_t SPVM__Sys__IO__Stat__st_uid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_stat = stack[0].oval;
-  
-  struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
-  
-  stack[0].ival = st_stat->st_uid;
-  
-  return 0;
-}
-
-=head1 Copyright & License
-
-Copyright 2022-2022 Yuki Kimoto, all rights reserved.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
 

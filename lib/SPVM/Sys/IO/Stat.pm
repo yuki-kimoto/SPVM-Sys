@@ -74,6 +74,12 @@ Get C<st_uid>.
 
 Get C<st_gid>.
 
+=head2 st_rdev
+
+  method st_rdev : int ();
+
+Get C<st_rdev>.
+
 =head2 st_size
 
   method st_size : long ();
@@ -109,12 +115,6 @@ Get C<st_atime>.
   method st_ctime : long ();
 
 Get C<st_ctime>.
-
-=head2 st_uid
-
-  method st_uid : long ();
-
-Get C<st_uid>.
 
 =head1 Copyright & License
 
