@@ -726,6 +726,8 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+static const int DIR_STREAM_CLOSED_INDEX = 0;
+
 int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
@@ -743,8 +745,9 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]opendir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
-  
-  void* obj_dir_stream = env->new_pointer_by_name(env, stack, "Sys::DirStream", dir_stream, &e, FILE_NAME, __LINE__);
+
+  int32_t pointer_fields_length = 1;
+  void* obj_dir_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::DirStream", dir_stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_dir_stream;
@@ -767,6 +770,8 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]closedir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  env->set_pointer_field_int(env, stack, obj_dir_stream, DIR_STREAM_CLOSED_INDEX, 1);
 
   stack[0].ival = status;
   

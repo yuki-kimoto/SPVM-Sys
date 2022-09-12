@@ -1,15 +1,27 @@
-package SPVM::Sys::DirStream;
+package SPVM::Sys::IO::DirStream;
 
 1;
 
-=head1 NAME
+=head1 Name
 
-SPVM::Sys::DirStream - Dir Handle
+SPVM::Sys::IO::DirStream - the class for the C<DIR> type in C<C language>.
 
-=head1 SYNOPSYS
+=head1 Usage
   
-  use Sys::DirStream;
+  use Sys::IO::DirStream;
+  use Sys::IO;
+  
+  my $dir = "foo";
+  
+  # Sys::IO::DirStream
+  my $dir_stream = Sys::IO->opendir($dir);
 
-=head1 DESCRIPTION
+=head1 Description
 
-C<Sys::DirStream> is directory handle object that represent C<DIR> structure of C<C language>.
+C<Sys::IO::DirStream> is the class for the C<DIR> type in C<C language>.
+
+=head1 Instance Methods
+
+  method DESTROY : void ();
+
+The destructor.
