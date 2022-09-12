@@ -67,7 +67,10 @@ int32_t SPVM__Sys__IO__Stat__st_mode(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__Stat__st_nlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+#ifdef _WIN32
+  env->die(env, stack, "The \"st_nlink\" method in the class \"Sys::IO::Stat\" is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_stat = stack[0].oval;
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
@@ -75,6 +78,7 @@ int32_t SPVM__Sys__IO__Stat__st_nlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = st_stat->st_nlink;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__Stat__st_size(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -89,7 +93,10 @@ int32_t SPVM__Sys__IO__Stat__st_size(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__Stat__st_blksize(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+#ifdef _WIN32
+  env->die(env, stack, "The \"st_blksize\" method in the class \"Sys::IO::Stat\" is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_stat = stack[0].oval;
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
@@ -97,10 +104,14 @@ int32_t SPVM__Sys__IO__Stat__st_blksize(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].lval = st_stat->st_blksize;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__Stat__st_blocks(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+#ifdef _WIN32
+  env->die(env, stack, "The \"st_blocks\" method in the class \"Sys::IO::Stat\" is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_stat = stack[0].oval;
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
@@ -108,6 +119,7 @@ int32_t SPVM__Sys__IO__Stat__st_blocks(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].lval = st_stat->st_blocks;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__Stat__st_uid(SPVM_ENV* env, SPVM_VALUE* stack) {
