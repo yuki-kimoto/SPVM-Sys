@@ -57,38 +57,6 @@ class Sys::Socket {
   
   native static method inet_ntop : string ($address_family : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $output_address : mutable string, $size : int);
   
-  static  method inet_ntop_simple : string ($address_family : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr) {
-    my $output_address = (mutable string)new_string_len(Sock->INET6_ADDRSTRLEN);
-    
-    my $output_address_ret = (mutable string)&inet_ntop($address_family, $input_address, $output_address, length $output_address);
-    
-    if ($output_address_ret) {
-      &shorten_null_char($output_address_ret);
-    }
-    
-    return $output_address_ret;
-  }
-  
-  private static method shorten_null_char : void ($string : mutable string) {
-    
-    if (!$string) {
-      die "The string must be defined";
-    }
-    
-    my $null_char_offset = -1;
-    for (my $i = 0; $i < length $string; $i++) {
-      my $char = $string->[$i];
-      if ($char == '\0') {
-        $null_char_offset = $i;
-        last;
-      }
-    }
-    
-    if ($null_char_offset >= 0) {
-      Fn->shorten($string, $null_char_offset);
-    }
-  }
-  
   native static method htonl : int ($host_int : int);
   
   native static method htons : short ($host_short : short);
