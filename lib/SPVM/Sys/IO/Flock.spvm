@@ -1,6 +1,8 @@
 class Sys::IO::Flock {
+  # Class methods
   native static method new : Sys::IO::Flock ();
-
+  
+  # Instance methods
   native method DESTROY : void ();
 
   native method l_type : short ();
