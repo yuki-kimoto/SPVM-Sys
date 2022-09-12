@@ -1,26 +1,23 @@
 package SPVM::Sys::IO::Constant;
 
-our $VERSION = '0.01';
-
 1;
 
 =head1 Name
 
-SPVM::Sys::IO::Constant - IO constant values.
+SPVM::Sys::IO::Constant - Constant values for IO.
 
 =head1 Usage
 
-  use Sys::IO::Constant as IO;
+  use Sys::IO::Constant as IOC;
   
-  IOC->O_TRUNC;
-  
+  my $o_trunc = IOC->O_TRUNC;
+
 =head1 Description
 
-C<Sys::IO::Constant> is a L<SPVM> module.
+C<Sys::IO::Constant> is the class for the constant values for IO.
 
 =head1 Class Methods
 
-=head2 AT_EMPTY_PATH
 =head2 AT_EMPTY_PATH
 
   static method AT_EMPTY_PATH : int ();
