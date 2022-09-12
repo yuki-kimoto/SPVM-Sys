@@ -20,6 +20,8 @@ SPVM::Sys::IO::FileStream - the class for the C<FILE> type in C<C language>.
 
 C<Sys::IO::FileStream> is the class for the C<FILE> type in C<C language>.
 
+This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+
 =head1 Instance Methods
 
   method DESTROY : void ();

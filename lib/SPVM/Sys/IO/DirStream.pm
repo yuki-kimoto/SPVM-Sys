@@ -20,6 +20,8 @@ SPVM::Sys::IO::DirStream - the class for the C<DIR> type in C<C language>.
 
 C<Sys::IO::DirStream> is the class for the C<DIR> type in C<C language>.
 
+This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+
 =head1 Instance Methods
 
   method DESTROY : void ();

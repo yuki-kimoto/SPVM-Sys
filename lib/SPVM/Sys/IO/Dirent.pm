@@ -2,15 +2,16 @@ package SPVM::Sys::IO::Dirent;
 
 1;
 
-=head1 NAME
+=head1 Name
 
-SPVM::Sys::IO::Dirent - A SPVM module
+SPVM::Sys::IO::Dirent - struct dirent in C language
 
-=head1 SYNOPSYS
+=head1 Usage
   
   use Sys::IO::Dirent;
 
-=head1 DESCRIPTION
+=head1 Description
 
-C<Sys::IO::Dirent>.
+C<Sys::IO::Dirent> is the class for C<struct dirent> in C<C language>.
 
+This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
