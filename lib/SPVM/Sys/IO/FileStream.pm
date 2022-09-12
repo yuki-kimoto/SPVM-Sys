@@ -2,14 +2,26 @@ package SPVM::Sys::IO::FileStream;
 
 1;
 
-=head1 NAME
+=head1 Name
 
-SPVM::Sys::IO::FileStream - File Handle
+SPVM::Sys::IO::FileStream - the class for the C<FILE> type in C<C language>.
 
-=head1 SYNOPSYS
+=head1 Usage
   
-  use SPVM::Sys::IO::FileStream;
+  use Sys::IO::FileStream;
+  use Sys::IO;
+  
+  my $file = "foo.txt";
+  
+  # Sys::IO::FileStream
+  my $file_stream = Sys::IO->fopen($file, "rb");
 
-=head1 DESCRIPTION
+=head1 Description
 
-L<SPVM::Sys::IO::FileStream> is file handle object for L<SPVM::Sys::File>.
+C<Sys::IO::FileStream> is the class for the C<FILE> type in C<C language>.
+
+=head1 Instance Methods
+
+  method DESTROY : void ();
+
+The destructor.
