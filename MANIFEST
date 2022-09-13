@@ -127,14 +127,14 @@ Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
 README.md
-t/FileTest.t
 t/ftest/dir_empty/.gitkeep
 t/ftest/file_empty.txt
-t/IO.t
 t/lib/SPVM/TestCase/Sys/FileTest.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/Socket.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
-t/Socket.t
 t/Sys.t
-t/User.t
+t/Sys_FileTest.t
+t/Sys_IO.t
+t/Sys_Socket.t
+t/Sys_User.t
