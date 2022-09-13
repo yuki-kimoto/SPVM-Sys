@@ -17,7 +17,7 @@ static int32_t FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED = 0;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
 
-static const char* FILE_NAME = "Sys/Addrinfo.c";
+static const char* FILE_NAME = "Sys/Socket/Addrinfo.c";
 
 int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
