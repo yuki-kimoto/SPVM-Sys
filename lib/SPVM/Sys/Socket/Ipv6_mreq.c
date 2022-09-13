@@ -34,10 +34,10 @@ int32_t SPVM__Sys__Socket__Ipv6_mreq__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   struct ipv6_mreq* multi_request = env->get_pointer(env, stack, obj_multi_request);
   
-  if (multi_request) {
-    env->free_memory_stack(env, stack, multi_request);
-    env->set_pointer(env, stack, obj_multi_request, NULL);
-  }
+  assert(multi_request);
+  
+  env->free_memory_stack(env, stack, multi_request);
+  env->set_pointer(env, stack, obj_multi_request, NULL);
   
   return 0;
 }
@@ -50,20 +50,15 @@ int32_t SPVM__Sys__Socket__Ipv6_mreq__ipv6mr_multiaddr(SPVM_ENV* env, SPVM_VALUE
   
   struct ipv6_mreq* multi_request = env->get_pointer(env, stack, obj_self);
   
-  if (multi_request) {
-    struct in6_addr address = multi_request->ipv6mr_multiaddr;
+  struct in6_addr address = multi_request->ipv6mr_multiaddr;
 
-    struct in6_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in6_addr));
-    *address_ret = address;
+  struct in6_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in6_addr));
+  *address_ret = address;
 
-    void* obj_address_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In6_addr", address_ret, &e, FILE_NAME, __LINE__);
-    if (e) { return e; }
-    
-    stack[0].oval = obj_address_ret;
-  }
-  else {
-    assert(0);
-  }
+  void* obj_address_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In6_addr", address_ret, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
+  stack[0].oval = obj_address_ret;
   
   return 0;
 }
@@ -74,15 +69,10 @@ int32_t SPVM__Sys__Socket__Ipv6_mreq__set_ipv6mr_multiaddr(SPVM_ENV* env, SPVM_V
   
   struct ipv6_mreq* multi_request = env->get_pointer(env, stack, obj_self);
   
-  if (multi_request) {
-    void* obj_address = stack[1].oval;
-    struct in6_addr* address = env->get_pointer(env, stack, obj_address);
+  void* obj_address = stack[1].oval;
+  struct in6_addr* address = env->get_pointer(env, stack, obj_address);
 
-    multi_request->ipv6mr_multiaddr = *address;
-  }
-  else {
-    assert(0);
-  }
+  multi_request->ipv6mr_multiaddr = *address;
   
   return 0;
 }
@@ -95,14 +85,9 @@ int32_t SPVM__Sys__Socket__Ipv6_mreq__ipv6mr_interface(SPVM_ENV* env, SPVM_VALUE
   
   struct ipv6_mreq* multi_request = env->get_pointer(env, stack, obj_self);
   
-  if (multi_request) {
-    int32_t interface_index = multi_request->ipv6mr_interface;
-    
-    stack[0].ival = interface_index;
-  }
-  else {
-    assert(0);
-  }
+  int32_t interface_index = multi_request->ipv6mr_interface;
+  
+  stack[0].ival = interface_index;
   
   return 0;
 }
@@ -113,13 +98,8 @@ int32_t SPVM__Sys__Socket__Ipv6_mreq__set_ipv6mr_interface(SPVM_ENV* env, SPVM_V
   
   struct ipv6_mreq* multi_request = env->get_pointer(env, stack, obj_self);
   
-  if (multi_request) {
-    int32_t interface_index = stack[1].ival;
-    multi_request->ipv6mr_interface = interface_index;
-  }
-  else {
-    assert(0);
-  }
+  int32_t interface_index = stack[1].ival;
+  multi_request->ipv6mr_interface = interface_index;
   
   return 0;
 }
