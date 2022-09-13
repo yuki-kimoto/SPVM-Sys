@@ -6,7 +6,13 @@ our $VERSION = '0.01';
 
 =head1 Name
 
-SPVM::Sys - System Utilities, File IO, User, Process, Socket,
+SPVM::Sys - System Calls such as File IO, User, Process, Socket,
+
+=head1 Caution
+
+The C<Sys> module and the system modules will be highly changed without warnings.
+
+L<SPVM> itself is yet experimental release.
 
 =head1 Usage
 
@@ -32,13 +38,13 @@ If C<_WIN32> in C<C language> is defined, return C<1>. Otherwize return C<0>.
 
 =item * L<Sys::IO|SPVM::Sys::IO>
 
-=item * L<Sys::FiteTest|SPVM::Sys::FiteTest>
-
-=item * L<Sys::User|SPVM::Sys::User>
-
 =item * L<Sys::Socket|SPVM::Sys::Socket>
 
 =item * L<Sys::Process|SPVM::Sys::Process>
+
+=item * L<Sys::User|SPVM::Sys::User>
+
+=item * L<Sys::FiteTest|SPVM::Sys::FiteTest>
 
 =back
 
