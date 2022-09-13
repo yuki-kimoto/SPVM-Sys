@@ -1,7 +1,5 @@
 package SPVM::Sys::Socket::Addrinfo;
 
-our $VERSION = '0.01';
-
 1;
 
 =head1 Name

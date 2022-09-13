@@ -1,7 +1,5 @@
 package SPVM::Sys::Socket::Ip_mreq;
 
-our $VERSION = '0.01';
-
 1;
 
 =head1 Name

@@ -1,4 +1,6 @@
 class Sys::Socket::Addrinfo {
+  use Sys::Socket::Addrinfo;
+  
   # Class methods
   native static method new : Sys::Socket::Addrinfo ();
   

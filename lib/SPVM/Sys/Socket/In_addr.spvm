@@ -1,4 +1,7 @@
 class Sys::Socket::In_addr : pointer_t {
+  use Sys::Socket::In_addr;
+  
+  # Class methods
   native static method new : Sys::Socket::In_addr ();
 
   # Instance methods

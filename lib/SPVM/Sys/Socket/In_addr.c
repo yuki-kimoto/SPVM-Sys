@@ -1,5 +1,7 @@
 #include "spvm_native.h"
 
+#include <assert.h>
+
 #ifdef _WIN32
 # include <ws2tcpip.h>
 # include <winsock2.h>
@@ -31,10 +33,10 @@ int32_t SPVM__Sys__Socket__In_addr__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct in_addr* address = env->get_pointer(env, stack, obj_address);
   
-  if (address) {
-    env->free_memory_stack(env, stack, address);
-    env->set_pointer(env, stack, obj_address, NULL);
-  }
+  assert(address);
+  
+  env->free_memory_stack(env, stack, address);
+  env->set_pointer(env, stack, obj_address, NULL);
   
   return 0;
 }

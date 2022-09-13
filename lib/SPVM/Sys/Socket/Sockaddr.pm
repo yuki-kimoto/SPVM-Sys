@@ -1,7 +1,5 @@
 package SPVM::Sys::Socket::Sockaddr;
 
-our $VERSION = '0.01';
-
 1;
 
 =head1 Name
