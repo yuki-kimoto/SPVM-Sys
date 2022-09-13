@@ -1,3 +1,7 @@
 # SPVM::Sys
 
-System Utilities, File IO, User, Process, Socket,
+System Calls for File IO, User Manipulation, Process, Socket
+
+# Document
+
+https://metacpan.org/pod/SPVM::Sys
