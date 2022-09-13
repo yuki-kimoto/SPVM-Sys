@@ -193,13 +193,23 @@ If the system call failed, an exception will be thrown with the error code set t
 
   static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
 
+The same as L</"setsockopt">, but the option value can be specifed by the C<int> type.
+
 =head2 inet_aton
 
-  static method inet_aton : int ($input_address : string, $output_address : Sys::Socket::In_addr);
+  static method inet_aton : int ($cp : string, $inp : Sys::Socket::In_addr);
+
+inet_aton() converts the Internet host address cp from the IPv4 numbers-and-dots notation into binary form (in network byte order) and stores it in the structure that inp points to. inet_aton() returns nonzero if the address is valid, zero if not. The address supplied in cp can have one of the following forms:
+
+See the detail of the L<inet_aton|https://linux.die.net/man/3/inet_aton> function in the case of Linux.
 
 =head2 inet_ntoa
 
-  static method inet_ntoa : string ($in_addr : Sys::Socket::In_addr);
+  static method inet_ntoa : string ($in : Sys::Socket::In_addr);
+
+The inet_ntoa() function converts the Internet host address in, given in network byte order, to a string in IPv4 dotted-decimal notation. The string is returned in a statically allocated buffer, which subsequent calls will overwrite.
+
+See the detail of the L<inet_ntoa|https://linux.die.net/man/3/inet_ntoa> function in the case of Linux.
 
 =head2 inet_pton
 
