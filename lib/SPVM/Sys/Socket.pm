@@ -277,7 +277,11 @@ See the detail of the L<ntohs|https://linux.die.net/man/3/ntohs> function in the
 
 =head2 ioctlsocket
 
-  static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int*);
+  static method ioctlsocket : int ($s : int, $cmd : int, $argp : int*);
+
+The ioctlsocket function controls the I/O mode of a socket.
+
+See the detail of the L<ioctlsocket|https://docs.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-ioctlsocket> function in the case of Windows.
 
 =head2 closesocket
 
@@ -286,6 +290,7 @@ See the detail of the L<ntohs|https://linux.die.net/man/3/ntohs> function in the
 =head2 WSAPoll
 
   static method WSAPoll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
+
 
 =head2 getaddrinfo
 

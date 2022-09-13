@@ -55,7 +55,7 @@ class Sys::Socket {
   
   native static method ntohs : short ($netshort : short);
 
-  native static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int*);
+  native static method ioctlsocket : int ($s : int, $cmd : int, $argp : int*);
 
   native static method closesocket : int ($fd : int);
   
