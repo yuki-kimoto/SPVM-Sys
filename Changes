@@ -1,4 +1,6 @@
 0.02 2022-09-13
+  [Document Improvement]
+    * Add Sys::FileTest doc.
   [Incompatible Changes]
     * Remove Sys::IO->freopen.
     * Simplify the implementation of the methods for file test in Sys::FileTest
