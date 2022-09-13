@@ -283,16 +283,27 @@ The ioctlsocket function controls the I/O mode of a socket.
 
 See the detail of the L<ioctlsocket|https://docs.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-ioctlsocket> function in the case of Windows.
 
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+
 =head2 closesocket
 
   static method closesocket : int ($s : int);
 
+The closesocket function closes an existing socket.
+
 See the detail of the L<closesocket|https://docs.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-closesocket> function in the case of Windows.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 WSAPoll
 
   static method WSAPoll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 
+The WSAPoll function determines status of one or more sockets.
+
+See the detail of the L<WSAPoll|https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-wsapoll> function in the case of Windows.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 getaddrinfo
 
@@ -300,15 +311,35 @@ See the detail of the L<closesocket|https://docs.microsoft.com/en-us/windows/win
                 $hints : Sys::Socket::Addrinfo,
                 $res : Sys::Socket::Addrinfo[]);
 
+Given node and service, which identify an Internet host and a service, getaddrinfo() returns one or more addrinfo structures, each of which contains an Internet address that can be specified in a call to bind(2) or connect(2). The getaddrinfo() function combines the functionality provided by the gethostbyname(3) and getservbyname(3) functions into a single interface, but unlike the latter functions, getaddrinfo() is reentrant and allows programs to eliminate IPv4-versus-IPv6 dependencies.
+
+See the detail of the L<getaddrinfo|https://linux.die.net/man/3/getaddrinfo> function in the case of Linux.
+
+The hints is a L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo> object.
+
+The response(res) is an array of the L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>.
+
+The response must be defined. Otherwise an exception will be thrown.
+
+The length of the array of the response must be greater than or equal to 1. Otherwise an exception will be thrown.
+
 =head2 getnameinfo
 
-  static method getnameinfo : int ($addr : Sys::Socket::Sockaddr, $addrlen : int,
+  static method getnameinfo : int ($sa : Sys::Socket::Sockaddr, $salen : int,
                 $host : mutable string, $hostlen : int,
-                $serv : mutable string, $servlen : int, $flag : int);
+                $serv : mutable string, $servlen : int, $flags : int);
+
+The getnameinfo() function is the inverse of getaddrinfo(3): it converts a socket address to a corresponding host and service, in a protocol-independent manner. It combines the functionality of gethostbyaddr(3) and getservbyport(3), but unlike those functions, getnameinfo() is reentrant and allows programs to eliminate IPv4-versus-IPv6 dependencies.
+
+See the detail of the L<getnameinfo|https://linux.die.net/man/3/getaddrinfo> function in the case of Linux.
+
+The socket address(sa) is a L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo> object.
 
 =head2 gai_strerror
 
-  static method gai_strerror : string($gai_error_code : int);
+  static method gai_strerror : string($errcode : int);
+
+See the detail of the L<getnameinfo|https://linux.die.net/man/3/gai_strerror> function in the case of Linux.
 
 =head2 ioctl_int_portable
 

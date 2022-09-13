@@ -66,11 +66,11 @@ class Sys::Socket {
                 $hints : Sys::Socket::Addrinfo,
                 $res : Sys::Socket::Addrinfo[]);
 
-  native static method getnameinfo : int ($addr : Sys::Socket::Sockaddr, $addrlen : int,
+  native static method getnameinfo : int ($sa : Sys::Socket::Sockaddr, $salen : int,
                 $host : mutable string, $hostlen : int,
-                $serv : mutable string, $servlen : int, $flag : int);
+                $serv : mutable string, $servlen : int, $flags : int);
 
-  native static method gai_strerror : string($gai_error_code : int);
+  native static method gai_strerror : string($errcode : int);
 
   static method ioctl_int_portable : int ($fd : int, $request : int, $request_arg_ref : int*) {
     if (Sys->is_D_WIN32) {

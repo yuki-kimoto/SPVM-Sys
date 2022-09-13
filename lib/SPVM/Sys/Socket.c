@@ -667,8 +667,8 @@ int32_t SPVM__Sys__Socket__WSAPoll(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = WSAPoll(fds, nfds, timeout);
   
-  if (status == -1) {
-    env->die(env, stack, "[System Error]WSAPoll failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+  if (status == SOCKET_ERROR) {
+    env->die(env, stack, "[System Error]WSAPoll failed: socket error", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
@@ -703,23 +703,21 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   void* obj_res_array = stack[3].oval;
-  
   if (!obj_res_array) {
     return env->die(env, stack, "The response must be defined", FILE_NAME, __LINE__);
   }
-  
   int32_t res_length = env->length(env, stack, obj_res_array);
-  
-  if (res_length == 1) {
-    return env->die(env, stack, "The length of the response must be 1", FILE_NAME, __LINE__);
+  if (!(res_length >= 1)) {
+    return env->die(env, stack, "The length of the array of the response must be greater than or equal to 1", FILE_NAME, __LINE__);
   }
   
   struct addrinfo *res = NULL;
+  
   int32_t status = getaddrinfo(node, service, hints, &res);
   
   if (status == 0) {
     int32_t fields_length = 1;
-    void* obj_res = env->new_pointer_with_fields_by_name(env, stack, "Sys::Addrinfo", res, fields_length, &e, FILE_NAME, __LINE__);
+    void* obj_res = env->new_pointer_with_fields_by_name(env, stack, "Sys::Socket::Addrinfo", res, fields_length, &e, FILE_NAME, __LINE__);
     if (e) { return e; }
     env->set_pointer_field_int(env, stack, obj_res, FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED, ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO);
     env->set_elem_object(env, stack, obj_res_array, 0, obj_res);
@@ -733,15 +731,15 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;
   
-  void* obj_addr = stack[0].oval;
+  void* obj_sa = stack[0].oval;
   
-  if (!obj_addr) {
-    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
+  if (!obj_sa) {
+    return env->die(env, stack, "The socket address must be defined", FILE_NAME, __LINE__);
   }
   
-  const struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
+  const struct sockaddr* sa = env->get_pointer(env, stack, obj_sa);
 
-  int32_t addrlen = stack[1].ival;
+  int32_t salen = stack[1].ival;
   
   void* obj_host = stack[2].oval;
   char* host = NULL;
@@ -759,10 +757,9 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t servlen = stack[5].ival;
 
-  int32_t flag = stack[6].ival;
+  int32_t flags = stack[6].ival;
   
-  struct addrinfo *res = NULL;
-  int32_t status = getnameinfo(addr, addrlen, host, hostlen, serv, servlen, flag);
+  int32_t status = getnameinfo(sa, salen, host, hostlen, serv, servlen, flags);
   
   stack[0].ival = status;
   
@@ -773,15 +770,14 @@ int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t gai_error_code = stack[0].ival;
+  int32_t errcode = stack[0].ival;
   
-  const char* ret_gai_strerror = gai_strerror(gai_error_code);
+  const char* error_string = gai_strerror(errcode);
   
-  if (ret_gai_strerror) {
-    int32_t ret_gai_strerror_length = strlen(ret_gai_strerror);
-    
-    void* obj_gai_strerror = env->new_string(env, stack, ret_gai_strerror, ret_gai_strerror_length);
-    stack[0].oval = obj_gai_strerror;
+  if (error_string) {
+    int32_t error_string_length = strlen(error_string);
+    void* obj_error_string = env->new_string(env, stack, error_string, error_string_length);
+    stack[0].oval = obj_error_string;
   }
   else {
     stack[0].oval = NULL;
@@ -789,4 +785,3 @@ int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
-
