@@ -3,12 +3,29 @@ class TestCase::Sys::IO {
   
   static method fopen : int ($test_dir : string) {
     
-    my $file = "$test_dir/ftest/file_empty.txt";
-    my $fh = Sys::IO->fopen($file, "rb");
-    
-    unless ($fh) {
-      return 0;
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $fh = Sys::IO->fopen($file, "rb");
+      
+      unless ($fh) {
+        return 0;
+      }
     }
+    
+    {
+      my $file = "$test_dir/ftest/not_found.txt";
+      eval { Sys::IO->fopen($file, "rb"); };
+      
+      unless ($@) {
+        return 0;
+      }
+      
+      unless (error == class_id Error::System) {
+        return 0;
+      }
+    }
+    
+    $@ = undef;
     
     return 1;
   }
