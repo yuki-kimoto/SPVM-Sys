@@ -135,6 +135,7 @@ t/lib/SPVM/TestCase/Sys/Socket.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
 t/Sys.t
 t/Sys_FileTest.t
+t/Sys_FileTest_min.t
 t/Sys_IO.t
 t/Sys_Socket.t
 t/Sys_User.t
