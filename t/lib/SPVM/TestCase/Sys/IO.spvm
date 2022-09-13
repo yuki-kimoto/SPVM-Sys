@@ -93,5 +93,27 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method fclose : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $fs = Sys::IO->fopen($file, "rb");
+      
+      unless ($fs) {
+        return 0;
+      }
+      
+      my $status = Sys::IO->fclose($fs);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+    }
+    
+    $@ = undef;
+    
+    return 1;
+  }
   
 }
