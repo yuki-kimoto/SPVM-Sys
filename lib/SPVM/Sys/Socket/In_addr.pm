@@ -9,7 +9,7 @@ SPVM::Sys::Socket::In_addr - struct in_addr in C language
 =head1 Usage
 
   use Sys::Socket::In_addr;
-  
+
 =head1 Description
 
 C<Sys::Socket::In_addr> is the class for the C<struct in_addr> in C<C language>.

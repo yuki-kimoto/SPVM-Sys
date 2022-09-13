@@ -9,7 +9,7 @@ SPVM::Sys::Socket::In6_addr - struct in6_addr in C language
 =head1 Usage
 
   use Sys::Socket::In6_addr;
-  
+
 =head1 Description
 
 C<Sys::Socket::In6_addr> is the class for the C<struct in6_addr> in C<C language>.

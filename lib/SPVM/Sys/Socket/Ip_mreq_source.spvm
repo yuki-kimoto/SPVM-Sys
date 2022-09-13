@@ -1,8 +1,10 @@
 class Sys::Socket::Ip_mreq_source {
   use Sys::Socket::In_addr;
-
+  
+  # Class methods
   native static method new : Sys::Socket::Ip_mreq_source ();
-
+  
+  # Instance methods
   native method DESTROY : void ();
 
   native method imr_multiaddr : Sys::Socket::In_addr ();
