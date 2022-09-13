@@ -1,4 +1,7 @@
-0.01 YYYY-MM-DD
+0.02 2022-09-13
+  [Incompatible Changes]
+    * Remove Sys::IO->freopen.
+0.01 2022-09-13
   
-  * 
+  * First experimental release
   

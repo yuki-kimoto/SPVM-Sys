@@ -110,18 +110,6 @@ See the detail of the L<fdopen|https://linux.die.net/man/3/fdopen> function in t
 
 The return value is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
-=head2 freopen
-
-  static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
-
-The freopen() function opens the file whose name is the string pointed to by path and associates the stream pointed to by stream with it. The original stream (if it exists) is closed. The mode argument is used just as in the fopen() function. The primary use of the freopen() function is to change the file associated with a standard text stream (stderr, stdin, or stdout).
-
-See the detail of the L<freopen|https://linux.die.net/man/3/freopen> function in the case of Linux.
-
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
-
-The return value is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
-
 =head2 fread
 
   static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
