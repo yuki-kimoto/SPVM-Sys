@@ -35,9 +35,9 @@ class TestCase::Sys::IO {
     
     {
       my $file = "$test_dir/ftest/file_empty.txt";
-      my $fh = Sys::IO->fopen($file, "rb");
+      my $fs = Sys::IO->fopen($file, "rb");
       
-      unless ($fh) {
+      unless ($fs) {
         return 0;
       }
     }
@@ -60,5 +60,38 @@ class TestCase::Sys::IO {
     return 1;
   }
   
+  static method fdopen : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $fd = Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC);
+      
+      unless ($fd >= 0) {
+        return 0;
+      }
+
+      my $fs = Sys::IO->fdopen($fd, "rb");
+      
+      unless ($fs) {
+        return 0;
+      }
+    }
+    
+    {
+      eval { Sys::IO->fdopen(-1, "rb"); };
+      
+      unless ($@) {
+        return 0;
+      }
+      
+      unless (error == class_id Error::System) {
+        return 0;
+      }
+    }
+    
+    $@ = undef;
+    
+    return 1;
+  }
   
 }
