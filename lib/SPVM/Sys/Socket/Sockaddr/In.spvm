@@ -1,9 +1,10 @@
 class Sys::Socket::Sockaddr::In extends Sys::Socket::Sockaddr : pointer_t {
-  use Sys::Socket::Constant as Sock;
   use Sys::Socket::In_addr;
-
+  
+  # Class methods
   native static method new : Sys::Socket::Sockaddr::In ();
-
+  
+  # Instance methods
   native method DESTROY : void ();
 
   method sa_family : int () {

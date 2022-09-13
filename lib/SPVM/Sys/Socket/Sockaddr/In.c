@@ -33,10 +33,10 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__DESTROY(SPVM_ENV* env, SPVM_VALUE* stac
   
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_socket_address);
   
-  if (socket_address) {
-    env->free_memory_stack(env, stack, socket_address);
-    env->set_pointer(env, stack, obj_socket_address, NULL);
-  }
+  assert(socket_address);
+  
+  env->free_memory_stack(env, stack, socket_address);
+  env->set_pointer(env, stack, obj_socket_address, NULL);
   
   return 0;
 }
@@ -47,12 +47,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__sin_family(SPVM_ENV* env, SPVM_VALUE* s
   
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
-  if (socket_address) {
-    stack[0].ival = socket_address->sin_family;
-  }
-  else {
-    assert(0);
-  }
+  stack[0].ival = socket_address->sin_family;
   
   return 0;
 }
@@ -63,12 +58,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_family(SPVM_ENV* env, SPVM_VALU
   
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
-  if (socket_address) {
-    socket_address->sin_family = stack[1].ival;
-  }
-  else {
-    assert(0);
-  }
+  socket_address->sin_family = stack[1].ival;
   
   return 0;
 }
@@ -81,20 +71,15 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__sin_addr(SPVM_ENV* env, SPVM_VALUE* sta
   
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
-  if (socket_address) {
-    struct in_addr address = socket_address->sin_addr;
+  struct in_addr address = socket_address->sin_addr;
 
-    struct in_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in_addr));
-    *address_ret = address;
+  struct in_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in_addr));
+  *address_ret = address;
 
-    void* obj_address_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, FILE_NAME, __LINE__);
-    if (e) { return e; }
-    
-    stack[0].oval = obj_address_ret;
-  }
-  else {
-    assert(0);
-  }
+  void* obj_address_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
+  stack[0].oval = obj_address_ret;
   
   return 0;
 }
@@ -105,15 +90,10 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_addr(SPVM_ENV* env, SPVM_VALUE*
   
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
-  if (socket_address) {
-    void* obj_address = stack[1].oval;
-    struct in_addr* address = env->get_pointer(env, stack, obj_address);
+  void* obj_address = stack[1].oval;
+  struct in_addr* address = env->get_pointer(env, stack, obj_address);
 
-    socket_address->sin_addr = *address;
-  }
-  else {
-    assert(0);
-  }
+  socket_address->sin_addr = *address;
   
   return 0;
 }
@@ -124,12 +104,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__sin_port(SPVM_ENV* env, SPVM_VALUE* sta
   
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
-  if (socket_address) {
-    stack[0].sval = socket_address->sin_port;
-  }
-  else {
-    assert(0);
-  }
+  stack[0].sval = socket_address->sin_port;
   
   return 0;
 }
@@ -140,12 +115,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_port(SPVM_ENV* env, SPVM_VALUE*
   
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
-  if (socket_address) {
-    socket_address->sin_port = stack[1].sval;
-  }
-  else {
-    assert(0);
-  }
+  socket_address->sin_port = stack[1].sval;
   
   return 0;
 }
