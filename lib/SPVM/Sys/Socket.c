@@ -339,15 +339,13 @@ int32_t SPVM__Sys__Socket__setsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int int_optval = int32_optval;
   
-  int32_t optlen = sizeof(int);
-
-  void* obj_optval = env->new_string(env, stack, NULL, optlen);
+  void* obj_optval = env->new_string(env, stack, NULL, sizeof(int));
   char* optval = (char*)env->get_chars(env, stack, obj_optval);
-  memcpy(optval, &int_optval, optlen);
+  memcpy(optval, &int_optval, sizeof(int));
   
   stack[3].oval = obj_optval;
 
-  stack[4].ival = optlen;
+  stack[4].ival = sizeof(int);
   
   return SPVM__Sys__Socket__setsockopt(env, stack);
 }

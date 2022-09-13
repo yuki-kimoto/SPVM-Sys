@@ -155,9 +155,19 @@ If the system call failed, an exception will be thrown with the error code set t
 
   static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : string, $optlen : int);
 
+getsockopt() and setsockopt() manipulate options for the socket referred to by the file descriptor sockfd. Options may exist at multiple protocol levels; they are always present at the uppermost socket level.
+
+See the detail of the L<setsockopt|https://linux.die.net/man/2/setsockopt> function in the case of Linux.
+
+The option value must be defined. Otherwise an exception will be thrown.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+
 =head2 setsockopt_int
 
   static method setsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval : int);
+
+The same as L</"setsockopt">, but the option value can be specifed by the C<int> type.
 
 =head2 getsockopt
 
