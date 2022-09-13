@@ -526,79 +526,75 @@ int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t af = stack[0].ival;
   
   // The input address
-  void* obj_input_address = stack[1].oval;
-  if (!obj_input_address) {
-    return env->die(env, stack, "The output address must be defined", FILE_NAME, __LINE__);
+  void* obj_src = stack[1].oval;
+  if (!obj_src) {
+    return env->die(env, stack, "The input address(src) must be defined", FILE_NAME, __LINE__);
   }
-  void* input_address = env->get_pointer(env, stack, obj_input_address);
+  void* src = env->get_pointer(env, stack, obj_src);
   
   // The output address
-  void* obj_output_address = stack[2].oval;
-  if (!obj_output_address) {
-    return env->die(env, stack, "The output address must be defined", FILE_NAME, __LINE__);
+  void* obj_dst = stack[2].oval;
+  if (!obj_dst) {
+    return env->die(env, stack, "The output address(dst) must be defined", FILE_NAME, __LINE__);
   }
-  char* output_address = (char*)env->get_chars(env, stack, obj_output_address);
+  char* dst = (char*)env->get_chars(env, stack, obj_dst);
   
   // The size of the output address
   int32_t size = stack[3].ival;
   
-  const char* output_address_ret = inet_ntop(af, input_address, output_address, size);
+  const char* dst_ret = inet_ntop(af, src, dst, size);
   
-  void* obj_output_address_ret = NULL;
-  if (output_address_ret) {
-    obj_output_address_ret = obj_output_address;
-  }
-  else {
-    obj_output_address_ret = NULL;
+  if (!dst_ret) {
+    obj_dst_ret = NULL;
     env->die(env, stack, "[System Error]inet_ntop failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  stack[0].oval = obj_output_address_ret;
+  stack[0].oval = dst_ret;
   
   return 0;
 }
 
 int32_t SPVM__Sys__Socket__htonl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t host_int = stack[0].ival;
+  int32_t hostlong = stack[0].ival;
   
-  int32_t net_int = htonl(host_int);
+  int32_t netlong = htonl(hostlong);
   
-  stack[0].ival = net_int;
+  stack[0].ival = netlong;
   
   return 0;
 }
 
 int32_t SPVM__Sys__Socket__htons(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int16_t host_short = stack[0].sval;
+  int16_t hostshort = stack[0].sval;
   
-  int16_t net_short = htons(host_short);
+  int16_t netshort = htons(hostshort);
   
-  stack[0].sval = net_short;
+  stack[0].sval = netshort;
   
   return 0;
 }
 
 int32_t SPVM__Sys__Socket__ntohl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t net_int = stack[0].ival;
+  int32_t netlong = stack[0].ival;
   
-  int32_t host_int = ntohl(net_int);
+  int32_t hostlong = ntohl(netlong);
   
-  stack[0].ival = host_int;
+  stack[0].ival = hostlong;
   
   return 0;
 }
 
 int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int16_t net_short = stack[0].sval;
+  int16_t netshort = stack[0].sval;
   
-  int16_t host_short = htons(net_short);
+  int16_t hostshort = htons(netshort);
   
-  stack[0].sval = host_short;
+  stack[0].sval = hostshort;
   
   return 0;
 }
