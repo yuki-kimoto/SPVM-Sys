@@ -35,7 +35,7 @@ class Sys::Socket {
 
   native static method setsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval : int);
 
-  native static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval_ref : string[], $optlen_ref : int*);
+  native static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval_ref : mutable string, $optlen_ref : int*);
 
   native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
   
