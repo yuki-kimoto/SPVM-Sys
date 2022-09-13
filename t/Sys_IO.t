@@ -11,7 +11,8 @@ use SPVM 'TestCase::Sys::IO';
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
-ok(1);
+my $test_dir = "$FindBin::Bin";
+ok(SPVM::TestCase::Sys::IO->fopen($test_dir));
 
 # All object is freed
 my $end_memory_blocks_count = SPVM::get_memory_blocks_count();

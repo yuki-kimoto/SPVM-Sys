@@ -206,7 +206,7 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   int32_t pointer_fields_length = 1;
-  void* obj_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::FileStream", stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
+  void* obj_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::IO::FileStream", stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_stream;
@@ -234,7 +234,7 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  void* obj_stream = env->new_pointer_by_name(env, stack, "Sys::FileStream", stream, &e, FILE_NAME, __LINE__);
+  void* obj_stream = env->new_pointer_by_name(env, stack, "Sys::IO::FileStream", stream, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_stream;
@@ -276,7 +276,7 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  void* obj_new_stream = env->new_pointer_by_name(env, stack, "Sys::FileStream", new_stream, &e, FILE_NAME, __LINE__);
+  void* obj_new_stream = env->new_pointer_by_name(env, stack, "Sys::IO::FileStream", new_stream, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_new_stream;
@@ -747,7 +747,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
 
   int32_t pointer_fields_length = 1;
-  void* obj_dir_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::DirStream", dir_stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
+  void* obj_dir_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::IO::DirStream", dir_stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_dir_stream;
