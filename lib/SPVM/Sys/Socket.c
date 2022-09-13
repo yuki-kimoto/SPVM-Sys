@@ -465,15 +465,15 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_input_address = stack[0].oval;
+  void* obj_in = stack[0].oval;
   
-  if (!obj_input_address) {
+  if (!obj_in) {
     return env->die(env, stack, "The input address must be defined", FILE_NAME, __LINE__);
   }
   
-  struct in_addr* input_address = env->get_pointer(env, stack, obj_input_address);
+  struct in_addr* in = env->get_pointer(env, stack, obj_in);
   
-  char* output_address = inet_ntoa(*input_address);
+  char* output_address = inet_ntoa(*in);
   
   void* obj_output_address;
   if (output_address) {
@@ -490,25 +490,25 @@ int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t address_family = stack[0].ival;
+  int32_t af = stack[0].ival;
   
-  void* obj_input_address = stack[1].oval;
+  void* obj_src = stack[1].oval;
   
-  if (!obj_input_address) {
-    return env->die(env, stack, "The address family must be defined", FILE_NAME, __LINE__);
+  if (!obj_src) {
+    return env->die(env, stack, "The input address(src) must be defined", FILE_NAME, __LINE__);
   }
   
-  const char* input_address = env->get_chars(env, stack, obj_input_address);
+  const char* src = env->get_chars(env, stack, obj_src);
   
-  void* obj_output_address = stack[2].oval;
+  void* obj_dst = stack[2].oval;
   
-  if (!obj_output_address) {
-    return env->die(env, stack, "The output address must be defined", FILE_NAME, __LINE__);
+  if (!obj_dst) {
+    return env->die(env, stack, "The output address(dst) must be defined", FILE_NAME, __LINE__);
   }
   
-  void* output_address = env->get_pointer(env, stack, obj_output_address);
+  void* dst = env->get_pointer(env, stack, obj_dst);
   
-  int32_t success = inet_pton(address_family, input_address, output_address);
+  int32_t success = inet_pton(af, src, dst);
   
   if (success == -1) {
     env->die(env, stack, "[System Error]inet_pton failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
@@ -523,7 +523,7 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   // The address family
-  int32_t address_family = stack[0].ival;
+  int32_t af = stack[0].ival;
   
   // The input address
   void* obj_input_address = stack[1].oval;
@@ -542,7 +542,7 @@ int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
   // The size of the output address
   int32_t size = stack[3].ival;
   
-  const char* output_address_ret = inet_ntop(address_family, input_address, output_address, size);
+  const char* output_address_ret = inet_ntop(af, input_address, output_address, size);
   
   void* obj_output_address_ret = NULL;
   if (output_address_ret) {

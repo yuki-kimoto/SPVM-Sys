@@ -39,13 +39,13 @@ class Sys::Socket {
 
   native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
   
-  native static method inet_aton : int ($input_address : string, $output_address : Sys::Socket::In_addr);
+  native static method inet_aton : int ($cp : string, $inp : Sys::Socket::In_addr);
 
-  native static method inet_ntoa : string ($in_addr : Sys::Socket::In_addr);
+  native static method inet_ntoa : string ($in : Sys::Socket::In_addr);
 
-  native static method inet_pton : int ($address_family : int, $input_address : string, $output_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
+  native static method inet_pton : int ($af : int, $src : string, $dst : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
   
-  native static method inet_ntop : string ($address_family : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $output_address : mutable string, $size : int);
+  native static method inet_ntop : string ($af : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $output_address : mutable string, $size : int);
   
   native static method htonl : int ($host_int : int);
   

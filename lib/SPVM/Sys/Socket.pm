@@ -203,6 +203,12 @@ inet_aton() converts the Internet host address cp from the IPv4 numbers-and-dots
 
 See the detail of the L<inet_aton|https://linux.die.net/man/3/inet_aton> function in the case of Linux.
 
+The input address(inp) is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
+
+The input address(cp) must be defined. Otherwise an exception will be thrown.
+
+The output address(inp) must be defined. Otherwise an exception will be thrown.
+
 =head2 inet_ntoa
 
   static method inet_ntoa : string ($in : Sys::Socket::In_addr);
@@ -211,13 +217,23 @@ The inet_ntoa() function converts the Internet host address in, given in network
 
 See the detail of the L<inet_ntoa|https://linux.die.net/man/3/inet_ntoa> function in the case of Linux.
 
+The input address(in) is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
+
+The input address must be defined. Otherwise an exception will be thrown.
+
 =head2 inet_pton
 
-  static method inet_pton : int ($address_family : int, $input_address : string, $output_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
+  static method inet_pton : int ($af : int, $src : string, $dst : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
+
+This function converts the character string src into a network address structure in the af address family, then copies the network address structure to dst. The af argument must be either AF_INET or AF_INET6.
+
+See the detail of the L<inet_pton|https://linux.die.net/man/3/inet_pton> function in the case of Linux.
+
+
 
 =head2 inet_ntop
 
-  static method inet_ntop : string ($address_family : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $output_address : mutable string, $size : int);
+  static method inet_ntop : string ($af : int, $input_address : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $output_address : mutable string, $size : int);
 
 =head2 htonl
 
