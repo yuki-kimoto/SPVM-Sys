@@ -1,5 +1,7 @@
 class Sys::Socket::Addrinfo {
+  # Class methods
   native static method new : Sys::Socket::Addrinfo ();
   
+  # Instance methods
   native method DESTROY : void ();
 }
