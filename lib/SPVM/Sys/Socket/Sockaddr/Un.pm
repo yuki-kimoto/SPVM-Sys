@@ -16,6 +16,10 @@ C<Sys::Socket::Sockaddr::Un> is the class for the C<struct sockaddr_un> in C<C l
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
+=head1 Inheritance
+
+This class inherits L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>.
+
 =head1 Class Methods
 
 =head2 new

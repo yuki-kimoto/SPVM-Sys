@@ -33,10 +33,10 @@ int32_t SPVM__Sys__Socket__Sockaddr__Storage__DESTROY(SPVM_ENV* env, SPVM_VALUE*
   
   struct sockaddr_storage* socket_address = env->get_pointer(env, stack, obj_socket_address);
   
-  if (socket_address) {
-    env->free_memory_stack(env, stack, socket_address);
-    env->set_pointer(env, stack, obj_socket_address, NULL);
-  }
+  assert(socket_address);
+  
+  env->free_memory_stack(env, stack, socket_address);
+  env->set_pointer(env, stack, obj_socket_address, NULL);
   
   return 0;
 }
@@ -47,12 +47,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Storage__ss_family(SPVM_ENV* env, SPVM_VALU
   
   struct sockaddr_storage* socket_address = env->get_pointer(env, stack, obj_self);
   
-  if (socket_address) {
-    stack[0].ival = socket_address->ss_family;
-  }
-  else {
-    assert(0);
-  }
+  stack[0].ival = socket_address->ss_family;
   
   return 0;
 }
@@ -63,12 +58,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Storage__set_ss_family(SPVM_ENV* env, SPVM_
   
   struct sockaddr_storage* socket_address = env->get_pointer(env, stack, obj_self);
   
-  if (socket_address) {
-    socket_address->ss_family = stack[1].ival;
-  }
-  else {
-    assert(0);
-  }
+  socket_address->ss_family = stack[1].ival;
   
   return 0;
 }

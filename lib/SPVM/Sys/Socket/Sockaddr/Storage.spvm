@@ -1,8 +1,9 @@
 class Sys::Socket::Sockaddr::Storage extends Sys::Socket::Sockaddr : pointer_t {
-  use Sys::Socket::Constant as Sock;
-
+  
+  # Class methods
   native static method new : Sys::Socket::Sockaddr::Storage ();
   
+  # Instance methods
   native method DESTROY : void ();
   
   method sa_family : int () {
