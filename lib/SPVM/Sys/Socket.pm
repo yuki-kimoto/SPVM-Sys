@@ -171,7 +171,11 @@ The same as L</"setsockopt">, but the option value can be specifed by the C<int>
 
 =head2 getsockopt
 
-  static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval_ref : string[], $optlen_ref : int*);
+  static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : mutable string, $optlen_ref : int*);
+
+getsockopt() and setsockopt() manipulate options for the socket referred to by the file descriptor sockfd. Options may exist at multiple protocol levels; they are always present at the uppermost socket level.
+
+See the detail of the L<getsockopt|https://linux.die.net/man/2/getsockopt> function in the case of Linux.
 
 =head2 getsockopt_int
 

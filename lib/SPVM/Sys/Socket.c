@@ -318,8 +318,15 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The option value must be defined", FILE_NAME, __LINE__);
   }
   optval = (char*)env->get_chars(env, stack, obj_optval);
+  int32_t optval_length = env->length(env, stack, obj_optval);
 
   int32_t optlen = stack[4].ival;
+  if (!(optlen >= 0)) {
+    env->die(env, stack, "The option length must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  if (!(optlen <= optval_length)) {
+    env->die(env, stack, "The length of the option value must be less than or equal to the option length", FILE_NAME, __LINE__);
+  }
   
   int32_t status = setsockopt(sockfd, level, optname, optval, optlen);
   
@@ -358,19 +365,21 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t optname = stack[2].ival;
   
-  // string[1]
-  void* obj_optval_ref = stack[3].oval;
-  if (!obj_optval_ref) {
-    return env->die(env, stack, "The reference of the option value must be defined", FILE_NAME, __LINE__);
+  void* obj_optval = stack[3].oval;
+  char* optval = NULL;
+  if (!obj_optval) {
+    return env->die(env, stack, "The option value must be defined", FILE_NAME, __LINE__);
   }
-  int32_t optval_ref_length = env->length(env, stack, obj_optval_ref);
-  if (!(optval_ref_length >= 1)) {
-    return env->die(env, stack, "The length of the reference of the option value must be greater than or equal to 0", FILE_NAME, __LINE__);
-  }
-  void* obj_optval = env->get_elem_object(env, stack, obj_optval_ref, 0);
-  char* optval = (char*)env->get_chars(env, stack, obj_optval);
+  optval = (char*)env->get_chars(env, stack, obj_optval);
+  int32_t optval_length = env->length(env, stack, obj_optval);
 
   int32_t* optlen_ref = stack[4].iref;
+  if (!(*optlen_ref >= 0)) {
+    env->die(env, stack, "The option length must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  if (!(*optlen_ref <= optval_length)) {
+    env->die(env, stack, "The length of the option value must be less than or equal to the option length", FILE_NAME, __LINE__);
+  }
   
   int int_optlen = *optlen_ref;
   int32_t status = getsockopt(sockfd, level, optname, optval, &int_optlen);
@@ -379,9 +388,6 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]getsockopt failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
-  
-  void* obj_got_optval = env->new_string(env, stack, optval, int_optlen);
-  env->set_elem_object(env, stack, obj_optval_ref, 0, obj_got_optval);
   
   *optlen_ref = int_optlen;
   
@@ -397,17 +403,13 @@ int32_t SPVM__Sys__Socket__getsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int int_optval = int32_optval;
   
-  int32_t optlen = sizeof(int);
-  
-  void* obj_optval_ref = env->new_string_array(env, stack, 1);
-  
-  void* obj_optval = env->new_string(env, stack, NULL, optlen);
+  void* obj_optval = env->new_string(env, stack, NULL, sizeof(int));
   char* optval = (char*)env->get_chars(env, stack, obj_optval);
-  memcpy(optval, &int_optval, optlen);
-  env->set_elem_object(env, stack, obj_optval_ref, 0, obj_optval);
+  memcpy(optval, &int_optval, sizeof(int));
   
-  stack[3].oval = obj_optval_ref;
+  stack[3].oval = obj_optval;
   
+  int32_t optlen = sizeof(int);
   stack[4].iref = &optlen;
   
   return SPVM__Sys__Socket__getsockopt(env, stack);
