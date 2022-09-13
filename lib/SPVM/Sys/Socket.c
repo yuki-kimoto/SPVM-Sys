@@ -618,13 +618,13 @@ int32_t SPVM__Sys__Socket__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = ioctlsocket(s, cmd, &arg_u_long);
 
   if (!(status == 0)) {
-    env->die(env, stack, "[System Error]ioctlsocket failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]ioctlsocket failed:socket error", FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
   *argp = arg_u_long;
   
-  stack[0].ival = ret;
+  stack[0].ival = status;
   
   return 0;
 #endif
