@@ -1,6 +1,9 @@
 0.02 2022-09-13
   [Incompatible Changes]
     * Remove Sys::IO->freopen.
+    * Simplify the implementation of the methods for file test in Sys::FileTest
+      If the file doesn't exists, an exception will be thrown except for e.
+      
 0.01 2022-09-13
   
   * First experimental release

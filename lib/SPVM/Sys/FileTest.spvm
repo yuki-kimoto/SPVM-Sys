@@ -4,9 +4,6 @@ class Sys::FileTest {
   use Sys::IO::Constant as IOC;
   use Sys::User;
 
-  # static method r : int ($file : string);
-  # static method w : int ($file : string);
-  # static method x : int ($file : string);
   static method o : int ($file : string) {
     
     unless ($file) {
@@ -18,15 +15,8 @@ class Sys::FileTest {
     Sys::IO->stat($file, $stat);
     
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if ($stat->st_uid == Sys::User->geteuid) {
-        $ok = 1;
-      }
+    if ($stat->st_uid == Sys::User->geteuid) {
+      $ok = 1;
     }
     
     return $ok;
@@ -88,15 +78,8 @@ class Sys::FileTest {
     Sys::IO->stat($file, $stat);
     
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if ($stat->st_uid == Sys::User->getuid) {
-        $ok = 1;
-      }
+    if ($stat->st_uid == Sys::User->getuid) {
+      $ok = 1;
     }
     
     return $ok;
@@ -114,7 +97,10 @@ class Sys::FileTest {
     
     my $file_exist = 0;
     if ($@) {
-      unless (error == class_id Error::System) {
+      if (error == class_id Error::System) {
+        $@ = undef;
+      }
+      else {
         die $@;
       }
     }
@@ -168,25 +154,14 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
-
-    my $regular_file_exist = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      $stat->st_mode;
-      IOC->S_IFMT;
-      IOC->S_IFREG;
-      
-      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFREG) {
-        $regular_file_exist = 1;
-      }
+    Sys::IO->stat($file, $stat);
+    
+    my $ok = 0;
+    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFREG) {
+      $ok = 1;
     }
     
-    return $regular_file_exist;
+    return $ok;
   }
   
   static method d : int ($file : string) {
@@ -197,21 +172,14 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
-
-    my $directory_exist = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFDIR) {
-        $directory_exist = 1;
-      }
+    Sys::IO->stat($file, $stat);
+    
+    my $ok = 0;
+    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFDIR) {
+      $ok = 1;
     }
     
-    return $directory_exist;
+    return $ok;
   }
   
   static method l : int ($file : string) {
@@ -222,19 +190,12 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
+    Sys::IO->stat($file, $stat);
     
     # Symbolic link
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFLNK) {
-        $ok = 1;
-      }
+    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFLNK) {
+      $ok = 1;
     }
     
     return $ok;
@@ -248,19 +209,12 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
+    Sys::IO->stat($file, $stat);
     
     # FIFO/PIPE
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFIFO) {
-        $ok = 1;
-      }
+    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFIFO) {
+      $ok = 1;
     }
     
     return $ok;
@@ -274,19 +228,12 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
+    Sys::IO->stat($file, $stat);
     
     # Socket
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFSOCK) {
-        $ok = 1;
-      }
+    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFSOCK) {
+      $ok = 1;
     }
     
     return $ok;
@@ -300,19 +247,12 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
+    Sys::IO->stat($file, $stat);
     
     # Block device
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFBLK) {
-        $ok = 1;
-      }
+    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFBLK) {
+      $ok = 1;
     }
     
     return $ok;
@@ -326,25 +266,16 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
+    Sys::IO->stat($file, $stat);
     
     # Character device
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFCHR) {
-        $ok = 1;
-      }
+    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFCHR) {
+      $ok = 1;
     }
     
     return $ok;
   }
-  
-  # static method t : int ($file : string);
   
   static method u : int ($file : string) {
     
@@ -354,19 +285,12 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
+    Sys::IO->stat($file, $stat);
     
     # Character device
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if ($stat->st_mode & IOC->S_ISUID) {
-        $ok = 1;
-      }
+    if ($stat->st_mode & IOC->S_ISUID) {
+      $ok = 1;
     }
     
     return $ok;
@@ -380,19 +304,12 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
+    Sys::IO->stat($file, $stat);
     
     # Character device
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if ($stat->st_mode & IOC->S_ISGID) {
-        $ok = 1;
-      }
+    if ($stat->st_mode & IOC->S_ISGID) {
+      $ok = 1;
     }
     
     return $ok;
@@ -406,26 +323,16 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    eval { Sys::IO->stat($file, $stat); };
+    Sys::IO->stat($file, $stat);
     
     # Character device
     my $ok = 0;
-    if ($@) {
-      unless (error == class_id Error::System) {
-        die $@;
-      }
-    }
-    else {
-      if ($stat->st_mode & IOC->S_ISVTX) {
-        $ok = 1;
-      }
+    if ($stat->st_mode & IOC->S_ISVTX) {
+      $ok = 1;
     }
     
     return $ok;
   }
-  
-  # static method T : int ($file : string);
-  # static method B : int ($file : string);
   
   static method M : double ($file : string, $base_time : long) {
     
@@ -477,4 +384,18 @@ class Sys::FileTest {
     
     return $result_time;
   }
+
+=pod
+
+Not implemented methods
+
+  static method r : int ($file : string);
+  static method w : int ($file : string);
+  static method x : int ($file : string);
+  static method t : int ($file : string);
+  static method T : int ($file : string);
+  static method B : int ($file : string);
+
+=cut
+
 }

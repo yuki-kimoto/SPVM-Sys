@@ -1,5 +1,20 @@
 class TestCase::Sys::FileTest {
   use Sys::FileTest;
+
+  static method e_min : int () {
+    
+    {
+      # Not exists
+      {
+        my $file = "t/ftest/not_found_file";
+        my $result = Sys::FileTest->e($file);
+        unless ($result == 0) {
+          return 0;
+        }
+      }
+    }
+    return 1;
+  }
   
   static method s : int () {
     
@@ -71,8 +86,8 @@ class TestCase::Sys::FileTest {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        my $result = Sys::FileTest->f($file);
-        unless ($result == 0) {
+        eval { Sys::FileTest->f($file); };
+        unless ($@) {
           return 0;
         }
       }
@@ -95,6 +110,8 @@ class TestCase::Sys::FileTest {
         }
       }
     }
+    
+    $@ = undef;
     
     return 1;
   }
@@ -105,8 +122,8 @@ class TestCase::Sys::FileTest {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        my $result = Sys::FileTest->d($file);
-        unless ($result == 0) {
+        eval { Sys::FileTest->d($file); };
+        unless ($@) {
           return 0;
         }
       }
@@ -129,6 +146,8 @@ class TestCase::Sys::FileTest {
         }
       }
     }
+
+    $@ = undef;
     
     return 1;
   }
