@@ -17,7 +17,6 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 ok(SPVM::TestCase::Sys::FileTest->e);
 ok(SPVM::TestCase::Sys::FileTest->f);
 ok(SPVM::TestCase::Sys::FileTest->d);
-ok(SPVM::TestCase::Sys::FileTest->s);
 
 # All object is freed
 my $end_memory_blocks_count = SPVM::get_memory_blocks_count();
