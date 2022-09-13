@@ -618,7 +618,7 @@ int32_t SPVM__Sys__Socket__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = ioctlsocket(s, cmd, &arg_u_long);
 
   if (!(status == 0)) {
-    env->die(env, stack, "[System Error]ioctlsocket failed:socket error", FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]ioctlsocket failed: socket error", FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
@@ -630,19 +630,25 @@ int32_t SPVM__Sys__Socket__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Socket__ioctlsocket_int(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifndef _WIN32
+  env->die(env, stack, "The \"closesocket\" method in the class \"Sys::Socket\" is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   
-  int32_t int32_arg = stack[2].ival;
+  int32_t s = stack[0].ival;
   
-  int int_arg = int32_arg;
+  int32_t status = closesocket(s);
   
-  void* obj_arg = env->new_string(env, stack, NULL, sizeof(int));
-  char* arg = (char*)env->get_chars(env, stack, obj_arg);
-  memcpy(arg, &int_arg, sizeof(int));
+  if (!(status == 0)) {
+    env->die(env, stack, "[System Error]closesocket failed: socket error", FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
   
-  stack[2].oval = obj_arg;
+  stack[0].ival = status;
   
-  return SPVM__Sys__Socket__ioctlsocket(env, stack);
+  return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Socket__WSAPoll(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -663,27 +669,6 @@ int32_t SPVM__Sys__Socket__WSAPoll(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == -1) {
     env->die(env, stack, "[System Error]WSAPoll failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifndef _WIN32
-  env->die(env, stack, "The \"closesocket\" method in the class \"Sys::Socket\" is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  
-  int32_t fd = stack[0].ival;
-  
-  int32_t status = closesocket(fd);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]closesocket failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   

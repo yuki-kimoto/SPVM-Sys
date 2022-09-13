@@ -285,7 +285,9 @@ See the detail of the L<ioctlsocket|https://docs.microsoft.com/en-us/windows/win
 
 =head2 closesocket
 
-  static method closesocket : int ($fd : int);
+  static method closesocket : int ($s : int);
+
+See the detail of the L<closesocket|https://docs.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-closesocket> function in the case of Windows.
 
 =head2 WSAPoll
 
