@@ -193,22 +193,6 @@ If the system call failed, an exception will be thrown with the error code set t
 
   static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
 
-=head2 getaddrinfo
-
-  static method getaddrinfo : int ($node : string, $service : string,
-                $hints : Sys::Socket::Addrinfo,
-                $res : Sys::Socket::Addrinfo[]);
-
-=head2 getnameinfo
-
-  static method getnameinfo : int ($addr : Sys::Socket::Sockaddr, $addrlen : int,
-                $host : mutable string, $hostlen : int,
-                $serv : mutable string, $servlen : int, $flag : int);
-
-=head2 gai_strerror
-
-  static method gai_strerror : string($gai_error_code : int);
-
 =head2 inet_aton
 
   static method inet_aton : int ($input_address : string, $output_address : Sys::Socket::In_addr);
@@ -252,6 +236,22 @@ If the system call failed, an exception will be thrown with the error code set t
 =head2 WSAPoll
 
   static method WSAPoll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
+
+=head2 getaddrinfo
+
+  static method getaddrinfo : int ($node : string, $service : string,
+                $hints : Sys::Socket::Addrinfo,
+                $res : Sys::Socket::Addrinfo[]);
+
+=head2 getnameinfo
+
+  static method getnameinfo : int ($addr : Sys::Socket::Sockaddr, $addrlen : int,
+                $host : mutable string, $hostlen : int,
+                $serv : mutable string, $servlen : int, $flag : int);
+
+=head2 gai_strerror
+
+  static method gai_strerror : string($gai_error_code : int);
 
 =head2 ioctl_int_portable
 
