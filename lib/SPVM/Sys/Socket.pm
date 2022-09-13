@@ -9,6 +9,8 @@ SPVM::Sys::Socket - Socket System Call
 =head1 Usage
   
   use Sys::Socket;
+  use Sys::Socket::Constant as Sock;
+  my $socket = Sys::Socket->socket(Sock->AF_INET, Sock->SOCK_STREAM, 0);
 
 =head1 Description
 
@@ -35,7 +37,7 @@ The connect() system call connects the socket referred to by the file descriptor
 
 See the detail of the L<connect|https://linux.die.net/man/2/connect> function in the case of Linux.
 
-The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
 If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
@@ -47,7 +49,7 @@ When a socket is created with socket(2), it exists in a name space (address fami
 
 See the detail of the L<bind|https://linux.die.net/man/2/bind> function in the case of Linux.
 
-The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
 The address must be defined. Otherwise an exception will be thrown.
 
@@ -61,7 +63,7 @@ The accept() system call is used with connection-based socket types (SOCK_STREAM
 
 See the detail of the L<accept|https://linux.die.net/man/2/accept> function in the case of Linux.
 
-The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
 The address must be defined. Otherwise an exception will be thrown.
 
@@ -117,7 +119,7 @@ getpeername() returns the address of the peer connected to the socket sockfd, in
 
 See the detail of the L<getpeername|https://linux.die.net/man/2/getpeername> function in the case of Linux.
 
-The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
 The address must be defined. Otherwise an exception will be thrown.
 
@@ -131,7 +133,7 @@ getsockname() returns the current address to which the socket sockfd is bound, i
 
 See the detail of the L<getsockname|https://linux.die.net/man/2/getsockname> function in the case of Linux.
 
-The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
 The address must be defined. Otherwise an exception will be thrown.
 
@@ -193,7 +195,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
   static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
 
-The same as L</"setsockopt">, but the option value can be specifed by the C<int> type.
+The same as L</"getsockopt">, but the option value can be specifed by the C<int> type.
 
 =head2 inet_aton
 
@@ -242,6 +244,12 @@ The output address(dst) must be defined. Otherwise an exception will be thrown.
 This function converts the network address structure src in the af address family into a character string. The resulting string is copied to the buffer pointed to by dst, which must be a non-NULL pointer. The caller specifies the number of bytes available in this buffer in the argument size.
 
 See the detail of the L<inet_ntop|https://linux.die.net/man/3/inet_ntop> function in the case of Linux.
+
+The input address(src) is assumed to be L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> or L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> corresponding to the address family(af).
+
+The input address(src) must be defined. Otherwise an exception will be thrown.
+
+The output address(dst) must be defined. Otherwise an exception will be thrown.
 
 =head2 htonl
 
@@ -303,6 +311,8 @@ The WSAPoll function determines status of one or more sockets.
 
 See the detail of the L<WSAPoll|https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-wsapoll> function in the case of Windows.
 
+The file descriptors(fds) is a L<Sys::IO::PollfdArray> object.
+
 If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 getaddrinfo
@@ -339,39 +349,26 @@ The socket address(sa) is a L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>
 
   static method gai_strerror : string($errcode : int);
 
+The gai_strerror() function translates these error codes to a human readable string, suitable for error reporting.
+
 See the detail of the L<getnameinfo|https://linux.die.net/man/3/gai_strerror> function in the case of Linux.
 
 =head2 ioctl_int_portable
 
-  static method ioctl_int_portable : int ($fd : int, $request : int, $request_arg_ref : int*) {
-    if (Sys->is_D_WIN32) {
-      return Sys::Socket->ioctlsocket($fd, $request, $request_arg_ref);
-    }
-    else {
-      my $int_object = Int->new($$request_arg_ref);
-      return Sys::IO->ioctl($fd, $request, $int_object);
-      $$request_arg_ref = $int_object->value;
-    }
-  }
+  static method ioctl_int_portable : int ($fd : int, $request : int, $request_arg_ref : int*);
+
+The same as L<ioctl_int in Sys::IO|SPVM::Sys::IO/"ioctl_int">, but portable in socket.
 
 =head2 poll_portable
 
-  static method poll_portable : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int) {
-    if (Sys->is_D_WIN32) {
-      return Sys::Socket->WSAPoll($fds, $nfds, $timeout);
-    }
-    else {
-      return Sys::IO->poll($fds, $nfds, $timeout);
-    }
-  }
+  static method poll_portable : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
+
+The same as L<poll in Sys::IO|SPVM::Sys::IO/"poll">, but portable in socket.
+
+The file descriptors(fds) is a L<Sys::IO::PollfdArray> object.
 
 =head2 close_portable
 
-  static method close_portable : int ($fd : int) {
-    if (Sys->is_D_WIN32) {
-      return Sys::Socket->closesocket($fd);
-    }
-    else {
-      return Sys::IO->close($fd);
-    }
-  }
+  static method close_portable : int ($fd : int);
+
+The same as L<close in Sys::IO|SPVM::Sys::IO/"close">, but portable in socket.

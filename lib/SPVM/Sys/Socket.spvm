@@ -1,12 +1,12 @@
 class Sys::Socket {
+  use Fn;
+  use Sys;
+  use Sys::IO;
+  use Sys::Socket::Constant;
   use Sys::Socket::Addrinfo;
   use Sys::Socket::Sockaddr;
   use Sys::Socket::In_addr;
   use Sys::Socket::In6_addr;
-  use Fn;
-  use Sys::Socket::Constant as Sock;
-  use Sys::IO;
-  use Sys;
   use Sys::IO::PollfdArray;
 
   native static method socket : int ($domain : int, $type : int, $protocol : int);
