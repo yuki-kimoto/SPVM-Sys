@@ -98,6 +98,36 @@ int32_t SPVM__Sys__Socket__bind(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__accept(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t sockfd = stack[0].ival;
+  
+  void* obj_addr = stack[1].oval;
+  
+  if (!obj_addr) {
+    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
+  }
+  
+  struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
+  
+  int32_t* addrlen_ref = stack[2].iref;
+  
+  socklen_t sl_addrlen = *addrlen_ref;
+  
+  int32_t status = accept(sockfd, addr, &sl_addrlen);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]accept failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  *addrlen_ref = sl_addrlen;
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__listen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
@@ -172,6 +202,66 @@ int32_t SPVM__Sys__Socket__send(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__getpeername(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t sockfd = stack[0].ival;
+  
+  void* obj_addr = stack[1].oval;
+  
+  if (!obj_addr) {
+    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
+  }
+  
+  struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
+  
+  int32_t* addrlen_ref = stack[2].iref;
+  
+  socklen_t sl_addrlen = *addrlen_ref;
+  
+  int32_t status = getpeername(sockfd, addr, &sl_addrlen);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]getpeername failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  *addrlen_ref = sl_addrlen;
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__getsockname(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t sockfd = stack[0].ival;
+  
+  void* obj_addr = stack[1].oval;
+  
+  if (!obj_addr) {
+    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
+  }
+  
+  struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
+  
+  int32_t* addrlen_ref = stack[2].iref;
+  
+  socklen_t sl_addrlen = *addrlen_ref;
+  
+  int32_t status = getsockname(sockfd, addr, &sl_addrlen);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]getsockname failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  *addrlen_ref = sl_addrlen;
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
   env->die(env, stack, "socketpair is not supported on this system", FILE_NAME, __LINE__);
@@ -184,29 +274,29 @@ int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t protocol = stack[2].ival;
 
-  void* obj_pair = stack[3].oval;
+  void* obj_sv = stack[3].oval;
   
-  if (!obj_pair) {
-    return env->die(env, stack, "The pair must be defined", FILE_NAME, __LINE__);
+  if (!obj_sv) {
+    return env->die(env, stack, "The output of the socket pair(sv) must be defined", FILE_NAME, __LINE__);
   }
   
-  int32_t* pair = env->get_elems_int(env, stack, obj_pair);
-  int32_t pair_length = env->length(env, stack, obj_pair);
+  int32_t* sv = env->get_elems_int(env, stack, obj_sv);
+  int32_t sv_length = env->length(env, stack, obj_sv);
   
-  if (!(pair_length >= 2)) {
-    return env->die(env, stack, "The length of the pair must be greater than or equal to 2", FILE_NAME, __LINE__);
+  if (!(sv_length >= 2)) {
+    return env->die(env, stack, "The length of the output of the socket pair(sv) must be greater than or equal to 2", FILE_NAME, __LINE__);
   }
   
-  int int_pair[2];
-  int32_t status = socketpair(domain, type, protocol, int_pair);
+  int int_sv[2];
+  int32_t status = socketpair(domain, type, protocol, int_sv);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]socketpair failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  pair[0] = int_pair[0];
-  pair[1] = int_pair[1];
+  sv[0] = int_sv[0];
+  sv[1] = int_sv[1];
   
   stack[0].ival = status;
   
@@ -337,96 +427,6 @@ int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]shutdown failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__accept(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t sockfd = stack[0].ival;
-  
-  void* obj_addr = stack[1].oval;
-  
-  if (!obj_addr) {
-    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
-  }
-  
-  struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
-  
-  int32_t* addrlen_ref = stack[2].iref;
-  
-  socklen_t sl_addrlen = *addrlen_ref;
-  
-  int32_t status = accept(sockfd, addr, &sl_addrlen);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]accept failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  *addrlen_ref = sl_addrlen;
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__getpeername(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t sockfd = stack[0].ival;
-  
-  void* obj_addr = stack[1].oval;
-  
-  if (!obj_addr) {
-    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
-  }
-  
-  struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
-  
-  int32_t* addrlen_ref = stack[2].iref;
-  
-  socklen_t sl_addrlen = *addrlen_ref;
-  
-  int32_t status = getpeername(sockfd, addr, &sl_addrlen);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]getpeername failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  *addrlen_ref = sl_addrlen;
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__getsockname(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t sockfd = stack[0].ival;
-  
-  void* obj_addr = stack[1].oval;
-  
-  if (!obj_addr) {
-    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
-  }
-  
-  struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
-  
-  int32_t* addrlen_ref = stack[2].iref;
-  
-  socklen_t sl_addrlen = *addrlen_ref;
-  
-  int32_t status = getsockname(sockfd, addr, &sl_addrlen);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]getsockname failed: %s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  *addrlen_ref = sl_addrlen;
   
   stack[0].ival = status;
   

@@ -25,47 +25,131 @@ The domain argument specifies a communication domain; this selects the protocol 
 
 See the detail of the L<socket|https://linux.die.net/man/2/socket> function in the case of Linux.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::Sysytem> class.
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 connect
 
   static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
 
+The connect() system call connects the socket referred to by the file descriptor sockfd to the address specified by addr. The addrlen argument specifies the size of addr. The format of the address in addr is determined by the address space of the socket sockfd; see socket(2) for further details.
+
+See the detail of the L<connect|https://linux.die.net/man/2/connect> function in the case of Linux.
+
+The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+
 =head2 bind
 
   static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+
+When a socket is created with socket(2), it exists in a name space (address family) but has no address assigned to it. bind() assigns the address specified by addr to the socket referred to by the file descriptor sockfd. addrlen specifies the size, in bytes, of the address structure pointed to by addr. Traditionally, this operation is called "assigning a name to a socket".
+
+See the detail of the L<bind|https://linux.die.net/man/2/bind> function in the case of Linux.
+
+The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+
+The address must be defined. Otherwise an exception will be thrown.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 accept
 
   static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
 
+The accept() system call is used with connection-based socket types (SOCK_STREAM, SOCK_SEQPACKET). It extracts the first connection request on the queue of pending connections for the listening socket, sockfd, creates a new connected socket, and returns a new file descriptor referring to that socket. The newly created socket is not in the listening state. The original socket sockfd is unaffected by this call.
+
+See the detail of the L<accept|https://linux.die.net/man/2/accept> function in the case of Linux.
+
+The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+
+The address must be defined. Otherwise an exception will be thrown.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+
 =head2 listen
 
   static method listen : int ($sockfd : int, $backlog : int);
+
+listen() marks the socket referred to by sockfd as a passive socket, that is, as a socket that will be used to accept incoming connection requests using accept(2).
+
+See the detail of the L<listen|https://linux.die.net/man/2/listen> function in the case of Linux.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 shutdown
 
   static method shutdown : int ($sockfd : int, $how : int);
 
+The shutdown() call causes all or part of a full-duplex connection on the socket associated with sockfd to be shut down. If how is SHUT_RD, further receptions will be disallowed. If how is SHUT_WR, further transmissions will be disallowed. If how is SHUT_RDWR, further receptions and transmissions will be disallowed.
+
+See the detail of the L<shutdown|https://linux.die.net/man/2/shutdown> function in the case of Linux.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+
 =head2 recv
 
   static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int);
+
+The recv() call is normally used only on a connected socket (see connect(2)) and is identical to recvfrom() with a NULL src_addr argument.
+
+See the detail of the L<recv|https://linux.die.net/man/2/recv> function in the case of Linux.
+
+The buffer(C<$buf> must be defined. Otherwise an exception will be thrown.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 send
 
   static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int);
 
+The send() call may be used only when the socket is in a connected state (so that the intended recipient is known). The only difference between send() and write(2) is the presence of flags. With a zero flags argument, send() is equivalent to write(2). Also, the following call
+
+The buffer(C<$buf> must be defined. Otherwise an exception will be thrown.
+
+See the detail of the L<send|https://linux.die.net/man/2/send> function in the case of Linux.
+
 =head2 getpeername
 
   static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+
+getpeername() returns the address of the peer connected to the socket sockfd, in the buffer pointed to by addr. The addrlen argument should be initialized to indicate the amount of space pointed to by addr. On return it contains the actual size of the name returned (in bytes). The name is truncated if the buffer provided is too small.
+
+See the detail of the L<getpeername|https://linux.die.net/man/2/getpeername> function in the case of Linux.
+
+The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+
+The address must be defined. Otherwise an exception will be thrown.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 getsockname
 
   static method getsockname : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
 
+getsockname() returns the current address to which the socket sockfd is bound, in the buffer pointed to by addr. The addrlen argument should be initialized to indicate the amount of space (in bytes) pointed to by addr. On return it contains the actual size of the socket address.
+
+See the detail of the L<getsockname|https://linux.die.net/man/2/getsockname> function in the case of Linux.
+
+The address(C<$addr>) is a L< Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+
+The address must be defined. Otherwise an exception will be thrown.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+
 =head2 socketpair
 
-  static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
+  static method socketpair : int ($domain : int, $type : int, $protocol : int, $sv : int[]);
+
+The socketpair() call creates an unnamed pair of connected sockets in the specified domain, of the specified type, and using the optionally specified protocol. For further details of these arguments, see socket(2).
+
+See the detail of the L<socketpair|https://linux.die.net/man/2/socketpair> function in the case of Linux.
+
+The output of the socket pair(sv) must be defined. Otherwise an exception will be thrown.
+
+The length of the output of the socket pair(sv) must be greater than or equal to 2. Otherwise an exception will be thrown.
+
+If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 setsockopt
 
