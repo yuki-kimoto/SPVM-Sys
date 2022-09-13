@@ -10,6 +10,7 @@ lib/SPVM/Sys.c
 lib/SPVM/Sys.config
 lib/SPVM/Sys.pm
 lib/SPVM/Sys.spvm
+lib/SPVM/Sys/FileTest.pm
 lib/SPVM/Sys/FileTest.spvm
 lib/SPVM/Sys/IO.c
 lib/SPVM/Sys/IO.config
