@@ -25,11 +25,11 @@ class Sys::IO {
   
   native static method ferror : int ($stream : Sys::IO::FileStream);
   
-  native static method fileno : int ($stream : Sys::IO::FileStream);
-  
   native static method fopen : Sys::IO::FileStream ($path : string, $mode : string);
   
   native static method fdopen : Sys::IO::FileStream ($fd : int, $mode : string);
+  
+  native static method fileno : int ($stream : Sys::IO::FileStream);
   
   native static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
   

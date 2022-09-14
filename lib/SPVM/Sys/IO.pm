@@ -90,16 +90,6 @@ See the detail of the L<ferror|https://linux.die.net/man/3/ferror> function in t
 
 The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
-=head2 fileno
-
-  static method fileno : int ($stream : Sys::IO::FileStream);
-
-The function fileno() examines the argument stream and returns its integer descriptor.
-
-See the detail of the L<fileno|https://linux.die.net/man/3/fileno> function in the case of Linux.
-
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
-
 =head2 fopen
 
   static method fopen : Sys::IO::FileStream ($path : string, $mode : string);
@@ -119,6 +109,16 @@ The fdopen() function associates a stream with the existing file descriptor, fd.
 See the detail of the L<fdopen|https://linux.die.net/man/3/fdopen> function in the case of Linux.
 
 The return value is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
+=head2 fileno
+
+  static method fileno : int ($stream : Sys::IO::FileStream);
+
+The function fileno() examines the argument stream and returns its integer descriptor.
+
+See the detail of the L<fileno|https://linux.die.net/man/3/fileno> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 fread
 
