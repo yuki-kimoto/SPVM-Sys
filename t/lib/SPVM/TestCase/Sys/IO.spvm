@@ -619,6 +619,8 @@ class TestCase::Sys::IO {
         return 0;
       }
       
+      warn "GGG $buffer->[0] $buffer->[1] $buffer->[2] $buffer->[3]";
+      
       unless ($buffer eq "a\n\0\0") {
         return 0;
       }
