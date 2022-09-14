@@ -108,7 +108,7 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The count must be more than or equal to 0", FILE_NAME, __LINE__);
   }
   
-  if (!(count < buffer_length)) {
+  if (!(count <= buffer_length)) {
     return env->die(env, stack, "The count must be less than the length of the buffer", FILE_NAME, __LINE__);
   }
   
