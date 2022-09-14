@@ -12,6 +12,7 @@ class TestCase::Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
+    my $file = "t/ftest/file_empty.txt";
     Sys::IO->stat($file, $stat);
     
     return 1;
