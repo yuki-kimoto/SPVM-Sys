@@ -1063,7 +1063,7 @@ int32_t SPVM__Sys__IO__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
   
-  spvm_warn("AAAAA %p", stat_buf);
+  spvm_warn("AAAAA %s %p", path, stat_buf);
   
   int32_t status = stat(path, stat_buf);
 
