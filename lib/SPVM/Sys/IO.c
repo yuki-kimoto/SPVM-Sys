@@ -1063,7 +1063,11 @@ int32_t SPVM__Sys__IO__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
   
+  spvm_warn("AAAAA %p", stat_buf);
+  
   int32_t status = stat(path, stat_buf);
+
+  spvm_warn("BBBB %d %p", status, stat_buf);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]stat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
