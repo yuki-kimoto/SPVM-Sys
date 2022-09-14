@@ -1,7 +1,7 @@
 class Sys::FileTest {
   use Sys::IO;
   use Sys::IO::Stat;
-  use Sys::IO::Constant as IOC;
+  use Sys::IO::Constant as IO;
   use Sys::User;
 
   static method o : int ($file : string) {
@@ -27,7 +27,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access($file, IOC->R_OK);
+    my $status = Sys::IO->access($file, IO->R_OK);
     
     my $ok = 0;
     if ($status == 0) {
@@ -42,7 +42,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access($file, IOC->W_OK);
+    my $status = Sys::IO->access($file, IO->W_OK);
     
     my $ok = 0;
     if ($status == 0) {
@@ -57,7 +57,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access($file, IOC->X_OK);
+    my $status = Sys::IO->access($file, IO->X_OK);
     
     my $ok = 0;
     if ($status == 0) {
@@ -91,24 +91,14 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $stat = Sys::IO::Stat->new;
+    my $status = Sys::IO->access($file, IO->F_OK);
     
-    eval { Sys::IO->stat($file, $stat); };
-    
-    my $file_exist = 0;
-    if ($@) {
-      if (error == class_id Error::System) {
-        $@ = undef;
-      }
-      else {
-        die $@;
-      }
-    }
-    else {
-      $file_exist = 1;
+    my $ok = 0;
+    if ($status == 0) {
+      $ok = 1;
     }
     
-    return $file_exist;
+    return $ok;
   }
   
   static method z : int ($file : string) {
@@ -157,7 +147,7 @@ class Sys::FileTest {
     Sys::IO->stat($file, $stat);
     
     my $ok = 0;
-    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFREG) {
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFREG) {
       $ok = 1;
     }
     
@@ -175,7 +165,7 @@ class Sys::FileTest {
     Sys::IO->stat($file, $stat);
     
     my $ok = 0;
-    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFDIR) {
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFDIR) {
       $ok = 1;
     }
     
@@ -194,7 +184,7 @@ class Sys::FileTest {
     
     # Symbolic link
     my $ok = 0;
-    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFLNK) {
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFLNK) {
       $ok = 1;
     }
     
@@ -213,7 +203,7 @@ class Sys::FileTest {
     
     # FIFO/PIPE
     my $ok = 0;
-    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFIFO) {
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFIFO) {
       $ok = 1;
     }
     
@@ -232,7 +222,7 @@ class Sys::FileTest {
     
     # Socket
     my $ok = 0;
-    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFSOCK) {
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFSOCK) {
       $ok = 1;
     }
     
@@ -251,7 +241,7 @@ class Sys::FileTest {
     
     # Block device
     my $ok = 0;
-    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFBLK) {
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFBLK) {
       $ok = 1;
     }
     
@@ -270,7 +260,7 @@ class Sys::FileTest {
     
     # Character device
     my $ok = 0;
-    if (($stat->st_mode & IOC->S_IFMT) == IOC->S_IFCHR) {
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFCHR) {
       $ok = 1;
     }
     
@@ -289,7 +279,7 @@ class Sys::FileTest {
     
     # Character device
     my $ok = 0;
-    if ($stat->st_mode & IOC->S_ISUID) {
+    if ($stat->st_mode & IO->S_ISUID) {
       $ok = 1;
     }
     
@@ -308,7 +298,7 @@ class Sys::FileTest {
     
     # Character device
     my $ok = 0;
-    if ($stat->st_mode & IOC->S_ISGID) {
+    if ($stat->st_mode & IO->S_ISGID) {
       $ok = 1;
     }
     
@@ -327,7 +317,7 @@ class Sys::FileTest {
     
     # Character device
     my $ok = 0;
-    if ($stat->st_mode & IOC->S_ISVTX) {
+    if ($stat->st_mode & IO->S_ISVTX) {
       $ok = 1;
     }
     
