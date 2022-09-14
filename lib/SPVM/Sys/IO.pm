@@ -16,48 +16,6 @@ C<Sys::IO> is the class for the file IO.
 
 =head1 Class Methods
 
-=head2 mkdir
-
-  static method mkdir : int ($path : string, $mode : int);
-
-mkdir() attempts to create a directory named pathname.
-
-See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the case of Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
-
-=head2 umask
-
-  static method umask : int ($mode : int);
-
-umask() sets the calling process's file mode creation mask (umask) to mask & 0777 (i.e., only the file permission bits of mask are used), and returns the previous value of the mask.
-
-See the detail of the L<umask|https://linux.die.net/man/2/umask> function in the case of Linux.
-
-=head2 rmdir
-
-  static method rmdir : int ($path : string);
-
-rmdir() deletes a directory, which must be empty.
-
-See the detail of the L<rmdir|https://linux.die.net/man/2/rmdir> function in the case of Linux.
-
-=head2 unlink
-
-  static method unlink : int ($pathname : string);
-
-unlink() deletes a name from the file system. If that name was the last link to a file and no processes have the file open the file is deleted and the space it was using is made available for reuse.
-
-See the detail of the L<unlink|https://linux.die.net/man/2/unlink> function in the case of Linux.
-
-=head2 rename
-
-  static method rename : int ($old_path : string, $new_path : string);
-
-rename() renames a file, moving it between directories if required. Any other hard links to the file (as created using link(2)) are unaffected. Open file descriptors for oldpath are also unaffected.
-
-See the detail of the L<rename|https://linux.die.net/man/2/rename> function in the case of Linux.
-
 =head2 open
 
   static method open : int ($path : string, $flags : int, $mode = 0 : int);
@@ -70,7 +28,7 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for th
 
 =head2 read
 
-  static method read : int ($fd : int, $buffer : mutable string, $count : int);
+  static method read : int ($fd : int, $buf : mutable string, $count : int);
 
 read() attempts to read up to count bytes from file descriptor fd into the buffer starting at buf.
 
@@ -247,6 +205,48 @@ Apply or remove an advisory lock on the open file specified by fd. The argument 
 See the detail of the L<flock|https://linux.die.net/man/2/flock> function in the case of Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the operation.
+
+=head2 mkdir
+
+  static method mkdir : int ($path : string, $mode : int);
+
+mkdir() attempts to create a directory named pathname.
+
+See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the case of Linux.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
+
+=head2 umask
+
+  static method umask : int ($mode : int);
+
+umask() sets the calling process's file mode creation mask (umask) to mask & 0777 (i.e., only the file permission bits of mask are used), and returns the previous value of the mask.
+
+See the detail of the L<umask|https://linux.die.net/man/2/umask> function in the case of Linux.
+
+=head2 rmdir
+
+  static method rmdir : int ($path : string);
+
+rmdir() deletes a directory, which must be empty.
+
+See the detail of the L<rmdir|https://linux.die.net/man/2/rmdir> function in the case of Linux.
+
+=head2 unlink
+
+  static method unlink : int ($pathname : string);
+
+unlink() deletes a name from the file system. If that name was the last link to a file and no processes have the file open the file is deleted and the space it was using is made available for reuse.
+
+See the detail of the L<unlink|https://linux.die.net/man/2/unlink> function in the case of Linux.
+
+=head2 rename
+
+  static method rename : int ($old_path : string, $new_path : string);
+
+rename() renames a file, moving it between directories if required. Any other hard links to the file (as created using link(2)) are unaffected. Open file descriptors for oldpath are also unaffected.
+
+See the detail of the L<rename|https://linux.die.net/man/2/rename> function in the case of Linux.
 
 =head2 chdir
 

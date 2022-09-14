@@ -18,6 +18,7 @@ my $test_dir = "$FindBin::Bin";
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->open($test_dir, "$tmp_dir"));
 }
+ok(SPVM::TestCase::Sys::IO->read($test_dir));
 ok(SPVM::TestCase::Sys::IO->close($test_dir));
 ok(SPVM::TestCase::Sys::IO->fopen($test_dir));
 ok(SPVM::TestCase::Sys::IO->fdopen($test_dir));
