@@ -225,32 +225,32 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t e = 0;
   
-  void* obj_buffer = stack[0].oval;
+  void* obj_ptr = stack[0].oval;
   
-  if (!obj_buffer) {
-    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
+  if (!obj_ptr) {
+    return env->die(env, stack, "The read buffer(ptr) must be defined", FILE_NAME, __LINE__);
   }
   
-  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
-  int32_t buffer_length = env->length(env, stack, obj_buffer);
+  char* ptr = (char*)env->get_chars(env, stack, obj_ptr);
+  int32_t ptr_length = env->length(env, stack, obj_ptr);
   
   int32_t size = stack[1].ival;
   if (!(size >= 0)) {
     return env->die(env, stack, "The size must be more than or equal to 0", FILE_NAME, __LINE__);
   }
   
-  int32_t data_length = stack[2].ival;
-  if (!(data_length >= 0)) {
-    return env->die(env, stack, "The data length must be more than or equal to 0", FILE_NAME, __LINE__);
+  int32_t nmemb = stack[2].ival;
+  if (!(nmemb >= 0)) {
+    return env->die(env, stack, "The data length(nmemb) must be more than or equal to 0", FILE_NAME, __LINE__);
   }
   
-  if (size == 0 || data_length == 0) {
+  if (size == 0 || nmemb == 0) {
     stack[0].ival = 0;
     return 0;
   }
   
-  if (!((buffer_length / size) <= data_length)) {
-    return env->die(env, stack, "The buffer length / the size must be less than or equal to the data length", FILE_NAME, __LINE__);
+  if (!((ptr_length / size) <= nmemb)) {
+    return env->die(env, stack, "The read buffer length / the size must be less than or equal to the data length", FILE_NAME, __LINE__);
   }
   
   void* obj_stream = stack[3].oval;
@@ -261,9 +261,9 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  int32_t fread_length = fread(buffer, size, data_length, stream);
+  int32_t read_length = fread(ptr, size, nmemb, stream);
   
-  stack[0].ival = fread_length;
+  stack[0].ival = read_length;
   
   return 0;
 }

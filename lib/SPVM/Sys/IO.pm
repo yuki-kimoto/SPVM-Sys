@@ -92,7 +92,7 @@ The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 fread
 
-  static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
+  static method fread : int ($ptr : mutable string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream);
 
 The function fread() reads nmemb elements of data, each size bytes long, from the stream pointed to by stream, storing them at the location given by ptr.
 

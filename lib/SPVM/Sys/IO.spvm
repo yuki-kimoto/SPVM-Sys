@@ -25,7 +25,7 @@ class Sys::IO {
   
   native static method fileno : int ($stream : Sys::IO::FileStream);
   
-  native static method fread : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
+  native static method fread : int ($ptr : mutable string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream);
   
   native static method feof : int ($stream : Sys::IO::FileStream);
   
