@@ -43,6 +43,7 @@ ok(SPVM::TestCase::Sys::IO->feof($test_dir));
 ok(SPVM::TestCase::Sys::IO->ferror($test_dir));
 ok(SPVM::TestCase::Sys::IO->clearerr($test_dir));
 ok(SPVM::TestCase::Sys::IO->getc($test_dir));
+ok(SPVM::TestCase::Sys::IO->fgets($test_dir));
 
 # All object is freed
 my $end_memory_blocks_count = SPVM::get_memory_blocks_count();

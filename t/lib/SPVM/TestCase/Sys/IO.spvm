@@ -2,6 +2,7 @@ class TestCase::Sys::IO {
   use Sys::IO;
   use Sys::IO::Constant as IO;
   use Sys::FileTest;
+  use Fn;
 
   static method mkdir : int ($test_dir : string) {
     my $dir = "$test_dir/foo";
@@ -421,6 +422,90 @@ class TestCase::Sys::IO {
       }
       $char = Sys::IO->getc( $fs);
       unless ($char == IO->EOF) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
+  static method fgets : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_new_lines.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      unless ($stream) {
+        return 0;
+      }
+      
+      my $buffer = (mutable string)new_string_len 4;
+      my $buffer_zero = copy $buffer;
+      my $size = length $buffer;
+      
+      my $success = (string)undef;
+      
+      $success = Sys::IO->fgets($buffer, $size, $stream);
+      
+      unless ($success) {
+        return 0;
+      }
+      
+      unless ($buffer eq "a\n\0\0") {
+        return 0;
+      }
+
+      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
+      $success = Sys::IO->fgets($buffer, $size, $stream);
+      
+      unless ($success) {
+        return 0;
+      }
+      
+      unless ($buffer eq "xxx\0") {
+        return 0;
+      }
+
+      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
+      $success = Sys::IO->fgets($buffer, $size, $stream);
+      
+      unless ($success) {
+        return 0;
+      }
+      
+      unless ($buffer->[0] == '\n') {
+        return 0;
+      }
+      unless ($buffer eq "\n\0\0\0") {
+        return 0;
+      }
+      
+      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
+      $success = Sys::IO->fgets($buffer, $size, $stream);
+      
+      unless ($success) {
+        return 0;
+      }
+      
+      unless ($buffer eq "bc\n\0") {
+        return 0;
+      }
+
+      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
+      $success = Sys::IO->fgets($buffer, $size, $stream);
+      
+      unless ($success) {
+        return 0;
+      }
+      
+      unless ($buffer eq "d\0\0\0") {
+        return 0;
+      }
+
+      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
+      $success = Sys::IO->fgets($buffer, $size, $stream);
+      
+      if ($success) {
         return 0;
       }
     }

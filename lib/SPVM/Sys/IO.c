@@ -340,14 +340,14 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t e = 0;
   
-  void* obj_buffer = stack[0].oval;
+  void* obj_s = stack[0].oval;
   
-  if (!obj_buffer) {
-    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
+  if (!obj_s) {
+    return env->die(env, stack, "The read buffer(s) must be defined", FILE_NAME, __LINE__);
   }
   
-  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
-  int32_t buffer_length = env->length(env, stack, obj_buffer);
+  char* s = (char*)env->get_chars(env, stack, obj_s);
+  int32_t s_length = env->length(env, stack, obj_s);
   
   int32_t size = stack[1].ival;
   if (!(size >= 0)) {
@@ -362,10 +362,10 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  char* ret_buffer = fgets(buffer, size, stream);
+  char* ret_s = fgets(s, size, stream);
   
-  if (ret_buffer) {
-    stack[0].oval = obj_buffer;
+  if (ret_s) {
+    stack[0].oval = obj_s;
   }
   else {
     stack[0].oval = NULL;
