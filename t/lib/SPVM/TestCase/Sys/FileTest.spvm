@@ -18,6 +18,8 @@ class TestCase::Sys::FileTest {
     warn "DDDD";
     
     $stat = undef;
+
+    warn "EEEE";
     
     return 1;
   }

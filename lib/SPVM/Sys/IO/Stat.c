@@ -25,10 +25,17 @@ int32_t SPVM__Sys__IO__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
   
+  spvm_warn("GGGG %p %p", obj_stat, st_stat);
+  
   assert(st_stat);
   
   env->free_memory_stack(env, stack, st_stat);
+
+  spvm_warn("HHHH");
+
   env->set_pointer(env, stack, obj_stat, NULL);
+  
+  spvm_warn("IIII");
   
   return 0;
 }
