@@ -9,7 +9,7 @@ int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
-  struct stat* st_stat = env->new_memory_stack(env, stack, sizeof(struct stat));
+  struct stat* st_stat = env->new_memory_stack(env, stack, sizeof(struct stat) * 2);
 
   void* obj_stat = env->new_pointer_by_name(env, stack, "Sys::IO::Stat", st_stat, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
