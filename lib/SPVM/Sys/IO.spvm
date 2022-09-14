@@ -57,6 +57,8 @@ class Sys::IO {
   
   native static method unlink : int ($pathname : string);
   
+  native static method rename : int ($old_path : string, $new_path : string);
+  
   native static method chdir : int ($path : string);
   
   native static method chmod : int ($path : string, $mode :int);
@@ -64,6 +66,10 @@ class Sys::IO {
   native static method chown : int ($path : string, $owner : int, $group : int);
   
   native static method truncate : long ($path : string, $offset : long);
+  
+  native static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
+  
+  native static method symlink : int ($oldpath : string, $newpath : string);
   
   native static method opendir : Sys::IO::DirStream ($dir : string);
   
@@ -76,12 +82,6 @@ class Sys::IO {
   native static method telldir : long ($dir_stream : Sys::IO::DirStream);
   
   native static method seekdir : void ($dir_stream : Sys::IO::DirStream, $offset : long);
-  
-  native static method rename : int ($old_path : string, $new_path : string);
-  
-  native static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
-  
-  native static method symlink : int ($target : string, $link_path : string);
   
   native static method utime : int ($filename : string, $times : Sys::IO::Utimbuf);
   

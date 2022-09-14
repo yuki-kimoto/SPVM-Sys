@@ -50,6 +50,14 @@ unlink() deletes a name from the file system. If that name was the last link to 
 
 See the detail of the L<unlink|https://linux.die.net/man/2/unlink> function in the case of Linux.
 
+=head2 rename
+
+  static method rename : int ($old_path : string, $new_path : string);
+
+rename() renames a file, moving it between directories if required. Any other hard links to the file (as created using link(2)) are unaffected. Open file descriptors for oldpath are also unaffected.
+
+See the detail of the L<rename|https://linux.die.net/man/2/rename> function in the case of Linux.
+
 =head2 open
 
   static method open : int ($path : string, $flags : int, $mode = 0 : int);
@@ -274,6 +282,22 @@ The truncate() and ftruncate() functions cause the regular file named by path or
 
 See the detail of the L<truncate|https://linux.die.net/man/2/truncate> function in the case of Linux.
 
+=head2 readlink
+
+  static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
+
+readlink() places the contents of the symbolic link path in the buffer buf, which has size bufsiz. readlink() does not append a null byte to buf. It will truncate the contents (to a length of bufsiz characters), in case the buffer is too small to hold all of the contents.
+
+See the detail of the L<readlink|https://linux.die.net/man/2/readlink> function in the case of Linux.
+
+=head2 symlink
+
+  static method symlink : int ($oldpath : string, $newpath : string);
+
+symlink() creates a symbolic link named newpath which contains the string oldpath.
+
+See the detail of the L<symlink|https://linux.die.net/man/2/symlink> function in the case of Linux.
+
 =head2 opendir
 
   static method opendir : Sys::IO::DirStream ($dir : string);
@@ -333,30 +357,6 @@ The seekdir() function sets the location in the directory stream from which the 
 See the detail of the L<seekdir|https://linux.die.net/man/3/seekdir> function in the case of Linux.
 
 The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
-
-=head2 rename
-
-  static method rename : int ($old_path : string, $new_path : string);
-
-rename() renames a file, moving it between directories if required. Any other hard links to the file (as created using link(2)) are unaffected. Open file descriptors for oldpath are also unaffected.
-
-See the detail of the L<rename|https://linux.die.net/man/2/rename> function in the case of Linux.
-
-=head2 readlink
-
-  static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
-
-readlink() places the contents of the symbolic link path in the buffer buf, which has size bufsiz. readlink() does not append a null byte to buf. It will truncate the contents (to a length of bufsiz characters), in case the buffer is too small to hold all of the contents.
-
-See the detail of the L<readlink|https://linux.die.net/man/2/readlink> function in the case of Linux.
-
-=head2 symlink
-
-  static method symlink : int ($target : string, $link_path : string);
-
-symlink() creates a symbolic link named newpath which contains the string oldpath.
-
-See the detail of the L<symlink|https://linux.die.net/man/2/symlink> function in the case of Linux.
 
 =head2 utime
 

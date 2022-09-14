@@ -642,6 +642,37 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The old path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  void* obj_new_path = stack[1].oval;
+  
+  if (!obj_new_path) {
+    return env->die(env, stack, "The new path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* new_path = env->get_chars(env, stack, obj_new_path);
+  
+  int32_t status = rename(path, new_path);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]rename failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
@@ -739,6 +770,87 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+}
+
+int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "readlink is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  int32_t e = 0;
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The old path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  void* obj_buffer = stack[1].oval;
+  
+  if (!obj_buffer) {
+    return env->die(env, stack, "The new path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
+  int32_t buffer_length = env->length(env, stack, obj_buffer);
+  
+  int32_t arg_buffer_length = stack[2].ival;
+  
+  if (!(arg_buffer_length >= 0)) {
+    return env->die(env, stack, "The buffer length of the argument must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(arg_buffer_length <= buffer_length)) {
+    return env->die(env, stack, "The buffer length of the argument must be less than or equal to the length of the buffer", FILE_NAME, __LINE__);
+  }
+  
+  int32_t placed_length = readlink(path, buffer, arg_buffer_length);
+  if (placed_length == -1) {
+    env->die(env, stack, "[System Error]readlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = placed_length;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "symlink is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  int32_t e = 0;
+  
+  void* obj_oldpath = stack[0].oval;
+  
+  if (!obj_oldpath) {
+    return env->die(env, stack, "The oldpath must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
+
+  void* obj_newpath = stack[1].oval;
+  
+  if (!obj_newpath) {
+    return env->die(env, stack, "The link path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* newpath = env->get_chars(env, stack, obj_newpath);
+  
+  int32_t status = symlink(oldpath, newpath);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]symlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
 }
 
 static const int DIR_STREAM_CLOSED_INDEX = 0;
@@ -879,118 +991,6 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   seekdir(dir_stream, offset);
   
   return 0;
-}
-
-int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t e = 0;
-  
-  void* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The old path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-
-  void* obj_new_path = stack[1].oval;
-  
-  if (!obj_new_path) {
-    return env->die(env, stack, "The new path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* new_path = env->get_chars(env, stack, obj_new_path);
-  
-  int32_t status = rename(path, new_path);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]rename failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifdef _WIN32
-  env->die(env, stack, "readlink is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  int32_t e = 0;
-  
-  void* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The old path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-
-  void* obj_buffer = stack[1].oval;
-  
-  if (!obj_buffer) {
-    return env->die(env, stack, "The new path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
-  int32_t buffer_length = env->length(env, stack, obj_buffer);
-  
-  int32_t arg_buffer_length = stack[2].ival;
-  
-  if (!(arg_buffer_length >= 0)) {
-    return env->die(env, stack, "The buffer length of the argument must be greater than or equal to 0", FILE_NAME, __LINE__);
-  }
-  
-  if (!(arg_buffer_length <= buffer_length)) {
-    return env->die(env, stack, "The buffer length of the argument must be less than or equal to the length of the buffer", FILE_NAME, __LINE__);
-  }
-  
-  int32_t placed_length = readlink(path, buffer, arg_buffer_length);
-  if (placed_length == -1) {
-    env->die(env, stack, "[System Error]readlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = placed_length;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifdef _WIN32
-  env->die(env, stack, "symlink is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  int32_t e = 0;
-  
-  void* obj_target = stack[0].oval;
-  
-  if (!obj_target) {
-    return env->die(env, stack, "The target must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* target = env->get_chars(env, stack, obj_target);
-
-  void* obj_link_path = stack[1].oval;
-  
-  if (!obj_link_path) {
-    return env->die(env, stack, "The link path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* link_path = env->get_chars(env, stack, obj_link_path);
-  
-  int32_t status = symlink(target, link_path);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]symlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
