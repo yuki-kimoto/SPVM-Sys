@@ -1,26 +1,21 @@
 class TestCase::Sys::FileTest {
   use Sys::FileTest;
 
-  static method e_min : int () {
+  static method f_min : int () {
     
     {
-      # File
-      {
-        my $file = "t/ftest/file_empty.txt";
-        my $result = Sys::FileTest->e($file);
-        unless ($result) {
-          return 0;
-        }
-      }
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        my $result = Sys::FileTest->e($file);
-        unless ($result == 0) {
+        eval { Sys::FileTest->f($file); };
+        unless ($@) {
           return 0;
         }
       }
     }
+    
+    $@ = undef;
+    
     return 1;
   }
   
