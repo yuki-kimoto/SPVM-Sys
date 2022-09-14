@@ -1,47 +1,6 @@
 class TestCase::Sys::FileTest {
   use Sys::FileTest;
 
-  static method stat : int () {
-    
-    my $stat = Sys::IO::Stat->new;
-    
-    return 1;
-  }
-
-  static method stat2 : int () {
-    
-    my $stat = Sys::IO::Stat->new;
-    
-    my $file = "t/ftest/file_empty.txt";
-    Sys::IO->stat_bug($file, $stat);
-    
-    warn "DDDD";
-    
-    $stat = undef;
-
-    warn "EEEE";
-    
-    return 1;
-  }
-  
-  static method f_min : int () {
-    
-    {
-      # File
-      {
-        my $file = "t/ftest/file_empty.txt";
-        my $result = Sys::FileTest->f($file);
-        unless ($result) {
-          return 0;
-        }
-      }
-    }
-    
-    $@ = undef;
-    
-    return 1;
-  }
-  
   static method s : int () {
     
     {

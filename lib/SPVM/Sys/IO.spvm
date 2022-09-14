@@ -96,6 +96,4 @@ class Sys::IO {
   native static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
   
   native static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
-
-  native static method stat_bug : int ($path : string, $stat : Sys::IO::Stat);
 }
