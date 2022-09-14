@@ -5,11 +5,20 @@
     * Remove Sys::IO->freopen.
     * Simplify the implementation of the methods for file test in Sys::FileTest
       If the file doesn't exists, an exception will be thrown except for e.
+    * Change the definition
+    * Change the definition of the following method in the Sys::IO class.
+      [Before]
+        static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
+      [After]
+        static method fwrite : int ($ptr : string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream);
+
   [Changes]
     * Use access function for Sys::FileTest->e.
   [Bug Fix]
     * Fix the bug that ouble free or corruption (!prev) occur in Sys::IO->stat in Linux/Ubuntu 32bit.
-      
+    * Fix the bug of Sys::IO->read, Sys::IO->write.
+  [Test Improvement]
+    * Add many tests.
 0.01 2022-09-13
   
   * First experimental release

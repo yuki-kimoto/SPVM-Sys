@@ -148,7 +148,7 @@ See the detail of the L<fgets|https://linux.die.net/man/3/fgets> function in the
 
 =head2 fwrite
 
-  static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
+  static method fwrite : int ($ptr : string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream);
 
 The function fwrite() writes nmemb elements of data, each size bytes long, to the stream pointed to by stream, obtaining them from the location given by ptr.
 

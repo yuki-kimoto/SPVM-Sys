@@ -687,6 +687,79 @@ class TestCase::Sys::IO {
     return 1;
   }
 
+  static method fwrite : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/foo.txt";
+      my $fs = Sys::IO->fopen($file, "wb");
+      
+      unless ($fs) {
+        return 0;
+      }
+
+      my $write_length = 0;
+      my $size = 1;
+      my $length = 4;
+      
+      $write_length = Sys::IO->fwrite("abcd", $size, $length, $fs);
+      unless ($write_length == 4) {
+        return 0;
+      }
+      
+      $write_length = Sys::IO->fwrite("efgh", $size, $length, $fs);
+      unless ($write_length == 4) {
+        return 0;
+      }
+      
+      Sys::IO->fclose($fs);
+    }
+    
+    {
+      my $file = "$test_dir/foo.txt";
+      my $fs = Sys::IO->fopen($file, "rb");
+      
+      unless ($fs) {
+        return 0;
+      }
+
+      my $buffer = (mutable string)new_string_len 4;
+      my $size = 1;
+      my $length = 4;
+      
+      my $read_length = 0;
+      
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      
+      unless ($buffer eq "abcd") {
+        return 0;
+      }
+      
+      unless ($read_length == 4) {
+        return 0;
+      }
+
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      
+      unless ($buffer eq "efgh") {
+        return 0;
+      }
+      
+      unless ($read_length == 4) {
+        return 0;
+      }
+
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      
+      unless ($read_length == 0) {
+        return 0;
+      }
+      
+      Sys::IO->fclose($fs);
+    }
+    
+    return 1;
+  }
+
   static method fclose : int ($test_dir : string) {
     
     {

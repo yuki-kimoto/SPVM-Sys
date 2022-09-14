@@ -37,7 +37,7 @@ class Sys::IO {
   
   native static method fgets : mutable string ($s : mutable string, $size : int, $stream : Sys::IO::FileStream);
   
-  native static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
+  native static method fwrite : int ($ptr : string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream);
   
   native static method fseek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
   

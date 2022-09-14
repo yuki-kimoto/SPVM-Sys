@@ -20,11 +20,11 @@ my $test_dir = "$FindBin::Bin";
 }
 ok(SPVM::TestCase::Sys::IO->read($test_dir));
 ok(SPVM::TestCase::Sys::IO->lseek($test_dir));
+ok(SPVM::TestCase::Sys::IO->close($test_dir));
 {
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->write("$tmp_dir"));
 }
-ok(SPVM::TestCase::Sys::IO->close($test_dir));
 ok(SPVM::TestCase::Sys::IO->fopen($test_dir));
 ok(SPVM::TestCase::Sys::IO->fdopen($test_dir));
 ok(SPVM::TestCase::Sys::IO->fclose($test_dir));
@@ -51,6 +51,10 @@ ok(SPVM::TestCase::Sys::IO->fread($test_dir));
 ok(SPVM::TestCase::Sys::IO->feof($test_dir));
 ok(SPVM::TestCase::Sys::IO->ferror($test_dir));
 ok(SPVM::TestCase::Sys::IO->clearerr($test_dir));
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->fwrite("$tmp_dir"));
+}
 ok(SPVM::TestCase::Sys::IO->getc($test_dir));
 ok(SPVM::TestCase::Sys::IO->fgets($test_dir));
 
