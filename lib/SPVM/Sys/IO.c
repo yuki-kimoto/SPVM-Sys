@@ -1076,6 +1076,8 @@ int32_t SPVM__Sys__IO__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   stack[0].ival = status;
   
+  spvm_warn("CCCC");
+  
   return 0;
 }
 
