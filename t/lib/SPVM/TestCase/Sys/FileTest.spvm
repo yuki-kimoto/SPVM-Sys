@@ -20,15 +20,6 @@ class TestCase::Sys::FileTest {
           return 0;
         }
       }
-      
-      # Directory
-      {
-        my $file = "t/ftest/dir_empty";
-        my $result = Sys::FileTest->e($file);
-        unless ($result) {
-          return 0;
-        }
-      }
     }
     return 1;
   }
