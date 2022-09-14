@@ -27,6 +27,19 @@ ok(SPVM::TestCase::Sys::IO->close($test_dir));
 }
 ok(SPVM::TestCase::Sys::IO->fopen($test_dir));
 ok(SPVM::TestCase::Sys::IO->fdopen($test_dir));
+ok(SPVM::TestCase::Sys::IO->fread($test_dir));
+ok(SPVM::TestCase::Sys::IO->feof($test_dir));
+ok(SPVM::TestCase::Sys::IO->ferror($test_dir));
+ok(SPVM::TestCase::Sys::IO->clearerr($test_dir));
+ok(SPVM::TestCase::Sys::IO->getc($test_dir));
+ok(SPVM::TestCase::Sys::IO->fgets($test_dir));
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->fwrite("$tmp_dir"));
+}
+ok(SPVM::TestCase::Sys::IO->fseek($test_dir));
+ok(SPVM::TestCase::Sys::IO->ftell($test_dir));
+ok(SPVM::TestCase::Sys::IO->fflush($test_dir));
 ok(SPVM::TestCase::Sys::IO->fclose($test_dir));
 {
   my $tmp_dir = File::Temp->newdir;
@@ -47,18 +60,6 @@ ok(SPVM::TestCase::Sys::IO->fclose($test_dir));
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->fileno("$tmp_dir"));
 }
-ok(SPVM::TestCase::Sys::IO->fread($test_dir));
-ok(SPVM::TestCase::Sys::IO->feof($test_dir));
-ok(SPVM::TestCase::Sys::IO->ferror($test_dir));
-ok(SPVM::TestCase::Sys::IO->clearerr($test_dir));
-{
-  my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys::IO->fwrite("$tmp_dir"));
-}
-ok(SPVM::TestCase::Sys::IO->fseek($test_dir));
-ok(SPVM::TestCase::Sys::IO->ftell($test_dir));
-ok(SPVM::TestCase::Sys::IO->getc($test_dir));
-ok(SPVM::TestCase::Sys::IO->fgets($test_dir));
 
 # All object is freed
 my $end_memory_blocks_count = SPVM::get_memory_blocks_count();
