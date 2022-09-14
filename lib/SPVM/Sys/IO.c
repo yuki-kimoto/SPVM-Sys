@@ -1096,7 +1096,9 @@ int32_t SPVM__Sys__IO__stat_bug(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   spvm_warn("AAAAA %s %p", path, stat_buf);
   
-  int32_t status = stat(path, stat_buf);
+  // int32_t status = stat(path, stat_buf);
+
+  int32_t status = 0;
 
   spvm_warn("BBBB %d %p", status, stat_buf);
   
