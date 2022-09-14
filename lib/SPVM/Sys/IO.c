@@ -1063,6 +1063,37 @@ int32_t SPVM__Sys__IO__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
   
+  int32_t status = stat(path, stat_buf);
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]stat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__stat_bug(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  int32_t e = 0;
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  void* obj_stat = stack[1].oval;
+  
+  if (!obj_stat) {
+    return env->die(env, stack, "The stat must be defined", FILE_NAME, __LINE__);
+  }
+  
+  struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
+  
   spvm_warn("AAAAA %s %p", path, stat_buf);
   
   int32_t status = stat(path, stat_buf);
