@@ -1108,7 +1108,7 @@ int32_t SPVM__Sys__IO__stat_bug(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  memcpy(stat_buf, &stat_buf_tmp, sizeof(struct stat));
+  // memcpy(stat_buf, &stat_buf_tmp, sizeof(struct stat));
   
   stack[0].ival = status;
   
