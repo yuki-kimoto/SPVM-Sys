@@ -20,6 +20,7 @@ ok(SPVM::TestCase::Sys::IO->open($test_dir));
 ok(SPVM::TestCase::Sys::IO->close($test_dir));
 ok(SPVM::TestCase::Sys::IO->fdopen($test_dir));
 ok(SPVM::TestCase::Sys::IO->fclose($test_dir));
+ok(SPVM::TestCase::Sys::IO->mkdir("$tmp_dir"));
 
 # All object is freed
 my $end_memory_blocks_count = SPVM::get_memory_blocks_count();

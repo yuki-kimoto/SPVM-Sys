@@ -1,7 +1,20 @@
 class TestCase::Sys::IO {
   use Sys::IO;
   use Sys::IO::Constant as IO;
+  use Sys::FileTest;
 
+  static method mkdir : int ($test_dir : string) {
+    my $dir = "$test_dir/foo";
+    
+    Sys::IO->mkdir($dir, 0755);
+    
+    unless (Sys::FileTest->d($dir)) {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
   static method open : int ($test_dir : string) {
     
     {
