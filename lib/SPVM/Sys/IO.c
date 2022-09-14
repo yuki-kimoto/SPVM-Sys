@@ -21,6 +21,34 @@
 
 const char* FILE_NAME = "Sys/IO.c";
 
+int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  int32_t mode = stack[1].ival;
+
+#ifdef _WIN32
+  int32_t status = mkdir(path);
+#else
+  int32_t status = mkdir(path, mode);
+#endif
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]mkdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
@@ -654,34 +682,6 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
-}
-
-int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-
-  int32_t mode = stack[1].ival;
-
-#ifdef _WIN32
-  int32_t status = mkdir(path);
-#else
-  int32_t status = mkdir(path, mode);
-#endif
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]mkdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
 }
 
 static const int DIR_STREAM_CLOSED_INDEX = 0;

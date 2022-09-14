@@ -9,6 +9,8 @@ class Sys::IO {
   use Sys::IO::PollfdArray;
   use Sys::IO::Constant;
   
+  native static method mkdir : int ($path : string, $mode : int);
+  
   native static method rmdir : int ($path : string);
   
   native static method unlink : int ($file : string);
@@ -56,8 +58,6 @@ class Sys::IO {
   native static method chmod : int ($path : string, $mode :int);
   
   native static method chown : int ($path : string, $owner : int, $group : int);
-  
-  native static method mkdir : int ($path : string, $mode : int);
   
   native static method opendir : Sys::IO::DirStream ($dir : string);
   

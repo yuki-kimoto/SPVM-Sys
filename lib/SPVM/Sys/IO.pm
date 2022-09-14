@@ -16,6 +16,16 @@ C<Sys::IO> is the class for the file IO.
 
 =head1 Class Methods
 
+=head2 mkdir
+
+  static method mkdir : int ($path : string, $mode : int);
+
+mkdir() attempts to create a directory named pathname.
+
+See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the case of Linux.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
+
 =head2 rmdir
 
   static method rmdir : int ($path : string);
@@ -237,16 +247,6 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for th
 chown() changes the ownership of the file specified by path, which is dereferenced if it is a symbolic link.
 
 See the detail of the L<chown|https://linux.die.net/man/2/chown> function in the case of Linux.
-
-=head2 mkdir
-
-  static method mkdir : int ($path : string, $mode : int);
-
-mkdir() attempts to create a directory named pathname.
-
-See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the case of Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
 
 =head2 opendir
 
