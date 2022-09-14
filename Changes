@@ -1,4 +1,4 @@
-0.02 2022-09-13
+0.02 2022-09-14
   [Document Improvement]
     * Add Sys::FileTest doc.
   [Incompatible Changes]
@@ -7,6 +7,8 @@
       If the file doesn't exists, an exception will be thrown except for e.
   [Changes]
     * Use access function for Sys::FileTest->e.
+  [Bug Fix]
+    * Fix the bug that ouble free or corruption (!prev) occur in Sys::IO->stat in Linux/Ubuntu 32bit.
       
 0.01 2022-09-13
   
