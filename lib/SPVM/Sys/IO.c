@@ -123,6 +123,27 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t fd = stack[0].ival;
+  
+  int64_t offset = stack[1].lval;
+  
+  if (!(offset >= 0)) {
+    return env->die(env, stack, "The offset must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+
+  int32_t whence = stack[2].ival;
+
+  int64_t cur_offset = lseek(fd, offset, whence);
+  if (cur_offset == -1) {
+    env->die(env, stack, "[System Error]lseek failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
@@ -843,27 +864,6 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = truncate(path, offset);
   if (status == -1) {
     env->die(env, stack, "[System Error]truncate failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t fd = stack[0].ival;
-  
-  int64_t offset = stack[1].lval;
-  
-  if (!(offset >= 0)) {
-    return env->die(env, stack, "The offset must be greater than or equal to 0", FILE_NAME, __LINE__);
-  }
-
-  int32_t whence = stack[2].ival;
-
-  int64_t cur_offset = lseek(fd, offset, whence);
-  if (cur_offset == -1) {
-    env->die(env, stack, "[System Error]lseek failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   

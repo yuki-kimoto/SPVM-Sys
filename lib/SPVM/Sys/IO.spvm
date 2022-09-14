@@ -14,6 +14,8 @@ class Sys::IO {
   native static method read : int ($fd : int, $buffer : mutable string, $count : int);
   
   native static method write : int ($fd : int, $buffer : string, $count : int);
+
+  native static method lseek : long ($fd : int, $offset : long, $whence : int);
   
   native static method close : int ($fd : int);
   
@@ -72,8 +74,6 @@ class Sys::IO {
   native static method seekdir : void ($dir_stream : Sys::IO::DirStream, $offset : long);
   
   native static method truncate : long ($path : string, $offset : long);
-  
-  native static method lseek : long ($fd : int, $offset : long, $whence : int);
   
   native static method umask : int ($mode : int);
   

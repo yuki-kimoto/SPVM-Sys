@@ -68,6 +68,16 @@ write() writes up to count bytes from the buffer pointed buf to the file referre
 
 See the detail of the L<write|https://linux.die.net/man/2/write> function in the case of Linux.
 
+=head2 lseek
+
+  static method lseek : long ($fd : int, $offset : long, $whence : int);
+
+The lseek() function repositions the offset of the open file associated with the file descriptor fd to the argument offset according to the directive whence as follows:
+
+See the detail of the L<lseek|https://linux.die.net/man/2/lseek> function in the case of Linux.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
+
 =head2 close
 
   static method close : int ($fd : int);
@@ -316,23 +326,13 @@ The truncate() and ftruncate() functions cause the regular file named by path or
 
 See the detail of the L<truncate|https://linux.die.net/man/2/truncate> function in the case of Linux.
 
-=head2 lseek
-
-  static method lseek : long ($fd : int, $offset : long, $whence : int);
-
-The lseek() function repositions the offset of the open file associated with the file descriptor fd to the argument offset according to the directive whence as follows:
-
-See the detail of the L<lseek|https://linux.die.net/man/2/lseek> function in the case of Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
-
 =head2 umask
 
   static method umask : int ($mode : int);
 
 umask() sets the calling process's file mode creation mask (umask) to mask & 0777 (i.e., only the file permission bits of mask are used), and returns the previous value of the mask.
 
-See the detail of the L<lseek|https://linux.die.net/man/2/umask> function in the case of Linux.
+See the detail of the L<umask|https://linux.die.net/man/2/umask> function in the case of Linux.
 
 =head2 rename
 
