@@ -1096,9 +1096,10 @@ int32_t SPVM__Sys__IO__stat_bug(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   spvm_warn("AAAAA %s %p", path, stat_buf);
   
-  // int32_t status = stat(path, stat_buf);
-
-  int32_t status = 0;
+  // stat of Linux/Ubuntu 32bit maybe have some memory writing bug. "double free or corruption (!prev)" occurs when stat_bug is freed.
+  // So I write program defensively
+  struct stat stat_buf_tmp;
+  int32_t status = stat(path, &stat_buf_tmp);
 
   spvm_warn("BBBB %d %p", status, stat_buf);
   
@@ -1106,6 +1107,8 @@ int32_t SPVM__Sys__IO__stat_bug(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]stat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  memcpy(stat_buf, &stat_buf_tmp, sizeof(struct stat));
   
   stack[0].ival = status;
   
