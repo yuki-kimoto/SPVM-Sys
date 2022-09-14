@@ -760,17 +760,19 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
 
-  int64_t offset = stack[1].ival;
+  int64_t length = stack[1].ival;
   
-  if (!(offset >= 0)) {
-    return env->die(env, stack, "The offset must be less than or equal to 0", FILE_NAME, __LINE__);
+  if (!(length >= 0)) {
+    return env->die(env, stack, "The length must be less than or equal to 0", FILE_NAME, __LINE__);
   }
 
-  int32_t status = truncate(path, offset);
+  int32_t status = truncate(path, length);
   if (status == -1) {
     env->die(env, stack, "[System Error]truncate failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  stack[0].ival = status;
   
   return 0;
 }

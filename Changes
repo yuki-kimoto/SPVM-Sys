@@ -5,8 +5,15 @@
         static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
       [After]
         static method fwrite : int ($ptr : string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream);
+    * Change the definition of the following method in the Sys::IO class.
+      [Before]
+        static method truncate : long ($path : string, $offset : long);
+      [After]
+        static method truncate : int ($path : string, $length : long);
+   
   [Bug Fix]
     * Fix the bug that lseek return value is wrong.
+    * Fix the bug that truncate return value is wrong.
   [Test Improvement]
     * Add many tests.
 0.02 2022-09-14
@@ -24,4 +31,3 @@
 0.01 2022-09-13
   
   * First experimental release
-  

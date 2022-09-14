@@ -276,7 +276,7 @@ See the detail of the L<chown|https://linux.die.net/man/2/chown> function in the
 
 =head2 truncate
 
-  static method truncate : long ($path : string, $offset : long);
+  static method truncate : int ($path : string, $length : long);
 
 The truncate() and ftruncate() functions cause the regular file named by path or referenced by fd to be truncated to a size of precisely length bytes.
 

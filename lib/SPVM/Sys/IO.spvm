@@ -65,7 +65,7 @@ class Sys::IO {
   
   native static method chown : int ($path : string, $owner : int, $group : int);
   
-  native static method truncate : long ($path : string, $offset : long);
+  native static method truncate : int ($path : string, $length : long);
   
   native static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
   
