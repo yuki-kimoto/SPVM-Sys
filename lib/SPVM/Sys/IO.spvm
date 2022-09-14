@@ -9,12 +9,6 @@ class Sys::IO {
   use Sys::IO::PollfdArray;
   use Sys::IO::Constant;
   
-  native static method mkdir : int ($path : string, $mode : int);
-  
-  native static method rmdir : int ($path : string);
-  
-  native static method unlink : int ($file : string);
-  
   native static method open : int ($path : string, $flags : int, $mode = 0 : int);
   
   native static method read : int ($fd : int, $buffer : mutable string, $count : int);
@@ -52,6 +46,12 @@ class Sys::IO {
   native static method fflush : int ($stream : Sys::IO::FileStream);
   
   native static method flock : int ($fd : int, $operation : int);
+
+  native static method mkdir : int ($path : string, $mode : int);
+  
+  native static method rmdir : int ($path : string);
+  
+  native static method unlink : int ($file : string);
   
   native static method chdir : int ($path : string);
   

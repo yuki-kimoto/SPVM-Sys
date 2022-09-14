@@ -21,74 +21,6 @@
 
 const char* FILE_NAME = "Sys/IO.c";
 
-int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-
-  int32_t mode = stack[1].ival;
-
-#ifdef _WIN32
-  int32_t status = mkdir(path);
-#else
-  int32_t status = mkdir(path, mode);
-#endif
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]mkdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  int32_t status = rmdir(path);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]rmdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_path = stack[0].oval;
-
-  if (!obj_path) {
-    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  int32_t status = unlink(path);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]unlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-
-  stack[0].ival = status;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t items = env->get_args_stack_length(env, stack);
@@ -608,6 +540,74 @@ int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
+}
+
+int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  int32_t mode = stack[1].ival;
+
+#ifdef _WIN32
+  int32_t status = mkdir(path);
+#else
+  int32_t status = mkdir(path, mode);
+#endif
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]mkdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  int32_t status = rmdir(path);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]rmdir failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  int32_t status = unlink(path);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]unlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+
+  stack[0].ival = status;
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
