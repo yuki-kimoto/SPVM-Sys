@@ -7,6 +7,15 @@ class TestCase::Sys::FileTest {
     
     return 1;
   }
+
+  static method stat2 : int () {
+    
+    my $stat = Sys::IO::Stat->new;
+    
+    Sys::IO->stat($file, $stat);
+    
+    return 1;
+  }
   
   static method f_min : int () {
     
