@@ -50,6 +50,24 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method fileno : int ($test_dir : string) {
+
+    my $file = "$test_dir/foo.txt";
+    my $fs = Sys::IO->fopen($file, "w");
+    
+    unless (Sys::FileTest->f($file)) {
+      return 0;
+    }
+    
+    my $fd = Sys::IO->fileno($fs);
+    
+    unless ($fd >= 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
   
   static method open : int ($test_dir : string) {
     

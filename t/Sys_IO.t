@@ -34,6 +34,11 @@ ok(SPVM::TestCase::Sys::IO->fclose($test_dir));
   ok(SPVM::TestCase::Sys::IO->unlink("$tmp_dir"));
 }
 
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->fileno("$tmp_dir"));
+}
+
 # All object is freed
 my $end_memory_blocks_count = SPVM::get_memory_blocks_count();
 is($end_memory_blocks_count, $start_memory_blocks_count);
