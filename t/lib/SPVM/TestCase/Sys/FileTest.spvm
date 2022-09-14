@@ -12,6 +12,15 @@ class TestCase::Sys::FileTest {
           return 0;
         }
       }
+      
+      # File
+      {
+        my $file = "t/ftest/file_empty.txt";
+        my $result = Sys::FileTest->f($file);
+        unless ($result) {
+          return 0;
+        }
+      }
     }
     
     $@ = undef;
