@@ -17,6 +17,10 @@ class Sys::IO {
   
   native static method open : int ($path : string, $flags : int, $mode = 0 : int);
   
+  native static method read : int ($fd : int, $buffer : mutable string, $count : int);
+  
+  native static method write : int ($fd : int, $buffer : string, $count : int);
+  
   native static method close : int ($fd : int);
   
   native static method fopen : Sys::IO::FileStream ($path : string, $mode : string);
@@ -48,10 +52,6 @@ class Sys::IO {
   native static method fflush : int ($stream : Sys::IO::FileStream);
   
   native static method flock : int ($fd : int, $operation : int);
-  
-  native static method read : int ($fd : int, $buffer : mutable string, $count : int);
-  
-  native static method write : int ($fd : int, $buffer : string, $count : int);
   
   native static method chdir : int ($path : string);
   

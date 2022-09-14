@@ -119,6 +119,78 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  void* obj_buffer = stack[1].oval;
+  
+  if (!obj_buffer) {
+    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
+  }
+  
+  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
+  int32_t buffer_length = env->length(env, stack, obj_buffer);
+
+  int32_t count = stack[2].ival;
+  
+  if (!(count >= 0)) {
+    return env->die(env, stack, "The count must be more than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(count < buffer_length)) {
+    return env->die(env, stack, "The count must be less than the length of the buffer", FILE_NAME, __LINE__);
+  }
+  
+  int32_t read_length = read(fd, buffer, count);
+  if (read_length == -1) {
+    env->die(env, stack, "[System Error]read failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = read_length;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  void* obj_buffer = stack[1].oval;
+  
+  if (!obj_buffer) {
+    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
+  }
+  
+  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
+  int32_t buffer_length = env->length(env, stack, obj_buffer);
+
+  int32_t count = stack[2].ival;
+  
+  if (!(count >= 0)) {
+    return env->die(env, stack, "The count must be more than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(count < buffer_length)) {
+    return env->die(env, stack, "The count must be less than the length of the buffer", FILE_NAME, __LINE__);
+  }
+  
+  int32_t write_length = write(fd, buffer, count);
+  if (write_length == -1) {
+    env->die(env, stack, "[System Error]write failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = write_length;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
@@ -536,78 +608,6 @@ int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
-}
-
-int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t e = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  void* obj_buffer = stack[1].oval;
-  
-  if (!obj_buffer) {
-    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
-  }
-  
-  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
-  int32_t buffer_length = env->length(env, stack, obj_buffer);
-
-  int32_t count = stack[2].ival;
-  
-  if (!(count >= 0)) {
-    return env->die(env, stack, "The count must be more than or equal to 0", FILE_NAME, __LINE__);
-  }
-  
-  if (!(count < buffer_length)) {
-    return env->die(env, stack, "The count must be less than the length of the buffer", FILE_NAME, __LINE__);
-  }
-  
-  int32_t read_length = read(fd, buffer, count);
-  if (read_length == -1) {
-    env->die(env, stack, "[System Error]read failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = read_length;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t e = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  void* obj_buffer = stack[1].oval;
-  
-  if (!obj_buffer) {
-    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
-  }
-  
-  char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
-  int32_t buffer_length = env->length(env, stack, obj_buffer);
-
-  int32_t count = stack[2].ival;
-  
-  if (!(count >= 0)) {
-    return env->die(env, stack, "The count must be more than or equal to 0", FILE_NAME, __LINE__);
-  }
-  
-  if (!(count < buffer_length)) {
-    return env->die(env, stack, "The count must be less than the length of the buffer", FILE_NAME, __LINE__);
-  }
-  
-  int32_t write_length = write(fd, buffer, count);
-  if (write_length == -1) {
-    env->die(env, stack, "[System Error]write failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = write_length;
-  
-  return 0;
 }
 
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {

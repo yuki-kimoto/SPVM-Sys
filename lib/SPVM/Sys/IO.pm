@@ -52,6 +52,22 @@ See the detail of the L<open|https://linux.die.net/man/2/open> function in the c
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the flags and the mode.
 
+=head2 read
+
+  static method read : int ($fd : int, $buffer : mutable string, $count : int);
+
+read() attempts to read up to count bytes from file descriptor fd into the buffer starting at buf.
+
+See the detail of the L<read|https://linux.die.net/man/2/read> function in the case of Linux.
+
+=head2 write
+
+  static method write : int ($fd : int, $buffer : string, $count : int);
+
+write() writes up to count bytes from the buffer pointed buf to the file referred to by the file descriptor fd.
+
+See the detail of the L<write|https://linux.die.net/man/2/write> function in the case of Linux.
+
 =head2 close
 
   static method close : int ($fd : int);
@@ -205,22 +221,6 @@ Apply or remove an advisory lock on the open file specified by fd. The argument 
 See the detail of the L<flock|https://linux.die.net/man/2/flock> function in the case of Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the operation.
-
-=head2 read
-
-  static method read : int ($fd : int, $buffer : mutable string, $count : int);
-
-read() attempts to read up to count bytes from file descriptor fd into the buffer starting at buf.
-
-See the detail of the L<read|https://linux.die.net/man/2/read> function in the case of Linux.
-
-=head2 write
-
-  static method write : int ($fd : int, $buffer : string, $count : int);
-
-write() writes up to count bytes from the buffer pointed buf to the file referred to by the file descriptor fd.
-
-See the detail of the L<write|https://linux.die.net/man/2/write> function in the case of Linux.
 
 =head2 chdir
 
