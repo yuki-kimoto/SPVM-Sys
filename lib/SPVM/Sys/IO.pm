@@ -60,36 +60,6 @@ close() closes a file descriptor, so that it no longer refers to any file and ma
 
 See the detail of the L<close|https://linux.die.net/man/2/close> function in the case of Linux.
 
-=head2 clearerr
-
-  static method clearerr : void ($stream : Sys::IO::FileStream);
-
-The function clearerr() clears the end-of-file and error indicators for the stream pointed to by stream.
-
-See the detail of the L<clearerr|https://linux.die.net/man/3/clearerr> function in the case of Linux.
-
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
-
-=head2 feof
-
-  static method feof : int ($stream : Sys::IO::FileStream);
-
-The function feof() tests the end-of-file indicator for the stream pointed to by stream, returning nonzero if it is set. The end-of-file indicator can only be cleared by the function clearerr().
-
-See the detail of the L<feof|https://linux.die.net/man/3/feof> function in the case of Linux.
-
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
-
-=head2 ferror
-
-  static method ferror : int ($stream : Sys::IO::FileStream);
-
-The function ferror() tests the error indicator for the stream pointed to by stream, returning nonzero if it is set. The error indicator can only be reset by the clearerr() function.
-
-See the detail of the L<ferror|https://linux.die.net/man/3/ferror> function in the case of Linux.
-
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
-
 =head2 fopen
 
   static method fopen : Sys::IO::FileStream ($path : string, $mode : string);
@@ -127,6 +97,36 @@ The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 The function fread() reads nmemb elements of data, each size bytes long, from the stream pointed to by stream, storing them at the location given by ptr.
 
 See the detail of the L<fread|https://linux.die.net/man/3/fread> function in the case of Linux.
+
+=head2 feof
+
+  static method feof : int ($stream : Sys::IO::FileStream);
+
+The function feof() tests the end-of-file indicator for the stream pointed to by stream, returning nonzero if it is set. The end-of-file indicator can only be cleared by the function clearerr().
+
+See the detail of the L<feof|https://linux.die.net/man/3/feof> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
+=head2 ferror
+
+  static method ferror : int ($stream : Sys::IO::FileStream);
+
+The function ferror() tests the error indicator for the stream pointed to by stream, returning nonzero if it is set. The error indicator can only be reset by the clearerr() function.
+
+See the detail of the L<ferror|https://linux.die.net/man/3/ferror> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
+=head2 clearerr
+
+  static method clearerr : void ($stream : Sys::IO::FileStream);
+
+The function clearerr() clears the end-of-file and error indicators for the stream pointed to by stream.
+
+See the detail of the L<clearerr|https://linux.die.net/man/3/clearerr> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 fwrite
 

@@ -134,55 +134,6 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__clearerr(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_stream = stack[0].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  clearerr(stream);
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__feof(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_stream = stack[0].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  int32_t ret = feof(stream);
-  
-  stack[0].ival = ret;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__ferror(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_stream = stack[0].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  int32_t ret = ferror(stream);
-  
-  stack[0].ival = ret;
-  
-  return 0;
-}
-
 static const int FILE_STREAM_CLOSED_INDEX = 0;
 
 int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -313,6 +264,55 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t fread_length = fread(buffer, size, data_length, stream);
   
   stack[0].ival = fread_length;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__feof(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t ret = feof(stream);
+  
+  stack[0].ival = ret;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__ferror(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t ret = ferror(stream);
+  
+  stack[0].ival = ret;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__clearerr(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The file stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  clearerr(stream);
   
   return 0;
 }
