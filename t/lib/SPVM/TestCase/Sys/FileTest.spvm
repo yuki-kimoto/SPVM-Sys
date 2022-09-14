@@ -1,6 +1,13 @@
 class TestCase::Sys::FileTest {
   use Sys::FileTest;
 
+  static method stat : int () {
+    
+    my $stat = Sys::IO::Stat->new;
+    
+    return 1;
+  }
+  
   static method f_min : int () {
     
     {
