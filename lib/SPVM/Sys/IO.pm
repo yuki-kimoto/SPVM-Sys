@@ -360,7 +360,7 @@ See the detail of the L<symlink|https://linux.die.net/man/2/symlink> function in
 
 =head2 utime
 
-  static method utime : int ($file : string, $buffer : Sys::IO::Utimbuf);
+  static method utime : int ($filename : string, $times : Sys::IO::Utimbuf);
 
 The utime() system call changes the access and modification times of the inode specified by filename to the actime and modtime fields of times respectively.
 

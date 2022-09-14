@@ -997,24 +997,24 @@ int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
-  void* obj_file = stack[0].oval;
+  void* obj_filename = stack[0].oval;
   
-  if (!obj_file) {
-    return env->die(env, stack, "The file must be defined", FILE_NAME, __LINE__);
+  if (!obj_filename) {
+    return env->die(env, stack, "The filename must be defined", FILE_NAME, __LINE__);
   }
   
-  const char* file = env->get_chars(env, stack, obj_file);
+  const char* filename = env->get_chars(env, stack, obj_filename);
 
-  void* obj_buffer = stack[1].oval;
-  struct utimbuf* st_buffer;
-  if (obj_buffer) {
-    st_buffer = env->get_pointer(env, stack, obj_buffer);
+  void* obj_times = stack[1].oval;
+  struct utimbuf* st_times;
+  if (obj_times) {
+    st_times = env->get_pointer(env, stack, obj_times);
   }
   else {
-    st_buffer = NULL;
+    st_times = NULL;
   }
   
-  int32_t status = utime(file, st_buffer);
+  int32_t status = utime(filename, st_times);
   if (status == -1) {
     env->die(env, stack, "[System Error]utime failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
