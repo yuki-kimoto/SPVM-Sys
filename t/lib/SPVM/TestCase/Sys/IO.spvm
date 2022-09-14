@@ -173,7 +173,11 @@ class TestCase::Sys::IO {
       
       my $read_length = 0;
       
-      Sys::IO->lseek($fd, 4, IO->SEEK_SET);
+      my $cur_offset = Sys::IO->lseek($fd, 4, IO->SEEK_SET);
+      
+      unless ($cur_offset == 4) {
+        return 0;
+      }
       
       $read_length = Sys::IO->read($fd, $buffer, $count);
       
@@ -757,6 +761,42 @@ class TestCase::Sys::IO {
       }
       
       Sys::IO->fclose($fs);
+    }
+    
+    return 1;
+  }
+
+  static method fseek : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $fs = Sys::IO->fopen($file, "rb");
+      
+      unless ($fs) {
+        return 0;
+      }
+      
+      my $buffer = (mutable string)new_string_len 4;
+      my $size = 1;
+      my $length = 4;
+      
+      my $read_length = 0;
+      
+      my $fseek_status = Sys::IO->fseek($fs, 4, IO->SEEK_SET);
+      
+      unless ($fseek_status == 0) {
+        return 0;
+      }
+      
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      
+      unless ($buffer eq "efgh") {
+        return 0;
+      }
+      
+      unless ($read_length == 4) {
+        return 0;
+      }
     }
     
     return 1;

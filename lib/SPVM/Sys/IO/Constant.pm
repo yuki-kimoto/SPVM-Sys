@@ -8,9 +8,9 @@ SPVM::Sys::IO::Constant - Constant values for IO.
 
 =head1 Usage
 
-  use Sys::IO::Constant as IOC;
+  use Sys::IO::Constant as IO;
   
-  my $o_trunc = IOC->O_TRUNC;
+  my $o_trunc = IO->O_TRUNC;
 
 =head1 Description
 

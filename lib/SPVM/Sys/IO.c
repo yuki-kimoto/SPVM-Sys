@@ -141,6 +141,9 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
+  
+  stack[0].lval = cur_offset;
+  
   return 0;
 }
 

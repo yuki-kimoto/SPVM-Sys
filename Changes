@@ -5,6 +5,8 @@
         static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
       [After]
         static method fwrite : int ($ptr : string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream);
+  [Bug Fix]
+    * Fix the bug that lseek return value is wrong.
   [Test Improvement]
     * Add many tests.
 0.02 2022-09-14

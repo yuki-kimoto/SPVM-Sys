@@ -55,6 +55,7 @@ ok(SPVM::TestCase::Sys::IO->clearerr($test_dir));
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->fwrite("$tmp_dir"));
 }
+ok(SPVM::TestCase::Sys::IO->fseek($test_dir));
 ok(SPVM::TestCase::Sys::IO->getc($test_dir));
 ok(SPVM::TestCase::Sys::IO->fgets($test_dir));
 
