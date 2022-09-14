@@ -39,7 +39,7 @@ class Sys::IO {
   
   native static method getc : int ($stream : Sys::IO::FileStream);
   
-  native static method fgets : string ($s : mutable string, $size : int, $stream : Sys::IO::FileStream);
+  native static method fgets : mutable string ($s : mutable string, $size : int, $stream : Sys::IO::FileStream);
   
   native static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
   

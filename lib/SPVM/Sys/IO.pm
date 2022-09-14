@@ -156,7 +156,7 @@ The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 fgets
 
-  static method fgets : string ($s : mutable string, $size : int, $stream : Sys::IO::FileStream);
+  static method fgets : mutable string ($s : mutable string, $size : int, $stream : Sys::IO::FileStream);
 
 fgets() reads in at most one less than size characters from stream and stores them into the buffer pointed to by s. Reading stops after an EOF or a newline. If a newline is read, it is stored into the buffer. A terminating null byte (aq\0aq) is stored after the last character in the buffer.
 
