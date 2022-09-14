@@ -51,7 +51,7 @@ class Sys::IO {
   
   native static method rmdir : int ($path : string);
   
-  native static method unlink : int ($file : string);
+  native static method unlink : int ($pathname : string);
   
   native static method chdir : int ($path : string);
   

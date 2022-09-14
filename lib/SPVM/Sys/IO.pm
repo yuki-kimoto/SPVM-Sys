@@ -36,7 +36,7 @@ See the detail of the L<rmdir|https://linux.die.net/man/2/rmdir> function in the
 
 =head2 unlink
 
-  static method unlink : int ($path : string);
+  static method unlink : int ($pathname : string);
 
 unlink() deletes a name from the file system. If that name was the last link to a file and no processes have the file open the file is deleted and the space it was using is made available for reuse.
 
