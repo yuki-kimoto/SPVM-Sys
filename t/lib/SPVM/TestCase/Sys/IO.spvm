@@ -375,6 +375,59 @@ class TestCase::Sys::IO {
     return 1;
   }
 
+  static method getc : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $fs = Sys::IO->fopen($file, "rb");
+      
+      unless ($fs) {
+        return 0;
+      }
+      
+      my $char = 0;
+      
+      $char = Sys::IO->getc($fs);
+      unless ($char == 'a') {
+        return 0;
+      }
+      $char = Sys::IO->getc( $fs);
+      unless ($char == 'b') {
+        return 0;
+      }
+      $char = Sys::IO->getc( $fs);
+      unless ($char == 'c') {
+        return 0;
+      }
+      $char = Sys::IO->getc( $fs);
+      unless ($char == 'd') {
+        return 0;
+      }
+      $char = Sys::IO->getc( $fs);
+      unless ($char == 'e') {
+        return 0;
+      }
+      $char = Sys::IO->getc( $fs);
+      unless ($char == 'f') {
+        return 0;
+      }
+      $char = Sys::IO->getc( $fs);
+      unless ($char == 'g') {
+        return 0;
+      }
+      $char = Sys::IO->getc( $fs);
+      unless ($char == 'h') {
+        return 0;
+      }
+      $char = Sys::IO->getc( $fs);
+      unless ($char == IO->EOF) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
   static method fclose : int ($test_dir : string) {
     
     {

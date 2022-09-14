@@ -128,16 +128,6 @@ See the detail of the L<clearerr|https://linux.die.net/man/3/clearerr> function 
 
 The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
-=head2 fwrite
-
-  static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
-
-The function fwrite() writes nmemb elements of data, each size bytes long, to the stream pointed to by stream, obtaining them from the location given by ptr.
-
-See the detail of the L<fread|https://linux.die.net/man/3/fwrite> function in the case of Linux.
-
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
-
 =head2 getc
 
   static method getc : int ($stream : Sys::IO::FileStream);
@@ -155,6 +145,16 @@ The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 fgets() reads in at most one less than size characters from stream and stores them into the buffer pointed to by s. Reading stops after an EOF or a newline. If a newline is read, it is stored into the buffer. A terminating null byte (aq\0aq) is stored after the last character in the buffer.
 
 See the detail of the L<fgets|https://linux.die.net/man/3/fgets> function in the case of Linux.
+
+=head2 fwrite
+
+  static method fwrite : int ($buffer : mutable string, $size : int, $data_length : int, $stream : Sys::IO::FileStream);
+
+The function fwrite() writes nmemb elements of data, each size bytes long, to the stream pointed to by stream, obtaining them from the location given by ptr.
+
+See the detail of the L<fread|https://linux.die.net/man/3/fwrite> function in the case of Linux.
+
+The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 =head2 fseek
 
