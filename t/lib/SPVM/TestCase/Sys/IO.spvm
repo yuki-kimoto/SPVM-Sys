@@ -4,6 +4,65 @@ class TestCase::Sys::IO {
   use Sys::FileTest;
   use Fn;
 
+  static method open : int ($test_dir : string, $tmp_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $fd = Sys::IO->open($file, IO->O_RDONLY, IO->O_TRUNC);
+      
+      unless ($fd >= 0) {
+        return 0;
+      }
+    }
+    
+    {
+      my $file = "$test_dir/ftest/not_found.txt";
+      eval { Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC); };
+      
+      unless ($@) {
+        return 0;
+      }
+      
+      unless (error == class_id Error::System) {
+        return 0;
+      }
+    }
+    
+    {
+      my $file = "$tmp_dir/foo.txt";
+      my $fd = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, IO->S_IRUSR | IO->S_IWUSR | IO->S_IRGRP | IO->S_IWGRP | IO->S_IROTH | IO->S_IWOTH);
+      
+      unless ($fd >= 0) {
+        return 0;
+      }
+    }
+    
+    $@ = undef;
+    
+    return 1;
+  }
+
+  static method close : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $fd = Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC);
+      
+      unless ($fd >= 0) {
+        return 0;
+      }
+      
+      my $status = Sys::IO->close($fd);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+
   static method mkdir : int ($test_dir : string) {
     my $dir = "$test_dir/foo";
     
@@ -65,55 +124,6 @@ class TestCase::Sys::IO {
     
     unless ($fd >= 0) {
       return 0;
-    }
-    
-    return 1;
-  }
-  
-  static method open : int ($test_dir : string) {
-    
-    {
-      my $file = "$test_dir/ftest/file_empty.txt";
-      my $fd = Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC);
-      
-      unless ($fd >= 0) {
-        return 0;
-      }
-    }
-    
-    {
-      my $file = "$test_dir/ftest/not_found.txt";
-      eval { Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC); };
-      
-      unless ($@) {
-        return 0;
-      }
-      
-      unless (error == class_id Error::System) {
-        return 0;
-      }
-    }
-    
-    $@ = undef;
-    
-    return 1;
-  }
-
-  static method close : int ($test_dir : string) {
-    
-    {
-      my $file = "$test_dir/ftest/file_empty.txt";
-      my $fd = Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC);
-      
-      unless ($fd >= 0) {
-        return 0;
-      }
-      
-      my $status = Sys::IO->close($fd);
-      
-      unless ($status == 0) {
-        return 0;
-      }
     }
     
     return 1;

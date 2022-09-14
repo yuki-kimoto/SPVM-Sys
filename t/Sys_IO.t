@@ -14,9 +14,12 @@ use SPVM 'TestCase::Sys::IO';
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
 my $test_dir = "$FindBin::Bin";
-ok(SPVM::TestCase::Sys::IO->fopen($test_dir));
-ok(SPVM::TestCase::Sys::IO->open($test_dir));
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->open($test_dir, "$tmp_dir"));
+}
 ok(SPVM::TestCase::Sys::IO->close($test_dir));
+ok(SPVM::TestCase::Sys::IO->fopen($test_dir));
 ok(SPVM::TestCase::Sys::IO->fdopen($test_dir));
 ok(SPVM::TestCase::Sys::IO->fclose($test_dir));
 {
