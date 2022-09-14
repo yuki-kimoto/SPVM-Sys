@@ -226,6 +226,108 @@ class TestCase::Sys::IO {
     return 1;
   }
 
+  static method feof : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $fs = Sys::IO->fopen($file, "rb");
+      
+      unless ($fs) {
+        return 0;
+      }
+      
+      my $buffer = (mutable string)new_string_len 4;
+      my $size = 1;
+      my $length = 4;
+      
+      my $read_length = 0;
+      
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      
+      unless ($buffer eq "abcd") {
+        return 0;
+      }
+     
+      unless ($read_length == 4) {
+        return 0;
+      }
+      
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      
+      unless ($buffer eq "efgh") {
+        return 0;
+      }
+      
+      unless ($read_length == 4) {
+        return 0;
+      }
+      
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      unless ($read_length == 0) {
+        return 0;
+      }
+      
+      my $feof = Sys::IO->feof($fs);
+      
+      unless ($feof) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
+  static method ferror : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $fs = Sys::IO->fopen($file, "rb");
+      
+      unless ($fs) {
+        return 0;
+      }
+      
+      my $buffer = (mutable string)new_string_len 4;
+      my $size = 1;
+      my $length = 4;
+      
+      my $read_length = 0;
+      
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      
+      unless ($buffer eq "abcd") {
+        return 0;
+      }
+     
+      unless ($read_length == 4) {
+        return 0;
+      }
+      
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      
+      unless ($buffer eq "efgh") {
+        return 0;
+      }
+      
+      unless ($read_length == 4) {
+        return 0;
+      }
+      
+      $read_length = Sys::IO->fread($buffer, $size, $length, $fs);
+      unless ($read_length == 0) {
+        return 0;
+      }
+      
+      my $ferror = Sys::IO->ferror($fs);
+      
+      if ($ferror) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
   static method fclose : int ($test_dir : string) {
     
     {
