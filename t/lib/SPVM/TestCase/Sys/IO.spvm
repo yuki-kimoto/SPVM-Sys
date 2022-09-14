@@ -32,6 +32,24 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method unlink : int ($test_dir : string) {
+
+    my $file = "$test_dir/foo.txt";
+    Sys::IO->fopen($file, "w");
+    
+    unless (Sys::FileTest->f($file)) {
+      return 0;
+    }
+    
+    Sys::IO->unlink($file);
+    
+    if (Sys::FileTest->e($file)) {
+      return 0;
+    }
+    
+    return 1;
+  }
   
   static method open : int ($test_dir : string) {
     
