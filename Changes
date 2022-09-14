@@ -5,6 +5,8 @@
     * Remove Sys::IO->freopen.
     * Simplify the implementation of the methods for file test in Sys::FileTest
       If the file doesn't exists, an exception will be thrown except for e.
+  [Changes]
+    * Use access function for Sys::FileTest->e.
       
 0.01 2022-09-13
   
