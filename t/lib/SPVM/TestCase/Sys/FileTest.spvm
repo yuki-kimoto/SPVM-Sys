@@ -4,15 +4,6 @@ class TestCase::Sys::FileTest {
   static method f_min : int () {
     
     {
-      # Not exists
-      {
-        my $file = "t/ftest/not_found_file";
-        eval { Sys::FileTest->f($file); };
-        unless ($@) {
-          return 0;
-        }
-      }
-      
       # File
       {
         my $file = "t/ftest/file_empty.txt";
