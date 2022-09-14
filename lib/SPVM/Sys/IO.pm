@@ -26,6 +26,14 @@ See the detail of the L<mkdir|https://linux.die.net/man/2/mkdir> function in the
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
 
+=head2 umask
+
+  static method umask : int ($mode : int);
+
+umask() sets the calling process's file mode creation mask (umask) to mask & 0777 (i.e., only the file permission bits of mask are used), and returns the previous value of the mask.
+
+See the detail of the L<umask|https://linux.die.net/man/2/umask> function in the case of Linux.
+
 =head2 rmdir
 
   static method rmdir : int ($path : string);
@@ -258,6 +266,14 @@ chown() changes the ownership of the file specified by path, which is dereferenc
 
 See the detail of the L<chown|https://linux.die.net/man/2/chown> function in the case of Linux.
 
+=head2 truncate
+
+  static method truncate : long ($path : string, $offset : long);
+
+The truncate() and ftruncate() functions cause the regular file named by path or referenced by fd to be truncated to a size of precisely length bytes.
+
+See the detail of the L<truncate|https://linux.die.net/man/2/truncate> function in the case of Linux.
+
 =head2 opendir
 
   static method opendir : Sys::IO::DirStream ($dir : string);
@@ -317,22 +333,6 @@ The seekdir() function sets the location in the directory stream from which the 
 See the detail of the L<seekdir|https://linux.die.net/man/3/seekdir> function in the case of Linux.
 
 The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
-
-=head2 truncate
-
-  static method truncate : long ($path : string, $offset : long);
-
-The truncate() and ftruncate() functions cause the regular file named by path or referenced by fd to be truncated to a size of precisely length bytes.
-
-See the detail of the L<truncate|https://linux.die.net/man/2/truncate> function in the case of Linux.
-
-=head2 umask
-
-  static method umask : int ($mode : int);
-
-umask() sets the calling process's file mode creation mask (umask) to mask & 0777 (i.e., only the file permission bits of mask are used), and returns the previous value of the mask.
-
-See the detail of the L<umask|https://linux.die.net/man/2/umask> function in the case of Linux.
 
 =head2 rename
 

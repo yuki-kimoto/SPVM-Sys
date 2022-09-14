@@ -591,6 +591,17 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__umask(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t mode = stack[0].ival;
+  
+  int32_t old_mode = umask(mode);
+  
+  stack[0].ival = old_mode;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
@@ -703,6 +714,31 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
+}
+
+int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  int64_t offset = stack[1].ival;
+  
+  if (!(offset >= 0)) {
+    return env->die(env, stack, "The offset must be less than or equal to 0", FILE_NAME, __LINE__);
+  }
+
+  int32_t status = truncate(path, offset);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]truncate failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  return 0;
 }
 
 static const int DIR_STREAM_CLOSED_INDEX = 0;
@@ -841,42 +877,6 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   seekdir(dir_stream, offset);
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-
-  int64_t offset = stack[1].ival;
-  
-  if (!(offset >= 0)) {
-    return env->die(env, stack, "The offset must be less than or equal to 0", FILE_NAME, __LINE__);
-  }
-
-  int32_t status = truncate(path, offset);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]truncate failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__umask(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t mode = stack[0].ival;
-  
-  int32_t old_mode = umask(mode);
-  
-  stack[0].ival = old_mode;
   
   return 0;
 }
