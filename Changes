@@ -15,6 +15,13 @@
     * Fix the bug that truncate return value is wrong.
   [Test Improvement]
     * Add many tests.
+  [Test Fix]
+    * Fix Github Action Windows 2019 test by adding ".gitattribute"
+    
+      # All files are binary files. CRLF is always CRLF. LF is always LF.
+      * -text
+    * Fix reference count tests.
+    
   [Document Improvement]
     * Add the link to this repository.
 0.02 2022-09-14

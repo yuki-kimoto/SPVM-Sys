@@ -20,6 +20,8 @@ ok(SPVM::TestCase::Sys::FileTest->d);
 ok(SPVM::TestCase::Sys::FileTest->s);
 ok(SPVM::TestCase::Sys::FileTest->z);
 
+SPVM::set_exception(undef);
+
 # All object is freed
 my $end_memory_blocks_count = SPVM::get_memory_blocks_count();
 is($end_memory_blocks_count, $start_memory_blocks_count);
