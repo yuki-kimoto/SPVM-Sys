@@ -1058,7 +1058,10 @@ class TestCase::Sys::IO {
   }
   
   static method _fullpath : int ($test_dir : string) {
-
+    
+    my $test_dir_backslash = (mutable string)copy $test_dir;
+    &replace_chars($test_dir_backslash, '/', '\\');
+    
     my $file = "$test_dir/ftest/dir_empty/../file_empty.txt";
     
     warn "GGG $file";
@@ -1078,7 +1081,7 @@ class TestCase::Sys::IO {
       
       warn "BBB $ret_resolved_path";
       
-      unless ($ret_resolved_path eq "$test_dir/ftest/file_empty.txt") {
+      unless ($ret_resolved_path eq "$test_dir_backslash\\ftest\\file_empty.txt") {
         return 0;
       }
     }
@@ -1095,7 +1098,7 @@ class TestCase::Sys::IO {
       Fn->shorten_null_char($ret_resolved_path);
       
       warn "EEE $ret_resolved_path";
-      unless ($ret_resolved_path eq "$test_dir/ftest/file_empty.txt") {
+      unless ($ret_resolved_path eq "$test_dir_backslash\\ftest\\file_empty.txt") {
         return 0;
       }
     }
