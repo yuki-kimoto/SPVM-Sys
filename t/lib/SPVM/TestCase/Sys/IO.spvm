@@ -885,7 +885,7 @@ class TestCase::Sys::IO {
     
     warn "AAA $old_mask";
     
-    unless ($old_mask > 0) {
+    unless ($old_mask >= 0) {
       return 0;
     }
     
