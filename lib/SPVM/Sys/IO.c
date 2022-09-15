@@ -947,6 +947,41 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "symlink is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  int32_t e = 0;
+  
+  void* obj_oldpath = stack[0].oval;
+  
+  if (!obj_oldpath) {
+    return env->die(env, stack, "The oldpath must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
+
+  void* obj_newpath = stack[1].oval;
+  
+  if (!obj_newpath) {
+    return env->die(env, stack, "The link path must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* newpath = env->get_chars(env, stack, obj_newpath);
+  
+  int32_t status = symlink(oldpath, newpath);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]symlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
 int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
   env->die(env, stack, "readlink is not supported on this system", FILE_NAME, __LINE__);
@@ -988,41 +1023,6 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = placed_length;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifdef _WIN32
-  env->die(env, stack, "symlink is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  int32_t e = 0;
-  
-  void* obj_oldpath = stack[0].oval;
-  
-  if (!obj_oldpath) {
-    return env->die(env, stack, "The oldpath must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
-
-  void* obj_newpath = stack[1].oval;
-  
-  if (!obj_newpath) {
-    return env->die(env, stack, "The link path must be defined", FILE_NAME, __LINE__);
-  }
-  
-  const char* newpath = env->get_chars(env, stack, obj_newpath);
-  
-  int32_t status = symlink(oldpath, newpath);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]symlink failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
   
   return 0;
 #endif

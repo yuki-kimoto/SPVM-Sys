@@ -314,14 +314,6 @@ The truncate() and ftruncate() functions cause the regular file named by path or
 
 See the detail of the L<truncate|https://linux.die.net/man/2/truncate> function in the case of Linux.
 
-=head2 readlink
-
-  static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
-
-readlink() places the contents of the symbolic link path in the buffer buf, which has size bufsiz. readlink() does not append a null byte to buf. It will truncate the contents (to a length of bufsiz characters), in case the buffer is too small to hold all of the contents.
-
-See the detail of the L<readlink|https://linux.die.net/man/2/readlink> function in the case of Linux.
-
 =head2 symlink
 
   static method symlink : int ($oldpath : string, $newpath : string);
@@ -329,6 +321,14 @@ See the detail of the L<readlink|https://linux.die.net/man/2/readlink> function 
 symlink() creates a symbolic link named newpath which contains the string oldpath.
 
 See the detail of the L<symlink|https://linux.die.net/man/2/symlink> function in the case of Linux.
+
+=head2 readlink
+
+  static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
+
+readlink() places the contents of the symbolic link path in the buffer buf, which has size bufsiz. readlink() does not append a null byte to buf. It will truncate the contents (to a length of bufsiz characters), in case the buffer is too small to hold all of the contents.
+
+See the detail of the L<readlink|https://linux.die.net/man/2/readlink> function in the case of Linux.
 
 =head2 opendir
 

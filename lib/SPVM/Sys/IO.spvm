@@ -75,9 +75,9 @@ class Sys::IO {
   
   native static method truncate : int ($path : string, $length : long);
   
-  native static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
-  
   native static method symlink : int ($oldpath : string, $newpath : string);
+  
+  native static method readlink : int ($path : string, $buffer : mutable string, $buffer_size : int);
   
   native static method opendir : Sys::IO::DirStream ($dir : string);
   
