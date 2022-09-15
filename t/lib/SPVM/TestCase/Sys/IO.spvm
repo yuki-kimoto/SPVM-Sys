@@ -1050,4 +1050,21 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method chdir : int ($test_dir : string) {
+    my $dir = "$test_dir/ftest/dir_empty";
+    
+    my $status = Sys::IO->chdir($dir);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    my $cwd = Sys::IO->getcwd(undef, 0);
+    unless (Fn->contains($cwd, "dir_empty")) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }

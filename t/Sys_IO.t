@@ -87,6 +87,8 @@ else {
 
 ok(SPVM::TestCase::Sys::IO->realpath("$test_dir"));
 
+ok(SPVM::TestCase::Sys::IO->chdir("$test_dir"));
+
 SPVM::set_exception(undef);
 
 # All object is freed
