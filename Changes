@@ -3,6 +3,10 @@
     * Add the getcwd method to the Sys::IO class.
     
       static method getcwd : string ($buf : mutable string, $size : int);
+      
+    * Add the realpath method to the Sys::IO class.
+    
+      static method realpath : string ($path : string, $resolved_path : mutable string);
     
   [Incompatible Changes]
     * Change the definition of the following method in the Sys::IO class.

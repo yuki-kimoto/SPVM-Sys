@@ -689,7 +689,6 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   char* ret_buf;
-  int32_t dynamic_alloc = 0;
   if (obj_buf) {
     char* buf = (char*)env->get_chars(env, stack, obj_buf);
     int32_t buf_length = env->length(env, stack, obj_buf);
@@ -700,8 +699,11 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     ret_buf = getcwd(buf, size);
   }
   else {
-    dynamic_alloc = 1;
     ret_buf = getcwd(NULL, size);
+    if (ret_buf) {
+      obj_buf = env->new_string(env, stack, ret_buf, strlen(ret_buf));
+      free(ret_buf);
+    }
   }
   
   if (!ret_buf) {
@@ -709,13 +711,43 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  if (dynamic_alloc) {
-    obj_buf = env->new_string(env, stack, ret_buf, strlen(ret_buf));
-    free(ret_buf);
-  }
-  
   stack[0].oval = obj_buf;
   
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  }
+
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  void* obj_resolved_path = stack[1].oval;
+  
+  char* ret_resolved_path;
+  if (obj_resolved_path) {
+    char* resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
+    ret_resolved_path = realpath(path, resolved_path);
+  }
+  else {
+    ret_resolved_path = realpath(path, NULL);
+    if (ret_resolved_path) {
+      obj_resolved_path = env->new_string(env, stack, ret_resolved_path, strlen(ret_resolved_path));
+      free(ret_resolved_path);
+    }
+  }
+  
+  if (!ret_resolved_path) {
+    env->die(env, stack, "[System Error]realpath failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].oval = obj_resolved_path;
+
   return 0;
 }
 
