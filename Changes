@@ -1,4 +1,9 @@
 0.03 2022-09-15
+  [New Features]
+    * Add the getcwd method to the Sys::IO class.
+    
+      static method getcwd : string ($buf : mutable string, $size : int);
+    
   [Incompatible Changes]
     * Change the definition of the following method in the Sys::IO class.
       [Before]

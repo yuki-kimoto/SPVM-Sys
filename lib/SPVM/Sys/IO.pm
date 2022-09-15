@@ -248,6 +248,14 @@ rename() renames a file, moving it between directories if required. Any other ha
 
 See the detail of the L<rename|https://linux.die.net/man/2/rename> function in the case of Linux.
 
+=head2 getcwd
+
+  static method getcwd : string ($buf : mutable string, $size : int);
+
+The getcwd() function copies an absolute pathname of the current working directory to the array pointed to by buf, which is of length size.
+
+See the detail of the L<getcwd|https://linux.die.net/man/2/getcwd> function in the case of Linux.
+
 =head2 chdir
 
   static method chdir : int ($path : string);

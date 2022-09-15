@@ -676,6 +676,49 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  void* obj_buf = stack[0].oval;
+
+  int32_t size = stack[1].ival;
+
+  if (!(size >= 0)) {
+    return env->die(env, stack, "The size must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  char* ret_buf;
+  int32_t dynamic_alloc = 0;
+  if (obj_buf) {
+    char* buf = (char*)env->get_chars(env, stack, obj_buf);
+    int32_t buf_length = env->length(env, stack, obj_buf);
+    if (!(size <= buf_length)) {
+      return env->die(env, stack, "The size must be less than or equal to the lenght of the buffer", FILE_NAME, __LINE__);
+    }
+    
+    ret_buf = getcwd(buf, size);
+  }
+  else {
+    dynamic_alloc = 1;
+    ret_buf = getcwd(NULL, size);
+  }
+  
+  if (!ret_buf) {
+    env->die(env, stack, "[System Error]getcwd failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  if (dynamic_alloc) {
+    obj_buf = env->new_string(env, stack, ret_buf, strlen(ret_buf));
+    free(ret_buf);
+  }
+  
+  stack[0].oval = obj_buf;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;

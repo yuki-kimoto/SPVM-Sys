@@ -58,6 +58,8 @@ class Sys::IO {
   native static method unlink : int ($pathname : string);
   
   native static method rename : int ($oldpath : string, $newpath : string);
+
+  native static method getcwd : string ($buf : mutable string, $size : int);
   
   native static method chdir : int ($path : string);
   
