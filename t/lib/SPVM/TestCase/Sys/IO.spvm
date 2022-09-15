@@ -883,5 +883,40 @@ class TestCase::Sys::IO {
     
     return 1;
   }
-  
+
+  static method flock : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $fd = Sys::IO->open($file, IO->O_RDONLY, IO->O_TRUNC);
+      
+      my $status_lock = Sys::IO->flock($fd, IO->LOCK_SH);
+      
+      unless ($status_lock == 0) {
+        return 0;
+      }
+
+      my $status_unlock = Sys::IO->flock($fd, IO->LOCK_UN);
+      
+      unless ($status_unlock == 0) {
+        return 0;
+      }
+      
+      my $close_status = Sys::IO->close($fd);
+      
+      unless ($close_status == 0) {
+        return 0;
+      }
+    }
+    
+    # The constant values for the flock function
+    {
+      IO->LOCK_SH;
+      IO->LOCK_EX;
+      IO->LOCK_UN;
+    }
+    
+    return 1;
+  }
+
 }

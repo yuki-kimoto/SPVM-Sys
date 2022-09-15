@@ -41,6 +41,15 @@ ok(SPVM::TestCase::Sys::IO->fseek($test_dir));
 ok(SPVM::TestCase::Sys::IO->ftell($test_dir));
 ok(SPVM::TestCase::Sys::IO->fflush($test_dir));
 ok(SPVM::TestCase::Sys::IO->fclose($test_dir));
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::IO->flock(0, 0) };
+  like($@, qr|not supported|);
+}
+else {
+  ok(SPVM::TestCase::Sys::IO->flock($test_dir));
+}
+
 {
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->mkdir("$tmp_dir"));
