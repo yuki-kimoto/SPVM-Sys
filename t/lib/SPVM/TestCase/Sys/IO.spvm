@@ -1051,11 +1051,16 @@ class TestCase::Sys::IO {
       my $resolved_path = (mutable string)new_string_len 100;
       my $ret_resolved_path = Sys::IO->_fullpath($resolved_path, $file, 100);
       
+      warn "AAA";
+      
       unless ($ret_resolved_path) {
         return 0;
       }
+      warn "DDD";
       
       Fn->shorten_null_char($ret_resolved_path);
+      
+      warn "BBB $ret_resolved_path";
       
       unless ($ret_resolved_path eq "$test_dir/ftest/file_empty.txt") {
         return 0;
@@ -1065,12 +1070,15 @@ class TestCase::Sys::IO {
     {
       my $ret_resolved_path = Sys::IO->_fullpath(undef, $file, 0);
       
+      warn "CCC";
       unless ($ret_resolved_path) {
         return 0;
       }
       
+      warn "DDD";
       Fn->shorten_null_char($ret_resolved_path);
       
+      warn "EEE $ret_resolved_path";
       unless ($ret_resolved_path eq "$test_dir/ftest/file_empty.txt") {
         return 0;
       }
