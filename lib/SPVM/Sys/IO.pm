@@ -242,7 +242,7 @@ See the detail of the L<unlink|https://linux.die.net/man/2/unlink> function in t
 
 =head2 rename
 
-  static method rename : int ($old_path : string, $new_path : string);
+  static method rename : int ($oldpath : string, $newpath : string);
 
 rename() renames a file, moving it between directories if required. Any other hard links to the file (as created using link(2)) are unaffected. Open file descriptors for oldpath are also unaffected.
 
