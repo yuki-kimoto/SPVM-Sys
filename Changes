@@ -1,3 +1,6 @@
+0.04 2022-09-16
+  [Test Improvement]
+    * Add many tests.
 0.03 2022-09-15
   [New Features]
     * Add the getcwd method to the Sys::IO class.
