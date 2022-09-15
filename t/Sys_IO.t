@@ -94,6 +94,15 @@ ok(SPVM::TestCase::Sys::IO->chdir("$test_dir"));
   ok(SPVM::TestCase::Sys::IO->chmod("$tmp_dir"));
 }
 
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::IO->chown(undef, 0, 0) };
+  like($@, qr|not supported|);
+}
+else {
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->chown("$tmp_dir"));
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
