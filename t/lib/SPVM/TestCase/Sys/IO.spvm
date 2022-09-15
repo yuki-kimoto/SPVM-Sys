@@ -222,97 +222,6 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-
-  static method mkdir : int ($test_dir : string) {
-    my $dir = "$test_dir/foo";
-    
-    my $status = Sys::IO->mkdir($dir, 0755);
-    
-    unless ($status == 0) {
-      return 0;
-    }
-    
-    unless (Sys::FileTest->d($dir)) {
-      return 0;
-    }
-    
-    return 1;
-  }
-
-  static method umask : int ($test_dir : string) {
-    my $dir = "$test_dir/foo";
-    
-    my $old_mask = Sys::IO->umask(0002);
-    
-    unless ($old_mask > 0) {
-      return 0;
-    }
-    
-    my $cur_mask = Sys::IO->umask(0022);
-    unless ($cur_mask == 0002) {
-      return 0;
-    }
-    
-    # Restore
-    Sys::IO->umask($old_mask);
-    
-    # The constant values for permissions
-    {
-      IO->S_IRUSR;
-      IO->S_IWUSR;
-      IO->S_IRGRP;
-      IO->S_IWGRP;
-      IO->S_IROTH;
-      IO->S_IWOTH;
-    }
-    
-    return 1;
-  }
-
-  static method rmdir : int ($test_dir : string) {
-    my $dir = "$test_dir/foo";
-    
-    Sys::IO->mkdir($dir, 0755);
-    
-    unless (Sys::FileTest->d($dir)) {
-      return 0;
-    }
-    
-    my $status = Sys::IO->rmdir($dir);
-
-    unless ($status == 0) {
-      return 0;
-    }
-    
-    if (Sys::FileTest->e($dir)) {
-      return 0;
-    }
-    
-    return 1;
-  }
-
-  static method unlink : int ($test_dir : string) {
-
-    my $file = "$test_dir/foo.txt";
-    Sys::IO->fopen($file, "w");
-    
-    unless (Sys::FileTest->f($file)) {
-      return 0;
-    }
-    
-    my $status = Sys::IO->unlink($file);
-    
-    unless ($status == 0) {
-      return 0;
-    }
-    
-    if (Sys::FileTest->e($file)) {
-      return 0;
-    }
-    
-    return 1;
-  }
-
   static method fileno : int ($test_dir : string) {
 
     my $file = "$test_dir/foo.txt";
@@ -952,4 +861,94 @@ class TestCase::Sys::IO {
     return 1;
   }
 
+
+  static method mkdir : int ($test_dir : string) {
+    my $dir = "$test_dir/foo";
+    
+    my $status = Sys::IO->mkdir($dir, 0755);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    unless (Sys::FileTest->d($dir)) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method umask : int ($test_dir : string) {
+    my $dir = "$test_dir/foo";
+    
+    my $old_mask = Sys::IO->umask(0002);
+    
+    unless ($old_mask > 0) {
+      return 0;
+    }
+    
+    my $cur_mask = Sys::IO->umask(0022);
+    unless ($cur_mask == 0002) {
+      return 0;
+    }
+    
+    # Restore
+    Sys::IO->umask($old_mask);
+    
+    # The constant values for permissions
+    {
+      IO->S_IRUSR;
+      IO->S_IWUSR;
+      IO->S_IRGRP;
+      IO->S_IWGRP;
+      IO->S_IROTH;
+      IO->S_IWOTH;
+    }
+    
+    return 1;
+  }
+
+  static method rmdir : int ($test_dir : string) {
+    my $dir = "$test_dir/foo";
+    
+    Sys::IO->mkdir($dir, 0755);
+    
+    unless (Sys::FileTest->d($dir)) {
+      return 0;
+    }
+    
+    my $status = Sys::IO->rmdir($dir);
+
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    if (Sys::FileTest->e($dir)) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method unlink : int ($test_dir : string) {
+
+    my $file = "$test_dir/foo.txt";
+    Sys::IO->fopen($file, "w");
+    
+    unless (Sys::FileTest->f($file)) {
+      return 0;
+    }
+    
+    my $status = Sys::IO->unlink($file);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    if (Sys::FileTest->e($file)) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
