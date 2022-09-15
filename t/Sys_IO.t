@@ -72,6 +72,11 @@ else {
 
 {
   my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->rename("$tmp_dir"));
+}
+
+{
+  my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->fileno("$tmp_dir"));
 }
 

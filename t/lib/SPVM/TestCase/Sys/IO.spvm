@@ -951,4 +951,31 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method rename : int ($test_dir : string) {
+
+    my $file = "$test_dir/foo.txt";
+    Sys::IO->fopen($file, "w");
+    
+    unless (Sys::FileTest->e($file)) {
+      return 0;
+    }
+    
+    my $new_file = "$test_dir/foo_new.txt";
+    my $status = Sys::IO->rename($file, $new_file);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    if (Sys::FileTest->e($file)) {
+      return 0;
+    }
+
+    unless (Sys::FileTest->e($new_file)) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
