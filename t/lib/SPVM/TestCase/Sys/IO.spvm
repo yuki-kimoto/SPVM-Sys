@@ -1047,6 +1047,8 @@ class TestCase::Sys::IO {
 
     my $file = "$test_dir/ftest/dir_empty/../file_empty.txt";
     
+    warn "GGG $file";
+    
     {
       my $resolved_path = (mutable string)new_string_len 100;
       my $ret_resolved_path = Sys::IO->_fullpath($resolved_path, $file, 100);
