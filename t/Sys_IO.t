@@ -89,6 +89,11 @@ ok(SPVM::TestCase::Sys::IO->realpath("$test_dir"));
 
 ok(SPVM::TestCase::Sys::IO->chdir("$test_dir"));
 
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->chmod("$tmp_dir"));
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed

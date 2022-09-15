@@ -1067,4 +1067,24 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method chmod : int ($test_dir : string) {
+    my $file = "$test_dir/foo.txt";
+    my $fs = Sys::IO->fopen($file, "w");
+    
+    unless (Sys::FileTest->f($file)) {
+      return 0;
+    }
+    
+    Sys::IO->fclose($fs);
+    
+    my $status = Sys::IO->chmod($file, 0755);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
 }
