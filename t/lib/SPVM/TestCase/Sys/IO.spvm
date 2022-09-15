@@ -645,20 +645,15 @@ class TestCase::Sys::IO {
       
       my $success = (string)undef;
       
-      warn "AAA";
-      
       $success = Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($success) {
         return 0;
       }
       
-      warn "GGG $buffer->[0] $buffer->[1] $buffer->[2] $buffer->[3]";
-      
       unless ($buffer eq "a\n\0\0") {
         return 0;
       }
-      warn "BBB";
       
 
       Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
@@ -672,7 +667,6 @@ class TestCase::Sys::IO {
         return 0;
       }
 
-      warn "CCC";
       Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
       $success = Sys::IO->fgets($buffer, $size, $stream);
       
@@ -687,7 +681,6 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      warn "DDD";
       Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
       $success = Sys::IO->fgets($buffer, $size, $stream);
       
@@ -698,7 +691,6 @@ class TestCase::Sys::IO {
       unless ($buffer eq "bc\n\0") {
         return 0;
       }
-      warn "EEE";
 
       Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
       $success = Sys::IO->fgets($buffer, $size, $stream);
@@ -710,7 +702,6 @@ class TestCase::Sys::IO {
       unless ($buffer eq "d\0\0\0") {
         return 0;
       }
-      warn "FFF";
 
       Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
       $success = Sys::IO->fgets($buffer, $size, $stream);
