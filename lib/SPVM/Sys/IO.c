@@ -761,20 +761,22 @@ int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_absPath = stack[0].oval;
   
-  if (!obj_absPath) {
-    return env->die(env, stack, "The absPath must be defined", FILE_NAME, __LINE__);
-  }
-
   const char* absPath = env->get_chars(env, stack, obj_absPath);
 
   void* obj_relPath = stack[1].oval;
+
+  if (!obj_relPath) {
+    return env->die(env, stack, "The relPath must be defined", FILE_NAME, __LINE__);
+  }
+  
+  char* relPath = (char*)env->get_chars(env, stack, obj_relPath);
   
   int32_t size = stack[2].ival;
   
   char* ret_absPath;
-  if (obj_relPath) {
-    char* relPath = (char*)env->get_chars(env, stack, obj_relPath);
-    ret_absPath = realabsPath(absPath, relPath);
+  if (obj_absPath) {
+    char* absPath = (char*)env->get_chars(env, stack, obj_absPath);
+    ret_absPath = _fullpath(absPath, relPath, size);
   }
   else {
     ret_absPath = _fullpath(NULL, relPath, 0);
