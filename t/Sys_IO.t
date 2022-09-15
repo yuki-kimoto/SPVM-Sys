@@ -80,6 +80,11 @@ else {
   ok(SPVM::TestCase::Sys::IO->fileno("$tmp_dir"));
 }
 
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->getcwd("$tmp_dir"));
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
