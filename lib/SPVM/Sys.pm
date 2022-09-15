@@ -40,6 +40,14 @@ The getenv() function searches the environment list to find the environment vari
 
 See the detail of the L<getenv|https://linux.die.net/man/3/getenv> function in the case of Linux.
 
+=head2 setenv
+
+  static method setenv : int ($name : string, $value : string, $overwrite : int);
+
+The setenv() function adds the variable name to the environment with the value value, if name does not already exist. If name does exist in the environment, then its value is changed to value if overwrite is nonzero; if overwrite is zero, then the value of name is not changed. This function makes copies of the strings pointed to by name and value (by contrast with putenv(3)).
+
+See the detail of the L<setenv|https://linux.die.net/man/3/setenv> function in the case of Linux.
+
 =head1 System Modules
 
 =over 2
