@@ -61,6 +61,8 @@ class Sys::IO {
 
   native static method getcwd : mutable string ($buf : mutable string, $size : int);
 
+  native static method _getdcwd : mutable string ($drive : int, $buffer : mutable string, $maxlen : int);
+
   native static method realpath : mutable string ($path : string, $resolved_path : mutable string);
 
   native static method _fullpath : mutable string ($absPath : mutable string, $relPath : string, $maxLength : int);

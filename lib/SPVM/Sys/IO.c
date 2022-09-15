@@ -716,6 +716,52 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  int32_t e = 0;
+  
+  int32_t drive = stack[0].ival;
+  
+  void* obj_buffer = stack[1].oval;
+
+  int32_t maxlen = stack[2].ival;
+
+  if (!(maxlen > 0)) {
+    return env->die(env, stack, "The maxlen must be greater than 0", FILE_NAME, __LINE__);
+  }
+  
+  char* ret_buffer;
+  if (obj_buffer) {
+    char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
+    int32_t buffer_length = env->length(env, stack, obj_buffer);
+    if (!(maxlen <= buffer_length)) {
+      return env->die(env, stack, "The maxlen must be less than or equal to the lenght of the bufferfer", FILE_NAME, __LINE__);
+    }
+    
+    ret_buffer = _getdcwd(drive, buffer, maxlen);
+  }
+  else {
+    ret_buffer = _getdcwd(drive, NULL, maxlen);
+    if (ret_buffer) {
+      obj_buffer = env->new_string(env, stack, ret_buffer, strlen(ret_buffer));
+      free(ret_buffer);
+    }
+  }
+  
+  if (!ret_buffer) {
+    env->die(env, stack, "[System Error]_getdcwd failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].oval = obj_buffer;
+  
+  return 0;
+#else
+  env->die(env, stack, "_getdcwd is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+}
+
 int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
   env->die(env, stack, "realpath is not supported on this system", FILE_NAME, __LINE__);

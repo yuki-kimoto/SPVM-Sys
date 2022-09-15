@@ -256,6 +256,14 @@ The getcwd() function copies an absolute pathname of the current working directo
 
 See the detail of the L<getcwd|https://linux.die.net/man/2/getcwd> function in the case of Linux.
 
+=head2 _getdcwd
+
+  static method _getdcwd : mutable string ($drive : int, $buffer : mutable string, $maxlen : int);
+
+Gets the full path of the current working directory on the specified drive.
+
+See the detail of the L<_getdcwd|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/getdcwd-wgetdcwd?view=msvc-170> function in the case of Windows.
+
 =head2 realpath
 
   static method realpath : mutable string ($path : string, $resolved_path : mutable string);
