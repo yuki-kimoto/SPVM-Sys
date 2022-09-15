@@ -122,6 +122,15 @@ else {
   ok(SPVM::TestCase::Sys::IO->truncate("$tmp_dir"));
 }
 
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::IO->symlink(undef, undef) };
+  like($@, qr|not supported|);
+}
+else {
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->symlink("$tmp_dir"));
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed

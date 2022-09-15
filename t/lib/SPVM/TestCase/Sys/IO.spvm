@@ -1203,4 +1203,37 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method symlink : int ($test_dir : string) {
+    
+    my $file = "$test_dir/foo.txt";
+    {
+      my $fs = Sys::IO->fopen($file, "wb");
+      
+      unless ($fs) {
+        return 0;
+      }
+      Sys::IO->fclose($fs);
+    }
+    
+    {
+      my $file_symlink = "$test_dir/foo_link";
+      my $status = Sys::IO->symlink($file, $file_symlink);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+      
+      warn "AAAA";
+      
+      my $exists_symlink_file = Sys::FileTest->l($file_symlink);
+      unless ($exists_symlink_file) {
+        return 0;
+      }
+      warn "BBB";
+    }
+    
+    return 1;
+  }
+
 }

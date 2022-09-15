@@ -180,7 +180,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new;
     
-    Sys::IO->stat($file, $stat);
+    Sys::IO->lstat($file, $stat);
     
     # Symbolic link
     my $ok = 0;
