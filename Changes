@@ -10,12 +10,13 @@
         static method truncate : long ($path : string, $offset : long);
       [After]
         static method truncate : int ($path : string, $length : long);
-   
   [Bug Fix]
     * Fix the bug that lseek return value is wrong.
     * Fix the bug that truncate return value is wrong.
   [Test Improvement]
     * Add many tests.
+  [Document Improvement]
+    * Add the link to this repository.
 0.02 2022-09-14
   [Document Improvement]
     * Add Sys::FileTest doc.

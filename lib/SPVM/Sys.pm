@@ -48,6 +48,10 @@ If C<_WIN32> in C<C language> is defined, return C<1>. Otherwize return C<0>.
 
 =back
 
+=head1 Repository
+
+L<https://github.com/yuki-kimoto/SPVM-Sys>
+
 =head1 Copyright & License
 
 Copyright Yuki Kimoto 2022-2022, all rights reserved.
