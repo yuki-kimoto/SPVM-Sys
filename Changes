@@ -8,7 +8,7 @@
     
       static method realpath : mutable string ($path : string, $resolved_path : mutable string);
     
-    * Add the followng methods to the Sys class.
+    * Add the following methods to the Sys class.
     
       static method getenv : string ($name : string);
       static method setenv : int ($name : string, $value : string, $overwrite : int);
