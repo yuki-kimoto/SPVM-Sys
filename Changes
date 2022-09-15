@@ -12,6 +12,7 @@
     
       static method getenv : string ($name : string);
       static method setenv : int ($name : string, $value : string, $overwrite : int);
+      static method unsetenv : int ($name : string);
       
   [Incompatible Changes]
     * Change the definition of the following method in the Sys::IO class.

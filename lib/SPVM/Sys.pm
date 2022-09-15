@@ -48,6 +48,14 @@ The setenv() function adds the variable name to the environment with the value v
 
 See the detail of the L<setenv|https://linux.die.net/man/3/setenv> function in the case of Linux.
 
+=head2 unsetenv
+
+  static method unsetenv : int ($name : string);
+
+The unsetenv() function deletes the variable name from the environment. If name does not exist in the environment, then the function succeeds, and the environment is unchanged.
+
+See the detail of the L<unsetenv|https://linux.die.net/man/3/unsetenv> function in the case of Linux.
+
 =head1 System Modules
 
 =over 2

@@ -73,3 +73,23 @@ int32_t SPVM__Sys__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__unsetenv(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  void* obj_name = stack[0].oval;
+  if (!obj_name) {
+    return env->die(env, stack, "The name must be defined", FILE_NAME, __LINE__);
+  }
+  const char* name = env->get_chars(env, stack, obj_name);
+
+  int32_t status = unsetenv(name);
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]unsetenv failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
