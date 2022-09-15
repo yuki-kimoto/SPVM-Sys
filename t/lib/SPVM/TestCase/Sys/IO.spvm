@@ -883,11 +883,16 @@ class TestCase::Sys::IO {
     
     my $old_mask = Sys::IO->umask(0002);
     
+    warn "AAA $old_mask";
+    
     unless ($old_mask > 0) {
       return 0;
     }
     
     my $cur_mask = Sys::IO->umask(0022);
+
+    warn "BBB $cur_mask";
+
     unless ($cur_mask == 0002) {
       return 0;
     }
