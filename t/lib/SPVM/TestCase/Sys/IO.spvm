@@ -1224,13 +1224,10 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      warn "AAAA";
-      
       my $exists_symlink_file = Sys::FileTest->l($file_symlink);
       unless ($exists_symlink_file) {
         return 0;
       }
-      warn "BBB";
     }
     
     return 1;
