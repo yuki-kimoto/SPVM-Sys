@@ -756,6 +756,48 @@ int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
+int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  
+  void* obj_absPath = stack[0].oval;
+  
+  if (!obj_absPath) {
+    return env->die(env, stack, "The absPath must be defined", FILE_NAME, __LINE__);
+  }
+
+  const char* absPath = env->get_chars(env, stack, obj_absPath);
+
+  void* obj_relPath = stack[1].oval;
+  
+  int32_t size = stack[2].ival;
+  
+  char* ret_absPath;
+  if (obj_relPath) {
+    char* relPath = (char*)env->get_chars(env, stack, obj_relPath);
+    ret_absPath = realabsPath(absPath, relPath);
+  }
+  else {
+    ret_absPath = _fullpath(NULL, relPath, 0);
+    if (ret_absPath) {
+      obj_absPath = env->new_string(env, stack, ret_absPath, strlen(ret_absPath));
+      free(ret_absPath);
+    }
+  }
+  
+  if (!ret_absPath) {
+    env->die(env, stack, "[System Error]_fullabsPath failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].oval = obj_absPath;
+
+  return 0;
+#else
+  env->die(env, stack, "_fullabsPath is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+}
+
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;

@@ -63,6 +63,8 @@ class Sys::IO {
 
   native static method realpath : mutable string ($path : string, $resolved_path : mutable string);
 
+  native static method _fullpath : mutable string ($absPath : mutable string, $relPath : string, $size : int);
+
   native static method chdir : int ($path : string);
   
   native static method chmod : int ($path : string, $mode :int);

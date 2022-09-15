@@ -1051,6 +1051,42 @@ class TestCase::Sys::IO {
     return 1;
   }
 
+  static method _fullpath : int ($test_dir : string) {
+
+    my $file = "$test_dir/ftest/dir_empty/../file_empty.txt";
+    
+    {
+      my $resolved_path = (mutable string)new_string_len 100;
+      my $ret_resolved_path = Sys::IO->_fullpath($resolved_path, $file, 100);
+      
+      unless ($ret_resolved_path) {
+        return 0;
+      }
+      
+      Fn->shorten_null_char($ret_resolved_path);
+      
+      unless ($ret_resolved_path eq "$test_dir/ftest/file_empty.txt") {
+        return 0;
+      }
+    }
+
+    {
+      my $ret_resolved_path = Sys::IO->_fullpath(undef, $file, 0);
+      
+      unless ($ret_resolved_path) {
+        return 0;
+      }
+      
+      Fn->shorten_null_char($ret_resolved_path);
+      
+      unless ($ret_resolved_path eq "$test_dir/ftest/file_empty.txt") {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
   static method chdir : int ($test_dir : string) {
     my $dir = "$test_dir/ftest/dir_empty";
     

@@ -93,6 +93,14 @@ else {
   ok(SPVM::TestCase::Sys::IO->realpath("$test_dir"));
 }
 
+if ($^O eq 'MSWin32') {
+  ok(SPVM::TestCase::Sys::IO->_fullpath("$test_dir"));
+}
+else {
+  eval { SPVM::Sys::IO->_fullpath(undef, undef, 0) };
+  like($@, qr|not supported|);
+}
+
 ok(SPVM::TestCase::Sys::IO->chdir("$test_dir"));
 
 {
