@@ -884,7 +884,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
 
-  int64_t length = stack[1].ival;
+  int64_t length = stack[1].lval;
   
   if (!(length >= 0)) {
     return env->die(env, stack, "The length must be less than or equal to 0", FILE_NAME, __LINE__);

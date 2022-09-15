@@ -22,6 +22,7 @@
   [Bug Fix]
     * Fix the bug that lseek return value is wrong.
     * Fix the bug that truncate return value is wrong.
+    * Fix the bug that the length argument of the truncate method in the Sys::IO class is int, not long.
   [Test Improvement]
     * Add many tests.
   [Test Fix]
