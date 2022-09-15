@@ -32,6 +32,14 @@ C<Sys> is the class for system utilities such as file IO, user manipulation, pro
 
 If C<_WIN32> in C<C language> is defined, return C<1>. Otherwize return C<0>.
 
+=head2 getenv
+
+  static method getenv : string ($name : string);
+
+The getenv() function searches the environment list to find the environment variable name, and returns a pointer to the corresponding value string.
+
+See the detail of the L<getenv|https://linux.die.net/man/3/getenv> function in the case of Linux.
+
 =head1 System Modules
 
 =over 2

@@ -8,6 +8,10 @@
     
       static method realpath : mutable string ($path : string, $resolved_path : mutable string);
     
+    * Add the followng methods to the Sys class.
+    
+      static method getenv : string ($name : string);
+    
   [Incompatible Changes]
     * Change the definition of the following method in the Sys::IO class.
       [Before]

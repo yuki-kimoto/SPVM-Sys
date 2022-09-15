@@ -1,5 +1,7 @@
 class Sys {
   native static method is_D_WIN32 : int ();
+
+  native static method getenv : string ($name : string);
 }
 
 =pod
