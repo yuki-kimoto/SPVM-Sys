@@ -266,7 +266,7 @@ See the detail of the L<realpath|https://linux.die.net/man/3/realpath> function 
 
 =head2 _fullpath
 
-  native static method _fullpath : mutable string ($absPath : mutable string, $relPath : string, $size : int);
+  native static method _fullpath : mutable string ($absPath : mutable string, $relPath : string, $maxLength : int);
 
 Creates an absolute or full path name for the specified relative path name.
 

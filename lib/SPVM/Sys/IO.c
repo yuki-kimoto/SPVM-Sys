@@ -761,8 +761,6 @@ int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_absPath = stack[0].oval;
   
-  const char* absPath = env->get_chars(env, stack, obj_absPath);
-
   void* obj_relPath = stack[1].oval;
 
   if (!obj_relPath) {
@@ -771,12 +769,12 @@ int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   char* relPath = (char*)env->get_chars(env, stack, obj_relPath);
   
-  int32_t size = stack[2].ival;
+  int32_t maxLength = stack[2].ival;
   
   char* ret_absPath;
   if (obj_absPath) {
     char* absPath = (char*)env->get_chars(env, stack, obj_absPath);
-    ret_absPath = _fullpath(absPath, relPath, size);
+    ret_absPath = _fullpath(absPath, relPath, maxLength);
   }
   else {
     ret_absPath = _fullpath(NULL, relPath, 0);
@@ -787,7 +785,7 @@ int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!ret_absPath) {
-    env->die(env, stack, "[System Error]_fullabsPath failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]_fullpath failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
@@ -795,7 +793,7 @@ int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   return 0;
 #else
-  env->die(env, stack, "_fullabsPath is not supported on this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "_fullpath is not supported on this system", FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #endif
 }
