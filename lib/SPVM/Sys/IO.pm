@@ -264,6 +264,14 @@ realpath() expands all symbolic links and resolves references to /./, /../ and e
 
 See the detail of the L<realpath|https://linux.die.net/man/3/realpath> function in the case of Linux.
 
+=head2 _fullpath
+
+  native static method _fullpath : mutable string ($absPath : mutable string, $relPath : string, $size : int);
+
+Creates an absolute or full path name for the specified relative path name.
+
+See the detail of the L<_fullpath|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/fullpath-wfullpath?view=msvc-170> function in the case of Windows.
+
 =head2 chdir
 
   static method chdir : int ($path : string);
