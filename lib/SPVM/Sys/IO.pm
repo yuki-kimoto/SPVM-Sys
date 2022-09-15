@@ -250,7 +250,7 @@ See the detail of the L<rename|https://linux.die.net/man/2/rename> function in t
 
 =head2 getcwd
 
-  static method getcwd : string ($buf : mutable string, $size : int);
+  static method getcwd : mutable string ($buf : mutable string, $size : int);
 
 The getcwd() function copies an absolute pathname of the current working directory to the array pointed to by buf, which is of length size.
 
@@ -258,7 +258,7 @@ See the detail of the L<getcwd|https://linux.die.net/man/2/getcwd> function in t
 
 =head2 realpath
 
-  static method realpath : string ($path : string, $resolved_path : mutable string);
+  static method realpath : mutable string ($path : string, $resolved_path : mutable string);
 
 realpath() expands all symbolic links and resolves references to /./, /../ and extra '/' characters in the null-terminated string named by path to produce a canonicalized absolute pathname. The resulting pathname is stored as a null-terminated string, up to a maximum of PATH_MAX bytes, in the buffer pointed to by resolved_path. The resulting path will have no symbolic link, /./ or /../ components.
 

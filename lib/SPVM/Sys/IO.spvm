@@ -59,9 +59,9 @@ class Sys::IO {
   
   native static method rename : int ($oldpath : string, $newpath : string);
 
-  native static method getcwd : string ($buf : mutable string, $size : int);
+  native static method getcwd : mutable string ($buf : mutable string, $size : int);
 
-  native static method realpath : string ($path : string, $resolved_path : mutable string);
+  native static method realpath : mutable string ($path : string, $resolved_path : mutable string);
 
   native static method chdir : int ($path : string);
   
