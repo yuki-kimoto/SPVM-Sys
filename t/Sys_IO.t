@@ -85,7 +85,13 @@ else {
   ok(SPVM::TestCase::Sys::IO->getcwd("$tmp_dir"));
 }
 
-ok(SPVM::TestCase::Sys::IO->realpath("$test_dir"));
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::IO->realpath(undef, undef) };
+  like($@, qr|not supported|);
+}
+else {
+  ok(SPVM::TestCase::Sys::IO->realpath("$test_dir"));
+}
 
 ok(SPVM::TestCase::Sys::IO->chdir("$test_dir"));
 
