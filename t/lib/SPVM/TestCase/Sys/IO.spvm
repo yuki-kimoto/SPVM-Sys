@@ -235,6 +235,36 @@ class TestCase::Sys::IO {
     return 1;
   }
 
+  static method umask : int ($test_dir : string) {
+    my $dir = "$test_dir/foo";
+    
+    my $old_mask = Sys::IO->umask(0002);
+    
+    unless ($old_mask > 0) {
+      return 0;
+    }
+    
+    my $cur_mask = Sys::IO->umask(0022);
+    unless ($cur_mask == 0002) {
+      return 0;
+    }
+    
+    # Restore
+    Sys::IO->umask($old_mask);
+    
+    # The constant values for permissions
+    {
+      IO->S_IRUSR;
+      IO->S_IWUSR;
+      IO->S_IRGRP;
+      IO->S_IWGRP;
+      IO->S_IROTH;
+      IO->S_IWOTH;
+    }
+    
+    return 1;
+  }
+
   static method rmdir : int ($test_dir : string) {
     my $dir = "$test_dir/foo";
     

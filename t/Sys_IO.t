@@ -57,6 +57,11 @@ else {
 
 {
   my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->umask("$tmp_dir"));
+}
+
+{
+  my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->rmdir("$tmp_dir"));
 }
 
