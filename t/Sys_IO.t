@@ -132,12 +132,12 @@ else {
 }
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::IO->symlink(undef, undef) };
+  eval { SPVM::Sys::IO->readlink(undef, undef, 0) };
   like($@, qr|not supported|);
 }
 else {
   my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys::IO->symlink("$tmp_dir"));
+  ok(SPVM::TestCase::Sys::IO->readlink("$tmp_dir"));
 }
 
 
