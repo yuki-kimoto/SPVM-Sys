@@ -1175,17 +1175,25 @@ class TestCase::Sys::IO {
     
     {
       my $size_first = Sys::FileTest->s($file);
+      
+      warn "AAA $size_first";
+      
       unless ($size_first == 4) {
         return 0;
       }
       
       my $status = Sys::IO->truncate($file, 0);
       
+      warn "BBB $status";
+      
       unless ($status == 0) {
         return 0;
       }
       
       my $size_trancated = Sys::FileTest->s($file);
+      
+      warn "CCC $size_trancated";
+      
       unless ($size_trancated == 0) {
         return 0;
       }
