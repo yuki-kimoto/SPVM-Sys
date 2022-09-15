@@ -226,7 +226,11 @@ class TestCase::Sys::IO {
   static method mkdir : int ($test_dir : string) {
     my $dir = "$test_dir/foo";
     
-    Sys::IO->mkdir($dir, 0755);
+    my $status = Sys::IO->mkdir($dir, 0755);
+    
+    unless ($status == 0) {
+      return 0;
+    }
     
     unless (Sys::FileTest->d($dir)) {
       return 0;
@@ -274,7 +278,11 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    Sys::IO->rmdir($dir);
+    my $status = Sys::IO->rmdir($dir);
+
+    unless ($status == 0) {
+      return 0;
+    }
     
     if (Sys::FileTest->e($dir)) {
       return 0;
@@ -292,7 +300,11 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    Sys::IO->unlink($file);
+    my $status = Sys::IO->unlink($file);
+    
+    unless ($status == 0) {
+      return 0;
+    }
     
     if (Sys::FileTest->e($file)) {
       return 0;
