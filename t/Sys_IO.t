@@ -117,6 +117,11 @@ else {
   ok(SPVM::TestCase::Sys::IO->chown("$tmp_dir"));
 }
 
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->truncate("$tmp_dir"));
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed

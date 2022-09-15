@@ -1201,6 +1201,6 @@ class TestCase::Sys::IO {
       }
     }
     
-    
+    return 1;
   }
 }
