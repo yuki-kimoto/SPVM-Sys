@@ -1042,7 +1042,21 @@ class TestCase::Sys::IO {
     
     return 1;
   }
-
+  
+  private static method replace_chars : void ($string : mutable string, $from : byte, $to : byte) {
+    
+    unless ($string) {
+      die "The string must be defined";
+    }
+    
+    my $string_length = length $string;
+    for (my $i = 0; $i < $string_length; $i++) {
+      if ($string->[$i] == $from) {
+        $string->[$i] = $to;
+      }
+    }
+  }
+  
   static method _fullpath : int ($test_dir : string) {
 
     my $file = "$test_dir/ftest/dir_empty/../file_empty.txt";
