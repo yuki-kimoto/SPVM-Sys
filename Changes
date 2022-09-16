@@ -3,6 +3,8 @@
     * Add many tests.
   [Bug Fix]
     * Fix the bug that the l method in the Sys::FileTest class doesn't work well.
+  [Prerequirement Changes]
+    * Need SPVM::Errno 0.06+.
     
 0.03 2022-09-15
   [New Features]

@@ -29,7 +29,7 @@ WriteMakefile(
     'SPVM'              => '0.9652',
   },
   PREREQ_PM         => {
-    'SPVM::Errno' => '0.04',
+    'SPVM::Errno' => '0.06',
   },
 );
 
