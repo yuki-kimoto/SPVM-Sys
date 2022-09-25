@@ -72,4 +72,17 @@ class TestCase::Sys::Process {
     
     return 1;
   }
+
+  static method setpriority : int () {
+    
+    my $start = Time->time;
+    
+    my $status = Sys::Process->setpriority(Process->PRIO_PROCESS, 0, 0);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }

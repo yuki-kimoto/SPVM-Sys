@@ -19,6 +19,7 @@ ok(SPVM::TestCase::Sys::Process->alarm);
 ok(SPVM::TestCase::Sys::Process->fork);
 ok(SPVM::TestCase::Sys::Process->sleep);
 ok(SPVM::TestCase::Sys::Process->getpriority);
+ok(SPVM::TestCase::Sys::Process->setpriority);
 
 # The exit status
 {
