@@ -43,8 +43,6 @@ int32_t SPVM__Sys__Process__fork(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t seconds = stack[0].ival;
-  
   int32_t status = fork();
   
   if (status == -1) {
@@ -52,7 +50,7 @@ int32_t SPVM__Sys__Process__fork(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  stack[0].ival = status ;
+  stack[0].ival = status;
   
   return 0;
 #endif
