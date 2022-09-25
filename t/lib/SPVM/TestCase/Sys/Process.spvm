@@ -17,4 +17,20 @@ class TestCase::Sys::Process {
     
     return 1;
   }
+
+  static method fork : int () {
+    
+    my $child_process_id = Sys::Process->fork;
+    
+    # The child process
+    if ($child_process_id == 0) {
+      Sys::Process->exit(0);
+    }
+    
+    unless ($child_process_id > 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
