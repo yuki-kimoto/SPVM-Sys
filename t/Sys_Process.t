@@ -17,6 +17,7 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
 ok(SPVM::TestCase::Sys::Process->alarm);
 ok(SPVM::TestCase::Sys::Process->fork);
+ok(SPVM::TestCase::Sys::Process->sleep);
 
 # The exit status
 {
