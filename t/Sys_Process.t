@@ -15,6 +15,8 @@ use SPVM 'TestCase::Sys::Process';
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
+ok(SPVM::TestCase::Sys::Process->alarm);
+
 # The exit status
 {
   is(WIFEXITED(0), SPVM::Sys::Process->WIFEXITED(0));

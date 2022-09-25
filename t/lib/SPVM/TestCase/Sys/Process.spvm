@@ -1,10 +1,20 @@
 class TestCase::Sys::Process {
-  use Sys::User;
+  use Sys::Process;
   
-  static method getuid_value : int () {
+  static method alarm : int () {
     
-    my $getuid = Sys::User->getuid;
+    my $rest1 = Sys::Process->alarm(5);
     
-    return $getuid;
+    unless ($rest1 == 0) {
+      return 0;
+    }
+    
+    my $rest2 = Sys::Process->alarm(5);
+    
+    unless ($rest2 == 5) {
+      return 0;
+    }
+    
+    return 1;
   }
 }
