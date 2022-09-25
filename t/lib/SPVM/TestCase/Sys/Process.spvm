@@ -1,0 +1,10 @@
+class TestCase::Sys::Process {
+  use Sys::User;
+  
+  static method getuid_value : int () {
+    
+    my $getuid = Sys::User->getuid;
+    
+    return $getuid;
+  }
+}
