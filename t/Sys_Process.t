@@ -107,7 +107,7 @@ else {
   ok(SPVM::TestCase::Sys::Process->getppid);
   is(getppid(), SPVM::Sys::Process->getppid);
 }
-ok(SPVM::TestCase::Sys::Process->execv);
+ok(SPVM::TestCase::Sys::Process->execv($^X));
 
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Process->times(undef) };
