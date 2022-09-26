@@ -87,10 +87,15 @@ else {
   ok(SPVM::TestCase::Sys::Process->pipe);
 }
 
-{
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->getpgrp };
+  like($@, qr/not supported/);
+}
+else {
   ok(SPVM::TestCase::Sys::Process->getpgrp);
   is(getpgrp(), SPVM::Sys::Process->getpgrp);
 }
+
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Process->setpgrp };
   like($@, qr/not supported/);
