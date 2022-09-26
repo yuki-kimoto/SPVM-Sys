@@ -260,4 +260,15 @@ class TestCase::Sys::Process {
     
     return 1;
   }
+
+  static method getppid : int () {
+    
+    my $process_id = Sys::Process->getppid;
+    
+    unless ($process_id >= 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
