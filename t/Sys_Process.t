@@ -30,7 +30,14 @@ ok(SPVM::TestCase::Sys::Process->pipe);
   ok(SPVM::TestCase::Sys::Process->getpgrp);
   is(getpgrp(), SPVM::Sys::Process->getpgrp);
 }
-ok(SPVM::TestCase::Sys::Process->setpgrp);
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->setpgrp };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->setpgrp);
+}
+
 {
   ok(SPVM::TestCase::Sys::Process->getpid);
   is($$, SPVM::Sys::Process->getpid);
