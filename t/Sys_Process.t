@@ -16,8 +16,8 @@ use SPVM 'TestCase::Sys::Process';
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->alarm };
-  ok($@);
+  eval { SPVM::Sys::Process->alarm(0) };
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Process->alarm);
@@ -25,23 +25,23 @@ else {
 
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Process->fork };
-  ok($@);
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Process->fork);
 }
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->getpriority };
-  ok($@);
+  eval { SPVM::Sys::Process->getpriority(0, 0) };
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Process->getpriority);
 }
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->setpriority };
-  ok($@);
+  eval { SPVM::Sys::Process->setpriority(0, 0, 0) };
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Process->setpriority);
@@ -50,24 +50,24 @@ else {
 ok(SPVM::TestCase::Sys::Process->sleep);
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->kill };
-  ok($@);
+  eval { SPVM::Sys::Process->kill(0, 0) };
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Process->kill);
 }
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->wait };
-  ok($@);
+  eval { my $status; SPVM::Sys::Process->wait(\$status) };
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Process->wait);
 }
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->waitpid };
-  ok($@);
+  eval { my $status; SPVM::Sys::Process->waitpid(0, \$status, 0) };
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Process->waitpid);
@@ -78,14 +78,22 @@ ok(SPVM::TestCase::Sys::Process->system);
 unless ($^O eq 'MSWin32') {
   ok(SPVM::TestCase::Sys::Process->exit);
 }
-ok(SPVM::TestCase::Sys::Process->pipe);
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->pipe(undef) };
+  like($@, qr/not supported/);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->pipe);
+}
+
 {
   ok(SPVM::TestCase::Sys::Process->getpgrp);
   is(getpgrp(), SPVM::Sys::Process->getpgrp);
 }
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Process->setpgrp };
-  ok($@);
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Process->setpgrp);
@@ -102,8 +110,8 @@ else {
 ok(SPVM::TestCase::Sys::Process->execv);
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->times };
-  ok($@);
+  eval { SPVM::Sys::Process->times(undef) };
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Process->times);
