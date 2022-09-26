@@ -58,7 +58,7 @@ else {
 }
 
 if ($^O eq 'MSWin32') {
-  eval { my $status; SPVM::Sys::Process->wait(\$status) };
+  eval { my $status = -1; SPVM::Sys::Process->wait(\$status) };
   like($@, qr/not supported/);
 }
 else {
@@ -66,7 +66,7 @@ else {
 }
 
 if ($^O eq 'MSWin32') {
-  eval { my $status; SPVM::Sys::Process->waitpid(0, \$status, 0) };
+  eval { my $status = -1; SPVM::Sys::Process->waitpid(0, \$status, 0) };
   like($@, qr/not supported/);
 }
 else {
