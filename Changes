@@ -1,3 +1,6 @@
+0.06 2022-09-27
+  [Prerequirement Changes]
+    * SPVM::Sys needs SPVM 0.9653+.
 0.05 2022-09-26
   [Document Fix To Fix Typo]
     * Remove native attribute from the definitions of the methods.
