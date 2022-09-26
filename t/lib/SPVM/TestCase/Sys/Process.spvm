@@ -238,4 +238,26 @@ class TestCase::Sys::Process {
     return 1;
   }
 
+  static method setpgrp : int () {
+    
+    my $status = Sys::Process->setpgrp;
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+
+  static method getpid : int () {
+    
+    my $process_id = Sys::Process->getpid;
+    
+    unless ($process_id >= 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
