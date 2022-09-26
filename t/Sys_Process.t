@@ -26,6 +26,9 @@ ok(SPVM::TestCase::Sys::Process->waitpid);
 ok(SPVM::TestCase::Sys::Process->system);
 ok(SPVM::TestCase::Sys::Process->exit);
 ok(SPVM::TestCase::Sys::Process->pipe);
+{
+  is(getpgrp(), SPVM::Sys::Process->getpgrp);
+}
 
 # The exit status
 {

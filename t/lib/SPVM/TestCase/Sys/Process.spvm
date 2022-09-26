@@ -227,4 +227,15 @@ class TestCase::Sys::Process {
     return 1;
   }
 
+  static method getpgrp : int () {
+    
+    my $process_group = Sys::Process->getpgrp;
+    
+    unless ($process_group >= 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
 }
