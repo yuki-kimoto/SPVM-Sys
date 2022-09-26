@@ -2,6 +2,7 @@ class TestCase::Sys::Process {
   use Sys::Process;
   use Sys::Process::Constant as Process;
   use Time;
+  use Sys::Process::Tms;
   
   static method alarm : int () {
     
@@ -289,5 +290,43 @@ class TestCase::Sys::Process {
       
       return 1;
     }
+  }
+
+
+  static method times : int () {
+    
+    my $buffer = Sys::Process::Tms->new;
+    
+    my $tick = Sys::Process->times($buffer);
+    
+    unless ($tick >= 0) {
+      return 0;
+    }
+    
+    unless ($buffer->tms_utime > 0) {
+      return 0;
+    }
+    
+    unless ($buffer->tms_stime > 0) {
+      return 0;
+    }
+    
+    unless ($buffer->tms_cutime == 0) {
+      return 0;
+    }
+    
+    unless ($buffer->tms_cstime == 0) {
+      return 0;
+    }
+    
+    # The fields of the Sys::Process::Tms class
+    {
+      $buffer->set_tms_utime(0);
+      $buffer->set_tms_stime(0);
+      $buffer->set_tms_cutime(0);
+      $buffer->set_tms_cstime(0);
+    }
+    
+    return 1;
   }
 }

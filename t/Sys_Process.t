@@ -40,6 +40,7 @@ ok(SPVM::TestCase::Sys::Process->setpgrp);
   is(getppid(), SPVM::Sys::Process->getppid);
 }
 ok(SPVM::TestCase::Sys::Process->execv);
+ok(SPVM::TestCase::Sys::Process->times);
 
 # The exit status
 {
