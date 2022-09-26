@@ -1,7 +1,10 @@
 #include "spvm_native.h"
 
 #include <stdlib.h>
-#include <sys/resource.h>
+
+#ifndef _WIN32
+#  include <sys/resource.h>
+#endif
 
 static const char* FILE_NAME = "Sys/Process/Constant.c";
 
