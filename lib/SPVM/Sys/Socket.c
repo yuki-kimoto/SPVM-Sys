@@ -35,6 +35,32 @@ static int32_t socket_errno (void) {
 #endif
 }
 
+#ifdef _WIN32
+static void* strerror_win (SPVM_ENV* env, SPVM_VALUE* stack, int32_t error_number, int32_t length) {
+  wchar_t *s = NULL;
+  FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, 
+                 NULL, WSAGetLastError(),
+                 MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                 (LPWSTR)&s, 0, NULL);
+  
+  void* error_message = env->new_string(env, stack, s, strlen(s));
+  
+  LocalFree(s);
+  
+  return error_message;
+}
+#endif
+
+static const char* socket_strerror (SPVM_ENV* env, SPVM_VALUE* stack, int32_t error_number, int32_t length) {
+  const char* error_message;
+#ifdef _WIN32
+  error_message = strerror_win(env, stack, error_number, length);
+#else
+  error_message = env->strerror(env, stack, error_number, length);
+#endif
+  return error_message;
+}
+
 int32_t SPVM__Sys__Socket__socket_errno(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t ret_socket_errno = socket_errno();
   
