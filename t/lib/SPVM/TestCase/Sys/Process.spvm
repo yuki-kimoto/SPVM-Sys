@@ -137,13 +137,34 @@ class TestCase::Sys::Process {
     }
     
     my $status = -1;
-    my $ret_child_process_id = Sys::Process->waitpid(-1, \$status, Process->WNOHANG);
+
+    my $ret_child_process_id = -1;
+    while (1) {
+      $ret_child_process_id = Sys::Process->waitpid(-1, \$status, Process->WNOHANG);
+      
+      if (Sys::Process->WIFEXITED($status)) {
+        last;
+      }
+    }
 
     unless ($status == 0) {
       return 0;
     }
-    unless ($ret_child_process_id > 0) {
+    
+    unless ($ret_child_process_id >= 0) {
       return 0;
+    }
+    
+    # The status cheking methods
+    {
+      Sys::Process->WIFEXITED(0);
+      Sys::Process->WEXITSTATUS(0);
+      Sys::Process->WIFSIGNALED(0);
+      Sys::Process->WTERMSIG(0);
+      Sys::Process->WCOREDUMP(0);
+      Sys::Process->WIFSTOPPED(0);
+      Sys::Process->WSTOPSIG(0);
+      Sys::Process->WIFCONTINUED(0);
     }
     
     return 1;
