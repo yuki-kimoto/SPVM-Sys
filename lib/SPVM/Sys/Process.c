@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #ifdef _WIN32
 
@@ -343,9 +344,10 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_args = stack[1].oval;
   char** argv;
+  int32_t args_length = 0;
   if (obj_args) {
-    int32_t args_length = env->length(env, stack, obj_args);
-    char** argv = env->new_memory_stack(env, stack, sizeof(char*) * args_length + 1);
+    args_length = env->length(env, stack, obj_args);
+    argv = env->new_memory_stack(env, stack, sizeof(char*) * (args_length + 1));
     for (int32_t i = 0; i < args_length; i++) {
       void* obj_arg = env->get_elem_object(env, stack, obj_args, i);
       char* arg = (char*)env->get_chars(env, stack, obj_arg);
@@ -355,6 +357,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     argv = env->new_memory_stack(env, stack, sizeof(char*) * 1);
   }
+  assert(argv[args_length] == NULL);
   
   int32_t status = execv(path, argv);
   

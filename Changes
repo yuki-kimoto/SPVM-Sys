@@ -1,3 +1,8 @@
+0.05 2022-09-26
+  [Test Improvement]
+    * Add many tests.
+  [Bug Fix]
+    * Fix the bug that the execv method in the Sys::Process doesn't work well.
 0.04 2022-09-16
   [Test Improvement]
     * Add many tests.

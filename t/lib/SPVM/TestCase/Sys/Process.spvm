@@ -279,7 +279,7 @@ class TestCase::Sys::Process {
       my $child_process_id = Sys::Process->fork;
       # The child process
       if ($child_process_id == 0) {
-        my $args = [$program_file, "a"];
+        my $args = [$perl_path, $program_file, "abc"];
         my $status = Sys::Process->execv($perl_path, $args);
         if ($status == -1) {
           die "The execv method failed";
@@ -289,7 +289,6 @@ class TestCase::Sys::Process {
       return 1;
     }
   }
-
 
   static method times : int () {
     
