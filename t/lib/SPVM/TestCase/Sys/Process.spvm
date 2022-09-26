@@ -228,9 +228,9 @@ class TestCase::Sys::Process {
     return 1;
   }
 
-  static method getpgrp : int () {
+  static method getpgid : int () {
     
-    my $process_group = Sys::Process->getpgrp;
+    my $process_group = Sys::Process->getpgid(0);
     
     unless ($process_group >= 0) {
       return 0;
@@ -239,9 +239,9 @@ class TestCase::Sys::Process {
     return 1;
   }
 
-  static method setpgrp : int () {
+  static method setpgid : int () {
     
-    my $status = Sys::Process->setpgrp;
+    my $status = Sys::Process->setpgid(0, 0);
     
     unless ($status == 0) {
       return 0;

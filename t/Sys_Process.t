@@ -90,20 +90,20 @@ else {
 }
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->getpgrp };
+  eval { SPVM::Sys::Process->getpgid(0) };
   like($@, qr/not supported/);
 }
 else {
-  ok(SPVM::TestCase::Sys::Process->getpgrp);
-  is(getpgrp(), SPVM::Sys::Process->getpgrp);
+  ok(SPVM::TestCase::Sys::Process->getpgid);
+  is(getpgrp(0), SPVM::Sys::Process->getpgid(0));
 }
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->setpgrp };
+  eval { SPVM::Sys::Process->setpgid(0, 0) };
   like($@, qr/not supported/);
 }
 else {
-  ok(SPVM::TestCase::Sys::Process->setpgrp);
+  ok(SPVM::TestCase::Sys::Process->setpgid);
 }
 
 {

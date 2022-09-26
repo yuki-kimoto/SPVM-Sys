@@ -260,18 +260,20 @@ int32_t SPVM__Sys__Process__pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Process__getpgrp(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Process__getpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
-  env->die(env, stack, "getpgrp is not supported on this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "getpgid is not supported on this system", FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   (void)env;
   (void)stack;
+
+  int32_t pid = stack[0].ival;
   
-  int32_t process_group_id = getpgrp();
+  int32_t process_group_id = getpgid(pid);
   
   if (process_group_id == -1) {
-    env->die(env, stack, "[System Error]getpgrp failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getpgid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
@@ -281,20 +283,21 @@ int32_t SPVM__Sys__Process__getpgrp(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Process__setpgrp(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Process__setpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
-  env->die(env, stack, "setpgrp is not supported on this system", FILE_NAME, __LINE__);
+  env->die(env, stack, "setpgid is not supported on this system", FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   (void)env;
   (void)stack;
   
-  int32_t status = setpgrp();
+  int32_t pid = stack[0].ival;
+  int32_t pgid = stack[1].ival;
   
-  spvm_warn("setpgrp:%d", status);
+  int32_t status = setpgid(pid, pgid);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]setpgrp failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setpgid failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
