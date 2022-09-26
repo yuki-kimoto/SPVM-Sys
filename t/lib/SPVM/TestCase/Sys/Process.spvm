@@ -173,7 +173,7 @@ class TestCase::Sys::Process {
 
   static method system : int () {
     
-    my $cmd = "perl -e 'warn \"[Test Output]system\";'";
+    my $cmd = "perl -e \"warn '[Test Output]system';\"";
     my $status = Sys::Process->system($cmd);
     
     unless ($status == 0) {
