@@ -271,4 +271,23 @@ class TestCase::Sys::Process {
     
     return 1;
   }
+
+  static method execv : int () {
+
+    {
+      my $child_process_id = Sys::Process->fork;
+      # The child process
+      if ($child_process_id == 0) {
+        my $cmd = "perl";
+        my $args = ["-e", "1"];
+        my $status = Sys::Process->execv($cmd, $args);
+        
+        if ($status == -1) {
+          die "The execv method failed";
+        }
+      }
+      
+      return 1;
+    }
+  }
 }
