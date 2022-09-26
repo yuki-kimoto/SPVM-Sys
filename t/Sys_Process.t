@@ -134,7 +134,8 @@ else {
 }
 
 # The exit status
-{
+unless ($^O eq 'MSWin32') {
+
   is(WIFEXITED(0), SPVM::Sys::Process->WIFEXITED(0));
   is(WEXITSTATUS(0), SPVM::Sys::Process->WEXITSTATUS(0));
   is(WIFSIGNALED(0), SPVM::Sys::Process->WIFSIGNALED(0));
