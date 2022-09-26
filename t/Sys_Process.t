@@ -75,6 +75,8 @@ else {
 
 
 ok(SPVM::TestCase::Sys::Process->system);
+
+# TODO: The test on Windows
 unless ($^O eq 'MSWin32') {
   ok(SPVM::TestCase::Sys::Process->exit);
 }
@@ -116,7 +118,11 @@ else {
   ok(SPVM::TestCase::Sys::Process->getppid);
   is(getppid(), SPVM::Sys::Process->getppid);
 }
-ok(SPVM::TestCase::Sys::Process->execv($^X));
+
+# TODO: The test on Windows
+unless ($^O eq 'MSWin32') {
+  ok(SPVM::TestCase::Sys::Process->execv($^X));
+}
 
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Process->times(undef) };
