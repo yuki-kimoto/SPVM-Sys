@@ -22,6 +22,7 @@ ok(SPVM::TestCase::Sys::Process->setpriority);
 ok(SPVM::TestCase::Sys::Process->sleep);
 ok(SPVM::TestCase::Sys::Process->kill);
 ok(SPVM::TestCase::Sys::Process->wait);
+ok(SPVM::TestCase::Sys::Process->waitpid);
 
 # The exit status
 {

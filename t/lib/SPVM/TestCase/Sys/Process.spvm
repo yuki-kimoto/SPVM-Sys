@@ -122,4 +122,30 @@ class TestCase::Sys::Process {
     
     return 1;
   }
+
+  static method waitpid : int () {
+    
+    my $child_process_id = Sys::Process->fork;
+    
+    # The child process
+    if ($child_process_id == 0) {
+      Sys::Process->exit(0);
+    }
+    
+    unless ($child_process_id > 0) {
+      return 0;
+    }
+    
+    my $status = -1;
+    my $ret_child_process_id = Sys::Process->waitpid(-1, \$status, Process->WNOHANG);
+
+    unless ($status == 0) {
+      return 0;
+    }
+    unless ($ret_child_process_id > 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
