@@ -290,6 +290,8 @@ int32_t SPVM__Sys__Process__setpgrp(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = setpgrp();
   
+  spvm_warn("setpgrp:%d", status);
+  
   if (status == -1) {
     env->die(env, stack, "[System Error]setpgrp failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
