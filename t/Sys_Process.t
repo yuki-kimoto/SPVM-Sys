@@ -15,14 +15,65 @@ use SPVM 'TestCase::Sys::Process';
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
-ok(SPVM::TestCase::Sys::Process->alarm);
-ok(SPVM::TestCase::Sys::Process->fork);
-ok(SPVM::TestCase::Sys::Process->getpriority);
-ok(SPVM::TestCase::Sys::Process->setpriority);
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->alarm };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->alarm);
+}
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->fork };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->fork);
+}
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->getpriority };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->getpriority);
+}
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->setpriority };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->setpriority);
+}
+
 ok(SPVM::TestCase::Sys::Process->sleep);
-ok(SPVM::TestCase::Sys::Process->kill);
-ok(SPVM::TestCase::Sys::Process->wait);
-ok(SPVM::TestCase::Sys::Process->waitpid);
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->kill };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->kill);
+}
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->wait };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->wait);
+}
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->waitpid };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->waitpid);
+}
+
+
 ok(SPVM::TestCase::Sys::Process->system);
 unless ($^O eq 'MSWin32') {
   ok(SPVM::TestCase::Sys::Process->exit);
@@ -49,7 +100,14 @@ else {
   is(getppid(), SPVM::Sys::Process->getppid);
 }
 ok(SPVM::TestCase::Sys::Process->execv);
-ok(SPVM::TestCase::Sys::Process->times);
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->times };
+  ok($@);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->times);
+}
 
 # The exit status
 {
