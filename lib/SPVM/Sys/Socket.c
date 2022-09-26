@@ -10,6 +10,7 @@
 # include <ws2tcpip.h>
 # include <winsock2.h>
 # include <io.h>
+# include <winerror.h>
 #else
 # include <sys/types.h>
 # include <sys/socket.h>
