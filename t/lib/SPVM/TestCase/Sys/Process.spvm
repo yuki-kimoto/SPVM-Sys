@@ -160,4 +160,50 @@ class TestCase::Sys::Process {
     
     return 1;
   }
+
+  static method exit : int () {
+    
+    {
+      my $child_process_id = Sys::Process->fork;
+      # The child process
+      if ($child_process_id == 0) {
+        Sys::Process->exit(Process->EXIT_SUCCESS);
+        
+        die "The exit test failed";
+      }
+    }
+
+    {
+      my $child_process_id = Sys::Process->fork;
+      # The child process
+      if ($child_process_id == 0) {
+        Sys::Process->exit(Process->EXIT_FAILURE);
+        
+        die "The exit test failed";
+      }
+    }
+    
+    return 1;
+  }
+
+  static method pipe : int () {
+    
+    my $fds = new int [2];
+    my $status = Sys::Process->pipe($fds);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    unless ($fds->[0] > 0) {
+      return 0;
+    }
+
+    unless ($fds->[1] > 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
 }

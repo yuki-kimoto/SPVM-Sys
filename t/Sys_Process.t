@@ -24,6 +24,8 @@ ok(SPVM::TestCase::Sys::Process->kill);
 ok(SPVM::TestCase::Sys::Process->wait);
 ok(SPVM::TestCase::Sys::Process->waitpid);
 ok(SPVM::TestCase::Sys::Process->system);
+ok(SPVM::TestCase::Sys::Process->exit);
+ok(SPVM::TestCase::Sys::Process->pipe);
 
 # The exit status
 {

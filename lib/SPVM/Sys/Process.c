@@ -250,6 +250,9 @@ int32_t SPVM__Sys__Process__pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
+  pipefds[0] = pipefds_int[0];
+  pipefds[1] = pipefds_int[1];
+  
   stack[0].ival = status;
   
   return 0;
