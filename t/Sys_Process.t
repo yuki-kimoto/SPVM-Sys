@@ -121,7 +121,8 @@ else {
 
 # TODO: The test on Windows
 unless ($^O eq 'MSWin32') {
-  ok(SPVM::TestCase::Sys::Process->execv($^X));
+  my $program_file = "$FindBin::Bin/print_hello.pl";
+  ok(SPVM::TestCase::Sys::Process->execv($^X, $program_file));
 }
 
 if ($^O eq 'MSWin32') {
