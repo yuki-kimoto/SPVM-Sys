@@ -8,5 +8,4 @@ class TestCase::Sys::Socket {
      
      return 1;
   }
-  
 }
