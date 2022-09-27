@@ -76,9 +76,35 @@ else {
 
 ok(SPVM::TestCase::Sys::Process->system);
 
-# TODO: The test on Windows
-unless ($^O eq 'MSWin32') {
-  ok(SPVM::TestCase::Sys::Process->exit);
+# The exit method
+{
+  {
+    my $process_id = fork;
+    # Child process
+    if ($process_id == 0) {
+      SPVM::TestCase::Sys::Process->exit_success;
+    }
+    # Parent process
+    else {
+      waitpid($process_id, 0);
+      
+      ok($? >> 8 == POSIX::EXIT_SUCCESS);
+    }
+  }
+  
+  {
+    my $process_id = fork;
+    # Child process
+    if ($process_id == 0) {
+      SPVM::TestCase::Sys::Process->exit_failure;
+    }
+    # Parent process
+    else {
+      waitpid($process_id, 0);
+      
+      ok($? >> 8 == POSIX::EXIT_FAILURE);
+    }
+  }
 }
 
 if ($^O eq 'MSWin32') {

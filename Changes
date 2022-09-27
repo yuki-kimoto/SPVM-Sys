@@ -1,3 +1,6 @@
+0.07 2022-09-27
+  [Test Improvement]
+    * Add the test of the exit method in the Sys::Socket class on Windows.
 0.06 2022-09-27
   [Test Fix]
     * Fix the test of the setpriority method in the Sys::Process class.

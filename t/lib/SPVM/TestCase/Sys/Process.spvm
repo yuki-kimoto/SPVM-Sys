@@ -189,29 +189,14 @@ class TestCase::Sys::Process {
     return 1;
   }
 
-  static method exit : int () {
+  static method exit_success : void () {
     
-    {
-      my $child_process_id = Sys::Process->fork;
-      # The child process
-      if ($child_process_id == 0) {
-        Sys::Process->exit(Process->EXIT_SUCCESS);
-        
-        die "The exit test failed";
-      }
-    }
+    Sys::Process->exit(Process->EXIT_SUCCESS);
+  }
 
-    {
-      my $child_process_id = Sys::Process->fork;
-      # The child process
-      if ($child_process_id == 0) {
-        Sys::Process->exit(Process->EXIT_FAILURE);
-        
-        die "The exit test failed";
-      }
-    }
+  static method exit_failure : void () {
     
-    return 1;
+    Sys::Process->exit(Process->EXIT_FAILURE);
   }
 
   static method pipe : int () {
