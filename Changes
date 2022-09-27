@@ -1,6 +1,7 @@
 0.06 2022-09-27
   [Test Fix]
-    * Fix the test of the setpriority method in the Sys::Socket class.
+    * Fix the test of the setpriority method in the Sys::Process class.
+    * Fix the test of the times method in the Sys::Process class.
   [New Features]
     * Add the getaddrinfo_raw to the Sys::Socket class. This is the same as original the getaddrinfo method.
     * Add the getnameinfo_raw to the Sys::Socket class. This is the same as original the getnameinfo method.
