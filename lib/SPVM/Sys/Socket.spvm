@@ -100,4 +100,7 @@ class Sys::Socket {
       return Sys::IO->close($fd);
     }
   }
+
+  native static method socket_errno : int ();
+  native static method socket_strerror : string ($errno : int, $length : int);
 }
