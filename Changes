@@ -1,6 +1,17 @@
 0.06 2022-09-27
+  [New Features]
+    * Add the getaddrinfo_raw to the Sys::Socket class. This is the same as original the getaddrinfo method.
+    * Add the getnameinfo_raw to the Sys::Socket class. This is the same as original the getnameinfo method.
+    * Add the following methods to the Sys::Socket class.
+    
+      static method socket_errno : int ();
+      static method socket_strerror : string ($errno : int, $length : int);
+    
   [Prerequirement Changes]
     * SPVM::Sys needs SPVM 0.9653+.
+  [Incompatible Changes]
+    * The getaddrinfo method in the Sys::Socket class gets to throw an exception.
+    * The getnameinfo method in the Sys::Socket class gets to throw an exception.
 0.05 2022-09-26
   [Document Fix To Fix Typo]
     * Remove native attribute from the definitions of the methods.

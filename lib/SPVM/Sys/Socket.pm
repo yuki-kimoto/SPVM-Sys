@@ -315,6 +315,14 @@ The file descriptors(fds) is a L<Sys::IO::PollfdArray> object.
 
 If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
+=head2 getaddrinfo_raw
+
+  static method getaddrinfo_raw : int ($node : string, $service : string,
+                $hints : Sys::Socket::Addrinfo,
+                $res : Sys::Socket::Addrinfo[]);
+
+Same as the L</"getaddrinfo"> method, but doesn't throw exceptions related to system errors.
+
 =head2 getaddrinfo
 
   static method getaddrinfo : int ($node : string, $service : string,
@@ -333,6 +341,16 @@ The response must be defined. Otherwise an exception will be thrown.
 
 The length of the array of the response must be greater than or equal to 1. Otherwise an exception will be thrown.
 
+If a system error occur, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+
+=head2 getnameinfo_raw
+
+  static method getnameinfo_raw : int ($sa : Sys::Socket::Sockaddr, $salen : int,
+                $host : mutable string, $hostlen : int,
+                $serv : mutable string, $servlen : int, $flags : int);
+
+Same as the L</"getnameinfo"> method, but doesn't throw exceptions related to system errors.
+
 =head2 getnameinfo
 
   static method getnameinfo : int ($sa : Sys::Socket::Sockaddr, $salen : int,
@@ -344,6 +362,8 @@ The getnameinfo() function is the inverse of getaddrinfo(3): it converts a socke
 See the detail of the L<getnameinfo|https://linux.die.net/man/3/getaddrinfo> function in the case of Linux.
 
 The socket address(sa) is a L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo> object.
+
+If a system error occur, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 gai_strerror
 
