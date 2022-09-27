@@ -7,8 +7,43 @@ use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 
 use Socket;
+use IO::Socket::INET;
+
 use SPVM 'Sys::Socket';
 use SPVM 'TestCase::Sys::Socket';
+
+sub search_available_port {
+  my $retry_port = 20000;
+  
+  my $port;
+  my $retry_max = 10;
+  my $retry_count = 0;
+  while (1) {
+    if ($retry_count > $retry_max) {
+      die "Can't find an available port";
+    }
+    
+    my $server_socket = IO::Socket::INET->new(
+      LocalPort => $port,
+      Listen    => SOMAXCONN,
+      Proto     => 'tcp',
+      Reuse     => 1,
+      Timeout => 5,
+    );
+    
+    if ($server_socket) {
+      $port = $retry_port;
+      last;
+    }
+
+    $retry_port++;
+    $retry_count++;
+  }
+  
+  return $port;
+}
+
+my $port = 20000;
 
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
@@ -31,6 +66,33 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 }
 
 ok(SPVM::TestCase::Sys::Socket->socket);
+
+# connect
+{
+  my $process_id = fork;
+  
+  # Child
+  if ($process_id == 0) {
+    my $port = &search_available_port;
+    my $server_socket = IO::Socket::INET->new(
+      LocalPort => $port,
+      Listen    => SOMAXCONN,
+      Proto     => 'tcp',
+      Reuse     => 1,
+    );
+    
+    unless ($server_socket) {
+      die "Can't create a server socket";
+    }
+    
+    while (1) {
+      $server_socket->accept;
+    }
+  }
+  else {
+    kill 'HUP', $process_id;
+  }
+}
 
 SPVM::set_exception(undef);
 
