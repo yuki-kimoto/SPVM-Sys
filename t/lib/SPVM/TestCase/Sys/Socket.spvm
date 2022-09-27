@@ -4,8 +4,42 @@ class TestCase::Sys::Socket {
   
   static method socket : int () {
     
-     my $sock = Sys::Socket->socket(Sock->AF_INET, Sock->SOCK_STREAM, 0);
-     
-     return 1;
+    # IPv4/TCP
+    {
+      my $sock = Sys::Socket->socket(Sock->AF_INET, Sock->SOCK_STREAM, 0);
+      
+      unless ($sock > 0) {
+        return 0;
+      }
+    }
+    
+    # IPv4/UDP
+    {
+      my $sock = Sys::Socket->socket(Sock->AF_INET, Sock->SOCK_DGRAM, 0);
+      
+      unless ($sock > 0) {
+        return 0;
+      }
+    }
+    
+    # IPv6/TCP
+    {
+      my $sock = Sys::Socket->socket(Sock->AF_INET6, Sock->SOCK_STREAM, 0);
+      
+      unless ($sock > 0) {
+        return 0;
+      }
+    }
+    
+    # IPv6/UDP
+    {
+      my $sock = Sys::Socket->socket(Sock->AF_INET6, Sock->SOCK_DGRAM, 0);
+      
+      unless ($sock > 0) {
+        return 0;
+      }
+    }
+    
+    return 1;
   }
 }

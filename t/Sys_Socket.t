@@ -30,7 +30,7 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   is(SPVM::Sys::Socket::Constant->SOCK_RAW, Socket::SOCK_RAW);
 }
 
-ok(1);
+ok(SPVM::TestCase::Sys::Socket->socket);
 
 SPVM::set_exception(undef);
 
