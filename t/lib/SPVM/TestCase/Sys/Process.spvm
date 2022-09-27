@@ -264,21 +264,9 @@ class TestCase::Sys::Process {
     return 1;
   }
 
-  static method execv : int ($perl_path : string, $program_file : string) {
-
-    {
-      my $child_process_id = Sys::Process->fork;
-      # The child process
-      if ($child_process_id == 0) {
-        my $args = [$perl_path, $program_file, "abc"];
-        my $status = Sys::Process->execv($perl_path, $args);
-        if ($status == -1) {
-          die "The execv method failed";
-        }
-      }
-      
-      return 1;
-    }
+  static method execv_success : int ($perl_path : string, $program_file : string) {
+    my $args = [$perl_path, $program_file, "abc"];
+    Sys::Process->execv($perl_path, $args);
   }
 
   static method times : int () {
@@ -307,13 +295,13 @@ class TestCase::Sys::Process {
     
     warn $buffer->tms_cutime;
     
-    unless ($buffer->tms_cutime == 0) {
+    unless ($buffer->tms_cutime >= 0) {
       return 0;
     }
     
     warn $buffer->tms_cstime;
     
-    unless ($buffer->tms_cstime == 0) {
+    unless ($buffer->tms_cstime >= 0) {
       return 0;
     }
     

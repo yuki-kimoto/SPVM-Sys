@@ -145,10 +145,22 @@ else {
   is(getppid(), SPVM::Sys::Process->getppid);
 }
 
-# TODO: The test on Windows
-unless ($^O eq 'MSWin32') {
+# The execv method
+{
   my $program_file = "$FindBin::Bin/print_hello.pl";
-  ok(SPVM::TestCase::Sys::Process->execv($^X, $program_file));
+  {
+    my $process_id = fork;
+    # Child process
+    if ($process_id == 0) {
+      SPVM::TestCase::Sys::Process->execv_success($^X, $program_file);
+    }
+    # Parent process
+    else {
+      waitpid($process_id, 0);
+      
+      ok($? >> 8 == POSIX::EXIT_SUCCESS);
+    }
+  }
 }
 
 if ($^O eq 'MSWin32') {
