@@ -130,19 +130,11 @@ else {
 
 # The execv method
 {
-  my $program_file = "$FindBin::Bin/print_hello.pl";
   {
-    my $process_id = fork;
-    # Child process
-    if ($process_id == 0) {
-      SPVM::TestCase::Sys::Process->execv_success($^X, $program_file);
-    }
-    # Parent process
-    else {
-      waitpid($process_id, 0);
-      
-      ok($? >> 8 == POSIX::EXIT_SUCCESS);
-    }
+    my $exit_success_program = "$^X -Mblib $FindBin::Bin/execv_success.pl";
+    my $output = `$exit_success_program`;
+    is($output, 'Hello abc');
+    ok($? >> 8 == POSIX::EXIT_SUCCESS);
   }
 }
 
