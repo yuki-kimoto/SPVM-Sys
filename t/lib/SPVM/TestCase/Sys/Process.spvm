@@ -61,10 +61,16 @@ class TestCase::Sys::Process {
     
     my $start = Time->time;
     
-    my $status = Sys::Process->setpriority(Process->PRIO_PROCESS, 0, 0);
+    my $status = -1;
+    eval { $status = Sys::Process->setpriority(Process->PRIO_PROCESS, 0, 0); };
     
-    unless ($status == 0) {
-      return 0;
+    if ($@ && error == class_id Error::System) {
+      warn $@;
+    }
+    else {
+      unless ($status == 0) {
+        return 0;
+      }
     }
     
     return 1;
