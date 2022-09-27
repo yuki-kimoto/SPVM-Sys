@@ -79,31 +79,14 @@ ok(SPVM::TestCase::Sys::Process->system);
 # The exit method
 {
   {
-    my $process_id = fork;
-    # Child process
-    if ($process_id == 0) {
-      SPVM::TestCase::Sys::Process->exit_success;
-    }
-    # Parent process
-    else {
-      waitpid($process_id, 0);
-      
-      ok($? >> 8 == POSIX::EXIT_SUCCESS);
-    }
+    my $exit_success_program = "$^X -Mblib $FindBin::Bin/exit_success.pl";
+    my $status = system($exit_success_program);
+    ok($status >> 8 == POSIX::EXIT_SUCCESS);
   }
-  
   {
-    my $process_id = fork;
-    # Child process
-    if ($process_id == 0) {
-      SPVM::TestCase::Sys::Process->exit_failure;
-    }
-    # Parent process
-    else {
-      waitpid($process_id, 0);
-      
-      ok($? >> 8 == POSIX::EXIT_FAILURE);
-    }
+    my $exit_failure_program = "$^X -Mblib $FindBin::Bin/exit_failure.pl";
+    my $status = system($exit_failure_program);
+    ok($status >> 8 == POSIX::EXIT_FAILURE);
   }
 }
 
