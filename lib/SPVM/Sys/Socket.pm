@@ -373,22 +373,22 @@ The gai_strerror() function translates these error codes to a human readable str
 
 See the detail of the L<getnameinfo|https://linux.die.net/man/3/gai_strerror> function in the case of Linux.
 
-=head2 ioctl_int_portable
+=head2 ioctl_int
 
-  static method ioctl_int_portable : int ($fd : int, $request : int, $request_arg_ref : int*);
+  static method ioctl_int : int ($fd : int, $request : int, $request_arg_ref : int*);
 
 The same as L<ioctl_int in Sys::IO|SPVM::Sys::IO/"ioctl_int">, but portable in socket.
 
-=head2 poll_portable
+=head2 poll
 
-  static method poll_portable : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
+  static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 
 The same as L<poll in Sys::IO|SPVM::Sys::IO/"poll">, but portable in socket.
 
 The file descriptors(fds) is a L<Sys::IO::PollfdArray> object.
 
-=head2 close_portable
+=head2 close
 
-  static method close_portable : int ($fd : int);
+  static method close : int ($fd : int);
 
 The same as L<close in Sys::IO|SPVM::Sys::IO/"close">, but portable in socket.

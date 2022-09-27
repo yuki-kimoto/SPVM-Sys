@@ -12,6 +12,17 @@
   [Incompatible Changes]
     * The getaddrinfo method in the Sys::Socket class gets to throw an exception.
     * The getnameinfo method in the Sys::Socket class gets to throw an exception.
+    * Rename the follwing methods in the Sys::Socket class.
+      [Before]
+      static method ioctl_int_portable : int ($fd : int, $request : int, $request_arg_ref : int*);
+      static method poll_portable : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
+      static method close_portable : int ($fd : int);
+      
+      [After]
+      static method ioctl_int : int ($fd : int, $request : int, $request_arg_ref : int*);
+      static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
+      static method close : int ($fd : int);
+
 0.05 2022-09-26
   [Document Fix To Fix Typo]
     * Remove native attribute from the definitions of the methods.

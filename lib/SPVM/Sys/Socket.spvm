@@ -80,7 +80,7 @@ class Sys::Socket {
 
   native static method gai_strerror : string($errcode : int);
 
-  static method ioctl_int_portable : int ($fd : int, $request : int, $request_arg_ref : int*) {
+  static method ioctl_int : int ($fd : int, $request : int, $request_arg_ref : int*) {
     if (Sys->is_D_WIN32) {
       return Sys::Socket->ioctlsocket($fd, $request, $request_arg_ref);
     }
@@ -91,7 +91,7 @@ class Sys::Socket {
     }
   }
   
-  static method poll_portable : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int) {
+  static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int) {
     if (Sys->is_D_WIN32) {
       return Sys::Socket->WSAPoll($fds, $nfds, $timeout);
     }
@@ -100,7 +100,7 @@ class Sys::Socket {
     }
   }
   
-  static method close_portable : int ($fd : int) {
+  static method close : int ($fd : int) {
     if (Sys->is_D_WIN32) {
       return Sys::Socket->closesocket($fd);
     }
