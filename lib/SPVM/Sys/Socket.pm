@@ -392,3 +392,15 @@ The file descriptors(fds) is a L<Sys::IO::PollfdArray> object.
   static method close : int ($fd : int);
 
 The same as L<close in Sys::IO|SPVM::Sys::IO/"close">, but portable in socket.
+
+=head2 socket_errno
+
+  static method socket_errno : int ();
+
+Portalbe C<errno> related to the errors of the socket.
+
+=head2 socket_strerror
+
+  static method socket_strerror : string ($errno : int, $length : int);
+
+Portalbe C<strerror> related to the errors of the socket.
