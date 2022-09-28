@@ -106,7 +106,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 # Sys::Socket::Sockaddr
 {
   my $port = &search_available_port;
-  sleep 1;
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
 
@@ -138,12 +137,8 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     SPVM::TestCase::Sys::Socket->connect($port);
     
     kill 'HUP', $process_id;
-    
-    # waitpid($process_id, 0);
   }
 }
-
-=pod
 
 # close
 {
@@ -169,9 +164,11 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     }
   }
   else {
+    &wait_port_prepared($port);
+    
     SPVM::TestCase::Sys::Socket->close($port);
     
-    waitpid($process_id, 0);
+    kill 'HUP', $process_id;
   }
 }
 
@@ -199,13 +196,13 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     }
   }
   else {
+    &wait_port_prepared($port);
+    
     SPVM::TestCase::Sys::Socket->shutdown($port);
     
-    waitpid($process_id, 0);
+    kill 'HUP', $process_id;
   }
 }
-
-=cut
 
 SPVM::set_exception(undef);
 
