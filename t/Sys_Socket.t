@@ -48,6 +48,33 @@ sub search_available_port {
   return $port;
 }
 
+sub wait_port_prepared {
+  my ($port) = @_;
+  
+  my $max_wait = 3;
+  my $wait_time = 0.1;
+  my $wait_total = 0;
+  while (1) {
+    if ($wait_total > $max_wait) {
+      last;
+    }
+    
+    sleep $wait_time;
+    
+    my $sock = IO::Socket::INET->new(
+      Proto    => 'tcp',
+      PeerAddr => "127.0.0.1",
+      PeerPort => $port,
+    );
+    
+    if ($sock) {
+      last;
+    }
+    $wait_total += $wait_time;
+    $wait_time *= 2;
+  }
+}
+
 my $port = 20000;
 
 # Start objects count
@@ -106,28 +133,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     }
   }
   else {
-    my $max_wait = 3;
-    my $wait_time = 0.1;
-    my $wait_total = 0;
-    while (1) {
-      if ($wait_total > $max_wait) {
-        last;
-      }
-      
-      sleep $wait_time;
-      
-      my $sock = IO::Socket::INET->new(
-        Proto    => 'tcp',
-        PeerAddr => "127.0.0.1",
-        PeerPort => $port,
-      );
-      
-      if ($sock) {
-        last;
-      }
-      $wait_total += $wait_time;
-      $wait_time *= 2;
-    }
+    &wait_port_prepared($port);
     
     SPVM::TestCase::Sys::Socket->connect($port);
     
