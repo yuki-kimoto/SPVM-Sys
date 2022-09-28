@@ -5,6 +5,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
+use Time::HiRes;
 
 use Socket;
 use IO::Socket::INET;
@@ -32,6 +33,7 @@ sub search_available_port {
       Listen    => SOMAXCONN,
       Proto     => 'tcp',
       Timeout => 5,
+      ReuseAddr => 1,
     );
     
     if ($server_socket) {
@@ -77,6 +79,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 # Sys::Socket::Sockaddr
 {
   my $port = &search_available_port;
+  sleep 1;
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
 
@@ -92,8 +95,8 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       LocalPort => $port,
       Listen    => SOMAXCONN,
       Proto     => 'tcp',
+      ReuseAddr => 1,
     );
-    
     unless ($server_socket) {
       die "Can't create a server socket:$@";
     }
@@ -103,11 +106,38 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     }
   }
   else {
+    my $max_wait = 3;
+    my $wait_time = 0.1;
+    my $wait_total = 0;
+    while (1) {
+      if ($wait_total > $max_wait) {
+        last;
+      }
+      
+      sleep $wait_time;
+      
+      my $sock = IO::Socket::INET->new(
+        Proto    => 'tcp',
+        PeerAddr => "127.0.0.1",
+        PeerPort => $port,
+      );
+      
+      if ($sock) {
+        last;
+      }
+      $wait_total += $wait_time;
+      $wait_time *= 2;
+    }
+    
     SPVM::TestCase::Sys::Socket->connect($port);
     
     kill 'HUP', $process_id;
+    
+    # waitpid($process_id, 0);
   }
 }
+
+=pod
 
 # close
 {
@@ -121,6 +151,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       LocalPort => $port,
       Listen    => SOMAXCONN,
       Proto     => 'tcp',
+      ReuseAddr => 1,
     );
     
     unless ($server_socket) {
@@ -134,7 +165,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   else {
     SPVM::TestCase::Sys::Socket->close($port);
     
-    kill 'HUP', $process_id;
+    waitpid($process_id, 0);
   }
 }
 
@@ -150,6 +181,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       LocalPort => $port,
       Listen    => SOMAXCONN,
       Proto     => 'tcp',
+      ReuseAddr => 1,
     );
     
     unless ($server_socket) {
@@ -163,9 +195,11 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   else {
     SPVM::TestCase::Sys::Socket->shutdown($port);
     
-    kill 'HUP', $process_id;
+    waitpid($process_id, 0);
   }
 }
+
+=cut
 
 SPVM::set_exception(undef);
 
