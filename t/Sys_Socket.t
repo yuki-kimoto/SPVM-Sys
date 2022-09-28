@@ -19,6 +19,10 @@ sub search_available_port {
   my $retry_max = 10;
   my $retry_count = 0;
   while (1) {
+    if ($retry_count > 0) {
+      warn "[Test Output]Perform the ${retry_count} retry to search an available port $retry_port";
+    }
+    
     if ($retry_count > $retry_max) {
       die "Can't find an available port";
     }
@@ -27,7 +31,6 @@ sub search_available_port {
       LocalPort => $port,
       Listen    => SOMAXCONN,
       Proto     => 'tcp',
-      Reuse     => 1,
       Timeout => 5,
     );
     
@@ -89,11 +92,10 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       LocalPort => $port,
       Listen    => SOMAXCONN,
       Proto     => 'tcp',
-      Reuse     => 1,
     );
     
     unless ($server_socket) {
-      die "Can't create a server socket";
+      die "Can't create a server socket:$@";
     }
     
     while (1) {
@@ -103,7 +105,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   else {
     SPVM::TestCase::Sys::Socket->connect($port);
     
-    kill 'HUP', $process_id;
+    kill 'HUP', $process_id or "Can't kill the process $process_id";
   }
 }
 
@@ -119,11 +121,10 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       LocalPort => $port,
       Listen    => SOMAXCONN,
       Proto     => 'tcp',
-      Reuse     => 1,
     );
     
     unless ($server_socket) {
-      die "Can't create a server socket";
+      die "Can't create a server socket:$@";
     }
     
     while (1) {
@@ -133,7 +134,36 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   else {
     SPVM::TestCase::Sys::Socket->close($port);
     
-    kill 'HUP', $process_id;
+    kill 'HUP', $process_id or "Can't kill the process $process_id";
+  }
+}
+
+# shutdown
+{
+  my $process_id = fork;
+
+  my $port = &search_available_port;
+  
+  # Child
+  if ($process_id == 0) {
+    my $server_socket = IO::Socket::INET->new(
+      LocalPort => $port,
+      Listen    => SOMAXCONN,
+      Proto     => 'tcp',
+    );
+    
+    unless ($server_socket) {
+      die "Can't create a server socket:$@";
+    }
+    
+    while (1) {
+      $server_socket->accept;
+    }
+  }
+  else {
+    SPVM::TestCase::Sys::Socket->shutdown($port);
+    
+    kill 'HUP', $process_id or "Can't kill the process $process_id";
   }
 }
 
