@@ -103,6 +103,36 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   }
 }
 
+# close
+{
+  my $process_id = fork;
+
+  my $port = &search_available_port;
+  
+  # Child
+  if ($process_id == 0) {
+    my $server_socket = IO::Socket::INET->new(
+      LocalPort => $port,
+      Listen    => SOMAXCONN,
+      Proto     => 'tcp',
+      Reuse     => 1,
+    );
+    
+    unless ($server_socket) {
+      die "Can't create a server socket";
+    }
+    
+    while (1) {
+      $server_socket->accept;
+    }
+  }
+  else {
+    SPVM::TestCase::Sys::Socket->close($port);
+    
+    kill 'HUP', $process_id;
+  }
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed

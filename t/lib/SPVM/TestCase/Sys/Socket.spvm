@@ -98,4 +98,32 @@ class TestCase::Sys::Socket {
     return 1;
   }
 
+  static method close : int ($port : int) {
+    # Socket
+    my $socket= Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+    
+    unless ($socket> 0) {
+      return 0;
+    }
+    
+    # IPv4 address
+    my $address = Sys::Socket::Sockaddr::In->new;
+    $address->set_sin_family((byte)Socket->AF_INET);
+    $address->set_sin_port(Sys::Socket->htons((short)$port));
+    Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr);
+    
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
+    
+    unless ($status_connect == 0) {
+      return 0;
+    }
+    
+    my $status_close = Sys::Socket->close($socket);
+    
+    unless ($status_close == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
