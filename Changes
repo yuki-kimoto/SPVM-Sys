@@ -2,7 +2,7 @@
   [Test Improvement]
     * Added the test of the exit method in the Sys::Process class on Windows.
     * Added the test of the execv method in the Sys::Process class on Windows.
-  [Bug Fix]
+  [Bug Fix With Incompative Changes]
     * Fixed the bug that the definitions of the sin_family and set_sin_family method in the Sys::Socket::Sockaddr::In were wrong.
       [Before]
         method sin_family : int ()
