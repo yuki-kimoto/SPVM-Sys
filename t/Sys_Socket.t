@@ -67,6 +67,12 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
 ok(SPVM::TestCase::Sys::Socket->socket);
 
+# Sys::Socket::Sockaddr
+{
+  my $port = &search_available_port;
+  ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
+}
+
 # connect
 {
   my $process_id = fork;
@@ -90,6 +96,10 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     }
   }
   else {
+    
+    
+    
+    
     kill 'HUP', $process_id;
   }
 }

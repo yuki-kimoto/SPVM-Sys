@@ -1,43 +1,59 @@
 class TestCase::Sys::Socket {
   use Sys::Socket;
-  use Sys::Socket::Constant as Sock;
+  use Sys::Socket::Constant as Socket;
+  use Sys::Socket::Sockaddr;
+  use Sys::Socket::Sockaddr::In;
   
   static method socket : int () {
     
     # IPv4/TCP
     {
-      my $sock = Sys::Socket->socket(Sock->AF_INET, Sock->SOCK_STREAM, 0);
+      my $socket= Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
       
-      unless ($sock > 0) {
+      unless ($socket> 0) {
         return 0;
       }
     }
     
     # IPv4/UDP
     {
-      my $sock = Sys::Socket->socket(Sock->AF_INET, Sock->SOCK_DGRAM, 0);
+      my $socket= Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_DGRAM, 0);
       
-      unless ($sock > 0) {
+      unless ($socket> 0) {
         return 0;
       }
     }
     
     # IPv6/TCP
     {
-      my $sock = Sys::Socket->socket(Sock->AF_INET6, Sock->SOCK_STREAM, 0);
+      my $socket= Sys::Socket->socket(Socket->AF_INET6, Socket->SOCK_STREAM, 0);
       
-      unless ($sock > 0) {
+      unless ($socket> 0) {
         return 0;
       }
     }
     
     # IPv6/UDP
     {
-      my $sock = Sys::Socket->socket(Sock->AF_INET6, Sock->SOCK_DGRAM, 0);
+      my $socket= Sys::Socket->socket(Socket->AF_INET6, Socket->SOCK_DGRAM, 0);
       
-      unless ($sock > 0) {
+      unless ($socket> 0) {
         return 0;
       }
+    }
+    
+    return 1;
+  }
+
+  static method sockaddr : int ($port : int) {
+    
+    # IPv4
+    {
+      my $address = Sys::Socket::Sockaddr::In->new;
+      
+      $address->set_sin_family((byte)Socket->AF_INET);
+      $address->set_sin_port(Sys::Socket->htons((short)$port));
+      # Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr->s_addr);
     }
     
     return 1;
