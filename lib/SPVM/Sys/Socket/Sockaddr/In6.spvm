@@ -12,9 +12,9 @@ class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
     return $sin6_family;
   }
   
-  native method sin6_family : int ();
+  native method sin6_family : byte ();
   
-  native method set_sin6_family : void ();
+  native method set_sin6_family : void ($family : byte);
 
   native method sin6_flowinfo : int ();
   

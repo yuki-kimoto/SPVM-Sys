@@ -38,19 +38,19 @@ The destructor.
 
 =head2 sa_family
 
-  method sa_family : int ()s
+  method sa_family : int ()
 
 Get C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
 
 =head2 sin6_family
 
-  method sin6_family : int ();
+  method sin6_family : byte ();
 
 Get C<sin6_family>.
 
 =head2 set_sin6_family
 
-  method set_sin6_family : void ();
+  method set_sin6_family : void ($family : byte);
 
 Set C<sin6_family>.
 
@@ -60,7 +60,7 @@ Set C<sin6_family>.
 
 =head2 set_sin6_flowinfo
 
-  method set_sin6_flowinfo : void ();
+  method set_sin6_flowinfo : void ()
 
 =head2 sin6_scope_id
 
@@ -68,7 +68,7 @@ Set C<sin6_family>.
 
 =head2 set_sin6_scope_id
 
-  method set_sin6_scope_id : void ();
+  method set_sin6_scope_id : void ()
 
 =head2 sin6_addr
 
