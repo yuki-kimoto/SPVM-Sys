@@ -8,4 +8,10 @@ class Sys::Socket::Sockaddr : pointer_t {
     
     return $sa_family;
   }
+  
+  method sizeof : int () {
+    my $size = $self->(Sys::Socket::Sockaddr::Interface)->sizeof;
+    
+    return $size;
+  }
 }

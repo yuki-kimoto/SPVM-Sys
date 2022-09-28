@@ -127,3 +127,17 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__set_sun_path(SPVM_ENV* env, SPVM_VALUE*
   return 0;
 #endif
 }
+
+int32_t SPVM__Sys__Socket__Sockaddr__Un__sizeof(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "The \"sizeof\" method in the class \"Sys::Socket::Sockaddr::Un\" is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  
+  void* obj_self = stack[0].oval;
+  
+  stack[0].ival = sizeof(struct sockaddr_un);
+  
+  return 0;
+#endif
+}

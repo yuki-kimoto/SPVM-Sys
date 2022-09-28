@@ -64,6 +64,12 @@ Gets C<sun_path>.
 
 Sets C<sun_path>.
 
+=head2 sizeof
+
+  method sizeof : int ()
+
+The size of C<struct sockaddr_un>.
+
 =head1 Copyright & License
 
 Copyright 2022-2022 Yuki Kimoto, all rights reserved.

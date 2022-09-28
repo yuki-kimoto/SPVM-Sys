@@ -163,3 +163,12 @@ int32_t SPVM__Sys__Socket__Sockaddr__In6__set_sin6_port(SPVM_ENV* env, SPVM_VALU
   
   return 0;
 }
+
+int32_t SPVM__Sys__Socket__Sockaddr__In6__sizeof(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_self = stack[0].oval;
+  
+  stack[0].ival = sizeof(struct sockaddr_in6);
+  
+  return 0;
+}

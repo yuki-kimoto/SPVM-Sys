@@ -78,6 +78,12 @@ Gets C<sin_port>.
 
 Sets C<sin_port>.
 
+=head2 sizeof
+
+  method sizeof : int ()
+
+The size of C<struct sockaddr_in>.
+
 =head1 Copyright & License
 
 Copyright 2022-2022 Yuki Kimoto, all rights reserved.

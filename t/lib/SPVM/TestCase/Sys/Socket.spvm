@@ -68,4 +68,19 @@ class TestCase::Sys::Socket {
     
     return 1;
   }
+
+  static method connect : int ($port : int) {
+    # IPv4
+    {
+      my $address = Sys::Socket::Sockaddr::In->new;
+      
+      $address->set_sin_family((byte)Socket->AF_INET);
+      $address->set_sin_port(Sys::Socket->htons((short)$port));
+      Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr);
+      
+      
+    }
+    
+  }
+
 }

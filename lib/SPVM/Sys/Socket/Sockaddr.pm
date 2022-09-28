@@ -32,9 +32,17 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head1 Instance Methods
 
+=head2 
+
   method sa_family : byte ()
 
 Gets C<sa_family>.
+
+=head2 sizeof
+
+  method sizeof : int ()
+
+The size of the structure internally used.
 
 =head1 Copyright & License
 

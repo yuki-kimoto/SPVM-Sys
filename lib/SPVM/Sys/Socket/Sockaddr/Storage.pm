@@ -54,6 +54,12 @@ Gets C<ss_family>.
 
 Sets C<ss_family>.
 
+=head2 sizeof
+
+  method sizeof : int ()
+
+The size of C<struct sockaddr_storage>.
+
 =head1 Copyright & License
 
 Copyright 2022-2022 Yuki Kimoto, all rights reserved.
