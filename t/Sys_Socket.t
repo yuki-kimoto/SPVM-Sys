@@ -105,7 +105,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   else {
     SPVM::TestCase::Sys::Socket->connect($port);
     
-    kill 'HUP', $process_id or "Can't kill the process $process_id";
+    kill 'HUP', $process_id;
   }
 }
 
@@ -134,7 +134,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   else {
     SPVM::TestCase::Sys::Socket->close($port);
     
-    kill 'HUP', $process_id or "Can't kill the process $process_id";
+    kill 'HUP', $process_id;
   }
 }
 
@@ -163,7 +163,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   else {
     SPVM::TestCase::Sys::Socket->shutdown($port);
     
-    kill 'HUP', $process_id or "Can't kill the process $process_id";
+    kill 'HUP', $process_id;
   }
 }
 
