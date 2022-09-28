@@ -3,12 +3,13 @@
     * Added the test of the exit method in the Sys::Process class on Windows.
     * Added the test of the execv method in the Sys::Process class on Windows.
   [Bug Fix]
-    * Fixed the bug that the set_sin_family method in the Sys::Socket::Sockaddr::In didn't receive the argument.
-      The definition was changed.
+    * Fixed the bug that the definitions of the sin_family and set_sin_family method in the Sys::Socket::Sockaddr::In were wrong.
       [Before]
-        method set_sin_family : void ();
+        method sin_family : int ()
+        method set_sin_family : void ()
       [After]
-        method set_sin_family : void ($family : byte);
+        method sin_family : byte ()
+        method set_sin_family : void ($family : byte)
 
   [Test Fix]
     * Fix the test of the times method in the Sys::Process class.
