@@ -75,6 +75,44 @@ sub wait_port_prepared {
   }
 }
 
+# Starts a echo server
+# if "\0" is sent, the server will stop.
+sub start_echo_server {
+  my ($port) = @_;
+  
+  my $server_socket = IO::Socket::INET->new(
+    LocalPort => $port,
+    Listen    => SOMAXCONN,
+    Proto     => 'tcp',
+    ReuseAddr => 1,
+  );
+  unless ($server_socket) {
+    die "Can't create a server socket:$@";
+  }
+  
+  my $server_close;
+  while (1) {
+    my $client_socket = $server_socket->accept;
+    
+    $client_socket->autoflush(1);
+    
+    my $data;
+    while ($data = <$client_socket>) {
+      # \0 stops the server
+      if (substr($data, 0) eq "\0") {
+        $server_close = 1;
+        last;
+      }
+      print $client_socket $data;
+    }
+    
+    if ($server_close) {
+      last;
+    }
+  }
+  exit(0);
+}
+
 my $port = 20000;
 
 # Start objects count
@@ -120,37 +158,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   
   # Child
   if ($process_id == 0) {
-    my $server_socket = IO::Socket::INET->new(
-      LocalPort => $port,
-      Listen    => SOMAXCONN,
-      Proto     => 'tcp',
-      ReuseAddr => 1,
-    );
-    unless ($server_socket) {
-      die "Can't create a server socket:$@";
-    }
-    
-    my $server_close;
-    while (1) {
-      my $client_socket = $server_socket->accept;
-      
-      $client_socket->autoflush(1);
-      
-      my $data;
-      while ($data = <$client_socket>) {
-        # \0 stops the server
-        if (substr($data, 0) eq "\0") {
-          $server_close = 1;
-          last;
-        }
-        print $client_socket $data;
-      }
-      
-      if ($server_close) {
-        last;
-      }
-    }
-    exit(0);
+    &start_echo_server($port);
   }
   else {
     &wait_port_prepared($port);
@@ -169,37 +177,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   
   # Child
   if ($process_id == 0) {
-    my $server_socket = IO::Socket::INET->new(
-      LocalPort => $port,
-      Listen    => SOMAXCONN,
-      Proto     => 'tcp',
-      ReuseAddr => 1,
-    );
-    unless ($server_socket) {
-      die "Can't create a server socket:$@";
-    }
-    
-    my $server_close;
-    while (1) {
-      my $client_socket = $server_socket->accept;
-      
-      $client_socket->autoflush(1);
-      
-      my $data;
-      while ($data = <$client_socket>) {
-        # \0 stops the server
-        if (substr($data, 0) eq "\0") {
-          $server_close = 1;
-          last;
-        }
-        print $client_socket $data;
-      }
-      
-      if ($server_close) {
-        last;
-      }
-    }
-    exit(0);
+    &start_echo_server($port);
   }
   else {
     &wait_port_prepared($port);
@@ -218,37 +196,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   
   # Child
   if ($process_id == 0) {
-    my $server_socket = IO::Socket::INET->new(
-      LocalPort => $port,
-      Listen    => SOMAXCONN,
-      Proto     => 'tcp',
-      ReuseAddr => 1,
-    );
-    unless ($server_socket) {
-      die "Can't create a server socket:$@";
-    }
-    
-    my $server_close;
-    while (1) {
-      my $client_socket = $server_socket->accept;
-      
-      $client_socket->autoflush(1);
-      
-      my $data;
-      while ($data = <$client_socket>) {
-        # \0 stops the server
-        if (substr($data, 0) eq "\0") {
-          $server_close = 1;
-          last;
-        }
-        print $client_socket $data;
-      }
-      
-      if ($server_close) {
-        last;
-      }
-    }
-    exit(0);
+    &start_echo_server($port);
   }
   else {
     &wait_port_prepared($port);
