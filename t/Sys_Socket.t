@@ -130,16 +130,34 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       die "Can't create a server socket:$@";
     }
     
+    my $server_close;
     while (1) {
-      $server_socket->accept;
+      my $client_socket = $server_socket->accept;
+      
+      $client_socket->autoflush(1);
+      
+      my $data;
+      while ($data = <$client_socket>) {
+        # \0 stops the server
+        if (substr($data, 0) eq "\0") {
+          $server_close = 1;
+          last;
+        }
+        print $client_socket $data;
+      }
+      
+      if ($server_close) {
+        last;
+      }
     }
+    exit(0);
   }
   else {
     &wait_port_prepared($port);
     
-    SPVM::TestCase::Sys::Socket->connect($port);
+    ok(SPVM::TestCase::Sys::Socket->connect($port));
     
-    kill 'HUP', $process_id;
+    waitpid $process_id, 0;
   }
 }
 
@@ -157,21 +175,38 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       Proto     => 'tcp',
       ReuseAddr => 1,
     );
-    
     unless ($server_socket) {
       die "Can't create a server socket:$@";
     }
     
+    my $server_close;
     while (1) {
-      $server_socket->accept;
+      my $client_socket = $server_socket->accept;
+      
+      $client_socket->autoflush(1);
+      
+      my $data;
+      while ($data = <$client_socket>) {
+        # \0 stops the server
+        if (substr($data, 0) eq "\0") {
+          $server_close = 1;
+          last;
+        }
+        print $client_socket $data;
+      }
+      
+      if ($server_close) {
+        last;
+      }
     }
+    exit(0);
   }
   else {
     &wait_port_prepared($port);
     
-    SPVM::TestCase::Sys::Socket->close($port);
+    ok(SPVM::TestCase::Sys::Socket->close($port));
     
-    kill 'HUP', $process_id;
+    waitpid $process_id, 0;
   }
 }
 
@@ -189,21 +224,38 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       Proto     => 'tcp',
       ReuseAddr => 1,
     );
-    
     unless ($server_socket) {
       die "Can't create a server socket:$@";
     }
     
+    my $server_close;
     while (1) {
-      $server_socket->accept;
+      my $client_socket = $server_socket->accept;
+      
+      $client_socket->autoflush(1);
+      
+      my $data;
+      while ($data = <$client_socket>) {
+        # \0 stops the server
+        if (substr($data, 0) eq "\0") {
+          $server_close = 1;
+          last;
+        }
+        print $client_socket $data;
+      }
+      
+      if ($server_close) {
+        last;
+      }
     }
+    exit(0);
   }
   else {
     &wait_port_prepared($port);
     
-    SPVM::TestCase::Sys::Socket->shutdown($port);
+    ok(SPVM::TestCase::Sys::Socket->shutdown($port));
     
-    kill 'HUP', $process_id;
+    waitpid $process_id, 0;
   }
 }
 

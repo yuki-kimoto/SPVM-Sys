@@ -89,6 +89,15 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
+    # Stop server
+    my $buffer = (mutable string)new_string_len 1;
+    $buffer->[0] = '\0';
+    my $send_length = Sys::Socket->send($socket, $buffer, length $buffer, 0);
+    
+    unless ($send_length == 1) {
+      return 0;
+    }
+    
     my $status_close = Sys::Socket->close($socket);
     
     unless ($status_close == 0) {
@@ -117,6 +126,11 @@ class TestCase::Sys::Socket {
     unless ($status_connect == 0) {
       return 0;
     }
+
+    # Stop server
+    my $buffer = (mutable string)new_string_len 1;
+    $buffer->[0] = '\0';
+    my $send_length = Sys::Socket->send($socket, $buffer, length $buffer, 0);
     
     my $status_close = Sys::Socket->close($socket);
     
@@ -146,6 +160,11 @@ class TestCase::Sys::Socket {
     unless ($status_connect == 0) {
       return 0;
     }
+
+    # Stop server
+    my $buffer = (mutable string)new_string_len 1;
+    $buffer->[0] = '\0';
+    my $send_length = Sys::Socket->send($socket, $buffer, length $buffer, 0);
 
     my $status_shutdown = Sys::Socket->shutdown($socket, Socket->SHUT_WR);
     
