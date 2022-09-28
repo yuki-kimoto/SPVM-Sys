@@ -44,13 +44,13 @@ Get C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Soc
 
 =head2 sin_family
 
-  method sin_family : int ();
-
+  method sin_family : byte ();
+  
 Get C<sin_family>.
 
 =head2 set_sin_family
 
-  method set_sin_family : void ();
+  method set_sin_family : void ($family : byte);
 
 Set C<sin_family>.
 

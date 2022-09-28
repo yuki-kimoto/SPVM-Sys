@@ -12,7 +12,7 @@ class Sys::Socket::Sockaddr::In extends Sys::Socket::Sockaddr : pointer_t {
     return $sin_family;
   }
   
-  native method sin_family : int ();
+  native method sin_family : byte ();
   
   native method set_sin_family : void ($family : byte);
   
