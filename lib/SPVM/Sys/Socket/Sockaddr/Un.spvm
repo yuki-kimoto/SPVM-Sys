@@ -6,7 +6,7 @@ class Sys::Socket::Sockaddr::Un extends Sys::Socket::Sockaddr : pointer_t {
   # Instance methods
   native method DESTROY : void ();
 
-  method sa_family : int () {
+  method sa_family : byte () {
     my $sun_family = $self->sun_family;
     return $sun_family;
   }

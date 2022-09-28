@@ -7,7 +7,7 @@ class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
   # Instance methods
   native method DESTROY : void ();
   
-  method sa_family : int () {
+  method sa_family : byte () {
     my $sin6_family = $self->sin6_family;
     return $sin6_family;
   }

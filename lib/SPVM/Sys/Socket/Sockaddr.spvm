@@ -3,7 +3,7 @@ class Sys::Socket::Sockaddr : pointer_t {
   
   method has_interface : int () { return 1; }
   
-  method sa_family : int () {
+  method sa_family : byte () {
     my $sa_family = $self->(Sys::Socket::Sockaddr::Interface)->sa_family;
     
     return $sa_family;

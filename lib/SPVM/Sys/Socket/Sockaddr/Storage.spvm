@@ -6,7 +6,7 @@ class Sys::Socket::Sockaddr::Storage extends Sys::Socket::Sockaddr : pointer_t {
   # Instance methods
   native method DESTROY : void ();
   
-  method sa_family : int () {
+  method sa_family : byte () {
     my $sin_family = $self->ss_family;
     return $sin_family;
   }

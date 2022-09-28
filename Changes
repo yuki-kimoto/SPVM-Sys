@@ -31,9 +31,15 @@
       [After]
         method ss_family : byte ()
         method set_ss_family : void ($family : byte)
-
+    * Fixed the bug that the definitions of the sa_family method in the Sys::Socket::Sockaddr and its child classes and the interface were wrong.
+      [Before]
+        method sa_family : int ()
+      [After]
+        method sa_family : byte ()
   [Test Fix]
     * Fix the test of the times method in the Sys::Process class.
+  [Document Improvement]
+    * Add the doc of the Sys::Socket::Sockaddr class.
 0.06 2022-09-27
   [Test Fix]
     * Fix the test of the setpriority method in the Sys::Process class.
