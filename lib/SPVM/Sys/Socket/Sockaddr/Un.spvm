@@ -18,4 +18,6 @@ class Sys::Socket::Sockaddr::Un extends Sys::Socket::Sockaddr : pointer_t {
   native method sun_path : string ();
 
   native method set_sun_path : void ($path : string);
+  
+  native method sizeof : int ();
 }

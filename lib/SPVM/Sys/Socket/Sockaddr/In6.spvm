@@ -31,4 +31,6 @@ class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
   native method sin6_port : short ();
   
   native method set_sin6_port : void ($port : short);
+
+  native method sizeof : int ();
 }

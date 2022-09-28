@@ -76,10 +76,11 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 # connect
 {
   my $process_id = fork;
+
+  my $port = &search_available_port;
   
   # Child
   if ($process_id == 0) {
-    my $port = &search_available_port;
     my $server_socket = IO::Socket::INET->new(
       LocalPort => $port,
       Listen    => SOMAXCONN,
@@ -96,9 +97,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     }
   }
   else {
-    
-    
-    
+    SPVM::TestCase::Sys::Socket->connect($port);
     
     kill 'HUP', $process_id;
   }
