@@ -1,4 +1,9 @@
 0.07 2022-09-27
+  [Ineffective Changes]
+    * Sys::Socket::Constant->SHUT_RD always return 0.
+    * Sys::Socket::Constant->SHUT_WR always return 1.
+    * Sys::Socket::Constant->SHUT_RDWR always return 2.
+    
   [New Features]
     * Added the sizeof method in the Sys::Socket::Sockaddr.
     
