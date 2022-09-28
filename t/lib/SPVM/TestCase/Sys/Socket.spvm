@@ -53,7 +53,7 @@ class TestCase::Sys::Socket {
       
       $address->set_sin_family((byte)Socket->AF_INET);
       $address->set_sin_port(Sys::Socket->htons((short)$port));
-      # Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr->s_addr);
+      Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr);
     }
     
     return 1;
