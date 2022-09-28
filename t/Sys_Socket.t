@@ -63,6 +63,10 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   is(SPVM::Sys::Socket::Constant->SOCK_STREAM, Socket::SOCK_STREAM);
   is(SPVM::Sys::Socket::Constant->SOCK_DGRAM, Socket::SOCK_DGRAM);
   is(SPVM::Sys::Socket::Constant->SOCK_RAW, Socket::SOCK_RAW);
+
+  is(SPVM::Sys::Socket::Constant->SHUT_RD, Socket::SHUT_RD);
+  is(SPVM::Sys::Socket::Constant->SHUT_WR, Socket::SHUT_WR);
+  is(SPVM::Sys::Socket::Constant->SHUT_RDWR, Socket::SHUT_RDWR);
 }
 
 ok(SPVM::TestCase::Sys::Socket->socket);
