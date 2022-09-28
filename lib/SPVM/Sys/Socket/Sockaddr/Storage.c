@@ -47,7 +47,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Storage__ss_family(SPVM_ENV* env, SPVM_VALU
   
   struct sockaddr_storage* socket_address = env->get_pointer(env, stack, obj_self);
   
-  stack[0].ival = socket_address->ss_family;
+  stack[0].bval = socket_address->ss_family;
   
   return 0;
 }
@@ -58,7 +58,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Storage__set_ss_family(SPVM_ENV* env, SPVM_
   
   struct sockaddr_storage* socket_address = env->get_pointer(env, stack, obj_self);
   
-  socket_address->ss_family = stack[1].ival;
+  socket_address->ss_family = stack[1].bval;
   
   return 0;
 }
