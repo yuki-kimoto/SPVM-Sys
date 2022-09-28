@@ -83,9 +83,15 @@ class TestCase::Sys::Socket {
     $address->set_sin_port(Sys::Socket->htons((short)$port));
     Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr);
     
-    my $status = Sys::Socket->connect($socket, $address, $address->sizeof);
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
     
-    unless ($status == 0) {
+    unless ($status_connect == 0) {
+      return 0;
+    }
+    
+    my $status_close = Sys::Socket->close($socket);
+    
+    unless ($status_close == 0) {
       return 0;
     }
     
