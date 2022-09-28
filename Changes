@@ -17,6 +17,13 @@
       [After]
         method sin6_family : byte ()
         method set_sin6_family : void ($family : byte)
+    * Fixed the bug that the definitions of the sin6_family and set_sin6_family method in the Sys::Socket::Sockaddr::Un were wrong.
+      [Before]
+        method sun_family : int ()
+        method set_sun_family : void ()
+      [After]
+        method sun_family : byte ()
+        method set_sun_family : void ($family : byte)
 
   [Test Fix]
     * Fix the test of the times method in the Sys::Process class.

@@ -42,13 +42,13 @@ Get C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Soc
 
 =head2 sun_family
 
-  method sun_family : int ();
+  method sun_family : byte ();
 
 Get C<sun_family>.
 
 =head2 set_sun_family
 
-  method set_sun_family : int ();
+  method set_sun_family : void ($family : byte);
 
 Set C<sun_family>.
 
