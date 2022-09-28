@@ -66,8 +66,10 @@
         method sa_family : int ()
       [After]
         method sa_family : byte ()
+  [Bug Fix]
+    * Fixed the bug that the socket_strerror method in the Sys::Socket class didn't work well.
   [Test Fix]
-    * Fix the test of the times method in the Sys::Process class.
+    * Fixed the test of the times method in the Sys::Process class.
   [Document Improvement]
     * Add the doc of the Sys::Socket::Sockaddr class.
 0.06 2022-09-27

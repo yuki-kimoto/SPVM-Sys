@@ -37,17 +37,17 @@ static int32_t socket_errno (void) {
 
 #ifdef _WIN32
 static void* socket_strerror_string_win (SPVM_ENV* env, SPVM_VALUE* stack, int32_t error_number, int32_t length) {
-  wchar_t *s = NULL;
-  FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, 
+  char* error_message = NULL;
+  FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, 
                  NULL, WSAGetLastError(),
-                 MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                 (LPWSTR)&s, 0, NULL);
+                 MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US),
+                 (LPSTR)&error_message, 0, NULL);
   
-  void* error_message = env->new_string(env, stack, s, strlen(s));
+  void* obj_error_message = env->new_string(env, stack, error_message, strlen(error_message));
   
-  LocalFree(s);
+  LocalFree(error_message);
   
-  return error_message;
+  return obj_error_message;
 }
 #endif
 
