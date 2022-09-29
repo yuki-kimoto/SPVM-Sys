@@ -132,6 +132,15 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   is(SPVM::Sys::Socket::Constant->SHUT_RDWR, 2);
 }
 
+# The endian methods
+{
+  # htonl
+  {
+    ok(SPVM::TestCase::Sys::Socket->htonl);
+    ok(SPVM::TestCase::Sys::Socket->ntohl);
+  }
+}
+
 ok(SPVM::TestCase::Sys::Socket->socket);
 
 # Sys::Socket::Sockaddr

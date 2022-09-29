@@ -5,6 +5,44 @@ class TestCase::Sys::Socket {
   use Sys::Socket::Sockaddr::In;
   use Sys::Socket::Sockaddr::In6;
   
+  static method htonl : int () {
+    my $host_int = 20000;
+    my $net_int = Sys::Socket->htonl($host_int);
+    
+    my $host_int_again = Sys::Socket->ntohl($net_int);
+    
+    warn "[Test Output]htonl:$host_int -> $net_int -> $host_int_again";
+    
+    if ($host_int == $net_int) {
+      return 0;
+    }
+    
+    unless ($host_int == $host_int_again) {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
+  static method ntohl : int () {
+    my $net_int = 541982720;
+    my $host_int = Sys::Socket->ntohl($net_int);
+    
+    my $net_int_again = Sys::Socket->htonl($host_int);
+    
+    warn "[Test Output]ntohl:$net_int -> $host_int -> $net_int_again";
+    
+    if ($net_int == $host_int) {
+      return 0;
+    }
+    
+    unless ($net_int == $net_int_again) {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
   static method socket : int () {
     
     # IPv4/TCP
