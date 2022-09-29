@@ -90,7 +90,6 @@ sub start_echo_server {
     die "Can't create a server socket:$@";
   }
   
-  my $server_close;
   while (1) {
     my $client_socket = $server_socket->accept;
     
@@ -98,19 +97,11 @@ sub start_echo_server {
     
     my $data;
     while ($data = <$client_socket>) {
-      # \0 stops the server
-      if (substr($data, 0) eq "\0") {
-        $server_close = 1;
-        last;
-      }
       print $client_socket $data;
     }
     
-    if ($server_close) {
-      last;
-    }
+    $client_socket->close;
   }
-  exit(0);
 }
 
 my $port = 20000;
@@ -165,9 +156,18 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     
     ok(SPVM::TestCase::Sys::Socket->connect($port));
     
-    waitpid $process_id, 0;
+    {
+      kill('TERM', $process_id);
+      my $server_socket = IO::Socket::INET->new(
+        RemoteAddr => '127.0.0.1',
+        RemotePort => $port,
+        Proto     => 'tcp',
+      );
+    }
   }
 }
+
+=pod
 
 # close
 {
@@ -206,6 +206,8 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     waitpid $process_id, 0;
   }
 }
+
+=cut
 
 SPVM::set_exception(undef);
 
