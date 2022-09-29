@@ -158,63 +158,60 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
 
-# TODO : Winsock on Windows
-unless ($^O eq 'MSWin32') {
-  # connect
-  {
-    my $process_id = fork;
+# connect
+{
+  my $process_id = fork;
 
-    my $port = &search_available_port;
-    
-    # Child
-    if ($process_id == 0) {
-      &start_echo_server($port);
-    }
-    else {
-      &wait_port_prepared($port);
-      
-      ok(SPVM::TestCase::Sys::Socket->connect($port));
-      
-      kill 'TERM', $process_id;
-    }
+  my $port = &search_available_port;
+  
+  # Child
+  if ($process_id == 0) {
+    &start_echo_server($port);
   }
-
-  # close
-  {
-    my $process_id = fork;
-
-    my $port = &search_available_port;
+  else {
+    &wait_port_prepared($port);
     
-    # Child
-    if ($process_id == 0) {
-      &start_echo_server($port);
-    }
-    else {
-      &wait_port_prepared($port);
-      
-      ok(SPVM::TestCase::Sys::Socket->close($port));
-      
-      kill 'TERM', $process_id;
-    }
+    ok(SPVM::TestCase::Sys::Socket->connect($port));
+    
+    kill 'TERM', $process_id;
   }
+}
 
-  # shutdown
-  {
-    my $process_id = fork;
+# close
+{
+  my $process_id = fork;
 
-    my $port = &search_available_port;
+  my $port = &search_available_port;
+  
+  # Child
+  if ($process_id == 0) {
+    &start_echo_server($port);
+  }
+  else {
+    &wait_port_prepared($port);
     
-    # Child
-    if ($process_id == 0) {
-      &start_echo_server($port);
-    }
-    else {
-      &wait_port_prepared($port);
-      
-      ok(SPVM::TestCase::Sys::Socket->shutdown($port));
-      
-      kill 'TERM', $process_id;
-    }
+    ok(SPVM::TestCase::Sys::Socket->close($port));
+    
+    kill 'TERM', $process_id;
+  }
+}
+
+# shutdown
+{
+  my $process_id = fork;
+
+  my $port = &search_available_port;
+  
+  # Child
+  if ($process_id == 0) {
+    &start_echo_server($port);
+  }
+  else {
+    &wait_port_prepared($port);
+    
+    ok(SPVM::TestCase::Sys::Socket->shutdown($port));
+    
+    kill 'TERM', $process_id;
   }
 }
 
