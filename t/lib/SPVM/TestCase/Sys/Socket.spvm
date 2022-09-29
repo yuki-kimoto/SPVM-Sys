@@ -473,4 +473,96 @@ class TestCase::Sys::Socket {
     
     return 1;
   }
+
+  static method send_and_recv : int ($port : int) {
+    # Socket
+    my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+    
+    unless ($socket> 0) {
+      return 0;
+    }
+    
+    # IPv4 address
+    my $address = Sys::Socket::Sockaddr::In->new;
+    $address->set_sin_family((byte)Socket->AF_INET);
+    $address->set_sin_port(Sys::Socket->htons((short)$port));
+    my $sin_addr = $address->sin_addr;
+    Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $sin_addr);
+    $address->set_sin_addr($sin_addr);
+    
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
+    
+    unless ($status_connect == 0) {
+      return 0;
+    }
+    
+    {
+      my $send_buffer = "abcd";
+      
+      my $send_length = Sys::Socket->send($socket, $send_buffer, length $send_buffer, 0);
+      
+      unless ($send_length == 4) {
+        return 0;
+      }
+    }
+    
+    {
+      my $send_buffer = "ef";
+      
+      my $send_length = Sys::Socket->send($socket, $send_buffer, length $send_buffer, 0);
+      
+      unless ($send_length == 2) {
+        return 0;
+      }
+    }
+    
+    my $status_shutdown = Sys::Socket->shutdown($socket, Socket->SHUT_WR);
+    
+    unless ($status_shutdown == 0) {
+      return 0;
+    }
+    
+    {
+      my $recv_buffer = (mutable string)new_string_len 3;
+      my $recv_length = Sys::Socket->recv($socket, $recv_buffer, length $recv_buffer, 0);
+      
+      unless ($recv_length == 3) {
+        return 0;
+      }
+      
+      unless ($recv_buffer eq "abc") {
+        return 0;
+      }
+    }
+    
+    {
+      my $recv_buffer = (mutable string)new_string_len 3;
+      my $recv_length = Sys::Socket->recv($socket, $recv_buffer, length $recv_buffer, 0);
+      
+      unless ($recv_length == 3) {
+        return 0;
+      }
+      
+      unless ($recv_buffer eq "def") {
+        return 0;
+      }
+    }
+
+    {
+      my $recv_buffer = (mutable string)new_string_len 3;
+      my $recv_length = Sys::Socket->recv($socket, $recv_buffer, length $recv_buffer, 0);
+      
+      unless ($recv_length == 0) {
+        return 0;
+      }
+    }
+    
+    my $status_close = Sys::Socket->close($socket);
+    
+    unless ($status_close == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
