@@ -31,6 +31,12 @@
     
       method sizeof : int ()
     
+    * Added the s_addr and set_s_addr methods to the Sys::In_addr class.
+    
+      method s_addr : int ();
+
+      method set_s_addr : void ($s_addr : int);
+    
   [Test Improvement]
     * Added the test of the exit method in the Sys::Process class on Windows.
     * Added the test of the execv method in the Sys::Process class on Windows.
