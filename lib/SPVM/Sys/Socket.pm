@@ -50,6 +50,60 @@ The ntohs() function converts the unsigned short integer netshort from network b
 
 See the detail of the L<ntohs|https://linux.die.net/man/3/ntohs> function in the case of Linux.
 
+=head2 inet_aton
+
+  static method inet_aton : int ($cp : string, $inp : Sys::Socket::In_addr);
+
+inet_aton() converts the Internet host address cp from the IPv4 numbers-and-dots notation into binary form (in network byte order) and stores it in the structure that inp points to. inet_aton() returns nonzero if the address is valid, zero if not. The address supplied in cp can have one of the following forms:
+
+See the detail of the L<inet_aton|https://linux.die.net/man/3/inet_aton> function in the case of Linux.
+
+The input address(inp) is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
+
+The input address(cp) must be defined. Otherwise an exception will be thrown.
+
+The output address(inp) must be defined. Otherwise an exception will be thrown.
+
+=head2 inet_ntoa
+
+  static method inet_ntoa : string ($in : Sys::Socket::In_addr);
+
+The inet_ntoa() function converts the Internet host address in, given in network byte order, to a string in IPv4 dotted-decimal notation. The string is returned in a statically allocated buffer, which subsequent calls will overwrite.
+
+See the detail of the L<inet_ntoa|https://linux.die.net/man/3/inet_ntoa> function in the case of Linux.
+
+The input address(in) is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
+
+The input address must be defined. Otherwise an exception will be thrown.
+
+=head2 inet_pton
+
+  static method inet_pton : int ($af : int, $src : string, $dst : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
+
+This function converts the character string src into a network address structure in the af address family, then copies the network address structure to dst. The af argument must be either AF_INET or AF_INET6.
+
+See the detail of the L<inet_pton|https://linux.die.net/man/3/inet_pton> function in the case of Linux.
+
+The output address(dst) is assumed to be L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> or L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> corresponding to the address family(af).
+
+The input address(src) must be defined. Otherwise an exception will be thrown.
+
+The output address(dst) must be defined. Otherwise an exception will be thrown.
+
+=head2 inet_ntop
+
+  static method inet_ntop : string ($af : int, $src : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $dst : mutable string, $size : int);
+
+This function converts the network address structure src in the af address family into a character string. The resulting string is copied to the buffer pointed to by dst, which must be a non-NULL pointer. The caller specifies the number of bytes available in this buffer in the argument size.
+
+See the detail of the L<inet_ntop|https://linux.die.net/man/3/inet_ntop> function in the case of Linux.
+
+The input address(src) is assumed to be L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> or L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> corresponding to the address family(af).
+
+The input address(src) must be defined. Otherwise an exception will be thrown.
+
+The output address(dst) must be defined. Otherwise an exception will be thrown.
+
 =head2 socket
 
   static method socket : int ($domain : int, $type : int, $protocol : int);
@@ -228,60 +282,6 @@ If the system call failed, an exception will be thrown with the error code set t
   static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
 
 The same as L</"getsockopt">, but the option value can be specifed by the C<int> type.
-
-=head2 inet_aton
-
-  static method inet_aton : int ($cp : string, $inp : Sys::Socket::In_addr);
-
-inet_aton() converts the Internet host address cp from the IPv4 numbers-and-dots notation into binary form (in network byte order) and stores it in the structure that inp points to. inet_aton() returns nonzero if the address is valid, zero if not. The address supplied in cp can have one of the following forms:
-
-See the detail of the L<inet_aton|https://linux.die.net/man/3/inet_aton> function in the case of Linux.
-
-The input address(inp) is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
-
-The input address(cp) must be defined. Otherwise an exception will be thrown.
-
-The output address(inp) must be defined. Otherwise an exception will be thrown.
-
-=head2 inet_ntoa
-
-  static method inet_ntoa : string ($in : Sys::Socket::In_addr);
-
-The inet_ntoa() function converts the Internet host address in, given in network byte order, to a string in IPv4 dotted-decimal notation. The string is returned in a statically allocated buffer, which subsequent calls will overwrite.
-
-See the detail of the L<inet_ntoa|https://linux.die.net/man/3/inet_ntoa> function in the case of Linux.
-
-The input address(in) is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
-
-The input address must be defined. Otherwise an exception will be thrown.
-
-=head2 inet_pton
-
-  static method inet_pton : int ($af : int, $src : string, $dst : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
-
-This function converts the character string src into a network address structure in the af address family, then copies the network address structure to dst. The af argument must be either AF_INET or AF_INET6.
-
-See the detail of the L<inet_pton|https://linux.die.net/man/3/inet_pton> function in the case of Linux.
-
-The output address(dst) is assumed to be L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> or L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> corresponding to the address family(af).
-
-The input address(src) must be defined. Otherwise an exception will be thrown.
-
-The output address(dst) must be defined. Otherwise an exception will be thrown.
-
-=head2 inet_ntop
-
-  static method inet_ntop : string ($af : int, $src : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $dst : mutable string, $size : int);
-
-This function converts the network address structure src in the af address family into a character string. The resulting string is copied to the buffer pointed to by dst, which must be a non-NULL pointer. The caller specifies the number of bytes available in this buffer in the argument size.
-
-See the detail of the L<inet_ntop|https://linux.die.net/man/3/inet_ntop> function in the case of Linux.
-
-The input address(src) is assumed to be L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> or L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> corresponding to the address family(af).
-
-The input address(src) must be defined. Otherwise an exception will be thrown.
-
-The output address(dst) must be defined. Otherwise an exception will be thrown.
 
 =head2 ioctlsocket
 

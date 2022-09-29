@@ -1,4 +1,6 @@
 0.07 2022-09-27
+  [Changes]
+    * The inet_aton method in the Sys::Socket class is emulated using inet_pton on Windows.
   [Ineffective Changes]
     * Sys::Socket::Constant->SHUT_RD always return 0.
     * Sys::Socket::Constant->SHUT_WR always return 1.
