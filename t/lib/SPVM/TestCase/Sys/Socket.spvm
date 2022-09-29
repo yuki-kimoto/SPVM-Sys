@@ -42,6 +42,82 @@ class TestCase::Sys::Socket {
     
     return 1;
   }
+
+  static method htons : int () {
+    {
+      my $host_short = (short)20000;
+      my $net_short = Sys::Socket->htons($host_short);
+      
+      my $host_short_again = Sys::Socket->ntohs($net_short);
+      
+      warn "[Test Output]htons:$host_short -> $net_short -> $host_short_again";
+      
+      if ($host_short == $net_short) {
+        return 0;
+      }
+      
+      unless ($host_short == $host_short_again) {
+        return 0;
+      }
+    }
+    
+    {
+      my $host_short = (short)50000;
+      my $net_short = Sys::Socket->htons($host_short);
+      
+      my $host_short_again = Sys::Socket->ntohs($net_short);
+      
+      warn "[Test Output]htons:$host_short -> $net_short -> $host_short_again";
+      
+      if ($host_short == $net_short) {
+        return 0;
+      }
+      
+      unless ($host_short == $host_short_again) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method ntohs : int () {
+    {
+      my $net_short = (short)8270;
+      my $host_short = Sys::Socket->ntohs($net_short);
+      
+      my $net_short_again = Sys::Socket->htons($host_short);
+      
+      warn "[Test Output]ntohs:$net_short -> $host_short -> $net_short_again";
+      
+      if ($net_short == $host_short) {
+        return 0;
+      }
+      
+      unless ($net_short == $net_short_again) {
+        return 0;
+      }
+    }
+    
+    {
+      my $net_short = (short)20675;
+      my $host_short = Sys::Socket->ntohs($net_short);
+      
+      my $net_short_again = Sys::Socket->htons($host_short);
+      
+      warn "[Test Output]ntohs:$net_short -> $host_short -> $net_short_again";
+      
+      if ($net_short == $host_short) {
+        return 0;
+      }
+      
+      unless ($net_short == $net_short_again) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
   
   static method socket : int () {
     

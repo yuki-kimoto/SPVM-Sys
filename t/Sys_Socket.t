@@ -138,6 +138,8 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   {
     ok(SPVM::TestCase::Sys::Socket->htonl);
     ok(SPVM::TestCase::Sys::Socket->ntohl);
+    ok(SPVM::TestCase::Sys::Socket->htons);
+    ok(SPVM::TestCase::Sys::Socket->ntohs);
   }
 }
 
