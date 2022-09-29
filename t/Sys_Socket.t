@@ -215,8 +215,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # TODO
 
-=pod
-
 # send and recv
 {
   my $process_id = fork;
@@ -235,8 +233,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     kill 'TERM', $process_id;
   }
 }
-
-=cut
 
 SPVM::set_exception(undef);
 
