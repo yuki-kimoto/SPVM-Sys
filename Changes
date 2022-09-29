@@ -87,12 +87,18 @@
     * Fixed the test of the times method in the Sys::Process class.
   [Document Improvement]
     * Add the doc of the Sys::Socket::Sockaddr class.
+    * Add the doc of the Sys::Socket::Sockaddr::Interface class.
   [Incompative Changes]
     * The inet_ntop method in Sys::Socket throw an exception if the address family is not AF_INET and AF_INET6.
     * The inet_pton method in Sys::Socket throw an exception if the address family is not AF_INET and AF_INET6.
     * The inet_ntop and inet_pton method in Sys::Socket throw an exception with Sys::Socket::Error::InetInvalidNetworkAddress
       if the address is an invalid network address.
     * The inet_ntoa method in Sys::Socket throw an exception if inet_ntoa failed.
+    * The set_sin6_addr method in Sys::Socket::Sockaddr::In6 throw an exception if the address is not defined.
+    * The set_sin_addr method in Sys::Socket::Sockaddr::In throw an exception if the address is not defined.
+  [Internall Uneffective Changes]
+    * Rename the has_interface in the class Sys::Socket::Sockaddr::Interface to has_interfaces.
+    * Rename the has_interface in the class Sys::Socket::Sockaddr to has_interfaces.
     
 0.06 2022-09-27
   [Test Fix]

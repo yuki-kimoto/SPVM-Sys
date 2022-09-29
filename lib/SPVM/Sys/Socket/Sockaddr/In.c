@@ -91,6 +91,11 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_addr(SPVM_ENV* env, SPVM_VALUE*
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
   void* obj_address = stack[1].oval;
+  
+  if (!obj_address) {
+    return env->die(env, stack, "The address must be defined", FILE_NAME, __LINE__);
+  }
+  
   struct in_addr* address = env->get_pointer(env, stack, obj_address);
 
   socket_address->sin_addr = *address;

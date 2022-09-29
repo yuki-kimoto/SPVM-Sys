@@ -16,6 +16,34 @@ C<Sys::Socket::Sockaddr> is the class for the C<struct sockaddr> in C<C language
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
+=head1 Interfaces
+
+=over 2
+
+=item L<Sys::Socket::Sockaddr::Interface|SPVM::Sys::Socket::Sockaddr::Interface>
+
+=back
+
+=head1 Instance Methods
+
+=head2 has_interfaces
+
+  required method has_interfaces : int ();
+
+Retruns C<1>.
+
+=head2 sa_family
+
+  method sa_family : byte ()
+
+Gets C<sa_family>.
+
+=head2 sizeof
+
+  method sizeof : int ()
+
+The size of the structure internally used.
+
 =head1 Well Known Child Classes
 
 =over 2
@@ -29,20 +57,6 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 =item L<Sys::Socket::Sockaddr::Storage|SPVM::Sys::Socket::Sockaddr::Storage>
 
 =back
-
-=head1 Instance Methods
-
-=head2 
-
-  method sa_family : byte ()
-
-Gets C<sa_family>.
-
-=head2 sizeof
-
-  method sizeof : int ()
-
-The size of the structure internally used.
 
 =head1 Copyright & License
 
