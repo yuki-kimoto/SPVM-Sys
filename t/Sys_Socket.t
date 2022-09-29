@@ -145,6 +145,7 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
 ok(SPVM::TestCase::Sys::Socket->inet_aton);
 ok(SPVM::TestCase::Sys::Socket->inet_pton);
+ok(SPVM::TestCase::Sys::Socket->inet_ntoa);
 
 ok(SPVM::TestCase::Sys::Socket->socket);
 

@@ -148,6 +148,25 @@ class TestCase::Sys::Socket {
     return 1;
   }
 
+  static method inet_ntoa : int () {
+    
+    {
+      my $sin_addr = Sys::Socket::In_addr->new;
+      my $status = Sys::Socket->inet_aton("127.0.0.1", $sin_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+      
+      my $address_string = Sys::Socket->inet_ntoa($sin_addr);
+      
+      unless ($address_string eq "127.0.0.1") {
+        return 0;
+      }
+    }
+    return 1;
+  }
+
   static method inet_pton : int () {
     
     {
