@@ -36,6 +36,12 @@
       method s_addr : int ();
 
       method set_s_addr : void ($s_addr : int);
+
+    * Added the s6_addr and set_s6_addr methods to the Sys::In6_addr class.
+
+      method s6_addr : string ();
+
+      method set_s6_addr : void ($address : string);
     
   [Test Improvement]
     * Added the test of the exit method in the Sys::Process class on Windows.
