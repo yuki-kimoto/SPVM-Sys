@@ -61,6 +61,7 @@ static void* socket_strerror_string (SPVM_ENV* env, SPVM_VALUE* stack, int32_t e
   return obj_strerror_value;
 }
 
+
 static const char* socket_strerror(SPVM_ENV* env, SPVM_VALUE* stack, int32_t error_number, int32_t length) {
   void* obj_socket_strerror = socket_strerror_string(env, stack, error_number, length);
   
@@ -87,6 +88,50 @@ int32_t SPVM__Sys__Socket__socket_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_socket_strerror = socket_strerror_string(env, stack, error_number, length);
   
   stack[0].oval = obj_socket_strerror;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__htonl(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t hostlong = stack[0].ival;
+  
+  int32_t netlong = htonl(hostlong);
+  
+  stack[0].ival = netlong;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__htons(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int16_t hostshort = stack[0].sval;
+  
+  int16_t netshort = htons(hostshort);
+  
+  stack[0].sval = netshort;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__ntohl(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t netlong = stack[0].ival;
+  
+  int32_t hostlong = ntohl(netlong);
+  
+  stack[0].ival = hostlong;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int16_t netshort = stack[0].sval;
+  
+  int16_t hostshort = htons(netshort);
+  
+  stack[0].sval = hostshort;
   
   return 0;
 }
@@ -615,50 +660,6 @@ int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].oval = obj_dst;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__htonl(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t hostlong = stack[0].ival;
-  
-  int32_t netlong = htonl(hostlong);
-  
-  stack[0].ival = netlong;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__htons(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int16_t hostshort = stack[0].sval;
-  
-  int16_t netshort = htons(hostshort);
-  
-  stack[0].sval = netshort;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__ntohl(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t netlong = stack[0].ival;
-  
-  int32_t hostlong = ntohl(netlong);
-  
-  stack[0].ival = hostlong;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int16_t netshort = stack[0].sval;
-  
-  int16_t hostshort = htons(netshort);
-  
-  stack[0].sval = hostshort;
   
   return 0;
 }

@@ -18,6 +18,38 @@ C<Sys::Socket> is the class for system calls of socket.
 
 =head1 Class Methods
 
+=head2 htonl
+
+  static method htonl : int ($hostlong : int);
+
+The htonl() function converts the unsigned integer hostlong from host byte order to network byte order.
+
+See the detail of the L<htonl|https://linux.die.net/man/3/htonl> function in the case of Linux.
+
+=head2 htons
+
+  static method htons : short ($hostshort : short);
+
+The htons() function converts the unsigned short integer hostshort from host byte order to network byte order.
+
+See the detail of the L<htons|https://linux.die.net/man/3/htons> function in the case of Linux.
+
+=head2 ntohl
+
+  static method ntohl : int ($netlong : int);
+
+The ntohl() function converts the unsigned integer netlong from network byte order to host byte order.
+
+See the detail of the L<ntohl|https://linux.die.net/man/3/ntohl> function in the case of Linux.
+
+=head2 ntohs
+
+  static method ntohs : short ($netshort : short);
+
+The ntohs() function converts the unsigned short integer netshort from network byte order to host byte order.
+
+See the detail of the L<ntohs|https://linux.die.net/man/3/ntohs> function in the case of Linux.
+
 =head2 socket
 
   static method socket : int ($domain : int, $type : int, $protocol : int);
@@ -250,38 +282,6 @@ The input address(src) is assumed to be L<Sys::Socket::In_addr|SPVM::Sys::Socket
 The input address(src) must be defined. Otherwise an exception will be thrown.
 
 The output address(dst) must be defined. Otherwise an exception will be thrown.
-
-=head2 htonl
-
-  static method htonl : int ($hostlong : int);
-
-The htonl() function converts the unsigned integer hostlong from host byte order to network byte order.
-
-See the detail of the L<htonl|https://linux.die.net/man/3/htonl> function in the case of Linux.
-
-=head2 htons
-
-  static method htons : short ($hostshort : short);
-
-The htons() function converts the unsigned short integer hostshort from host byte order to network byte order.
-
-See the detail of the L<htons|https://linux.die.net/man/3/htons> function in the case of Linux.
-
-=head2 ntohl
-
-  static method ntohl : int ($netlong : int);
-
-The ntohl() function converts the unsigned integer netlong from network byte order to host byte order.
-
-See the detail of the L<ntohl|https://linux.die.net/man/3/ntohl> function in the case of Linux.
-
-=head2 ntohs
-
-  static method ntohs : short ($netshort : short);
-
-The ntohs() function converts the unsigned short integer netshort from network byte order to host byte order.
-
-See the detail of the L<ntohs|https://linux.die.net/man/3/ntohs> function in the case of Linux.
 
 =head2 ioctlsocket
 
