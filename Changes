@@ -92,6 +92,7 @@
     * The inet_pton method in Sys::Socket throw an exception if the address family is not AF_INET and AF_INET6.
     * The inet_ntop and inet_pton method in Sys::Socket throw an exception with Sys::Socket::Error::InetInvalidNetworkAddress
       if the address is an invalid network address.
+    * The inet_ntoa method in Sys::Socket throw an exception if inet_ntoa failed.
     
 0.06 2022-09-27
   [Test Fix]

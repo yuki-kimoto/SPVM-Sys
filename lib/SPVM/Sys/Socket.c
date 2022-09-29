@@ -189,6 +189,11 @@ int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct in_addr* in = env->get_pointer(env, stack, obj_in);
   
   char* output_address = inet_ntoa(*in);
+
+  if (!output_address) {
+    env->die(env, stack, "[System Error]inet_ntoa failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
   
   void* obj_output_address;
   if (output_address) {
