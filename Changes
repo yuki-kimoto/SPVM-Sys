@@ -42,6 +42,7 @@
       method s6_addr : string ();
 
       method set_s6_addr : void ($address : string);
+    * Add Sys::Socket::Error::InetInvalidNetworkAddress.
     
   [Test Improvement]
     * Added the test of the exit method in the Sys::Process class on Windows.
@@ -89,6 +90,9 @@
   [Incompative Changes]
     * The inet_ntop method in Sys::Socket throw an exception if the address family is not AF_INET and AF_INET6.
     * The inet_pton method in Sys::Socket throw an exception if the address family is not AF_INET and AF_INET6.
+    * The inet_ntop and inet_pton method in Sys::Socket throw an exception with Sys::Socket::Error::InetInvalidNetworkAddress
+      if the address is an invalid network address.
+    
 0.06 2022-09-27
   [Test Fix]
     * Fix the test of the setpriority method in the Sys::Process class.

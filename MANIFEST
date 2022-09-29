@@ -73,6 +73,9 @@ lib/SPVM/Sys/Socket/Constant.c
 lib/SPVM/Sys/Socket/Constant.config
 lib/SPVM/Sys/Socket/Constant.pm
 lib/SPVM/Sys/Socket/Constant.spvm
+lib/SPVM/Sys/Socket/Error.spvm
+lib/SPVM/Sys/Socket/Error/InetInvalidNetworkAddress.pm
+lib/SPVM/Sys/Socket/Error/InetInvalidNetworkAddress.spvm
 lib/SPVM/Sys/Socket/In6_addr.c
 lib/SPVM/Sys/Socket/In6_addr.config
 lib/SPVM/Sys/Socket/In6_addr.pm

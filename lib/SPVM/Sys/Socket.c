@@ -137,6 +137,10 @@ int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  int32_t e = 0;
+  
+  int32_t InvalidNetworkAddress = env->get_class_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &e, FILE_NAME, __LINE__);
   
   void* obj_cp = stack[0].oval;
   
@@ -152,15 +156,24 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The output address(inp) must be defined", FILE_NAME, __LINE__);
   }
   
-  struct in_addr* inp = env->get_pointer(env, stack, obj_inp);
+  struct in_addr* st_in_addr = env->get_pointer(env, stack, obj_inp);
   
 #ifdef _WIN32
-  int32_t success = inet_pton(AF_INET, cp, inp);
+  int32_t status = inet_pton(AF_INET, cp, st_in_addr);
 #else
-  int32_t success = inet_aton(cp, inp);
+  int32_t status = inet_aton(cp, st_in_addr);
 #endif
 
-  stack[0].ival = success;
+  if (status == 0) {
+    env->die(env, stack, "The address is not a valid network address", FILE_NAME, __LINE__);
+    return InvalidNetworkAddress;
+  }
+  else if (status == -1) {
+    env->die(env, stack, "[System Error]inet_aton failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
   
   return 0;
 }
@@ -192,6 +205,12 @@ int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t e = 0;
+  
+  int32_t InvalidNetworkAddress = env->get_class_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &e, FILE_NAME, __LINE__);
+  
+  if (e) { return e; }
+  
   int32_t af = stack[0].ival;
   
   if (!(af == AF_INET || af == AF_INET6)) {
@@ -214,14 +233,18 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* dst = env->get_pointer(env, stack, obj_dst);
   
-  int32_t success = inet_pton(af, src, dst);
+  int32_t status = inet_pton(af, src, dst);
   
-  if (success == -1) {
+  if (status == 0) {
+    env->die(env, stack, "The address is not a valid network address", FILE_NAME, __LINE__);
+    return InvalidNetworkAddress;
+  }
+  else if (status == -1) {
     env->die(env, stack, "[System Error]inet_pton failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  stack[0].ival = success;
+  stack[0].ival = status;
   
   return 0;
 }
