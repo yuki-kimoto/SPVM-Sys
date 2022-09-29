@@ -9,7 +9,6 @@ class TestCase::Sys::Socket {
   
   use TestUtil::SocketAutoClose;
   
-  
   static method htonl : int () {
     my $host_int = 20000;
     my $net_int = Sys::Socket->htonl($host_int);
@@ -565,5 +564,31 @@ class TestCase::Sys::Socket {
     }
     
     return 1;
+  }
+  
+  # bind, listen, accept
+  method start_echo_server : void ($port : int) {
+    
+    my $server_socket = IO::Socket::INET->new(
+      LocalPort => $port,
+      Listen    => SOMAXCONN,
+      Proto     => 'tcp',
+      ReuseAddr => 1,
+    );
+    unless ($server_socket) {
+      die "Can't create a server socket:$@";
+    }
+    
+    my $server_close;
+    while (1) {
+      my $client_socket = $server_socket->accept;
+      
+      $client_socket->autoflush(1);
+      
+      my $data;
+      while ($data = <$client_socket>) {
+        print $client_socket $data;
+      }
+    }
   }
 }

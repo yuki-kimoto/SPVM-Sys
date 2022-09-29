@@ -213,8 +213,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   }
 }
 
-# TODO
-
 # send and recv
 {
   my $process_id = fork;
@@ -229,6 +227,31 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     &wait_port_prepared($port);
     
     ok(SPVM::TestCase::Sys::Socket->send_and_recv($port));
+    
+    kill 'TERM', $process_id;
+  }
+}
+
+# bind, listen, accept
+{
+  my $process_id = fork;
+
+  my $port = &search_available_port;
+  
+  # Child
+  if ($process_id == 0) {
+    SPVM::TestCase::Sys::Socket->start_echo_server($port);
+  }
+  else {
+    &wait_port_prepared($port);
+    
+    my $sock = IO::Socket::INET->new(
+      Proto    => 'tcp',
+      PeerAddr => "127.0.0.1",
+      PeerPort => $port,
+    );
+    
+    ok($sock);
     
     kill 'TERM', $process_id;
   }
