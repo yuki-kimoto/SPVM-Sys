@@ -90,6 +90,7 @@ sub start_echo_server {
     die "Can't create a server socket:$@";
   }
   
+  my $server_close;
   while (1) {
     my $client_socket = $server_socket->accept;
     
@@ -99,8 +100,6 @@ sub start_echo_server {
     while ($data = <$client_socket>) {
       print $client_socket $data;
     }
-    
-    $client_socket->close;
   }
 }
 
@@ -141,73 +140,65 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
 
-# connect
-{
-  my $process_id = fork;
+# TODO : Winsock on Windows
+unless ($^O eq 'MSWin32') {
+  # connect
+  {
+    my $process_id = fork;
 
-  my $port = &search_available_port;
-  
-  # Child
-  if ($process_id == 0) {
-    &start_echo_server($port);
+    my $port = &search_available_port;
+    
+    # Child
+    if ($process_id == 0) {
+      &start_echo_server($port);
+    }
+    else {
+      &wait_port_prepared($port);
+      
+      ok(SPVM::TestCase::Sys::Socket->connect($port));
+      
+      kill 'TERM', $process_id;
+    }
   }
-  else {
-    &wait_port_prepared($port);
+
+  # close
+  {
+    my $process_id = fork;
+
+    my $port = &search_available_port;
     
-    ok(SPVM::TestCase::Sys::Socket->connect($port));
+    # Child
+    if ($process_id == 0) {
+      &start_echo_server($port);
+    }
+    else {
+      &wait_port_prepared($port);
+      
+      ok(SPVM::TestCase::Sys::Socket->close($port));
+      
+      kill 'TERM', $process_id;
+    }
+  }
+
+  # shutdown
+  {
+    my $process_id = fork;
+
+    my $port = &search_available_port;
     
-    {
-      kill('TERM', $process_id);
-      my $server_socket = IO::Socket::INET->new(
-        RemoteAddr => '127.0.0.1',
-        RemotePort => $port,
-        Proto     => 'tcp',
-      );
+    # Child
+    if ($process_id == 0) {
+      &start_echo_server($port);
+    }
+    else {
+      &wait_port_prepared($port);
+      
+      ok(SPVM::TestCase::Sys::Socket->shutdown($port));
+      
+      kill 'TERM', $process_id;
     }
   }
 }
-
-=pod
-
-# close
-{
-  my $process_id = fork;
-
-  my $port = &search_available_port;
-  
-  # Child
-  if ($process_id == 0) {
-    &start_echo_server($port);
-  }
-  else {
-    &wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Socket->close($port));
-    
-    waitpid $process_id, 0;
-  }
-}
-
-# shutdown
-{
-  my $process_id = fork;
-
-  my $port = &search_available_port;
-  
-  # Child
-  if ($process_id == 0) {
-    &start_echo_server($port);
-  }
-  else {
-    &wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Socket->shutdown($port));
-    
-    waitpid $process_id, 0;
-  }
-}
-
-=cut
 
 SPVM::set_exception(undef);
 
