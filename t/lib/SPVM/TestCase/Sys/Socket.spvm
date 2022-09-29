@@ -168,9 +168,18 @@ class TestCase::Sys::Socket {
       
       $address->set_sin_family((byte)Socket->AF_INET);
       $address->set_sin_port(Sys::Socket->htons((short)$port));
-      Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr);
+      Sys::Socket->inet_aton("127.0.0.1", $address->sin_addr);
     }
 
+    # IPv4
+    {
+      my $address = Sys::Socket::Sockaddr::In->new;
+      
+      $address->set_sin_family((byte)Socket->AF_INET);
+      $address->set_sin_port(Sys::Socket->htons((short)$port));
+      Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr);
+    }
+    
     # IPv6
     {
       my $address = Sys::Socket::Sockaddr::In6->new;
@@ -195,7 +204,7 @@ class TestCase::Sys::Socket {
     my $address = Sys::Socket::Sockaddr::In->new;
     $address->set_sin_family((byte)Socket->AF_INET);
     $address->set_sin_port(Sys::Socket->htons((short)$port));
-    Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr);
+    Sys::Socket->inet_aton("127.0.0.1", $address->sin_addr);
     
     my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
     
@@ -224,7 +233,7 @@ class TestCase::Sys::Socket {
     my $address = Sys::Socket::Sockaddr::In->new;
     $address->set_sin_family((byte)Socket->AF_INET);
     $address->set_sin_port(Sys::Socket->htons((short)$port));
-    Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr);
+    Sys::Socket->inet_aton("127.0.0.1", $address->sin_addr);
     
     my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
     
@@ -253,7 +262,7 @@ class TestCase::Sys::Socket {
     my $address = Sys::Socket::Sockaddr::In->new;
     $address->set_sin_family((byte)Socket->AF_INET);
     $address->set_sin_port(Sys::Socket->htons((short)$port));
-    Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $address->sin_addr);
+    Sys::Socket->inet_aton("127.0.0.1", $address->sin_addr);
     
     my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
     
