@@ -86,6 +86,9 @@
     * Fixed the test of the times method in the Sys::Process class.
   [Document Improvement]
     * Add the doc of the Sys::Socket::Sockaddr class.
+  [Incompative Changes]
+    * The inet_ntop method in Sys::Socket throw an exception if the address family is not AF_INET and AF_INET6.
+    * The inet_pton method in Sys::Socket throw an exception if the address family is not AF_INET and AF_INET6.
 0.06 2022-09-27
   [Test Fix]
     * Fix the test of the setpriority method in the Sys::Process class.

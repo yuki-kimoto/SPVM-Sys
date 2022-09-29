@@ -72,8 +72,8 @@ int32_t SPVM__Sys__Socket__In6_addr__set_s6_addr(SPVM_ENV* env, SPVM_VALUE* stac
   
   int32_t s6_addr_length = env->length(env, stack, obj_s6_addr);
   
-  if (!(s6_addr_length <= 16)) {
-    return env->die(env, stack, "The length of the address must be less than or equal to 16", FILE_NAME, __LINE__);
+  if (!(s6_addr_length < 16)) {
+    return env->die(env, stack, "The length of the address must be less than 16", FILE_NAME, __LINE__);
   }
   
   const char* chp_s6_addr = env->get_chars(env, stack, obj_s6_addr);

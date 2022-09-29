@@ -194,6 +194,10 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t af = stack[0].ival;
   
+  if (!(af == AF_INET || af == AF_INET6)) {
+    return env->die(env, stack, "The address family must be AF_INET or AF_INET6", FILE_NAME, __LINE__);
+  }
+  
   void* obj_src = stack[1].oval;
   
   if (!obj_src) {
@@ -226,6 +230,10 @@ int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   // The address family
   int32_t af = stack[0].ival;
+
+  if (!(af == AF_INET || af == AF_INET6)) {
+    return env->die(env, stack, "The address family must be AF_INET or AF_INET6", FILE_NAME, __LINE__);
+  }
   
   // The input address
   void* obj_src = stack[1].oval;
