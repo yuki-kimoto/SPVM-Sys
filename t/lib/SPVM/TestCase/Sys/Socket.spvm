@@ -237,14 +237,55 @@ class TestCase::Sys::Socket {
     return 1;
   }
 
-  static method inet_aton_value : int ($address : string) {
+  static method inet_ntop : int () {
+    {
+      my $sin_addr = Sys::Socket::In_addr->new;
+      my $status = Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $sin_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+
+      my $buffer = (mutable string)new_string_len Socket->INET_ADDRSTRLEN;
+      
+      my $address_string = Sys::Socket->inet_ntop(Socket->AF_INET, $sin_addr, $buffer, Socket->INET_ADDRSTRLEN);
+      
+      unless ($address_string) {
+        return 0;
+      }
+      
+      Fn->shorten_null_char($address_string);
+      
+      unless ($address_string eq "127.0.0.1") {
+        return 0;
+      }
+    }
     
-    my $sin_addr = Sys::Socket::In_addr->new;
-    my $status = Sys::Socket->inet_aton($address, $sin_addr);
-    
-    return $sin_addr->s_addr;
+    {
+      my $sin6_addr = Sys::Socket::In6_addr->new;
+      my $status = Sys::Socket->inet_pton(Socket->AF_INET6, "abcd:ef01:2345:6789:abcd:ef01:2345:6789", $sin6_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+
+      my $buffer = (mutable string)new_string_len Socket->INET6_ADDRSTRLEN;
+      
+      my $address_string = Sys::Socket->inet_ntop(Socket->AF_INET6, $sin6_addr, $buffer, Socket->INET6_ADDRSTRLEN);
+      
+      unless ($address_string) {
+        return 0;
+      }
+      
+      Fn->shorten_null_char($address_string);
+      
+      unless ($address_string eq "abcd:ef01:2345:6789:abcd:ef01:2345:6789") {
+        return 0;
+      }
+    }
+    return 1;
   }
-  
+
   static method socket : int () {
     
     # IPv4/TCP
