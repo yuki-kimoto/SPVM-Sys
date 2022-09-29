@@ -120,6 +120,111 @@ class TestCase::Sys::Socket {
     
     return 1;
   }
+
+  static method inet_aton : int () {
+    
+    {
+      my $sin_addr = Sys::Socket::In_addr->new;
+      my $status = Sys::Socket->inet_aton("127.0.0.1", $sin_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+    }
+    
+    {
+      my $sin_addr = Sys::Socket::In_addr->new;
+      my $status = Sys::Socket->inet_aton("0.0.0.0", $sin_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+      
+      unless ($sin_addr->s_addr == 0) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
+  static method inet_pton : int () {
+    
+    {
+      my $sin_addr = Sys::Socket::In_addr->new;
+      my $status = Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $sin_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+      if ($sin_addr->s_addr == 0) {
+        return 0;
+      }
+    }
+    
+    {
+      my $sin_addr = Sys::Socket::In_addr->new;
+      $sin_addr->set_s_addr(1);
+      my $status = Sys::Socket->inet_pton(Socket->AF_INET, "0.0.0.0", $sin_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+      
+      unless ($sin_addr->s_addr == 0) {
+        return 0;
+      }
+    }
+
+    {
+      my $sin6_addr = Sys::Socket::In6_addr->new;
+      my $status = Sys::Socket->inet_pton(Socket->AF_INET6, "ABCD:EF01:2345:6789:ABCD:EF01:2345:6789", $sin6_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+
+      if ($sin6_addr->s6_addr eq "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0") {
+        return 0;
+      }
+    }
+
+    {
+      my $sin6_addr = Sys::Socket::In6_addr->new;
+      my $status = Sys::Socket->inet_pton(Socket->AF_INET6, "::1", $sin6_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+
+      unless ($sin6_addr->s6_addr eq "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x1") {
+        return 0;
+      }
+    }
+
+    {
+      my $sin6_addr = Sys::Socket::In6_addr->new;
+      my $status = Sys::Socket->inet_pton(Socket->AF_INET6, "::0", $sin6_addr);
+      
+      unless ($status == 1) {
+        return 0;
+      }
+      
+      unless ($sin6_addr->s6_addr eq "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0") {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
+  static method inet_aton_value : int ($address : string) {
+    
+    my $sin_addr = Sys::Socket::In_addr->new;
+    my $status = Sys::Socket->inet_aton($address, $sin_addr);
+    
+    return $sin_addr->s_addr;
+  }
   
   static method socket : int () {
     

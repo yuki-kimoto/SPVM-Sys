@@ -213,9 +213,14 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;
   
   int32_t InvalidNetworkAddress = env->get_class_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &e, FILE_NAME, __LINE__);
-  
   if (e) { return e; }
-  
+
+  int32_t In_addr = env->get_basic_type_id(env, "Sys::Socket::In_addr");
+  if (e) { return e; }
+
+  int32_t In6_addr = env->get_basic_type_id(env, "Sys::Socket::In6_addr");
+  if (e) { return e; }
+
   int32_t af = stack[0].ival;
   
   if (!(af == AF_INET || af == AF_INET6)) {
@@ -234,6 +239,20 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (!obj_dst) {
     return env->die(env, stack, "The output address(dst) must be defined", FILE_NAME, __LINE__);
+  }
+  
+  if (af == AF_INET) {
+    if (!env->is_type(env, stack, obj_dst, In_addr, 0)) {
+      return env->die(env, stack, "The output address(dst) must be the Sys::Socket::In_addr class", FILE_NAME, __LINE__);
+    }
+  }
+  else if (af == AF_INET6) {
+    if (!env->is_type(env, stack, obj_dst, In6_addr, 0)) {
+      return env->die(env, stack, "The output address(dst) must be the Sys::Socket::In6_addr class", FILE_NAME, __LINE__);
+    }
+  }
+  else {
+    return env->die(env, stack, "The type of the output address(dst) is invalid", FILE_NAME, __LINE__);
   }
   
   void* dst = env->get_pointer(env, stack, obj_dst);
