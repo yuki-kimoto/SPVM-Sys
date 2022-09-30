@@ -585,6 +585,12 @@ class TestCase::Sys::Socket {
     $sin_addr->set_s_addr(Sys::Socket->htonl(Socket->INADDR_ANY));
     $address->set_sin_addr($sin_addr);
     
+    my $status_setsockopt_int = Sys::Socket->setsockopt_int($socket, Socket->SOL_SOCKET, Socket->SO_REUSEADDR, 1);
+    
+    unless ($status_setsockopt_int == 0) {
+      return 0;
+    }
+    
     my $status_bind = Sys::Socket->bind($socket, $address, $address->sizeof);
     
     unless ($status_bind == 0) {
