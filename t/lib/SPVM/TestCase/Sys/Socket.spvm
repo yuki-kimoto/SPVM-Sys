@@ -639,4 +639,37 @@ class TestCase::Sys::Socket {
     
     return 1;
   }
+
+  # accept
+  static method start_echo_server : void ($port : int) {
+
+    # Socket
+    my $server_socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+    
+    # IPv4 address
+    my $address = Sys::Socket::Sockaddr::In->new;
+    $address->set_sin_family((byte)Socket->AF_INET);
+    $address->set_sin_port(Sys::Socket->htons((short)$port));
+    my $sin_addr = $address->sin_addr;
+    Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $sin_addr);
+    $address->set_sin_addr($sin_addr);
+
+    Sys::Socket->setsockopt_int($server_socket, Socket->SOL_SOCKET, Socket->SO_REUSEADDR, 1);
+    
+    Sys::Socket->bind($server_socket, $address, $address->sizeof);
+    
+    Sys::Socket->listen($server_socket, Socket->SOMAXCONN);
+    
+    while (1) {
+      my $address_size = $address->sizeof;
+      my $client_socket = Sys::Socket->accept($server_socket, $address, \$address_size);
+      
+      my $recv_buffer = (mutable string)new_string_len 1024;
+      my $recv_length = Sys::Socket->recv($client_socket, $recv_buffer, length $recv_buffer, 0);
+      
+      Sys::Socket->send($client_socket, $recv_buffer, $recv_length, 0);
+      
+      Sys::Socket->close($client_socket);
+    }
+  }
 }

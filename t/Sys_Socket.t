@@ -8,6 +8,7 @@ BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 use Time::HiRes 'usleep';
 
 use Socket;
+use IO::Socket;
 use IO::Socket::INET;
 
 use SPVM 'Sys::Socket';
@@ -237,6 +238,44 @@ sleep 1;
 ok(SPVM::TestCase::Sys::Socket->bind($port));
 
 ok(SPVM::TestCase::Sys::Socket->listen($port));
+
+# accept
+{
+  my $process_id = fork;
+
+  my $port = &search_available_port;
+  
+  # Child
+  if ($process_id == 0) {
+    SPVM::TestCase::Sys::Socket->start_echo_server($port);
+  }
+  else {
+    &wait_port_prepared($port);
+    
+    my $sock = IO::Socket::INET->new(
+      Proto    => 'tcp',
+      PeerAddr => "127.0.0.1",
+      PeerPort => $port,
+    );
+
+    ok($sock);
+    
+    $sock->autoflush(1);
+    
+    $sock->send("abc");
+    
+    $sock->shutdown(IO::Socket::SHUT_WR);
+    
+    my $buffer;
+    $sock->recv($buffer, 3);
+    
+    is($buffer, "abc");
+    
+    $sock->close;
+    
+    kill 'TERM', $process_id;
+  }
+}
 
 SPVM::set_exception(undef);
 
