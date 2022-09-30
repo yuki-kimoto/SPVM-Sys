@@ -236,6 +236,8 @@ sleep 1;
 
 ok(SPVM::TestCase::Sys::Socket->bind($port));
 
+ok(SPVM::TestCase::Sys::Socket->listen($port));
+
 SPVM::set_exception(undef);
 
 # All object is freed

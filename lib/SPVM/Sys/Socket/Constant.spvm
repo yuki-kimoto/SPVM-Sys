@@ -213,7 +213,7 @@ class Sys::Socket::Constant {
 
   native static method SOL_SOCKET : int ();
 
-  native static method SO_BROADCAST : int ();
+  native static method SOMAXCONN : int ();
 
   native static method SO_EE_OFFENDER : int ();
 
@@ -284,6 +284,8 @@ class Sys::Socket::Constant {
   native static method IPV6_V6ONLY : int ();
 
   native static method PF_INET6 : int ();
+
+  native static method SOMAXCONN : int ();
 
   native static method SO_ACCEPTCONN : int ();
 

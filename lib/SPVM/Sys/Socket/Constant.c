@@ -1295,6 +1295,18 @@ int32_t SPVM__Sys__Socket__Constant__SOL_SOCKET(SPVM_ENV* env, SPVM_VALUE* stack
   
 }
 
+int32_t SPVM__Sys__Socket__Constant__SOMAXCONN(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SOMAXCONN
+  stack[0].ival = SOMAXCONN;
+  return 0;
+#else
+  env->die(env, stack, "SOMAXCONN is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+  
+}
+
 int32_t SPVM__Sys__Socket__Constant__SO_BROADCAST(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SO_BROADCAST

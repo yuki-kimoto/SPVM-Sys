@@ -1,4 +1,9 @@
 0.08 2022-09-30
+  [New Features]
+    * Added the SOMAXCONN method in the Sys::Socket::Constant class.
+    
+      static method SOMAXCONN : int ();
+    
   [Changes]
     * Change the return type of the inet_ntop method in the Sys::Socket class.
       [Before]

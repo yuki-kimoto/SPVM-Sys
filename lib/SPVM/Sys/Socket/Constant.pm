@@ -655,6 +655,12 @@ Get the constant value of C<SOL_IP>. If the system doesn't define this constant,
 
 Get the constant value of C<SOL_SOCKET>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 SOMAXCONN
+
+  static method SOMAXCONN : int ();
+
+Get the constant value of C<SOMAXCONN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
 =head2 SO_BROADCAST
 
   static method SO_BROADCAST : int ();
