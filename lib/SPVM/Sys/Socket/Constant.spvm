@@ -285,8 +285,6 @@ class Sys::Socket::Constant {
 
   native static method PF_INET6 : int ();
 
-  native static method SOMAXCONN : int ();
-
   native static method SO_ACCEPTCONN : int ();
 
   native static method SO_ATTACH_BPF : int ();
