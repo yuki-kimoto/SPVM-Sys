@@ -240,7 +240,8 @@ ok(SPVM::TestCase::Sys::Socket->bind($port));
 ok(SPVM::TestCase::Sys::Socket->listen($port));
 
 # accept
-{
+# TODO : Windows
+unless ($^O eq 'MSWin32') {
   my $process_id = fork;
 
   my $port = &search_available_port;
