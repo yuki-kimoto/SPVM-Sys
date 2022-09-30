@@ -15,7 +15,7 @@ class TestCase::Sys::Socket {
     
     my $host_int_again = Sys::Socket->ntohl($net_int);
     
-    warn "[Test Output]htonl:$host_int -> $net_int -> $host_int_again";
+    warn "\n[Test Output]htonl:$host_int -> $net_int -> $host_int_again";
     
     if ($host_int == $net_int) {
       return 0;
@@ -34,7 +34,7 @@ class TestCase::Sys::Socket {
     
     my $net_int_again = Sys::Socket->htonl($host_int);
     
-    warn "[Test Output]ntohl:$net_int -> $host_int -> $net_int_again";
+    warn "\n[Test Output]ntohl:$net_int -> $host_int -> $net_int_again";
     
     if ($net_int == $host_int) {
       return 0;
@@ -54,7 +54,7 @@ class TestCase::Sys::Socket {
       
       my $host_short_again = Sys::Socket->ntohs($net_short);
       
-      warn "[Test Output]htons:$host_short -> $net_short -> $host_short_again";
+      warn "\n[Test Output]htons:$host_short -> $net_short -> $host_short_again";
       
       if ($host_short == $net_short) {
         return 0;
@@ -71,7 +71,7 @@ class TestCase::Sys::Socket {
       
       my $host_short_again = Sys::Socket->ntohs($net_short);
       
-      warn "[Test Output]htons:$host_short -> $net_short -> $host_short_again";
+      warn "\n[Test Output]htons:$host_short -> $net_short -> $host_short_again";
       
       if ($host_short == $net_short) {
         return 0;
@@ -92,7 +92,7 @@ class TestCase::Sys::Socket {
       
       my $net_short_again = Sys::Socket->htons($host_short);
       
-      warn "[Test Output]ntohs:$net_short -> $host_short -> $net_short_again";
+      warn "\n[Test Output]ntohs:$net_short -> $host_short -> $net_short_again";
       
       if ($net_short == $host_short) {
         return 0;
@@ -109,7 +109,7 @@ class TestCase::Sys::Socket {
       
       my $net_short_again = Sys::Socket->htons($host_short);
       
-      warn "[Test Output]ntohs:$net_short -> $host_short -> $net_short_again";
+      warn "\n[Test Output]ntohs:$net_short -> $host_short -> $net_short_again";
       
       if ($net_short == $host_short) {
         return 0;

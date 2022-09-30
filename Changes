@@ -10,6 +10,8 @@
         static method inet_ntop : string ($af : int, $src : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $dst : mutable string, $size : int);
       [After]
         static method inet_ntop : mutable string ($af : int, $src : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $dst : mutable string, $size : int);
+  [Testing Bug Fix]
+    * Fixed the testing bug of the getpriority method in the Sys::Process class.
 
 0.07 2022-09-29
   [Changes]
