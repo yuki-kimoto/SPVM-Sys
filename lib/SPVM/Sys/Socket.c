@@ -613,6 +613,8 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "The length of the option value must be less than or equal to the option length", FILE_NAME, __LINE__);
   }
   
+  warn("AAAA %d %d %d %d %d", sockfd, level, optname, *(int*)optval, optlen);
+  
   int32_t status = setsockopt(sockfd, level, optname, optval, optlen);
   
   if (status == -1) {

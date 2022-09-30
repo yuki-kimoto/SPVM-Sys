@@ -292,7 +292,7 @@ class TestCase::Sys::Socket {
     
     # IPv4/TCP
     {
-      my $socket= Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+      my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
       
       unless ($socket> 0) {
         return 0;
@@ -301,7 +301,7 @@ class TestCase::Sys::Socket {
     
     # IPv4/UDP
     {
-      my $socket= Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_DGRAM, 0);
+      my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_DGRAM, 0);
       
       unless ($socket> 0) {
         return 0;
@@ -310,7 +310,7 @@ class TestCase::Sys::Socket {
     
     # IPv6/TCP
     {
-      my $socket= Sys::Socket->socket(Socket->AF_INET6, Socket->SOCK_STREAM, 0);
+      my $socket = Sys::Socket->socket(Socket->AF_INET6, Socket->SOCK_STREAM, 0);
       
       unless ($socket> 0) {
         return 0;
@@ -319,7 +319,7 @@ class TestCase::Sys::Socket {
     
     # IPv6/UDP
     {
-      my $socket= Sys::Socket->socket(Socket->AF_INET6, Socket->SOCK_DGRAM, 0);
+      my $socket = Sys::Socket->socket(Socket->AF_INET6, Socket->SOCK_DGRAM, 0);
       
       unless ($socket> 0) {
         return 0;
@@ -379,7 +379,7 @@ class TestCase::Sys::Socket {
 
   static method connect : int ($port : int) {
     # Socket
-    my $socket= Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+    my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
     
     unless ($socket> 0) {
       return 0;
@@ -410,7 +410,7 @@ class TestCase::Sys::Socket {
 
   static method close : int ($port : int) {
     # Socket
-    my $socket= Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+    my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
     
     unless ($socket> 0) {
       return 0;
@@ -441,7 +441,7 @@ class TestCase::Sys::Socket {
 
   static method shutdown : int ($port : int) {
     # Socket
-    my $socket= Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+    my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
     
     unless ($socket> 0) {
       return 0;
@@ -565,30 +565,32 @@ class TestCase::Sys::Socket {
     
     return 1;
   }
-  
-  # bind, listen, accept
-  method start_echo_server : void ($port : int) {
+
+  static method bind : int ($port : int) {
+    # Socket
+    my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
     
-    my $server_socket = IO::Socket::INET->new(
-      LocalPort => $port,
-      Listen    => SOMAXCONN,
-      Proto     => 'tcp',
-      ReuseAddr => 1,
-    );
-    unless ($server_socket) {
-      die "Can't create a server socket:$@";
+    unless ($socket> 0) {
+      return 0;
+    }
+
+    # Close socket at the end of this scope
+    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    
+    # IPv4 address
+    my $address = Sys::Socket::Sockaddr::In->new;
+    $address->set_sin_family((byte)Socket->AF_INET);
+    $address->set_sin_port(Sys::Socket->htons((short)$port));
+    my $sin_addr = $address->sin_addr;
+    $sin_addr->set_s_addr(Sys::Socket->htonl(Socket->INADDR_ANY));
+    $address->set_sin_addr($sin_addr);
+    
+    my $status_bind = Sys::Socket->bind($socket, $address, $address->sizeof);
+    
+    unless ($status_bind == 0) {
+      return 0;
     }
     
-    my $server_close;
-    while (1) {
-      my $client_socket = $server_socket->accept;
-      
-      $client_socket->autoflush(1);
-      
-      my $data;
-      while ($data = <$client_socket>) {
-        print $client_socket $data;
-      }
-    }
+    return 1;
   }
 }

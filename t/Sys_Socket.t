@@ -5,7 +5,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
-use Time::HiRes;
+use Time::HiRes 'usleep';
 
 use Socket;
 use IO::Socket::INET;
@@ -232,30 +232,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   }
 }
 
-# bind, listen, accept
-{
-  my $process_id = fork;
+sleep 1;
 
-  my $port = &search_available_port;
-  
-  # Child
-  if ($process_id == 0) {
-    SPVM::TestCase::Sys::Socket->start_echo_server($port);
-  }
-  else {
-    &wait_port_prepared($port);
-    
-    my $sock = IO::Socket::INET->new(
-      Proto    => 'tcp',
-      PeerAddr => "127.0.0.1",
-      PeerPort => $port,
-    );
-    
-    ok($sock);
-    
-    kill 'TERM', $process_id;
-  }
-}
+ok(SPVM::TestCase::Sys::Socket->bind($port));
 
 SPVM::set_exception(undef);
 
