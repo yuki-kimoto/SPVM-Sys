@@ -672,4 +672,46 @@ class TestCase::Sys::Socket {
       Sys::Socket->close($client_socket);
     }
   }
+
+  static method getpeername : int ($port : int) {
+    # Socket
+    my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+
+    # Close socket at the end of this scope
+    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    
+    unless ($socket> 0) {
+      return 0;
+    }
+    
+    # IPv4 address
+    my $address = Sys::Socket::Sockaddr::In->new;
+    $address->set_sin_family((byte)Socket->AF_INET);
+    $address->set_sin_port(Sys::Socket->htons((short)$port));
+    my $sin_addr = $address->sin_addr;
+    Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $sin_addr);
+    $address->set_sin_addr($sin_addr);
+    
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
+    
+    my $result_address = Sys::Socket::Sockaddr::In->new;
+    
+    my $result_address_size = $result_address->sizeof;
+    my $status_getpeername = Sys::Socket->getpeername($socket, $result_address, \$result_address_size);
+
+    unless ($status_getpeername == 0) {
+      return 0;
+    }
+    
+    unless (Sys::Socket->ntohs($result_address->sin_port) == 20000) {
+      return 0;
+    }
+    
+    unless ($result_address->sin_addr->s_addr == $sin_addr->s_addr) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
 }
