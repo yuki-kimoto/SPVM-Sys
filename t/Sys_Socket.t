@@ -297,6 +297,25 @@ unless ($^O eq 'MSWin32') {
   }
 }
 
+# getsockname
+{
+  my $process_id = fork;
+
+  my $port = &search_available_port;
+  
+  # Child
+  if ($process_id == 0) {
+    &start_echo_server($port);
+  }
+  else {
+    &wait_port_prepared($port);
+    
+    ok(SPVM::TestCase::Sys::Socket->getsockname($port));
+    
+    kill 'TERM', $process_id;
+  }
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
