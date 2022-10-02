@@ -763,4 +763,31 @@ class TestCase::Sys::Socket {
     return 1;
   }
 
+  static method socketpair : int () {
+    
+    {
+      my $sockets = new int[2];
+      my $status = Sys::Socket->socketpair(Socket->AF_UNIX, Socket->SOCK_STREAM, 0, $sockets);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+
+      # Close socket at the end of this scope
+      my $socket1_auto_close = TestUtil::SocketAutoClose->new($sockets->[0]);
+      
+      # Close socket at the end of this scope
+      my $socket2_auto_close = TestUtil::SocketAutoClose->new($sockets->[1]);
+      
+      unless ($sockets->[0] > 0) {
+        return 0;
+      }
+      
+      unless ($sockets->[1] > 0) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }

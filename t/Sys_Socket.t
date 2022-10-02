@@ -316,6 +316,14 @@ unless ($^O eq 'MSWin32') {
   }
 }
 
+if ($^O eq 'MSWin32') {
+  eval { SPVM::TestCase::Sys::Socket->socketpair(0, 0, 0, undef) };
+  like($@, 'not supported');
+}
+else {
+  ok(SPVM::TestCase::Sys::Socket->socketpair);
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
