@@ -324,6 +324,8 @@ else {
   ok(SPVM::TestCase::Sys::Socket->socketpair);
 }
 
+ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
+
 SPVM::set_exception(undef);
 
 # All object is freed
