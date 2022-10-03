@@ -80,17 +80,6 @@ class Sys::Socket {
 
   native static method gai_strerror : string($errcode : int);
 
-  static method ioctl_int : int ($fd : int, $request : int, $request_arg_ref : int*) {
-    if (Sys->is_D_WIN32) {
-      return Sys::Socket->ioctlsocket($fd, $request, $request_arg_ref);
-    }
-    else {
-      my $int_object = Int->new($$request_arg_ref);
-      return Sys::IO->ioctl($fd, $request, $int_object);
-      $$request_arg_ref = $int_object->value;
-    }
-  }
-  
   static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int) {
     if (Sys->is_D_WIN32) {
       return Sys::Socket->WSAPoll($fds, $nfds, $timeout);
