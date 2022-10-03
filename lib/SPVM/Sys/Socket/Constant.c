@@ -323,6 +323,18 @@ int32_t SPVM__Sys__Socket__Constant__AF_XDP(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 }
 
+int32_t SPVM__Sys__Socket__Constant__FIONBIO(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef FIONBIO
+  stack[0].ival = FIONBIO;
+  return 0;
+#else
+  env->die(env, stack, "FIONBIO is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+  
+}
+
 int32_t SPVM__Sys__Socket__Constant__INADDR_ANY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef INADDR_ANY
