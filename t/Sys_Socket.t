@@ -325,6 +325,7 @@ else {
 }
 
 ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
+ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
 
 SPVM::set_exception(undef);
 

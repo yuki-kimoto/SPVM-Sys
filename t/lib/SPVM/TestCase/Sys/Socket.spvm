@@ -818,4 +818,43 @@ class TestCase::Sys::Socket {
     
     return 1;
   }
+
+  static method getsockopt_int : int ($port : int) {
+    # Socket
+    my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+    
+    unless ($socket> 0) {
+      return 0;
+    }
+
+    # Close socket at the end of this scope
+    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    
+    # IPv4 address
+    my $address = Sys::Socket::Sockaddr::In->new;
+    $address->set_sin_family((byte)Socket->AF_INET);
+    $address->set_sin_port(Sys::Socket->htons((short)$port));
+    my $sin_addr = $address->sin_addr;
+    $sin_addr->set_s_addr(Sys::Socket->htonl(Socket->INADDR_ANY));
+    $address->set_sin_addr($sin_addr);
+    
+    my $status_setsockopt_int = Sys::Socket->setsockopt_int($socket, Socket->SOL_SOCKET, Socket->SO_REUSEADDR, 1);
+    
+    unless ($status_setsockopt_int == 0) {
+      return 0;
+    }
+    
+    my $result = 0;
+    my $status_getsockopt_int = Sys::Socket->getsockopt_int($socket, Socket->SOL_SOCKET, Socket->SO_REUSEADDR, \$result);
+    
+    unless ($status_getsockopt_int == 0) {
+      return 0;
+    }
+    
+    unless ($result == 1) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }

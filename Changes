@@ -1,6 +1,7 @@
 0.08 2022-09-30
   [Bug Fix]
     * Fixed the bug that the SOMAXCONN method in the Sys::Socket::Constant class couldn't be called.
+    * Fixed the bug that the getsockopt_int method in the Sys::Socket class doesn't work well.
   [Changes]
     * Change the return type of the inet_ntop method in the Sys::Socket class.
       [Before]
