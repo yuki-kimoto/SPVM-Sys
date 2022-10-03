@@ -317,8 +317,8 @@ unless ($^O eq 'MSWin32') {
 }
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::TestCase::Sys::Socket->socketpair(0, 0, 0, undef) };
-  like($@, 'not supported');
+  eval { SPVM::Sys::Socket->socketpair(0, 0, 0, undef) };
+  like($@, qr/not supported/);
 }
 else {
   ok(SPVM::TestCase::Sys::Socket->socketpair);
@@ -326,6 +326,15 @@ else {
 
 ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
 ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
+
+if ($^O eq 'MSWin32') {
+  ok(SPVM::TestCase::Sys::Socket->ioctlsocket($port));
+}
+else {
+  my $num = 0;
+  eval { SPVM::Sys::Socket->ioctlsocket(0, 0, \$num) };
+  like($@, qr/not supported/);
+}
 
 SPVM::set_exception(undef);
 

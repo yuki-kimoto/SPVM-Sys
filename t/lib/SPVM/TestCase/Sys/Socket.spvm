@@ -1,4 +1,5 @@
 class TestCase::Sys::Socket {
+  use Sys;
   use Sys::Socket;
   use Sys::Socket::Constant as Socket;
   use Sys::Socket::Sockaddr;
@@ -852,6 +853,35 @@ class TestCase::Sys::Socket {
     }
     
     unless ($result == 1) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method ioctlsocket : int ($port : int) {
+    # Socket
+    my $socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+    
+    unless ($socket> 0) {
+      return 0;
+    }
+
+    # Close socket at the end of this scope
+    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    
+    # IPv4 address
+    my $address = Sys::Socket::Sockaddr::In->new;
+    $address->set_sin_family((byte)Socket->AF_INET);
+    $address->set_sin_port(Sys::Socket->htons((short)$port));
+    my $sin_addr = $address->sin_addr;
+    $sin_addr->set_s_addr(Sys::Socket->htonl(Socket->INADDR_ANY));
+    $address->set_sin_addr($sin_addr);
+    
+    my $value = 1;
+    my $status_ioctl_int = Sys::Socket->ioctl_int($socket, Socket->FIONBIO, \$value);
+    
+    unless ($status_ioctl_int == 0) {
       return 0;
     }
     
