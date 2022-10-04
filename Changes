@@ -3,7 +3,9 @@
    * Add the FIONBIO method to the Sys::Socket::Constant class.
      
      static method FIONBIO : int ();
-     
+  
+  [Warning Fix]
+    * Fixed the some warnings on Mac.
   [Bug Fix]
     * Fixed the bug that the SOMAXCONN method in the Sys::Socket::Constant class couldn't be called.
     * Fixed the bug that the getsockopt_int method in the Sys::Socket class doesn't work well.

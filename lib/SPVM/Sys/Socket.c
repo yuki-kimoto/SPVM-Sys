@@ -666,15 +666,15 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "The length of the option value must be less than or equal to the option length", FILE_NAME, __LINE__);
   }
   
-  int int_optlen = *optlen_ref;
-  int32_t status = getsockopt(sockfd, level, optname, optval, &int_optlen);
+  socklen_t socklen_t_optlen = *optlen_ref;
+  int32_t status = getsockopt(sockfd, level, optname, optval, &socklen_t_optlen);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]getsockopt failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  *optlen_ref = int_optlen;
+  *optlen_ref = socklen_t_optlen;
   
   stack[0].ival = status;
   
