@@ -17,7 +17,17 @@
     * Fixed the testing bug of the getpriority method in the Sys::Process class.
   [Incompatible Changes]
     * Removed the ioctl_int method in the Sys::Socket class.
-
+    * Renamed the following method in the Sys::Socket::Sockaddr::In class.
+      [Before]
+        method sin_addr : Sys::Socket::In_addr ()
+      [After]
+        method copy_sin_addr : Sys::Socket::In_addr ()
+    * Renamed the following method in the Sys::Socket::Sockaddr::In6 class.
+      [Before]
+        method sin6_addr : Sys::Socket::In6_addr ();
+      [After]
+        method copy_sin6_addr : Sys::Socket::In6_addr ()
+    
 0.07 2022-09-29
   [Changes]
     * The inet_aton method in the Sys::Socket class is emulated using inet_pton on Windows.

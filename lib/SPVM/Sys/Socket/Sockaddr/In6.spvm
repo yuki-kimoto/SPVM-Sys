@@ -24,7 +24,7 @@ class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
   
   native method set_sin6_scope_id : void ();
 
-  native method sin6_addr : Sys::Socket::In6_addr ();
+  native method copy_sin6_addr : Sys::Socket::In6_addr ();
   
   native method set_sin6_addr : void ($address : Sys::Socket::In6_addr);
   
