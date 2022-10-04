@@ -605,7 +605,7 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   optval = (char*)env->get_chars(env, stack, obj_optval);
   int32_t optval_length = env->length(env, stack, obj_optval);
 
-  int32_t optlen = stack[4].ival;
+  socklen_t optlen = stack[4].ival;
   if (!(optlen >= 0)) {
     env->die(env, stack, "The option length must be greater than or equal to 0", FILE_NAME, __LINE__);
   }
