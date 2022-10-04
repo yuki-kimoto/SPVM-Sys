@@ -849,9 +849,13 @@ class TestCase::Sys::Socket {
     my $result = 0;
     my $status_getsockopt_int = Sys::Socket->getsockopt_int($socket, Socket->SOL_SOCKET, Socket->SO_REUSEADDR, \$result);
     
+    warn "\n[Test Output]$status_getsockopt_int";
+    
     unless ($status_getsockopt_int == 0) {
       return 0;
     }
+
+    warn "\n[Test Output]$result";
     
     unless ($result == 1) {
       return 0;
