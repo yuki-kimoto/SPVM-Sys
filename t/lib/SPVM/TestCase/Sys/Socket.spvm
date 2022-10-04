@@ -879,9 +879,9 @@ class TestCase::Sys::Socket {
     $address->set_sin_addr($sin_addr);
     
     my $value = 1;
-    my $status_ioctl_int = Sys::Socket->ioctl_int($socket, Socket->FIONBIO, \$value);
+    my $status_ioctlsocket = Sys::Socket->ioctlsocket($socket, Socket->FIONBIO, \$value);
     
-    unless ($status_ioctl_int == 0) {
+    unless ($status_ioctlsocket == 0) {
       return 0;
     }
     
