@@ -5,7 +5,7 @@ class TestCase::Sys::Socket {
   use Sys::Socket::Sockaddr;
   use Sys::Socket::Sockaddr::In;
   use Sys::Socket::Sockaddr::In6;
-  use Sys::Addrinfo;
+  use Sys::Socket::Addrinfo;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
   
