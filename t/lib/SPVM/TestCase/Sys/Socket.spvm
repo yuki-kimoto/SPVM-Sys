@@ -6,6 +6,8 @@ class TestCase::Sys::Socket {
   use Sys::Socket::Sockaddr::In;
   use Sys::Socket::Sockaddr::In6;
   use Sys::Socket::Addrinfo;
+  use Sys::Socket::Sockaddr::Storage;
+  use Sys::Socket::Sockaddr::Un;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
   
@@ -906,6 +908,26 @@ class TestCase::Sys::Socket {
     my $status_ioctlsocket = Sys::Socket->ioctlsocket($socket, Socket->FIONBIO, \$value);
     
     unless ($status_ioctlsocket == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method sockaddr_strage : int () {
+    my $address = Sys::Socket::Sockaddr::Storage->new;
+    
+    $address->set_ss_family(1);
+    
+    unless ($address->ss_family == 1) {
+      return 0;
+    }
+    
+    unless ($address->sa_family == 1) {
+      return 0;
+    }
+    
+    unless ($address->sizeof > 0) {
       return 0;
     }
     

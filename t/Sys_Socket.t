@@ -336,6 +336,10 @@ else {
   like($@, qr/not supported/);
 }
 
+unless ($^O eq 'MSWin32') {
+  ok(SPVM::TestCase::Sys::Socket->sockaddr_strage);
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
