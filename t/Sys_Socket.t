@@ -337,8 +337,10 @@ else {
 }
 
 unless ($^O eq 'MSWin32') {
-  ok(SPVM::TestCase::Sys::Socket->sockaddr_strage);
+  ok(SPVM::TestCase::Sys::Socket->sockaddr_un);
 }
+
+ok(SPVM::TestCase::Sys::Socket->sockaddr_strage);
 
 SPVM::set_exception(undef);
 
