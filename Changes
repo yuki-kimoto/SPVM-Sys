@@ -1,3 +1,6 @@
+0.10 2022-10-06
+  [Prerequirement Changes]
+    * Need SPVM 0.9654+.
 0.09 2022-10-05
   [New Features]
    * Add the clone method to the Sys::Socket::Sockaddr class.
