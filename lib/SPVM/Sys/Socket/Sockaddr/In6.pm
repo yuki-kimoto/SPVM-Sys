@@ -62,7 +62,7 @@ Gets C<sin6_flowinfo>.
 
 =head2 set_sin6_flowinfo
 
-  method set_sin6_flowinfo : void ()
+  method set_sin6_flowinfo : void ($flowinfo : int)
 
 Sets C<sin6_flowinfo>.
 
@@ -74,7 +74,7 @@ Gets C<sin6_scope_id>.
 
 =head2 set_sin6_scope_id
 
-  method set_sin6_scope_id : void ()
+  method set_sin6_scope_id : void ($scope_id : int)
 
 Sets C<sin6_scope_id>.
 
@@ -107,6 +107,12 @@ Sets C<sin6_port>.
   method sizeof : int ()
 
 The size of C<struct sockaddr_in6>.
+
+=head2 clone
+
+  method clone : Sys::Socket::Sockaddr::In6 ();
+
+Clones this object.
 
 =head1 Copyright & License
 

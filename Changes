@@ -1,3 +1,39 @@
+0.09 2022-10-05
+  [New Features]
+   * Add the clone method to the Sys::Socket::Sockaddr class.
+   
+     method clone : Sys::Socket::Sockaddr ()
+
+   * Add the clone method to the Sys::Socket::Sockaddr::In class.
+   
+     method clone : Sys::Socket::Sockaddr::In ()
+
+   * Add the clone method to the Sys::Socket::Sockaddr::In6 class.
+   
+     method clone : Sys::Socket::Sockaddr::In6 ()
+    
+   * Add the clone method to the Sys::Socket::Sockaddr::Un class.
+   
+     method clone : Sys::Socket::Sockaddr::Un ()
+    
+   * Add the clone method to the Sys::Socket::Sockaddr::Storage class.
+   
+     method clone : Sys::Socket::Sockaddr::Storage ()
+   
+   * Sys::Socket::Sockaddr has Cloneable interface.
+  
+  [Bug Fix With Incompatible Changes]
+    * Fixed the bug that the set_sin6_flowinfo method in the Sys::Socket::Sockaddr::In6 class didn't have the argument.
+      [Before]
+        method set_sin6_flowinfo : void ()
+      [After]
+        method set_sin6_flowinfo : void ($flowinfo : int)
+    * Fixed the bug that the set_sin6_scope_id in the Sys::Socket::Sockaddr::In6 class didn't have the argument.
+      [Before]
+        method set_sin6_scope_id : void ()
+      [After]
+        method set_sin6_scope_id : void ($scope_id : int)
+    
 0.08 2022-10-04
   [New Features]
    * Add the FIONBIO method to the Sys::Socket::Constant class.
