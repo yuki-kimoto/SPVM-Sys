@@ -1,7 +1,4 @@
-0.10 2022-10-06
-  [Prerequirement Changes]
-    * Need SPVM 0.9654+.
-0.09 2022-10-05
+0.09 2022-10-06
   [New Features]
    * Add the clone method to the Sys::Socket::Sockaddr class.
    
@@ -36,6 +33,8 @@
         method set_sin6_scope_id : void ()
       [After]
         method set_sin6_scope_id : void ($scope_id : int)
+  [Prerequirement Changes]
+    * Need SPVM 0.9654+.
     
 0.08 2022-10-04
   [New Features]
