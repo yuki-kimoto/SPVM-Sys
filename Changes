@@ -45,7 +45,12 @@
      method copy_ai_canonname : string ();
    
    * Added the Sys::Socket::AddrinfoLinkedList class.
-  
+    * Add the following methods to the Sys::Socket::Constant class.
+      
+      static method NI_MAXHOST : int ();
+      
+      static method NI_MAXSERV : int ();
+    
   [Bug Fix With Incompatible Changes]
     * Fixed the bug that the set_sin6_flowinfo method in the Sys::Socket::Sockaddr::In6 class didn't have the argument.
       [Before]

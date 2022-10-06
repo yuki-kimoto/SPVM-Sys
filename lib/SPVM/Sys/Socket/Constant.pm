@@ -1261,3 +1261,15 @@ Get the value initialized by C<IN6ADDR_ANY_INIT>. If the system doesn't define t
   static method IN6ADDR_LOOPBACK : int ();
 
 Get the value initialized by C<IN6ADDR_LOOPBACK_INIT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 NI_MAXHOST
+
+  static method NI_MAXHOST : int ();
+
+Get the constant value of C<NI_MAXHOST>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 NI_MAXSERV
+
+  static method NI_MAXSERV : int ();
+
+Get the constant value of C<NI_MAXSERV>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.

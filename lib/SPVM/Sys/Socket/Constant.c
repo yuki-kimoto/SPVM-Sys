@@ -2511,3 +2511,26 @@ int32_t SPVM__Sys__Socket__Constant__IN6ADDR_LOOPBACK(SPVM_ENV* env, SPVM_VALUE*
 
 }
 
+int32_t SPVM__Sys__Socket__Constant__NI_MAXHOST(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef NI_MAXHOST
+  stack[0].ival = NI_MAXHOST;
+  return 0;
+#else
+  env->die(env, stack, "NI_MAXHOST is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Socket__Constant__NI_MAXSERV(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef NI_MAXSERV
+  stack[0].ival = NI_MAXSERV;
+  return 0;
+#else
+  env->die(env, stack, "NI_MAXSERV is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}

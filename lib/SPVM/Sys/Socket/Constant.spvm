@@ -412,4 +412,8 @@ class Sys::Socket::Constant {
   native static method IN6ADDR_ANY : Sys::Socket::In6_addr ();
   
   native static method IN6ADDR_LOOPBACK : Sys::Socket::In6_addr ();
+
+  native static method NI_MAXHOST : int ();
+
+  native static method NI_MAXSERV : int ();
 }
