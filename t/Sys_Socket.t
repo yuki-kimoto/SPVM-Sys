@@ -108,6 +108,17 @@ sub start_echo_server {
   }
 }
 
+sub kill_term_and_wait {
+  my ($process_id) = @_;
+  
+  kill 'TERM', $process_id;
+  
+  # On Windows, waitpid never return. I don't understan yet this reason(maybe IO blocking).
+  unless ($^O eq 'MSWin32') {
+    waitpid $process_id, 0;
+  }
+}
+
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
@@ -174,8 +185,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     
     ok(SPVM::TestCase::Sys::Socket->connect($port));
     
-    kill 'TERM', $process_id;
-    waitpid $process_id, 0;
+    kill_term_and_wait $process_id;
   }
 }
 
@@ -192,8 +202,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     
     ok(SPVM::TestCase::Sys::Socket->close($port));
     
-    kill 'TERM', $process_id;
-    waitpid $process_id, 0;
+    kill_term_and_wait $process_id;
   }
 }
 
@@ -210,8 +219,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     
     ok(SPVM::TestCase::Sys::Socket->shutdown($port));
     
-    kill 'TERM', $process_id;
-    waitpid $process_id, 0;
+    kill_term_and_wait $process_id;
   }
 }
 
@@ -229,8 +237,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     
     ok(SPVM::TestCase::Sys::Socket->send_and_recv($port));
     
-    kill 'TERM', $process_id;
-    waitpid $process_id, 0;
+    kill_term_and_wait $process_id;
   }
 }
 
@@ -271,8 +278,7 @@ unless ($^O eq 'MSWin32') {
     
     $sock->close;
     
-    kill 'TERM', $process_id;
-    waitpid $process_id, 0;
+    kill_term_and_wait $process_id;
   }
 }
 
@@ -289,8 +295,7 @@ unless ($^O eq 'MSWin32') {
     
     ok(SPVM::TestCase::Sys::Socket->getpeername($port));
     
-    kill 'TERM', $process_id;
-    waitpid $process_id, 0;
+    kill_term_and_wait $process_id;
   }
 }
 
@@ -307,8 +312,7 @@ unless ($^O eq 'MSWin32') {
     
     ok(SPVM::TestCase::Sys::Socket->getsockname($port));
     
-    kill 'TERM', $process_id;
-    waitpid $process_id, 0;
+    kill_term_and_wait $process_id;
   }
 }
 
