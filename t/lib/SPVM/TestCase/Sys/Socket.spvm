@@ -963,14 +963,14 @@ class TestCase::Sys::Socket {
 
   static method getaddrinfo : int () {
     {
-      my $hostname = "localhost";
+      my $servname = "localhost";
       my $hints = Sys::Socket::Addrinfo->new;
       my $res = new Sys::Socket::AddrinfoLinkedList[1];
       
       $hints->set_ai_socktype(Socket->SOCK_STREAM);
       $hints->set_ai_family(Socket->AF_INET);
       
-      my $status = Sys::Socket->getaddrinfo($hostname, undef, $hints, $res);
+      my $status = Sys::Socket->getaddrinfo($servname, undef, $hints, $res);
       
       unless ($status == 0) {
         return 0;
@@ -992,14 +992,14 @@ class TestCase::Sys::Socket {
     }
     
     {
-      my $hostname = "localhost";
+      my $servname = "localhost";
       my $hints = Sys::Socket::Addrinfo->new;
       my $res = new Sys::Socket::AddrinfoLinkedList[1];
       
       $hints->set_ai_socktype(Socket->SOCK_STREAM);
       $hints->set_ai_family(Socket->AF_INET6);
       
-      my $status = Sys::Socket->getaddrinfo($hostname, undef, $hints, $res);
+      my $status = Sys::Socket->getaddrinfo($servname, undef, $hints, $res);
       
       unless ($status == 0) {
         return 0;
@@ -1018,6 +1018,35 @@ class TestCase::Sys::Socket {
       Fn->shorten_null_char($addr_string);
       
       unless ($addr_string eq "::1") {
+        return 0;
+      }
+    }
+
+    {
+      my $servname = "http";
+      my $hints = Sys::Socket::Addrinfo->new;
+      my $res = new Sys::Socket::AddrinfoLinkedList[1];
+      
+      $hints->set_ai_socktype(Socket->SOCK_STREAM);
+      $hints->set_ai_family(Socket->AF_INET);
+      
+      my $status = Sys::Socket->getaddrinfo(undef, $servname, $hints, $res);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+      
+      my $addrinfos = $res->[0]->to_array;
+      
+      my $addrinfo = $addrinfos->[0];
+      
+      my $ai_addr = $addrinfo->copy_ai_addr;
+      
+      my $port_net = $ai_addr->(Sys::Socket::Sockaddr::In)->sin_port;
+
+      my $port_host = Sys::Socket->ntohs($port_net);
+      
+      unless ($port_host == 80) {
         return 0;
       }
     }
