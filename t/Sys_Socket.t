@@ -272,6 +272,7 @@ unless ($^O eq 'MSWin32') {
     $sock->close;
     
     kill 'TERM', $process_id;
+    waitpid $process_id, 0;
   }
 }
 
