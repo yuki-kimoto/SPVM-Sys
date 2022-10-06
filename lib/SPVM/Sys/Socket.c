@@ -863,9 +863,8 @@ int32_t SPVM__Sys__Socket__getaddrinfo_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == 0) {
     int32_t fields_length = 1;
-    void* obj_res = env->new_pointer_with_fields_by_name(env, stack, "Sys::Socket::Addrinfo", res, fields_length, &e, FILE_NAME, __LINE__);
+    void* obj_res = env->new_pointer_by_name(env, stack, "Sys::Socket::AddrinfoLinkedList", res, &e, FILE_NAME, __LINE__);
     if (e) { return e; }
-    env->set_pointer_field_int(env, stack, obj_res, FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED, ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO);
     env->set_elem_object(env, stack, obj_res_array, 0, obj_res);
   }
   

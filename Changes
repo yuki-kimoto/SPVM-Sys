@@ -59,7 +59,23 @@
         method set_sin6_scope_id : void ($scope_id : int)
   [Prerequirement Changes]
     * Need SPVM 0.9654+.
-    
+  [Incompativle Changes]
+    * The definition of the getaddrinfo_raw and getaddrinfo methods in the Sys::Socket
+      [Before]
+        static method getaddrinfo_raw : int ($node : string, $service : string,
+                $hints : Sys::Socket::Addrinfo,
+                $res : Sys::Socket::Addrinfo[]);
+        static method getaddrinfo : int ($node : string, $service : string,
+                $hints : Sys::Socket::Addrinfo,
+                $res : Sys::Socket::Addrinfo[]);
+      [After]
+        static method getaddrinfo_raw : int ($node : string, $service : string,
+                $hints : Sys::Socket::Addrinfo,
+                $res : Sys::Socket::AddrinfoLinkedList[]);
+        static method getaddrinfo : int ($node : string, $service : string,
+                $hints : Sys::Socket::Addrinfo,
+                $res : Sys::Socket::AddrinfoLinkedList[]);
+
 0.08 2022-10-04
   [New Features]
    * Add the FIONBIO method to the Sys::Socket::Constant class.

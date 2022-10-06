@@ -4,6 +4,7 @@ class Sys::Socket {
   use Sys::IO;
   use Sys::Socket::Constant;
   use Sys::Socket::Addrinfo;
+  use Sys::Socket::AddrinfoLinkedList;
   use Sys::Socket::Sockaddr;
   use Sys::Socket::In_addr;
   use Sys::Socket::In6_addr;
@@ -64,11 +65,11 @@ class Sys::Socket {
 
   native static method getaddrinfo_raw : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
-                $res : Sys::Socket::Addrinfo[]);
+                $res : Sys::Socket::AddrinfoLinkedList[]);
 
   native static method getaddrinfo : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
-                $res : Sys::Socket::Addrinfo[]);
+                $res : Sys::Socket::AddrinfoLinkedList[]);
 
   native static method getnameinfo_raw : int ($sa : Sys::Socket::Sockaddr, $salen : int,
                 $host : mutable string, $hostlen : int,
@@ -78,7 +79,7 @@ class Sys::Socket {
                 $host : mutable string, $hostlen : int,
                 $serv : mutable string, $servlen : int, $flags : int);
 
-  native static method gai_strerror : string($errcode : int);
+  native static method gai_strerror : string ($errcode : int);
 
   static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int) {
     if (Sys->is_D_WIN32) {

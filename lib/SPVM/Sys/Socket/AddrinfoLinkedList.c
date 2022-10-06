@@ -19,6 +19,21 @@ static int32_t FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED = 0;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
 static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
 
+int32_t SPVM__Sys__Socket__AddrinfoLinkedList__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  void* obj_addrinfo = stack[0].oval;
+  
+  struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_addrinfo);
+  
+  if (st_addrinfo) {
+    freeaddrinfo(st_addrinfo);
+  }
+  
+  env->set_pointer(env, stack, obj_addrinfo, NULL);
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__AddrinfoLinkedList__to_array(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
