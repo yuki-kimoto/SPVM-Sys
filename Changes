@@ -21,6 +21,28 @@
      method clone : Sys::Socket::Sockaddr::Storage ()
    
    * Sys::Socket::Sockaddr has Cloneable interface.
+
+   * Added the accessor methods to the Sys::Socket::Addrinfo class.
+
+     method ai_flags : int ();
+     
+     method set_ai_flags : void ($ai_flags : int);
+     
+     method ai_family : int ();
+     
+     method set_ai_family : void ($ai_family : int);
+     
+     method ai_socktype : int ();
+     
+     method set_ai_socktype : void ($ai_socktype : int);
+     
+     method ai_protocol : int ();
+     
+     method set_ai_protocol : void ($ai_protocol : int);
+     
+     method copy_ai_addr : Sys::Socket::Sockaddr ();
+     
+     method copy_ai_canonname : string ();
   
   [Bug Fix With Incompatible Changes]
     * Fixed the bug that the set_sin6_flowinfo method in the Sys::Socket::Sockaddr::In6 class didn't have the argument.
