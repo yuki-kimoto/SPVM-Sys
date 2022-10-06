@@ -34,7 +34,7 @@ sub search_available_port {
       Listen    => SOMAXCONN,
       Proto     => 'tcp',
       Timeout => 5,
-      ReuseAddr => 1,
+      Reuse => 1,
     );
     
     if ($server_socket) {
@@ -85,7 +85,7 @@ sub start_echo_server {
     LocalPort => $port,
     Listen    => SOMAXCONN,
     Proto     => 'tcp',
-    ReuseAddr => 1,
+    Reuse => 1,
   );
   unless ($server_socket) {
     die "Can't create a server socket:$@";
