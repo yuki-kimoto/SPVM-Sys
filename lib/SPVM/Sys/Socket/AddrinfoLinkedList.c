@@ -19,7 +19,7 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__DESTROY(SPVM_ENV* env, SPVM_VALUE
   void* obj_addrinfo = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_addrinfo);
-  
+
   if (st_addrinfo) {
     freeaddrinfo(st_addrinfo);
   }

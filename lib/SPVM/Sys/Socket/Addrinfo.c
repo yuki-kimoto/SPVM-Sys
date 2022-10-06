@@ -22,9 +22,10 @@ int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct addrinfo* addrinfo = env->new_memory_stack(env, stack, sizeof(struct addrinfo*));
 
-  int32_t fields_length = 1;
   void* obj_addrinfo = env->new_pointer_by_name(env, stack, "Sys::Socket::Addrinfo", addrinfo, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
+  
+  stack[0].oval = obj_addrinfo;
   
   return 0;
 }
@@ -165,12 +166,33 @@ int32_t SPVM__Sys__Socket__Addrinfo__copy_ai_addr(SPVM_ENV* env, SPVM_VALUE* sta
   struct sockaddr* ai_addr = st_addrinfo->ai_addr;
   
   void* obj_ai_addr_clone = NULL;
+  void* tmp_ai_addr = NULL;
   if (ai_addr) {
-    void* obj_ai_addr = env->new_pointer_by_name(env, stack, "Sys::Socket::Sockaddr", ai_addr, &e, FILE_NAME, __LINE__);
-    if (e) { return e; }
+    const char* sockaddr_class_name = NULL;
+    switch (ai_addr->sa_family) {
+      
+      case AF_INET: {
+        sockaddr_class_name = "Sys::Socket::Sockaddr::In";
+        tmp_ai_addr = env->new_memory_stack(env, stack, sizeof(struct sockaddr_in));
+        memcpy(tmp_ai_addr, ai_addr, sizeof(struct sockaddr_in));
+        break;
+      }
+      case AF_INET6: {
+        sockaddr_class_name = "Sys::Socket::Sockaddr::In6";
+        tmp_ai_addr = env->new_memory_stack(env, stack, sizeof(struct sockaddr_in6));
+        memcpy(tmp_ai_addr, ai_addr, sizeof(struct sockaddr_in6));
+        break;
+      }
+      default : {
+        assert(0);
+      }
+    }
     
     // Calls the clone method.
     {
+      void* obj_ai_addr = env->new_pointer_by_name(env, stack, sockaddr_class_name, tmp_ai_addr, &e, FILE_NAME, __LINE__);
+      if (e) { return e; }
+      
       stack[0].oval = obj_ai_addr;
       int32_t args_stack_length = 1;
       e = env->call_instance_method_by_name(env, stack, obj_ai_addr, "clone", args_stack_length, FILE_NAME, __LINE__);

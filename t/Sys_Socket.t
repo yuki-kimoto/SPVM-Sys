@@ -342,6 +342,8 @@ unless ($^O eq 'MSWin32') {
 
 ok(SPVM::TestCase::Sys::Socket->sockaddr_strage);
 
+# ok(SPVM::TestCase::Sys::Socket->getaddrinfo);
+
 SPVM::set_exception(undef);
 
 # All object is freed
