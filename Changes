@@ -43,6 +43,8 @@
      method copy_ai_addr : Sys::Socket::Sockaddr ();
      
      method copy_ai_canonname : string ();
+   
+   * Added the Sys::Socket::AddrinfoLinkedList class.
   
   [Bug Fix With Incompatible Changes]
     * Fixed the bug that the set_sin6_flowinfo method in the Sys::Socket::Sockaddr::In6 class didn't have the argument.

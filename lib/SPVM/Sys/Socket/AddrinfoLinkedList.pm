@@ -1,4 +1,4 @@
-package SPVM::Sys::Socket::AddrinfoLinkList;
+package SPVM::Sys::Socket::AddrinfoLinkedList;
 
 our $VERSION = '0.01';
 
@@ -6,15 +6,15 @@ our $VERSION = '0.01';
 
 =head1 Name
 
-SPVM::Sys::Socket::AddrinfoLinkList - Sys::Socket::AddrinfoLinkList is a SPVM module
+SPVM::Sys::Socket::AddrinfoLinkedList - Sys::Socket::AddrinfoLinkedList is a SPVM module
 
 =head1 Usage
 
-  use Sys::Socket::AddrinfoLinkList;
+  use Sys::Socket::AddrinfoLinkedList;
   
 =head1 Description
 
-C<Sys::Socket::AddrinfoLinkList> is a L<SPVM> module.
+C<Sys::Socket::AddrinfoLinkedList> is a L<SPVM> module.
 
 =head1 Fields
 

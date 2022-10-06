@@ -37,7 +37,6 @@ int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__Addrinfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  // Dir handle
   void* obj_addrinfo = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_addrinfo);
@@ -49,7 +48,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->free_memory_stack(env, stack, st_addrinfo);
   }
   else if (memory_allocated_way == ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO) {
-    freeaddrinfo(st_addrinfo);
+    // freeaddrinfo(st_addrinfo);
   }
   else {
     assert(0);
