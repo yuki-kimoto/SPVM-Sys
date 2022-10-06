@@ -104,8 +104,6 @@ sub start_echo_server {
   }
 }
 
-my $port = 20000;
-
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
@@ -235,6 +233,8 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 sleep 1;
 
+my $port = &search_available_port;
+
 ok(SPVM::TestCase::Sys::Socket->bind($port));
 
 ok(SPVM::TestCase::Sys::Socket->listen($port));
@@ -244,8 +244,6 @@ ok(SPVM::TestCase::Sys::Socket->listen($port));
 unless ($^O eq 'MSWin32') {
   my $process_id = fork;
 
-  my $port = &search_available_port;
-  
   # Child
   if ($process_id == 0) {
     SPVM::TestCase::Sys::Socket->start_echo_server($port);
@@ -282,8 +280,6 @@ unless ($^O eq 'MSWin32') {
 {
   my $process_id = fork;
 
-  my $port = &search_available_port;
-  
   # Child
   if ($process_id == 0) {
     &start_echo_server($port);
@@ -301,8 +297,6 @@ unless ($^O eq 'MSWin32') {
 {
   my $process_id = fork;
 
-  my $port = &search_available_port;
-  
   # Child
   if ($process_id == 0) {
     &start_echo_server($port);
