@@ -14,6 +14,8 @@ use IO::Socket::INET;
 use SPVM 'Sys::Socket';
 use SPVM 'TestCase::Sys::Socket';
 
+my $localhost = "127.0.0.1";
+
 sub search_available_port {
   my $retry_port = 20000;
   
@@ -30,6 +32,7 @@ sub search_available_port {
     }
     
     my $server_socket = IO::Socket::INET->new(
+      LocalAddr => $localhost,
       LocalPort => $port,
       Listen    => SOMAXCONN,
       Proto     => 'tcp',
@@ -64,7 +67,7 @@ sub wait_port_prepared {
     
     my $sock = IO::Socket::INET->new(
       Proto    => 'tcp',
-      PeerAddr => "127.0.0.1",
+      PeerAddr => $localhost,
       PeerPort => $port,
     );
     
@@ -82,6 +85,7 @@ sub start_echo_server {
   my ($port) = @_;
   
   my $server_socket = IO::Socket::INET->new(
+    LocalAddr => $localhost,
     LocalPort => $port,
     Listen    => SOMAXCONN,
     Proto     => 'tcp',
@@ -253,7 +257,7 @@ unless ($^O eq 'MSWin32') {
     
     my $sock = IO::Socket::INET->new(
       Proto    => 'tcp',
-      PeerAddr => "127.0.0.1",
+      PeerAddr => $localhost,
       PeerPort => $port,
     );
 
