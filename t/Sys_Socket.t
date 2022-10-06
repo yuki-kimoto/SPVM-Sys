@@ -111,6 +111,9 @@ sub start_echo_server {
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
+# Port
+my $port = &search_available_port;
+
 # The constant values
 {
   is(SPVM::Sys::Socket::Constant->AF_INET, Socket::AF_INET);
@@ -163,8 +166,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 {
   my $process_id = fork;
 
-  my $port = &search_available_port;
-  
   # Child
   if ($process_id == 0) {
     &start_echo_server($port);
@@ -182,8 +183,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 {
   my $process_id = fork;
 
-  my $port = &search_available_port;
-  
   # Child
   if ($process_id == 0) {
     &start_echo_server($port);
@@ -201,8 +200,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 {
   my $process_id = fork;
 
-  my $port = &search_available_port;
-  
   # Child
   if ($process_id == 0) {
     &start_echo_server($port);
@@ -218,10 +215,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # send and recv
 {
+  
   my $process_id = fork;
 
-  my $port = &search_available_port;
-  
   # Child
   if ($process_id == 0) {
     &start_echo_server($port);
@@ -236,8 +232,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 }
 
 sleep 1;
-
-my $port = &search_available_port;
 
 ok(SPVM::TestCase::Sys::Socket->bind($port));
 
