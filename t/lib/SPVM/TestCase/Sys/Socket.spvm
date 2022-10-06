@@ -962,31 +962,64 @@ class TestCase::Sys::Socket {
   }
 
   static method getaddrinfo : int () {
-    my $hostname = "localhost";
-    my $hints = Sys::Socket::Addrinfo->new;
-    my $res = new Sys::Socket::AddrinfoLinkedList[1];
-    
-    $hints->set_ai_socktype(Socket->SOCK_STREAM);
-    $hints->set_ai_family(Socket->AF_INET);
-    
-    my $status = Sys::Socket->getaddrinfo($hostname, undef, $hints, $res);
-    
-    unless ($status == 0) {
-      return 0;
+    {
+      my $hostname = "localhost";
+      my $hints = Sys::Socket::Addrinfo->new;
+      my $res = new Sys::Socket::AddrinfoLinkedList[1];
+      
+      $hints->set_ai_socktype(Socket->SOCK_STREAM);
+      $hints->set_ai_family(Socket->AF_INET);
+      
+      my $status = Sys::Socket->getaddrinfo($hostname, undef, $hints, $res);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+      
+      my $addrinfos = $res->[0]->to_array;
+      
+      my $addrinfo = $addrinfos->[0];
+      
+      my $ai_addr = $addrinfo->copy_ai_addr;
+      
+      my $in_addr : Sys::Socket::In_addr = $ai_addr->(Sys::Socket::Sockaddr::In)->copy_sin_addr;
+
+      my $addr_string = Sys::Socket->inet_ntoa($in_addr);
+      
+      unless ($addr_string eq "127.0.0.1") {
+        return 0;
+      }
     }
     
-    my $addrinfos = $res->[0]->to_array;
-    
-    my $addrinfo = $addrinfos->[0];
-    
-    my $ai_addr = $addrinfo->copy_ai_addr;
-    
-    my $in_addr : Sys::Socket::In_addr = $ai_addr->(Sys::Socket::Sockaddr::In)->copy_sin_addr;
-
-    my $addr_string = Sys::Socket->inet_ntoa($in_addr);
-    
-    unless ($addr_string eq "127.0.0.1") {
-      return 0;
+    {
+      my $hostname = "localhost";
+      my $hints = Sys::Socket::Addrinfo->new;
+      my $res = new Sys::Socket::AddrinfoLinkedList[1];
+      
+      $hints->set_ai_socktype(Socket->SOCK_STREAM);
+      $hints->set_ai_family(Socket->AF_INET6);
+      
+      my $status = Sys::Socket->getaddrinfo($hostname, undef, $hints, $res);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+      
+      my $addrinfos = $res->[0]->to_array;
+      
+      my $addrinfo = $addrinfos->[0];
+      
+      my $ai_addr = $addrinfo->copy_ai_addr;
+      
+      my $in_addr : Sys::Socket::In6_addr = $ai_addr->(Sys::Socket::Sockaddr::In6)->copy_sin6_addr;
+      
+      my $addr_string = (mutable string)new_string_len Socket->INET_ADDRSTRLEN;
+      Sys::Socket->inet_ntop(Socket->AF_INET6, $in_addr, $addr_string, Socket->INET_ADDRSTRLEN);
+      Fn->shorten_null_char($addr_string);
+      
+      unless ($addr_string eq "::1") {
+        return 0;
+      }
     }
     
     return 1;
