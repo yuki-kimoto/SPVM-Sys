@@ -14,11 +14,6 @@
 
 static const char* FILE_NAME = "Sys/Socket/AddrinfoLinkedList.c";
 
-static int32_t FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED = 0;
-
-static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_NEW = 1;
-static int32_t ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO = 2;
-
 int32_t SPVM__Sys__Socket__AddrinfoLinkedList__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   void* obj_addrinfo = stack[0].oval;
@@ -70,9 +65,8 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__to_array(SPVM_ENV* env, SPVM_VALU
       if (cur_st_addrinfo) {
         
         int32_t fields_length = 1;
-        void* obj_addrinfo = env->new_pointer_with_fields_by_name(env, stack, "Sys::Socket::Addrinfo", cur_st_addrinfo, fields_length, &e, FILE_NAME, __LINE__);
+        void* obj_addrinfo = env->new_pointer_by_name(env, stack, "Sys::Socket::Addrinfo", cur_st_addrinfo, &e, FILE_NAME, __LINE__);
         if (e) { return e; }
-        env->set_pointer_field_int(env, stack, obj_addrinfo, FIELD_INDEX_ADDRINFO_MEMORY_ALLOCATED, ADDRINFO_MEMORY_ALLOCATED_BY_GETADDRINFO);
         
         env->set_elem_object(env, stack, obj_addrinfos, index, obj_addrinfo);
         
