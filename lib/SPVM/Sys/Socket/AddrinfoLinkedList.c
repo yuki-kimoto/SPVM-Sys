@@ -19,7 +19,7 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__DESTROY(SPVM_ENV* env, SPVM_VALUE
   void* obj_addrinfo = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_addrinfo);
-
+  
   if (st_addrinfo) {
     freeaddrinfo(st_addrinfo);
   }
@@ -65,7 +65,12 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__to_array(SPVM_ENV* env, SPVM_VALU
       if (cur_st_addrinfo) {
         
         int32_t fields_length = 1;
-        void* obj_addrinfo = env->new_pointer_by_name(env, stack, "Sys::Socket::Addrinfo", cur_st_addrinfo, &e, FILE_NAME, __LINE__);
+        
+        struct addrinfo* tmp_st_addrinfo = NULL;
+        tmp_st_addrinfo = env->new_memory_stack(env, stack, sizeof(struct addrinfo));
+        memcpy(tmp_st_addrinfo, cur_st_addrinfo, sizeof(struct addrinfo));
+        
+        void* obj_addrinfo = env->new_pointer_by_name(env, stack, "Sys::Socket::Addrinfo", tmp_st_addrinfo, &e, FILE_NAME, __LINE__);
         if (e) { return e; }
         
         env->set_elem_object(env, stack, obj_addrinfos, index, obj_addrinfo);

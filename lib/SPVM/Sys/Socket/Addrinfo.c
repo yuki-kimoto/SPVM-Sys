@@ -39,7 +39,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   assert(st_addrinfo);
   
   env->free_memory_stack(env, stack, st_addrinfo);
-  
+
   env->set_pointer(env, stack, obj_addrinfo, NULL);
   
   return 0;
