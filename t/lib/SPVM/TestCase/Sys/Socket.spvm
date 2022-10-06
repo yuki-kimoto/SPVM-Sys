@@ -586,7 +586,7 @@ class TestCase::Sys::Socket {
     $address->set_sin_family((byte)Socket->AF_INET);
     $address->set_sin_port(Sys::Socket->htons((short)$port));
     my $sin_addr = $address->copy_sin_addr;
-    $sin_addr->set_s_addr(Sys::Socket->htonl(Socket->INADDR_ANY));
+    Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
     my $status_setsockopt_int = Sys::Socket->setsockopt_int($socket, Socket->SOL_SOCKET, Socket->SO_REUSEADDR, 1);
@@ -620,7 +620,7 @@ class TestCase::Sys::Socket {
     $address->set_sin_family((byte)Socket->AF_INET);
     $address->set_sin_port(Sys::Socket->htons((short)$port));
     my $sin_addr = $address->copy_sin_addr;
-    $sin_addr->set_s_addr(Sys::Socket->htonl(Socket->INADDR_ANY));
+    Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
     my $status_setsockopt_int = Sys::Socket->setsockopt_int($socket, Socket->SOL_SOCKET, Socket->SO_REUSEADDR, 1);

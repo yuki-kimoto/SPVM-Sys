@@ -175,6 +175,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     ok(SPVM::TestCase::Sys::Socket->connect($port));
     
     kill 'TERM', $process_id;
+    waitpid $process_id, 0;
   }
 }
 
@@ -192,6 +193,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     ok(SPVM::TestCase::Sys::Socket->close($port));
     
     kill 'TERM', $process_id;
+    waitpid $process_id, 0;
   }
 }
 
@@ -209,6 +211,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     ok(SPVM::TestCase::Sys::Socket->shutdown($port));
     
     kill 'TERM', $process_id;
+    waitpid $process_id, 0;
   }
 }
 
@@ -227,10 +230,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     ok(SPVM::TestCase::Sys::Socket->send_and_recv($port));
     
     kill 'TERM', $process_id;
+    waitpid $process_id, 0;
   }
 }
-
-sleep 1;
 
 ok(SPVM::TestCase::Sys::Socket->bind($port));
 
@@ -287,6 +289,7 @@ unless ($^O eq 'MSWin32') {
     ok(SPVM::TestCase::Sys::Socket->getpeername($port));
     
     kill 'TERM', $process_id;
+    waitpid $process_id, 0;
   }
 }
 
@@ -304,6 +307,7 @@ unless ($^O eq 'MSWin32') {
     ok(SPVM::TestCase::Sys::Socket->getsockname($port));
     
     kill 'TERM', $process_id;
+    waitpid $process_id, 0;
   }
 }
 
