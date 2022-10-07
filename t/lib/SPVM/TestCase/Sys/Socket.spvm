@@ -1092,7 +1092,8 @@ class TestCase::Sys::Socket {
       
       Fn->shorten_null_char($host);
       
-      unless ($host eq "localhost") {
+      # Generally this is localhost, but if localhost is not defined in /etc/hosts, this is resolved by DNS.
+      if ($host eq "") {
         return 0;
       }
     }
@@ -1114,7 +1115,8 @@ class TestCase::Sys::Socket {
       
       Fn->shorten_null_char($host);
       
-      unless ($host eq "localhost") {
+      # Generally this is localhost, but if localhost is not defined in /etc/hosts, this is resolved by DNS.
+      if ($host eq "") {
         return 0;
       }
     }
