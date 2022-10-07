@@ -363,6 +363,19 @@ ok(SPVM::TestCase::Sys::Socket->getnameinfo);
   }
 }
 
+# poll constant values
+{
+  is(SPVM::Sys::Socket::Constant->POLLERR, IO::Poll::POLLERR());
+  is(SPVM::Sys::Socket::Constant->POLLHUP, IO::Poll::POLLHUP());
+  is(SPVM::Sys::Socket::Constant->POLLIN, IO::Poll::POLLIN());
+  is(SPVM::Sys::Socket::Constant->POLLNVAL, IO::Poll::POLLNVAL());
+  is(SPVM::Sys::Socket::Constant->POLLOUT, IO::Poll::POLLOUT());
+  is(SPVM::Sys::Socket::Constant->POLLPRI, IO::Poll::POLLPRI());
+  is(SPVM::Sys::Socket::Constant->POLLRDBAND, IO::Poll::POLLRDBAND());
+  is(SPVM::Sys::Socket::Constant->POLLRDNORM, IO::Poll::POLLRDNORM());
+  is(SPVM::Sys::Socket::Constant->POLLWRBAND, IO::Poll::POLLWRBAND());
+  is(SPVM::Sys::Socket::Constant->POLLWRNORM, IO::Poll::POLLWRNORM());
+}
 
 SPVM::set_exception(undef);
 

@@ -10,7 +10,6 @@ class TestCase::Sys::Socket {
   use Sys::Socket::Sockaddr::Storage;
   use Sys::Socket::Sockaddr::Un;
   use Sys::IO::PollfdArray;
-  use Sys::IO::Constant as IO;
   use Sys::Process;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
@@ -1199,10 +1198,10 @@ class TestCase::Sys::Socket {
         my $fds = Sys::IO::PollfdArray->new($fds_legnth);
         
         $fds->set_fd(0, $no0_socket);
-        $fds->set_events(0, (short)(IO->POLLOUT | IO->POLLERR));
+        $fds->set_events(0, (short)(Socket->POLLOUT | Socket->POLLERR));
         
         $fds->set_fd(1, $no1_socket);
-        $fds->set_events(1, (short)(IO->POLLOUT | IO->POLLERR));
+        $fds->set_events(1, (short)(Socket->POLLOUT | Socket->POLLERR));
         
         my $timeout = -1;
         
@@ -1212,11 +1211,11 @@ class TestCase::Sys::Socket {
           return 0;
         }
         
-        unless ($fds->revents(0) & IO->POLLOUT) {
+        unless ($fds->revents(0) & Socket->POLLOUT) {
           return 0;
         }
         
-        unless ($fds->revents(1) & IO->POLLOUT) {
+        unless ($fds->revents(1) & Socket->POLLOUT) {
           return 0;
         }
       }
@@ -1281,10 +1280,10 @@ class TestCase::Sys::Socket {
         my $fds = Sys::IO::PollfdArray->new($fds_legnth);
         
         $fds->set_fd(0, $no0_socket);
-        $fds->set_events(0, (short)(IO->POLLIN | IO->POLLERR));
+        $fds->set_events(0, (short)(Socket->POLLIN | Socket->POLLERR));
         
         $fds->set_fd(1, $no1_socket);
-        $fds->set_events(1, (short)(IO->POLLIN | IO->POLLERR));
+        $fds->set_events(1, (short)(Socket->POLLIN | Socket->POLLERR));
         
         my $timeout = -1;
         
@@ -1294,11 +1293,11 @@ class TestCase::Sys::Socket {
           return 0;
         }
         
-        unless ($fds->revents(0) & IO->POLLIN) {
+        unless ($fds->revents(0) & Socket->POLLIN) {
           return 0;
         }
         
-        unless ($fds->revents(1) & IO->POLLIN) {
+        unless ($fds->revents(1) & Socket->POLLIN) {
           return 0;
         }
       }

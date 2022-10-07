@@ -5,9 +5,7 @@
 #include <sys/stat.h>
 #include <sys/file.h>
 
-#ifdef _WIN32
-# include <winsock2.h>
-#else
+#ifndef _WIN32
 # include <poll.h>
 #endif
 

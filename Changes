@@ -51,6 +51,28 @@
       
       static method NI_MAXSERV : int ();
     
+   * Add the poll constant values to the Sys::Socket::Constant class.
+
+      static method POLLERR : int ();
+
+      static method POLLHUP : int ();
+
+      static method POLLIN : int ();
+
+      static method POLLNVAL : int ();
+
+      static method POLLOUT : int ();
+
+      static method POLLPRI : int ();
+
+      static method POLLRDBAND : int ();
+
+      static method POLLRDNORM : int ();
+
+      static method POLLWRBAND : int ();
+
+      static method POLLWRNORM : int ();
+
   [Bug Fix With Incompatible Changes]
     * Fixed the bug that the set_sin6_flowinfo method in the Sys::Socket::Sockaddr::In6 class didn't have the argument.
       [Before]
@@ -80,8 +102,76 @@
         static method getaddrinfo : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
                 $res : Sys::Socket::AddrinfoLinkedList[]);
+    * Removed the POLLNORM method in the Sys::IO::Constant.
+    
+      static method POLLNORM : int ();
+      
   [Bug Fix]
     * Fixed the bug that the poll constant values in the Sys::IO::Constant was not used.
+  [Document Fix]
+    * Add the doc of the poll constant methods of Sys::IO::Constant.
+      
+      =head2 POLLERR
+
+        static method POLLERR : int ();
+
+      Get the constant value of C<POLLERR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      =head2 POLLHUP
+
+        static method POLLHUP : int ();
+
+      Get the constant value of C<POLLHUP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      =head2 POLLIN
+
+        static method POLLIN : int ();
+
+      Get the constant value of C<POLLIN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      =head2 POLLNVAL
+
+        static method POLLNVAL : int ();
+
+      Get the constant value of C<POLLNVAL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      =head2 POLLOUT
+
+        static method POLLOUT : int ();
+
+      Get the constant value of C<POLLOUT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      =head2 POLLPRI
+
+        static method POLLPRI : int ();
+
+      Get the constant value of C<POLLPRI>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      =head2 POLLRDBAND
+
+        static method POLLRDBAND : int ();
+
+      Get the constant value of C<POLLRDBAND>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      =head2 POLLRDNORM
+
+        static method POLLRDNORM : int ();
+
+      Get the constant value of C<POLLRDNORM>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      =head2 POLLWRBAND
+
+        static method POLLWRBAND : int ();
+
+      Get the constant value of C<POLLWRBAND>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      =head2 POLLWRNORM
+
+        static method POLLWRNORM : int ();
+
+      Get the constant value of C<POLLWRNORM>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+      
 
 0.08 2022-10-04
   [New Features]
