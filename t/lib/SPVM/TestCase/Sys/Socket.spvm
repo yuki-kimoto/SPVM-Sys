@@ -995,7 +995,7 @@ class TestCase::Sys::Socket {
         }
       }
 
-      {
+      if (@$addrinfos >= 2 ){
         my $addrinfo = $addrinfos->[1];
         
         my $ai_addr = $addrinfo->copy_ai_addr;
