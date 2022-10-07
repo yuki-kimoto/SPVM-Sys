@@ -9,6 +9,7 @@ class TestCase::Sys::Socket {
   use Sys::Socket::AddrinfoLinkedList;
   use Sys::Socket::Sockaddr::Storage;
   use Sys::Socket::Sockaddr::Un;
+  use Sys::IO::PollfdArray;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
   
@@ -1133,6 +1134,184 @@ class TestCase::Sys::Socket {
       
       unless ($service eq "http") {
         return 0;
+      }
+    }
+    
+    return 1;
+  }
+
+  static method poll : int ($port : int) {
+    {
+      # Socket
+      my $no1_socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+
+      unless ($no1_socket> 0) {
+        return 0;
+      }
+      
+      # Close socket at the end of this scope
+      my $no1_socket_auto_close = TestUtil::SocketAutoClose->new($no1_socket);
+      
+      # IPv4 address
+      my $no1_address = Sys::Socket::Sockaddr::In->new;
+      $no1_address->set_sin_family((byte)Socket->AF_INET);
+      $no1_address->set_sin_port(Sys::Socket->htons((short)$port));
+      my $no1_sin_addr = $no1_address->copy_sin_addr;
+      Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $no1_sin_addr);
+      $no1_address->set_sin_addr($no1_sin_addr);
+      
+      my $no1_status_connect = Sys::Socket->connect($no1_socket, $no1_address, $no1_address->sizeof);
+      
+      unless ($no1_status_connect == 0) {
+        Sys::Socket->close($no1_socket);
+        return 0;
+      }
+
+      # Socket
+      my $no2_socket = Sys::Socket->socket(Socket->AF_INET, Socket->SOCK_STREAM, 0);
+
+      unless ($no2_socket> 0) {
+        return 0;
+      }
+      
+      # Close socket at the end of this scope
+      my $no2_socket_auto_close = TestUtil::SocketAutoClose->new($no2_socket);
+      
+      # IPv4 address
+      my $no2_address = Sys::Socket::Sockaddr::In->new;
+      $no2_address->set_sin_family((byte)Socket->AF_INET);
+      $no2_address->set_sin_port(Sys::Socket->htons((short)$port));
+      my $no2_sin_addr = $no2_address->copy_sin_addr;
+      Sys::Socket->inet_pton(Socket->AF_INET, "127.0.0.1", $no2_sin_addr);
+      $no2_address->set_sin_addr($no2_sin_addr);
+      
+      my $no2_status_connect = Sys::Socket->connect($no2_socket, $no2_address, $no2_address->sizeof);
+      
+      unless ($no2_status_connect == 0) {
+        Sys::Socket->close($no2_socket);
+        return 0;
+      }
+      
+      {
+        my $no1_send_buffer = "abcd";
+        
+        my $no1_send_length = Sys::Socket->send($no1_socket, $no1_send_buffer, length $no1_send_buffer, 0);
+        
+        unless ($no1_send_length == 4) {
+          return 0;
+        }
+      }
+      
+      {
+        my $no1_send_buffer = "ef";
+        
+        my $no1_send_length = Sys::Socket->send($no1_socket, $no1_send_buffer, length $no1_send_buffer, 0);
+        
+        unless ($no1_send_length == 2) {
+          return 0;
+        }
+      }
+      
+      my $no1_status_shutdown = Sys::Socket->shutdown($no1_socket, Socket->SHUT_WR);
+      
+      unless ($no1_status_shutdown == 0) {
+        return 0;
+      }
+      
+      {
+        my $no1_recv_buffer = (mutable string)new_string_len 3;
+        my $no1_recv_length = Sys::Socket->recv($no1_socket, $no1_recv_buffer, length $no1_recv_buffer, 0);
+        
+        unless ($no1_recv_length == 3) {
+          return 0;
+        }
+        
+        unless ($no1_recv_buffer eq "abc") {
+          return 0;
+        }
+      }
+      
+      {
+        my $no1_recv_buffer = (mutable string)new_string_len 3;
+        my $no1_recv_length = Sys::Socket->recv($no1_socket, $no1_recv_buffer, length $no1_recv_buffer, 0);
+        
+        unless ($no1_recv_length == 3) {
+          return 0;
+        }
+        
+        unless ($no1_recv_buffer eq "def") {
+          return 0;
+        }
+      }
+
+      {
+        my $no1_recv_buffer = (mutable string)new_string_len 3;
+        my $no1_recv_length = Sys::Socket->recv($no1_socket, $no1_recv_buffer, length $no1_recv_buffer, 0);
+        
+        unless ($no1_recv_length == 0) {
+          return 0;
+        }
+      }
+      
+      {
+        my $no2_send_buffer = "abcd";
+        
+        my $no2_send_length = Sys::Socket->send($no2_socket, $no2_send_buffer, length $no2_send_buffer, 0);
+        
+        unless ($no2_send_length == 4) {
+          return 0;
+        }
+      }
+      
+      {
+        my $no2_send_buffer = "ef";
+        
+        my $no2_send_length = Sys::Socket->send($no2_socket, $no2_send_buffer, length $no2_send_buffer, 0);
+        
+        unless ($no2_send_length == 2) {
+          return 0;
+        }
+      }
+      
+      my $no2_status_shutdown = Sys::Socket->shutdown($no2_socket, Socket->SHUT_WR);
+      
+      unless ($no2_status_shutdown == 0) {
+        return 0;
+      }
+      
+      {
+        my $no2_recv_buffer = (mutable string)new_string_len 3;
+        my $no2_recv_length = Sys::Socket->recv($no2_socket, $no2_recv_buffer, length $no2_recv_buffer, 0);
+        
+        unless ($no2_recv_length == 3) {
+          return 0;
+        }
+        
+        unless ($no2_recv_buffer eq "abc") {
+          return 0;
+        }
+      }
+      
+      {
+        my $no2_recv_buffer = (mutable string)new_string_len 3;
+        my $no2_recv_length = Sys::Socket->recv($no2_socket, $no2_recv_buffer, length $no2_recv_buffer, 0);
+        
+        unless ($no2_recv_length == 3) {
+          return 0;
+        }
+        
+        unless ($no2_recv_buffer eq "def") {
+          return 0;
+        }
+      }
+
+      {
+        my $no2_recv_buffer = (mutable string)new_string_len 3;
+        my $no2_recv_length = Sys::Socket->recv($no2_socket, $no2_recv_buffer, length $no2_recv_buffer, 0);
+        
+        unless ($no2_recv_length == 0) {
+          return 0;
+        }
       }
     }
     
