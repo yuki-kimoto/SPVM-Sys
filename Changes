@@ -51,28 +51,6 @@
       
       static method NI_MAXSERV : int ();
     
-   * Add the poll constant values to the Sys::Socket::Constant class.
-
-      static method POLLERR : int ();
-
-      static method POLLHUP : int ();
-
-      static method POLLIN : int ();
-
-      static method POLLNVAL : int ();
-
-      static method POLLOUT : int ();
-
-      static method POLLPRI : int ();
-
-      static method POLLRDBAND : int ();
-
-      static method POLLRDNORM : int ();
-
-      static method POLLWRBAND : int ();
-
-      static method POLLWRNORM : int ();
-
   [Bug Fix With Incompatible Changes]
     * Fixed the bug that the set_sin6_flowinfo method in the Sys::Socket::Sockaddr::In6 class didn't have the argument.
       [Before]

@@ -416,24 +416,4 @@ class Sys::Socket::Constant {
   native static method NI_MAXHOST : int ();
 
   native static method NI_MAXSERV : int ();
-
-  native static method POLLERR : int ();
-
-  native static method POLLHUP : int ();
-
-  native static method POLLIN : int ();
-
-  native static method POLLNVAL : int ();
-
-  native static method POLLOUT : int ();
-
-  native static method POLLPRI : int ();
-
-  native static method POLLRDBAND : int ();
-
-  native static method POLLRDNORM : int ();
-
-  native static method POLLWRBAND : int ();
-
-  native static method POLLWRNORM : int ();
 }
