@@ -1053,4 +1053,53 @@ class TestCase::Sys::Socket {
     
     return 1;
   }
+
+  static method getnameinfo : int () {
+    
+    # IPv4
+    {
+      my $address = Sys::Socket::Sockaddr::In->new;
+      $address->set_sin_family((byte)Socket->AF_INET);
+      my $sin_addr = $address->copy_sin_addr;
+      Sys::Socket->inet_aton("127.0.0.1", $sin_addr);
+      $address->set_sin_addr($sin_addr);
+      
+      my $host = (mutable string)new_string_len Socket->NI_MAXHOST;
+      my $status = Sys::Socket->getnameinfo($address, $address->sizeof, $host, length $host, undef, 0, 0);
+
+      unless ($status == 0) {
+        return 0;
+      }
+      
+      Fn->shorten_null_char($host);
+      
+      unless ($host eq "localhost") {
+        return 0;
+      }
+    }
+
+    # IPv6
+    {
+      my $address = Sys::Socket::Sockaddr::In6->new;
+      $address->set_sin6_family((byte)Socket->AF_INET6);
+      my $sin_addr = $address->copy_sin6_addr;
+      Sys::Socket->inet_pton(Socket->AF_INET6, "::1", $sin_addr);
+      $address->set_sin6_addr($sin_addr);
+      
+      my $host = (mutable string)new_string_len Socket->NI_MAXHOST;
+      my $status = Sys::Socket->getnameinfo($address, $address->sizeof, $host, length $host, undef, 0, 0);
+
+      unless ($status == 0) {
+        return 0;
+      }
+      
+      Fn->shorten_null_char($host);
+      
+      unless ($host eq "localhost") {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }

@@ -344,6 +344,8 @@ ok(SPVM::TestCase::Sys::Socket->sockaddr_strage);
 
 ok(SPVM::TestCase::Sys::Socket->getaddrinfo);
 
+ok(SPVM::TestCase::Sys::Socket->getnameinfo);
+
 SPVM::set_exception(undef);
 
 # All object is freed

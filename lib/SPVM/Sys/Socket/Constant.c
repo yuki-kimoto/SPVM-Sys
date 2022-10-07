@@ -18,6 +18,7 @@
 # include <netinet/udp.h>
 # include <sys/un.h>
 # include <arpa/inet.h>
+# include <netdb.h>
 #endif
 
 static const char* FILE_NAME = "Sys/Socket/Constant.c";
