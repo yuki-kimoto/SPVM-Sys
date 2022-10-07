@@ -344,9 +344,10 @@ ok(SPVM::TestCase::Sys::Socket->sockaddr_strage);
 
 ok(SPVM::TestCase::Sys::Socket->getaddrinfo);
 
-ok(SPVM::TestCase::Sys::Socket->getnameinfo);
-
-
+# TODO: Windows
+unless ($^O eq 'MSWin32') {
+  ok(SPVM::TestCase::Sys::Socket->getnameinfo);
+}
 
 # poll
 # TODO: Windows
