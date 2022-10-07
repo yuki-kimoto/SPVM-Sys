@@ -86,6 +86,7 @@
       
   [Bug Fix]
     * Fixed the bug that the poll constant values in the Sys::IO::Constant was not used.
+    * Fixed the but that the return value of the WSAPoll method in the Sys::Socket class was wrong.
   [Document Fix]
     * Add the doc of the poll constant methods of Sys::IO::Constant.
       
