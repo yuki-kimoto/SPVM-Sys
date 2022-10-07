@@ -1201,10 +1201,10 @@ class TestCase::Sys::Socket {
         my $fds = Sys::IO::PollfdArray->new($fds_legnth);
         
         $fds->set_fd(0, $no0_socket);
-        $fds->set_events(0, (short)(IO->POLLOUT | IO->POLLERR));
-        
+        $fds->set_events(0, (short)(IO->POLLOUT));
+
         $fds->set_fd(1, $no1_socket);
-        $fds->set_events(1, (short)(IO->POLLOUT | IO->POLLERR));
+        $fds->set_events(1, (short)(IO->POLLOUT));
         
         my $timeout = -1;
         
@@ -1217,7 +1217,6 @@ class TestCase::Sys::Socket {
         unless ($fds->revents(0) & IO->POLLOUT) {
           return 0;
         }
-        
         unless ($fds->revents(1) & IO->POLLOUT) {
           return 0;
         }
@@ -1283,10 +1282,10 @@ class TestCase::Sys::Socket {
         my $fds = Sys::IO::PollfdArray->new($fds_legnth);
         
         $fds->set_fd(0, $no0_socket);
-        $fds->set_events(0, (short)(IO->POLLIN | IO->POLLERR));
+        $fds->set_events(0, (short)(IO->POLLIN));
         
         $fds->set_fd(1, $no1_socket);
-        $fds->set_events(1, (short)(IO->POLLIN | IO->POLLERR));
+        $fds->set_events(1, (short)(IO->POLLIN));
         
         my $timeout = -1;
         
