@@ -171,7 +171,7 @@
 
       Get the constant value of C<POLLWRNORM>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
-      
+    * Fixed the document bug that Sys::IO::PollfdArray was called Sys::Poll::PollfdArray.
 
 0.08 2022-10-04
   [New Features]
