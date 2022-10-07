@@ -346,8 +346,11 @@ ok(SPVM::TestCase::Sys::Socket->getaddrinfo);
 
 ok(SPVM::TestCase::Sys::Socket->getnameinfo);
 
+
+
 # poll
-{
+# TODO: Windows
+unless ($^O eq 'MSWin32') {
   my $process_id = fork;
 
   # Child
