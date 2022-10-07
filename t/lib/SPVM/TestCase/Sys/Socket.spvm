@@ -975,19 +975,35 @@ class TestCase::Sys::Socket {
       unless ($status == 0) {
         return 0;
       }
-      
+
       my $addrinfos = $res->[0]->to_array;
       
-      my $addrinfo = $addrinfos->[0];
-      
-      my $ai_addr = $addrinfo->copy_ai_addr;
-      
-      my $in_addr : Sys::Socket::In_addr = $ai_addr->(Sys::Socket::Sockaddr::In)->copy_sin_addr;
+      {
+        my $addrinfo = $addrinfos->[0];
+        
+        my $ai_addr = $addrinfo->copy_ai_addr;
+        
+        my $in_addr : Sys::Socket::In_addr = $ai_addr->(Sys::Socket::Sockaddr::In)->copy_sin_addr;
 
-      my $addr_string = Sys::Socket->inet_ntoa($in_addr);
-      
-      unless ($addr_string eq "127.0.0.1") {
-        return 0;
+        my $addr_string = Sys::Socket->inet_ntoa($in_addr);
+        
+        unless ($addr_string eq "127.0.0.1") {
+          return 0;
+        }
+      }
+
+      {
+        my $addrinfo = $addrinfos->[1];
+        
+        my $ai_addr = $addrinfo->copy_ai_addr;
+        
+        my $in_addr : Sys::Socket::In_addr = $ai_addr->(Sys::Socket::Sockaddr::In)->copy_sin_addr;
+
+        my $addr_string = Sys::Socket->inet_ntoa($in_addr);
+        
+        unless ($addr_string eq "127.0.0.1") {
+          return 0;
+        }
       }
     }
     
@@ -1096,6 +1112,26 @@ class TestCase::Sys::Socket {
       Fn->shorten_null_char($host);
       
       unless ($host eq "localhost") {
+        return 0;
+      }
+    }
+
+    # Service
+    {
+      my $address = Sys::Socket::Sockaddr::In->new;
+      $address->set_sin_family((byte)Socket->AF_INET);
+      $address->set_sin_port(Sys::Socket->htons(80));
+      
+      my $service = (mutable string)new_string_len Socket->NI_MAXSERV;
+      my $status = Sys::Socket->getnameinfo($address, $address->sizeof, undef, 0, $service, length $service, 0);
+
+      unless ($status == 0) {
+        return 0;
+      }
+      
+      Fn->shorten_null_char($service);
+      
+      unless ($service eq "http") {
         return 0;
       }
     }
