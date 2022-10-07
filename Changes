@@ -80,6 +80,8 @@
         static method getaddrinfo : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
                 $res : Sys::Socket::AddrinfoLinkedList[]);
+  [Bug Fix]
+    * Fixed the bug that the poll constant values in the Sys::IO::Constant was not used.
 
 0.08 2022-10-04
   [New Features]
