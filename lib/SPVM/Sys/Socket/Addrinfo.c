@@ -20,7 +20,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
-  struct addrinfo* addrinfo = env->new_memory_stack(env, stack, sizeof(struct addrinfo*));
+  struct addrinfo* addrinfo = env->new_memory_stack(env, stack, sizeof(struct addrinfo));
 
   void* obj_addrinfo = env->new_pointer_by_name(env, stack, "Sys::Socket::Addrinfo", addrinfo, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
