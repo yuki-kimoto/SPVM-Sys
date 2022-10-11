@@ -131,11 +131,11 @@ int32_t SPVM__Sys__Time__Tm__set_tm_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tm = stack[0].oval;
   
-  int32_t sec = stack[1].ival;
+  int32_t tm_sec = stack[1].ival;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
-  st_tm->tm_sec = sec;
+  st_tm->tm_sec = tm_sec;
   
   return 0;
 }
@@ -144,11 +144,11 @@ int32_t SPVM__Sys__Time__Tm__set_tm_min(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tm = stack[0].oval;
   
-  int32_t min = stack[1].ival;
+  int32_t tm_min = stack[1].ival;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
-  st_tm->tm_min = min;
+  st_tm->tm_min = tm_min;
   
   return 0;
 }
@@ -157,11 +157,11 @@ int32_t SPVM__Sys__Time__Tm__set_tm_hour(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tm = stack[0].oval;
   
-  int32_t hour = stack[1].ival;
+  int32_t tm_hour = stack[1].ival;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
-  st_tm->tm_hour = hour;
+  st_tm->tm_hour = tm_hour;
   
   return 0;
 }
@@ -170,11 +170,11 @@ int32_t SPVM__Sys__Time__Tm__set_tm_mday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tm = stack[0].oval;
   
-  int32_t mday = stack[1].ival;
+  int32_t tm_mday = stack[1].ival;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
-  st_tm->tm_mday = mday;
+  st_tm->tm_mday = tm_mday;
   
   return 0;
 }
@@ -183,11 +183,11 @@ int32_t SPVM__Sys__Time__Tm__set_tm_mon(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tm = stack[0].oval;
   
-  int32_t mon = stack[1].ival;
+  int32_t tm_mon = stack[1].ival;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
-  st_tm->tm_mon = mon;
+  st_tm->tm_mon = tm_mon;
   
   return 0;
 }
@@ -196,11 +196,11 @@ int32_t SPVM__Sys__Time__Tm__set_tm_year(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tm = stack[0].oval;
   
-  int32_t year = stack[1].ival;
+  int32_t tm_year = stack[1].ival;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
-  st_tm->tm_year = year;
+  st_tm->tm_year = tm_year;
   
   return 0;
 }
@@ -209,11 +209,11 @@ int32_t SPVM__Sys__Time__Tm__set_tm_wday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tm = stack[0].oval;
   
-  int32_t wday = stack[1].ival;
+  int32_t tm_wday = stack[1].ival;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
-  st_tm->tm_wday = wday;
+  st_tm->tm_wday = tm_wday;
   
   return 0;
 }
@@ -222,11 +222,11 @@ int32_t SPVM__Sys__Time__Tm__set_tm_yday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tm = stack[0].oval;
   
-  int32_t yday = stack[1].ival;
+  int32_t tm_yday = stack[1].ival;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
-  st_tm->tm_yday = yday;
+  st_tm->tm_yday = tm_yday;
   
   return 0;
 }
@@ -235,11 +235,11 @@ int32_t SPVM__Sys__Time__Tm__set_tm_isdst(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tm = stack[0].oval;
   
-  int32_t isdst = stack[1].ival;
+  int32_t tm_isdst = stack[1].ival;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
-  st_tm->tm_isdst = isdst;
+  st_tm->tm_isdst = tm_isdst;
   
   return 0;
 }
