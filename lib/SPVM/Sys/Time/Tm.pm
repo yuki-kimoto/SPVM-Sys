@@ -10,48 +10,38 @@ SPVM::Sys::Time::Tm - struct tm in C language
   
   use Sys::Time::Tm;
   
-  # Time information
   my $tm = Sys::Time::Tm->new;
   
-  # Set and get second
   my $sec = $tm->tm_sec;
   $tm->set_tm_sec(12);
   
-  # Set and get minutes
   my $min = $tm->tm_min;
   $tm->set_tm_min(34);
   
-  # Set and get hour
   my $hour = $tm->tm_hour;
   $tm->set_tm_hour(12);
 
-  # Set and get day of month
   my $mday = $tm->tm_mday;
   $tm->set_tm_mday(4);
 
-  # Set and get month
   my $mon = $tm->tm_mon;
   $tm->set_tm_mon(3);
 
-  # Set and get year
   my $year = $tm->tm_year;
   $tm->set_tm_year(1);
 
-  # Set and get week day
   my $wday = $tm->tm_wday;
   $tm->set_tm_wday(12);
 
-  # Set and get day of year
   my $yday = $tm->tm_yday;
   $tm->set_tm_yday(234);
 
-  # Set and get the specified time occurs during Daylight Saving Time
   my $isdst = $tm->tm_isdst;
   $tm->set_tm_isdst(1);
 
 =head1 Description
 
-C<Sys::Time::Tm> is the time information that date structure is C<struct tm> of C<C language>.
+C<Sys::Time::Tm> represents C<struct tm> of C<C language>.
 
 =head1 Class Methods
 
@@ -59,145 +49,145 @@ C<Sys::Time::Tm> is the time information that date structure is C<struct tm> of 
 
   static method new : Sys::Time::Tm ()
 
-Create a new L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object.
+Creates a new L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object.
 
   my $tm = Sys::Time::Tm->new;
 
 =head1 Instance Methods
 
-=head2 sec
+=head2 tm_sec
 
-  method sec : int ()
+  method tm_sec : int ()
 
-Get second. This is same as getting C<tm_sec> of C<struct tm>.
+Gets C<tm_sec>.
 
-  my $sec = $tm->tm_sec;
+  my $tm_sec = $tm->tm_sec;
 
 =head2 set_tm_sec
 
   method set_tm_sec : void ($tm_sec : int)
 
-Set second. This is same as setting C<tm_sec> of C<struct tm>.
+Sets C<tm_sec>.
 
   $tm->set_tm_sec(12);
 
-=head2 min
+=head2 tm_min
   
-  method min : int ()
+  method tm_min : int ()
 
-Get minutes. This is same as getting C<tm_min> of C<struct tm>.
+Gets C<tm_min>.
 
-  my $min = $tm->tm_min;
+  my $tm_min = $tm->tm_min;
 
 =head2 set_tm_min
 
   method set_tm_min : void ($tm_min : int)
 
-Set minutes. This is same as setting C<tm_min> of C<struct tm>.
+Sets C<tm_min>.
 
   $tm->set_tm_min(34);
 
-=head2 hour
+=head2 tm_hour
 
-  method hour : int ()
+  method tm_hour : int ()
 
-Get hour. This is same as getting C<tm_hour> of C<struct tm>.
+Gets C<tm_hour>.
 
-  my $hour = $tm->tm_hour;
+  my $tm_hour = $tm->tm_hour;
 
 =head2 set_tm_hour
 
   method set_tm_hour : void ($tm_hour : int)
 
-Set hour. This is same as setting C<tm_hour> of C<struct tm>.
+Sets C<tm_hour>.
 
   $tm->set_tm_hour(12);
 
-=head2 mday
+=head2 tm_mday
 
-  method mday : int ()
+  method tm_mday : int ()
 
-Get day of month. This is same as getting C<tm_mday> of C<struct tm>.
+Gets C<tm_mday>.
 
-  my $mday = $tm->tm_mday;
+  my $tm_mday = $tm->tm_mday;
 
 =head2 set_tm_mday
 
   method set_tm_mday : void ($tm_mday : int)
 
-Set day of month. This is same as setting C<tm_mday> of C<struct tm>.
+Sets C<tm_mday>.
 
   $tm->set_tm_mday(4);
 
-=head2 mon
+=head2 tm_mon
 
-  method mon : int ()
+  method tm_mon : int ()
 
-Get month. This is same as getting C<tm_mon> of C<struct tm>.
+Gets C<tm_mon>.
 
-  my $mon = $tm->tm_mon;
+  my $tm_mon = $tm->tm_mon;
 
 =head2 set_tm_mon
 
   method set_tm_mon : void ($tm_mon : int)
 
-Set month. This is same as setting C<tm_mon> of C<struct tm>.
+Sets C<tm_mon>.
 
   $tm->set_tm_mon(3);
 
-=head2 year
+=head2 tm_year
 
-  method year : int ()
+  method tm_year : int ()
 
-Get year. This is same as getting C<tm_year> of C<struct tm>.
+Gets C<tm_year>.
 
-  my $year = $tm->tm_year;
+  my $tm_year = $tm->tm_year;
 
 =head2 set_tm_year
 
   method set_tm_year : void ($tm_year : int)
 
-Set year. This is same as setting C<tm_year> of C<struct tm>.
+Sets C<tm_year>.
 
   $tm->set_tm_year(1);
 
-=head2 wday
+=head2 tm_wday
 
-  method wday : int ()
+  method tm_wday : int ()
 
-Get weekday. This is same as getting C<tm_wday> of C<struct tm>.
+Gets C<tm_wday>.
 
-  my $wday = $tm->tm_wday;
+  my $tm_wday = $tm->tm_wday;
 
 =head2 set_tm_wday
 
   method set_tm_wday : void ($tm_wday : int)
 
-Set weekday. This is same as setting C<tm_wday> of C<struct tm>.
+Sets C<tm_wday>.
 
   $tm->set_tm_wday(12);
 
-=head2 yday
+=head2 tm_yday
 
-  method yday : int ()
+  method tm_yday : int ()
 
-Get day of year. This is same as getting C<tm_yday> of C<struct tm>.
+Gets C<tm_yday>.
 
   my $yday = $tm->tm_yday;
 
 =head2 set_tm_yday
 
-  method set_tm_wday : void ($tm_wday : int)
+  method set_tm_yday : void ($tm_yday : int)
 
-Set day of year. This is same as setting C<tm_yday> of C<struct tm>.
+Sets C<tm_yday>.
 
   $tm->set_tm_yday(234);
 
-=head2 isdst
+=head2 tm_isdst
 
-  method isdst : int ()
+  method tm_isdst : int ()
 
-Get the flag whether the time is daylight saving time. This is same as getting C<tm_yday> of C<struct tm>.
+Gets C<tm_isdst>.
 
   my $isdst = $tm->tm_isdst;
 
@@ -205,6 +195,6 @@ Get the flag whether the time is daylight saving time. This is same as getting C
 
   method set_tm_isdst : void ($tm_isdst : int)
 
-Set the flag whether the time is daylight saving time.  This is same as getting C<tm_isdst> of C<struct tm>.
+Sets C<tm_isdst>.
 
   $tm->set_tm_isdst(1);
