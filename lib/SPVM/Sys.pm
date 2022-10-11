@@ -72,6 +72,14 @@ See the detail of the L<unsetenv|https://linux.die.net/man/3/unsetenv> function 
 
 =back
 
+=head1 Author
+
+Yuki Kimoto(L<https://github.com/yuki-kimoto>)
+
+=head1 Contributors
+
+Gabor Szabo(L<https://github.com/szabgab>)
+
 =head1 Repository
 
 L<SPVM::Sys - Github|https://github.com/yuki-kimoto/SPVM-Sys>
