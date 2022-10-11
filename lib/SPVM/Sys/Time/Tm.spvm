@@ -14,13 +14,13 @@ class Sys::Time::Tm : pointer_t {
   native method tm_yday : int ();
   native method tm_isdst : int ();
 
-  native method set_tm_sec : void ($sec : int);
-  native method set_tm_min : void ($min : int);
-  native method set_tm_hour : void ($hour : int);
-  native method set_tm_mday : void ($mday : int);
-  native method set_tm_mon : void ($mon : int);
-  native method set_tm_year : void ($year : int);
-  native method set_tm_wday : void ($wday : int);
-  native method set_tm_yday : void ($yday : int);
-  native method set_tm_isdst : void ($isdst : int);
+  native method set_tm_sec : void ($tm_sec : int);
+  native method set_tm_min : void ($tm_min : int);
+  native method set_tm_hour : void ($tm_hour : int);
+  native method set_tm_mday : void ($tm_mday : int);
+  native method set_tm_mon : void ($tm_mon : int);
+  native method set_tm_year : void ($tm_year : int);
+  native method set_tm_wday : void ($tm_wday : int);
+  native method set_tm_yday : void ($tm_yday : int);
+  native method set_tm_isdst : void ($tm_isdst : int);
 }

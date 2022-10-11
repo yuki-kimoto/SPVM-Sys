@@ -75,7 +75,7 @@ Get second. This is same as getting C<tm_sec> of C<struct tm>.
 
 =head2 set_tm_sec
 
-  method set_tm_sec : void ($sec : int)
+  method set_tm_sec : void ($tm_sec : int)
 
 Set second. This is same as setting C<tm_sec> of C<struct tm>.
 
@@ -91,7 +91,7 @@ Get minutes. This is same as getting C<tm_min> of C<struct tm>.
 
 =head2 set_tm_min
 
-  method set_tm_min : void ($min : int)
+  method set_tm_min : void ($tm_min : int)
 
 Set minutes. This is same as setting C<tm_min> of C<struct tm>.
 
@@ -107,7 +107,7 @@ Get hour. This is same as getting C<tm_hour> of C<struct tm>.
 
 =head2 set_tm_hour
 
-  method set_tm_hour : void ($hour : int)
+  method set_tm_hour : void ($tm_hour : int)
 
 Set hour. This is same as setting C<tm_hour> of C<struct tm>.
 
@@ -123,7 +123,7 @@ Get day of month. This is same as getting C<tm_mday> of C<struct tm>.
 
 =head2 set_tm_mday
 
-  method set_tm_mday : void ($mday : int)
+  method set_tm_mday : void ($tm_mday : int)
 
 Set day of month. This is same as setting C<tm_mday> of C<struct tm>.
 
@@ -139,7 +139,7 @@ Get month. This is same as getting C<tm_mon> of C<struct tm>.
 
 =head2 set_tm_mon
 
-  method set_tm_mon : void ($mon : int)
+  method set_tm_mon : void ($tm_mon : int)
 
 Set month. This is same as setting C<tm_mon> of C<struct tm>.
 
@@ -155,7 +155,7 @@ Get year. This is same as getting C<tm_year> of C<struct tm>.
 
 =head2 set_tm_year
 
-  method set_tm_year : void ($year : int)
+  method set_tm_year : void ($tm_year : int)
 
 Set year. This is same as setting C<tm_year> of C<struct tm>.
 
@@ -171,7 +171,7 @@ Get weekday. This is same as getting C<tm_wday> of C<struct tm>.
 
 =head2 set_tm_wday
 
-  method set_tm_wday : void ($wday : int)
+  method set_tm_wday : void ($tm_wday : int)
 
 Set weekday. This is same as setting C<tm_wday> of C<struct tm>.
 
@@ -187,7 +187,7 @@ Get day of year. This is same as getting C<tm_yday> of C<struct tm>.
 
 =head2 set_tm_yday
 
-  method set_tm_wday : void ($wday : int)
+  method set_tm_wday : void ($tm_wday : int)
 
 Set day of year. This is same as setting C<tm_yday> of C<struct tm>.
 
@@ -203,7 +203,7 @@ Get the flag whether the time is daylight saving time. This is same as getting C
 
 =head2 set_tm_isdst
 
-  method set_tm_isdst : void ($isdst : int)
+  method set_tm_isdst : void ($tm_isdst : int)
 
 Set the flag whether the time is daylight saving time.  This is same as getting C<tm_isdst> of C<struct tm>.
 
