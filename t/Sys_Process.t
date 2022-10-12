@@ -162,6 +162,7 @@ unless ($^O eq 'MSWin32') {
 }
 
 ok(SPVM::TestCase::Sys::Process->usleep);
+ok(SPVM::TestCase::Sys::Process->nanosleep);
 
 SPVM::set_exception(undef);
 

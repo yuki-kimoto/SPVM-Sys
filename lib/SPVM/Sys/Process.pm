@@ -218,3 +218,14 @@ The usleep() function suspends execution of the calling thread for (at least) us
 
 See the detail of the L<usleep|https://linux.die.net/man/3/usleep> function in the case of Linux.
 
+=head2 nanosleep
+
+  static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec);
+
+The nanosleep() function shall cause the current thread to be suspended from execution until either the time interval specified by the rqtp argument has elapsed or a signal is delivered to the calling thread, and its action is to invoke a signal-catching function or to terminate the process.
+
+See the detail of the L<nanosleep|https://linux.die.net/man/3/nanosleep> function in the case of Linux.
+
+The rqtp is a L<Sys::Time::Timespec> object.
+
+The rmtp is a L<Sys::Time::Timespec> object.

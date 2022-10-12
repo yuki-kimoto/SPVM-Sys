@@ -2,6 +2,7 @@
 
 #include <sys/time.h>
 #include <assert.h>
+#include <time.h>
 
 static const char* FILE_NAME = "Sys/Time/Timespec.c";
 

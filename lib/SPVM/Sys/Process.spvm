@@ -2,6 +2,7 @@ class Sys::Process {
   
   use Sys::Process::Constant;
   use Sys::Process::Tms;
+  use Sys::Time::Timespec;
   
   native static method alarm : int ($seconds : int);
   native static method fork : int ();
@@ -31,5 +32,6 @@ class Sys::Process {
   native static method WIFCONTINUED : int ($wstatus : int);
 
   native static method usleep : int ($usec : int);
-
+  
+  native static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec);
 }

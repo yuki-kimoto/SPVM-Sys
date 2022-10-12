@@ -2,6 +2,7 @@
 
 #include <unistd.h>
 #include <sys/types.h>
+#include <time.h>
 #include <sys/time.h>
 #include <errno.h>
 #include <signal.h>
@@ -381,13 +382,13 @@ int32_t SPVM__Sys__Process__times(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "times is not supported on this system", FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
-  void* obj_st_tms = stack[0].oval;
+  void* obj_tms = stack[0].oval;
   
-  if (!obj_st_tms) {
+  if (!obj_tms) {
     return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
   }
   
-  struct tms* st_tms = env->get_pointer(env, stack, obj_st_tms);
+  struct tms* st_tms = env->get_pointer(env, stack, obj_tms);
   
   errno = 0;
   int64_t clock_tick = times(st_tms);
@@ -509,6 +510,39 @@ int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   if (status == -1) {
     env->die(env, stack, "[System Error]usleep failed", FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Process__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  void* obj_rqtp = stack[0].oval;
+  
+  struct timespec* st_rqtp = NULL;
+  if (obj_rqtp) {
+    st_rqtp = env->get_pointer(env, stack, obj_rqtp);
+  }
+  else {
+    return env->die(env, stack, "The rqtp must be defined", FILE_NAME, __LINE__);
+  }
+  
+  void* obj_rmtp = stack[1].oval;
+  
+  struct timespec* st_rmtp = NULL;
+  if (obj_rmtp) {
+    st_rmtp = env->get_pointer(env, stack, obj_rmtp);
+  }
+  
+  int32_t status = nanosleep(st_rqtp, st_rmtp);
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]nanosleep failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
 
