@@ -9,3 +9,4 @@ class Sys::Time::Timezone : pointer_t {
 
   native method set_tz_minuteswest : void ($tz_minuteswest : int);
   native method set_tz_dsttime : void ($tz_dsttime : int);
+}
