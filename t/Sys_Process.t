@@ -164,6 +164,15 @@ unless ($^O eq 'MSWin32') {
 ok(SPVM::TestCase::Sys::Process->usleep);
 ok(SPVM::TestCase::Sys::Process->nanosleep);
 
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->ualarm(0) };
+  like($@, qr/not supported/);
+}
+else {
+  local $SIG{ALRM} = sub {};
+  ok(SPVM::TestCase::Sys::Process->ualarm);
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed

@@ -229,3 +229,11 @@ See the detail of the L<nanosleep|https://linux.die.net/man/3/nanosleep> functio
 The rqtp is a L<Sys::Time::Timespec> object.
 
 The rmtp is a L<Sys::Time::Timespec> object.
+
+=head2 ualarm
+
+  static method ualarm : long ($usecs : long, $interval : long);
+
+The ualarm() function causes the signal SIGALRM to be sent to the invoking process after (not less than) usecs microseconds. The delay may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
+
+See the detail of the L<https://linux.die.net/man/3/ualarm> function in the case of Linux.

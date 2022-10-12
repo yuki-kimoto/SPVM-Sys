@@ -355,4 +355,23 @@ class TestCase::Sys::Process {
     return 1;
   }
 
+  static method ualarm : int () {
+    
+    my $rest1 = Sys::Process->ualarm(5_000, 0);
+      
+    unless ($rest1 >= 0) {
+      return 0;
+    }
+    
+    my $rest2 = Sys::Process->ualarm(5_000, 0);
+    
+    unless ($rest2 >= 4000 && $rest2 <= 5000) {
+      return 0;
+    }
+    
+    # Cancel alarm
+    Sys::Process->ualarm(0, 0);
+    
+    return 1;
+  }
 }

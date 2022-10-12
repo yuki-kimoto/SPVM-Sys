@@ -31,7 +31,9 @@ class Sys::Process {
   native static method WSTOPSIG : int ($wstatus : int);
   native static method WIFCONTINUED : int ($wstatus : int);
 
-  native static method usleep : int ($usec : int);
+  native static method usleep : int ($usec : long);
   
   native static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec);
+
+  native static method ualarm : long ($usecs : long, $interval : long);
 }

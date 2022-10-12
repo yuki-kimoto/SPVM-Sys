@@ -504,7 +504,7 @@ int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t usec = stack[0].ival;
+  int32_t usec = stack[0].lval;
   
   int32_t status = usleep(usec);
 
@@ -549,4 +549,24 @@ int32_t SPVM__Sys__Process__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
+}
+
+int32_t SPVM__Sys__Process__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  env->die(env, stack, "ualarm is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  (void)env;
+  (void)stack;
+  
+  int32_t usecs = stack[0].lval;
+
+  int32_t interval = stack[1].lval;
+  
+  int32_t rest_usecs = ualarm(usecs, interval);
+  
+  stack[0].lval = rest_usecs;
+  
+  return 0;
+#endif
 }
