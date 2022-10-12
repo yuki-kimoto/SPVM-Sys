@@ -498,3 +498,21 @@ int32_t SPVM__Sys__Process__WIFCONTINUED(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
 }
+
+int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t usec = stack[0].ival;
+  
+  int32_t status = usleep(usec);
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]usleep failed", FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+
+  stack[0].ival = status;
+  
+  return 0;
+}

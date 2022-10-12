@@ -210,3 +210,11 @@ See the detail of the L<times|https://linux.die.net/man/2/times> function in the
 
   static method WIFCONTINUED : int ($wstatus : int);
 
+=head2 usleep
+
+  static method usleep : int ($usec : int);
+
+The usleep() function suspends execution of the calling thread for (at least) usec microseconds. The sleep may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
+
+See the detail of the L<usleep|https://linux.die.net/man/3/usleep> function in the case of Linux.
+

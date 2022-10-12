@@ -161,6 +161,8 @@ unless ($^O eq 'MSWin32') {
   SPVM::Sys::Process->WCOREDUMP(0);
 }
 
+ok(SPVM::TestCase::Sys::Process->usleep);
+
 SPVM::set_exception(undef);
 
 # All object is freed

@@ -2,7 +2,10 @@
   [New Features]
     * Added the Sys::Time::Timeval class.
     * Added the Sys::Time::Timezone class.
-
+    * Added the following methods to the Sys::Process class.
+    
+      static method usleep : int ($usec : int);
+    
 0.09 2022-10-07
   [New Features]
    * Add the clone method to the Sys::Socket::Sockaddr class.
