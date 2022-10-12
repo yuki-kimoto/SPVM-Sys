@@ -70,6 +70,7 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ip_mreq');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timeval');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timespec');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timezone');
   
   return $make_rule;

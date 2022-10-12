@@ -5,6 +5,7 @@
     * Added the following methods to the Sys::Process class.
     
       static method usleep : int ($usec : int);
+    * Added the Sys::Time::Timespec class.
     
 0.09 2022-10-07
   [New Features]
