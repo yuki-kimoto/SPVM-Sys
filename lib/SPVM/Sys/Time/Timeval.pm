@@ -12,12 +12,11 @@ SPVM::Sys::Time::Timeval - struct timeval in C language
   
   my $tv = Sys::Time::Timeval->new;
   
-  my $sec = $tv->tv_sec;
+  my $tv_sec = $tv->tv_sec;
   $tv->set_tv_sec(12);
   
-  my $min = $tv->tv_usec;
+  my $tv_usec = $tv->tv_usec;
   $tv->set_tv_usec(34);
-  
 
 =head1 Description
 
@@ -31,7 +30,7 @@ See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday>
 
   static method new : Sys::Time::Timeval ()
 
-Create a new L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object.
+Creates a new C<Sys::Time::Timeval> object.
 
   my $tv = Sys::Time::Timeval->new;
 
