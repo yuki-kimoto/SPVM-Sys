@@ -9,14 +9,14 @@ SPVM::Sys::Process - Process System Call
 =head1 Usage
   
   use Sys::Process;
-  use Sys::Process::Constant as Proc;
+  use Sys::Process::Constant as Process;
   
   # exit
-  Sys::Process->exit(Proc->EXIT_FAILURE);
+  Sys::Process->exit(Process->EXIT_FAILURE);
   
   # waitpid
   my $wstatus;
-  my $changed_process_id = Sys::Process->waitpid($process_id, \$wstatus, Proc->WNOHANG);
+  my $changed_process_id = Sys::Process->waitpid($process_id, \$wstatus, Process->WNOHANG);
   
   # getpid
   my $process_id = Sys::Process->getpid;
@@ -26,7 +26,7 @@ SPVM::Sys::Process - Process System Call
 
 =head1 Description
 
-C<Sys::Process> is the class for the process manipulation.
+C<Sys::Process> provides the methods to call the system call for the process manipulation.
 
 =head1 Class Methods
 

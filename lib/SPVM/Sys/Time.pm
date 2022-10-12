@@ -1,45 +1,25 @@
 package SPVM::Sys::Time;
 
-our $VERSION = '0.01';
-
 1;
 
 =head1 Name
 
-SPVM::Sys::Time - Sys::Time is a SPVM module
+SPVM::Sys::Time - Time System Call
 
 =head1 Usage
-
-  use Sys::Time;
   
+  use Sys::Time;
+
 =head1 Description
 
-C<Sys::Time> is a L<SPVM> module.
-
-=head1 Fields
-
-
+C<Sys::Process> provides the methods to call the system call for the time manipulation.
 
 =head1 Class Methods
 
+=head2 gettimeofday
 
+  static method gettimeofday ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
 
-=head1 Instance Methods
+The functions gettimeofday() can get the time as well as a timezone. The tv argument is a struct timeval (as specified in <sys/time.h>):
 
-
-
-=head1 Repository
-
-
-
-=head1 Author
-
-Yuki Kimoto C<kimoto.yuki@gmail.com>
-
-=head1 Copyright & License
-
-Copyright 2022-2022 Yuki Kimoto, all rights reserved.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
+See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday> in Linux.

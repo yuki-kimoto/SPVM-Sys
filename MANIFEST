@@ -163,6 +163,7 @@ t/lib/SPVM/TestCase/Sys/FileTest.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/Process.spvm
 t/lib/SPVM/TestCase/Sys/Socket.spvm
+t/lib/SPVM/TestCase/Sys/Time.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
 t/lib/SPVM/TestUtil/SocketAutoClose.spvm
 t/print_hello.pl
@@ -171,4 +172,5 @@ t/Sys_FileTest.t
 t/Sys_IO.t
 t/Sys_Process.t
 t/Sys_Socket.t
+t/Sys_Time.t
 t/Sys_User.t

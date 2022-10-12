@@ -1,0 +1,23 @@
+class TestCase::Sys::Time {
+  use Sys::Time;
+  use Sys::Time::Timeval;
+  use Sys::Time::Timezone;
+  
+  static method gettimeofday : int () {
+    
+    my $tv = Sys::Time::Timeval->new;
+    my $tz = Sys::Time::Timezone->new;
+    
+    my $status = Sys::Time->gettimeofday($tv, $tz);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    unless ($tv->tv_sec > 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+}

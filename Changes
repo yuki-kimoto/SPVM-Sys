@@ -8,6 +8,10 @@
       static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec);
       static method ualarm : long ($usecs : long, $interval : long);
     
+    * Added the following methods to the Sys::Time class.
+      
+      static method gettimeofday ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
+      
     * Added the Sys::Time::Timespec class.
     
 0.09 2022-10-07
