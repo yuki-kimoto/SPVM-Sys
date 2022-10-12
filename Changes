@@ -1,6 +1,6 @@
 0.10 2022-10-12
   [New Features]
-    * Added the Sys::Time::Tm class.
+    * Added the Sys::Time::Timeval class.
 
 0.09 2022-10-07
   [New Features]

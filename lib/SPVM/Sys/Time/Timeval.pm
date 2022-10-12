@@ -1,45 +1,70 @@
 package SPVM::Sys::Time::Timeval;
 
-our $VERSION = '0.01';
-
 1;
 
 =head1 Name
 
-SPVM::Sys::Time::Timeval - Sys::Time::Timeval is a SPVM module
+SPVM::Sys::Time::Timeval - struct timeval in C language
 
 =head1 Usage
-
+  
   use Sys::Time::Timeval;
   
+  my $tv = Sys::Time::Timeval->new;
+  
+  my $sec = $tv->tv_sec;
+  $tv->set_tv_sec(12);
+  
+  my $min = $tv->tv_usec;
+  $tv->set_tv_usec(34);
+  
+
 =head1 Description
 
-C<Sys::Time::Timeval> is a L<SPVM> module.
+C<Sys::Time::Timeval> represents C<struct timeval> in C<C language>.
 
-=head1 Fields
-
-
+See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday> about C<struct timeval> in Linux.
 
 =head1 Class Methods
 
+=head2 new
 
+  static method new : Sys::Time::Timeval ()
+
+Create a new L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object.
+
+  my $tv = Sys::Time::Timeval->new;
 
 =head1 Instance Methods
 
+=head2 tv_sec
 
+  method tv_sec : long ()
 
-=head1 Repository
+Gets C<tv_sec>.
 
+  my $tv_sec = $tv->tv_sec;
 
+=head2 set_tv_sec
 
-=head1 Author
+  method set_tv_sec : void ($tv_sec : long)
 
-Yuki Kimoto C<kimoto.yuki@gmail.com>
+Sets C<tv_sec>.
 
-=head1 Copyright & License
+  $tv->set_tv_sec(12);
 
-Copyright 2022-2022 Yuki Kimoto, all rights reserved.
+=head2 tv_usec
+  
+  method tv_usec : long ()
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+Gets C<tv_usec>.
 
+  my $tv_usec = $tv->tv_usec;
+
+=head2 set_tv_usec
+
+  method set_tv_usec : void ($tv_usec : long)
+
+Sets C<tv_usec>.
+
+  $tv->set_tv_usec(34);
