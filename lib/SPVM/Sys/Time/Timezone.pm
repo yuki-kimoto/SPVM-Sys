@@ -1,45 +1,69 @@
 package SPVM::Sys::Time::Timezone;
 
-our $VERSION = '0.01';
-
 1;
 
 =head1 Name
 
-SPVM::Sys::Time::Timezone - Sys::Time::Timezone is a SPVM module
+SPVM::Sys::Time::Timezone - struct timezone in C language
 
 =head1 Usage
-
+  
   use Sys::Time::Timezone;
   
+  my $tz = Sys::Time::Timezone->new;
+  
+  my $tz_minuteswest = $tz->tz_minuteswest;
+  $tz->set_tz_minuteswest(12);
+  
+  my $tz_dsttime = $tz->tz_dsttime;
+  $tz->set_tz_dsttime(34);
+
 =head1 Description
 
-C<Sys::Time::Timezone> is a L<SPVM> module.
+C<Sys::Time::Timezone> represents C<struct timezone> in C<C language>.
 
-=head1 Fields
-
-
+See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday> about C<struct timezone> in Linux.
 
 =head1 Class Methods
 
+=head2 new
 
+  static method new : Sys::Time::Timezone ()
+
+Creates a new C<Sys::Time::Timezone> object.
+
+  my $tz = Sys::Time::Timezone->new;
 
 =head1 Instance Methods
 
+=head2 tz_minuteswest
 
+  method tz_minuteswest : int ()
 
-=head1 Repository
+Gets C<tz_minuteswest>.
 
+  my $tz_minuteswest = $tz->tz_minuteswest;
 
+=head2 set_tz_minuteswest
 
-=head1 Author
+  method set_tz_minuteswest : void ($tz_minuteswest : int)
 
-Yuki Kimoto C<kimoto.yuki@gmail.com>
+Sets C<tz_minuteswest>.
 
-=head1 Copyright & License
+  $tz->set_tz_minuteswest(12);
 
-Copyright 2022-2022 Yuki Kimoto, all rights reserved.
+=head2 tz_dsttime
+  
+  method tz_dsttime : int ()
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+Gets C<tz_dsttime>.
 
+  my $tz_dsttime = $tz->tz_dsttime;
+
+=head2 set_tz_dsttime
+
+  method set_tz_dsttime : void ($tz_dsttime : int)
+
+Sets C<tz_dsttime>.
+
+  $tz->set_tz_dsttime(34);
