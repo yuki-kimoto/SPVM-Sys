@@ -127,10 +127,10 @@ lib/SPVM/Sys/Time/Timeval.c
 lib/SPVM/Sys/Time/Timeval.config
 lib/SPVM/Sys/Time/Timeval.pm
 lib/SPVM/Sys/Time/Timeval.spvm
-lib/SPVM/Sys/Time/Tm.c
-lib/SPVM/Sys/Time/Tm.config
-lib/SPVM/Sys/Time/Tm.pm
-lib/SPVM/Sys/Time/Tm.spvm
+lib/SPVM/Sys/Time/Timezone.c
+lib/SPVM/Sys/Time/Timezone.config
+lib/SPVM/Sys/Time/Timezone.pm
+lib/SPVM/Sys/Time/Timezone.spvm
 lib/SPVM/Sys/User.c
 lib/SPVM/Sys/User.config
 lib/SPVM/Sys/User.pm
