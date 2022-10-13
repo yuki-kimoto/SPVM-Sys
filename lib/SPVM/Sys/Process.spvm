@@ -36,4 +36,13 @@ class Sys::Process {
   native static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec);
 
   native static method ualarm : long ($usecs : long, $interval : long);
+
+=pod
+
+TODO
+
+clock_nanosleep
+
+=cut
+
 }
