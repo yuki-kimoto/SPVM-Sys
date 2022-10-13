@@ -14,7 +14,7 @@ class Sys::Time {
 
 TODO
 
-getitimer setitimer clock_gettime clock_getres
+getitimer setitimer clock_getres
 
 =cut
 
