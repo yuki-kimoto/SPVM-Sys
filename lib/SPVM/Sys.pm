@@ -14,15 +14,27 @@ The C<Sys> module and the system modules will be highly changed without warnings
 
 L<SPVM> itself is yet experimental release.
 
-=head1 Usage
-
-  use Sys;
-  
-  my $is_windows = Sys->is_D_WIN32;
-
 =head1 Description
 
-C<Sys> is the class for system utilities such as file IO, user manipulation, process, socket,
+C<Sys> is the class for system calls such as file IO, user manipulation, process, socket, time,
+
+=head1 System Modules
+
+=over 2
+
+=item * L<Sys::IO|SPVM::Sys::IO>
+
+=item * L<Sys::Socket|SPVM::Sys::Socket>
+
+=item * L<Sys::Process|SPVM::Sys::Process>
+
+=item * L<Sys::Time|SPVM::Sys::Time>
+
+=item * L<Sys::User|SPVM::Sys::User>
+
+=item * L<Sys::FiteTest|SPVM::Sys::FiteTest>
+
+=back
 
 =head1 Class Methods
 
@@ -55,22 +67,6 @@ See the detail of the L<setenv|https://linux.die.net/man/3/setenv> function in t
 The unsetenv() function deletes the variable name from the environment. If name does not exist in the environment, then the function succeeds, and the environment is unchanged.
 
 See the detail of the L<unsetenv|https://linux.die.net/man/3/unsetenv> function in the case of Linux.
-
-=head1 System Modules
-
-=over 2
-
-=item * L<Sys::IO|SPVM::Sys::IO>
-
-=item * L<Sys::Socket|SPVM::Sys::Socket>
-
-=item * L<Sys::Process|SPVM::Sys::Process>
-
-=item * L<Sys::User|SPVM::Sys::User>
-
-=item * L<Sys::FiteTest|SPVM::Sys::FiteTest>
-
-=back
 
 =head1 Author
 
