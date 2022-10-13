@@ -93,3 +93,16 @@ See the detail of the L<clock_nanosleep(2) - Linux man page|https://linux.die.ne
 The C<$request> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
 
 The C<$remain> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
+
+=head2 nanosleep
+
+  static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec);
+
+The nanosleep() function shall cause the current thread to be suspended from execution until either the time interval specified by the rqtp argument has elapsed or a signal is delivered to the calling thread, and its action is to invoke a signal-catching function or to terminate the process.
+
+See the detail of the L<nanosleep|https://linux.die.net/man/3/nanosleep> function in the case of Linux.
+
+The rqtp is a L<Sys::Time::Timespec> object.
+
+The rmtp is a L<Sys::Time::Timespec> object.
+

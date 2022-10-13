@@ -154,7 +154,6 @@ unless ($^O eq 'MSWin32') {
 }
 
 ok(SPVM::TestCase::Sys::Process->usleep);
-ok(SPVM::TestCase::Sys::Process->nanosleep);
 
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Process->ualarm(0, 0) };
@@ -164,8 +163,6 @@ else {
   local $SIG{ALRM} = sub {};
   ok(SPVM::TestCase::Sys::Process->ualarm);
 }
-
-ok(SPVM::TestCase::Sys::Process->nanosleep);
 
 SPVM::set_exception(undef);
 

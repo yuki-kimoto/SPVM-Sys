@@ -20,4 +20,6 @@ class Sys::Time {
   native static method times : long ($buffer : Sys::Time::Tms);
 
   native static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec);
+
+  native static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec);
 }

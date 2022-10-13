@@ -176,4 +176,25 @@ class TestCase::Sys::Time {
     
     return 1;
   }
+
+  static method nanosleep : int () {
+    
+    my $start = Time->time;
+    
+    my $ts = Sys::Time::Timespec->new;
+    $ts->set_tv_sec(1);
+    $ts->set_tv_nsec(100_000_000);
+    
+    my $status = Sys::Time->nanosleep($ts, undef);
+    
+    unless ($status  == 0) {
+      return 0;
+    }
+    
+    unless (Time->time - $start >= 1) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }

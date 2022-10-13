@@ -236,3 +236,37 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  void* obj_rqtp = stack[0].oval;
+  
+  struct timespec* st_rqtp = NULL;
+  if (obj_rqtp) {
+    st_rqtp = env->get_pointer(env, stack, obj_rqtp);
+  }
+  else {
+    return env->die(env, stack, "The rqtp must be defined", FILE_NAME, __LINE__);
+  }
+  
+  void* obj_rmtp = stack[1].oval;
+  
+  struct timespec* st_rmtp = NULL;
+  if (obj_rmtp) {
+    st_rmtp = env->get_pointer(env, stack, obj_rmtp);
+  }
+  
+  int32_t status = nanosleep(st_rqtp, st_rmtp);
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]nanosleep failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+
+  stack[0].ival = status;
+  
+  return 0;
+}
+
