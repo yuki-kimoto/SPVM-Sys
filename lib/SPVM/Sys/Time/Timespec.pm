@@ -36,6 +36,12 @@ Creates a new C<Sys::Time::Timespec> object.
 
 =head1 Instance Methods
 
+=head2 DESTROY
+
+  native method DESTROY : void ();
+
+The destructor.
+
 =head2 tv_sec
 
   method tv_sec : long ()
