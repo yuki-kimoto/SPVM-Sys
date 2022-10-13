@@ -1,3 +1,6 @@
+// Support st_atim.tv_nsec, st_mtim.tv_nsec, st_ctim.tv_nsec, 
+#define _POSIX_C_SOURCE 200809L
+
 #include "spvm_native.h"
 
 #include <assert.h>
@@ -191,3 +194,35 @@ int32_t SPVM__Sys__IO__Stat__st_ctime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__Stat__st_mtim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stat = stack[0].oval;
+  
+  struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
+  
+  stack[0].lval = st_stat->st_mtim.tv_nsec;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__Stat__st_atim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stat = stack[0].oval;
+  
+  struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
+  
+  stack[0].lval = st_stat->st_atim.tv_nsec;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__Stat__st_ctim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stat = stack[0].oval;
+  
+  struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
+  
+  stack[0].lval = st_stat->st_ctim.tv_nsec;
+  
+  return 0;
+}

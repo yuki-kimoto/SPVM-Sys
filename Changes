@@ -15,7 +15,12 @@
       
     * Added the Sys::Time::Timespec class.
     * Added the Sys::Time::Itimerval class.
-    
+    * Added the following methods to the Sys::IO::Stat class
+
+      method st_mtim_tv_nsec : long ()
+      method st_atim_tv_nsec : long ()
+      method st_ctim_tv_nsec : long ()
+      
   [Bug Fix]
     * Fixed the bug that the internally integral type is wrong. 32bit is fixed to64bit.
       SPVM::Sys::IO::Utimbuf->set_actime
