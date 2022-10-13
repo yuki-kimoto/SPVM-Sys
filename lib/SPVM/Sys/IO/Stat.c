@@ -195,7 +195,10 @@ int32_t SPVM__Sys__IO__Stat__st_ctime(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__Stat__st_mtim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+#ifdef _WIN32
+  env->die(env, stack, "The st_mtim_tv_nsec method in the Sys::IO::Stat is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_stat = stack[0].oval;
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
@@ -207,10 +210,14 @@ int32_t SPVM__Sys__IO__Stat__st_mtim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__Stat__st_atim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+#ifdef _WIN32
+  env->die(env, stack, "The st_atim_tv_nsec method in the Sys::IO::Stat is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_stat = stack[0].oval;
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
@@ -222,10 +229,14 @@ int32_t SPVM__Sys__IO__Stat__st_atim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__Stat__st_ctim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+#ifdef _WIN32
+  env->die(env, stack, "The st_ctim_tv_nsec method in the Sys::IO::Stat is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
   void* obj_stat = stack[0].oval;
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
@@ -237,4 +248,5 @@ int32_t SPVM__Sys__IO__Stat__st_ctim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
   
   return 0;
+#endif
 }
