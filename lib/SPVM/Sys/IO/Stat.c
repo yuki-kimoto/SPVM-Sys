@@ -200,7 +200,11 @@ int32_t SPVM__Sys__IO__Stat__st_mtim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
   
+#ifdef __MACH__
+  stack[0].lval = st_stat->st_mtimespec.tv_nsec;
+#else
   stack[0].lval = st_stat->st_mtim.tv_nsec;
+#endif
   
   return 0;
 }
@@ -210,9 +214,13 @@ int32_t SPVM__Sys__IO__Stat__st_atim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stat = stack[0].oval;
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
-  
+
+#ifdef __MACH__
+  stack[0].lval = st_stat->st_atimespec.tv_nsec;
+#else
   stack[0].lval = st_stat->st_atim.tv_nsec;
-  
+#endif
+
   return 0;
 }
 
@@ -222,7 +230,11 @@ int32_t SPVM__Sys__IO__Stat__st_ctim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
   
+#ifdef __MACH__
+  stack[0].lval = st_stat->st_ctimespec.tv_nsec;
+#else
   stack[0].lval = st_stat->st_ctim.tv_nsec;
+#endif
   
   return 0;
 }
