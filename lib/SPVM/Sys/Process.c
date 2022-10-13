@@ -504,7 +504,7 @@ int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t usec = stack[0].lval;
+  int64_t usec = stack[0].lval;
   
   int32_t status = usleep(usec);
 
@@ -559,9 +559,9 @@ int32_t SPVM__Sys__Process__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t usecs = stack[0].lval;
+  int64_t usecs = stack[0].lval;
 
-  int32_t interval = stack[1].lval;
+  int64_t interval = stack[1].lval;
   
   int32_t rest_usecs = ualarm(usecs, interval);
   

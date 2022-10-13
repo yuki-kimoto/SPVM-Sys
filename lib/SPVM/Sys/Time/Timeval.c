@@ -47,7 +47,7 @@ int32_t SPVM__Sys__Time__Timeval__set_tv_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tv = stack[0].oval;
   
-  int32_t tv_sec = stack[1].lval;
+  int64_t tv_sec = stack[1].lval;
   
   struct timeval* st_tv = env->get_pointer(env, stack, obj_tv);
   
@@ -71,7 +71,7 @@ int32_t SPVM__Sys__Time__Timeval__set_tv_usec(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   void* obj_tv = stack[0].oval;
   
-  int32_t tv_usec = stack[1].lval;
+  int64_t tv_usec = stack[1].lval;
   
   struct timeval* st_tv = env->get_pointer(env, stack, obj_tv);
   
