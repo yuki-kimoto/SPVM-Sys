@@ -1,18 +1,18 @@
-package SPVM::Sys::Process::Tms;
+package SPVM::Sys::Time::Tms;
 
 1;
 
 =head1 Name
 
-SPVM::Sys::Process::Tms - Sys::Process::Tms is a SPVM module
+SPVM::Sys::Time::Tms - Sys::Time::Tms is a SPVM module
 
 =head1 Usage
 
-  use Sys::Process::Tms;
+  use Sys::Time::Tms;
   
 =head1 Description
 
-C<Sys::Process::Tms> is a L<SPVM> module.
+C<Sys::Time::Tms> is a L<SPVM> module.
 
 =head1 Fields
 

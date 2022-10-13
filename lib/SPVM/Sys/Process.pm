@@ -168,14 +168,6 @@ The execv(), execvp(), and execvpe() functions provide an array of pointers to n
 
 See the detail of the L<https://linux.die.net/man/3/execv> function in the case of Linux.
 
-=head2 times
-
-  static method times : long ($buffer : Sys::Process::Tms);
-
-times() stores the current process times in the struct tms that buf points to. The struct tms is as defined in <sys/times.h>:
-
-See the detail of the L<times|https://linux.die.net/man/2/times> function in the case of Linux.
-
 =head2 Waiting Status Checking Methods
 
 =head3 WIFEXITED

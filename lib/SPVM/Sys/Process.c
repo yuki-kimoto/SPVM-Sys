@@ -377,33 +377,6 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Process__times(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifdef _WIN32
-  env->die(env, stack, "times is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  void* obj_tms = stack[0].oval;
-  
-  if (!obj_tms) {
-    return env->die(env, stack, "The buffer must be defined", FILE_NAME, __LINE__);
-  }
-  
-  struct tms* st_tms = env->get_pointer(env, stack, obj_tms);
-  
-  errno = 0;
-  int64_t clock_tick = times(st_tms);
-  
-  if (errno != 0) {
-    env->die(env, stack, "[System Error]times failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].lval = clock_tick;
-  
-  return 0;
-#endif
-}
-
 int32_t SPVM__Sys__Process__WIFEXITED(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef WCONTINUED

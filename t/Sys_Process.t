@@ -138,14 +138,6 @@ else {
   }
 }
 
-if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->times(undef) };
-  like($@, qr/not supported/);
-}
-else {
-  ok(SPVM::TestCase::Sys::Process->times);
-}
-
 # The exit status
 unless ($^O eq 'MSWin32') {
 

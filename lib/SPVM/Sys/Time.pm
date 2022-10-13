@@ -74,3 +74,11 @@ See L<getitimer(2) - Linux man page|https://linux.die.net/man/2/getitimer> in Li
 
 The C<$curr_value> is a L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval> object.
 
+=head2 times
+
+  static method times : long ($buffer : Sys::Time::Tms);
+
+times() stores the current process times in the struct tms that buf points to. The struct tms is as defined in <sys/times.h>:
+
+See the detail of the L<times|https://linux.die.net/man/2/times> function in the case of Linux.
+

@@ -20,7 +20,6 @@ class Sys::Process {
   native static method getpid : int ();
   native static method getppid : int ();
   native static method execv : int ($path : string, $args : string[]);
-  native static method times : long ($buffer : Sys::Process::Tms);
 
   native static method WIFEXITED : int ($wstatus : int);
   native static method WEXITSTATUS : int ($wstatus : int);

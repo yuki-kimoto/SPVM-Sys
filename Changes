@@ -37,7 +37,9 @@
       Sys::Time::Timespec->set_tv_nsec
       Sys::Time::Timeval->set_tv_sec
       Sys::Time::Timeval->set_tv_usec
-    
+  [Incompativle Changes]
+    * The times method is moved from SYS::Process to Sys::Time.
+    * The Sys::Process::Tms is renamed to Sys::Time::Tms.
 0.09 2022-10-07
   [New Features]
    * Add the clone method to the Sys::Socket::Sockaddr class.

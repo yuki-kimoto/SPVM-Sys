@@ -25,6 +25,14 @@ ok(SPVM::TestCase::Sys::Time->getitimer);
 
 ok(SPVM::TestCase::Sys::Time->setitimer);
 
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->times(undef) };
+  like($@, qr/not supported/);
+}
+else {
+  ok(SPVM::TestCase::Sys::Time->times);
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed

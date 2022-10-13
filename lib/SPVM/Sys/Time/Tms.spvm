@@ -1,7 +1,7 @@
-class Sys::Process::Tms : pointer_t {
+class Sys::Time::Tms : pointer_t {
   # Class methods
   
-  native static method new : Sys::Process::Tms ();
+  native static method new : Sys::Time::Tms ();
   
   # Instance methods
   native method DESTROY : void ();

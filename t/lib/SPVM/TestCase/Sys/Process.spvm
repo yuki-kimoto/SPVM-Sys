@@ -271,53 +271,6 @@ class TestCase::Sys::Process {
     Sys::Process->execv($perl_path, $args);
   }
 
-  static method times : int () {
-    
-    my $buffer = Sys::Process::Tms->new;
-    
-    my $tick = Sys::Process->times($buffer);
-    
-    warn $tick;
-    
-    unless ($tick >= 0) {
-      return 0;
-    }
-
-    warn $buffer->tms_utime;
-    
-    unless ($buffer->tms_utime > 0) {
-      return 0;
-    }
-    
-    warn $buffer->tms_stime;
-    
-    unless ($buffer->tms_stime >= 0) {
-      return 0;
-    }
-    
-    warn $buffer->tms_cutime;
-    
-    unless ($buffer->tms_cutime >= 0) {
-      return 0;
-    }
-    
-    warn $buffer->tms_cstime;
-    
-    unless ($buffer->tms_cstime >= 0) {
-      return 0;
-    }
-    
-    # The fields of the Sys::Process::Tms class
-    {
-      $buffer->set_tms_utime(0);
-      $buffer->set_tms_stime(0);
-      $buffer->set_tms_cutime(0);
-      $buffer->set_tms_cstime(0);
-    }
-    
-    return 1;
-  }
-
   static method usleep : int () {
     
     my $start = Time->time;
