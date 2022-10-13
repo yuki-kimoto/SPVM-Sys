@@ -544,39 +544,3 @@ int32_t SPVM__Sys__Process__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Process__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  int32_t clockid = stack[0].ival;
-
-  int32_t flags = stack[1].ival;
-  
-  void* obj_request = stack[2].oval;
-  
-  struct timespec* st_request = NULL;
-  if (obj_request) {
-    st_request = env->get_pointer(env, stack, obj_request);
-  }
-  else {
-    return env->die(env, stack, "The request must be defined", FILE_NAME, __LINE__);
-  }
-  
-  void* obj_remain = stack[3].oval;
-  
-  struct timespec* st_remain = NULL;
-  if (obj_remain) {
-    st_remain = env->get_pointer(env, stack, obj_remain);
-  }
-  
-  int32_t ret_errno = clock_nanosleep(clockid, flags, st_request, st_remain);
-
-  if (ret_errno != 0) {
-    env->die(env, stack, "[System Error]clock_nanosleep failed:%s.", env->strerror(env, stack, ret_errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = ret_errno;
-  
-  return 0;
-}

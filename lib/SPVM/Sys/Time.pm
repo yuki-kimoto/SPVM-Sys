@@ -82,3 +82,14 @@ times() stores the current process times in the struct tms that buf points to. T
 
 See the detail of the L<times|https://linux.die.net/man/2/times> function in the case of Linux.
 
+=head2 clock_nanosleep
+
+  static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec);
+
+Like nanosleep(2), clock_nanosleep() allows the calling thread to sleep for an interval specified with nanosecond precision. It differs in allowing the caller to select the clock against which the sleep interval is to be measured, and in allowing the sleep interval to be specified as either an absolute or a relative value.
+
+See the detail of the L<clock_nanosleep(2) - Linux man page|https://linux.die.net/man/2/clock_nanosleep> function in the case of Linux.
+
+The C<$request> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
+
+The C<$remain> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.

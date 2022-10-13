@@ -33,6 +33,8 @@ else {
   ok(SPVM::TestCase::Sys::Time->times);
 }
 
+ok(SPVM::TestCase::Sys::Time->clock_nanosleep);
+
 SPVM::set_exception(undef);
 
 # All object is freed

@@ -7,7 +7,6 @@
       static method usleep : int ($usec : int)
       static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec)
       static method ualarm : long ($usecs : long, $interval : long)
-      static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec)
     
     * Added the following methods to the Sys::Time class.
       
@@ -17,6 +16,7 @@
       static method clock_getres : int ($clk_id : int, $res : Sys::Time::Timespec)
       static method getitimer : int ($which : int, $curr_value : Sys::Time::Itimerval);
       static method setitimer : int ($which : int, $new_value : Sys::Time::Itimerval, $old_value : Sys::Time::Itimerval);
+      static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec)
       
     * Added the Sys::Time::Timespec class.
     * Added the Sys::Time::Itimerval class.
