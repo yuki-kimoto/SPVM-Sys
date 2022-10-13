@@ -79,3 +79,31 @@ int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t clk_id = stack[0].ival;
+  
+  void* obj_res = stack[1].oval;
+  
+  struct timespec* st_res = NULL;
+  if (obj_res) {
+    st_res = env->get_pointer(env, stack, obj_res);
+  }
+  else {
+    return env->die(env, stack, "The res must be defined", FILE_NAME, __LINE__);
+  }
+  
+  int32_t status = clock_getres(clk_id, st_res);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]clock_getres failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}

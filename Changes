@@ -4,16 +4,17 @@
     * Added the Sys::Time::Timezone class.
     * Added the following methods to the Sys::Process class.
     
-      static method usleep : int ($usec : int);
-      static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec);
-      static method ualarm : long ($usecs : long, $interval : long);
-      static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec);
+      static method usleep : int ($usec : int)
+      static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec)
+      static method ualarm : long ($usecs : long, $interval : long)
+      static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec)
     
     * Added the following methods to the Sys::Time class.
       
-      static method gettimeofday ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
-      static method clock : long ();
-      static method clock_gettime : int ($clk_id : int, $tp : Sys::Time::Timespec);
+      static method gettimeofday ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone)
+      static method clock : long ()
+      static method clock_gettime : int ($clk_id : int, $tp : Sys::Time::Timespec)
+      static method clock_getres : int ($clk_id : int, $res : Sys::Time::Timespec)
       
     * Added the Sys::Time::Timespec class.
     * Added the Sys::Time::Itimerval class.

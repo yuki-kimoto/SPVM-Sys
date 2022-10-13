@@ -41,3 +41,13 @@ The functions clock_gettime() retrieves the time of the specified clock clk_id.
 See L<clock_gettime(3) - Linux man page|https://linux.die.net/man/3/clock_gettime> in Linux.
 
 The C<$tp> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
+
+=head2 clock_getres
+
+  static method clock_getres : int ($clk_id : int, $res : Sys::Time::Timespec)
+
+The functions clock_getres() retrieves the time of the specified clock clk_id.
+
+See L<clock_getres(3) - Linux man page|https://linux.die.net/man/3/clock_getres> in Linux.
+
+The C<$tp> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.

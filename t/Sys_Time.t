@@ -17,6 +17,10 @@ ok(SPVM::TestCase::Sys::Time->gettimeofday);
 
 ok(SPVM::TestCase::Sys::Time->clock);
 
+ok(SPVM::TestCase::Sys::Time->clock_gettime);
+
+ok(SPVM::TestCase::Sys::Time->clock_getres);
+
 SPVM::set_exception(undef);
 
 # All object is freed
