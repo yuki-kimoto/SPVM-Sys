@@ -3,4 +3,6 @@ class Sys::Time {
   use Sys::Time::Timezone;
   
   native static method gettimeofday : int ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
+
+  native static method timersub : void ($a : Sys::Time::Timeval, $b : Sys::Time::Timeval, $res : Sys::Time::Timeval);
 }
