@@ -15,8 +15,6 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
 ok(SPVM::TestCase::Sys::Time->gettimeofday);
 
-ok(SPVM::TestCase::Sys::Time->timersub);
-
 SPVM::set_exception(undef);
 
 # All object is freed

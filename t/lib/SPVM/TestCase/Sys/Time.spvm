@@ -21,28 +21,4 @@ class TestCase::Sys::Time {
     return 1;
   }
 
-  static method timersub : int () {
-    
-    my $tv_a = Sys::Time::Timeval->new;
-    $tv_a->set_tv_sec(10);
-    $tv_a->set_tv_usec(5);
-    
-    my $tv_b = Sys::Time::Timeval->new;
-    $tv_b->set_tv_sec(1);
-    $tv_b->set_tv_usec(2);
-    
-    my $tv_res = Sys::Time::Timeval->new;
-    
-    Sys::Time->timersub($tv_a, $tv_b, $tv_res);
-    
-    unless ($tv_res->tv_sec == 9) {
-      return 0;
-    }
-    
-    unless ($tv_res->tv_usec == 3) {
-      return 0;
-    }
-    
-    return 1;
-  }
 }

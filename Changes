@@ -11,7 +11,6 @@
     * Added the following methods to the Sys::Time class.
       
       static method gettimeofday ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
-      static method timersub : void ($a : Sys::Time::Timeval, $b : Sys::Time::Timeval, $res : Sys::Time::Timeval)
       
     * Added the Sys::Time::Timespec class.
     * Added the Sys::Time::Itimerval class.
