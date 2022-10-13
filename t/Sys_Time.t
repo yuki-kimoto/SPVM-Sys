@@ -21,12 +21,24 @@ ok(SPVM::TestCase::Sys::Time->clock_gettime);
 
 ok(SPVM::TestCase::Sys::Time->clock_getres);
 
-ok(SPVM::TestCase::Sys::Time->getitimer);
-
-ok(SPVM::TestCase::Sys::Time->setitimer);
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Time->getitimer(0, undef) };
+  like($@, qr/not supported/);
+}
+else {
+  ok(SPVM::TestCase::Sys::Time->getitimer);
+}
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->times(undef) };
+  eval { SPVM::Sys::Time->setitimer(0, undef, undef) };
+  like($@, qr/not supported/);
+}
+else {
+  ok(SPVM::TestCase::Sys::Time->setitimer);
+}
+
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Time->times(undef) };
   like($@, qr/not supported/);
 }
 else {
