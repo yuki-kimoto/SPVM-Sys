@@ -165,7 +165,7 @@ ok(SPVM::TestCase::Sys::Process->usleep);
 ok(SPVM::TestCase::Sys::Process->nanosleep);
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->ualarm(0) };
+  eval { SPVM::Sys::Process->ualarm(0, 0) };
   like($@, qr/not supported/);
 }
 else {
