@@ -50,4 +50,27 @@ The functions clock_getres() retrieves the time of the specified clock clk_id.
 
 See L<clock_getres(3) - Linux man page|https://linux.die.net/man/3/clock_getres> in Linux.
 
-The C<$tp> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
+The C<$res> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
+
+=head2 setitimer
+
+  static method setitimer : int ($which : int, $new_value : Sys::Time::Itimerval, $old_value : Sys::Time::Itimerval)
+
+The function setitimer() sets the specified timer to the value in new_value. If old_value is non-NULL, the old value of the timer is stored there.
+
+See L<setitimer(2) - Linux man page|https://linux.die.net/man/2/setitimer> in Linux.
+
+The C<$new_value> is a L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval> object.
+
+The C<$old_value> is a L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval> object.
+
+=head2 getitimer
+
+  static method getitimer : int ($which : int, $curr_value : Sys::Time::Itimerval)
+
+The function getitimer() fills the structure pointed to by curr_value with the current setting for the timer specified by which (one of ITIMER_REAL, ITIMER_VIRTUAL, or ITIMER_PROF).
+
+See L<getitimer(2) - Linux man page|https://linux.die.net/man/2/getitimer> in Linux.
+
+The C<$curr_value> is a L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval> object.
+

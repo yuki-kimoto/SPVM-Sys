@@ -1,6 +1,7 @@
 #include "spvm_native.h"
 
 #include <time.h>
+#include <sys/time.h>
 
 static const char* FILE_NAME = "Sys/Time/Constant.c";
 

@@ -21,6 +21,10 @@ ok(SPVM::TestCase::Sys::Time->clock_gettime);
 
 ok(SPVM::TestCase::Sys::Time->clock_getres);
 
+ok(SPVM::TestCase::Sys::Time->getitimer);
+
+ok(SPVM::TestCase::Sys::Time->setitimer);
+
 SPVM::set_exception(undef);
 
 # All object is freed

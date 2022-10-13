@@ -107,3 +107,65 @@ int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t which = stack[0].ival;
+  
+  void* obj_new_value = stack[1].oval;
+  struct itimerval* st_new_value = NULL;
+  if (obj_new_value) {
+    st_new_value = env->get_pointer(env, stack, obj_new_value);
+  }
+  else {
+    return env->die(env, stack, "The new_value must be defined", FILE_NAME, __LINE__);
+  }
+
+  void* obj_old_value = stack[1].oval;
+  struct itimerval* st_old_value = NULL;
+  if (obj_old_value) {
+    st_old_value = env->get_pointer(env, stack, obj_old_value);
+  }
+  
+  int32_t status = setitimer(which, st_new_value, st_old_value);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]setitimer failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Time__getitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t which = stack[0].ival;
+  
+  void* obj_curr_value = stack[1].oval;
+  
+  struct itimerval* st_curr_value = NULL;
+  if (obj_curr_value) {
+    st_curr_value = env->get_pointer(env, stack, obj_curr_value);
+  }
+  else {
+    return env->die(env, stack, "The curr_value must be defined", FILE_NAME, __LINE__);
+  }
+  
+  int32_t status = getitimer(which, st_curr_value);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]getitimer failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+

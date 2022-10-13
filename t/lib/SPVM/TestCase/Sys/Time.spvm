@@ -4,6 +4,7 @@ class TestCase::Sys::Time {
   use Sys::Time::Timezone;
   use Sys::Time::Timespec;
   use Sys::Time::Constant as TIME;
+  use Sys::Time::Itimerval;
   
   static method gettimeofday : int () {
     
@@ -70,4 +71,38 @@ class TestCase::Sys::Time {
     
     return 1;
   }
+
+
+  static method setitimer : int () {
+    
+    my $new_tv = Sys::Time::Timeval->new;
+    $new_tv->set_tv_sec(1);
+    
+    my $new_value = Sys::Time::Itimerval->new;
+    $new_value->set_it_interval($new_tv);
+
+    my $old_value = Sys::Time::Itimerval->new;
+    
+    my $status = Sys::Time->setitimer(TIME->ITIMER_REAL, $new_value, $old_value);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
+  static method getitimer : int () {
+    
+    my $curr_value = Sys::Time::Itimerval->new;
+    
+    my $status = Sys::Time->getitimer(TIME->ITIMER_REAL, $curr_value);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
 }

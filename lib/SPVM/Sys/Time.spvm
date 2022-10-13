@@ -11,13 +11,8 @@ class Sys::Time {
   native static method clock_gettime : int ($clk_id : int, $tp : Sys::Time::Timespec);
 
   native static method clock_getres : int ($clk_id : int, $res : Sys::Time::Timespec);
-  
-=pod
 
-TODO
+  native static method setitimer : int ($which : int, $new_value : Sys::Time::Itimerval, $old_value : Sys::Time::Itimerval);
 
-getitimer setitimer
-
-=cut
-
+  native static method getitimer : int ($which : int, $curr_value : Sys::Time::Itimerval);
 }
