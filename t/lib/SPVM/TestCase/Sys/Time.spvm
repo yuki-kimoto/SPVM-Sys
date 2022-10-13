@@ -2,6 +2,8 @@ class TestCase::Sys::Time {
   use Sys::Time;
   use Sys::Time::Timeval;
   use Sys::Time::Timezone;
+  use Sys::Time::Timespec;
+  use Sys::Time::Constant as TIME;
   
   static method gettimeofday : int () {
     
@@ -29,6 +31,23 @@ class TestCase::Sys::Time {
     my $cpu_time = Sys::Time->clock;
     
     unless ($cpu_time >= 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method clock_gettime : int () {
+    
+    my $tp = Sys::Time::Timespec->new;
+    
+    my $status = Sys::Time->clock_gettime(TIME->CLOCK_REALTIME, $tp);
+    
+    unless ($status >= 0) {
+      return 0;
+    }
+    
+    unless ($tp->tv_sec >= 0) {
       return 0;
     }
     

@@ -51,3 +51,31 @@ int32_t SPVM__Sys__Time__clock(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t clk_id = stack[0].ival;
+  
+  void* obj_tp = stack[1].oval;
+  
+  struct timespec* st_tp = NULL;
+  if (obj_tp) {
+    st_tp = env->get_pointer(env, stack, obj_tp);
+  }
+  else {
+    return env->die(env, stack, "The tp must be defined", FILE_NAME, __LINE__);
+  }
+  
+  int32_t status = clock_gettime(clk_id, st_tp);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]clock_gettime failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}

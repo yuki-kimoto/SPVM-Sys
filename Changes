@@ -13,6 +13,7 @@
       
       static method gettimeofday ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
       static method clock : long ();
+      static method clock_gettime : int ($clk_id : int, $tp : Sys::Time::Timespec);
       
     * Added the Sys::Time::Timespec class.
     * Added the Sys::Time::Itimerval class.
