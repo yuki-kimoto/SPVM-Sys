@@ -45,7 +45,14 @@ else {
   ok(SPVM::TestCase::Sys::Time->times);
 }
 
-ok(SPVM::TestCase::Sys::Time->clock_nanosleep);
+
+if ($^O eq 'darwin') {
+  eval { SPVM::Sys::Time->clock_nanosleep(0, 0, undef, undef) };
+  like($@, qr/not supported/);
+}
+else {
+  ok(SPVM::TestCase::Sys::Time->clock_nanosleep);
+}
 
 ok(SPVM::TestCase::Sys::Time->nanosleep);
 
