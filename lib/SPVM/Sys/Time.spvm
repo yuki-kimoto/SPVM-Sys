@@ -11,7 +11,7 @@ class Sys::Time {
 
 =pod
 
-getitimer setitimer clock_gettime clock_getres clock
+getitimer setitimer clock_gettime clock_getres
 
 =cut
 
