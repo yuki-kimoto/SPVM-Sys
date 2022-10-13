@@ -72,6 +72,7 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timeval');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timespec');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timezone');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Itimerval');
   
   return $make_rule;
 }

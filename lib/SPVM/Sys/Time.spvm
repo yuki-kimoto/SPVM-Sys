@@ -1,6 +1,7 @@
 class Sys::Time {
   use Sys::Time::Timeval;
   use Sys::Time::Timezone;
+  use Sys::Time::Itimerval;
   
   native static method gettimeofday : int ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
 
