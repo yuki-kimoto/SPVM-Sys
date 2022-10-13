@@ -2,9 +2,6 @@ class TestCase::Sys::Process {
   use Sys::Process;
   use Sys::Process::Constant as PROCESS;
   use Time;
-  use Sys::Process::Tms;
-  use Sys::Time::Timespec;
-  use Sys::Time::Constant as TIME;
   
   static method alarm : int () {
     

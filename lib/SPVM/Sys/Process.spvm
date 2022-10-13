@@ -1,8 +1,6 @@
 class Sys::Process {
   
   use Sys::Process::Constant;
-  use Sys::Process::Tms;
-  use Sys::Time::Timespec;
   
   native static method alarm : int ($seconds : int);
   native static method fork : int ();
