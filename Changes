@@ -20,6 +20,7 @@
       method st_atim_tv_nsec : long ()
       method st_ctim_tv_nsec : long ()
       
+    * Added the Sys::Time::Constant class.
   [Bug Fix]
     * Fixed the bug that the internally integral type is wrong. 32bit is fixed to64bit.
       SPVM::Sys::IO::Utimbuf->set_actime

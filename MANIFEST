@@ -123,6 +123,10 @@ lib/SPVM/Sys/Time.c
 lib/SPVM/Sys/Time.config
 lib/SPVM/Sys/Time.pm
 lib/SPVM/Sys/Time.spvm
+lib/SPVM/Sys/Time/Constant.c
+lib/SPVM/Sys/Time/Constant.config
+lib/SPVM/Sys/Time/Constant.pm
+lib/SPVM/Sys/Time/Constant.spvm
 lib/SPVM/Sys/Time/Itimerval.c
 lib/SPVM/Sys/Time/Itimerval.config
 lib/SPVM/Sys/Time/Itimerval.pm
