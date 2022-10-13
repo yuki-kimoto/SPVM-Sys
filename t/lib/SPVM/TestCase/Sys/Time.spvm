@@ -21,4 +21,17 @@ class TestCase::Sys::Time {
     return 1;
   }
 
+  static method clock : int () {
+    
+    my $tv = Sys::Time::Timeval->new;
+    my $tz = Sys::Time::Timezone->new;
+    
+    my $cpu_time = Sys::Time->clock;
+    
+    unless ($cpu_time >= 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }

@@ -24,3 +24,10 @@ The functions gettimeofday() can get the time as well as a timezone. The tv argu
 
 See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday> in Linux.
 
+=head2 clock
+
+  static method clock : long ();
+
+The value returned is the CPU time used so far as a clock_t; to get the number of seconds used, divide by CLOCKS_PER_SEC.
+
+See L<clock(3) - Linux man page|https://linux.die.net/man/3/clock> in Linux.

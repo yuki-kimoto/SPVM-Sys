@@ -1,5 +1,6 @@
 #include "spvm_native.h"
 
+#include <time.h>
 #include <sys/time.h>
 #include <errno.h>
 
@@ -35,3 +36,18 @@ int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Time__clock(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int64_t cpu_time = clock();
+  
+  if (cpu_time == -1) {
+    env->die(env, stack, "[System Error]clock failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].lval = cpu_time;
+  
+  return 0;
+}
