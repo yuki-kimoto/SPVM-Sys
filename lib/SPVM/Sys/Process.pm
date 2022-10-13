@@ -237,3 +237,15 @@ The rmtp is a L<Sys::Time::Timespec> object.
 The ualarm() function causes the signal SIGALRM to be sent to the invoking process after (not less than) usecs microseconds. The delay may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
 
 See the detail of the L<https://linux.die.net/man/3/ualarm> function in the case of Linux.
+
+=head2 clock_nanosleep
+
+  static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec);
+
+Like nanosleep(2), clock_nanosleep() allows the calling thread to sleep for an interval specified with nanosecond precision. It differs in allowing the caller to select the clock against which the sleep interval is to be measured, and in allowing the sleep interval to be specified as either an absolute or a relative value.
+
+See the detail of the L<clock_nanosleep(2) - Linux man page|https://linux.die.net/man/2/clock_nanosleep> function in the case of Linux.
+
+The C<$request> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
+
+The C<$remain> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.

@@ -4,6 +4,7 @@ class TestCase::Sys::Process {
   use Time;
   use Sys::Process::Tms;
   use Sys::Time::Timespec;
+  use Sys::Time::Constant as TIME;
   
   static method alarm : int () {
     
@@ -371,6 +372,30 @@ class TestCase::Sys::Process {
     
     # Cancel alarm
     Sys::Process->ualarm(0, 0);
+    
+    return 1;
+  }
+
+
+  static method clock_nanosleep : int () {
+    
+    my $start = Time->time;
+    
+    my $request = Sys::Time::Timespec->new;
+    $request->set_tv_sec(1);
+    $request->set_tv_nsec(100_000_000);
+
+    my $remain = Sys::Time::Timespec->new;
+    
+    my $status = Sys::Process->clock_nanosleep(TIME->CLOCK_REALTIME, 0, $request, $remain);
+    
+    unless ($status  == 0) {
+      return 0;
+    }
+    
+    unless (Time->time - $start >= 1) {
+      return 0;
+    }
     
     return 1;
   }

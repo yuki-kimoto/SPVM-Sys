@@ -7,6 +7,7 @@
       static method usleep : int ($usec : int);
       static method nanosleep : int ($rqtp : Sys::Time::Timespec, $rmtp : Sys::Time::Timespec);
       static method ualarm : long ($usecs : long, $interval : long);
+      static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec);
     
     * Added the following methods to the Sys::Time class.
       

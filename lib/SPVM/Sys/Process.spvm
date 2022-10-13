@@ -37,6 +37,8 @@ class Sys::Process {
 
   native static method ualarm : long ($usecs : long, $interval : long);
 
+  native static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec);
+
 =pod
 
 TODO
