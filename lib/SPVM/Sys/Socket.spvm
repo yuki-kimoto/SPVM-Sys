@@ -82,7 +82,7 @@ class Sys::Socket {
   native static method gai_strerror : string ($errcode : int);
 
   static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int) {
-    if (Sys->is_D_WIN32) {
+    if (Sys->defined("_WIN32")) {
       return Sys::Socket->WSAPoll($fds, $nfds, $timeout);
     }
     else {
@@ -91,7 +91,7 @@ class Sys::Socket {
   }
   
   static method close : int ($fd : int) {
-    if (Sys->is_D_WIN32) {
+    if (Sys->defined("_WIN32")) {
       return Sys::Socket->closesocket($fd);
     }
     else {

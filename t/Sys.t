@@ -11,16 +11,6 @@ use SPVM 'Sys';
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
-# Spec tests
-{
-  if ($^O eq 'MSWin32') {
-    ok(SPVM::Sys->is_D_WIN32);
-  }
-  else {
-    ok(!SPVM::Sys->is_D_WIN32);
-  }
-}
-
 # defined
 {
   if ($^O eq 'MSWin32') {

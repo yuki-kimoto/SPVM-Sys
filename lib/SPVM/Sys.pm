@@ -38,12 +38,6 @@ C<Sys> is the class for system calls such as file IO, user manipulation, process
 
 =head1 Class Methods
 
-=head2 is_D_WIN32
-
-  static method is_D_WIN32 : int ()
-
-If C<_WIN32> in C<C language> is defined, return C<1>. Otherwize return C<0>.
-
 =head2 getenv
 
   static method getenv : string ($name : string);
@@ -67,12 +61,6 @@ See the detail of the L<setenv|https://linux.die.net/man/3/setenv> function in t
 The unsetenv() function deletes the variable name from the environment. If name does not exist in the environment, then the function succeeds, and the environment is unchanged.
 
 See the detail of the L<unsetenv|https://linux.die.net/man/3/unsetenv> function in the case of Linux.
-
-=head2 is_D_WIN32
-
-  static method is_D_WIN32 : int ()
-
-If C<_WIN32> in C<C language> is defined, return C<1>. Otherwize return C<0>.
 
 =head2 defined
 

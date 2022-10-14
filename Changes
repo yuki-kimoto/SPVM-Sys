@@ -2,8 +2,9 @@
   [New Features]
     * Added the following methods to Sys class.
       
-      static method defined : int ($macro_name : string);
-      
+      static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double);
+  [Incompativle Changes]
+    * Removed the is_D_WIN32 method in the Sys class. Please use Sys->defined("_WIN32") instead.
 0.10 2022-10-14
   [New Features]
     * Added the Sys::Time::Timeval class.
