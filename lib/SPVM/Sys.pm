@@ -76,9 +76,11 @@ If C<_WIN32> in C<C language> is defined, return C<1>. Otherwize return C<0>.
 
 =head2 defined
 
-  static method defined : int ($macro_name : string);
+  static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double);
 
 Checks if the macro in C<C langauge> is defined. If the macro is defined, returns C<1>. Otherwise returns C<0>.
+
+If C<$value> is specifed and C<$macro_name> is defined, the macro value converted to the given type is set to C<$value>.
 
 Supports the following macro names.
 
