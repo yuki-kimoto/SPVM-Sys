@@ -60,6 +60,7 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
     SPVM::Sys->defined('__linux__');
     SPVM::Sys->defined('__FreeBSD__');
     SPVM::Sys->defined('__NetBSD__');
+    SPVM::Sys->defined('__OpenBSD__');
     SPVM::Sys->defined('_WIN32');
     SPVM::Sys->defined('_WIN64');
     SPVM::Sys->defined('_WINDOWS');
@@ -72,6 +73,7 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
     SPVM::Sys->defined('__MINGW64__');
     SPVM::Sys->defined('__APPLE__');
     SPVM::Sys->defined('__MACH__');
+    SPVM::Sys->defined('__solaris');
   }
 }
 

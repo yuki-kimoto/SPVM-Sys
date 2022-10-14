@@ -116,6 +116,14 @@ int32_t SPVM__Sys__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
       dval = (double)__NetBSD__;
 #   endif
   }
+  else if (strcmp(macro_name, "__OpenBSD__") == 0) {
+#   ifdef __NetBSD__
+      defined = 1;
+      ival = (int32_t)__OpenBSD__;
+      lval = (int64_t)__OpenBSD__;
+      dval = (double)__OpenBSD__;
+#   endif
+  }
   else if (strcmp(macro_name, "_WIN32") == 0) {
 #   ifdef _WIN32
       defined = 1;
@@ -211,7 +219,16 @@ int32_t SPVM__Sys__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
       lval = (int64_t)__MACH__;
       dval = (double)__MACH__;
 #   endif
-  }  else {
+  }
+  else if (strcmp(macro_name, "__solaris") == 0) {
+#   ifdef __MACH__
+      defined = 1;
+      ival = (int32_t)__solaris;
+      lval = (int64_t)__solaris;
+      dval = (double)__solaris;
+#   endif
+  }
+  else {
     return env->die(env, stack, "The macro name \"%s\" is not supported yet", macro_name, FILE_NAME, __LINE__);
   }
 

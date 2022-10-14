@@ -106,6 +106,8 @@ Supports the following macro names.
 
 =item * __NetBSD__
 
+=item * __OpenBSD__
+
 =item * _WIN32
 
 =item * WIN32
@@ -135,6 +137,8 @@ Supports the following macro names.
 =item * __APPLE__
 
 =item * __MACH__
+
+=item * __solaris
 
 =back
 
