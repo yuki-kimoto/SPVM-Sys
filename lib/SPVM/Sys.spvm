@@ -1,6 +1,20 @@
 class Sys {
   native static method is_D_WIN32 : int ();
 
+  native static method defined : int ($macro_name : string);
+
+=pod
+
+  native static method get_defined_value_int : int ($macro_name : string);
+
+  native static method get_defined_value_long : long ($macro_name : string);
+
+  native static method get_defined_value_double : double ($macro_name : string);
+
+  native static method get_defined_value_string : string ($macro_name : string);
+
+=cut
+
   native static method getenv : string ($name : string);
 
   native static method setenv : int ($name : string, $value : string, $overwrite : int);

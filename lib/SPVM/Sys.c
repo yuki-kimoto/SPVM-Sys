@@ -20,6 +20,145 @@ int32_t SPVM__Sys__is_D_WIN32(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__ifdef(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  void* obj_macro_name = stack[0].oval;
+  
+  if (!obj_macro_name) {
+    return env->die(env, stack, "The $macro_name must be defined", FILE_NAME, __LINE__);
+  }
+
+  const char* macro_name = env->get_chars(env, stack, obj_macro_name);
+  
+  int32_t defined = 0;
+  if (strcmp(macro_name, "__GNUC__") == 0) {
+#   ifdef __GNUC__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__clang__") == 0) {
+#   ifdef __clang__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "_MSC_VER") == 0) {
+#   ifdef _MSC_VER
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__BORLANDC__") == 0) {
+#   ifdef __BORLANDC__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__INTEL_COMPILER") == 0) {
+#   ifdef __INTEL_COMPILER
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__unix") == 0) {
+#   ifdef __unix
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__unix__") == 0) {
+#   ifdef __unix__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__linux") == 0) {
+#   ifdef __linux
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__linux__") == 0) {
+#   ifdef __linux__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__FreeBSD__") == 0) {
+#   ifdef __FreeBSD__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__NetBSD__") == 0) {
+#   ifdef __NetBSD__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "_WIN32") == 0) {
+#   ifdef _WIN32
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "WIN32") == 0) {
+#   ifdef WIN32
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "_WIN64") == 0) {
+#   ifdef _WIN64
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "_WINDOWS") == 0) {
+#   ifdef _WINDOWS
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "_CONSOLE") == 0) {
+#   ifdef _CONSOLE
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "WINVER") == 0) {
+#   ifdef WINVER
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "_WIN32_WINDOWS") == 0) {
+#   ifdef _WIN32_WINDOWS
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "_WIN32_WINNT") == 0) {
+#   ifdef _WIN32_WINNT
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "WINCEOSVER") == 0) {
+#   ifdef WINCEOSVER
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__CYGWIN__") == 0) {
+#   ifdef __CYGWIN__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__CYGWIN32__") == 0) {
+#   ifdef __CYGWIN32__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__MINGW32__") == 0) {
+#   ifdef __MINGW32__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__MINGW64__") == 0) {
+#   ifdef __MINGW64__
+      defined = 1;
+#   endif
+  }
+  else {
+    return env->die(env, stack, "The macro name \"%s\" is not supported yet", macro_name, FILE_NAME, __LINE__);
+  }
+  
+  stack[0].ival = defined;
+  
+  return 0;
+}
 
 int32_t SPVM__Sys__getenv(SPVM_ENV* env, SPVM_VALUE* stack) {
 

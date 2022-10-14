@@ -68,6 +68,69 @@ The unsetenv() function deletes the variable name from the environment. If name 
 
 See the detail of the L<unsetenv|https://linux.die.net/man/3/unsetenv> function in the case of Linux.
 
+=head2 is_D_WIN32
+
+  static method is_D_WIN32 : int ()
+
+If C<_WIN32> in C<C language> is defined, return C<1>. Otherwize return C<0>.
+
+=head2 defined
+
+  static method defined : int ($macro_name : string);
+
+Checks if the macro in C<C langauge> is defined. If the macro is defined, returns C<1>. Otherwise returns C<0>.
+
+Supports the following macro names.
+
+=over 2
+
+=item * __clang__
+
+=item * __BORLANDC__
+
+=item * __INTEL_COMPILER
+
+=item * __unix
+
+=item * __unix__
+
+=item * __linux
+
+=item * __linux__
+
+=item * __FreeBSD__
+
+=item * __NetBSD__
+
+=item * _WIN32
+
+=item * WIN32
+
+=item * _WIN64
+
+=item * _WINDOWS
+
+=item * _CONSOLE
+
+=item * WINVER
+
+=item * _WIN32_WINDOWS
+
+=item * _WIN32_WINNT
+
+=item * WINCEOSVER
+
+=item * __CYGWIN__
+
+=item * __CYGWIN32__
+
+=item * __MINGW32__
+
+=item * __MINGW64__
+
+=back
+
+
 =head1 Author
 
 Yuki Kimoto(L<https://github.com/yuki-kimoto>)
