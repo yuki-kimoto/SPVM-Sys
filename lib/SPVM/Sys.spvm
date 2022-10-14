@@ -11,8 +11,6 @@ class Sys {
 
   native static method get_defined_value_double : double ($macro_name : string);
 
-  native static method get_defined_value_string : string ($macro_name : string);
-
 =cut
 
   native static method getenv : string ($name : string);

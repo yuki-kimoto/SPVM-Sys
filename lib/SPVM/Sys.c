@@ -20,7 +20,7 @@ int32_t SPVM__Sys__is_D_WIN32(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__ifdef(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   void* obj_macro_name = stack[0].oval;
   
@@ -148,6 +148,16 @@ int32_t SPVM__Sys__ifdef(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   else if (strcmp(macro_name, "__MINGW64__") == 0) {
 #   ifdef __MINGW64__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__APPLE__") == 0) {
+#   ifdef __APPLE__
+      defined = 1;
+#   endif
+  }
+  else if (strcmp(macro_name, "__MACH__") == 0) {
+#   ifdef __MACH__
       defined = 1;
 #   endif
   }

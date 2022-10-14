@@ -84,6 +84,8 @@ Supports the following macro names.
 
 =over 2
 
+=item * __GNUC__
+
 =item * __clang__
 
 =item * __BORLANDC__
@@ -127,6 +129,10 @@ Supports the following macro names.
 =item * __MINGW32__
 
 =item * __MINGW64__
+
+=item * __APPLE__
+
+=item * __MACH__
 
 =back
 
