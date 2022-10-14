@@ -67,6 +67,11 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   }
 }
 
+# get_osname
+{
+  is(SPVM::Sys->get_osname, $^O);
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed

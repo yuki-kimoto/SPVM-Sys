@@ -130,6 +130,29 @@ Supports the following macro names.
 
 =back
 
+=head1 get_osname
+
+  static method get_osname : string ()
+
+Gets the OS name(Perl's L<$^O|https://perldoc.perl.org/perlvar#$%5EO> ). The list of the OS names are described at L<PLATFORMS - perlport|https://perldoc.perl.org/perlport#PLATFORMS>.
+
+The C<get_osname> in the C<Sys> class supports the following os names.
+
+=over 2
+
+=item * linux
+
+=item * freebsd
+
+=item * openbsd
+
+=item * solaris
+
+=item * MSWin32
+
+=item * darwin
+
+=back
 
 =head1 Author
 
