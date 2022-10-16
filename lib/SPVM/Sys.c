@@ -102,7 +102,7 @@ int32_t SPVM__Sys__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
 #   endif
   }
   else if (strcmp(macro_name, "__OpenBSD__") == 0) {
-#   ifdef __NetBSD__
+#   ifdef __OpenBSD__
       defined = 1;
       ival = (int32_t)__OpenBSD__;
       lval = (int64_t)__OpenBSD__;
@@ -206,7 +206,7 @@ int32_t SPVM__Sys__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
 #   endif
   }
   else if (strcmp(macro_name, "__solaris") == 0) {
-#   ifdef __MACH__
+#   ifdef __solaris
       defined = 1;
       ival = (int32_t)__solaris;
       lval = (int64_t)__solaris;
