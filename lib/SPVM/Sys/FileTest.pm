@@ -65,6 +65,12 @@ File is writable by effective uid/gid.
 
 File is executable by effective uid/gid.
 
+=head2 e
+
+  static method e : int ($file : string)
+
+File exists.
+
 =head2 S
 
   static method S : int ($file : string)
@@ -88,12 +94,6 @@ Script start time(base time) minus file inode change time, in days.
   static method A : double ($file : string, $base_time : long)
 
 Script start time(base time) minus file access time, in days.
-
-=head2 e
-
-  static method e : int ($file : string)
-
-File exists.
 
 =head2 O
 
