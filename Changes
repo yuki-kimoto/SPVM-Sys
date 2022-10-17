@@ -4,6 +4,7 @@
       
       static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double)
       static method get_osname : string ()
+    
     * Added the following method to the Sys::IO class.
     
       static method access_raw : int ($pathname : string, $mode : int)
@@ -19,6 +20,10 @@
       static method r : int ($file : string);
       static method w : int ($file : string);
       static method x : int ($file : string);
+    
+    * Added the following methods to Sys::IO::Constant class.
+    
+      static method FD_SETSIZE : int ()
     
   [Incompativle Changes]
     * Removed the is_D_WIN32 method in the Sys class. Please use Sys->defined("_WIN32") instead.

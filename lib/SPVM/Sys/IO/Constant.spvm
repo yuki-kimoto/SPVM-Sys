@@ -262,4 +262,6 @@ class Sys::IO::Constant {
 
   native static method AT_EACCESS : int ();
 
+  native static method FD_SETSIZE : int ();
+
 }
