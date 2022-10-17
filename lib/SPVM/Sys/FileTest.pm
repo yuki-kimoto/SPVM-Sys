@@ -95,12 +95,6 @@ Script start time(base time) minus file inode change time, in days.
 
 Script start time(base time) minus file access time, in days.
 
-=head2 S
-
-  static method S : int ($file : string)
-
-File is a socket.
-
 =head2 O
 
   static method O : int ($file : string)
@@ -119,6 +113,24 @@ File is owned by effective uid.
 
 File has zero size (is empty).
 
+=head2 S
+
+  static method S : int ($file : string)
+
+File is a socket.
+
+=head2 c
+
+  static method c : int ($file : string)
+
+File is a character special file.
+ 
+=head2 b
+
+  static method b : int ($file : string)
+
+File is a block special file.
+
 =head2 f
 
   static method f : int ($file : string)
@@ -131,29 +143,11 @@ File is a plain file.
 
 File is a directory.
 
-=head2 l
-
-  static method l : int ($file : string)
-
-File is a symbolic link (false if symlinks aren't supported by the file system).
-                    
 =head2 p
 
   static method p : int ($file : string)
 
 File is a named pipe (FIFO), or Filehandle is a pipe.
- 
-=head2 b
-
-  static method b : int ($file : string)
-
-File is a block special file.
-
-=head2 c
-
-  static method c : int ($file : string)
-
-File is a character special file.
  
 =head2 u
 
@@ -173,3 +167,9 @@ File has setgid bit set.
 
 File has sticky bit set.
 
+=head2 l
+
+  static method l : int ($file : string)
+
+File is a symbolic link (false if symlinks aren't supported by the file system).
+                    

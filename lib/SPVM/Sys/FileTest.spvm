@@ -178,7 +178,7 @@ class Sys::FileTest {
     return $result_time;
   }
   
-  static method S : int ($file : string) {
+  static method O : int ($file : string) {
     
     unless ($file) {
       die "The file must be defined";
@@ -188,9 +188,8 @@ class Sys::FileTest {
     
     Sys::IO->stat($file, $stat);
     
-    # Socket
     my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFSOCK) {
+    if ($stat->st_uid == Sys::User->getuid) {
       $ok = 1;
     }
     
@@ -215,24 +214,6 @@ class Sys::FileTest {
     return $ok;
   }
   
-  static method O : int ($file : string) {
-    
-    unless ($file) {
-      die "The file must be defined";
-    }
-    
-    my $stat = Sys::IO::Stat->new;
-    
-    Sys::IO->stat($file, $stat);
-    
-    my $ok = 0;
-    if ($stat->st_uid == Sys::User->getuid) {
-      $ok = 1;
-    }
-    
-    return $ok;
-  }
-  
   static method z : int ($file : string) {
     
     unless ($file) {
@@ -251,6 +232,63 @@ class Sys::FileTest {
     }
     
     return $zero;
+  }
+  
+  static method S : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::IO::Stat->new;
+    
+    Sys::IO->stat($file, $stat);
+    
+    # Socket
+    my $ok = 0;
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFSOCK) {
+      $ok = 1;
+    }
+    
+    return $ok;
+  }
+  
+  static method c : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::IO::Stat->new;
+    
+    Sys::IO->stat($file, $stat);
+    
+    # Character device
+    my $ok = 0;
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFCHR) {
+      $ok = 1;
+    }
+    
+    return $ok;
+  }
+  
+  static method b : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::IO::Stat->new;
+    
+    Sys::IO->stat($file, $stat);
+    
+    # Block device
+    my $ok = 0;
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFBLK) {
+      $ok = 1;
+    }
+    
+    return $ok;
   }
   
   static method f : int ($file : string) {
@@ -289,25 +327,6 @@ class Sys::FileTest {
     return $ok;
   }
   
-  static method l : int ($file : string) {
-    
-    unless ($file) {
-      die "The file must be defined";
-    }
-    
-    my $stat = Sys::IO::Stat->new;
-    
-    Sys::IO->lstat($file, $stat);
-    
-    # Symbolic link
-    my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFLNK) {
-      $ok = 1;
-    }
-    
-    return $ok;
-  }
-  
   static method p : int ($file : string) {
     
     unless ($file) {
@@ -321,44 +340,6 @@ class Sys::FileTest {
     # FIFO/PIPE
     my $ok = 0;
     if (($stat->st_mode & IO->S_IFMT) == IO->S_IFIFO) {
-      $ok = 1;
-    }
-    
-    return $ok;
-  }
-  
-  static method b : int ($file : string) {
-    
-    unless ($file) {
-      die "The file must be defined";
-    }
-    
-    my $stat = Sys::IO::Stat->new;
-    
-    Sys::IO->stat($file, $stat);
-    
-    # Block device
-    my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFBLK) {
-      $ok = 1;
-    }
-    
-    return $ok;
-  }
-  
-  static method c : int ($file : string) {
-    
-    unless ($file) {
-      die "The file must be defined";
-    }
-    
-    my $stat = Sys::IO::Stat->new;
-    
-    Sys::IO->stat($file, $stat);
-    
-    # Character device
-    my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFCHR) {
       $ok = 1;
     }
     
@@ -416,6 +397,25 @@ class Sys::FileTest {
     # Character device
     my $ok = 0;
     if ($stat->st_mode & IO->S_ISVTX) {
+      $ok = 1;
+    }
+    
+    return $ok;
+  }
+  
+  static method l : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::IO::Stat->new;
+    
+    Sys::IO->lstat($file, $stat);
+    
+    # Symbolic link
+    my $ok = 0;
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFLNK) {
       $ok = 1;
     }
     
