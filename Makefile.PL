@@ -75,6 +75,8 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timezone');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Itimerval');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Tms');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Select');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Select::Fd_set');
   
   return $make_rule;
 }
