@@ -1598,14 +1598,3 @@ int32_t SPVM__Sys__IO__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 #endif
 }
-
-int32_t SPVM__Sys__IO__FD_ZERO(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_set = stack[0].oval;
-  
-  fd_set* set = env->get_pointer(env, stack, obj_set);
-  
-  FD_ZERO(set);
-  
-  return 0;
-}
