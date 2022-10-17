@@ -110,7 +110,7 @@ class Sys::FileTest {
     return $ok;
   }
   
-  static method S : int ($file : string) {
+  static method s : long ($file : string) {
     
     unless ($file) {
       die "The file must be defined";
@@ -120,13 +120,9 @@ class Sys::FileTest {
     
     Sys::IO->stat($file, $stat);
     
-    # Socket
-    my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFSOCK) {
-      $ok = 1;
-    }
+    my $size = $stat->st_size;
     
-    return $ok;
+    return $size;
   }
   
   static method M : double ($file : string, $base_time : long) {
@@ -178,6 +174,25 @@ class Sys::FileTest {
     my $result_time = ($base_time - $atime) / 86400.0;
     
     return $result_time;
+  }
+  
+  static method S : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::IO::Stat->new;
+    
+    Sys::IO->stat($file, $stat);
+    
+    # Socket
+    my $ok = 0;
+    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFSOCK) {
+      $ok = 1;
+    }
+    
+    return $ok;
   }
   
   static method o : int ($file : string) {
@@ -234,21 +249,6 @@ class Sys::FileTest {
     }
     
     return $zero;
-  }
-  
-  static method s : long ($file : string) {
-    
-    unless ($file) {
-      die "The file must be defined";
-    }
-    
-    my $stat = Sys::IO::Stat->new;
-    
-    Sys::IO->stat($file, $stat);
-    
-    my $size = $stat->st_size;
-    
-    return $size;
   }
   
   static method f : int ($file : string) {

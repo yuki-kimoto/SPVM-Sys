@@ -71,11 +71,11 @@ File is executable by effective uid/gid.
 
 File exists.
 
-=head2 S
+=head2 s
 
-  static method S : int ($file : string)
+  static method s : long ($file : string)
 
-File is a socket.
+File has nonzero size (returns size in bytes).
 
 =head2 M
 
@@ -95,11 +95,18 @@ Script start time(base time) minus file inode change time, in days.
 
 Script start time(base time) minus file access time, in days.
 
+=head2 S
+
+  static method S : int ($file : string)
+
+File is a socket.
+
 =head2 O
 
   static method O : int ($file : string)
 
 File is owned by real uid.
+
 =head2 o
 
   static method o : int ($file : string)
@@ -111,12 +118,6 @@ File is owned by effective uid.
   static method z : int ($file : string)
 
 File has zero size (is empty).
-
-=head2 s
-
-  static method s : long ($file : string)
-
-File has nonzero size (returns size in bytes).
 
 =head2 f
 
