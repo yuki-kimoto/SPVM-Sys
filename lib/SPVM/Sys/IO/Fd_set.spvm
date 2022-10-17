@@ -1,7 +1,0 @@
-class Sys::IO::Fd_set {
-  # Class methods
-  native static method new : Sys::IO::Fd_set ();
-  
-  # Instance methods
-  native method DESTROY : void ();
-}
