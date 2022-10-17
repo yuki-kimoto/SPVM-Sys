@@ -135,4 +135,5 @@ class Sys::IO {
   
   native static method FD_ISSET : int ($fd : int, $set : Sys::IO::Fd_set);
 
+  native static method select : int ($nfds : int, $readfds : Sys::IO::Fd_set, $writefds : Sys::IO::Fd_set, $exceptfds : Sys::IO::Fd_set, $timeout : Sys::Time::Timeval);
 }
