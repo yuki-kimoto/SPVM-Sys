@@ -10,7 +10,7 @@
 
 const char* FILE_NAME = "Sys/Select.c";
 
-// static functions are copied from Sys/Select.c
+// static functions are copied from Sys/Socket.c
 static int32_t socket_errno (void) {
 #ifdef _WIN32
   return WSAGetLastError();
