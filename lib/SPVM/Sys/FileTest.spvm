@@ -48,7 +48,52 @@ class Sys::FileTest {
     
     return $ok;
   }
+
+  static method r : int ($file : string) {
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $status = Sys::IO->eaccess_emulate_raw($file, IO->R_OK);
+    
+    my $ok = 0;
+    if ($status == 0) {
+      $ok = 0;
+    }
+    
+    return $ok;
+  }
   
+  static method w : int ($file : string) {
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $status = Sys::IO->eaccess_emulate_raw($file, IO->W_OK);
+    
+    my $ok = 0;
+    if ($status == 0) {
+      $ok = 0;
+    }
+    
+    return $ok;
+  }
+
+  static method x : int ($file : string) {
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $status = Sys::IO->eaccess_emulate_raw($file, IO->X_OK);
+    
+    my $ok = 0;
+    if ($status == 0) {
+      $ok = 0;
+    }
+    
+    return $ok;
+  }
+
   static method o : int ($file : string) {
     
     unless ($file) {
@@ -378,10 +423,6 @@ class Sys::FileTest {
 =pod
 
 Not implemented methods
-
-  static method r : int ($file : string);
-  static method w : int ($file : string);
-  static method x : int ($file : string);
   static method t : int ($file : string);
   static method T : int ($file : string);
   static method B : int ($file : string);
