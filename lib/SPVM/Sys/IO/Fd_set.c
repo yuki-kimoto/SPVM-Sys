@@ -14,11 +14,9 @@ int32_t SPVM__Sys__IO__Fd_set__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t e;
 
-  int32_t data_length = ((FD_SETSIZE - 1) / 8) + 1;
-
-  char* buf_fd_set = env->new_memory_stack(env, stack, data_length);
+  fd_set* type_fd_set = env->new_memory_stack(env, stack, sizeof(fd_set));
   
-  void* obj_fd_set = env->new_pointer_by_name(env, stack, "Sys::IO::Fd_set", buf_fd_set, &e, FILE_NAME, __LINE__);
+  void* obj_fd_set = env->new_pointer_by_name(env, stack, "Sys::IO::Fd_set", type_fd_set, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_fd_set;
@@ -33,11 +31,11 @@ int32_t SPVM__Sys__IO__Fd_set__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   // File handle
   void* obj_fd_set = stack[0].oval;
   
-  char* buf_fd_set = env->get_pointer(env, stack, obj_fd_set);
+  fd_set* type_fd_set = env->get_pointer(env, stack, obj_fd_set);
   
-  assert(buf_fd_set);
+  assert(type_fd_set);
   
-  env->free_memory_stack(env, stack, buf_fd_set);
+  env->free_memory_stack(env, stack, type_fd_set);
   env->set_pointer(env, stack, obj_fd_set, NULL);
   
   return 0;

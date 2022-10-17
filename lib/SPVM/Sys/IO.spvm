@@ -8,6 +8,8 @@ class Sys::IO {
   use Sys::IO::Flock;
   use Sys::IO::PollfdArray;
   use Sys::IO::Constant as IO;
+  use Sys::Time::Timeval;
+  use Sys::IO::Fd_set;
   
   native static method open : int ($path : string, $flags : int, $mode = 0 : int);
   
@@ -124,4 +126,13 @@ class Sys::IO {
   native static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
   
   native static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
+  
+  native static method FD_ZERO : void ($set : Sys::IO::Fd_set);
+  
+  native static method FD_SET : void ($fd : int, $set : Sys::IO::Fd_set);
+  
+  native static method FD_CLR : void ($fd : int, $set : Sys::IO::Fd_set);
+  
+  native static method FD_ISSET : int ($fd : int, $set : Sys::IO::Fd_set);
+
 }

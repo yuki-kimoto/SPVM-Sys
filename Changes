@@ -14,6 +14,10 @@
       static method eaccess_emulate : int ($pathname : string, $mode : int)
       static method stat_raw : int ($path : string, $stat : Sys::IO::Stat);
       static method lstat_raw : int ($path : string, $stat : Sys::IO::Stat);
+      static method FD_ZERO : void ($set : Sys::IO::Fd_set);
+      static method FD_SET : void ($fd : int, $set : Sys::IO::Fd_set);
+      static method FD_CLR : void ($fd : int, $set : Sys::IO::Fd_set);
+      static method FD_ISSET : int ($fd : int, $set : Sys::IO::Fd_set);
       
     * Added the following methods to Sys::FileTest class.
     
