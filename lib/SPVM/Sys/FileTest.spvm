@@ -100,7 +100,9 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access_raw($file, IO->F_OK);
+    my $stat = Sys::IO::Stat->new;
+    
+    my $status = Sys::IO->stat_raw($file, $stat);
     
     my $ok = 0;
     if ($status == 0) {
