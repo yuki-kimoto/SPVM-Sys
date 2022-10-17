@@ -28,6 +28,10 @@ lib/SPVM/Sys/IO/DirStream.c
 lib/SPVM/Sys/IO/DirStream.config
 lib/SPVM/Sys/IO/DirStream.pm
 lib/SPVM/Sys/IO/DirStream.spvm
+lib/SPVM/Sys/IO/Fd_set.c
+lib/SPVM/Sys/IO/Fd_set.config
+lib/SPVM/Sys/IO/Fd_set.pm
+lib/SPVM/Sys/IO/Fd_set.spvm
 lib/SPVM/Sys/IO/FileStream.c
 lib/SPVM/Sys/IO/FileStream.config
 lib/SPVM/Sys/IO/FileStream.pm
