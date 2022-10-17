@@ -930,6 +930,12 @@ Get the constant value of C<POLLWRBAND>. If the system doesn't define this const
 
 Get the constant value of C<POLLWRNORM>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 AT_EACCESS
+
+  static method AT_EACCESS : int ();
+
+Get the constant value of C<AT_EACCESS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
 =head1 Copyright & License
 
 Copyright 2022-2022 Yuki Kimoto, all rights reserved.

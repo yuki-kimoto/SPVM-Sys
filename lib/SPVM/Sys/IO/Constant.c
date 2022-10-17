@@ -1802,3 +1802,15 @@ int32_t SPVM__Sys__IO__Constant__LOCK_UN(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
 }
+
+int32_t SPVM__Sys__IO__Constant__AT_EACCESS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef AT_EACCESS
+  stack[0].ival = AT_EACCESS;
+  return 0;
+#else
+  env->die(env, stack, "AT_EACCESS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}

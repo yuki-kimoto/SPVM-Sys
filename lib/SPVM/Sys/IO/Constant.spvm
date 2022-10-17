@@ -260,4 +260,6 @@ class Sys::IO::Constant {
 
   native static method LOCK_UN : int ();
 
+  native static method AT_EACCESS : int ();
+
 }

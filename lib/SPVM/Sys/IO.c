@@ -1200,21 +1200,75 @@ int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__access_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_path = stack[0].oval;
+  void* obj_pathname = stack[0].oval;
   
-  if (!obj_path) {
-    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+  if (!obj_pathname) {
+    return env->die(env, stack, "The $pathname must be defined", FILE_NAME, __LINE__);
   }
   
-  const char* path = env->get_chars(env, stack, obj_path);
+  const char* pathname = env->get_chars(env, stack, obj_pathname);
   
   int32_t mode = stack[1].ival;
   
-  int32_t status = access(path, mode);
+  int32_t status = access(pathname, mode);
   
   stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  SPVM__Sys__IO__access_raw(env, stack);
+  
+  int32_t status = stack[0].ival;
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]access failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__faccessat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifdef _WIN32
+  return env->die(env, stack, "faccessat is not supported on this system", FILE_NAME, __LINE__);
+#else
+  int32_t dirfd = stack[0].ival;
+
+  void* obj_pathname = stack[1].oval;
+  
+  if (!obj_pathname) {
+    return env->die(env, stack, "The $pathname must be defined", FILE_NAME, __LINE__);
+  }
+  
+  const char* pathname = env->get_chars(env, stack, obj_pathname);
+  
+  int32_t mode = stack[2].ival;
+
+  int32_t flags = stack[3].ival;
+  
+  int32_t status = faccessat(dirfd, pathname, mode, flags);
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  SPVM__Sys__IO__faccessat_raw(env, stack);
+  
+  int32_t status = stack[0].ival;
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]faccessat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
   
   return 0;
 }

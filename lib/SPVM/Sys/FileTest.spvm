@@ -4,30 +4,12 @@ class Sys::FileTest {
   use Sys::IO::Constant as IO;
   use Sys::User;
 
-  static method o : int ($file : string) {
-    
-    unless ($file) {
-      die "The file must be defined";
-    }
-    
-    my $stat = Sys::IO::Stat->new;
-    
-    Sys::IO->stat($file, $stat);
-    
-    my $ok = 0;
-    if ($stat->st_uid == Sys::User->geteuid) {
-      $ok = 1;
-    }
-    
-    return $ok;
-  }
-  
   static method R : int ($file : string) {
     unless ($file) {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access($file, IO->R_OK);
+    my $status = Sys::IO->access_raw($file, IO->R_OK);
     
     my $ok = 0;
     if ($status == 0) {
@@ -42,7 +24,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access($file, IO->W_OK);
+    my $status = Sys::IO->access_raw($file, IO->W_OK);
     
     my $ok = 0;
     if ($status == 0) {
@@ -57,11 +39,29 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access($file, IO->X_OK);
+    my $status = Sys::IO->access_raw($file, IO->X_OK);
     
     my $ok = 0;
     if ($status == 0) {
       $ok = 0;
+    }
+    
+    return $ok;
+  }
+  
+  static method o : int ($file : string) {
+    
+    unless ($file) {
+      die "The file must be defined";
+    }
+    
+    my $stat = Sys::IO::Stat->new;
+    
+    Sys::IO->stat($file, $stat);
+    
+    my $ok = 0;
+    if ($stat->st_uid == Sys::User->geteuid) {
+      $ok = 1;
     }
     
     return $ok;
@@ -91,7 +91,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access($file, IO->F_OK);
+    my $status = Sys::IO->access_raw($file, IO->F_OK);
     
     my $ok = 0;
     if ($status == 0) {

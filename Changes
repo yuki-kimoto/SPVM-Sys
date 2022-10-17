@@ -4,9 +4,17 @@
       
       static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double)
       static method get_osname : string ()
+    * Added the following method to the Sys::IO class.
+    
+      static method access_raw : int ($pathname : string, $mode : int)
+      static method faccessat_raw : int ($dirfd : int, $pathname : string, $mode : int, $flags : int)
+      static method faccessat : int ($dirfd : int, $pathname : string, $mode : int, $flags : int)
+      static method eaccess_emulate_raw : int ($pathname : string, $mode : int)
+      static method eaccess_emulate : int ($pathname : string, $mode : int)
       
   [Incompativle Changes]
     * Removed the is_D_WIN32 method in the Sys class. Please use Sys->defined("_WIN32") instead.
+    * The access method in the Sys::IO gets to raise an exception. Use the access_raw method instead if the original behavior is needed.
 0.10 2022-10-14
   [New Features]
     * Added the Sys::Time::Timeval class.
