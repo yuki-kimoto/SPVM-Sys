@@ -444,6 +444,12 @@ The same as L</"eaccess_emulate">, but even if the return value is C<-1>, an exc
 
 Emulates C<eaccess> using L</"faccessat">.
 
+=head2 stat_raw
+
+  static method stat_raw : int ($path : string, $stat : Sys::IO::Stat);
+
+The same as L</"stat">, but even if the return value is C<-1>, an exception will be not thrown.
+
 =head2 stat
 
   static method stat : int ($path : string, $stat : Sys::IO::Stat);
@@ -455,6 +461,12 @@ stat() stats the file pointed to by path and fills in buf.
 See the L<stat|https://linux.die.net/man/2/stat> function in Linux.
 
 The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+
+=head2 lstat_raw
+
+  static method lstat_raw : int ($path : string, $stat : Sys::IO::Stat);
+
+The same as L</"lstat">, but even if the return value is C<-1>, an exception will be not thrown.
 
 =head2 lstat
 

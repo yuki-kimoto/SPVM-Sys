@@ -111,7 +111,11 @@ class Sys::IO {
     return $status;
   }
   
+  native static method stat_raw : int ($path : string, $stat : Sys::IO::Stat);
+  
   native static method stat : int ($path : string, $stat : Sys::IO::Stat);
+  
+  native static method lstat_raw : int ($path : string, $stat : Sys::IO::Stat);
   
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
   

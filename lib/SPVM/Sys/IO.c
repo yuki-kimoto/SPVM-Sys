@@ -1273,7 +1273,7 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__stat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t e = 0;
   
@@ -1294,17 +1294,27 @@ int32_t SPVM__Sys__IO__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = stat(path, stat_buf);
 
-  if (status == -1) {
-    env->die(env, stack, "[System Error]stat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
   stack[0].ival = status;
   
   return 0;
 }
 
-int32_t SPVM__Sys__IO__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+int32_t SPVM__Sys__IO__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  SPVM__Sys__IO__stat_raw(env, stack);
+  
+  int32_t status = stack[0].ival;
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]stat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__lstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
   return env->die(env, stack, "lstat is not supported on this system", FILE_NAME, __LINE__);
 #else
@@ -1328,15 +1338,24 @@ int32_t SPVM__Sys__IO__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = lstat(path, stat_buf);
   
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__IO__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  SPVM__Sys__IO__lstat_raw(env, stack);
+  
+  int32_t status = stack[0].ival;
+
   if (status == -1) {
     env->die(env, stack, "[System Error]lstat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  stack[0].ival = status;
-  
   return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {

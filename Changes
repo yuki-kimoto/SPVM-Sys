@@ -11,6 +11,8 @@
       static method faccessat : int ($dirfd : int, $pathname : string, $mode : int, $flags : int)
       static method eaccess_emulate_raw : int ($pathname : string, $mode : int)
       static method eaccess_emulate : int ($pathname : string, $mode : int)
+      static method stat_raw : int ($path : string, $stat : Sys::IO::Stat);
+      static method lstat_raw : int ($path : string, $stat : Sys::IO::Stat);
       
     * Added the following methods to Sys::FileTest class.
     
