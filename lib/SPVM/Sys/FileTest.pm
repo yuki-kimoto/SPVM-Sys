@@ -29,12 +29,6 @@ C<Sys::FileTest> is the class for file tests.
 
 =head1 Class Methods
 
-=head2 o
-
-  static method o : int ($file : string)
-
-File is owned by effective uid.
- 
 =head2 R
 
   static method R : int ($file : string)
@@ -53,11 +47,34 @@ File is writable by real uid/gid.
 
 File is executable by real uid/gid.
 
+=head2 r
+
+  static method r : int ($file : string)
+
+File is readable by effective uid/gid.
+
+=head2 w
+
+  static method w : int ($file : string)
+
+File is writable by effective uid/gid.
+
+=head2 x
+
+  static method x : int ($file : string)
+
+File is executable by effective uid/gid.
+
 =head2 O
 
   static method O : int ($file : string)
 
 File is owned by real uid.
+=head2 o
+
+  static method o : int ($file : string)
+
+File is owned by effective uid.
 
 =head2 e
 
