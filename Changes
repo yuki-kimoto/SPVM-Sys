@@ -25,6 +25,8 @@
     
       static method FD_SETSIZE : int ()
     
+    * Added the Sys::IO::Fd_set class.
+    
   [Incompativle Changes]
     * Removed the is_D_WIN32 method in the Sys class. Please use Sys->defined("_WIN32") instead.
     * The access method in the Sys::IO gets to raise an exception. Use the access_raw method instead if the original behavior is needed.
