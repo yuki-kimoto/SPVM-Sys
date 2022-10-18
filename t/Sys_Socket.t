@@ -327,15 +327,6 @@ else {
 ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
 ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
 
-if ($^O eq 'MSWin32') {
-  ok(SPVM::TestCase::Sys::Socket->ioctlsocket($port));
-}
-else {
-  my $num = 0;
-  eval { SPVM::Sys::Socket->ioctlsocket(0, 0, \$num) };
-  like($@, qr/not supported/);
-}
-
 unless ($^O eq 'MSWin32') {
   ok(SPVM::TestCase::Sys::Socket->sockaddr_un);
 }

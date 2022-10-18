@@ -48,6 +48,7 @@
     * Moved the poll constant functions(POLL*) from the Sys::IO::Constant to the Sys::Poll::Constant class.
     * Removed the closesocket method in the Sys::Socket class.
     * Moved the FIONBIO method from Sys::Socket::Constant to Sys::Ioctl::Constant.
+    * Removed the ioctl method and the ioctlsocket method in the Sys::Socket class. Use the ioctl method in the Sys::Ioctl instead.
 0.10 2022-10-14
   [New Features]
     * Added the Sys::Time::Timeval class.

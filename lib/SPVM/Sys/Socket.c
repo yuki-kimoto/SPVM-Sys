@@ -19,7 +19,6 @@
 # include <netinet/ip.h>
 # include <netdb.h>
 # include <arpa/inet.h>
-# include <poll.h>
 #endif
 
 static const char* FILE_NAME = "Sys/Socket.c";
@@ -723,38 +722,6 @@ int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
-}
-
-int32_t SPVM__Sys__Socket__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifndef _WIN32
-  env->die(env, stack, "ioctlsocket is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  
-  int32_t e = 0;
-  
-  int32_t s = stack[0].ival;
-  
-  int32_t cmd = stack[1].ival;
-  
-  int32_t* argp = stack[2].iref;
-  
-  u_long arg_u_long = (long)*argp;
-  
-  int32_t status = ioctlsocket(s, cmd, &arg_u_long);
-
-  if (!(status == 0)) {
-    env->die(env, stack, "[System Error]ioctlsocket failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  *argp = arg_u_long;
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
 }
 
 int32_t SPVM__Sys__Socket__close(SPVM_ENV* env, SPVM_VALUE* stack) {
