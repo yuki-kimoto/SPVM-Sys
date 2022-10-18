@@ -92,7 +92,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
         
         ret = ioctlsocket(fd, request, &request_arg_u_long);
         
-        request_arg_int32 = (int32_t)request_arg_u_long
+        request_arg_int32 = (int32_t)request_arg_u_long;
 
         env->set_field_int_by_name(env, stack, obj_request_arg, "Int", "value", request_arg_int32, &e, FILE_NAME, __LINE__);
         if (e) { return e; }
