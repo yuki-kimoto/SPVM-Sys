@@ -4,9 +4,9 @@
 #include "spvm_native.h"
 
 #ifdef _WIN32
-# include <winsock2.h>
+  #include <winsock2.h>
 #else
-# include <poll.h>
+  #include <poll.h>
 #endif
 
 static const char* FILE_NAME = "Sys/Poll/Constant.c";

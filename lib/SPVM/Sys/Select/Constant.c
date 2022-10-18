@@ -1,9 +1,9 @@
 #include "spvm_native.h"
 
 #ifdef _WIN32
-# include <winsock2.h>
+  #include <winsock2.h>
 #else
-# include <sys/select.h>
+  #include <sys/select.h>
 #endif
 
 static const char* FILE_NAME = "Sys/Select/Constant.c";

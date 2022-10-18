@@ -7,19 +7,19 @@
 #include <assert.h>
 
 #ifdef _WIN32
-# include <ws2tcpip.h>
-# include <winsock2.h>
-# include <io.h>
+  #include <ws2tcpip.h>
+  #include <winsock2.h>
+  #include <io.h>
 #else
-# include <sys/types.h>
-# include <sys/socket.h>
-# include <netinet/in.h>
-# include <netinet/ip.h>
-# include <netinet/tcp.h>
-# include <netinet/udp.h>
-# include <sys/un.h>
-# include <arpa/inet.h>
-# include <netdb.h>
+  #include <sys/types.h>
+  #include <sys/socket.h>
+  #include <netinet/in.h>
+  #include <netinet/ip.h>
+  #include <netinet/tcp.h>
+  #include <netinet/udp.h>
+  #include <sys/un.h>
+  #include <arpa/inet.h>
+  #include <netdb.h>
 #endif
 
 static const char* FILE_NAME = "Sys/Socket/Constant.c";

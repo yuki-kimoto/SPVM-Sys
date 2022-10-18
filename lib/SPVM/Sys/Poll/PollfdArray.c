@@ -6,9 +6,9 @@
 #include <assert.h>
 
 #ifdef _WIN32
-#  include <winsock2.h>
+  #include <winsock2.h>
 #else
-#  include <poll.h>
+  #include <poll.h>
 #endif
 
 const char* FILE_NAME = "Sys/Poll/PollfdArray";

@@ -4,10 +4,10 @@
 #include "spvm_native.h"
 
 #ifdef _WIN32
-#  include <winsock2.h>
-#  include <winerror.h>
+  #include <winsock2.h>
+  #include <winerror.h>
 #else
-#  include <poll.h>
+  #include <poll.h>
 #endif
 
 #include <errno.h>
