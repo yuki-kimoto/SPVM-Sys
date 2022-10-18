@@ -489,12 +489,3 @@ fcntl() performs one of the operations described below on the open file descript
 See the L<lstat|https://linux.die.net/man/2/fcntl> function in Linux.
 
 The command argument can receive a L<Sys::IO::Flock|SPVM::Sys::IO::Flock> object.
-
-=head2 ioctl
-
-  static method ioctl : int ($fd : int, $request : int, $request_arg_ref = undef : object of Byte|Short|Int|Long|Float|Double|object);
-
-The ioctl() function manipulates the underlying device parameters of special files. In particular, many operating characteristics of character special files (e.g., terminals) may be controlled with ioctl() requests. The argument d must be an open file descriptor.
-
-See the L<ioctl|https://linux.die.net/man/2/ioctl> function in Linux.
-
