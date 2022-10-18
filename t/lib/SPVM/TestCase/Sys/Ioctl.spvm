@@ -33,7 +33,7 @@ class TestCase::Sys::Ioctl {
     my $value = (Int)1;
     my $status_ioctl = Sys::Ioctl->ioctl($socket, IOCTL->FIONBIO, $value);
     
-    unless ($status_ioctl == 0) {
+    if ($status_ioctl == -1) {
       return 0;
     }
     
