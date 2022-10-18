@@ -20,7 +20,6 @@
 # include <sys/un.h>
 # include <arpa/inet.h>
 # include <netdb.h>
-# include <poll.h>
 #endif
 
 static const char* FILE_NAME = "Sys/Socket/Constant.c";
