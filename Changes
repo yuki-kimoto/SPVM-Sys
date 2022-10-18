@@ -10,6 +10,8 @@
       static method FD_CLR : void ($fd : int, $set : Sys::Select::Fd_set);
       
       static method FD_ISSET : int ($fd : int, $set : Sys::Select::Fd_set);
+    * Fix the bug that the select method and its utility methods in the Sys::Select class don't work well on Windows.
+    
   [Test Improvement]
     * Improved the tests of the Sys::Select class.
 0.12 2022-10-18
