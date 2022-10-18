@@ -131,6 +131,24 @@ my $port = &search_available_port;
 # FD_ISSET
 ok(SPVM::TestCase::Sys::Select->select_utils);
 
+# select
+{
+  my $process_id = fork;
+
+  # Child
+  if ($process_id == 0) {
+    &start_echo_server($port);
+  }
+  else {
+    &wait_port_prepared($port);
+    
+    ok(SPVM::TestCase::Sys::Select->select($port));
+    
+    kill_term_and_wait $process_id;
+  }
+}
+
+
 SPVM::set_exception(undef);
 
 # All object is freed
