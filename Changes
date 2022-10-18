@@ -1,3 +1,14 @@
+0.13 2022-10-18
+  [Bug Fix]
+    * Fixed the bugs that the following methods are not implemented.
+      static method FD_ZERO : void ($set : Sys::Select::Fd_set);
+      
+      static method FD_SET : void ($fd : int, $set : Sys::Select::Fd_set);
+      
+      static method FD_CLR : void ($fd : int, $set : Sys::Select::Fd_set);
+      
+      static method FD_ISSET : int ($fd : int, $set : Sys::Select::Fd_set);
+    
 0.12 2022-10-18
   [Bug Fix]
     * Try to fix the bug on FreeBSD error: invalid application of 'sizeof' to an incomplete type 'struct sockaddr_in'
