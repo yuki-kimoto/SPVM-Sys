@@ -31,10 +31,23 @@ class TestCase::Sys::Ioctl {
     $address->set_sin_addr($sin_addr);
     
     my $value = (Int)1;
-    my $status_ioctl = Sys::Ioctl->ioctl($socket, IOCTL->FIONBIO, $value);
+    my $status_ioctl = 0;
+    eval { $status_ioctl = Sys::Ioctl->ioctl($socket, IOCTL->FIONBIO, $value); };
     
-    if ($status_ioctl == -1) {
-      return 0;
+    if (Sys->defined("_WIN32")) {
+      if ($status_ioctl == -1) {
+        return 0;
+      }
+    }
+    else {
+      if ($@) {
+        warn "[Test Output]$@";
+      }
+      else {
+        if ($status_ioctl == -1) {
+          return 0;
+        }
+      }
     }
     
     return 1;
