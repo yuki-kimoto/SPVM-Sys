@@ -11,6 +11,7 @@ class TestCase::Sys::Socket {
   use Sys::Socket::Sockaddr::Un;
   use Sys::Process;
   use Sys::IO::Constant as IO;
+  use Sys::Ioctl::Constant as IOCTL;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
   
@@ -908,7 +909,7 @@ class TestCase::Sys::Socket {
     $address->set_sin_addr($sin_addr);
     
     my $value = 1;
-    my $status_ioctlsocket = Sys::Socket->ioctlsocket($socket, SOCKET->FIONBIO, \$value);
+    my $status_ioctlsocket = Sys::Socket->ioctlsocket($socket, IOCTL->FIONBIO, \$value);
     
     unless ($status_ioctlsocket == 0) {
       return 0;
