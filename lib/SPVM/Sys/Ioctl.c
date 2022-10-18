@@ -25,6 +25,10 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #ifdef _WIN32
     
+  if (items <= 2) {
+    return env->die(env, stack, "The $request_arg must be defined", FILE_NAME, __LINE__);
+  }
+  else {
     if (!obj_request_arg) {
       return env->die(env, stack, "The $request_arg must be an Int object", FILE_NAME, __LINE__);
     }
@@ -36,7 +40,11 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
         int32_t request_arg_int32 = env->get_field_int_by_name(env, stack, obj_request_arg, "Int", "value", &e, FILE_NAME, __LINE__);
         if (e) { return e; }
         
-        ret = ioctlsocket(fd, request, &request_arg_int32);
+        u_long request_arg_u_long = (u_long)request_arg_int32;
+        
+        ret = ioctlsocket(fd, request, &request_arg_u_long);
+        
+        request_arg_int32 = (int32_t)request_arg_u_long
 
         env->set_field_int_by_name(env, stack, obj_request_arg, "Int", "value", request_arg_int32, &e, FILE_NAME, __LINE__);
         if (e) { return e; }
