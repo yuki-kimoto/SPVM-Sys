@@ -293,16 +293,6 @@ See the detail of the L<ioctlsocket|https://docs.microsoft.com/en-us/windows/win
 
 If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
-=head2 closesocket
-
-  static method closesocket : int ($s : int);
-
-The closesocket function closes an existing socket.
-
-See the detail of the L<closesocket|https://docs.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-closesocket> function in the case of Windows.
-
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
-
 =head2 getaddrinfo_raw
 
   static method getaddrinfo_raw : int ($node : string, $service : string,

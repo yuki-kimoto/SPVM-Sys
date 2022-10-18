@@ -12,6 +12,7 @@
 # include <io.h>
 # include <winerror.h>
 #else
+# include <unistd.h>
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <netinet/in.h>
@@ -756,25 +757,23 @@ int32_t SPVM__Sys__Socket__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifndef _WIN32
-  env->die(env, stack, "The \"closesocket\" method in the class \"Sys::Socket\" is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  
+int32_t SPVM__Sys__Socket__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t s = stack[0].ival;
   
+#ifdef _WIN32
   int32_t status = closesocket(s);
-  
+#else
+  int32_t status = close(s);
+#endif
+
   if (!(status == 0)) {
-    env->die(env, stack, "[System Error]closesocket failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]close failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
   stack[0].ival = status;
   
   return 0;
-#endif
 }
 
 int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {

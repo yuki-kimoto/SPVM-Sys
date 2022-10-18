@@ -59,8 +59,6 @@ class Sys::Socket {
   
   native static method ioctlsocket : int ($s : int, $cmd : int, $argp : int*);
 
-  native static method closesocket : int ($fd : int);
-  
   native static method getaddrinfo_raw : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
                 $res : Sys::Socket::AddrinfoLinkedList[]);
@@ -79,14 +77,7 @@ class Sys::Socket {
 
   native static method gai_strerror : string ($errcode : int);
 
-  static method close : int ($fd : int) {
-    if (Sys->defined("_WIN32")) {
-      return Sys::Socket->closesocket($fd);
-    }
-    else {
-      return Sys::IO->close($fd);
-    }
-  }
+  native static method close : int ($fd : int);
 
   native static method socket_errno : int ();
   native static method socket_strerror : string ($errno : int, $length : int);
