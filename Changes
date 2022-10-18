@@ -1,4 +1,4 @@
-0.11 2022-10-14
+0.11 2022-10-18
   [New Features]
     * Added the following methods to Sys class.
       
@@ -32,6 +32,10 @@
     
     * Added the Sys::Select::Fd_set class.
     * Added the Sys::Select class.
+    * Added the Sys::Select::Constant class.
+    * Added the Sys::Poll class.
+    * Added the Sys::Poll::PollfdArray class.
+    * Added the Sys::Poll::Constant class.
     
   [Incompativle Changes]
     * Removed the is_D_WIN32 method in the Sys class. Please use Sys->defined("_WIN32") instead.
