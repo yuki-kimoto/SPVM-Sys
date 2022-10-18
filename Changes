@@ -1,3 +1,7 @@
+0.12 2022-10-18
+  [Bug Fix]
+    * Try to fix the bug on FreeBSD error: invalid application of 'sizeof' to an incomplete type 'struct sockaddr_in'
+    * Try to fix the bug on FreeBSD error: invalid application of 'sizeof' to an incomplete type 'struct sockaddr_in6'
 0.11 2022-10-18
   [New Features]
     * Added the following methods to Sys class.

@@ -7,9 +7,11 @@
   #include <winsock2.h>
   #include <io.h>
 #else
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
+  #include <sys/types.h>
+  #include <sys/socket.h>
+  #include <netinet/in.h>
+  #include <netinet/ip.h>
+  #include <netdb.h>
 #endif
 
 static const char* FILE_NAME = "Sys/Socket/Addrinfo.c";
