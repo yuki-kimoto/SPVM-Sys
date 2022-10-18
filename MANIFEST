@@ -36,10 +36,6 @@ lib/SPVM/Sys/IO/Flock.c
 lib/SPVM/Sys/IO/Flock.config
 lib/SPVM/Sys/IO/Flock.pm
 lib/SPVM/Sys/IO/Flock.spvm
-lib/SPVM/Sys/IO/PollfdArray.c
-lib/SPVM/Sys/IO/PollfdArray.config
-lib/SPVM/Sys/IO/PollfdArray.pm
-lib/SPVM/Sys/IO/PollfdArray.spvm
 lib/SPVM/Sys/IO/Stat.c
 lib/SPVM/Sys/IO/Stat.config
 lib/SPVM/Sys/IO/Stat.pm
