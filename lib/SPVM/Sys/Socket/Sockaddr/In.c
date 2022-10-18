@@ -6,6 +6,7 @@
 # include <ws2tcpip.h>
 # include <io.h>
 #else
+# include <sys/types.h>
 # include <sys/socket.h>
 # include <netinet/in.h>
 # include <netinet/ip.h>
