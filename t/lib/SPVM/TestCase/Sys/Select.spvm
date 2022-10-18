@@ -1,0 +1,80 @@
+class TestCase::Sys::Select {
+  use Sys::Poll;
+  use Sys::Poll::PollfdArray;
+  use Sys::Poll::Constant as POLL;
+  use Sys::Socket;
+  use Sys::Socket::Constant as SOCKET;
+  use Sys::Socket::Sockaddr;
+  use Sys::Socket::Sockaddr::In;
+  use Sys::Process;
+  use Sys::Select::Fd_set;
+  use Sys::Select::Constant as SELECT;
+  
+  
+  use TestUtil::SocketAutoClose;
+  
+  static method select_utils : int () {
+
+    my $set = Sys::Select::Fd_set->new;
+    
+    {
+      my $fd = 0;
+      
+      if (Sys::Select->FD_ISSET($fd, $set)) {
+        return 0;
+      }
+      
+      Sys::Select->FD_SET($fd, $set);
+      
+      unless (Sys::Select->FD_ISSET($fd, $set)) {
+        return 0;
+      }
+      
+      Sys::Select->FD_CLR($fd, $set);
+      
+      if (Sys::Select->FD_ISSET($fd, $set)) {
+        return 0;
+      }
+    }
+
+    {
+      my $fd = SELECT->FD_SETSIZE - 1;
+      
+      if (Sys::Select->FD_ISSET($fd, $set)) {
+        return 0;
+      }
+      
+      Sys::Select->FD_SET($fd, $set);
+      
+      unless (Sys::Select->FD_ISSET($fd, $set)) {
+        return 0;
+      }
+      
+      Sys::Select->FD_CLR($fd, $set);
+      
+      if (Sys::Select->FD_ISSET($fd, $set)) {
+        return 0;
+      }
+    }
+    
+    {
+      Sys::Select->FD_SET(0, $set);
+      Sys::Select->FD_SET(1, $set);
+      Sys::Select->FD_SET(2, $set);
+      
+      Sys::Select->FD_ZERO($set);
+      
+      if (Sys::Select->FD_ISSET(0, $set)) {
+        return 0;
+      }
+      if (Sys::Select->FD_ISSET(1, $set)) {
+        return 0;
+      }
+      if (Sys::Select->FD_ISSET(2, $set)) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+}
