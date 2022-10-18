@@ -49,6 +49,7 @@
     * Removed the closesocket method in the Sys::Socket class.
     * Moved the FIONBIO method from Sys::Socket::Constant to Sys::Ioctl::Constant.
     * Removed the ioctl method and the ioctlsocket method in the Sys::Socket class. Use the ioctl method in the Sys::Ioctl instead.
+    * Removed the ioctl method in the Sys::IO class. Use the ioctl method in the Sys::Ioctl instead.
 0.10 2022-10-14
   [New Features]
     * Added the Sys::Time::Timeval class.
