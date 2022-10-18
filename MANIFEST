@@ -48,6 +48,18 @@ lib/SPVM/Sys/IO/Utimbuf.c
 lib/SPVM/Sys/IO/Utimbuf.config
 lib/SPVM/Sys/IO/Utimbuf.pm
 lib/SPVM/Sys/IO/Utimbuf.spvm
+lib/SPVM/Sys/Poll.c
+lib/SPVM/Sys/Poll.config
+lib/SPVM/Sys/Poll.pm
+lib/SPVM/Sys/Poll.spvm
+lib/SPVM/Sys/Poll/Constant.c
+lib/SPVM/Sys/Poll/Constant.config
+lib/SPVM/Sys/Poll/Constant.pm
+lib/SPVM/Sys/Poll/Constant.spvm
+lib/SPVM/Sys/Poll/PollfdArray.c
+lib/SPVM/Sys/Poll/PollfdArray.config
+lib/SPVM/Sys/Poll/PollfdArray.pm
+lib/SPVM/Sys/Poll/PollfdArray.spvm
 lib/SPVM/Sys/Process.c
 lib/SPVM/Sys/Process.config
 lib/SPVM/Sys/Process.pm
@@ -181,6 +193,7 @@ t/ftest/file_empty.txt
 t/ftest/file_new_lines.txt
 t/lib/SPVM/TestCase/Sys/FileTest.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
+t/lib/SPVM/TestCase/Sys/Poll.spvm
 t/lib/SPVM/TestCase/Sys/Process.spvm
 t/lib/SPVM/TestCase/Sys/Socket.spvm
 t/lib/SPVM/TestCase/Sys/Time.spvm
@@ -190,6 +203,7 @@ t/print_hello.pl
 t/Sys.t
 t/Sys_FileTest.t
 t/Sys_IO.t
+t/Sys_Poll.t
 t/Sys_Process.t
 t/Sys_Socket.t
 t/Sys_Time.t

@@ -9,6 +9,8 @@ class Sys::Socket {
   use Sys::Socket::In_addr;
   use Sys::Socket::In6_addr;
   use Sys::IO::PollfdArray;
+  
+  use Sys::Socket::Error::InetInvalidNetworkAddress;
 
   native static method htonl : int ($hostlong : int);
   
