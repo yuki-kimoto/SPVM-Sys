@@ -1,4 +1,6 @@
 0.13 2022-10-18
+  [New Features]
+    * Added the set method to the Sys::Select::Fd_set class.
   [Bug Fix]
     * Fixed the bugs that the following methods are not implemented.
       static method FD_ZERO : void ($set : Sys::Select::Fd_set);

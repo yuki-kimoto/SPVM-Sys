@@ -256,9 +256,9 @@ class TestCase::Sys::Select {
 
   static method select_utils : int () {
 
-    my $set = Sys::Select::Fd_set->new;
-    
     {
+      my $set = Sys::Select::Fd_set->new;
+    
       my $fd = 0;
       
       if (Sys::Select->FD_ISSET($fd, $set)) {
@@ -279,6 +279,7 @@ class TestCase::Sys::Select {
     }
 
     {
+      my $set = Sys::Select::Fd_set->new;
       my $fd = SELECT->FD_SETSIZE - 1;
       
       if (Sys::Select->FD_ISSET($fd, $set)) {
@@ -299,6 +300,7 @@ class TestCase::Sys::Select {
     }
     
     {
+      my $set = Sys::Select::Fd_set->new;
       Sys::Select->FD_SET(0, $set);
       Sys::Select->FD_SET(1, $set);
       Sys::Select->FD_SET(2, $set);
@@ -312,6 +314,26 @@ class TestCase::Sys::Select {
         return 0;
       }
       if (Sys::Select->FD_ISSET(2, $set)) {
+        return 0;
+      }
+    }
+    
+    {
+      my $set = Sys::Select::Fd_set->new;
+      Sys::Select->FD_SET(0, $set);
+      Sys::Select->FD_SET(1, $set);
+      Sys::Select->FD_SET(2, $set);
+
+      my $set_copy = Sys::Select::Fd_set->new;
+      $set_copy->set($set);
+      
+      unless (Sys::Select->FD_ISSET(0, $set_copy)) {
+        return 0;
+      }
+      unless (Sys::Select->FD_ISSET(1, $set_copy)) {
+        return 0;
+      }
+      unless (Sys::Select->FD_ISSET(2, $set_copy)) {
         return 0;
       }
     }

@@ -36,6 +36,12 @@ Create a new C<Sys::Select::Fd_set> object.
 
 The destructor.
 
+=head2 set
+
+  method set : void ($set : Sys::Select::Fd_set);
+
+Sets the value of this object by copying the C<$set>.
+
 =head1 Copyright & License
 
 Copyright 2022-2022 Yuki Kimoto, all rights reserved.
