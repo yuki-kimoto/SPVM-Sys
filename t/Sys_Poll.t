@@ -142,6 +142,21 @@ my $port = &search_available_port;
   }
 }
 
+# poll constant values
+unless ($^O eq 'MSWin32') {
+  is(SPVM::Sys::Poll::Constant->POLLERR, IO::Poll::POLLERR());
+  is(SPVM::Sys::Poll::Constant->POLLHUP, IO::Poll::POLLHUP());
+  is(SPVM::Sys::Poll::Constant->POLLIN, IO::Poll::POLLIN());
+  is(SPVM::Sys::Poll::Constant->POLLNVAL, IO::Poll::POLLNVAL());
+  is(SPVM::Sys::Poll::Constant->POLLOUT, IO::Poll::POLLOUT());
+  is(SPVM::Sys::Poll::Constant->POLLPRI, IO::Poll::POLLPRI());
+  is(SPVM::Sys::Poll::Constant->POLLRDBAND, IO::Poll::POLLRDBAND());
+  is(SPVM::Sys::Poll::Constant->POLLRDNORM, IO::Poll::POLLRDNORM());
+  is(SPVM::Sys::Poll::Constant->POLLWRBAND, IO::Poll::POLLWRBAND());
+  is(SPVM::Sys::Poll::Constant->POLLWRNORM, IO::Poll::POLLWRNORM());
+}
+
+
 SPVM::set_exception(undef);
 
 # All object is freed

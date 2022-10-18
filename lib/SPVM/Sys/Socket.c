@@ -777,33 +777,6 @@ int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Socket__WSAPoll(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifndef _WIN32
-  env->die(env, stack, "The \"WSAPoll\" method in the class \"Sys::Socket\" is not supported on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  
-  void* obj_fds = stack[0].oval;
-  
-  struct pollfd* fds = env->get_pointer(env, stack, obj_fds);
-  
-  int32_t nfds = stack[1].ival;
-  
-  int32_t timeout = stack[2].ival;
-  
-  int32_t ready_count = WSAPoll(fds, nfds, timeout);
-
-  if (ready_count == SOCKET_ERROR) {
-    env->die(env, stack, "[System Error]WSAPoll failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = ready_count;
-  
-  return 0;
-#endif
-}
-
 int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;

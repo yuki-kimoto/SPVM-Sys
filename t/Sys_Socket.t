@@ -346,23 +346,6 @@ ok(SPVM::TestCase::Sys::Socket->getaddrinfo);
 
 ok(SPVM::TestCase::Sys::Socket->getnameinfo);
 
-# poll
-{
-  my $process_id = fork;
-
-  # Child
-  if ($process_id == 0) {
-    &start_echo_server($port);
-  }
-  else {
-    &wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Socket->poll($port));
-    
-    kill_term_and_wait $process_id;
-  }
-}
-
 SPVM::set_exception(undef);
 
 # All object is freed

@@ -303,18 +303,6 @@ See the detail of the L<closesocket|https://docs.microsoft.com/en-us/windows/win
 
 If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
-=head2 WSAPoll
-
-  static method WSAPoll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
-
-The WSAPoll function determines status of one or more sockets.
-
-See the detail of the L<WSAPoll|https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-wsapoll> function in the case of Windows.
-
-The file descriptors(fds) is a L<Sys::IO::PollfdArray> object.
-
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
-
 =head2 getaddrinfo_raw
 
   static method getaddrinfo_raw : int ($node : string, $service : string,
@@ -378,14 +366,6 @@ See the detail of the L<getnameinfo|https://linux.die.net/man/3/gai_strerror> fu
   static method ioctl_int : int ($fd : int, $request : int, $request_arg_ref : int*);
 
 The same as L<ioctl_int in Sys::IO|SPVM::Sys::IO/"ioctl_int">, but portable in socket.
-
-=head2 poll
-
-  static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
-
-The same as L<poll in Sys::IO|SPVM::Sys::IO/"poll">, but portable in socket.
-
-The file descriptors(fds) is a L<Sys::IO::PollfdArray> object.
 
 =head2 close
 

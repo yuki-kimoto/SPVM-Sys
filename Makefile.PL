@@ -48,7 +48,6 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Dirent');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Utimbuf');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Flock');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::PollfdArray');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Process');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Process::Constant');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User');

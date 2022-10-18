@@ -40,6 +40,9 @@
   [Incompativle Changes]
     * Removed the is_D_WIN32 method in the Sys class. Please use Sys->defined("_WIN32") instead.
     * The access method in the Sys::IO gets to raise an exception. Use the access_raw method instead if the original behavior is needed.
+    * Removed the poll method in the Sys::Poll class.
+    * Removed the Sys::IO::PollfdArray class.
+    * Removed the poll constant functions(POLL*) in the Sys::IO::Constant.
     
 0.10 2022-10-14
   [New Features]
