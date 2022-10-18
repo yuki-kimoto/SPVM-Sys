@@ -34,15 +34,14 @@
     * Added the Sys::Select class.
     * Added the Sys::Select::Constant class.
     * Added the Sys::Poll class.
-    * Added the Sys::Poll::PollfdArray class.
     * Added the Sys::Poll::Constant class.
     
   [Incompativle Changes]
     * Removed the is_D_WIN32 method in the Sys class. Please use Sys->defined("_WIN32") instead.
     * The access method in the Sys::IO gets to raise an exception. Use the access_raw method instead if the original behavior is needed.
-    * Removed the poll method in the Sys::Poll class.
-    * Removed the Sys::IO::PollfdArray class.
-    * Removed the poll constant functions(POLL*) in the Sys::IO::Constant.
+    * Moved the poll method from the Sys::IO class to Sys::Poll.
+    * Rename the Sys::IO::PollfdArray class to the Sys::Poll::PollfdArray class.
+    * Moved the poll constant functions(POLL*) from the Sys::IO::Constant to the Sys::Poll::Constant class.
     
 0.10 2022-10-14
   [New Features]
