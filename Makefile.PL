@@ -77,6 +77,7 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Select::Fd_set');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::PollfdArray');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ioctl');
   
   return $make_rule;
 }

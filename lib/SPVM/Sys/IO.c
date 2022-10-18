@@ -17,6 +17,7 @@
 #ifdef _WIN32
   #include <direct.h>
 #else
+  #include <poll.h>
   #include <sys/ioctl.h>
 #endif
 

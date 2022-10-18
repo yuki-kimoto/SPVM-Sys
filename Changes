@@ -35,6 +35,7 @@
     * Added the Sys::Select::Constant class.
     * Added the Sys::Poll class.
     * Added the Sys::Poll::Constant class.
+    * Added the Sys::Ioctl class.
     
   [Changes]
     * The close method in the Sys::Socket is re-implemented as a native method.
