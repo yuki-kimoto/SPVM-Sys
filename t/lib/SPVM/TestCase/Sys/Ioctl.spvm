@@ -35,7 +35,7 @@ class TestCase::Sys::Ioctl {
     eval { $status_ioctl = Sys::Ioctl->ioctl($socket, IOCTL->FIONBIO, $value); };
     
     if (Sys->defined("_WIN32")) {
-      if ($status_ioctl == -1) {
+      unless ($status_ioctl == 0) {
         return 0;
       }
     }
@@ -44,7 +44,7 @@ class TestCase::Sys::Ioctl {
         warn "[Test Output]$@";
       }
       else {
-        if ($status_ioctl == -1) {
+        unless ($status_ioctl == 0) {
           return 0;
         }
       }
