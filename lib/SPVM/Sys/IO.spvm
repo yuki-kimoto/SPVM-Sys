@@ -119,6 +119,4 @@ class Sys::IO {
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
   
   native static method fcntl : int ($fd : int, $command : int, $command_arg = undef : object of Byte|Short|Int|Long|Float|Double|Sys::IO::Flock|object);
-  
-  native static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
 }
