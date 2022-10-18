@@ -9,7 +9,6 @@ class TestCase::Sys::Socket {
   use Sys::Socket::AddrinfoLinkedList;
   use Sys::Socket::Sockaddr::Storage;
   use Sys::Socket::Sockaddr::Un;
-  use Sys::IO::PollfdArray;
   use Sys::Process;
   use Sys::IO::Constant as IO;
   
