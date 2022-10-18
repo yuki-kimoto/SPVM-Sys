@@ -6,7 +6,6 @@ class Sys::IO {
   use Sys::IO::Dirent;
   use Sys::IO::Utimbuf;
   use Sys::IO::Flock;
-  use Sys::IO::PollfdArray;
   use Sys::IO::Constant as IO;
   
   native static method open : int ($path : string, $flags : int, $mode = 0 : int);
@@ -122,6 +121,4 @@ class Sys::IO {
   native static method fcntl : int ($fd : int, $command : int, $command_arg = undef : object of Byte|Short|Int|Long|Float|Double|Sys::IO::Flock|object);
   
   native static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
-  
-  native static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
 }

@@ -498,12 +498,3 @@ The ioctl() function manipulates the underlying device parameters of special fil
 
 See the L<ioctl|https://linux.die.net/man/2/ioctl> function in Linux.
 
-=head2 poll
-
-  static method poll : int ($fds : Sys::IO::PollfdArray, $nfds : int, $timeout : int);
-
-poll() performs a similar task to select(2): it waits for one of a set of file descriptors to become ready to perform I/O.
-
-See the L<poll|https://linux.die.net/man/2/poll> function in Linux.
-
-The file discritors are a L<Sys::IO::PollfdArray|SPVM::Sys::IO::PollfdArray> object.
