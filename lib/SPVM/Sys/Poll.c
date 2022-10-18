@@ -2,6 +2,7 @@
 
 #ifdef _WIN32
 #  include <winsock2.h>
+#  include <winerror.h>
 #else
 #  include <poll.h>
 #endif
