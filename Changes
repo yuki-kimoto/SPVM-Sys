@@ -1,6 +1,8 @@
 0.14 2022-10-19
   [Test Improvement]
     * Added the TestUtil::Scope::Guard class for socket tests and use it.
+  [Test Fix]
+    * Fixed the logic of searching an available port in Sys_Socket.t
 0.13 2022-10-19
   [New Features]
     * Added the set method to the Sys::Select::Fd_set class.

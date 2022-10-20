@@ -32,15 +32,12 @@ sub search_available_port {
     }
     
     my $server_socket = IO::Socket::INET->new(
-      LocalAddr => $localhost,
-      LocalPort => $port,
-      Listen    => SOMAXCONN,
-      Proto     => 'tcp',
+      PeerAddr => $localhost,
+      PeerPort => $port,
       Timeout => 5,
-      Reuse => 1,
     );
     
-    if ($server_socket) {
+    unless ($server_socket) {
       $port = $retry_port;
       last;
     }
