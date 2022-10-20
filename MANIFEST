@@ -207,6 +207,7 @@ t/lib/SPVM/TestCase/Sys/User.spvm
 t/lib/SPVM/TestUtil/Scope/Guard.spvm
 t/lib/SPVM/TestUtil/Scope/Guard/Handler.spvm
 t/lib/SPVM/TestUtil/SocketAutoClose.spvm
+t/lib/TestUtil/Socket.pm
 t/print_hello.pl
 t/Sys.t
 t/Sys_FileTest.t
