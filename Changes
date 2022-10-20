@@ -3,7 +3,7 @@
     * Added the TestUtil::Scope::Guard class for socket tests and use it.
     * Add the TestUtil::Socket module for the tests of socket.
   [Test Fix]
-    * Fixed the logic of searching an available port in Sys_Socket.t
+    * Fixed the logic of searching an available port in Sys_Socket.t, Sys_Poll.t, Sys_Select.t and Sys_Ioctl.t
 0.13 2022-10-19
   [New Features]
     * Added the set method to the Sys::Select::Fd_set class.
