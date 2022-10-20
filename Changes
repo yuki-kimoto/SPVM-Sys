@@ -1,4 +1,4 @@
-0.14 2022-10-19
+0.14 2022-10-20
   [Test Improvement]
     * Added the TestUtil::Scope::Guard class for socket tests and use it.
     * Add the TestUtil::Socket module for the tests of socket.
