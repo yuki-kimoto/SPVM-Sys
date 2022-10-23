@@ -4,6 +4,7 @@
   [Bug Fix]
     * Fixed the bug that FreeBSD can't find WNOHANG symbol adding sys/types.h header.
     * Fixed the bug that FreeBSD that major version is less than 13 doesn't support clock_nanosleep.
+    * Fixed the bug that OpenBSD doesn't support struct ip_mreq_source.
   [Test Improvement]
     * Added the stack trace in the TestUtil::Socket module.
 0.15 2022-10-21
