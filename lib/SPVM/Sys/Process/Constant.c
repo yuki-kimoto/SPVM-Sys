@@ -2,7 +2,9 @@
 
 #include <stdlib.h>
 
-#ifndef _WIN32
+#ifdef _WIN32
+  // None
+#elif
   #include <sys/resource.h>
 #endif
 
