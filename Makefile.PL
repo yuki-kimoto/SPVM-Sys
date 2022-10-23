@@ -29,7 +29,7 @@ WriteMakefile(
   },
   # SPVM::Builder::Util::API is needed for Makefile.PL
   CONFIGURE_REQUIRES => {
-    'SPVM'              => '0.9654',
+    'SPVM'              => '0.9657',
   },
   PREREQ_PM         => {
     'SPVM::Errno' => '0.06',
