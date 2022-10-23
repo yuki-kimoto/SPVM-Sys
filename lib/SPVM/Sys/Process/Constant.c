@@ -4,8 +4,9 @@
 
 #ifdef _WIN32
   // None
-#elif
+#else
   #include <sys/resource.h>
+  #include <sys/wait.h>
 #endif
 
 static const char* FILE_NAME = "Sys/Process/Constant.c";
