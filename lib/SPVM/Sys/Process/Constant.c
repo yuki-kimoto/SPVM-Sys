@@ -5,6 +5,7 @@
 #ifdef _WIN32
   // None
 #else
+  #include <sys/types.h>
   #include <sys/resource.h>
   #include <sys/wait.h>
 #endif

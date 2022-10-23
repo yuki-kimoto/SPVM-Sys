@@ -1,6 +1,8 @@
 0.16 2022-10-24
   [Prerequirement Change]
     * Need SPVM 0.9657+.
+  [Bug Fix]
+    * Fixed the bug that FreeBSD can't find WNOHANG symbol adding sys/types.h header.
 0.15 2022-10-21
   [Bug Fix]
     * Fixed the bug that FreeBSD can't compile SPVM::Sys for the following error.
