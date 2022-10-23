@@ -2,6 +2,7 @@ package TestUtil::Socket;
 
 use strict;
 use warnings;
+use Carp 'confess';
 
 use Socket;
 use IO::Socket;
@@ -20,7 +21,7 @@ sub search_available_port {
     }
     
     if ($retry_count > $retry_max) {
-      die "Can't find an available port";
+      confess "Can't find an available port";
     }
     
     my $server_socket = IO::Socket::INET->new(
@@ -81,7 +82,7 @@ sub start_echo_server {
     Reuse => 1,
   );
   unless ($server_socket) {
-    die "Can't create a server socket:$@";
+    confess "Can't create a server socket:$@";
   }
   
   my $server_close;
