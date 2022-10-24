@@ -1,3 +1,6 @@
+0.18 2022-10-25
+  [Test Improvement]
+    * Added the tests of the test server.
 0.17 2022-10-24
   [Test Improvement]
     * Simplify t/Ioctl.t
