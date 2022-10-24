@@ -1,7 +1,7 @@
 0.17 2022-10-24
   [Test Improvement]
     * Simplify t/Ioctl.t
-
+    * Added the tests of the test server.
 0.16 2022-10-24
   [Prerequirement Change]
     * Need SPVM 0.9657+.
