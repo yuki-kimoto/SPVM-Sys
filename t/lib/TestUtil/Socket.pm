@@ -27,6 +27,7 @@ sub search_available_port {
     my $server_socket = IO::Socket::INET->new(
       PeerAddr => $localhost,
       PeerPort => $try_port,
+      Timeout => 5,
     );
     
     unless ($server_socket) {
