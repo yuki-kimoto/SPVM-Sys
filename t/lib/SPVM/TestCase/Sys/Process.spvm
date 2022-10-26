@@ -153,10 +153,6 @@ class TestCase::Sys::Process {
       }
     }
 
-    unless ($status == 0) {
-      return 0;
-    }
-    
     unless ($ret_child_process_id >= 0) {
       return 0;
     }

@@ -1,6 +1,7 @@
 0.20 2022-10-27
   [Test Fix]
-    * Fixed the bug that the test of the getpeername method in the Sys::Socket failed in a different port.
+    * Fixed the testing bug that the test of the getpeername method in the Sys::Socket failed in a different port.
+    * Fixed the testing bug that the test of the status of the waitpid method was checked wrongly.
 0.19 2022-10-26
   [Test Fix]
     * Fixed the bug of the testing function search_available_port.
