@@ -10,14 +10,14 @@ use IO::Socket::INET;
 
 my $localhost = "127.0.0.1";
 sub search_available_port {
-  my $retry_port = 20000;
+  my $try_port = 20000;
   
-  my $port;
+  my $available_port;
   my $retry_max = 10;
   my $retry_count = 0;
   while (1) {
     if ($retry_count > 0) {
-      warn "[Test Output]Perform the ${retry_count} retry to search an available port $retry_port";
+      warn "[Test Output]Perform the ${retry_count} retry to search an available port $try_port";
     }
     
     if ($retry_count > $retry_max) {
@@ -26,20 +26,19 @@ sub search_available_port {
     
     my $server_socket = IO::Socket::INET->new(
       PeerAddr => $localhost,
-      PeerPort => $port,
-      Timeout => 5,
+      PeerPort => $try_port,
     );
     
     unless ($server_socket) {
-      $port = $retry_port;
+      $available_port = $try_port;
       last;
     }
-
-    $retry_port++;
+    
+    $try_port++;
     $retry_count++;
   }
   
-  return $port;
+  return $available_port;
 }
 
 sub wait_port_prepared {
