@@ -1,3 +1,7 @@
+0.20 2022-10-28
+  [Bug Fix]
+    * Fixed the following bug "undefined symbol: clock_gettime".
+      http://www.cpantesters.org/cpan/report/bd054802-55bd-11ed-9ef0-b2246e8775ea
 0.20 2022-10-27
   [Test Fix]
     * Fixed the testing bug that the test of the getpeername method in the Sys::Socket failed in a different port.
