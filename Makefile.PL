@@ -7,9 +7,6 @@ use SPVM::Builder::Util::API;
 
 # Check supported environment
 {
-  # Currently SPVM doesn't support Alpine Linux
-  
-  
   my $myuname = $Config{myuname};
   # Free BSD myyname examples
   # "freebsd www3301.sakura.ne.jp 9.1-release-p24 freebsd 9.1-release-p24 #0: thu feb 5 10:03:29 jst 2015 root@www3304.sakura.ne.jp:usrobjusrsrcsyssakura17 amd64"
@@ -21,9 +18,13 @@ use SPVM::Builder::Util::API;
       $minor_version = $2;
     }
     unless ($major_version >= 10) {
-      warn "SPVM::Sys only supports FreeBSD 10+ because the following tests couldn't be fixed. http://www.cpantesters.org/cpan/report/b26888fa-55bd-11ed-9ef0-b2246e8775ea";
+      warn "SPVM::Sys only supports FreeBSD 10+ because the following tests couldn't be fixed by us. http://www.cpantesters.org/cpan/report/b26888fa-55bd-11ed-9ef0-b2246e8775ea";
       die "OS unsupported\n";
     }
+  }
+  elsif ($myuname =~ /\bsolaris\b/i) {
+    warn "SPVM::Sys only supports Solaris because the following tests couldn't be fixed by us. http://www.cpantesters.org/cpan/report/4632b772-5587-11ed-aba6-9a79f339625c";
+    die "OS unsupported\n";
   }
 }
 

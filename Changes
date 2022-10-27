@@ -4,9 +4,12 @@
       http://www.cpantesters.org/cpan/report/bd054802-55bd-11ed-9ef0-b2246e8775ea
     * Fixed the following bug "F_OK is not defined on this system".
       http://www.cpantesters.org/cpan/report/ca95477e-55bd-11ed-b10d-6ad02691c3e1
-  [Support OS]
+  [OS Support Drop]
     * SPVM::Sys only supports FreeBSD 10+ because the following tests couldn't be fixed.
       http://www.cpantesters.org/cpan/report/b26888fa-55bd-11ed-9ef0-b2246e8775ea
+    * SPVM::Sys doens't supports Solaris.
+      SPVM::Sys only supports Solaris because the following tests couldn't be fixed by us.
+      http://www.cpantesters.org/cpan/report/4632b772-5587-11ed-aba6-9a79f339625c
 0.20 2022-10-27
   [Test Fix]
     * Fixed the testing bug that the test of the getpeername method in the Sys::Socket failed in a different port.
