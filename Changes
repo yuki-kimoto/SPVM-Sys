@@ -2,6 +2,8 @@
   [Bug Fix]
     * Fixed the following bug "undefined symbol: clock_gettime".
       http://www.cpantesters.org/cpan/report/bd054802-55bd-11ed-9ef0-b2246e8775ea
+    * Fixed the following bug "F_OK is not defined on this system".
+      http://www.cpantesters.org/cpan/report/ca95477e-55bd-11ed-b10d-6ad02691c3e1
   [Support OS]
     * SPVM::Sys only supports FreeBSD 10+ because the following tests couldn't be fixed.
       http://www.cpantesters.org/cpan/report/b26888fa-55bd-11ed-9ef0-b2246e8775ea
