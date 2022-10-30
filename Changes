@@ -9,7 +9,12 @@
       t/Sys_Process.t     (Wstat: 14 Tests: 27 Failed: 0)
       Non-zero wait status: 14
       http://www.cpantesters.org/cpan/report/5535c44e-5730-11ed-8d66-ab3f8ac1dfec
-      
+  [OS Support]
+    * Support Solaris and SunOS again.
+  [Bug Fix]
+    * Fix the bug that SunOS doesn't have tv_nsec in stat strcuture.
+    The failed test is the following.
+    http://www.cpantesters.org/cpan/report/38989036-56f5-11ed-aba6-9a79f339625c
 0.21 2022-10-28
   [Bug Fix]
     * Fixed the following bug "undefined symbol: clock_gettime".

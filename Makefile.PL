@@ -22,10 +22,6 @@ use SPVM::Builder::Util::API;
       die "OS unsupported\n";
     }
   }
-  elsif ($myuname =~ /\bsolaris\b/i) {
-    warn "SPVM::Sys only supports Solaris because the following tests couldn't be fixed by us. http://www.cpantesters.org/cpan/report/4632b772-5587-11ed-aba6-9a79f339625c";
-    die "OS unsupported\n";
-  }
 }
 
 # http://www.cpantesters.org/cpan/report/b26888fa-55bd-11ed-9ef0-b2246e8775ea
