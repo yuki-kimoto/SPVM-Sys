@@ -126,6 +126,8 @@ Supports the following macro names.
 
 =item * __MACH__
 
+=item * __sun
+
 =item * __solaris
 
 =back
