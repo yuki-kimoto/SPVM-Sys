@@ -1,6 +1,7 @@
 0.22 2022-10-31
   [New Features]
     * The defined method in the Sys supports __sun.
+    * The get_osname method in the Sys supports sunos.
   [Test Fix]
     * Separate the tests of alarm and ualarm to other files in order to separate the effects of sleep
       The failed test is the following.

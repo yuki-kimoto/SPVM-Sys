@@ -144,15 +144,17 @@ The C<get_osname> in the C<Sys> class supports the following os names.
 
 =item * linux
 
+=item * darwin
+
+=item * MSWin32
+
 =item * freebsd
 
 =item * openbsd
 
+=item * sunos
+
 =item * solaris
-
-=item * MSWin32
-
-=item * darwin
 
 =back
 
