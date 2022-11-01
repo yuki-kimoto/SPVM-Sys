@@ -1,0 +1,53 @@
+class TestCase::Sys::Signal {
+  use Sys::Signal;
+  use Sys::Signal::Constant as SIGNAL;
+
+  
+  static method kill : int () {
+    
+    my $status = Sys::Signal->kill(0, 0);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
+  static method alarm : int () {
+    
+    my $rest1 = Sys::Signal->alarm(5);
+    
+    unless ($rest1 == 0) {
+      return 0;
+    }
+    
+    my $rest2 = Sys::Signal->alarm(5);
+    
+    unless ($rest2 == 5) {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
+  static method ualarm : int () {
+    
+    my $rest1 = Sys::Signal->ualarm(5_000, 0);
+      
+    unless ($rest1 >= 0) {
+      return 0;
+    }
+    
+    my $rest2 = Sys::Signal->ualarm(5_000, 0);
+    
+    unless ($rest2 >= 4000 && $rest2 <= 5000) {
+      return 0;
+    }
+    
+    # Cancel alarm
+    Sys::Signal->ualarm(0, 0);
+    
+    return 1;
+  }
+}

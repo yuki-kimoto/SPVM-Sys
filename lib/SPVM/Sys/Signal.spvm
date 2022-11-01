@@ -1,3 +1,9 @@
 class Sys::Signal {
 
+  use Sys::Signal::Constant;
+  
+  native static method kill : int ($pid : int, $sig : int);
+  native static method alarm : int ($seconds : int);
+  native static method ualarm : long ($usecs : long, $interval : long);
+
 }
