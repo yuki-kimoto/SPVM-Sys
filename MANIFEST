@@ -227,8 +227,6 @@ t/Sys_IO.t
 t/Sys_Ioctl.t
 t/Sys_Poll.t
 t/Sys_Process.t
-t/Sys_Process_alarm.t
-t/Sys_Process_ualarm.t
 t/Sys_Select.t
 t/Sys_Signal.t
 t/Sys_Signal_alarm.t
