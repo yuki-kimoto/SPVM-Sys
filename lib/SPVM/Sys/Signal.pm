@@ -1,45 +1,45 @@
 package SPVM::Sys::Signal;
 
-our $VERSION = '0.01';
-
 1;
 
 =head1 Name
 
-SPVM::Sys::Signal - Sys::Signal is a SPVM module
+SPVM::Sys::Signal - Signal System Call
 
 =head1 Usage
-
-  use Sys::Signal;
   
+  use Sys::Signal;
+  use Sys::Signal::Constant as SIGNAL;
+  
+  # kill
+  Sys::Signal->kill($process_id, SIGNAL->SIGINT);
+
 =head1 Description
 
-C<Sys::Signal> is a L<SPVM> module.
-
-=head1 Fields
-
-
+C<Sys::Signal> provides the methods to call the system call for the signal.
 
 =head1 Class Methods
 
+=head2 kill
 
+  static method kill : int ($pid : int, $sig : int)
 
-=head1 Instance Methods
+The kill() system call can be used to send any signal to any process group or process.
 
+See the detail of the L<kill|https://linux.die.net/man/2/kill> function in the case of Linux.
 
+=head2 alarm
 
-=head1 Repository
+  static method alarm : int ($seconds : int)
 
+alarm() arranges for a SIGALRM signal to be delivered to the calling process in seconds seconds.
 
+See the detail of the L<alerm|https://linux.die.net/man/2/alarm> function in the case of Linux.
 
-=head1 Author
+=head2 ualarm
 
-Yuki Kimoto C<kimoto.yuki@gmail.com>
+  static method ualarm : long ($usecs : long, $interval : long)
 
-=head1 Copyright & License
+The ualarm() function causes the signal SIGALRM to be sent to the invoking process after (not less than) usecs microseconds. The delay may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
 
-Copyright 2022-2022 Yuki Kimoto, all rights reserved.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
+See the detail of the L<https://linux.die.net/man/3/ualarm> function in the case of Linux.
