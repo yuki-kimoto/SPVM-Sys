@@ -1,3 +1,8 @@
+0.23 2022-11-01
+  [Incompatible Changes]
+    * Removed the alarm and ualarm method of the Sys::Process class,
+      because the features of the signal is too difficult to understand for me.
+      In future, the features of the signal will be porting to Sys::Signal on CPAN module.
 0.22 2022-10-31
   [New Features]
     * The defined method in the Sys supports __sun.
