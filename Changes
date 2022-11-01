@@ -1,3 +1,6 @@
+0.24 2022-11-02
+  [New Features]
+    * Added the Sys::Signal and Sys::Signal::Constant class.
 0.23 2022-11-01
   [Bug Fix]
     * Fixed the bug that the get_osname method in the Sys class returned "sunos", not "solaris" in Soralis.

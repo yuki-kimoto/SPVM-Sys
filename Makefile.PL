@@ -101,6 +101,8 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::PollfdArray');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ioctl');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ioctl::Constant');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal');
+  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal::Constant');
   
   return $make_rule;
 }
