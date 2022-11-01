@@ -16,11 +16,11 @@ class Sys {
     elsif (&defined("__OpenBSD__")) {
       $osname = "openbsd";
     }
-    elsif (&defined("__sun")) {
-      $osname = "sunos";
-    }
     elsif (&defined("__solaris")) {
       $osname = "solaris";
+    }
+    elsif (&defined("__sun")) {
+      $osname = "sunos";
     }
     elsif (&defined("__APPLE__")) {
       $osname = "darwin";

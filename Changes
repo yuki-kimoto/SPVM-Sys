@@ -1,4 +1,6 @@
 0.23 2022-11-01
+  [Bug Fix]
+    * Fixed the bug that the get_osname method in the Sys class returned "sunos", not "solaris" in Soralis.
   [Incompatible Changes]
     * Removed the alarm and ualarm method of the Sys::Process class,
       because the features of the signal is too difficult to understand for me.
