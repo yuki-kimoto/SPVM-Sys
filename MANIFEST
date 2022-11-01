@@ -84,6 +84,14 @@ lib/SPVM/Sys/Select/Fd_set.c
 lib/SPVM/Sys/Select/Fd_set.config
 lib/SPVM/Sys/Select/Fd_set.pm
 lib/SPVM/Sys/Select/Fd_set.spvm
+lib/SPVM/Sys/Signal.c
+lib/SPVM/Sys/Signal.config
+lib/SPVM/Sys/Signal.pm
+lib/SPVM/Sys/Signal.spvm
+lib/SPVM/Sys/Signal/Constant.c
+lib/SPVM/Sys/Signal/Constant.config
+lib/SPVM/Sys/Signal/Constant.pm
+lib/SPVM/Sys/Signal/Constant.spvm
 lib/SPVM/Sys/Socket.c
 lib/SPVM/Sys/Socket.config
 lib/SPVM/Sys/Socket.pm
@@ -218,6 +226,8 @@ t/Sys_IO.t
 t/Sys_Ioctl.t
 t/Sys_Poll.t
 t/Sys_Process.t
+t/Sys_Process_alarm.t
+t/Sys_Process_ualarm.t
 t/Sys_Select.t
 t/Sys_Socket.t
 t/Sys_Time.t
