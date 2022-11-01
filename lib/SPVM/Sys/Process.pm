@@ -9,14 +9,14 @@ SPVM::Sys::Process - Process System Call
 =head1 Usage
   
   use Sys::Process;
-  use Sys::Process::Constant as Process;
+  use Sys::Process::Constant as PROCESS;
   
   # exit
-  Sys::Process->exit(Process->EXIT_FAILURE);
+  Sys::Process->exit(PROCESS->EXIT_FAILURE);
   
   # waitpid
   my $wstatus;
-  my $changed_process_id = Sys::Process->waitpid($process_id, \$wstatus, Process->WNOHANG);
+  my $changed_process_id = Sys::Process->waitpid($process_id, \$wstatus, PROCESS->WNOHANG);
   
   # getpid
   my $process_id = Sys::Process->getpid;
