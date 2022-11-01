@@ -16,13 +16,12 @@ use SPVM 'TestCase::Sys::Signal';
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
 if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->kill(0, 0) };
+  eval { SPVM::Sys::Signal->alarm(0) };
   like($@, qr/not supported/);
 }
 else {
-  ok(SPVM::TestCase::Sys::Signal->kill);
+  ok(SPVM::TestCase::Sys::Signal->alarm);
 }
-
 SPVM::set_exception(undef);
 
 # All object is freed

@@ -212,6 +212,7 @@ t/lib/SPVM/TestCase/Sys/Ioctl.spvm
 t/lib/SPVM/TestCase/Sys/Poll.spvm
 t/lib/SPVM/TestCase/Sys/Process.spvm
 t/lib/SPVM/TestCase/Sys/Select.spvm
+t/lib/SPVM/TestCase/Sys/Signal.spvm
 t/lib/SPVM/TestCase/Sys/Socket.spvm
 t/lib/SPVM/TestCase/Sys/Time.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
@@ -229,6 +230,9 @@ t/Sys_Process.t
 t/Sys_Process_alarm.t
 t/Sys_Process_ualarm.t
 t/Sys_Select.t
+t/Sys_Signal.t
+t/Sys_Signal_alarm.t
+t/Sys_Signal_ualarm.t
 t/Sys_Socket.t
 t/Sys_Time.t
 t/Sys_User.t
