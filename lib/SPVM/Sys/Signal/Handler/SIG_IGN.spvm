@@ -1,0 +1,5 @@
+class Sys::Signal::Handler::SIG_IGN {
+  method new : Sys::Signal::Handler::SIG_IGN () {
+    return new Sys::Signal::Handler::SIG_IGN;
+  }
+}

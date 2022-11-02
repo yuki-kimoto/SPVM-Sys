@@ -1,6 +1,10 @@
 class Sys::Signal {
   use Hash;
+  use Sys::Signal::Constant;
   use Sys::Signal::Handler;
+  use Sys::Signal::Handler::SIG_DFL;
+  use Sys::Signal::Handler::SIG_IGN;
+  use Sys::Signal::Handler::SIG_ERR;
   
   our $SIGNAL_HANDLERS : private Hash;
   
@@ -12,15 +16,21 @@ class Sys::Signal {
     
     my $handler = (Sys::Signal::Handler)$SIGNAL_HANDLERS->get("$sig");
     
+    if ($handler) {
+      die "Can't find the signal handler for the signal number $sig";
+    }
+    
     return $handler;
   }
   
   static method set_signal_handler : void ($sig : int, $handler : Sys::Signal::Handler) {
     
+    if (!$handler) {
+      die "Can't set undef to the signal hander.";
+    }
+    
     $SIGNAL_HANDLERS->set("$sig", $handler);
   }
-  
-  use Sys::Signal::Constant;
   
   native static method kill : int ($pid : int, $sig : int);
   native static method alarm : int ($seconds : int);
