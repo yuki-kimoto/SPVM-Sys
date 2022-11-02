@@ -424,6 +424,18 @@ int32_t SPVM__Sys__Signal__Constant__POLL_PRI(SPVM_ENV* env, SPVM_VALUE* stack) 
 
 }
 
+int32_t SPVM__Sys__Signal__Constant__SI_SIGIO(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SI_SIGIO
+  stack[0].ival = SI_SIGIO;
+  return 0;
+#else
+  env->die(env, stack, "SI_SIGIO is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
 int32_t SPVM__Sys__Signal__Constant__SI_ASYNCIO(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SI_ASYNCIO

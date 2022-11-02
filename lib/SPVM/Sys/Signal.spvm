@@ -17,7 +17,7 @@ class Sys::Signal {
   
   static method set_signal_handler : void ($sig : int, $handler : Sys::Signal::Handler) {
     
-    my $handler = (Sys::Signal::Handler)$SIGNAL_HANDLERS->set("$sig", $handler);
+    $SIGNAL_HANDLERS->set("$sig", $handler);
   }
   
   use Sys::Signal::Constant;
