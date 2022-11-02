@@ -1,5 +1,0 @@
-class Sys::Signal::Handler::SIG_DFL {
-  method new : Sys::Signal::Handler::SIG_DFL () {
-    return new Sys::Signal::Handler::SIG_DFL;
-  }
-}

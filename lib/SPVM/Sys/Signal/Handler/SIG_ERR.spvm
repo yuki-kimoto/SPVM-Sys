@@ -1,5 +1,0 @@
-class Sys::Signal::Handler::SIG_ERR {
-  method new : Sys::Signal::Handler::SIG_ERR () {
-    return new Sys::Signal::Handler::SIG_ERR;
-  }
-}

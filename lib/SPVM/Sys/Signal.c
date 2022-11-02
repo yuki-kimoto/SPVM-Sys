@@ -70,3 +70,144 @@ int32_t SPVM__Sys__Signal__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
+static int8_t monitored_signal_numbers[256] = {0};
+
+static void set_monitored_signal_numbers(int32_t signum) {
+  monitored_signal_numbers[signum] = 1;
+}
+
+int32_t SPVM__Sys__Signal__new_signal_handler_monitor(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t e = 0;
+  
+  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __FILE__, __LINE__);
+  if (e) { return e; }
+  
+  env->set_pointer(env, stack, obj_signal_handler_monitor, &set_monitored_signal_numbers);
+  
+  stack[0].oval = obj_signal_handler_monitor;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Signal__new_signal_handler_sig_dfl(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t e = 0;
+  
+  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __FILE__, __LINE__);
+  if (e) { return e; }
+  
+  env->set_pointer(env, stack, obj_signal_handler_monitor, SIG_DFL);
+  
+  stack[0].oval = obj_signal_handler_monitor;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Signal__new_signal_handler_sig_ign(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t e = 0;
+  
+  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __FILE__, __LINE__);
+  if (e) { return e; }
+  
+  env->set_pointer(env, stack, obj_signal_handler_monitor, SIG_IGN);
+  
+  stack[0].oval = obj_signal_handler_monitor;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Signal__new_signal_handler_sig_err(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t e = 0;
+  
+  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __FILE__, __LINE__);
+  if (e) { return e; }
+  
+  env->set_pointer(env, stack, obj_signal_handler_monitor, SIG_ERR);
+  
+  stack[0].oval = obj_signal_handler_monitor;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t e = 0;
+  
+  int32_t signum = stack[0].ival;
+  if (!(signum >= 0)) {
+    return env->die(env, stack, "The $signum must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(signum < 256)) {
+    return env->die(env, stack, "The $signum must be less than 256", FILE_NAME, __LINE__);
+  }
+  
+  void* obj_handler = stack[1].oval;
+
+  if (!obj_handler) {
+    return env->die(env, stack, "The $handler must be defined", FILE_NAME, __LINE__);
+  }
+  
+  void* handler = env->get_pointer(env, stack, obj_handler);
+  
+  void* old_handler = signal(signum, obj_handler);
+  
+  void* obj_old_handler = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __FILE__, __LINE__);
+  if (e) { return e; }
+  env->set_pointer(env, stack, obj_old_handler, old_handler);
+  
+  stack[0].oval = obj_old_handler;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Signal__reset_signal(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t signum = stack[0].ival;
+  if (!(signum >= 0)) {
+    return env->die(env, stack, "The $signum must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(signum < 256)) {
+    return env->die(env, stack, "The $signum must be less than 256", FILE_NAME, __LINE__);
+  }
+  
+  monitored_signal_numbers[signum] = 0;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Signal__check_signal(SPVM_ENV* env, SPVM_VALUE* stack) {
+  (void)env;
+  (void)stack;
+  
+  int32_t signum = stack[0].ival;
+  if (!(signum >= 0)) {
+    return env->die(env, stack, "The $signum must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+  
+  if (!(signum < 256)) {
+    return env->die(env, stack, "The $signum must be less than 256", FILE_NAME, __LINE__);
+  }
+  
+  int32_t monitored_signal_number = monitored_signal_numbers[signum];
+  
+  stack[0].ival = monitored_signal_number;
+  
+  return 0;
+}
