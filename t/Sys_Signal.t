@@ -23,6 +23,8 @@ else {
   ok(SPVM::TestCase::Sys::Signal->kill);
 }
 
+ok(SPVM::TestCase::Sys::Signal->signal_constant);
+
 SPVM::set_exception(undef);
 
 # All object is freed

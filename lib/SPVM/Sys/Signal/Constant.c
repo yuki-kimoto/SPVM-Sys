@@ -1,6 +1,6 @@
 #include "spvm_native.h"
 
-
+#include <signal.h>
 
 static const char* FILE_NAME = "Sys/Signal/Constant.c";
 
