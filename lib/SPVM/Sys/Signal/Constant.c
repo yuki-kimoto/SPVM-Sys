@@ -424,306 +424,6 @@ int32_t SPVM__Sys__Signal__Constant__POLL_PRI(SPVM_ENV* env, SPVM_VALUE* stack) 
 
 }
 
-int32_t SPVM__Sys__Signal__Constant__SIGBUS(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGBUS
-  stack[0].ival = SIGBUS;
-  return 0;
-#else
-  env->die(env, stack, "SIGBUS is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGCHLD(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGCHLD
-  stack[0].ival = SIGCHLD;
-  return 0;
-#else
-  env->die(env, stack, "SIGCHLD is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGCONT(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGCONT
-  stack[0].ival = SIGCONT;
-  return 0;
-#else
-  env->die(env, stack, "SIGCONT is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGEMT(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGEMT
-  stack[0].ival = SIGEMT;
-  return 0;
-#else
-  env->die(env, stack, "SIGEMT is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGEV_SIGNAL(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGEV_SIGNAL
-  stack[0].ival = SIGEV_SIGNAL;
-  return 0;
-#else
-  env->die(env, stack, "SIGEV_SIGNAL is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGFPE(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGFPE
-  stack[0].ival = SIGFPE;
-  return 0;
-#else
-  env->die(env, stack, "SIGFPE is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGILL(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGILL
-  stack[0].ival = SIGILL;
-  return 0;
-#else
-  env->die(env, stack, "SIGILL is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGINFO(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGINFO
-  stack[0].ival = SIGINFO;
-  return 0;
-#else
-  env->die(env, stack, "SIGINFO is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGIO(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGIO
-  stack[0].ival = SIGIO;
-  return 0;
-#else
-  env->die(env, stack, "SIGIO is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGKILL(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGKILL
-  stack[0].ival = SIGKILL;
-  return 0;
-#else
-  env->die(env, stack, "SIGKILL is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGLOST(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGLOST
-  stack[0].ival = SIGLOST;
-  return 0;
-#else
-  env->die(env, stack, "SIGLOST is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGPOLL(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGPOLL
-  stack[0].ival = SIGPOLL;
-  return 0;
-#else
-  env->die(env, stack, "SIGPOLL is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGPWR(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGPWR
-  stack[0].ival = SIGPWR;
-  return 0;
-#else
-  env->die(env, stack, "SIGPWR is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGRTMAX(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGRTMAX
-  stack[0].ival = SIGRTMAX;
-  return 0;
-#else
-  env->die(env, stack, "SIGRTMAX is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGRTMIN(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGRTMIN
-  stack[0].ival = SIGRTMIN;
-  return 0;
-#else
-  env->die(env, stack, "SIGRTMIN is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGSEGV(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGSEGV
-  stack[0].ival = SIGSEGV;
-  return 0;
-#else
-  env->die(env, stack, "SIGSEGV is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGSTOP(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGSTOP
-  stack[0].ival = SIGSTOP;
-  return 0;
-#else
-  env->die(env, stack, "SIGSTOP is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGSYS(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGSYS
-  stack[0].ival = SIGSYS;
-  return 0;
-#else
-  env->die(env, stack, "SIGSYS is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGTRAP(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGTRAP
-  stack[0].ival = SIGTRAP;
-  return 0;
-#else
-  env->die(env, stack, "SIGTRAP is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGTSTP(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGTSTP
-  stack[0].ival = SIGTSTP;
-  return 0;
-#else
-  env->die(env, stack, "SIGTSTP is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGTTIN(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGTTIN
-  stack[0].ival = SIGTTIN;
-  return 0;
-#else
-  env->die(env, stack, "SIGTTIN is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGTTOU(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGTTOU
-  stack[0].ival = SIGTTOU;
-  return 0;
-#else
-  env->die(env, stack, "SIGTTOU is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGUNUSED(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGUNUSED
-  stack[0].ival = SIGUNUSED;
-  return 0;
-#else
-  env->die(env, stack, "SIGUNUSED is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGXCPU(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGXCPU
-  stack[0].ival = SIGXCPU;
-  return 0;
-#else
-  env->die(env, stack, "SIGXCPU is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SIGXFSZ(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SIGXFSZ
-  stack[0].ival = SIGXFSZ;
-  return 0;
-#else
-  env->die(env, stack, "SIGXFSZ is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
 int32_t SPVM__Sys__Signal__Constant__SI_ASYNCIO(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SI_ASYNCIO
@@ -767,18 +467,6 @@ int32_t SPVM__Sys__Signal__Constant__SI_QUEUE(SPVM_ENV* env, SPVM_VALUE* stack) 
   return 0;
 #else
   env->die(env, stack, "SI_QUEUE is not defined on this system", FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#endif
-
-}
-
-int32_t SPVM__Sys__Signal__Constant__SI_SIGIO(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#ifdef SI_SIGIO
-  stack[0].ival = SI_SIGIO;
-  return 0;
-#else
-  env->die(env, stack, "SI_SIGIO is not defined on this system", FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #endif
 
@@ -863,6 +551,402 @@ int32_t SPVM__Sys__Signal__Constant__TRAP_TRACE(SPVM_ENV* env, SPVM_VALUE* stack
   return 0;
 #else
   env->die(env, stack, "TRAP_TRACE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGABRT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGABRT
+  stack[0].ival = SIGABRT;
+  return 0;
+#else
+  env->die(env, stack, "SIGABRT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGALRM(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGALRM
+  stack[0].ival = SIGALRM;
+  return 0;
+#else
+  env->die(env, stack, "SIGALRM is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGBUS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGBUS
+  stack[0].ival = SIGBUS;
+  return 0;
+#else
+  env->die(env, stack, "SIGBUS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGCHLD(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGCHLD
+  stack[0].ival = SIGCHLD;
+  return 0;
+#else
+  env->die(env, stack, "SIGCHLD is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGCONT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGCONT
+  stack[0].ival = SIGCONT;
+  return 0;
+#else
+  env->die(env, stack, "SIGCONT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGFPE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGFPE
+  stack[0].ival = SIGFPE;
+  return 0;
+#else
+  env->die(env, stack, "SIGFPE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGHUP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGHUP
+  stack[0].ival = SIGHUP;
+  return 0;
+#else
+  env->die(env, stack, "SIGHUP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGILL(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGILL
+  stack[0].ival = SIGILL;
+  return 0;
+#else
+  env->die(env, stack, "SIGILL is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGINT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGINT
+  stack[0].ival = SIGINT;
+  return 0;
+#else
+  env->die(env, stack, "SIGINT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGIO(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGIO
+  stack[0].ival = SIGIO;
+  return 0;
+#else
+  env->die(env, stack, "SIGIO is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGKILL(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGKILL
+  stack[0].ival = SIGKILL;
+  return 0;
+#else
+  env->die(env, stack, "SIGKILL is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGPIPE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGPIPE
+  stack[0].ival = SIGPIPE;
+  return 0;
+#else
+  env->die(env, stack, "SIGPIPE is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGPROF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGPROF
+  stack[0].ival = SIGPROF;
+  return 0;
+#else
+  env->die(env, stack, "SIGPROF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGPWR(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGPWR
+  stack[0].ival = SIGPWR;
+  return 0;
+#else
+  env->die(env, stack, "SIGPWR is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGQUIT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGQUIT
+  stack[0].ival = SIGQUIT;
+  return 0;
+#else
+  env->die(env, stack, "SIGQUIT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGRTMAX(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGRTMAX
+  stack[0].ival = SIGRTMAX;
+  return 0;
+#else
+  env->die(env, stack, "SIGRTMAX is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGRTMIN(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGRTMIN
+  stack[0].ival = SIGRTMIN;
+  return 0;
+#else
+  env->die(env, stack, "SIGRTMIN is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGSEGV(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGSEGV
+  stack[0].ival = SIGSEGV;
+  return 0;
+#else
+  env->die(env, stack, "SIGSEGV is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGSTKFLT(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGSTKFLT
+  stack[0].ival = SIGSTKFLT;
+  return 0;
+#else
+  env->die(env, stack, "SIGSTKFLT is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGSTOP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGSTOP
+  stack[0].ival = SIGSTOP;
+  return 0;
+#else
+  env->die(env, stack, "SIGSTOP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGSYS(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGSYS
+  stack[0].ival = SIGSYS;
+  return 0;
+#else
+  env->die(env, stack, "SIGSYS is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGTERM(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGTERM
+  stack[0].ival = SIGTERM;
+  return 0;
+#else
+  env->die(env, stack, "SIGTERM is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGTRAP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGTRAP
+  stack[0].ival = SIGTRAP;
+  return 0;
+#else
+  env->die(env, stack, "SIGTRAP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGTSTP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGTSTP
+  stack[0].ival = SIGTSTP;
+  return 0;
+#else
+  env->die(env, stack, "SIGTSTP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGTTIN(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGTTIN
+  stack[0].ival = SIGTTIN;
+  return 0;
+#else
+  env->die(env, stack, "SIGTTIN is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGTTOU(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGTTOU
+  stack[0].ival = SIGTTOU;
+  return 0;
+#else
+  env->die(env, stack, "SIGTTOU is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGURG(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGURG
+  stack[0].ival = SIGURG;
+  return 0;
+#else
+  env->die(env, stack, "SIGURG is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGUSR1(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGUSR1
+  stack[0].ival = SIGUSR1;
+  return 0;
+#else
+  env->die(env, stack, "SIGUSR1 is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGUSR2(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGUSR2
+  stack[0].ival = SIGUSR2;
+  return 0;
+#else
+  env->die(env, stack, "SIGUSR2 is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGVTALRM(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGVTALRM
+  stack[0].ival = SIGVTALRM;
+  return 0;
+#else
+  env->die(env, stack, "SIGVTALRM is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGWINCH(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGWINCH
+  stack[0].ival = SIGWINCH;
+  return 0;
+#else
+  env->die(env, stack, "SIGWINCH is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGXCPU(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGXCPU
+  stack[0].ival = SIGXCPU;
+  return 0;
+#else
+  env->die(env, stack, "SIGXCPU is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__Signal__Constant__SIGXFSZ(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef SIGXFSZ
+  stack[0].ival = SIGXFSZ;
+  return 0;
+#else
+  env->die(env, stack, "SIGXFSZ is not defined on this system", FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #endif
 

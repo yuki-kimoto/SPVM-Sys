@@ -226,156 +226,6 @@ Get the constant value of C<POLL_OUT>. If the system doesn't define this constan
 
 Get the constant value of C<POLL_PRI>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
-=head2 SIGBUS
-
-  static method SIGBUS : int ();
-
-Get the constant value of C<SIGBUS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGCHLD
-
-  static method SIGCHLD : int ();
-
-Get the constant value of C<SIGCHLD>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGCONT
-
-  static method SIGCONT : int ();
-
-Get the constant value of C<SIGCONT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGEMT
-
-  static method SIGEMT : int ();
-
-Get the constant value of C<SIGEMT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGEV_SIGNAL
-
-  static method SIGEV_SIGNAL : int ();
-
-Get the constant value of C<SIGEV_SIGNAL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGFPE
-
-  static method SIGFPE : int ();
-
-Get the constant value of C<SIGFPE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGILL
-
-  static method SIGILL : int ();
-
-Get the constant value of C<SIGILL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGINFO
-
-  static method SIGINFO : int ();
-
-Get the constant value of C<SIGINFO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGIO
-
-  static method SIGIO : int ();
-
-Get the constant value of C<SIGIO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGKILL
-
-  static method SIGKILL : int ();
-
-Get the constant value of C<SIGKILL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGLOST
-
-  static method SIGLOST : int ();
-
-Get the constant value of C<SIGLOST>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGPOLL
-
-  static method SIGPOLL : int ();
-
-Get the constant value of C<SIGPOLL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGPWR
-
-  static method SIGPWR : int ();
-
-Get the constant value of C<SIGPWR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGRTMAX
-
-  static method SIGRTMAX : int ();
-
-Get the constant value of C<SIGRTMAX>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGRTMIN
-
-  static method SIGRTMIN : int ();
-
-Get the constant value of C<SIGRTMIN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGSEGV
-
-  static method SIGSEGV : int ();
-
-Get the constant value of C<SIGSEGV>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGSTOP
-
-  static method SIGSTOP : int ();
-
-Get the constant value of C<SIGSTOP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGSYS
-
-  static method SIGSYS : int ();
-
-Get the constant value of C<SIGSYS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGTRAP
-
-  static method SIGTRAP : int ();
-
-Get the constant value of C<SIGTRAP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGTSTP
-
-  static method SIGTSTP : int ();
-
-Get the constant value of C<SIGTSTP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGTTIN
-
-  static method SIGTTIN : int ();
-
-Get the constant value of C<SIGTTIN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGTTOU
-
-  static method SIGTTOU : int ();
-
-Get the constant value of C<SIGTTOU>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGUNUSED
-
-  static method SIGUNUSED : int ();
-
-Get the constant value of C<SIGUNUSED>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGXCPU
-
-  static method SIGXCPU : int ();
-
-Get the constant value of C<SIGXCPU>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 SIGXFSZ
-
-  static method SIGXFSZ : int ();
-
-Get the constant value of C<SIGXFSZ>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
 =head2 SI_ASYNCIO
 
   static method SI_ASYNCIO : int ();
@@ -448,20 +298,200 @@ Get the constant value of C<TRAP_HWBKPT>. If the system doesn't define this cons
 
 Get the constant value of C<TRAP_TRACE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
-=head2 SIG_DFL
+=head2 SIGABRT
 
-  static method SIG_DFL : int ();
+  static method SIGABRT : int ();
 
-Get the constant value of C<SIG_DFL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Get the constant value of C<SIGABRT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
-=head2 SIG_ERR
+=head2 SIGALRM
 
-  static method SIG_ERR : int ();
+  static method SIGALRM : int ();
 
-Get the constant value of C<SIG_ERR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Get the constant value of C<SIGALRM>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
-=head2 SIG_IGN
+=head2 SIGBUS
 
-  static method SIG_IGN : int ();
+  static method SIGBUS : int ();
 
-Get the constant value of C<SIG_IGN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Get the constant value of C<SIGBUS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGCHLD
+
+  static method SIGCHLD : int ();
+
+Get the constant value of C<SIGCHLD>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGCONT
+
+  static method SIGCONT : int ();
+
+Get the constant value of C<SIGCONT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGFPE
+
+  static method SIGFPE : int ();
+
+Get the constant value of C<SIGFPE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGHUP
+
+  static method SIGHUP : int ();
+
+Get the constant value of C<SIGHUP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGILL
+
+  static method SIGILL : int ();
+
+Get the constant value of C<SIGILL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGINT
+
+  static method SIGINT : int ();
+
+Get the constant value of C<SIGINT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGIO
+
+  static method SIGIO : int ();
+
+Get the constant value of C<SIGIO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGKILL
+
+  static method SIGKILL : int ();
+
+Get the constant value of C<SIGKILL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGPIPE
+
+  static method SIGPIPE : int ();
+
+Get the constant value of C<SIGPIPE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGPROF
+
+  static method SIGPROF : int ();
+
+Get the constant value of C<SIGPROF>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGPWR
+
+  static method SIGPWR : int ();
+
+Get the constant value of C<SIGPWR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGQUIT
+
+  static method SIGQUIT : int ();
+
+Get the constant value of C<SIGQUIT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGRTMAX
+
+  static method SIGRTMAX : int ();
+
+Get the constant value of C<SIGRTMAX>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGRTMIN
+
+  static method SIGRTMIN : int ();
+
+Get the constant value of C<SIGRTMIN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGSEGV
+
+  static method SIGSEGV : int ();
+
+Get the constant value of C<SIGSEGV>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGSTKFLT
+
+  static method SIGSTKFLT : int ();
+
+Get the constant value of C<SIGSTKFLT>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGSTOP
+
+  static method SIGSTOP : int ();
+
+Get the constant value of C<SIGSTOP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGSYS
+
+  static method SIGSYS : int ();
+
+Get the constant value of C<SIGSYS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGTERM
+
+  static method SIGTERM : int ();
+
+Get the constant value of C<SIGTERM>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGTRAP
+
+  static method SIGTRAP : int ();
+
+Get the constant value of C<SIGTRAP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGTSTP
+
+  static method SIGTSTP : int ();
+
+Get the constant value of C<SIGTSTP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGTTIN
+
+  static method SIGTTIN : int ();
+
+Get the constant value of C<SIGTTIN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGTTOU
+
+  static method SIGTTOU : int ();
+
+Get the constant value of C<SIGTTOU>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGURG
+
+  static method SIGURG : int ();
+
+Get the constant value of C<SIGURG>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGUSR1
+
+  static method SIGUSR1 : int ();
+
+Get the constant value of C<SIGUSR1>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGUSR2
+
+  static method SIGUSR2 : int ();
+
+Get the constant value of C<SIGUSR2>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGVTALRM
+
+  static method SIGVTALRM : int ();
+
+Get the constant value of C<SIGVTALRM>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGWINCH
+
+  static method SIGWINCH : int ();
+
+Get the constant value of C<SIGWINCH>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGXCPU
+
+  static method SIGXCPU : int ();
+
+Get the constant value of C<SIGXCPU>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIGXFSZ
+
+  static method SIGXFSZ : int ();
+
+Get the constant value of C<SIGXFSZ>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.

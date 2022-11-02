@@ -69,56 +69,6 @@ class Sys::Signal::Constant {
 
   native static method POLL_PRI : int ();
 
-  native static method SIGBUS : int ();
-
-  native static method SIGCHLD : int ();
-
-  native static method SIGCONT : int ();
-
-  native static method SIGEMT : int ();
-
-  native static method SIGEV_SIGNAL : int ();
-
-  native static method SIGFPE : int ();
-
-  native static method SIGILL : int ();
-
-  native static method SIGINFO : int ();
-
-  native static method SIGIO : int ();
-
-  native static method SIGKILL : int ();
-
-  native static method SIGLOST : int ();
-
-  native static method SIGPOLL : int ();
-
-  native static method SIGPWR : int ();
-
-  native static method SIGRTMAX : int ();
-
-  native static method SIGRTMIN : int ();
-
-  native static method SIGSEGV : int ();
-
-  native static method SIGSTOP : int ();
-
-  native static method SIGSYS : int ();
-
-  native static method SIGTRAP : int ();
-
-  native static method SIGTSTP : int ();
-
-  native static method SIGTTIN : int ();
-
-  native static method SIGTTOU : int ();
-
-  native static method SIGUNUSED : int ();
-
-  native static method SIGXCPU : int ();
-
-  native static method SIGXFSZ : int ();
-
   native static method SI_ASYNCIO : int ();
 
   native static method SI_KERNEL : int ();
@@ -142,6 +92,72 @@ class Sys::Signal::Constant {
   native static method TRAP_HWBKPT : int ();
 
   native static method TRAP_TRACE : int ();
+
+  native static method SIGABRT : int ();
+
+  native static method SIGALRM : int ();
+
+  native static method SIGBUS : int ();
+
+  native static method SIGCHLD : int ();
+
+  native static method SIGCONT : int ();
+
+  native static method SIGFPE : int ();
+
+  native static method SIGHUP : int ();
+
+  native static method SIGILL : int ();
+
+  native static method SIGINT : int ();
+
+  native static method SIGIO : int ();
+
+  native static method SIGKILL : int ();
+
+  native static method SIGPIPE : int ();
+
+  native static method SIGPROF : int ();
+
+  native static method SIGPWR : int ();
+
+  native static method SIGQUIT : int ();
+
+  native static method SIGRTMAX : int ();
+
+  native static method SIGRTMIN : int ();
+
+  native static method SIGSEGV : int ();
+
+  native static method SIGSTKFLT : int ();
+
+  native static method SIGSTOP : int ();
+
+  native static method SIGSYS : int ();
+
+  native static method SIGTERM : int ();
+
+  native static method SIGTRAP : int ();
+
+  native static method SIGTSTP : int ();
+
+  native static method SIGTTIN : int ();
+
+  native static method SIGTTOU : int ();
+
+  native static method SIGURG : int ();
+
+  native static method SIGUSR1 : int ();
+
+  native static method SIGUSR2 : int ();
+
+  native static method SIGVTALRM : int ();
+
+  native static method SIGWINCH : int ();
+
+  native static method SIGXCPU : int ();
+
+  native static method SIGXFSZ : int ();
 
 =pod
 
