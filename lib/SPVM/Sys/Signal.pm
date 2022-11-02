@@ -28,6 +28,8 @@ The kill() system call can be used to send any signal to any process group or pr
 
 See the detail of the L<kill|https://linux.die.net/man/2/kill> function in the case of Linux.
 
+See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about the signal numbers specified by C<$sig> 
+
 =head2 alarm
 
   static method alarm : int ($seconds : int)

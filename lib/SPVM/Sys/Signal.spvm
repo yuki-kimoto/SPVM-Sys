@@ -1,9 +1,28 @@
 class Sys::Signal {
-
+  use Hash;
+  use Sys::Signal::Handler;
+  
+  our $SIGNAL_HANDLERS : private Hash;
+  
+  INIT {
+    $SIGNAL_HANDLERS = Hash->new;
+  }
+  
+  static method signal_handler : Sys::Signal::Handler ($sig : int) {
+    
+    my $handler = (Sys::Signal::Handler)$SIGNAL_HANDLERS->get("$sig");
+    
+    return $handler;
+  }
+  
+  static method set_signal_handler : void ($sig : int, $handler : Sys::Signal::Handler) {
+    
+    my $handler = (Sys::Signal::Handler)$SIGNAL_HANDLERS->set("$sig", $handler);
+  }
+  
   use Sys::Signal::Constant;
   
   native static method kill : int ($pid : int, $sig : int);
   native static method alarm : int ($seconds : int);
   native static method ualarm : long ($usecs : long, $interval : long);
-
 }
