@@ -159,14 +159,9 @@ class Sys::Signal::Constant {
 
   native static method SIGXFSZ : int ();
 
-=pod
-
   native static method SIG_DFL : int ();
 
   native static method SIG_ERR : int ();
 
   native static method SIG_IGN : int ();
-
-=cut
-
 }

@@ -495,3 +495,22 @@ Get the constant value of C<SIGXCPU>. If the system doesn't define this constant
   static method SIGXFSZ : int ();
 
 Get the constant value of C<SIGXFSZ>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIG_DFL
+
+  static method SIG_DFL : int ();
+
+Get the constant value of C<SIG_DFL>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIG_ERR
+
+  static method SIG_ERR : int ();
+
+Get the constant value of C<SIG_ERR>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 SIG_IGN
+
+  static method SIG_IGN : int ();
+
+Get the constant value of C<SIG_IGN>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+

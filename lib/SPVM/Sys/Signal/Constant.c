@@ -964,12 +964,10 @@ int32_t SPVM__Sys__Signal__Constant__SIGXFSZ(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 }
 
-/*
-
 int32_t SPVM__Sys__Signal__Constant__SIG_DFL(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SIG_DFL
-  stack[0].ival = SIG_DFL;
+  stack[0].ival = (int32_t)(intptr_t)SIG_DFL;
   return 0;
 #else
   env->die(env, stack, "SIG_DFL is not defined on this system", FILE_NAME, __LINE__);
@@ -981,7 +979,7 @@ int32_t SPVM__Sys__Signal__Constant__SIG_DFL(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Signal__Constant__SIG_ERR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SIG_ERR
-  stack[0].ival = SIG_ERR;
+  stack[0].ival = (int32_t)(intptr_t)SIG_ERR;
   return 0;
 #else
   env->die(env, stack, "SIG_ERR is not defined on this system", FILE_NAME, __LINE__);
@@ -993,7 +991,7 @@ int32_t SPVM__Sys__Signal__Constant__SIG_ERR(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Signal__Constant__SIG_IGN(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef SIG_IGN
-  stack[0].ival = SIG_IGN;
+  stack[0].ival = (int32_t)(intptr_t)SIG_IGN;
   return 0;
 #else
   env->die(env, stack, "SIG_IGN is not defined on this system", FILE_NAME, __LINE__);
@@ -1001,5 +999,3 @@ int32_t SPVM__Sys__Signal__Constant__SIG_IGN(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
 }
-
-*/
