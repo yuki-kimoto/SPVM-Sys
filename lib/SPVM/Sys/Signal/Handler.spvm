@@ -1,0 +1,3 @@
+class Sys::Signal::Handler {
+  required method : void ($sig : int);
+}
