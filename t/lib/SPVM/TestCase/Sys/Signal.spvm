@@ -121,4 +121,24 @@ class TestCase::Sys::Signal {
     
     return 1;
   }
+
+  static method signal_handler : int () {
+    unless (Sys::Signal->SIG_DFL == Sys::Signal->SIG_DFL) {
+      return 0;
+    }
+    
+    unless (Sys::Signal->SIG_IGN == Sys::Signal->SIG_IGN) {
+      return 0;
+    }
+    
+    unless (Sys::Signal->SIG_ERR == Sys::Signal->SIG_ERR) {
+      return 0;
+    }
+    
+    unless (Sys::Signal->SIG_MONITOR == Sys::Signal->SIG_MONITOR) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }
