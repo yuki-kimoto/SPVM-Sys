@@ -76,7 +76,7 @@ static void set_monitored_signal_numbers(int32_t signum) {
   monitored_signal_numbers[signum] = 1;
 }
 
-int32_t SPVM__Sys__Signal__new_signal_handler_monitor(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Signal__new_signal_handler_sig_monitor(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
@@ -174,7 +174,7 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Signal__reset_signal(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Signal__reset_monitored_signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
@@ -192,7 +192,7 @@ int32_t SPVM__Sys__Signal__reset_signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Signal__check_signal(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Signal__check_monitored_signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
