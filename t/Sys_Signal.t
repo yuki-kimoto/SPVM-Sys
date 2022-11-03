@@ -36,16 +36,30 @@ else {
   }
   
   my @signal_names = qw(
-    HUP INT QUIT ILL TRAP ABRT BUS FPE KILL USR1 SEGV USR2 PIPE ALRM TERM STKFLT CHLD CONT STOP TSTP TTIN TTOU URG XCPU XFSZ VTALRM PROF WINCH IO PWR SYS RTMIN RTMAX  
+    HUP INT QUIT ILL TRAP ABRT BUS FPE KILL USR1 SEGV USR2 PIPE ALRM TERM STKFLT CHLD CONT STOP TSTP TTIN TTOU URG XCPU XFSZ VTALRM PROF WINCH IO PWR SYS RTMIN RTMAX 
   );
   
   warn "[Test Output]$Config{sig_name}";
   my $i = 0;
   for my $signal_name (@signal_names) {
-    warn "[Test Output]SIG$signal_name";
     my $signal_number = $signo{$signal_name};
-    my $signal_method_name = "SIG$signal_name";
-    is($signal_number, SPVM::Sys::Signal::Constant->$signal_method_name);
+    if (defined $signal_number) {
+      warn "[Test Output]SIG$signal_name";
+      my $signal_method_name = "SIG$signal_name";
+      
+      if ($^O eq 'linux') {
+        is($signal_number, SPVM::Sys::Signal::Constant->$signal_method_name);
+      }
+      else {
+        eval { SPVM::Sys::Signal::Constant->$signal_method_name };
+        if ($@) {
+          warn "[Test Output]$@";
+        }
+        else {
+          is($signal_number, SPVM::Sys::Signal::Constant->$signal_method_name);
+        }
+      }
+    }
   }
 }
 
