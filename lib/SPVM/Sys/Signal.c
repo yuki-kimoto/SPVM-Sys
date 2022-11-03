@@ -200,7 +200,7 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
   }
   else {
-    return env->die(env, stack, "The returned old handler is not known", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The returned old handler(%p) is not known", old_handler, FILE_NAME, __LINE__);
   }
   
   stack[0].oval = obj_old_handler;
