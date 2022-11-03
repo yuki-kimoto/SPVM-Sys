@@ -1,7 +1,7 @@
 class TestCase::Sys::Signal {
   use Sys::Signal;
   use Sys::Signal::Constant as SIGNAL;
-
+  use Sys::Process;
   
   static method kill : int () {
     
@@ -142,23 +142,48 @@ class TestCase::Sys::Signal {
     # Return value
     {
       {
-        my $ret_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_DFL);
+        my $old_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_DFL);
         
-        unless ($ret_handler == Sys::Signal->SIG_DFL) {
+        unless ($old_handler == Sys::Signal->SIG_DFL) {
           return 0;
         }
       }
       {
-        my $ret_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_IGN);
+        my $old_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_IGN);
         
-        unless ($ret_handler == Sys::Signal->SIG_DFL) {
+        unless ($old_handler == Sys::Signal->SIG_DFL) {
           return 0;
         }
       }
       {
-        my $ret_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_MONITOR);
+        my $old_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_MONITOR);
         
-        unless ($ret_handler == Sys::Signal->SIG_IGN) {
+        unless ($old_handler == Sys::Signal->SIG_IGN) {
+          return 0;
+        }
+      }
+    }
+    
+    # signal
+    {
+      {
+        unless (Sys::Signal->check_monitored_signal(SIGNAL->SIGTERM) == 0) {
+          return 0;
+        }
+        
+        Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_MONITOR);
+        
+        Sys::Signal->kill(Sys::Process->getpid, SIGNAL->SIGTERM);
+        
+        while (1) {
+          if (Sys::Signal->check_monitored_signal(SIGNAL->SIGTERM)) {
+            last;
+          }
+        }
+        
+        Sys::Signal->reset_monitored_signal(SIGNAL->SIGTERM);
+        
+        unless (Sys::Signal->check_monitored_signal(SIGNAL->SIGTERM) == 0) {
           return 0;
         }
       }
