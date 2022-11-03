@@ -1,4 +1,4 @@
-0.24 2022-11-02
+0.24 2022-11-03
   [New Features]
     * Added the Sys::Signal class
     * Added the Sys::Signal::Constant class.
@@ -97,6 +97,7 @@
     * The alarm and ualarm method is added to the Sys::Signal class. This was removed from the Sys::Process class at 0.23(2022-11-01)
       native static method alarm : int ($seconds : int);
       native static method ualarm : int ($usecs : int, $interval : int);
+    * Added the raise method to the Sys::Signal class.
 0.23 2022-11-01
   [Bug Fix]
     * Fixed the bug that the get_osname method in the Sys class returned "sunos", not "solaris" in Soralis.

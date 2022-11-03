@@ -32,6 +32,28 @@ int32_t SPVM__Sys__Signal__kill(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
+int32_t SPVM__Sys__Signal__raise(SPVM_ENV* env, SPVM_VALUE* stack) {
+#ifndef _WIN32
+  env->die(env, stack, "raise is not supported on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  (void)env;
+  (void)stack;
+  
+  int32_t sig = stack[0].ival;
+  
+  int32_t status = raise(sig);
+  if (status != 0) {
+    env->die(env, stack, "[System Error]raise failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
 int32_t SPVM__Sys__Signal__alarm(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
   env->die(env, stack, "alarm is not supported on this system", FILE_NAME, __LINE__);
