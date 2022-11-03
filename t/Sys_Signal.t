@@ -27,6 +27,8 @@ ok(SPVM::TestCase::Sys::Signal->signal_constant);
 
 ok(SPVM::TestCase::Sys::Signal->signal_handler);
 
+ok(SPVM::TestCase::Sys::Signal->signal);
+
 SPVM::set_exception(undef);
 
 # All object is freed

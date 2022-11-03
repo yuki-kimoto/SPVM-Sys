@@ -103,7 +103,6 @@ sub MY::postamble {
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ioctl::Constant');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal');
   $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal::Constant');
-  $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal::Handler');
   
   return $make_rule;
 }

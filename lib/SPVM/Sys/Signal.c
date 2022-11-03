@@ -163,11 +163,29 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* handler = env->get_pointer(env, stack, obj_handler);
   
-  void* old_handler = signal(signum, obj_handler);
+  void* old_handler = signal(signum, handler);
+
+  if (old_handler == SIG_ERR) {
+    env->die(env, stack, "[System Error]signal failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
   
-  void* obj_old_handler = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __FILE__, __LINE__);
-  if (e) { return e; }
-  env->set_pointer(env, stack, obj_old_handler, old_handler);
+  void* obj_old_handler;
+  if (old_handler == SIG_DFL) {
+    obj_old_handler = env->get_class_var_object_by_name(env, stack, "Sys::Signal", "$SIG_DFL", &e, __FILE__, __LINE__);
+    if (e) { return e; }
+  }
+  else if (old_handler == SIG_IGN) {
+    obj_old_handler = env->get_class_var_object_by_name(env, stack, "Sys::Signal", "$SIG_IGN", &e, __FILE__, __LINE__);
+    if (e) { return e; }
+  }
+  else if (old_handler == &set_monitored_signal_numbers) {
+    obj_old_handler = env->get_class_var_object_by_name(env, stack, "Sys::Signal", "$SIG_MONITOR", &e, __FILE__, __LINE__);
+    if (e) { return e; }
+  }
+  else {
+    return env->die(env, stack, "The returned old handler is not known", FILE_NAME, __LINE__);
+  }
   
   stack[0].oval = obj_old_handler;
   

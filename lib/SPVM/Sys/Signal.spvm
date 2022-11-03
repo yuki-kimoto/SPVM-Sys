@@ -2,23 +2,23 @@ class Sys::Signal {
   use Hash;
   use Sys::Signal::Constant;
   use Sys::Signal::Handler;
+  use Sys::Signal::Handler::SIG_DFL;
+  use Sys::Signal::Handler::SIG_IGN;
+  use Sys::Signal::Handler::SIG_MONITOR;
   
-  our $SIG_DFL : ro Sys::Signal::Handler;
-  our $SIG_IGN : ro Sys::Signal::Handler;
-  our $SIG_ERR : ro Sys::Signal::Handler;
-  our $SIG_MONITOR : ro Sys::Signal::Handler;
+  our $SIG_DFL : ro Sys::Signal::Handler::SIG_DFL;
+  our $SIG_IGN : ro Sys::Signal::Handler::SIG_IGN;
+  our $SIG_MONITOR : ro Sys::Signal::Handler::SIG_MONITOR;
   
   INIT {
     $SIG_DFL = &new_signal_handler_sig_dfl();
     $SIG_IGN = &new_signal_handler_sig_ign();
-    $SIG_ERR = &new_signal_handler_sig_err();
     $SIG_MONITOR = &new_signal_handler_sig_monitor();
   }
 
-  private native static method new_signal_handler_sig_dfl : Sys::Signal::Handler ();
-  private native static method new_signal_handler_sig_ign : Sys::Signal::Handler ();
-  private native static method new_signal_handler_sig_err : Sys::Signal::Handler ();
-  private native static method new_signal_handler_sig_monitor : Sys::Signal::Handler ();
+  private native static method new_signal_handler_sig_dfl : Sys::Signal::Handler::SIG_DFL ();
+  private native static method new_signal_handler_sig_ign : Sys::Signal::Handler::SIG_IGN ();
+  private native static method new_signal_handler_sig_monitor : Sys::Signal::Handler::SIG_MONITOR ();
 
   native static method kill : int ($pid : int, $sig : int);
   native static method alarm : int ($seconds : int);

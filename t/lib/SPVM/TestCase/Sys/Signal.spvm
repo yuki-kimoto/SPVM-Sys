@@ -131,12 +131,37 @@ class TestCase::Sys::Signal {
       return 0;
     }
     
-    unless (Sys::Signal->SIG_ERR == Sys::Signal->SIG_ERR) {
+    unless (Sys::Signal->SIG_MONITOR == Sys::Signal->SIG_MONITOR) {
       return 0;
     }
     
-    unless (Sys::Signal->SIG_MONITOR == Sys::Signal->SIG_MONITOR) {
-      return 0;
+    return 1;
+  }
+
+  static method signal : int () {
+    # Return value
+    {
+      {
+        my $ret_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_DFL);
+        
+        unless ($ret_handler == Sys::Signal->SIG_DFL) {
+          return 0;
+        }
+      }
+      {
+        my $ret_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_IGN);
+        
+        unless ($ret_handler == Sys::Signal->SIG_DFL) {
+          return 0;
+        }
+      }
+      {
+        my $ret_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_MONITOR);
+        
+        unless ($ret_handler == Sys::Signal->SIG_IGN) {
+          return 0;
+        }
+      }
     }
     
     return 1;

@@ -92,10 +92,14 @@ lib/SPVM/Sys/Signal/Constant.c
 lib/SPVM/Sys/Signal/Constant.config
 lib/SPVM/Sys/Signal/Constant.pm
 lib/SPVM/Sys/Signal/Constant.spvm
-lib/SPVM/Sys/Signal/Handler.c
-lib/SPVM/Sys/Signal/Handler.config
 lib/SPVM/Sys/Signal/Handler.pm
 lib/SPVM/Sys/Signal/Handler.spvm
+lib/SPVM/Sys/Signal/Handler/SIG_DFL.pm
+lib/SPVM/Sys/Signal/Handler/SIG_DFL.spvm
+lib/SPVM/Sys/Signal/Handler/SIG_IGN.pm
+lib/SPVM/Sys/Signal/Handler/SIG_IGN.spvm
+lib/SPVM/Sys/Signal/Handler/SIG_MONITOR.pm
+lib/SPVM/Sys/Signal/Handler/SIG_MONITOR.spvm
 lib/SPVM/Sys/Socket.c
 lib/SPVM/Sys/Socket.config
 lib/SPVM/Sys/Socket.pm
