@@ -200,7 +200,7 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
   }
   else {
-    obj_old_handler = env->new_object_by_name(env, stack, "Sys::Signal::Handler::Unknwon", &e, __FILE__, __LINE__);
+    obj_old_handler = env->new_object_by_name(env, stack, "Sys::Signal::Handler::Unknown", &e, __FILE__, __LINE__);
     if (e) { return e; }
   }
   
