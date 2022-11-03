@@ -74,20 +74,13 @@ class TestCase::Sys::Signal {
     return 1;
   }
 
-  static method signal : int () {
+  static method signal_return : int () {
     # Return value
     {
       {
         Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_DFL);
       }
       
-      {
-        my $old_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_DFL);
-        
-        unless ($old_handler == Sys::Signal->SIG_DFL) {
-          return 0;
-        }
-      }
       {
         my $old_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_IGN);
         
@@ -104,6 +97,10 @@ class TestCase::Sys::Signal {
       }
     }
     
+    return 1;
+  }
+  
+  static method signal : int () {
     # signal
     {
       {
