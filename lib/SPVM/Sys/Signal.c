@@ -200,7 +200,8 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (e) { return e; }
   }
   else {
-    return env->die(env, stack, "The returned old handler(%p) is not known", old_handler, FILE_NAME, __LINE__);
+    obj_old_handler = env->new_object_by_name(env, stack, "Sys::Signal::Handler::Unknwon", &e, __FILE__, __LINE__);
+    if (e) { return e; }
   }
   
   stack[0].oval = obj_old_handler;

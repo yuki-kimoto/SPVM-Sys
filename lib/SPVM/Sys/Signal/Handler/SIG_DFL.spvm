@@ -1,1 +1,0 @@
-class Sys::Signal::Handler::SIG_DFL extends Sys::Signal::Handler;

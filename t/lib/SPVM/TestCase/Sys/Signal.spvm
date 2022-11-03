@@ -78,6 +78,10 @@ class TestCase::Sys::Signal {
     # Return value
     {
       {
+        Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_DFL);
+      }
+      
+      {
         my $old_handler = Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_DFL);
         
         unless ($old_handler == Sys::Signal->SIG_DFL) {
