@@ -14,6 +14,18 @@ class TestCase::Sys::Signal {
     
     return 1;
   }
+
+  static method raise : int () {
+    
+    my $status = Sys::Signal->raise(0);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
   
   static method alarm : int () {
     
@@ -111,12 +123,7 @@ class TestCase::Sys::Signal {
         
         Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_MONITOR);
         
-        if (Sys->defined("_WIN32")) {
-          Sys::Signal->raise(SIGNAL->SIGTERM);
-        }
-        else {
-          Sys::Signal->kill(Sys::Process->getpid, SIGNAL->SIGTERM);
-        }
+        Sys::Signal->raise(SIGNAL->SIGTERM);
         
         while (1) {
           if (Sys::Signal->check_monitored_signal(SIGNAL->SIGTERM)) {
