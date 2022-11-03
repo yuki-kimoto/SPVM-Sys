@@ -16,37 +16,44 @@ class TestCase::Sys::Signal {
   
   static method alarm : int () {
     
-    my $rest1 = Sys::Signal->alarm(5);
+    Sys::Signal->reset_monitored_signal(SIGNAL->SIGALRM);
     
-    unless ($rest1 == 0) {
+    Sys::Signal->signal(SIGNAL->SIGALRM, Sys::Signal->SIG_MONITOR);
+    
+    my $rest = Sys::Signal->alarm(1);
+    
+    unless ($rest == 0) {
       return 0;
     }
     
-    my $rest2 = Sys::Signal->alarm(5);
-    
-    unless ($rest2 == 5) {
-      return 0;
+    while (1) {
+      if (Sys::Signal->check_monitored_signal(SIGNAL->SIGALRM)) {
+        last;
+      }
     }
     
     return 1;
   }
   
   static method ualarm : int () {
+
+    Sys::Signal->reset_monitored_signal(SIGNAL->SIGALRM);
+
+    Sys::Signal->signal(SIGNAL->SIGALRM, Sys::Signal->SIG_MONITOR);
     
-    my $rest1 = Sys::Signal->ualarm(5_000, 0);
-      
-    unless ($rest1 >= 0) {
+    my $rest = Sys::Signal->ualarm(999_999, 0);
+    
+    unless ($rest == 0) {
       return 0;
     }
     
-    my $rest2 = Sys::Signal->ualarm(5_000, 0);
-    
-    unless ($rest2 >= 4000 && $rest2 <= 5000) {
-      return 0;
+    my $try_count = 0;
+    while (1) {
+      if (Sys::Signal->check_monitored_signal(SIGNAL->SIGALRM)) {
+        last;
+      }
+      $try_count++;
     }
-    
-    # Cancel alarm
-    Sys::Signal->ualarm(0, 0);
     
     return 1;
   }

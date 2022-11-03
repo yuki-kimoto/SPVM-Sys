@@ -40,7 +40,7 @@ See the detail of the L<alerm|https://linux.die.net/man/2/alarm> function in the
 
 =head2 ualarm
 
-  static method ualarm : long ($usecs : long, $interval : long)
+  static method ualarm : int ($usecs : int, $interval : int)
 
 The ualarm() function causes the signal SIGALRM to be sent to the invoking process after (not less than) usecs microseconds. The delay may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
 

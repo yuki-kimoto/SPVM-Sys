@@ -22,7 +22,7 @@ class Sys::Signal {
 
   native static method kill : int ($pid : int, $sig : int);
   native static method alarm : int ($seconds : int);
-  native static method ualarm : long ($usecs : long, $interval : long);
+  native static method ualarm : int ($usecs : int, $interval : int);
   
   native static method signal : Sys::Signal::Handler ($signum : int, $handler : Sys::Signal::Handler);
   native static method reset_monitored_signal : void ($signum : int);

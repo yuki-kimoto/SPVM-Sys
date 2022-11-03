@@ -58,13 +58,29 @@ int32_t SPVM__Sys__Signal__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int64_t usecs = stack[0].lval;
+  int32_t usecs = stack[0].ival;
 
-  int64_t interval = stack[1].lval;
+  if (!(usecs >= 0)) {
+    return env->die(env, stack, "The $usecs must be greater than or equal to 0", FILE_NAME, __LINE__);
+  }
+
+  if (!(usecs < 1000000)) {
+    return env->die(env, stack, "The $usecs must be less than 1000000", FILE_NAME, __LINE__);
+  }
+
+  int32_t interval = stack[1].ival;
+  
+  if (!(interval >= 0)) {
+    return env->die(env, stack, "The $usecs must be greater than 0", FILE_NAME, __LINE__);
+  }
+
+  if (!(interval < 1000000)) {
+    return env->die(env, stack, "The $usecs must be less than 1000000", FILE_NAME, __LINE__);
+  }
   
   int32_t rest_usecs = ualarm(usecs, interval);
   
-  stack[0].lval = rest_usecs;
+  stack[0].ival = rest_usecs;
   
   return 0;
 #endif

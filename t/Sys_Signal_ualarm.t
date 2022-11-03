@@ -20,7 +20,6 @@ if ($^O eq 'MSWin32') {
   like($@, qr/not supported/);
 }
 else {
-  local $SIG{ALRM} = sub {};
   ok(SPVM::TestCase::Sys::Signal->ualarm);
 }
 
