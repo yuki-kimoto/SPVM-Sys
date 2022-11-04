@@ -62,8 +62,6 @@ L<Sys::User|SPVM::Sys::User> - User Manipulation
 
 L<Sys::FiteTest|SPVM::Sys::FiteTest> - File Tests
 
-=back
-
 =head1 Class Methods
 
 =head2 getenv
