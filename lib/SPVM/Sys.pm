@@ -152,8 +152,6 @@ The C<get_osname> in the C<Sys> class supports the following os names.
 
 =item * openbsd
 
-=item * sunos
-
 =item * solaris
 
 =back
