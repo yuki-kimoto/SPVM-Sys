@@ -6,7 +6,7 @@ our $VERSION = '0.24';
 
 =head1 Name
 
-SPVM::Sys - System Calls such as File IO, User, Process, Socket,
+SPVM::Sys - System Calls for File IO, User, Process, Signal, Socket
 
 =head1 Caution
 
@@ -27,6 +27,8 @@ C<Sys> is the class for system calls such as file IO, user manipulation, process
 =item * L<Sys::Socket|SPVM::Sys::Socket>
 
 =item * L<Sys::Process|SPVM::Sys::Process>
+
+=item * L<Sys::Signal|SPVM::Sys::Signal>
 
 =item * L<Sys::Time|SPVM::Sys::Time>
 
