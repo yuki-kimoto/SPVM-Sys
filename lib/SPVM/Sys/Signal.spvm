@@ -1,5 +1,4 @@
 class Sys::Signal {
-  use Hash;
   use Sys::Signal::Constant;
   use Sys::Signal::Handler;
   use Sys::Signal::Handler::Default;
