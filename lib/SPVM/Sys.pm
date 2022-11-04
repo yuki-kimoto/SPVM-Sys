@@ -24,7 +24,13 @@ C<Sys> is the class for system calls such as file IO, user manipulation, process
 
 =item * L<Sys::IO|SPVM::Sys::IO>
 
+=item * L<Sys::Ioctl|SPVM::Sys::Ioctl>
+
 =item * L<Sys::Socket|SPVM::Sys::Socket>
+
+=item * L<Sys::Select|SPVM::Sys::Select>
+
+=item * L<Sys::Poll|SPVM::Sys::Poll>
 
 =item * L<Sys::Process|SPVM::Sys::Process>
 
