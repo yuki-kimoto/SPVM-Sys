@@ -1,3 +1,8 @@
+0.25 2022-11-04
+  [Bug Fix]
+    * Fixed the bug that OpenBSD doesn't have clock_nanosleep.
+      undefined symbol 'clock_nanosleep'
+      http://www.cpantesters.org/cpan/report/fadaebbe-5cc0-11ed-b394-4404171ec35d
 0.24 2022-11-04
   [New Features]
     * Added the Sys::Signal class
