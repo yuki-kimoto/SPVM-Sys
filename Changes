@@ -1,4 +1,7 @@
-0.25 2022-11-04
+0.25 2022-11-07
+  [OS Support Changes]
+    * SPVM::Sys doesn't supports OpenBSD because the following tests are hard to fix for us.
+      http://www.cpantesters.org/cpan/report/fa34e08c-5cf9-11ed-aba6-9a79f339625c
   [Bug Fix]
     * Fixed the bug that OpenBSD doesn't have clock_nanosleep.
       undefined symbol 'clock_nanosleep'
