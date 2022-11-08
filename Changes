@@ -1,3 +1,17 @@
+0.26 2022-11-09
+  [New Features]
+    * Added the following methods to the Sys::IO class.
+    
+      static method readline : string ($stream : Sys::IO::FileStream);
+      
+      static method ftruncate : int ($fd : int, $length : long);
+      
+      static method ungetc : int ($c : int, $stream : Sys::IO::FileStream);
+      
+      static method fsync : int ($fd : int);
+      
+      static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
+    
 0.25 2022-11-07
   [OS Support Changes]
     * SPVM::Sys doesn't supports OpenBSD because the following tests are hard to fix for us.

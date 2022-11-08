@@ -489,3 +489,23 @@ fcntl() performs one of the operations described below on the open file descript
 See the L<lstat|https://linux.die.net/man/2/fcntl> function in Linux.
 
 The command argument can receive a L<Sys::IO::Flock|SPVM::Sys::IO::Flock> object.
+
+=head2 readline
+
+  static method readline : string ($stream : Sys::IO::FileStream);
+  
+=head2 ftruncate
+
+  static method ftruncate : int ($fd : int, $length : long);
+  
+=head2 ungetc
+
+  static method ungetc : int ($c : int, $stream : Sys::IO::FileStream);
+  
+=head2 fsync
+
+  static method fsync : int ($fd : int);
+  
+=head2 fstat
+
+  static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
