@@ -1573,7 +1573,9 @@ int32_t SPVM__Sys__IO__ungetc(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+#ifdef _WIN32
+  return env->die(env, stack, "fsync is not supported on this system(_WIN32)", FILE_NAME, __LINE__);
+#else
   int32_t fd = stack[0].ival;
   
   int32_t status = fsync(fd);
@@ -1585,6 +1587,7 @@ int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__fstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
