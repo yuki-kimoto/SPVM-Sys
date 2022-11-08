@@ -11,7 +11,15 @@
       static method fsync : int ($fd : int);
       
       static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
-    
+
+    * Added the following methods to the Sys::IO::Constant class.
+      
+      static method STDIN_FILENO : int ();
+      
+      static method STDOUT_FILENO : int ();
+      
+      static method STDERR_FILENO : int ();
+        
 0.25 2022-11-07
   [OS Support Changes]
     * SPVM::Sys doesn't supports OpenBSD because the following tests are hard to fix for us.
