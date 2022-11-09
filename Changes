@@ -10,6 +10,8 @@
       
       static method fsync : int ($fd : int);
       
+      static method fstat_raw : int ($fd : int, $stat : Sys::IO::Stat);
+      
       static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
 
     * Added the following methods to the Sys::IO::Constant class.

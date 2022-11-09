@@ -168,22 +168,19 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;
   
   void* obj_path = stack[0].oval;
-  
   if (!obj_path) {
-    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $path must be defined", FILE_NAME, __LINE__);
   }
-  
   const char* path = env->get_chars(env, stack, obj_path);
 
   void* obj_mode = stack[1].oval;
-  
   if (!obj_mode) {
-    return env->die(env, stack, "The mode must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $mode must be defined", FILE_NAME, __LINE__);
   }
-  
   const char* mode = env->get_chars(env, stack, obj_mode);
   
   FILE* stream = fopen(path, mode);
+  
   if (!stream) {
     env->die(env, stack, "[System Error]fopen failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
@@ -1621,6 +1618,44 @@ int32_t SPVM__Sys__IO__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]fstat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t e = 0;
+  
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "The $path must be defined", FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  void* obj_mode = stack[1].oval;
+  if (!obj_mode) {
+    return env->die(env, stack, "The $mode must be defined", FILE_NAME, __LINE__);
+  }
+  const char* mode = env->get_chars(env, stack, obj_mode);
+  
+  void* obj_stream = stack[2].oval;
+  if (!obj_stream) {
+    return env->die(env, stack, "The $stream must be defined", FILE_NAME, __LINE__);
+  }
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  FILE* new_stream = freopen(path, mode, stream);
+  
+  if (!new_stream) {
+    env->die(env, stack, "[System Error]freopen failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  int32_t pointer_fields_length = 1;
+  void* obj_new_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::IO::FileStream", new_stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
+  
+  stack[0].oval = obj_new_stream;
   
   return 0;
 }

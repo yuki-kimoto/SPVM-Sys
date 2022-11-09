@@ -129,4 +129,6 @@ class Sys::IO {
   native static method fsync : int ($fd : int);
   
   native static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
+
+  native static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
 }

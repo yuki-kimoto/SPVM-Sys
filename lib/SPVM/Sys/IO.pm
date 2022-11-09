@@ -509,3 +509,7 @@ The command argument can receive a L<Sys::IO::Flock|SPVM::Sys::IO::Flock> object
 =head2 fstat
 
   static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
+
+=head2 freopen
+
+  static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
