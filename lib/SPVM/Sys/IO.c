@@ -72,7 +72,7 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!(count <= buf_length)) {
-    return env->die(env, stack, "The $count must be less than the length of the buf", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $count must be less than the length of the $buf", FILE_NAME, __LINE__);
   }
   
   int32_t read_length = read(fd, buf, count);
@@ -108,7 +108,7 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!(count <= buf_length)) {
-    return env->die(env, stack, "The $count must be less than the length of the buf", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $count must be less than the length of the $buf", FILE_NAME, __LINE__);
   }
   
   int32_t write_length = write(fd, buf, count);
@@ -274,7 +274,7 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!((ptr_length / size) <= nmemb)) {
-    return env->die(env, stack, "The $ptr length / the size must be less than or equal to the data length", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The length of the $ptr / the $size must be less than or equal to the $nmemb", FILE_NAME, __LINE__);
   }
   
   void* obj_stream = stack[3].oval;
@@ -418,7 +418,7 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t nmemb = stack[2].ival;
   if (!(nmemb >= 0)) {
-    return env->die(env, stack, "The $data length(nmemb) must be more than or equal to 0", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $nmemb must be more than or equal to 0", FILE_NAME, __LINE__);
   }
   
   if (size == 0 || nmemb == 0) {
@@ -427,7 +427,7 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!((ptr_length / size) <= nmemb)) {
-    return env->die(env, stack, "The $ptr length / the size must be less than or equal to the data length", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The length of the $ptr / the $size must be less than or equal to the $nmemb", FILE_NAME, __LINE__);
   }
   
   void* obj_stream = stack[3].oval;
