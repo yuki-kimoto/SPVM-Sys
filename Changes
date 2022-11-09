@@ -18,6 +18,12 @@
       
       static method setvbuf : int ($stream : Sys::IO::FileStream, $buf : mutable string, $mode : int, $size : int);
 
+      static method setbuf : void ($stream : Sys::IO::FileStream, $buf : mutable string);
+
+      static method setbuffer : void ($stream : Sys::IO::FileStream, $buf : mutable string, $size : int);
+
+      static method setlinebuf : void ($stream : Sys::IO::FileStream);
+
     * Added the following methods to the Sys::IO::Constant class.
       
       static method STDIN_FILENO : int ();

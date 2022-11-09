@@ -135,4 +135,34 @@ class Sys::IO {
   native static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
 
   native static method setvbuf : int ($stream : Sys::IO::FileStream, $buf : mutable string, $mode : int, $size : int);
+
+  static method setbuf : void ($stream : Sys::IO::FileStream, $buf : mutable string) {
+    my $mode : int;
+    if ($buf) {
+      $mode = IO->_IOFBF;
+    }
+    else {
+      $mode = IO->_IONBF;
+    }
+    
+    &setvbuf($stream, $buf, $mode, IO->BUFSIZ);
+  }
+
+  static method setbuffer : void ($stream : Sys::IO::FileStream, $buf : mutable string, $size : int) {
+    my $mode : int;
+    if ($buf) {
+      $mode = IO->_IOFBF;
+    }
+    else {
+      $mode = IO->_IONBF;
+    }
+    
+    &setvbuf($stream, $buf, $mode, $size);
+  }
+
+  static method setlinebuf : void ($stream : Sys::IO::FileStream) {
+    my $mode = IO->_IOLBF;
+    my $size = 0;
+    &setvbuf($stream, undef, $mode, $size);
+  }
 }
