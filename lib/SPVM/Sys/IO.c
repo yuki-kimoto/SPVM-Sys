@@ -1518,13 +1518,12 @@ int32_t SPVM__Sys__IO__readline(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e;
   
   void* obj_stream = stack[0].oval;
+  if (!obj_stream) {
+    return env->die(env, stack, "The $stream must be defined", FILE_NAME, __LINE__);
+  }
+
   FILE* stream = (FILE*)env->get_pointer(env, stack, obj_stream);
 
-  if (stream == NULL) {
-    stack[0].oval = NULL;
-    return 0;
-  }
-  
   int32_t scope_id = env->enter_scope(env, stack);
   
   int32_t capacity = 80;
