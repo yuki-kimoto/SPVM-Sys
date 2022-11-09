@@ -25,6 +25,15 @@
       static method STDOUT_FILENO : int ();
       
       static method STDERR_FILENO : int ();
+      
+      static method BUFSIZ : int ();
+      
+      static method _IONBF : int ();
+      
+      static method _IOLBF : int ();
+      
+      static method _IOFBF : int ();
+      
   [Exception Message Improvement]
     * Improved exception messages in the Sys::IO class.
         

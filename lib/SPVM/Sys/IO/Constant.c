@@ -1713,3 +1713,51 @@ int32_t SPVM__Sys__IO__Constant__STDERR_FILENO(SPVM_ENV* env, SPVM_VALUE* stack)
 #endif
 
 }
+
+int32_t SPVM__Sys__IO__Constant__BUFSIZ(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef BUFSIZ
+  stack[0].ival = BUFSIZ;
+  return 0;
+#else
+  env->die(env, stack, "BUFSIZ is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Constant___IONBF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _IONBF
+  stack[0].ival = _IONBF;
+  return 0;
+#else
+  env->die(env, stack, "_IONBF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Constant___IOLBF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _IOLBF
+  stack[0].ival = _IOLBF;
+  return 0;
+#else
+  env->die(env, stack, "_IOLBF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Constant___IOFBF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _IOFBF
+  stack[0].ival = _IOFBF;
+  return 0;
+#else
+  env->die(env, stack, "_IOFBF is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
