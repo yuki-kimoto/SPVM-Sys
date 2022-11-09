@@ -8,6 +8,24 @@ class Sys::IO {
   use Sys::IO::Flock;
   use Sys::IO::Constant as IO;
   
+  our $STDIN : Sys::IO::FileStream;
+  our $STDOUT : Sys::IO::FileStream;
+  our $STDERR : Sys::IO::FileStream;
+  
+  INIT {
+    $STDIN = &INIT_STDIN();
+    $STDOUT = &INIT_STDOUT();
+    $STDERR = &INIT_STDERR();
+  }
+  
+  native private static method INIT_STDIN : Sys::IO::FileStream ();
+  native private static method INIT_STDOUT : Sys::IO::FileStream ();
+  native private static method INIT_STDERR : Sys::IO::FileStream ();
+  
+  static method stdin : Sys::IO::FileStream () { return $STDIN; }
+  static method stdout : Sys::IO::FileStream () { return $STDOUT; }
+  static method stderr : Sys::IO::FileStream () { return $STDERR; }
+  
   native static method open : int ($path : string, $flags : int, $mode = 0 : int);
   
   native static method read : int ($fd : int, $buf : mutable string, $count : int);

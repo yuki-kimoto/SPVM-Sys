@@ -24,6 +24,12 @@
 
       static method setlinebuf : void ($stream : Sys::IO::FileStream);
 
+      static method stdin : Sys::IO::FileStream ()
+
+      static method stdout : Sys::IO::FileStream ()
+
+      static method stderr : Sys::IO::FileStream ()
+
     * Added the following methods to the Sys::IO::Constant class.
       
       static method STDIN_FILENO : int ();
