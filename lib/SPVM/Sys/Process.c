@@ -190,12 +190,12 @@ int32_t SPVM__Sys__Process__pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_pipefds = stack[0].oval;
   
   if (!obj_pipefds) {
-    return env->die(env, stack, "The pipe file descriptors must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $pipefds must be defined", FILE_NAME, __LINE__);
   }
   
   int32_t pipefds_length = env->length(env, stack, obj_pipefds);
   if (!(pipefds_length == 2)) {
-    return env->die(env, stack, "The length of the pipe file descriptors must 2", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The length of $pipefds must 2", FILE_NAME, __LINE__);
   }
   
   int32_t* pipefds = env->get_elems_int(env, stack, obj_pipefds);
@@ -298,7 +298,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_path = stack[0].oval;
   
   if (!obj_path) {
-    return env->die(env, stack, "The path must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $path must be defined", FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
