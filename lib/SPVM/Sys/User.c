@@ -392,7 +392,7 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_pwnam = stack[0].oval;
   
   if (!obj_pwnam) {
-    return env->die(env, stack, "The user name must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $pwnam must be defined", FILE_NAME, __LINE__);
   }
   const char* pwnam = env->get_chars(env, stack, obj_pwnam);
   
@@ -463,7 +463,7 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_grnam = stack[0].oval;
   
   if (!obj_grnam) {
-    return env->die(env, stack, "The group name must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $grnam must be defined", FILE_NAME, __LINE__);
   }
   const char* grnam = env->get_chars(env, stack, obj_grnam);
   
