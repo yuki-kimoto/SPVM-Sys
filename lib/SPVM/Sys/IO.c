@@ -103,30 +103,33 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t items = env->get_args_stack_length(env, stack);
+  
   int32_t e = 0;
   
   int32_t fd = stack[0].ival;
   
   void* obj_buf = stack[1].oval;
-  
   if (!obj_buf) {
     return env->die(env, stack, "The $buf must be defined", FILE_NAME, __LINE__);
   }
-  
   char* buf = (char*)env->get_chars(env, stack, obj_buf);
   int32_t buf_length = env->length(env, stack, obj_buf);
-
-  int32_t count = stack[2].ival;
   
+  int32_t count = stack[2].ival;
   if (!(count >= 0)) {
     return env->die(env, stack, "The $count must be more than or equal to 0", FILE_NAME, __LINE__);
   }
   
-  if (!(count <= buf_length)) {
-    return env->die(env, stack, "The $count must be less than the length of the $buf", FILE_NAME, __LINE__);
+  int32_t buf_offset = 0;
+  if (items > 3) {
+    buf_offset = stack[3].ival;
+  }
+  if (!(count <= buf_length - buf_offset)) {
+    return env->die(env, stack, "The $count must be less than the length of the $buf - the $buf_offset", FILE_NAME, __LINE__);
   }
   
-  int32_t read_length = read(fd, buf, count);
+  int32_t read_length = read(fd, buf + buf_offset, count);
   if (read_length == -1) {
     env->die(env, stack, "[System Error]read failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
@@ -139,12 +142,13 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t items = env->get_args_stack_length(env, stack);
+  
   int32_t e = 0;
   
   int32_t fd = stack[0].ival;
   
   void* obj_buf = stack[1].oval;
-  
   if (!obj_buf) {
     return env->die(env, stack, "The $buf must be defined", FILE_NAME, __LINE__);
   }
@@ -153,16 +157,19 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t buf_length = env->length(env, stack, obj_buf);
 
   int32_t count = stack[2].ival;
-  
   if (!(count >= 0)) {
     return env->die(env, stack, "The $count must be more than or equal to 0", FILE_NAME, __LINE__);
   }
   
-  if (!(count <= buf_length)) {
-    return env->die(env, stack, "The $count must be less than the length of the $buf", FILE_NAME, __LINE__);
+  int32_t buf_offset = 0;
+  if (items > 3) {
+    buf_offset = stack[3].ival;
+  }
+  if (!(count <= buf_length - buf_offset)) {
+    return env->die(env, stack, "The $count must be less than the length of the $buf - the $buf_offset", FILE_NAME, __LINE__);
   }
   
-  int32_t write_length = write(fd, buf, count);
+  int32_t write_length = write(fd, buf + buf_offset, count);
   if (write_length == -1) {
     env->die(env, stack, "[System Error]write failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
@@ -297,6 +304,8 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t items = env->get_args_stack_length(env, stack);
 
   int32_t e = 0;
   
@@ -305,7 +314,6 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!obj_ptr) {
     return env->die(env, stack, "The $ptr must be defined", FILE_NAME, __LINE__);
   }
-  
   char* ptr = (char*)env->get_chars(env, stack, obj_ptr);
   int32_t ptr_length = env->length(env, stack, obj_ptr);
   
@@ -319,24 +327,22 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $nmemb must be more than or equal to 0", FILE_NAME, __LINE__);
   }
   
-  if (size == 0 || nmemb == 0) {
-    stack[0].ival = 0;
-    return 0;
-  }
-  
-  if (!((ptr_length / size) <= nmemb)) {
-    return env->die(env, stack, "The length of the $ptr / the $size must be less than or equal to the $nmemb", FILE_NAME, __LINE__);
-  }
-  
   void* obj_stream = stack[3].oval;
-  
   if (!obj_stream) {
     return env->die(env, stack, "The $stream must be defined", FILE_NAME, __LINE__);
   }
   
+  int32_t ptr_offset = 0;
+  if (items > 4) {
+    ptr_offset = stack[4].ival;
+  }
+  if (!(((ptr_length - ptr_offset) / size) <= nmemb)) {
+    return env->die(env, stack, "(The length of the $ptr - $ptr_offset) / the $size must be less than or equal to the $nmemb", FILE_NAME, __LINE__);
+  }
+  
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  int32_t read_length = fread(ptr, size, nmemb, stream);
+  int32_t read_length = fread(ptr + ptr_offset, size, nmemb, stream);
   
   stack[0].ival = read_length;
   
@@ -413,14 +419,14 @@ int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
 
+  int32_t items = env->get_args_stack_length(env, stack);
+
   int32_t e = 0;
   
   void* obj_s = stack[0].oval;
-  
   if (!obj_s) {
     return env->die(env, stack, "The $s must be defined", FILE_NAME, __LINE__);
   }
-  
   char* s = (char*)env->get_chars(env, stack, obj_s);
   int32_t s_length = env->length(env, stack, obj_s);
   
@@ -430,14 +436,22 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   void* obj_stream = stack[2].oval;
-  
   if (!obj_stream) {
-    return env->die(env, stack, "The $file stream must be defined", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $stream must be defined", FILE_NAME, __LINE__);
+  }
+  
+  int32_t s_offset = 0;
+  if (items > 3) {
+    s_offset = stack[3].ival;
+  }
+  
+  if (!(size <= s_length - s_offset)) {
+    return env->die(env, stack, "The $size must be less than the length of the $s - the $s_offset", FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  char* ret_s = fgets(s, size, stream);
+  char* ret_s = fgets(s + s_offset, size, stream);
   
   if (ret_s) {
     stack[0].oval = obj_s;
@@ -451,14 +465,14 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
 
+  int32_t items = env->get_args_stack_length(env, stack);
+  
   int32_t e = 0;
   
   void* obj_ptr = stack[0].oval;
-  
   if (!obj_ptr) {
     return env->die(env, stack, "The $ptr must be defined", FILE_NAME, __LINE__);
   }
-  
   char* ptr = (char*)env->get_chars(env, stack, obj_ptr);
   int32_t ptr_length = env->length(env, stack, obj_ptr);
   
@@ -472,24 +486,22 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $nmemb must be more than or equal to 0", FILE_NAME, __LINE__);
   }
   
-  if (size == 0 || nmemb == 0) {
-    stack[0].ival = 0;
-    return 0;
-  }
-  
-  if (!((ptr_length / size) <= nmemb)) {
-    return env->die(env, stack, "The length of the $ptr / the $size must be less than or equal to the $nmemb", FILE_NAME, __LINE__);
-  }
-  
   void* obj_stream = stack[3].oval;
-  
   if (!obj_stream) {
     return env->die(env, stack, "The $stream must be defined", FILE_NAME, __LINE__);
+  }
+
+  int32_t ptr_offset = 0;
+  if (items > 4) {
+    ptr_offset = stack[4].ival;
+  }
+  if (!(((ptr_length - ptr_offset) / size) <= nmemb)) {
+    return env->die(env, stack, "(The length of the $ptr - $ptr_offset) / the $size must be less than or equal to the $nmemb", FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  int32_t fwrite_length = fwrite(ptr, size, nmemb, stream);
+  int32_t fwrite_length = fwrite(ptr + ptr_offset, size, nmemb, stream);
   
   stack[0].ival = fwrite_length;
   

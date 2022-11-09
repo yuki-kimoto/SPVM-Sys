@@ -45,6 +45,21 @@
       static method _IOLBF : int ();
       
       static method _IOFBF : int ();
+
+    * Added the offset argument to the following methods.
+      [Before]
+      static method read : int ($fd : int, $buf : mutable string, $count : int);
+      static method write : int ($fd : int, $buf : string, $count : int);
+      static method fread : int ($ptr : mutable string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream);
+      static method fgets : mutable string ($s : mutable string, $size : int, $stream : Sys::IO::FileStream);
+      static method fwrite : int ($ptr : string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream);
+      
+      [After]
+      static method read : int ($fd : int, $buf : mutable string, $count : int, $buf_offset = 0 : int);
+      static method write : int ($fd : int, $buf : string, $count : int, $buf_offset = 0 : int);
+      static method fread : int ($ptr : mutable string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream, $ptr_offset = 0 : int);
+      static method fgets : mutable string ($s : mutable string, $size : int, $stream : Sys::IO::FileStream, $s_offset = 0 : int);
+      static method fwrite : int ($ptr : string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream, $ptr_offset = 0 : int);
       
   [Exception Message Improvement]
     * Improved exception messages in the Sys::IO class.
