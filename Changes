@@ -21,6 +21,8 @@
       static method STDOUT_FILENO : int ();
       
       static method STDERR_FILENO : int ();
+  [Exception Message Improvement]
+    * Improved exception messages in the Sys::IO class.
         
 0.25 2022-11-07
   [OS Support Changes]

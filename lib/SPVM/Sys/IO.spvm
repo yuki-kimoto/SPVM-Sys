@@ -12,7 +12,7 @@ class Sys::IO {
   
   native static method read : int ($fd : int, $buf : mutable string, $count : int);
   
-  native static method write : int ($fd : int, $buffer : string, $count : int);
+  native static method write : int ($fd : int, $buf : string, $count : int);
 
   native static method lseek : long ($fd : int, $offset : long, $whence : int);
   
@@ -80,15 +80,15 @@ class Sys::IO {
   
   native static method opendir : Sys::IO::DirStream ($dir : string);
   
-  native static method closedir : int ($dir_stream : Sys::IO::DirStream);
+  native static method closedir : int ($dirp : Sys::IO::DirStream);
   
-  native static method readdir : Sys::IO::Dirent ($dir_stream : Sys::IO::DirStream); # Non-thead safe
+  native static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream); # Non-thead safe
   
-  native static method rewinddir : void ($dir_stream : Sys::IO::DirStream);
+  native static method rewinddir : void ($dirp : Sys::IO::DirStream);
   
-  native static method telldir : long ($dir_stream : Sys::IO::DirStream);
+  native static method telldir : long ($dirp : Sys::IO::DirStream);
   
-  native static method seekdir : void ($dir_stream : Sys::IO::DirStream, $offset : long);
+  native static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long);
   
   native static method utime : int ($filename : string, $times : Sys::IO::Utimbuf);
   
