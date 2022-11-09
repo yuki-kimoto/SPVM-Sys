@@ -13,6 +13,8 @@
       static method fstat_raw : int ($fd : int, $stat : Sys::IO::Stat);
       
       static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
+      
+      static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
 
     * Added the following methods to the Sys::IO::Constant class.
       
