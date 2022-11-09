@@ -15,6 +15,8 @@
       static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
       
       static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
+      
+      static method setvbuf : int ($stream : Sys::IO::FileStream, $buf : mutable string, $mode : int, $size : int);
 
     * Added the following methods to the Sys::IO::Constant class.
       

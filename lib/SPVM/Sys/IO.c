@@ -982,30 +982,24 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t e = 0;
   
   void* obj_path = stack[0].oval;
-  
   if (!obj_path) {
     return env->die(env, stack, "The $path must be defined", FILE_NAME, __LINE__);
   }
-  
   const char* path = env->get_chars(env, stack, obj_path);
 
   void* obj_buf = stack[1].oval;
-  
   if (!obj_buf) {
     return env->die(env, stack, "The $buf must be defined", FILE_NAME, __LINE__);
   }
-  
   char* buf = (char*)env->get_chars(env, stack, obj_buf);
   int32_t buf_length = env->length(env, stack, obj_buf);
   
   int32_t bufsiz = stack[2].ival;
-  
   if (!(bufsiz >= 0)) {
-    return env->die(env, stack, "The $buf length of the argument must be greater than or equal to 0", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $bufsiz must be greater than or equal to 0", FILE_NAME, __LINE__);
   }
-  
   if (!(bufsiz <= buf_length)) {
-    return env->die(env, stack, "The $buf length of the argument must be less than or equal to the length of the $buf", FILE_NAME, __LINE__);
+    return env->die(env, stack, "The $bufsiz must be less than or equal to the length of the $buf", FILE_NAME, __LINE__);
   }
   
   int32_t placed_length = readlink(path, buf, bufsiz);
@@ -1654,6 +1648,49 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (e) { return e; }
   
   stack[0].oval = obj_new_stream;
+  
+  return 0;
+}
+
+int setvbuf(FILE *stream, char *buf, int mode, size_t size);
+
+int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  if (!obj_stream) {
+    return env->die(env, stack, "The $stream must be defined", FILE_NAME, __LINE__);
+  }
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+
+  void* obj_buf = stack[1].oval;
+  char* buf = NULL;
+  int32_t buf_length = -1;
+  if (obj_buf) {
+    buf = (char*)env->get_chars(env, stack, obj_buf);
+    buf_length = env->length(env, stack, obj_buf);
+  }
+  
+  int32_t mode = stack[2].ival;
+  
+  int32_t size = stack[3].ival;
+  
+  if (buf) {
+    if (!(size >= 0)) {
+      return env->die(env, stack, "The $size must be greater than or equal to 0", FILE_NAME, __LINE__);
+    }
+    if (!(size <= buf_length)) {
+      return env->die(env, stack, "The $size must be less than or equal to the length of the $buf", FILE_NAME, __LINE__);
+    }
+  }
+  
+  int32_t status = setvbuf(stream, buf, mode, size);
+  
+  if (!(status == 0)) {
+    env->die(env, stack, "[System Error]setvbuf failed:%s.", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
   
   return 0;
 }
