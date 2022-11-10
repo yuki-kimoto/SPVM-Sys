@@ -1522,4 +1522,86 @@ class TestCase::Sys::IO {
     return 1;
   }
 
+  static method setvbuf : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      my $buf = (mutable string)new_string_len IO->BUFSIZ;
+      my $mode = Sys::IO::Constant->_IOFBF;
+      
+      my $status = Sys::IO->setvbuf($stream, $buf, $mode, IO->BUFSIZ);
+      unless ($status == 0) {
+        return 0;
+      }
+    }
+
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      my $mode = Sys::IO::Constant->_IOFBF;
+      
+      my $status = Sys::IO->setvbuf($stream, undef, $mode, 0);
+      unless ($status == 0) {
+        return 0;
+      }
+    }
+    
+    # Constant values
+    {
+      Sys::IO::Constant->_IONBF;
+      Sys::IO::Constant->_IOLBF;
+      Sys::IO::Constant->_IOFBF;
+    }
+    
+    return 1;
+  }
+
+  static method setbuf : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      my $buf = (mutable string)new_string_len IO->BUFSIZ;
+      my $mode = Sys::IO::Constant->_IOFBF;
+      
+      Sys::IO->setbuf($stream, $buf);
+    }
+    
+    return 1;
+  }
+
+  static method setbuffer : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      my $buf = (mutable string)new_string_len IO->BUFSIZ;
+      my $mode = Sys::IO::Constant->_IOFBF;
+      
+      Sys::IO->setbuffer($stream, $buf, IO->BUFSIZ);
+    }
+    
+    return 1;
+  }
+
+  static method setlinebuf : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      my $buf = (mutable string)new_string_len IO->BUFSIZ;
+      my $mode = Sys::IO::Constant->_IOFBF;
+      
+      Sys::IO->setlinebuf($stream);
+    }
+    
+    return 1;
+  }
+
 }

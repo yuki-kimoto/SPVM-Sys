@@ -155,6 +155,14 @@ unless ($^O eq 'MSWin32') {
   ok(SPVM::TestCase::Sys::IO->fsync("$test_dir"));
 }
 
+ok(SPVM::TestCase::Sys::IO->setvbuf("$test_dir"));
+
+ok(SPVM::TestCase::Sys::IO->setbuf("$test_dir"));
+
+ok(SPVM::TestCase::Sys::IO->setbuffer("$test_dir"));
+
+ok(SPVM::TestCase::Sys::IO->setlinebuf("$test_dir"));
+
 SPVM::set_exception(undef);
 
 # All object is freed
