@@ -171,6 +171,14 @@ ok(SPVM::TestCase::Sys::IO->setlinebuf("$test_dir"));
   is_deeply($stat_info->to_elems, $stat_info_expected);
 }
 
+unless ($^O eq 'MSWin32') {
+  ok(SPVM::TestCase::Sys::IO->lstat("$test_dir"));
+  
+  my $lstat_info = SPVM::TestCase::Sys::IO->lstat_info("$test_dir");
+  my $lstat_info_expected = [lstat "$test_dir/ftest/file_bytes8.txt"];
+  is_deeply($lstat_info->to_elems, $lstat_info_expected);
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
