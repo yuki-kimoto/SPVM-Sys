@@ -1156,57 +1156,6 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method truncate : int ($test_dir : string) {
-    
-    my $file = "$test_dir/foo.txt";
-    {
-      my $fs = Sys::IO->fopen($file, "wb");
-      
-      unless ($fs) {
-        return 0;
-      }
-
-      my $write_length = 0;
-      my $size = 1;
-      my $length = 4;
-      
-      $write_length = Sys::IO->fwrite("abcd", $size, $length, $fs);
-      unless ($write_length == 4) {
-        return 0;
-      }
-      
-      Sys::IO->fclose($fs);
-    }
-    
-    {
-      my $size_first = Sys::FileTest->s($file);
-      
-      warn "AAA $size_first";
-      
-      unless ($size_first == 4) {
-        return 0;
-      }
-      
-      my $status = Sys::IO->truncate($file, 0);
-      
-      warn "BBB $status";
-      
-      unless ($status == 0) {
-        return 0;
-      }
-      
-      my $size_trancated = Sys::FileTest->s($file);
-      
-      warn "CCC $size_trancated";
-      
-      unless ($size_trancated == 0) {
-        return 0;
-      }
-    }
-    
-    return 1;
-  }
-
   static method symlink : int ($test_dir : string) {
     
     my $file = "$test_dir/foo.txt";
@@ -1453,5 +1402,34 @@ class TestCase::Sys::IO {
         }
       }
     }
+  }
+
+  static method truncate : int ($test_dir : string) {
+    
+    my $file = "$test_dir/foo.txt";
+    {
+      my $stream = Sys::IO->fopen($file, "wb");
+      
+      my $write_length = 0;
+      my $size = 1;
+      my $length = 4;
+      
+      $write_length = Sys::IO->fwrite("abcd", $size, $length, $stream);
+      unless ($write_length == 4) {
+        return 0;
+      }
+    }
+    
+    unless (Sys::FileTest->s($file) > 0) {
+      return 0;
+    }
+    
+    Sys::IO->truncate($file, 0);
+    
+    unless (Sys::FileTest->s($file) == 0) {
+      return 0;
+    }
+    
+    return 1;
   }
 }
