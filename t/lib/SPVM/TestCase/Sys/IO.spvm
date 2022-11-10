@@ -1449,13 +1449,12 @@ class TestCase::Sys::IO {
       }
     }
     
+    unless (Sys::FileTest->s($file) > 0) {
+      return 0;
+    }
+      
     {
-      unless (Sys::FileTest->s($file) > 0) {
-        return 0;
-      }
-      
       my $stream = Sys::IO->fopen($file, "wb");
-      
       Sys::IO->ftruncate(Sys::IO->fileno($stream), 0);
     }
 

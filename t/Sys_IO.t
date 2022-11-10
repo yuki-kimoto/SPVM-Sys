@@ -119,9 +119,14 @@ else {
   ok(SPVM::TestCase::Sys::IO->chown("$tmp_dir"));
 }
 
-unless ($^O eq 'MSWin32') {
+{
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->truncate("$tmp_dir"));
+}
+
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->ftruncate("$tmp_dir"));
 }
 
 if ($^O eq 'MSWin32') {
