@@ -1623,7 +1623,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method stat_info : int[] ($test_dir : string) {
+  static method stat_info : long[] ($test_dir : string) {
     
     my $file = "$test_dir/ftest/file_bytes8.txt";
     
@@ -1631,19 +1631,19 @@ class TestCase::Sys::IO {
     Sys::IO->stat($file, $stat);
     
     my $stat_info = [
-      (int)$stat->st_dev,
-      (int)$stat->st_ino,
-      (int)$stat->st_mode,
-      (int)$stat->st_nlink,
-      (int)$stat->st_uid,
-      (int)$stat->st_gid,
-      (int)$stat->st_rdev,
-      (int)$stat->st_size,
-      (int)$stat->st_atime,
-      (int)$stat->st_mtime,
-      (int)$stat->st_ctime,
-      (int)$stat->st_blksize,
-      (int)$stat->st_blocks,
+      (long)$stat->st_dev,
+      (long)$stat->st_ino,
+      (long)$stat->st_mode,
+      (long)$stat->st_nlink,
+      (long)$stat->st_uid,
+      (long)$stat->st_gid,
+      (long)$stat->st_rdev,
+      (long)$stat->st_size,
+      (long)$stat->st_atime,
+      (long)$stat->st_mtime,
+      (long)$stat->st_ctime,
+      (long)$stat->st_blksize,
+      (long)$stat->st_blocks,
     ];
     
     return $stat_info;
@@ -1664,7 +1664,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method lstat_info : int[] ($test_dir : string) {
+  static method lstat_info : long[] ($test_dir : string) {
     
     my $file = "$test_dir/ftest/file_bytes8.txt";
     
@@ -1672,19 +1672,19 @@ class TestCase::Sys::IO {
     Sys::IO->lstat($file, $stat);
     
     my $stat_info = [
-      (int)$stat->st_dev,
-      (int)$stat->st_ino,
-      (int)$stat->st_mode,
-      (int)$stat->st_nlink,
-      (int)$stat->st_uid,
-      (int)$stat->st_gid,
-      (int)$stat->st_rdev,
-      (int)$stat->st_size,
-      (int)$stat->st_atime,
-      (int)$stat->st_mtime,
-      (int)$stat->st_ctime,
-      (int)$stat->st_blksize,
-      (int)$stat->st_blocks,
+      (long)$stat->st_dev,
+      (long)$stat->st_ino,
+      (long)$stat->st_mode,
+      (long)$stat->st_nlink,
+      (long)$stat->st_uid,
+      (long)$stat->st_gid,
+      (long)$stat->st_rdev,
+      (long)$stat->st_size,
+      (long)$stat->st_atime,
+      (long)$stat->st_mtime,
+      (long)$stat->st_ctime,
+      (long)$stat->st_blksize,
+      (long)$stat->st_blocks,
     ];
     
     return $stat_info;
@@ -1706,7 +1706,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method fstat_info : int[] ($test_dir : string) {
+  static method fstat_info : long[] ($test_dir : string) {
     
     my $file = "$test_dir/ftest/file_bytes8.txt";
     my $stream = Sys::IO->fopen($file, "rb");
@@ -1715,19 +1715,19 @@ class TestCase::Sys::IO {
     Sys::IO->fstat(Sys::IO->fileno($stream), $stat);
     
     my $stat_info = [
-      (int)$stat->st_dev,
-      (int)$stat->st_ino,
-      (int)$stat->st_mode,
-      (int)$stat->st_nlink,
-      (int)$stat->st_uid,
-      (int)$stat->st_gid,
-      (int)$stat->st_rdev,
-      (int)$stat->st_size,
-      (int)$stat->st_atime,
-      (int)$stat->st_mtime,
-      (int)$stat->st_ctime,
-      (int)$stat->st_blksize,
-      (int)$stat->st_blocks,
+      (long)$stat->st_dev,
+      (long)$stat->st_ino,
+      (long)$stat->st_mode,
+      (long)$stat->st_nlink,
+      (long)$stat->st_uid,
+      (long)$stat->st_gid,
+      (long)$stat->st_rdev,
+      (long)$stat->st_size,
+      (long)$stat->st_atime,
+      (long)$stat->st_mtime,
+      (long)$stat->st_ctime,
+      (long)$stat->st_blksize,
+      (long)$stat->st_blocks,
     ];
     
     return $stat_info;
