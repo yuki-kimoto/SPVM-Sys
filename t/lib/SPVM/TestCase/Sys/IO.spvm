@@ -1612,7 +1612,7 @@ class TestCase::Sys::IO {
       (long)$stat->st_dev,
       (long)$stat->st_ino,
       (long)$stat->st_mode,
-      0,
+      (long)$stat->st_nlink,
       (long)$stat->st_uid,
       (long)$stat->st_gid,
       (long)$stat->st_rdev,
@@ -1627,7 +1627,6 @@ class TestCase::Sys::IO {
     warn("[Test Output]stat:" . $stat->st_atime . " " . $stat->st_mtime . " " . $stat->st_ctime);
     
     unless (Sys->defined("_WIN32")) {
-      $stat_info->[3] = (long)$stat->st_nlink;
       $stat_info->[11] = (long)$stat->st_blksize;
       $stat_info->[12] = (long)$stat->st_blocks;
     }
@@ -1661,7 +1660,7 @@ class TestCase::Sys::IO {
       (long)$stat->st_dev,
       (long)$stat->st_ino,
       (long)$stat->st_mode,
-      0,
+      (long)$stat->st_nlink,
       (long)$stat->st_uid,
       (long)$stat->st_gid,
       (long)$stat->st_rdev,
@@ -1674,7 +1673,6 @@ class TestCase::Sys::IO {
     ];
 
     unless (Sys->defined("_WIN32")) {
-      $stat_info->[3] = (long)$stat->st_nlink;
       $stat_info->[11] = (long)$stat->st_blksize;
       $stat_info->[12] = (long)$stat->st_blocks;
     }
@@ -1710,7 +1708,7 @@ class TestCase::Sys::IO {
       (long)$stat->st_dev,
       (long)$stat->st_ino,
       (long)$stat->st_mode,
-      0,
+      (long)$stat->st_nlink,
       (long)$stat->st_uid,
       (long)$stat->st_gid,
       (long)$stat->st_rdev,
@@ -1723,7 +1721,6 @@ class TestCase::Sys::IO {
     ];
 
     unless (Sys->defined("_WIN32")) {
-      $stat_info->[3] = (long)$stat->st_nlink;
       $stat_info->[11] = (long)$stat->st_blksize;
       $stat_info->[12] = (long)$stat->st_blocks;
     }
