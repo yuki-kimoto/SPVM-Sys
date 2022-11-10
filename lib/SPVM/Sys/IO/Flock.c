@@ -1,3 +1,6 @@
+// The system calls that manipulate files support 64bit file size even if the system is 32bit.
+#define _FILE_OFFSET_BITS 64
+
 #include "spvm_native.h"
 
 #include <assert.h>
