@@ -1420,12 +1420,14 @@ class TestCase::Sys::IO {
       }
     }
     
+    warn "[Test Output]" . Sys::FileTest->s($file);
     unless (Sys::FileTest->s($file) > 0) {
       return 0;
     }
     
     Sys::IO->truncate($file, 0);
     
+    warn "[Test Output]" . Sys::FileTest->s($file);
     unless (Sys::FileTest->s($file) == 0) {
       return 0;
     }
@@ -1449,6 +1451,7 @@ class TestCase::Sys::IO {
       }
     }
     
+    warn "[Test Output]" . Sys::FileTest->s($file);
     unless (Sys::FileTest->s($file) > 0) {
       return 0;
     }
@@ -1458,6 +1461,7 @@ class TestCase::Sys::IO {
       Sys::IO->ftruncate(Sys::IO->fileno($stream), 0);
     }
 
+    warn "[Test Output]" . Sys::FileTest->s($file);
     unless (Sys::FileTest->s($file) == 0) {
       return 0;
     }
