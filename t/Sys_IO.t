@@ -158,6 +158,10 @@ ok(SPVM::TestCase::Sys::IO->setlinebuf("$test_dir"));
   
   my $stat_info = SPVM::TestCase::Sys::IO->stat_info("$test_dir");
   my $stat_info_expected = [stat "$test_dir/ftest/file_bytes8.txt"];
+  use Data::Dumper;
+  warn Dumper $stat_info->to_elems;
+  warn Dumper $stat_info_expected;
+  
   is_deeply($stat_info->to_elems, $stat_info_expected);
 }
 
