@@ -1,3 +1,6 @@
+// Support st_atim.tv_nsec, st_mtim.tv_nsec, st_ctim.tv_nsec in stat structure.
+#define _XOPEN_SOURCE 700
+
 // lseek off_t become 64bit 
 #define _FILE_OFFSET_BITS 64
 
