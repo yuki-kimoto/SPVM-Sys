@@ -1685,4 +1685,48 @@ class TestCase::Sys::IO {
     
     return $stat_info;
   }
+
+  static method fstat : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      my $stat = Sys::IO::Stat->new;
+      my $status = Sys::IO->fstat(Sys::IO->fileno($stream), $stat);
+      unless ($status == 0) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
+  static method fstat_info : int[] ($test_dir : string) {
+    
+    my $file = "$test_dir/ftest/file_bytes8.txt";
+    my $stream = Sys::IO->fopen($file, "rb");
+    
+    my $stat = Sys::IO::Stat->new;
+    Sys::IO->fstat(Sys::IO->fileno($stream), $stat);
+    
+    my $stat_info = [
+      (int)$stat->st_dev,
+      (int)$stat->st_ino,
+      (int)$stat->st_mode,
+      (int)$stat->st_nlink,
+      (int)$stat->st_uid,
+      (int)$stat->st_gid,
+      (int)$stat->st_rdev,
+      (int)$stat->st_size,
+      (int)$stat->st_atime,
+      (int)$stat->st_mtime,
+      (int)$stat->st_ctime,
+      (int)$stat->st_blksize,
+      (int)$stat->st_blocks,
+    ];
+    
+    return $stat_info;
+  }
+
 }

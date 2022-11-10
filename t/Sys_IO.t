@@ -179,6 +179,14 @@ unless ($^O eq 'MSWin32') {
   is_deeply($lstat_info->to_elems, $lstat_info_expected);
 }
 
+{
+  ok(SPVM::TestCase::Sys::IO->fstat("$test_dir"));
+  
+  my $stat_info = SPVM::TestCase::Sys::IO->fstat_info("$test_dir");
+  my $stat_info_expected = [stat "$test_dir/ftest/file_bytes8.txt"];
+  is_deeply($stat_info->to_elems, $stat_info_expected);
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
