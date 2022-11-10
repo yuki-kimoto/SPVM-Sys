@@ -1493,4 +1493,33 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method fsync : int ($test_dir : string) {
+    
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      unless ($stream) {
+        return 0;
+      }
+      
+      my $fsync_status = Sys::IO->fsync(Sys::IO->fileno($stream));
+
+      unless ($fsync_status == 0) {
+        return 0;
+      }
+      
+      my $fclose_status = Sys::IO->fclose($stream);
+      
+      unless ($fclose_status == 0) {
+        return 0;
+      }
+    }
+    
+    $@ = undef;
+    
+    return 1;
+  }
+
 }

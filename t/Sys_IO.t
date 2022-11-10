@@ -151,6 +151,10 @@ ok(SPVM::TestCase::Sys::IO->readline("$test_dir"));
 
 ok(SPVM::TestCase::Sys::IO->ungetc("$test_dir"));
 
+unless ($^O eq 'MSWin32') {
+  ok(SPVM::TestCase::Sys::IO->fsync("$test_dir"));
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
