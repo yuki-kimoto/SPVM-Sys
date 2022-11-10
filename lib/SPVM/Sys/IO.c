@@ -1713,17 +1713,14 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
   errno = 0;
-  FILE* new_stream = freopen(path, mode, stream);
-  if (!new_stream) {
+  FILE* reopened_stream = freopen(path, mode, stream);
+  
+  if (!reopened_stream) {
     env->die(env, stack, "[System Error]freopen failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  int32_t pointer_fields_length = 1;
-  void* obj_new_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::IO::FileStream", new_stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
-  if (e) { return e; }
-  
-  stack[0].oval = obj_new_stream;
+  stack[0].oval = obj_stream;
   
   return 0;
 }

@@ -187,6 +187,8 @@ unless ($^O eq 'MSWin32') {
   is_deeply($stat_info->to_elems, $stat_info_expected);
 }
 
+ok(SPVM::TestCase::Sys::IO->freopen("$test_dir"));
+
 SPVM::set_exception(undef);
 
 # All object is freed

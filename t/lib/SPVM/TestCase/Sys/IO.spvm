@@ -1729,4 +1729,53 @@ class TestCase::Sys::IO {
     return $stat_info;
   }
 
+  static method freopen : int ($test_dir : string) {
+    
+    {
+      my $file0 = "$test_dir/bar.txt";
+      my $file = "$test_dir/foo.txt";
+      my $stream0 = Sys::IO->fopen($file0, "wb");
+      my $stream = Sys::IO->freopen($file, "wb", $stream0);
+      
+      unless ($stream) {
+        return 0;
+      }
+
+      my $write_length = 0;
+      my $size = 1;
+      my $length = 4;
+      
+      $write_length = Sys::IO->fwrite("abcd", $size, $length, $stream);
+      unless ($write_length == 4) {
+        return 0;
+      }
+      
+      Sys::IO->fclose($stream);
+    }
+    
+    {
+      my $file = "$test_dir/foo.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      unless ($stream) {
+        return 0;
+      }
+
+      my $buffer = (mutable string)new_string_len 4;
+      my $size = 1;
+      my $length = 4;
+      
+      my $read_length = 0;
+      
+      $read_length = Sys::IO->fread($buffer, $size, $length, $stream);
+      
+      unless ($buffer eq "abcd") {
+        return 0;
+      }
+      
+      Sys::IO->fclose($stream);
+    }
+    
+    return 1;
+  }
 }
