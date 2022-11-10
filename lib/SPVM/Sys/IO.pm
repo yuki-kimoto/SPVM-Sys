@@ -595,8 +595,7 @@ The same as the following code using L</"setvbuf">.
 The same as the following code using L</"setvbuf">.
 
   my $mode = IO->_IOLBF;
-  my $size = 0;
-  &setvbuf($stream, undef, $mode, $size);
+  &setvbuf($stream, undef, $mode, IO->BUFSIZ);
 
 =head2 stdin
 

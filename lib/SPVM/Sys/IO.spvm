@@ -180,7 +180,6 @@ class Sys::IO {
 
   static method setlinebuf : void ($stream : Sys::IO::FileStream) {
     my $mode = IO->_IOLBF;
-    my $size = 0;
-    &setvbuf($stream, undef, $mode, $size);
+    &setvbuf($stream, undef, $mode, IO->BUFSIZ);
   }
 }
