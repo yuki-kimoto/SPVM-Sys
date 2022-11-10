@@ -1,5 +1,5 @@
-// Support st_atim.tv_nsec, st_mtim.tv_nsec, st_ctim.tv_nsec in stat structure.
-#define _XOPEN_SOURCE 700
+// Support st_atim.tv_nsec, st_mtim.tv_nsec, st_ctim.tv_nsec, 
+#define _POSIX_C_SOURCE 200809L
 
 #include "spvm_native.h"
 
