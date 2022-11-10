@@ -144,6 +144,8 @@ else {
 
 ok(SPVM::TestCase::Sys::IO->readline("$test_dir"));
 
+ok(SPVM::TestCase::Sys::IO->ungetc("$test_dir"));
+
 SPVM::set_exception(undef);
 
 # All object is freed
