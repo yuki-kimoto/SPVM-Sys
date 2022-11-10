@@ -1547,7 +1547,7 @@ class TestCase::Sys::IO {
       
       my $mode = Sys::IO::Constant->_IOFBF;
       
-      my $status = Sys::IO->setvbuf($stream, undef, $mode, 0);
+      my $status = Sys::IO->setvbuf($stream, undef, $mode, IO->BUFSIZ);
       unless ($status == 0) {
         return 0;
       }
