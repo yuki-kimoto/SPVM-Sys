@@ -2,7 +2,7 @@
   [New Features]
     * Added the following methods to the Sys::IO class.
     
-      static method readline : string ($stream : Sys::IO::FileStream);
+      static method readline : mutable string ($stream : Sys::IO::FileStream);
       
       static method ftruncate : int ($fd : int, $length : long);
       

@@ -216,6 +216,9 @@ t/ftest/dir_empty/.gitkeep
 t/ftest/file_bytes8.txt
 t/ftest/file_empty.txt
 t/ftest/file_new_lines.txt
+t/ftest/readline_basic.txt
+t/ftest/readline_eof.txt
+t/ftest/readline_long_lines.txt
 t/lib/SPVM/TestCase/Sys/FileTest.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/Ioctl.spvm
