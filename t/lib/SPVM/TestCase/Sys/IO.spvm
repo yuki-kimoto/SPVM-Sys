@@ -4,6 +4,7 @@ class TestCase::Sys::IO {
   use Sys::FileTest;
   use Fn;
   use Sys::IO::Stat;
+  use Sys;
 
   static method open : int ($test_dir : string, $tmp_dir : string) {
     
@@ -1634,7 +1635,7 @@ class TestCase::Sys::IO {
       (long)$stat->st_dev,
       (long)$stat->st_ino,
       (long)$stat->st_mode,
-      (long)$stat->st_nlink,
+      0,
       (long)$stat->st_uid,
       (long)$stat->st_gid,
       (long)$stat->st_rdev,
@@ -1645,6 +1646,10 @@ class TestCase::Sys::IO {
       (long)$stat->st_blksize,
       (long)$stat->st_blocks,
     ];
+    
+    unless (Sys->defined("_WIN32")) {
+      $stat_info->[3] = (long)$stat->st_nlink;
+    }
     
     return $stat_info;
   }
@@ -1675,7 +1680,7 @@ class TestCase::Sys::IO {
       (long)$stat->st_dev,
       (long)$stat->st_ino,
       (long)$stat->st_mode,
-      (long)$stat->st_nlink,
+      0,
       (long)$stat->st_uid,
       (long)$stat->st_gid,
       (long)$stat->st_rdev,
@@ -1686,6 +1691,10 @@ class TestCase::Sys::IO {
       (long)$stat->st_blksize,
       (long)$stat->st_blocks,
     ];
+
+    unless (Sys->defined("_WIN32")) {
+      $stat_info->[3] = (long)$stat->st_nlink;
+    }
     
     return $stat_info;
   }
@@ -1718,7 +1727,7 @@ class TestCase::Sys::IO {
       (long)$stat->st_dev,
       (long)$stat->st_ino,
       (long)$stat->st_mode,
-      (long)$stat->st_nlink,
+      0,
       (long)$stat->st_uid,
       (long)$stat->st_gid,
       (long)$stat->st_rdev,
@@ -1729,6 +1738,10 @@ class TestCase::Sys::IO {
       (long)$stat->st_blksize,
       (long)$stat->st_blocks,
     ];
+
+    unless (Sys->defined("_WIN32")) {
+      $stat_info->[3] = (long)$stat->st_nlink;
+    }
     
     return $stat_info;
   }
