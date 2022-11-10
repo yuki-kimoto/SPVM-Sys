@@ -163,6 +163,14 @@ ok(SPVM::TestCase::Sys::IO->setbuffer("$test_dir"));
 
 ok(SPVM::TestCase::Sys::IO->setlinebuf("$test_dir"));
 
+{
+  ok(SPVM::TestCase::Sys::IO->stat("$test_dir"));
+  
+  my $stat_info = SPVM::TestCase::Sys::IO->stat_info("$test_dir");
+  my $stat_info_expected = [stat "$test_dir/ftest/file_bytes8.txt"];
+  is_deeply($stat_info->to_elems, $stat_info_expected);
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
