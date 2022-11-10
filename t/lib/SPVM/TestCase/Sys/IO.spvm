@@ -1258,7 +1258,7 @@ class TestCase::Sys::IO {
     {
       my $file = "$test_file_dir/ftest/readline_basic.txt";
       
-      my $stream = Sys::IO->fopen($file, "r");
+      my $stream = Sys::IO->fopen($file, "rb");
 
       {
         my $line = Sys::IO->readline($stream);
@@ -1293,7 +1293,7 @@ class TestCase::Sys::IO {
     {
       my $file = "$test_file_dir/ftest/readline_basic.txt";
       
-      my $stream = Sys::IO->fopen($file, "r");
+      my $stream = Sys::IO->fopen($file, "rb");
 
       my $lstrings = StringList->new((string[])undef);
       while (my $line = Sys::IO->readline($stream)) {
@@ -1314,7 +1314,7 @@ class TestCase::Sys::IO {
     {
       my $file = "$test_file_dir/ftest/readline_eof.txt";
       
-      my $stream = Sys::IO->fopen($file, "r");
+      my $stream = Sys::IO->fopen($file, "rb");
 
       {
         my $line = Sys::IO->readline($stream);
@@ -1357,7 +1357,7 @@ class TestCase::Sys::IO {
     {
       my $file = "$test_file_dir/ftest/readline_long_lines.txt";
       
-      my $stream = Sys::IO->fopen($file, "r");
+      my $stream = Sys::IO->fopen($file, "rb");
 
       {
         my $line = Sys::IO->readline($stream);
@@ -1392,7 +1392,7 @@ class TestCase::Sys::IO {
     # With chomp
     {
       my $file = "$test_file_dir/ftest/readline_basic.txt";
-      my $stream = Sys::IO->fopen($file, "r");
+      my $stream = Sys::IO->fopen($file, "rb");
 
       {
         my $line = Sys::IO->readline($stream);
@@ -1426,6 +1426,39 @@ class TestCase::Sys::IO {
     
     Sys::IO->truncate($file, 0);
     
+    unless (Sys::FileTest->s($file) == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method ftruncate : int ($test_dir : string) {
+    
+    my $file = "$test_dir/foo.txt";
+    {
+      my $stream = Sys::IO->fopen($file, "wb");
+      
+      my $write_length = 0;
+      my $size = 1;
+      my $length = 4;
+      
+      $write_length = Sys::IO->fwrite("abcd", $size, $length, $stream);
+      unless ($write_length == 4) {
+        return 0;
+      }
+    }
+    
+    {
+      unless (Sys::FileTest->s($file) > 0) {
+        return 0;
+      }
+      
+      my $stream = Sys::IO->fopen($file, "wb");
+      
+      Sys::IO->ftruncate(Sys::IO->fileno($stream), 0);
+    }
+
     unless (Sys::FileTest->s($file) == 0) {
       return 0;
     }
