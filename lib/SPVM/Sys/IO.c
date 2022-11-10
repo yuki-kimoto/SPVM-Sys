@@ -1725,8 +1725,6 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int setvbuf(FILE *stream, char *buf, int mode, size_t size);
-
 int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_stream = stack[0].oval;

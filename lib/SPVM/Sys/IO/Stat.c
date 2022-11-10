@@ -45,7 +45,7 @@ int32_t SPVM__Sys__IO__Stat__st_dev(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
   
-  stack[0].ival = st_stat->st_dev;
+  stack[0].lval = st_stat->st_dev;
   
   return 0;
 }
@@ -56,7 +56,7 @@ int32_t SPVM__Sys__IO__Stat__st_ino(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
   
-  stack[0].ival = st_stat->st_ino;
+  stack[0].lval = st_stat->st_ino;
   
   return 0;
 }
@@ -81,7 +81,7 @@ int32_t SPVM__Sys__IO__Stat__st_nlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
   
-  stack[0].ival = st_stat->st_nlink;
+  stack[0].lval = st_stat->st_nlink;
   
   return 0;
 #endif
@@ -156,7 +156,7 @@ int32_t SPVM__Sys__IO__Stat__st_rdev(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* st_stat = env->get_pointer(env, stack, obj_stat);
   
-  stack[0].ival = st_stat->st_rdev;
+  stack[0].lval = st_stat->st_rdev;
   
   return 0;
 }

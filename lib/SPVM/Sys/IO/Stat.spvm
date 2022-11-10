@@ -4,13 +4,13 @@ class Sys::IO::Stat : pointer_t {
   
   # Instance methods
   native method DESTROY : void ();
-  native method st_dev : int ();
-  native method st_ino : int ();
+  native method st_dev : long ();
+  native method st_ino : long ();
   native method st_mode : int ();
-  native method st_nlink : int ();
+  native method st_nlink : long ();
   native method st_uid : int ();
   native method st_gid : int ();
-  native method st_rdev : int ();
+  native method st_rdev : long ();
   native method st_size : long ();
   native method st_blksize : long ();
   native method st_blocks : long ();

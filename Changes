@@ -1,4 +1,17 @@
 0.25_01 2022-11-09
+  [Incompatible Changes]
+    * The definitions of the following methods in the Sys::IO::Stat class are changed.
+      [Before]
+        method st_dev : int ();
+        method st_ino : int ();
+        method st_nlink : int ();
+        method st_rdev : int ();
+      [After]
+        method st_dev : long ();
+        method st_ino : long ();
+        method st_nlink : long ();
+        method st_rdev : long ();
+
   [New Features]
     * Added the following methods to the Sys::IO class.
     
