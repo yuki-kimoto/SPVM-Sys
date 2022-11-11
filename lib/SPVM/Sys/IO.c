@@ -2,7 +2,7 @@
 #define _FILE_OFFSET_BITS 64
 
 // Support st_atim.tv_nsec, st_mtim.tv_nsec, st_ctim.tv_nsec, 
-#define _POSIX_C_SOURCE 200809L
+#define _XOPEN_SOURCE 700
 
 #include "spvm_native.h"
 

@@ -1589,7 +1589,7 @@ class TestCase::Sys::IO {
   static method stat : int ($test_dir : string) {
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir/ftest/readline_long_lines.txt";
       
       my $stat = Sys::IO::Stat->new;
       my $status = Sys::IO->stat($file, $stat);
@@ -1603,7 +1603,7 @@ class TestCase::Sys::IO {
 
   static method stat_info : long[] ($test_dir : string) {
     
-    my $file = "$test_dir/ftest/file_bytes8.txt";
+    my $file = "$test_dir/ftest/readline_long_lines.txt";
     
     my $stat = Sys::IO::Stat->new;
     Sys::IO->stat($file, $stat);
@@ -1637,7 +1637,7 @@ class TestCase::Sys::IO {
   static method lstat : int ($test_dir : string) {
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir/ftest/readline_long_lines.txt";
       
       my $stat = Sys::IO::Stat->new;
       my $status = Sys::IO->lstat($file, $stat);
@@ -1651,7 +1651,7 @@ class TestCase::Sys::IO {
 
   static method lstat_info : long[] ($test_dir : string) {
     
-    my $file = "$test_dir/ftest/file_bytes8.txt";
+    my $file = "$test_dir/ftest/readline_long_lines.txt";
     
     my $stat = Sys::IO::Stat->new;
     Sys::IO->lstat($file, $stat);
@@ -1683,7 +1683,7 @@ class TestCase::Sys::IO {
   static method fstat : int ($test_dir : string) {
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir/ftest/readline_long_lines.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       my $stat = Sys::IO::Stat->new;
@@ -1698,7 +1698,7 @@ class TestCase::Sys::IO {
 
   static method fstat_info : long[] ($test_dir : string) {
     
-    my $file = "$test_dir/ftest/file_bytes8.txt";
+    my $file = "$test_dir/ftest/readline_long_lines.txt";
     my $stream = Sys::IO->fopen($file, "rb");
     
     my $stat = Sys::IO::Stat->new;

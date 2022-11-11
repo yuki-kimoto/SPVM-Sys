@@ -1,5 +1,8 @@
+// The system calls that manipulate files support 64bit file size even if the system is 32bit.
+#define _FILE_OFFSET_BITS 64
+
 // Support st_atim.tv_nsec, st_mtim.tv_nsec, st_ctim.tv_nsec, 
-#define _POSIX_C_SOURCE 200809L
+#define _XOPEN_SOURCE 700
 
 #include "spvm_native.h"
 
