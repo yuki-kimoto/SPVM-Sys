@@ -1,4 +1,4 @@
-0.25_02 2022-11-11
+0.26 2022-11-12
   [Incompatible Changes]
     * The definitions of the following methods in the Sys::IO::Stat class are changed.
       [Before]
