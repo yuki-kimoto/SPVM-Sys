@@ -1,6 +1,3 @@
-// lseek off_t become 64bit 
-#define _FILE_OFFSET_BITS 64
-
 #include "spvm_native.h"
 
 #include <unistd.h>
