@@ -128,14 +128,6 @@ class Sys::IO {
     return $status;
   }
   
-  native static method stat_raw : int ($path : string, $stat : Sys::IO::Stat);
-  
-  native static method stat : int ($path : string, $stat : Sys::IO::Stat);
-  
-  native static method lstat_raw : int ($path : string, $stat : Sys::IO::Stat);
-  
-  native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
-  
   native static method fcntl : int ($fd : int, $command : int, $command_arg = undef : object of Byte|Short|Int|Long|Float|Double|Sys::IO::Flock|object);
 
   native static method readline : mutable string ($stream : Sys::IO::FileStream);
@@ -146,10 +138,6 @@ class Sys::IO {
   
   native static method fsync : int ($fd : int);
   
-  native static method fstat_raw : int ($fd : int, $stat : Sys::IO::Stat);
-
-  native static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
-
   native static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
 
   native static method setvbuf : int ($stream : Sys::IO::FileStream, $buf : mutable string, $mode : int, $size : int);

@@ -1335,89 +1335,6 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__stat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  int32_t e = 0;
-  
-  void* obj_path = stack[0].oval;
-  if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", FILE_NAME, __LINE__);
-  }
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  void* obj_stat = stack[1].oval;
-  if (!obj_stat) {
-    return env->die(env, stack, "The $stat must be defined", FILE_NAME, __LINE__);
-  }
-  
-  struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
-  
-  errno = 0;
-  int32_t status = stat(path, stat_buf);
-
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-
-int32_t SPVM__Sys__IO__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  SPVM__Sys__IO__stat_raw(env, stack);
-  
-  int32_t status = stack[0].ival;
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]stat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__lstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifdef _WIN32
-  return env->die(env, stack, "lstat is not supported on this system(_WIN32)", FILE_NAME, __LINE__);
-#else
-
-  int32_t e = 0;
-  
-  void* obj_path = stack[0].oval;
-  if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", FILE_NAME, __LINE__);
-  }
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  void* obj_lstat = stack[1].oval;
-  if (!obj_lstat) {
-    return env->die(env, stack, "The $lstat must be defined", FILE_NAME, __LINE__);
-  }
-  
-  struct stat* stat_buf = env->get_pointer(env, stack, obj_lstat);
-  
-  errno = 0;
-  int32_t status = lstat(path, stat_buf);
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__IO__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  SPVM__Sys__IO__lstat_raw(env, stack);
-  
-  int32_t status = stack[0].ival;
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]lstat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
   return env->die(env, stack, "fcntl is not supported on this system(_WIN32)", FILE_NAME, __LINE__);
@@ -1653,41 +1570,6 @@ int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
-}
-
-int32_t SPVM__Sys__IO__fstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  int32_t e = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  void* obj_stat = stack[1].oval;
-  
-  if (!obj_stat) {
-    return env->die(env, stack, "The $stat must be defined", FILE_NAME, __LINE__);
-  }
-  
-  struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
-  
-  int32_t status = fstat(fd, stat_buf);
-
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  SPVM__Sys__IO__fstat_raw(env, stack);
-  
-  int32_t status = stack[0].ival;
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]fstat failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  return 0;
 }
 
 int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {

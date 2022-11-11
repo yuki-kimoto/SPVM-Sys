@@ -11,8 +11,14 @@
         method st_ino : long ();
         method st_nlink : long ();
         method st_rdev : long ();
-
+   * The stat and lstat methods in the Sys::IO class are moved to the Sys::IO::Stat class.
+   
   [New Features]
+    * Added the following methods to the Sys::IO::Stat class.
+      static method fstat_raw : int ($fd : int, $stat : Sys::IO::Stat);
+      
+      static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
+
     * Added the following methods to the Sys::IO class.
     
       static method readline : mutable string ($stream : Sys::IO::FileStream);
@@ -22,10 +28,6 @@
       static method ungetc : int ($c : int, $stream : Sys::IO::FileStream);
       
       static method fsync : int ($fd : int);
-      
-      static method fstat_raw : int ($fd : int, $stat : Sys::IO::Stat);
-      
-      static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
       
       static method freopen : Sys::IO::FileStream ($path : string, $mode : string, $stream : Sys::IO::FileStream);
       

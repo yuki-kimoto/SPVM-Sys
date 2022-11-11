@@ -1586,153 +1586,11 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method stat : int ($test_dir : string) {
-    
-    {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
-      
-      my $stat = Sys::IO::Stat->new;
-      my $status = Sys::IO->stat($file, $stat);
-      unless ($status == 0) {
-        return 0;
-      }
-    }
-    
-    return 1;
-  }
-
-  static method stat_info : long[] ($test_dir : string) {
-    
-    my $file = "$test_dir/ftest/file_bytes8.txt";
-    
-    my $stat = Sys::IO::Stat->new;
-    Sys::IO->stat($file, $stat);
-    
-    my $stat_info = [
-      (long)$stat->st_dev,
-      (long)$stat->st_ino,
-      (long)$stat->st_mode,
-      (long)$stat->st_nlink,
-      (long)$stat->st_uid,
-      (long)$stat->st_gid,
-      (long)$stat->st_rdev,
-      (long)$stat->st_size,
-      (long)$stat->st_atime,
-      (long)$stat->st_mtime,
-      (long)$stat->st_ctime,
-      0,
-      0,
-    ];
-    
-    warn("[Test Output]stat:" . $stat->st_atime . " " . $stat->st_mtime . " " . $stat->st_ctime);
-    
-    unless (Sys->defined("_WIN32")) {
-      $stat_info->[11] = (long)$stat->st_blksize;
-      $stat_info->[12] = (long)$stat->st_blocks;
-    }
-    
-    return $stat_info;
-  }
-
-  static method lstat : int ($test_dir : string) {
-    
-    {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
-      
-      my $stat = Sys::IO::Stat->new;
-      my $status = Sys::IO->lstat($file, $stat);
-      unless ($status == 0) {
-        return 0;
-      }
-    }
-    
-    return 1;
-  }
-
-  static method lstat_info : long[] ($test_dir : string) {
-    
-    my $file = "$test_dir/ftest/file_bytes8.txt";
-    
-    my $stat = Sys::IO::Stat->new;
-    Sys::IO->lstat($file, $stat);
-    
-    my $stat_info = [
-      (long)$stat->st_dev,
-      (long)$stat->st_ino,
-      (long)$stat->st_mode,
-      (long)$stat->st_nlink,
-      (long)$stat->st_uid,
-      (long)$stat->st_gid,
-      (long)$stat->st_rdev,
-      (long)$stat->st_size,
-      (long)$stat->st_atime,
-      (long)$stat->st_mtime,
-      (long)$stat->st_ctime,
-      0,
-      0,
-    ];
-
-    unless (Sys->defined("_WIN32")) {
-      $stat_info->[11] = (long)$stat->st_blksize;
-      $stat_info->[12] = (long)$stat->st_blocks;
-    }
-    
-    return $stat_info;
-  }
-
-  static method fstat : int ($test_dir : string) {
-    
-    {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
-      my $stream = Sys::IO->fopen($file, "rb");
-      
-      my $stat = Sys::IO::Stat->new;
-      my $status = Sys::IO->fstat(Sys::IO->fileno($stream), $stat);
-      unless ($status == 0) {
-        return 0;
-      }
-    }
-    
-    return 1;
-  }
-
-  static method fstat_info : long[] ($test_dir : string) {
-    
-    my $file = "$test_dir/ftest/file_bytes8.txt";
-    my $stream = Sys::IO->fopen($file, "rb");
-    
-    my $stat = Sys::IO::Stat->new;
-    Sys::IO->fstat(Sys::IO->fileno($stream), $stat);
-    
-    my $stat_info = [
-      (long)$stat->st_dev,
-      (long)$stat->st_ino,
-      (long)$stat->st_mode,
-      (long)$stat->st_nlink,
-      (long)$stat->st_uid,
-      (long)$stat->st_gid,
-      (long)$stat->st_rdev,
-      (long)$stat->st_size,
-      (long)$stat->st_atime,
-      (long)$stat->st_mtime,
-      (long)$stat->st_ctime,
-      0,
-      0,
-    ];
-
-    unless (Sys->defined("_WIN32")) {
-      $stat_info->[11] = (long)$stat->st_blksize;
-      $stat_info->[12] = (long)$stat->st_blocks;
-    }
-    
-    return $stat_info;
-  }
-
   static method freopen : int ($test_dir : string) {
     
     {
-      my $file0 = "$test_dir/bar.txt";
-      my $file = "$test_dir/foo.txt";
+      my $file0 = "$test_dir/ftest/bar.txt";
+      my $file = "$test_dir/ftest/foo.txt";
       my $stream0 = Sys::IO->fopen($file0, "wb");
       my $stream = Sys::IO->freopen($file, "wb", $stream0);
       
@@ -1753,7 +1611,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$test_dir/ftest/foo.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
