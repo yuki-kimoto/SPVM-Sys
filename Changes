@@ -78,7 +78,10 @@
       
   [Exception Message Improvement]
     * Improved exception messages in the Sys::IO class.
-        
+  
+  [Bug Fix]
+    * Fixed the bug that the stat method in the Sys::IO doesn't work well in 32bit system. This method is moved to the Sys::IO::Stat class in this release.
+    * Fixed the bug that the lstat method in the Sys::IO doesn't work well in 32bit system. This method is moved to the Sys::IO::Stat class in this release.
 0.25 2022-11-07
   [OS Support Changes]
     * SPVM::Sys doesn't supports OpenBSD because the following tests are hard to fix for us.
