@@ -1,6 +1,8 @@
 0.27 2022-11-14
   [Prerequirement Changes]
     * SPVM::Sys needs SPVM 0.9661+.
+  [Bug Fix]
+    * Suppress unneeded warnings in the clone method in the Sys::Socket::Sockaddr.
 0.26 2022-11-12
   [Incompatible Changes]
     * The definitions of the following methods in the Sys::IO::Stat class are changed.
