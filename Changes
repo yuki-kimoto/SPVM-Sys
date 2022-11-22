@@ -31,6 +31,8 @@
       static method sockatmark : int ($sockfd : int);
 
       static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+      
+      static method connect_raw : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
   
   [Bug Fix]
     * Added the following methods that is documented but not implemented to the Sys::Socket::Constant class.

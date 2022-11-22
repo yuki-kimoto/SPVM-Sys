@@ -331,7 +331,8 @@ int32_t SPVM__Sys__Socket__socket(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__connect(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+int32_t SPVM__Sys__Socket__connect_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
@@ -347,12 +348,19 @@ int32_t SPVM__Sys__Socket__connect(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = connect(sockfd, addr, addrlen);
   
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__connect(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t status = SPVM__Sys__Socket__connect_raw(env, stack);
+  
   if (status == -1) {
     env->die(env, stack, "[System Error]connect failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
-  
-  stack[0].ival = status;
   
   return 0;
 }
