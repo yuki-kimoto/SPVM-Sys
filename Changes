@@ -3,6 +3,29 @@
     * Added the following methods to the Sys::Socket::Constant class.
     
       static method IPPROTO_ICMP : int ();
+      static method ICMP_ADDRESS : int ();
+
+      static method ICMP_DEST_UNREACH : int ();
+
+      static method ICMP_ECHO : int ();
+
+      static method ICMP_ECHOREPLY : int ();
+
+      static method ICMP_ECHOREQUEST : int ();
+
+      static method ICMP_FILTER : int ();
+
+      static method ICMP_FRAG_NEEDED : int ();
+
+      static method ICMP_PARAMETERPROB : int ();
+
+      static method ICMP_REDIRECT : int ();
+
+      static method ICMP_SOURCE_QUENCH : int ();
+
+      static method ICMP_TIMESTAMP : int ();
+
+      static method ICMP_TIME_EXCEEDED : int ();
 
   [Bug Fix]
     * Added the following methods that is documented but not implemented to the Sys::Socket::Constant class.
