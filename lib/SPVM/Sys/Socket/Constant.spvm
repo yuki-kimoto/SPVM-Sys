@@ -417,4 +417,27 @@ class Sys::Socket::Constant {
 
   native static method NI_MAXSERV : int ();
 
+  native static method ICMP_ADDRESS : int ();
+
+  native static method ICMP_DEST_UNREACH : int ();
+
+  native static method ICMP_ECHO : int ();
+
+  native static method ICMP_ECHOREPLY : int ();
+
+  native static method ICMP_ECHOREQUEST : int ();
+
+  native static method ICMP_FILTER : int ();
+
+  native static method ICMP_FRAG_NEEDED : int ();
+
+  native static method ICMP_PARAMETERPROB : int ();
+
+  native static method ICMP_REDIRECT : int ();
+
+  native static method ICMP_SOURCE_QUENCH : int ();
+
+  native static method ICMP_TIMESTAMP : int ();
+
+  native static method ICMP_TIME_EXCEEDED : int ();
 }
