@@ -440,7 +440,9 @@ int32_t SPVM__Sys__Socket__listen(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+
+  int32_t items = env->get_args_stack_length(env, stack);
+
   int32_t sockfd = stack[0].ival;
 
   void* obj_buf = stack[1].oval;
@@ -450,12 +452,21 @@ int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   char* buf = (char*)env->get_chars(env, stack, obj_buf);
+  int32_t buf_length = env->length(env, stack, obj_buf);
   
   int32_t len = stack[2].ival;
   
   int32_t flags = stack[3].ival;
   
-  int32_t bytes_length = recv(sockfd, buf, len, flags);
+  int32_t buf_offset = 0;
+  if (items > 4) {
+    buf_offset = stack[4].ival;
+  }
+  if (!(len <= buf_length - buf_offset)) {
+    return env->die(env, stack, "The $len must be less than the length of the $buf - the $buf_offset", FILE_NAME, __LINE__);
+  }
+  
+  int32_t bytes_length = recv(sockfd, buf + buf_offset, len, flags);
   
   if (bytes_length == -1) {
     env->die(env, stack, "[System Error]recv failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);
@@ -469,6 +480,8 @@ int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__send(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t items = env->get_args_stack_length(env, stack);
+  
   int32_t sockfd = stack[0].ival;
 
   void* obj_buf = stack[1].oval;
@@ -478,12 +491,21 @@ int32_t SPVM__Sys__Socket__send(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   const char* buf = env->get_chars(env, stack, obj_buf);
+  int32_t buf_length = env->length(env, stack, obj_buf);
   
   int32_t len = stack[2].ival;
   
   int32_t flags = stack[3].ival;
   
-  int32_t bytes_length = send(sockfd, buf, len, flags);
+  int32_t buf_offset = 0;
+  if (items > 4) {
+    buf_offset = stack[4].ival;
+  }
+  if (!(len <= buf_length - buf_offset)) {
+    return env->die(env, stack, "The $len must be less than the length of the $buf - the $buf_offset", FILE_NAME, __LINE__);
+  }
+  
+  int32_t bytes_length = send(sockfd, buf + buf_offset, len, flags);
   
   if (bytes_length == -1) {
     env->die(env, stack, "[System Error]send failed: %s", socket_strerror(env, stack, socket_errno(), 0), FILE_NAME, __LINE__);

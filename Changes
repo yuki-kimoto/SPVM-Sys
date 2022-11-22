@@ -26,6 +26,18 @@
       static method ICMP_TIMESTAMP : int ();
 
       static method ICMP_TIME_EXCEEDED : int ();
+
+   * Added the following optional argument to the recv method in the Sys::Socket class.
+     [Before]
+       static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int);
+     [After]
+       static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset = 0 : int);
+
+   * Added the following optional argument to the send method in the Sys::Socket class.
+     [Before]
+       static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int);
+     [After]
+       static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset = 0 : int);
     
     * Added the following methods to the Sys::Socket class
       static method sockatmark : int ($sockfd : int);
