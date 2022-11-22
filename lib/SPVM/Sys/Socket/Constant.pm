@@ -751,6 +751,12 @@ Get the constant value of C<INET6_ADDRSTRLEN>. If the system doesn't define this
 
 Get the constant value of C<IPPROTO_IPV6>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 IPPROTO_ICMP
+
+  static method IPPROTO_ICMP : int ();
+
+Get the constant value of C<IPPROTO_ICMP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
 =head2 IPV6_ADDRFORM
 
   static method IPV6_ADDRFORM : int ();

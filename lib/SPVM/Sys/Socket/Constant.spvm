@@ -69,6 +69,8 @@ class Sys::Socket::Constant {
 
   native static method IPPROTO_UDPLITE : int ();
 
+  native static method IPPROTO_ICMP : int ();
+
   native static method IPTOS_LOWDELAY : int ();
 
   native static method IPTOS_MINCOST : int ();
@@ -414,4 +416,5 @@ class Sys::Socket::Constant {
   native static method NI_MAXHOST : int ();
 
   native static method NI_MAXSERV : int ();
+
 }

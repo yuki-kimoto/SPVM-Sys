@@ -1489,6 +1489,18 @@ int32_t SPVM__Sys__Socket__Constant__IPPROTO_IPV6(SPVM_ENV* env, SPVM_VALUE* sta
 
 }
 
+int32_t SPVM__Sys__Socket__Constant__IPPROTO_ICMP(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef IPPROTO_ICMP
+  stack[0].ival = IPPROTO_ICMP;
+  return 0;
+#else
+  env->die(env, stack, "IPPROTO_ICMP is not defined on this system", FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#endif
+
+}
+
 int32_t SPVM__Sys__Socket__Constant__IPV6_ADDRFORM(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef IPV6_ADDRFORM
