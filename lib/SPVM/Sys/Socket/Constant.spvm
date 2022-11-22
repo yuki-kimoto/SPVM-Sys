@@ -217,6 +217,8 @@ class Sys::Socket::Constant {
 
   native static method SOMAXCONN : int ();
 
+  native static method SO_BROADCAST : int ();
+
   native static method SO_EE_OFFENDER : int ();
 
   native static method SO_EE_ORIGIN_ICMP : int ();

@@ -4,6 +4,11 @@
     
       static method IPPROTO_ICMP : int ();
 
+  [Bug Fix]
+    * Added the following methods that is documented but not implemented to the Sys::Socket::Constant class.
+
+      static method SO_BROADCAST : int ();
+
 0.27 2022-11-14
   [Prerequirement Changes]
     * SPVM::Sys needs SPVM 0.9661+.
