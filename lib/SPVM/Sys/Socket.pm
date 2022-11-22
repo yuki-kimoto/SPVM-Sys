@@ -358,3 +358,11 @@ Portalbe C<errno> related to the errors of the socket.
   static method socket_strerror : string ($errno : int, $length : int);
 
 Portalbe C<strerror> related to the errors of the socket.
+
+=head2 sockatmark
+
+  static method sockatmark : int ($sockfd : int);
+
+=head2 sendto
+
+  static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);

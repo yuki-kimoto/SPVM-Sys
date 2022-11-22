@@ -79,4 +79,8 @@ class Sys::Socket {
 
   native static method socket_errno : int ();
   native static method socket_strerror : string ($errno : int, $length : int);
+
+  native static method sockatmark : int ($sockfd : int);
+
+  native static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
 }
