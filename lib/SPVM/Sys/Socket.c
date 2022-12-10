@@ -2,24 +2,10 @@
 #define _WIN32_WINNT 0x0603
 
 #include "spvm_native.h"
+#include "spvm_socket_util.h"
 
 #include <errno.h>
 #include <assert.h>
-
-#ifdef _WIN32
-  #include <ws2tcpip.h>
-  #include <winsock2.h>
-  #include <io.h>
-  #include <winerror.h>
-#else
-  #include <unistd.h>
-  #include <sys/types.h>
-  #include <sys/socket.h>
-  #include <netinet/in.h>
-  #include <netinet/ip.h>
-  #include <netdb.h>
-  #include <arpa/inet.h>
-#endif
 
 static const char* FILE_NAME = "Sys/Socket.c";
 
