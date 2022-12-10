@@ -16,7 +16,7 @@ jobs:
       - run: perl -V
       - run: perl -MConfig -MData::Dumper -e 'local $Data::Dumper::Sortkeys = 1;warn Dumper \%Config;'
       - run: perl cpanm -n SPVM
-      - run: perl cpanm SPVM::Errno
+      - run: perl cpanm SPVM::Errno SPVM::Resource::SocketUtil
       - run: perl Makefile.PL
       - run: gmake
       - run: gmake disttest

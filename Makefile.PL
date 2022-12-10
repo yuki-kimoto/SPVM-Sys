@@ -59,6 +59,7 @@ WriteMakefile(
   },
   PREREQ_PM         => {
     'SPVM::Errno' => '0.06',
+    'SPVM::Resource::SocketUtil' => '0.01',
   },
 );
 
