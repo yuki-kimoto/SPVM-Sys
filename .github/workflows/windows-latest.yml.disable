@@ -1,4 +1,4 @@
-name: windows-2019
+name: windows-latest
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   perl:
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
       - run: perl -V
