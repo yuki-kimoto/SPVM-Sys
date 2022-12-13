@@ -1,4 +1,4 @@
-0.29 2022-12-11
+0.29 2022-12-13
   [Internal Compatible Changes]
     * Use SPVM::Resource::SocketUtil.
   [Prerequirement Changes]
