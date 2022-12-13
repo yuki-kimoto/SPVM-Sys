@@ -3,7 +3,7 @@
     * Use SPVM::Resource::SocketUtil.
   [Prerequirement Changes]
     * SPVM::Sys needs SPVM 0.9665+.
-    * SPVM::Sys needs SPVM::Resource::SocketUtil 0.01+.
+    * SPVM::Sys needs SPVM::Resource::SocketUtil 0.02+.
 0.28 2022-11-22
   [New Features]
     * Added the following methods to the Sys::Socket::Constant class.
