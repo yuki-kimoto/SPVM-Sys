@@ -92,13 +92,13 @@ Sets C<sin6_addr>. This is a L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr
 
 =head2 sin6_port
 
-  method sin6_port : short ();
+  method sin6_port : int ();
 
 Gets C<sin6_port>.
 
 =head2 set_sin6_port
 
-  method set_sin6_port : void ($port : short);
+  method set_sin6_port : void ($port : int);
 
 Sets C<sin6_port>.
 

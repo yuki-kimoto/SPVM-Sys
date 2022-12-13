@@ -68,13 +68,13 @@ Sets C<sin_addr>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> o
 
 =head2 sin_port
 
-  method sin_port : short ();
+  method sin_port : int ();
 
 Gets C<sin_port>.
 
 =head2 set_sin_port
 
-  method set_sin_port : void ($port : short);
+  method set_sin_port : void ($port : int);
 
 Sets C<sin_port>.
 

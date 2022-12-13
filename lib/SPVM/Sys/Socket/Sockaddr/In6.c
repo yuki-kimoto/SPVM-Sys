@@ -145,7 +145,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In6__sin6_port(SPVM_ENV* env, SPVM_VALUE* s
   
   struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
   
-  stack[0].sval = socket_address->sin6_port;
+  stack[0].ival = socket_address->sin6_port;
   
   return 0;
 }
@@ -156,7 +156,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In6__set_sin6_port(SPVM_ENV* env, SPVM_VALU
   
   struct sockaddr_in6* socket_address = env->get_pointer(env, stack, obj_self);
   
-  socket_address->sin6_port = stack[1].sval;
+  socket_address->sin6_port = stack[1].ival;
   
   return 0;
 }

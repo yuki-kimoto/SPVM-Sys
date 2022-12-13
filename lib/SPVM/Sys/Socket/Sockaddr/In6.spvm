@@ -28,9 +28,9 @@ class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer_t {
   
   native method set_sin6_addr : void ($address : Sys::Socket::In6_addr);
   
-  native method sin6_port : short ();
+  native method sin6_port : int ();
   
-  native method set_sin6_port : void ($port : short);
+  native method set_sin6_port : void ($port : int);
 
   native method sizeof : int ();
 

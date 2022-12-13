@@ -14,6 +14,10 @@
       +  method sin_family : int ();
       -  method set_sin_family : void ($family : byte);
       +  method set_sin_family : void ($family : int);
+      -  method sin_port : short ();
+      +  method sin_port : int ();
+      -  method set_sin_port : void ($port : short);
+      +  method set_sin_port : void ($port : int);
     * Changed the following method definitions in the Sys::Socket::Sockaddr::In6 class.
       -  method sa_family : byte ()
       +  method sa_family : int ()
@@ -21,6 +25,12 @@
       +  method sin6_family : int ();
       -  method set_sin6_family : void ($family : byte);
       +  method set_sin6_family : void ($family : int);
+      -  method sin6_port : short ();
+      +  method sin6_port : int ();
+
+      -  method set_sin6_port : void ($port : short);
+      +  method set_sin6_port : void ($port : int);
+
     * Changed the following method definitions in the Sys::Socket::Sockaddr::Storage class.
       -  method sa_family : byte ()
       +  method sa_family : int ()
@@ -38,6 +48,15 @@
     * Changed the following method definitions in the Sys::Socket::Sockaddr::Interface class.
       -  method sa_family : byte ()
       +  method sa_family : int ()
+    * Changed the following method definitions in the Sys::Poll::PollfdArray class.
+      -  method events : short ($index : int);
+      +  method events : int ($index : int);
+      -  method set_events : void ($index : int, $events : short);
+      +  method set_events : void ($index : int, $events : int);
+      -  method revents : short ($index : short);
+      +  method revents : int ($index : int);
+      -  method set_revents : void ($index : int, $revents : short);
+      +  method set_revents : void ($index : int, $revents : int);
 
 0.29 2022-12-13
   [Internal Compatible Changes]
