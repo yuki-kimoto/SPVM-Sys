@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@master
       - run: perl -V
       - run: perl -MConfig -MData::Dumper -e 'local $Data::Dumper::Sortkeys = 1;warn Dumper \%Config;'
-      - run: perl -MIO::Socket::INET -e "my $socket = IO::Socket::INET->new(PeerAddr => qq(cpanmin.us), PeerPort => 80, Proto=> qq(tcp));print $socket qq(GET / HTTP/1.0\r\nHost:cpanmin.us\r\n\r\n);print <$socket>;" | perl -p -0777 -e "s/.*\r\n\r\n//s" > cpanm
+      - run: perl -MIO::Socket::INET -e 'my $socket = IO::Socket::INET->new(PeerAddr => "cpanmin.us", PeerPort => 80, Proto=> "tcp");print $socket "GET / HTTP/1.0\r\nHost:cpanmin.us\r\n\r\n";print <$socket>;close($sock);' | perl -p -0777 -e 's/.*\r\n\r\n//s' > cpanm
       - run: perl cpanm -n SPVM
       - run: perl Makefile.PL
       - run: perl cpanm --installdeps .
