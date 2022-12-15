@@ -1,3 +1,19 @@
+0.31 2022-12-13
+  [Build Process Improvement]
+    * Added --meta option to Makefile.PL
+  [Build Process Bug Fix]
+    * Fixed the SPVM module dependency in Makefile.PL
+      [Before]
+      PREREQ_PM => {
+        'SPVM'              => '0.9665',
+      },
+      [After]
+      CONFIGURE_REQUIRES => {
+        'SPVM'              => '0.9665',
+      },
+  [Test Improvement]
+    * Improve the workflow of Github Actions.
+    
 0.30 2022-12-13
   [Build Process Improvement]
     * Added --no-build-spvm-modules option to Makefile.PL.

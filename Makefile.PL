@@ -6,8 +6,13 @@ use Config;
 use Getopt::Long 'GetOptions';
 
 GetOptions(
+  'meta' => \my $meta,
   'no-build-spvm-modules' => \my $no_build_spvm_modules,
 );
+
+if ($meta) {
+  $no_build_spvm_modules = 1;
+}
 
 # Check supported environment
 {
@@ -57,8 +62,10 @@ WriteMakefile(
       },
     },
   },
-  PREREQ_PM         => {
+  CONFIGURE_REQUIRES => {
     'SPVM'              => '0.9665',
+  },
+  PREREQ_PM         => {
     'SPVM::Resource::SocketUtil' => '0.02',
     'SPVM::Errno' => '0.06',
   },
