@@ -63,7 +63,7 @@ WriteMakefile(
     },
   },
   CONFIGURE_REQUIRES => {
-    'SPVM'              => '0.9665',
+    'SPVM'              => '0.9668',
   },
   PREREQ_PM         => {
     'SPVM::Resource::SocketUtil' => '0.02',
