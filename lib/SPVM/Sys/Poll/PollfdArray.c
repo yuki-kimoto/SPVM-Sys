@@ -26,7 +26,7 @@ int32_t SPVM__Sys__Poll__PollfdArray__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct pollfd* fds = env->new_memory_stack(env, stack, sizeof(struct pollfd) * length);
   
   int32_t fields_length = 1;
-  void* obj_self = env->new_pointer_with_fields_by_name(env, stack, "Sys::Poll::PollfdArray", fds, fields_length, &e, FILE_NAME, __LINE__);
+  void* obj_self = env->new_pointer_by_name(env, stack, "Sys::Poll::PollfdArray", fds, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   env->set_field_int_by_name(env, stack, obj_self, "length", length, &e, FILE_NAME, __LINE__);
