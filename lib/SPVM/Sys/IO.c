@@ -221,8 +221,6 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-static const int FILE_STREAM_CLOSED_INDEX = 0;
-
 int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
@@ -514,6 +512,8 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t e = 0;
+  
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
@@ -529,7 +529,8 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   
-  env->set_pointer_field_int(env, stack, obj_stream, FILE_STREAM_CLOSED_INDEX, 1);
+  env->set_field_int_by_name(env, stack, obj_stream, "closed", 1, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
   
   stack[0].ival = status;
   
