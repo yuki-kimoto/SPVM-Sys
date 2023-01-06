@@ -1094,8 +1094,6 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-static const int DIR_STREAM_CLOSED_INDEX = 0;
-
 int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
@@ -1124,6 +1122,8 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t e = 0;
+  
   void* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
     return env->die(env, stack, "The $dirp object must be defined", FILE_NAME, __LINE__);
@@ -1136,8 +1136,9 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]closedir failed:%s", env->strerror(env, stack, errno, 0), FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
-  
-  env->set_pointer_field_int(env, stack, obj_dirp, DIR_STREAM_CLOSED_INDEX, 1);
+
+  env->set_field_int_by_name(env, stack, obj_dirp, "closed", 1, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
 
   stack[0].ival = status;
   
