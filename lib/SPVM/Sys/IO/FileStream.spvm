@@ -1,6 +1,6 @@
 class Sys::IO::FileStream : pointer_t {
   # Fields
-  has closed : ro int;
+  has closed : ro byte;
   
   # Instance Methods
   native method DESTROY : void ();
