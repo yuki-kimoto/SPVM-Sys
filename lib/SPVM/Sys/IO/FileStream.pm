@@ -28,7 +28,13 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
   has closed : ro byte;
 
-The directory stream is closed.
+The file stream is closed.
+
+=head2 no_need_free
+
+  has no_need_free : ro byte;
+
+The file stream is not needed to be freed.
 
 =head1 Instance Methods
 

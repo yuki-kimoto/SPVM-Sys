@@ -19,8 +19,11 @@ int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* fh = (FILE*)env->get_pointer(env, stack, obj_self);
   
   assert(fh);
+
+  int32_t no_need_free = env->get_field_byte_by_name(env, stack, obj_self, "no_need_free", &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
   
-  if (!env->get_pointer_no_need_free(env, stack, obj_self)) {
+  if (!no_need_free) {
     if (!closed) {
       int32_t status = fclose(fh);
       if (status == EOF) {

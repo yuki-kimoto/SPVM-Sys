@@ -3,8 +3,8 @@
     * SPVM 0.9679+ is needed.
   [New Features]
     * Added the closed field in the Sys::IO::DirStream class.
-  [New Features]
     * Added the closed field in the Sys::IO::FileStream class.
+    * Added the no_need_free field in the Sys::IO::FileStream class.
 0.34 2022-12-26
   [Prerequirement Changes]
     * SPVM 0.9677+ is needed.

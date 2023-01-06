@@ -26,8 +26,9 @@ int32_t SPVM__Sys__IO__INIT_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t pointer_fields_length = 1;
   void* obj_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::IO::FileStream", stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
-  
-  env->set_pointer_no_need_free(env, stack, obj_stream, 1);
+
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
   
   stack[0].oval = obj_stream;
   
@@ -44,7 +45,8 @@ int32_t SPVM__Sys__IO__INIT_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::IO::FileStream", stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
-  env->set_pointer_no_need_free(env, stack, obj_stream, 1);
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
   
   stack[0].oval = obj_stream;
   
@@ -61,7 +63,8 @@ int32_t SPVM__Sys__IO__INIT_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = env->new_pointer_with_fields_by_name(env, stack, "Sys::IO::FileStream", stream, pointer_fields_length, &e, FILE_NAME, __LINE__);
   if (e) { return e; }
   
-  env->set_pointer_no_need_free(env, stack, obj_stream, 1);
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &e, FILE_NAME, __LINE__);
+  if (e) { return e; }
   
   stack[0].oval = obj_stream;
   
