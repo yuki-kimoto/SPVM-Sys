@@ -3,6 +3,7 @@ class Sys::FileTest {
   use Sys::IO::Stat;
   use Sys::IO::Constant as IO;
   use Sys::User;
+  use Sys;
 
   static method R : int ($file : string) {
     unless ($file) {
@@ -50,6 +51,10 @@ class Sys::FileTest {
   }
 
   static method r : int ($file : string) {
+    if (Sys->defined("_WIN32")) {
+      return &R($file);
+    }
+    
     unless ($file) {
       die "The file must be defined";
     }
@@ -65,6 +70,10 @@ class Sys::FileTest {
   }
   
   static method w : int ($file : string) {
+    if (Sys->defined("_WIN32")) {
+      return &W($file);
+    }
+    
     unless ($file) {
       die "The file must be defined";
     }
@@ -80,6 +89,10 @@ class Sys::FileTest {
   }
 
   static method x : int ($file : string) {
+    if (Sys->defined("_WIN32")) {
+      return &X($file);
+    }
+    
     unless ($file) {
       die "The file must be defined";
     }
@@ -195,6 +208,9 @@ class Sys::FileTest {
   }
   
   static method o : int ($file : string) {
+    if (Sys->defined("_WIN32")) {
+      return &O($file);
+    }
     
     unless ($file) {
       die "The file must be defined";
@@ -233,7 +249,6 @@ class Sys::FileTest {
   }
   
   static method S : int ($file : string) {
-    
     unless ($file) {
       die "The file must be defined";
     }
@@ -242,10 +257,15 @@ class Sys::FileTest {
     
     Sys::IO::Stat->stat($file, $stat);
     
-    # Socket
     my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFSOCK) {
-      $ok = 1;
+    if (Sys->defined("_WIN32")) {
+      $ok = 0;
+    }
+    else {
+      # Socket
+      if (($stat->st_mode & IO->S_IFMT) == IO->S_IFSOCK) {
+        $ok = 1;
+      }
     }
     
     return $ok;
@@ -422,10 +442,11 @@ class Sys::FileTest {
   
 =pod
 
--X
-(Win32) -w only inspects the read-only file attribute (FILE_ATTRIBUTE_READONLY), which determines whether the directory can be deleted, not whether it can be written to. Directories always have read and write access unless denied by discretionary access control lists (DACLs).
+TODO
 
 (Win32, VMS, RISC OS) -R, -W, -X, -O are indistinguishable from -r, -w, -x, -o.
+
+(Win32) -w only inspects the read-only file attribute (FILE_ATTRIBUTE_READONLY), which determines whether the directory can be deleted, not whether it can be written to. Directories always have read and write access unless denied by discretionary access control lists (DACLs).
 
 (Win32, VMS, RISC OS) -g, -k, -l, -u, -A are not particularly meaningful.
 
