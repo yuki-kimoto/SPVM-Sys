@@ -10,6 +10,7 @@ use Cwd 'getcwd';
 
 use SPVM 'TestCase::Sys::FileTest';
 use SPVM 'Sys::FileTest';
+use SPVM 'Sys';
 
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
@@ -86,7 +87,10 @@ ok(SPVM::TestCase::Sys::FileTest->O);
   is(!!SPVM::Sys::FileTest->k($file_empty), !!-k $file_empty);
   is(!!SPVM::Sys::FileTest->k($file_bytes8), !!-k $file_bytes8);
 }
-{
+if (SPVM::Sys->defined("_WIN32")) {
+  warn "[Test Output]The tests of lstat is skiped.";
+}
+else {
   ok(SPVM::TestCase::Sys::FileTest->l);
   is(!!SPVM::Sys::FileTest->l($file_not_exists), !!-l $file_not_exists);
   is(!!SPVM::Sys::FileTest->l($file_empty), !!-l $file_empty);
