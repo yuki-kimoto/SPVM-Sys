@@ -199,8 +199,8 @@ class TestCase::Sys::FileTest {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $result = Sys::FileTest->d($file);
-        unless ($result == 0) {
+        my $success = Sys::FileTest->d($file);
+        unless ($success == 0) {
           return 0;
         }
       }
@@ -208,8 +208,8 @@ class TestCase::Sys::FileTest {
       # Directory
       {
         my $file = "t/ftest/dir_empty";
-        my $result = Sys::FileTest->d($file);
-        unless ($result) {
+        my $success = Sys::FileTest->d($file);
+        unless ($success) {
           return 0;
         }
       }
@@ -268,8 +268,8 @@ class TestCase::Sys::FileTest {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $result = Sys::FileTest->f($file);
-        unless ($result) {
+        my $success = Sys::FileTest->f($file);
+        unless ($success) {
           return 0;
         }
       }
@@ -277,8 +277,8 @@ class TestCase::Sys::FileTest {
       # Directory
       {
         my $file = "t/ftest/dir_empty";
-        my $result = Sys::FileTest->f($file);
-        unless ($result == 0) {
+        my $success = Sys::FileTest->f($file);
+        unless ($success == 0) {
           return 0;
         }
       }
