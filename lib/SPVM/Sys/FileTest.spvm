@@ -140,7 +140,16 @@ class Sys::FileTest {
 
     my $ok = 0;
     if ($status == 0) {
-      $ok = 1;
+      if (Sys->defined("_WIN32")) {
+        my $parts = Fn->split(".", $file);
+        my $last_part = $parts->[@$parts - 1];
+        if ($last_part eq "exe" || $last_part eq "cmd" || $last_part eq "bat") {
+          $ok = 1;
+        }
+      }
+      else {
+        $ok = 1;
+      }
     }
 
     return $ok;

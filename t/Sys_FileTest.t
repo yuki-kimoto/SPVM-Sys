@@ -19,6 +19,7 @@ my $file_empty = "t/ftest/file_empty.txt";
 my $file_bytes8 = "t/ftest/file_bytes8.txt";
 my $file_myexe_exe = "t/ftest/myexe.exe";
 my $file_myexe_bat = "t/ftest/file_myexe.bat";
+my $file_myexe_cmd = "t/ftest/file_myexe.cmd";
 
 my $proc_start_time = $^T + 0; # Force a number.
 
@@ -59,6 +60,7 @@ ok(SPVM::TestCase::Sys::FileTest->O);
   is(!!SPVM::Sys::FileTest->X($file_empty), !!-X $file_empty);
   is(!!SPVM::Sys::FileTest->X($file_myexe_exe), !!-X $file_myexe_exe);
   is(!!SPVM::Sys::FileTest->X($file_myexe_bat), !!-X $file_myexe_bat);
+  is(!!SPVM::Sys::FileTest->X($file_myexe_cmd), !!-X $file_myexe_cmd);
 }
 {
   ok(SPVM::TestCase::Sys::FileTest->d);
@@ -143,6 +145,7 @@ ok(SPVM::TestCase::Sys::FileTest->O);
   is(!!SPVM::Sys::FileTest->x($file_empty), !!-x $file_empty);
   is(!!SPVM::Sys::FileTest->x($file_myexe_exe), !!-x $file_myexe_exe);
   is(!!SPVM::Sys::FileTest->x($file_myexe_bat), !!-x $file_myexe_bat);
+  is(!!SPVM::Sys::FileTest->x($file_myexe_cmd), !!-x $file_myexe_cmd);
 }
 
 SPVM::set_exception(undef);
