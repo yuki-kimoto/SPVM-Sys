@@ -4,6 +4,7 @@ class Sys::FileTest {
   use Sys::IO::Constant as IO;
   use Sys::User;
   use Sys;
+  use Fn;
 
   static method A : double ($file : string, $base_time : long) {
 
