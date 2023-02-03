@@ -67,10 +67,17 @@ class Sys::FileTest {
     Sys::IO::Stat->stat($file, $stat);
 
     my $ok = 0;
-    if ($stat->st_uid == Sys::User->getuid) {
-      $ok = 1;
+    if (Sys->defined("_WIN32")) {
+      if ($stat->st_uid == 0) {
+        $ok = 1;
+      }
     }
-
+    else {
+      if ($stat->st_uid == Sys::User->getuid) {
+        $ok = 1;
+      }
+    }
+    
     return $ok;
   }
 
