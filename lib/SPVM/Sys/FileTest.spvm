@@ -154,12 +154,14 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->stat($file, $stat);
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
 
     # Block device
     my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFBLK) {
-      $ok = 1;
+    unless ($status == -1) {
+      if (($stat->st_mode & IO->S_IFMT) == IO->S_IFBLK) {
+        $ok = 1;
+      }
     }
 
     return $ok;
@@ -173,14 +175,16 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->stat($file, $stat);
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
 
     # Character device
     my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFCHR) {
-      $ok = 1;
+    unless ($status == -1) {
+      if (($stat->st_mode & IO->S_IFMT) == IO->S_IFCHR) {
+        $ok = 1;
+      }
     }
-
+    
     return $ok;
   }
 
@@ -248,12 +252,13 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->stat($file, $stat);
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
 
-    # Character device
     my $ok = 0;
-    if ($stat->st_mode & IO->S_ISGID) {
-      $ok = 1;
+    unless ($status == -1) {
+      if ($stat->st_mode & IO->S_ISGID) {
+        $ok = 1;
+      }
     }
     
     return $ok;
@@ -267,14 +272,15 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->stat($file, $stat);
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
 
-    # Character device
     my $ok = 0;
-    if ($stat->st_mode & IO->S_ISVTX) {
-      $ok = 1;
+    unless ($status == -1) {
+      if ($stat->st_mode & IO->S_ISVTX) {
+        $ok = 1;
+      }
     }
-
+    
     return $ok;
   }
 
@@ -286,12 +292,14 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->lstat($file, $stat);
+    my $status = Sys::IO::Stat->lstat_raw($file, $stat);
 
     # Symbolic link
     my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFLNK) {
-      $ok = 1;
+    unless ($status == -1) {
+      if (($stat->st_mode & IO->S_IFMT) == IO->S_IFLNK) {
+        $ok = 1;
+      }
     }
 
     return $ok;
@@ -308,13 +316,14 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->stat($file, $stat);
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
 
     my $ok = 0;
-    if ($stat->st_uid == Sys::User->geteuid) {
-      $ok = 1;
+    unless ($status == -1) {
+      if ($stat->st_uid == Sys::User->geteuid) {
+        $ok = 1;
+      }
     }
-
     return $ok;
   }
 
@@ -326,14 +335,16 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->stat($file, $stat);
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
 
     # FIFO/PIPE
     my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFIFO) {
-      $ok = 1;
+    unless ($status == -1) {
+      if (($stat->st_mode & IO->S_IFMT) == IO->S_IFIFO) {
+        $ok = 1;
+      }
     }
-
+    
     return $ok;
   }
 
@@ -378,12 +389,14 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->stat($file, $stat);
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
 
     # Character device
     my $ok = 0;
-    if ($stat->st_mode & IO->S_ISUID) {
-      $ok = 1;
+    unless ($status == -1) {
+      if ($stat->st_mode & IO->S_ISUID) {
+        $ok = 1;
+      }
     }
 
     return $ok;

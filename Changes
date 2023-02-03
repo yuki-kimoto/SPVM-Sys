@@ -17,7 +17,12 @@
   [Incompatible Changes]
     The d method in the FileTest doesn't throw an exception when the directori doesn't exist.
     The f method in the FileTest doesn't throw an exception when the directori doesn't exist.
-    The z method in the FileTest doesn't throw an exception when the directori doesn't exist.
+    The g method in the FileTest doesn't throw an exception when the directori doesn't exist.
+    The k method in the FileTest doesn't throw an exception when the directori doesn't exist.
+    The l method in the FileTest doesn't throw an exception when the directori doesn't exist.
+    The b method in the FileTest doesn't throw an exception when the directori doesn't exist.
+    The o method in the FileTest doesn't throw an exception when the directori doesn't exist.
+    The p method in the FileTest doesn't throw an exception when the directori doesn't exist.
     
 0.35 2022-01-30
   [Test Bug Fix]
