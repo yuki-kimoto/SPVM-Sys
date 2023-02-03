@@ -84,7 +84,12 @@ ok(SPVM::TestCase::Sys::FileTest->p);
   is(!!SPVM::Sys::FileTest->r($file_empty), !!-r $file_empty);
   is(!!SPVM::Sys::FileTest->r($file_bytes8), !!-r $file_bytes8);
 }
-ok(SPVM::TestCase::Sys::FileTest->s);
+{
+  ok(SPVM::TestCase::Sys::FileTest->s);
+  is(!!SPVM::Sys::FileTest->s($file_empty), !!-s $file_empty);
+  is(!!SPVM::Sys::FileTest->s($file_bytes8), !!-s $file_bytes8);
+}
+
 ok(SPVM::TestCase::Sys::FileTest->u);
 {
   ok(SPVM::TestCase::Sys::FileTest->z);
