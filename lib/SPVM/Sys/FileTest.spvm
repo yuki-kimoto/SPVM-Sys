@@ -394,7 +394,7 @@ class Sys::FileTest {
     if ($stat->st_mode & IO->S_ISGID) {
       $ok = 1;
     }
-    
+    z
     return $ok;
   }
   
@@ -437,18 +437,6 @@ class Sys::FileTest {
   }
   
 =pod
-
-(Win32, VMS, RISC OS) -R, -W, -X, -O are indistinguishable from -r, -w, -x, -o.
-
-(Win32) -x (or -X) determine if a file ends in one of the executable suffixes. -S is meaningless.
-
-TODO
-
-(Win32) -w only inspects the read-only file attribute (FILE_ATTRIBUTE_READONLY), which determines whether the directory can be deleted, not whether it can be written to. Directories always have read and write access unless denied by discretionary access control lists (DACLs).
-
-(Win32, VMS, RISC OS) -g, -k, -l, -u, -A are not particularly meaningful.
-
-(Win32) -l returns true for both symlinks and directory junctions.
 
 Not implemented methods
   static method t : int ($file : string);
