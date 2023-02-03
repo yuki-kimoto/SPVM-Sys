@@ -20,7 +20,7 @@ my $file_bytes8 = "t/ftest/file_bytes8.txt";
 my $file_myexe_exe = "t/ftest/myexe.exe";
 my $file_myexe_bat = "t/ftest/file_myexe.bat";
 
-my $proc_start_time = $^T;
+my $proc_start_time = $^T + 0; # Force a number.
 
 # File tests
 {
