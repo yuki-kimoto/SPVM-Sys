@@ -37,7 +37,12 @@ my $proc_start_time = $^T + 0; # Force a number.
   ok(SPVM::TestCase::Sys::FileTest->M);
   is(SPVM::Sys::FileTest->M($file_empty, $proc_start_time), -M $file_empty);
 }
-ok(SPVM::TestCase::Sys::FileTest->O);
+{
+  ok(SPVM::TestCase::Sys::FileTest->O);
+  is(!!SPVM::Sys::FileTest->O($file_not_exists), !!-O $file_not_exists);
+  is(!!SPVM::Sys::FileTest->O($file_empty), !!-O $file_empty);
+  is(!!SPVM::Sys::FileTest->O($file_bytes8), !!-O $file_bytes8);
+}
 {
   ok(SPVM::TestCase::Sys::FileTest->R);
   is(!!SPVM::Sys::FileTest->R($file_not_exists), !!-R $file_not_exists);

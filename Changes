@@ -23,6 +23,7 @@
     The b method in the FileTest doesn't throw an exception when the directori doesn't exist.
     The o method in the FileTest doesn't throw an exception when the directori doesn't exist.
     The p method in the FileTest doesn't throw an exception when the directori doesn't exist.
+    The O method in the FileTest doesn't throw an exception when the directori doesn't exist.
     
 0.35 2022-01-30
   [Test Bug Fix]
