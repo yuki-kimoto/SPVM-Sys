@@ -29,6 +29,12 @@ ok(SPVM::TestCase::Sys::FileTest->X);
 ok(SPVM::TestCase::Sys::FileTest->o);
 ok(SPVM::TestCase::Sys::FileTest->O);
 
+ok(SPVM::TestCase::Sys::FileTest->g);
+ok(SPVM::TestCase::Sys::FileTest->k);
+ok(SPVM::TestCase::Sys::FileTest->l);
+ok(SPVM::TestCase::Sys::FileTest->u);
+ok(SPVM::TestCase::Sys::FileTest->A);
+
 SPVM::set_exception(undef);
 
 # All object is freed
