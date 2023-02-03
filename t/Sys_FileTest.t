@@ -24,6 +24,8 @@ ok(SPVM::TestCase::Sys::FileTest->r);
 ok(SPVM::TestCase::Sys::FileTest->R);
 ok(SPVM::TestCase::Sys::FileTest->w);
 ok(SPVM::TestCase::Sys::FileTest->W);
+ok(SPVM::TestCase::Sys::FileTest->x);
+ok(SPVM::TestCase::Sys::FileTest->X);
 
 SPVM::set_exception(undef);
 

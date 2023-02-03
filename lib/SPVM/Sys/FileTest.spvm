@@ -14,7 +14,7 @@ class Sys::FileTest {
     
     my $ok = 0;
     if ($status == 0) {
-      $ok = 0;
+      $ok = 1;
     }
     
     return $ok;
@@ -29,7 +29,7 @@ class Sys::FileTest {
     
     my $ok = 0;
     if ($status == 0) {
-      $ok = 0;
+      $ok = 1;
     }
     
     return $ok;
@@ -44,7 +44,7 @@ class Sys::FileTest {
     
     my $ok = 0;
     if ($status == 0) {
-      $ok = 0;
+      $ok = 1;
     }
     
     return $ok;
@@ -63,7 +63,7 @@ class Sys::FileTest {
     
     my $ok = 0;
     if ($status == 0) {
-      $ok = 0;
+      $ok = 1;
     }
     
     return $ok;
@@ -82,7 +82,7 @@ class Sys::FileTest {
     
     my $ok = 0;
     if ($status == 0) {
-      $ok = 0;
+      $ok = 1;
     }
     
     return $ok;
@@ -101,7 +101,7 @@ class Sys::FileTest {
     
     my $ok = 0;
     if ($status == 0) {
-      $ok = 0;
+      $ok = 1;
     }
     
     return $ok;
@@ -130,7 +130,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     Sys::IO::Stat->stat($file, $stat);
     
     my $size = $stat->st_size;
@@ -258,10 +257,7 @@ class Sys::FileTest {
     Sys::IO::Stat->stat($file, $stat);
     
     my $ok = 0;
-    if (Sys->defined("_WIN32")) {
-      $ok = 0;
-    }
-    else {
+    unless (Sys->defined("_WIN32")) {
       # Socket
       if (($stat->st_mode & IO->S_IFMT) == IO->S_IFSOCK) {
         $ok = 1;
