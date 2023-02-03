@@ -228,13 +228,15 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->stat($file, $stat);
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
 
     my $ok = 0;
-    if (($stat->st_mode & IO->S_IFMT) == IO->S_IFREG) {
-      $ok = 1;
+    unless ($status == -1) {
+      if (($stat->st_mode & IO->S_IFMT) == IO->S_IFREG) {
+        $ok = 1;
+      }
     }
-
+    
     return $ok;
   }
 

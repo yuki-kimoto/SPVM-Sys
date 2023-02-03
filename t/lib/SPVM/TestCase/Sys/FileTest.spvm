@@ -259,8 +259,8 @@ class TestCase::Sys::FileTest {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        eval { Sys::FileTest->f($file); };
-        unless ($@) {
+        my $success = Sys::FileTest->f($file);
+        unless ($success == 0) {
           return 0;
         }
       }

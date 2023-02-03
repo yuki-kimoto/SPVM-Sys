@@ -16,6 +16,7 @@
       -o is the same as the -O
   [Incompatible Changes]
     The d method in the FileTest doesn't throw an exception when the directori doesn't exist.
+    The f method in the FileTest doesn't throw an exception when the directori doesn't exist.
     
 0.35 2022-01-30
   [Test Bug Fix]

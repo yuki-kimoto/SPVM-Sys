@@ -60,9 +60,15 @@ ok(SPVM::TestCase::Sys::FileTest->O);
   is(!!SPVM::Sys::FileTest->X($file_myexe_exe), !!-X $file_myexe_exe);
   is(!!SPVM::Sys::FileTest->X($file_myexe_bat), !!-X $file_myexe_bat);
 }
-ok(SPVM::TestCase::Sys::FileTest->d);
+{
+  ok(SPVM::TestCase::Sys::FileTest->d);
+  is(!!SPVM::Sys::FileTest->d($file_not_exists), !!-d $file_not_exists);
+  is(!!SPVM::Sys::FileTest->d($file_empty), !!-d $file_empty);
+  is(!!SPVM::Sys::FileTest->d($file_bytes8), !!-d $file_bytes8);
+}
 {
   ok(SPVM::TestCase::Sys::FileTest->f);
+  is(!!SPVM::Sys::FileTest->f($file_not_exists), !!-f $file_not_exists);
   is(!!SPVM::Sys::FileTest->f($file_empty), !!-f $file_empty);
   is(!!SPVM::Sys::FileTest->f($file_bytes8), !!-f $file_bytes8);
 }
