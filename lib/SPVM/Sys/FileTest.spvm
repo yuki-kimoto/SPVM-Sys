@@ -435,15 +435,16 @@ class Sys::FileTest {
 
     my $stat = Sys::IO::Stat->new;
 
-    Sys::IO::Stat->stat($file, $stat);
-
-    my $size = $stat->st_size;
-
-    my $zero = 0;
-    if ($size == 0) {
-      $zero = 1;
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    
+    my $ok = 0;
+    unless ($status) {
+      my $size = $stat->st_size;
+      if ($size == 0) {
+        $ok = 1;
+      }
     }
-
-    return $zero;
+    
+    return $ok;
   }
 }

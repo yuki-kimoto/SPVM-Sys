@@ -88,6 +88,7 @@ ok(SPVM::TestCase::Sys::FileTest->s);
 ok(SPVM::TestCase::Sys::FileTest->u);
 {
   ok(SPVM::TestCase::Sys::FileTest->z);
+  is(!!SPVM::Sys::FileTest->z($file_not_exists), !!-z $file_not_exists);
   is(!!SPVM::Sys::FileTest->z($file_empty), !!-z $file_empty);
   is(!!SPVM::Sys::FileTest->z($file_bytes8), !!-z $file_bytes8);
 }
