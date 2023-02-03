@@ -266,8 +266,10 @@ class Sys::FileTest {
 
     my $ok = 0;
     unless ($status == -1) {
-      if ($stat->st_mode & IO->S_ISGID) {
-        $ok = 1;
+      unless (Sys->defined("_WIN32")) {
+        if ($stat->st_mode & IO->S_ISGID) {
+          $ok = 1;
+        }
       }
     }
     
@@ -286,8 +288,10 @@ class Sys::FileTest {
 
     my $ok = 0;
     unless ($status == -1) {
-      if ($stat->st_mode & IO->S_ISVTX) {
-        $ok = 1;
+      unless (Sys->defined("_WIN32")) {
+        if ($stat->st_mode & IO->S_ISVTX) {
+          $ok = 1;
+        }
       }
     }
     
@@ -404,8 +408,10 @@ class Sys::FileTest {
     # Character device
     my $ok = 0;
     unless ($status == -1) {
-      if ($stat->st_mode & IO->S_ISUID) {
-        $ok = 1;
+      unless (Sys->defined("_WIN32")) {
+        if ($stat->st_mode & IO->S_ISUID) {
+          $ok = 1;
+        }
       }
     }
 
