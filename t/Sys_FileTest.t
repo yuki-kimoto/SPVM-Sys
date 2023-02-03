@@ -36,6 +36,7 @@ ok(SPVM::TestCase::Sys::FileTest->u);
 ok(SPVM::TestCase::Sys::FileTest->A);
 ok(SPVM::TestCase::Sys::FileTest->M);
 ok(SPVM::TestCase::Sys::FileTest->C);
+ok(SPVM::TestCase::Sys::FileTest->b);
 
 SPVM::set_exception(undef);
 

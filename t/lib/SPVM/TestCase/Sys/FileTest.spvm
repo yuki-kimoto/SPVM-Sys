@@ -467,4 +467,31 @@ class TestCase::Sys::FileTest {
 
     return 1;
   }
+
+  static method b : int () {
+    
+    {
+      # File
+      {
+        my $file = "t/ftest/file_empty.txt";
+        my $success = Sys::FileTest->b($file);
+      }
+    }
+
+    return 1;
+  }
+
+
+  static method p : int () {
+    
+    {
+      # File
+      {
+        my $file = "t/ftest/file_empty.txt";
+        my $success = Sys::FileTest->p($file);
+      }
+    }
+
+    return 1;
+  }
 }
