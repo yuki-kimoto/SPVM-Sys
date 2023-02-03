@@ -190,8 +190,8 @@ class TestCase::Sys::FileTest {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        eval { Sys::FileTest->d($file); };
-        unless ($@) {
+        my $success = Sys::FileTest->d($file);
+        unless ($success == 0) {
           return 0;
         }
       }
@@ -209,7 +209,7 @@ class TestCase::Sys::FileTest {
       {
         my $file = "t/ftest/dir_empty";
         my $success = Sys::FileTest->d($file);
-        unless ($success) {
+        unless ($success == 1) {
           return 0;
         }
       }
@@ -269,7 +269,7 @@ class TestCase::Sys::FileTest {
       {
         my $file = "t/ftest/file_empty.txt";
         my $success = Sys::FileTest->f($file);
-        unless ($success) {
+        unless ($success == 1) {
           return 0;
         }
       }
