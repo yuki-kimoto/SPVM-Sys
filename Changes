@@ -1,3 +1,6 @@
+0.37 2022-02-08
+  [Prerequirement Changes]
+    * SPVM 0.9691+ is needed.
 0.3601 2022-02-06
   [Test Bug Fix]
     * Fixed the following testing bug in the Sys::FileTest class
