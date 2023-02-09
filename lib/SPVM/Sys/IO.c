@@ -338,8 +338,8 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (items > 4) {
     ptr_offset = stack[4].ival;
   }
-  if (!(((ptr_length - ptr_offset) / size) <= nmemb)) {
-    return env->die(env, stack, "(The length of the $ptr - $ptr_offset) / the $size must be less than or equal to the $nmemb", __func__, FILE_NAME, __LINE__);
+  if (!(nmemb * size <= ((ptr_length - ptr_offset))  )) {
+    return env->die(env, stack, "The $nmemb * the $size must be less than or equal to the length of the $ptr - $ptr_offset", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -497,8 +497,8 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (items > 4) {
     ptr_offset = stack[4].ival;
   }
-  if (!(((ptr_length - ptr_offset) / size) <= nmemb)) {
-    return env->die(env, stack, "(The length of the $ptr - $ptr_offset) / the $size must be less than or equal to the $nmemb", __func__, FILE_NAME, __LINE__);
+  if (!(nmemb * size <= ((ptr_length - ptr_offset))  )) {
+    return env->die(env, stack, "The $nmemb * the $size must be less than or equal to the length of the $ptr - $ptr_offset", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
