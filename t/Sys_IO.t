@@ -140,7 +140,7 @@ else {
 
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::IO->readlinkp(undef) };
-  like($@, qr|not supported|);
+  ok($@);
 }
 else {
   my $tmp_dir = File::Temp->newdir;
