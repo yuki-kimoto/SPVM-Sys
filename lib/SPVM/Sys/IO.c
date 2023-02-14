@@ -1252,7 +1252,7 @@ int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   errno = 0;
   int32_t status = utime(filename, st_times);
   if (status == -1) {
-    env->die(env, stack, "[System Error]utime failed:%s. The access and modification times of the \"%s\" file can't be changed", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]utime failed:%s. The access and modification times of the \"%s\" file can't be changed", env->strerror(env, stack, errno, 0), filename, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
   

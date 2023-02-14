@@ -5,6 +5,8 @@ class TestCase::Sys::IO {
   use Fn;
   use Sys::IO::Stat;
   use Sys;
+  use Sys::IO::Utimbuf;
+  use Time;
 
   static method open : int ($test_dir : string, $tmp_dir : string) {
     
@@ -1894,4 +1896,25 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method utime : int ($test_dir : string) {
+    
+    my $file = "$test_dir/ftest/file_empty.txt";
+    
+    my $utimbuf = Sys::IO::Utimbuf->new;
+    
+    my $time = Time->time;
+    
+    my $actime = $utimbuf->set_actime($time);
+    my $modtime = $utimbuf->set_modtime($time);
+    
+    my $status = Sys::IO->utime($file, $utimbuf);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
 }

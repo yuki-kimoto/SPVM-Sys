@@ -175,6 +175,8 @@ ok(SPVM::TestCase::Sys::IO->freopen("$test_dir"));
   ok(SPVM::TestCase::Sys::IO->ftruncate("$tmp_dir"));
 }
 
+ok(SPVM::TestCase::Sys::IO->utime("$test_dir"));
+
 SPVM::set_exception(undef);
 
 # All object is freed
