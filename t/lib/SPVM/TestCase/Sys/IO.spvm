@@ -1917,4 +1917,49 @@ class TestCase::Sys::IO {
     return 1;
   }
 
+  static method opendir : int ($test_dir : string) {
+    
+    my $file = "$test_dir/ftest";
+    
+    my $stream = Sys::IO->opendir($test_dir);
+    
+    unless ($stream) {
+      return 0;
+    }
+    
+    return 1;
+  }
+
+  static method readdir : int ($test_dir : string) {
+    
+    my $dir = "$test_dir/ftest";
+    
+    my $stream = Sys::IO->opendir($dir);
+    
+    unless ($stream) {
+      return 0;
+    }
+    
+    my $check_file_count = 0;
+    while (my $dirent = Sys::IO->readdir($stream)) {
+      my $d_ino = $dirent->d_ino;
+      my $d_off = $dirent->d_off;
+      my $d_reclen = $dirent->d_reclen;
+      my $d_type = $dirent->d_type;
+      my $d_name = $dirent->d_name;
+      
+      if ($d_name eq "foo.txt") {
+        $check_file_count++;
+      }
+      elsif ($d_name eq "bar.txt") {
+        $check_file_count++;
+      }
+    }
+    
+    unless ($check_file_count == 2) {
+      return 0;
+    }
+    
+    return 1;
+  }
 }

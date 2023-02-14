@@ -5,6 +5,12 @@
     * Added the readlinkp method in the Sys::IO class.
     
       static method readlinkp : int ($test_dir : string);
+    * Added the following methods to the Sys::IO::Dirent class.
+      method d_ino : int ();
+      method d_off : long ();
+      method d_reclen : int ();
+      method d_type : int ();
+      method d_name : string ();
   [Exception Message Improvement]
     * The following exception messages of the methods in the Sys::IO::Stat output the file name.
       [Before]

@@ -177,6 +177,16 @@ ok(SPVM::TestCase::Sys::IO->freopen("$test_dir"));
 
 ok(SPVM::TestCase::Sys::IO->utime("$test_dir"));
 
+# opendir
+{
+  ok(SPVM::TestCase::Sys::IO->opendir($test_dir));
+}
+
+# readdir
+{
+  ok(SPVM::TestCase::Sys::IO->readdir($test_dir));
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed

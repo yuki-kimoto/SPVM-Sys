@@ -117,7 +117,7 @@ class Sys::IO {
   
   native static method closedir : int ($dirp : Sys::IO::DirStream);
   
-  native static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream); # Non-thead safe
+  native static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream);
   
   native static method rewinddir : void ($dirp : Sys::IO::DirStream);
   

@@ -14,4 +14,38 @@ SPVM::Sys::IO::Dirent - struct dirent in C language
 
 C<Sys::IO::Dirent> is the class for C<struct dirent> in C<C language>.
 
-This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+=head1 Pointer Class
+
+This class is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+
+=head1 Class Methods
+
+=head2 d_ino
+
+  method d_ino : int ();
+
+Gets C<d_ino>.
+
+=head2 d_off
+
+  method d_off : long ();
+
+Gets C<d_off>.
+
+=head2 d_reclen
+
+  method d_reclen : int ();
+
+Gets C<d_reclen>.
+
+=head2 d_type
+
+  method d_type : int ();
+
+Gets C<d_type>.
+
+=head2 d_name
+
+  method d_name : string ();
+
+Gets C<d_name>. This value is copied.

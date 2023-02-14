@@ -1,1 +1,7 @@
-class Sys::IO::Dirent : pointer;
+class Sys::IO::Dirent : pointer {
+  native method d_ino : int ();
+  native method d_off : long ();
+  native method d_reclen : int ();
+  native method d_type : int ();
+  native method d_name : string ();
+}
