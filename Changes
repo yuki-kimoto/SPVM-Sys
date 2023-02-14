@@ -49,7 +49,11 @@
       + "[System Error]readlink failed:%s. The reading of the symbolic link of the \"%s\" file failed"
       + "[System Error]opendir failed:%s. The \"%s\" directory can't be opened", dir
       + "[System Error]utime failed:%s. The access and modification times of the \"%s\" file can't be changed"
-
+    * Unified an exception message
+      [Before]
+      in this system
+      [After]
+      on this system
 0.38 2022-02-09
   [Bug Fix]
     * Fixed the bug that the fwrite and fread method in the Sys::IO class throw an exception in a wrong condition.
