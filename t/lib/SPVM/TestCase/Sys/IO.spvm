@@ -26,6 +26,10 @@ class TestCase::Sys::IO {
         return 0;
       }
       
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+      
       unless (error == class_id Error::System) {
         return 0;
       }
@@ -258,6 +262,10 @@ class TestCase::Sys::IO {
       eval { Sys::IO->fopen($file, "rb"); };
       
       unless ($@) {
+        return 0;
+      }
+      
+      unless (Fn->contains($@, "not_found.txt")) {
         return 0;
       }
       
@@ -995,6 +1003,14 @@ class TestCase::Sys::IO {
       return 0;
     }
     
+    {
+      eval { Sys::IO->mkdir($dir, 0755); };
+      
+      unless (Fn->contains($@, "foo")) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 
@@ -1044,6 +1060,13 @@ class TestCase::Sys::IO {
       return 0;
     }
     
+    {
+      eval { Sys::IO->rmdir($dir); };
+      unless (Fn->contains($@, "foo")) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 
@@ -1064,6 +1087,13 @@ class TestCase::Sys::IO {
     
     if (Sys::FileTest->e($file)) {
       return 0;
+    }
+    
+    {
+      eval { Sys::IO->unlink($file); };
+      unless (Fn->contains($@, "foo.txt")) {
+        return 0;
+      }
     }
     
     return 1;
@@ -1091,6 +1121,16 @@ class TestCase::Sys::IO {
 
     unless (Sys::FileTest->e($new_file)) {
       return 0;
+    }
+    
+    {
+      eval { Sys::IO->rename($file, $new_file); };
+      unless (Fn->contains($@, "foo.txt")) {
+        return 0;
+      }
+      unless (Fn->contains($@, "foo_new.txt")) {
+        return 0;
+      }
     }
     
     return 1;
@@ -1163,6 +1203,13 @@ class TestCase::Sys::IO {
         return 0;
       }
     }
+    
+    {
+      eval { Sys::IO->realpath("$file/not_found.txt", undef); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+    }
 
     return 1;
   }
@@ -1217,6 +1264,13 @@ class TestCase::Sys::IO {
       }
     }
     
+    {
+      eval { Sys::IO->_fullpath(undef, "$file/not_found.txt", 0); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 
@@ -1232,6 +1286,13 @@ class TestCase::Sys::IO {
     my $cwd = Sys::IO->getcwd(undef, 0);
     unless (Fn->contains($cwd, "dir_empty")) {
       return 0;
+    }
+    
+    {
+      eval { Sys::IO->chdir("$dir/not_found.txt"); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
     }
     
     return 1;
@@ -1253,6 +1314,13 @@ class TestCase::Sys::IO {
       return 0;
     }
     
+    {
+      eval { Sys::IO->chmod("$file/not_found.txt", 0755); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 
@@ -1272,6 +1340,13 @@ class TestCase::Sys::IO {
       return 0;
     }
     
+    {
+      eval { Sys::IO->chown("$file/not_found.txt", -1, -1); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 
@@ -1287,8 +1362,8 @@ class TestCase::Sys::IO {
       Sys::IO->fclose($stream);
     }
     
+    my $file_symlink = "$test_dir/foo_link";
     {
-      my $file_symlink = "$test_dir/foo_link";
       my $status = Sys::IO->symlink($file, $file_symlink);
       
       unless ($status == 0) {
@@ -1297,6 +1372,16 @@ class TestCase::Sys::IO {
       
       my $exists_symlink_file = Sys::FileTest->l($file_symlink);
       unless ($exists_symlink_file) {
+        return 0;
+      }
+    }
+
+    {
+      eval { Sys::IO->symlink("$file/not_found.txt", "$file_symlink/not_found_symlink.txt"); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+      unless (Fn->contains($@, "not_found_symlink.txt")) {
         return 0;
       }
     }
@@ -1345,6 +1430,14 @@ class TestCase::Sys::IO {
       }
     }
     
+    {
+      my $buffer = (mutable string)new_string_len 255;
+      eval {Sys::IO->readlink("$file_symlink/not_found.txt", $buffer, length $buffer); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+    }
+
     return 1;
   }
   
@@ -1566,6 +1659,12 @@ class TestCase::Sys::IO {
       return 0;
     }
     
+    {
+      eval { Sys::IO->truncate("$file/not_found.txt", 0); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+    }
     return 1;
   }
 
