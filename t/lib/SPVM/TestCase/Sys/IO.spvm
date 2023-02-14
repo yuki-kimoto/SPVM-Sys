@@ -1943,9 +1943,7 @@ class TestCase::Sys::IO {
     my $check_file_count = 0;
     while (my $dirent = Sys::IO->readdir($stream)) {
       my $d_ino = $dirent->d_ino;
-      my $d_off = $dirent->d_off;
       my $d_reclen = $dirent->d_reclen;
-      my $d_type = $dirent->d_type;
       my $d_name = $dirent->d_name;
       
       if ($d_name eq "foo.txt") {

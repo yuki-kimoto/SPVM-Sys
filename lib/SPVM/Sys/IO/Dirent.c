@@ -15,18 +15,6 @@ int32_t SPVM__Sys__IO__Dirent__d_ino(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__Dirent__d_off(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_dirent = stack[0].oval;
-  
-  struct dirent* st_dirent = env->get_pointer(env, stack, obj_dirent);
-  
-  stack[0].lval = st_dirent->d_off;
-  
-  return 0;
-}
-
-
 int32_t SPVM__Sys__IO__Dirent__d_reclen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_dirent = stack[0].oval;
@@ -34,17 +22,6 @@ int32_t SPVM__Sys__IO__Dirent__d_reclen(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct dirent* st_dirent = env->get_pointer(env, stack, obj_dirent);
   
   stack[0].ival = st_dirent->d_reclen;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__Dirent__d_type(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_dirent = stack[0].oval;
-  
-  struct dirent* st_dirent = env->get_pointer(env, stack, obj_dirent);
-  
-  stack[0].ival = st_dirent->d_type;
   
   return 0;
 }
@@ -64,3 +41,29 @@ int32_t SPVM__Sys__IO__Dirent__d_name(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+/* Mac doesn't have d_off. Windows doesn't have d_type, d_off
+
+int32_t SPVM__Sys__IO__Dirent__d_type(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_dirent = stack[0].oval;
+  
+  struct dirent* st_dirent = env->get_pointer(env, stack, obj_dirent);
+  
+  stack[0].ival = st_dirent->d_type;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__Dirent__d_off(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_dirent = stack[0].oval;
+  
+  struct dirent* st_dirent = env->get_pointer(env, stack, obj_dirent);
+  
+  stack[0].lval = st_dirent->d_off;
+  
+  return 0;
+}
+
+*/
