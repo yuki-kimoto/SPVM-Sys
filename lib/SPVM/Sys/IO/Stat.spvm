@@ -1,4 +1,4 @@
-class Sys::IO::Stat : pointer_t {
+class Sys::IO::Stat : pointer {
   # Class methods
   native static method new : Sys::IO::Stat ();
 

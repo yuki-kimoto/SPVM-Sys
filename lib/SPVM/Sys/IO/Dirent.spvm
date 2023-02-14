@@ -1,1 +1,1 @@
-class Sys::IO::Dirent : pointer_t;
+class Sys::IO::Dirent : pointer;

@@ -56,6 +56,8 @@
       on this system
     [Test Improment]
       * Added the tests of the utime in the Sys::IO class.
+    [Internal Compatible Changes]
+      * Use pointer instead of deprecated pointer_t.
 0.38 2022-02-09
   [Bug Fix]
     * Fixed the bug that the fwrite and fread method in the Sys::IO class throw an exception in a wrong condition.
