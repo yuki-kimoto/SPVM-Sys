@@ -13,7 +13,6 @@
 
 #ifdef _WIN32
   #include <direct.h>
-  #include <winbase.h>
 #endif
 
 const char* FILE_NAME = "Sys/IO.c";
@@ -614,7 +613,7 @@ int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef _WIN32
-  env->die(env, stack, "The flock method in the Sys::IO class is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The flock method in the class Sys::IO is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   
@@ -1650,37 +1649,4 @@ int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
-}
-
-int32_t SPVM__Sys__IO__CreateSymbolicLinkA(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "The CreateSymbolicLinkA method in the Sys::IO class is not supported on this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
-#else
-  
-  void* obj_lpSymlinkFileName = stack[0].oval;
-  if (!obj_lpSymlinkFileName) {
-    return env->die(env, stack, "The $lpSymlinkFileName must be defined", __func__, FILE_NAME, __LINE__);
-  }
-  const char* lpSymlinkFileName = env->get_chars(env, stack, obj_lpSymlinkFileName);
-  
-  void* obj_lpTargetFileName = stack[1].oval;
-  if (!obj_lpTargetFileName) {
-    return env->die(env, stack, "The $lpTargetFileName must be defined", __func__, FILE_NAME, __LINE__);
-  }
-  const char* lpTargetFileName = env->get_chars(env, stack, obj_lpTargetFileName);
-  
-  int32_t dwFlags = stack[2].ival;
-  
-  errno = 0;
-  int32_t status = CreateSymbolicLinkA(lpSymlinkFileName, lpTargetFileName, dwFlags);
-  if (!(status == 0)) {
-    env->die(env, stack, "[System Error]CreateSymbolicLinkA failed:%s. The symbolic link from \"%s\" to \"%s\" can't be created", env->strerror(env, stack, errno, 0), lpSymlinkFileName, lpTargetFileName. __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
 }

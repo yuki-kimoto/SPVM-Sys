@@ -5,10 +5,6 @@
     * Added the readlinkp method in the Sys::IO class.
     
       static method readlinkp : int ($test_dir : string);
-    
-    * Added the CreateSymbolicLinkA method in the Sys::IO class.
-      static method CreateSymbolicLinkA : int ($lpSymlinkFileName : string, $lpTargetFileName : string, $dwFlags : int);
-    
   [Exception Message Improvement]
     * The following exception messages of the methods in the Sys::IO::Stat output the file name.
       [Before]

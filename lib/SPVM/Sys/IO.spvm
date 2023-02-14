@@ -187,6 +187,4 @@ class Sys::IO {
     my $mode = IO->_IOLBF;
     &setvbuf($stream, undef, $mode, IO->BUFSIZ);
   }
-
-  native static method CreateSymbolicLinkA : int ($lpSymlinkFileName : string, $lpTargetFileName : string, $dwFlags : int);
 }
