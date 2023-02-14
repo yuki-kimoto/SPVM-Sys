@@ -627,3 +627,9 @@ See L<stdout(3) - Linux man page|https://linux.die.net/man/3/stdout> in Linux.
 Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stderr> in C<C language> returns.
 
 See L<stderr(3) - Linux man page|https://linux.die.net/man/3/stderr> in Linux.
+
+=head2 CreateSymbolicLinkA
+
+  static method CreateSymbolicLinkA : int ($lpSymlinkFileName : string, $lpTargetFileName : string, $dwFlags : int);
+
+Creates a symbolic link using the L<CreateSymbolicLinkA|https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createsymboliclinka> function.
