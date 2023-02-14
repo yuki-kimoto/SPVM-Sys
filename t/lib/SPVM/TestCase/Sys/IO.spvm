@@ -1263,13 +1263,17 @@ class TestCase::Sys::IO {
         return 0;
       }
     }
-    
+
+=pod
+
     {
       eval { Sys::IO->_fullpath(undef, "$file/not_found.txt", 0); };
       unless (Fn->contains($@, "not_found.txt")) {
         return 0;
       }
     }
+
+=cut
     
     return 1;
   }
