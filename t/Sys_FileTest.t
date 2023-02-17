@@ -19,8 +19,8 @@ my $file_not_exists = "t/ftest/not_exists.txt";
 my $file_empty = "t/ftest/file_empty.txt";
 my $file_bytes8 = "t/ftest/file_bytes8.txt";
 my $file_myexe_exe = "t/ftest/myexe.exe";
-my $file_myexe_bat = "t/ftest/file_myexe.bat";
-my $file_myexe_cmd = "t/ftest/file_myexe.cmd";
+my $file_myexe_bat = "t/ftest/myexe.bat";
+my $file_myexe_cmd = "t/ftest/myexe.cmd";
 
 my $proc_start_time = $^T + 0; # Force a number.
 
@@ -64,6 +64,9 @@ my $proc_start_time = $^T + 0; # Force a number.
   ok(SPVM::TestCase::Sys::FileTest->X);
   is(!!SPVM::Sys::FileTest->X($file_not_exists), !!-X $file_not_exists);
   is(!!SPVM::Sys::FileTest->X($file_empty), !!-X $file_empty);
+  ok(SPVM::Sys::FileTest->X($file_myexe_exe));
+  ok(SPVM::Sys::FileTest->X($file_myexe_bat));
+  ok(SPVM::Sys::FileTest->X($file_myexe_cmd));
   is(!!SPVM::Sys::FileTest->X($file_myexe_exe), !!-X $file_myexe_exe);
   is(!!SPVM::Sys::FileTest->X($file_myexe_bat), !!-X $file_myexe_bat);
   is(!!SPVM::Sys::FileTest->X($file_myexe_cmd), !!-X $file_myexe_cmd);
@@ -151,6 +154,9 @@ else {
   ok(SPVM::TestCase::Sys::FileTest->x);
   is(!!SPVM::Sys::FileTest->x($file_not_exists), !!-x $file_not_exists);
   is(!!SPVM::Sys::FileTest->x($file_empty), !!-x $file_empty);
+  ok(SPVM::Sys::FileTest->x($file_myexe_exe));
+  ok(SPVM::Sys::FileTest->x($file_myexe_bat));
+  ok(SPVM::Sys::FileTest->x($file_myexe_cmd));
   is(!!SPVM::Sys::FileTest->x($file_myexe_exe), !!-x $file_myexe_exe);
   is(!!SPVM::Sys::FileTest->x($file_myexe_bat), !!-x $file_myexe_bat);
   is(!!SPVM::Sys::FileTest->x($file_myexe_cmd), !!-x $file_myexe_cmd);
