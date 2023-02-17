@@ -275,7 +275,7 @@ class Sys::IO::Stat : pointer {
         # testing for executable status =>
         # for a file, any x bit will do
         # for a directory, always true
-        elsif ($stmode & 0111 || ($stmode & IO->S_IFMT) == IO->S_IFDIR)) {
+        elsif ($stmode & 0111 || (($stmode & IO->S_IFMT) == IO->S_IFDIR)) {
           $cando = 1;
         }
       }
