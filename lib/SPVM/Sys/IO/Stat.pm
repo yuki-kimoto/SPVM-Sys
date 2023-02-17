@@ -37,8 +37,6 @@ Creates a new C<Sys::IO::Stat> object.
 
 If $path is specified, L</"stat"> is called.
 
-=back
-
 =head2 stat_raw
 
   static method stat_raw : int ($path : string, $stat : Sys::IO::Stat);
@@ -194,6 +192,106 @@ Gets C<st_atim.tv_nsec>.
   method st_ctim_tv_nsec : long ();
 
 Gets C<st_ctim.tv_nsec>.
+
+=head2 A
+
+  method A : double ($base_time : long);
+
+=head2 C
+
+  method C : double ($base_time : long);
+
+=head2 M
+
+  method M : double ($base_time : long);
+
+=head2 O
+
+  method O : int ();
+
+=head2 S
+
+  method S : int ();
+
+=head2 b
+
+  method b : int ();
+
+=head2 c
+
+  method c : int ();
+
+=head2 d
+
+  method d : int ();
+
+=head2 e
+
+  method e : int ();
+
+=head2 f
+
+  method f : int ();
+
+=head2 g
+
+  method g : int ();
+
+=head2 k
+
+  method k : int ();
+
+=head2 l
+
+  method l : int ();
+
+=head2 o
+
+  method o : int ();
+
+=head2 p
+
+  method p : int ();
+
+=head2 s
+
+  method s : long ();
+
+=head2 u
+
+  method u : int ();
+
+=head2 z
+
+  method z : int ();
+
+=head2 cando
+
+  method cando : int ($mode : int, $effective : int);
+
+=head2 r
+
+  method r : int ();
+
+=head2 w
+
+  method w : int ();
+
+=head2 x
+
+  method x : int ();
+
+=head2 R
+
+  method R : int ();
+
+=head2 W
+
+  method W : int ();
+
+=head2 X
+
+  method X : int ();
 
 =head1 Copyright & License
 
