@@ -110,7 +110,7 @@ int32_t SPVM__Sys__User__seteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "seteuid is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
-  int32_t euid = stack[0].ival;
+  uid_t euid = stack[0].ival;
   int32_t status = seteuid(euid);
   
   if (status == -1) {
@@ -154,7 +154,7 @@ int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "setegid is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
-  int32_t egid = stack[0].ival;
+  gid_t egid = stack[0].ival;
   int32_t status = setegid(egid);
 
   if (status == -1) {
