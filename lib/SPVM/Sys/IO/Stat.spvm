@@ -265,19 +265,34 @@ class Sys::IO::Stat : pointer {
         $uid = Sys::User->getuid;
         warn "FFF $uid";
       }
-      
-      warn "AAA $stuid $uid";
-      if ($stuid == $uid) {
-        warn "BBB " . ($stmode & $mode);
-        $cando = !!($stmode & $mode);
-      }
-      elsif (&_ingroup($stgid, $effective)) {
-        warn "CCC " . ($stmode & ($mode >> 3));
-        $cando = !!($stmode & ($mode >> 3));
+
+      if ($uid == 0) {
+        # If we're root on unix
+        # not testing for executable status => all file tests are true
+        if (!($mode & 0111)) {
+          $cando = 1;
+        }
+        # testing for executable status =>
+        # for a file, any x bit will do
+        # for a directory, always true
+        elsif ($stmode & 0111 || ($stmode & IO->S_IFMT) == IO->S_IFDIR)) {
+          $cando = 1;
+        }
       }
       else {
-        warn "DDD " . ($stmode & ($mode >> 6));
-        $cando = !!($stmode & ($mode >> 6));
+        warn "AAA $stuid $uid";
+        if ($stuid == $uid) {
+          warn "BBB " . ($stmode & $mode);
+          $cando = !!($stmode & $mode);
+        }
+        elsif (&_ingroup($stgid, $effective)) {
+          warn "CCC " . ($stmode & ($mode >> 3));
+          $cando = !!($stmode & ($mode >> 3));
+        }
+        else {
+          warn "DDD " . ($stmode & ($mode >> 6));
+          $cando = !!($stmode & ($mode >> 6));
+        }
       }
     }
     
