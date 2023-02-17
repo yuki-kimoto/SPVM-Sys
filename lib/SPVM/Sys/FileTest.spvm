@@ -297,10 +297,6 @@ class Sys::FileTest {
   }
   
   static method r : int ($file : string) {
-    if (Sys->defined("_WIN32")) {
-      return &R($file);
-    }
-    
     unless ($file) {
       die "The file must be defined";
     }
@@ -349,10 +345,6 @@ class Sys::FileTest {
   }
   
   static method w : int ($file : string) {
-    if (Sys->defined("_WIN32")) {
-      return &W($file);
-    }
-    
     unless ($file) {
       die "The file must be defined";
     }
@@ -370,10 +362,6 @@ class Sys::FileTest {
   }
   
   static method x : int ($file : string) {
-    if (Sys->defined("_WIN32")) {
-      return &X($file);
-    }
-    
     unless ($file) {
       die "The file must be defined";
     }
