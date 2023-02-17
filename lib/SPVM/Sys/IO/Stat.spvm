@@ -271,6 +271,8 @@ class Sys::IO::Stat : pointer {
         $cando = !!($stmode & ($mode >> 6));
       }
     }
+    
+    return $cando;
   }
   
   private static method _ingroup : int ($gid : int, $effective : int) {

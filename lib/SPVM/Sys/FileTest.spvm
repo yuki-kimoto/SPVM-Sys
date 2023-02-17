@@ -26,7 +26,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new($file);
-    
     my $result_time = $stat->C($base_time);
     
     return $result_time;
@@ -67,11 +66,14 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access_raw($file, IO->R_OK);
+    my $stat = Sys::IO::Stat->new;
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
+    # Character device
     my $ok = 0;
-    if ($status == 0) {
-      $ok = 1;
+    unless ($status == -1) {
+      my $effective = 0;
+      $ok = $stat->cando(IO->S_IRUSR, $effective);
     }
     
     return $ok;
@@ -94,11 +96,14 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access_raw($file, IO->W_OK);
+    my $stat = Sys::IO::Stat->new;
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
+    # Character device
     my $ok = 0;
-    if ($status == 0) {
-      $ok = 1;
+    unless ($status == -1) {
+      my $effective = 0;
+      $ok = $stat->cando(IO->S_IWUSR, $effective);
     }
     
     return $ok;
@@ -109,10 +114,13 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->access_raw($file, IO->X_OK);
+    my $stat = Sys::IO::Stat->new;
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
+    # Character device
     my $ok = 0;
-    if ($status == 0) {
+    unless ($status == -1) {
+      my $effective = 0;
       if (Sys->defined("_WIN32")) {
         my $parts = Fn->split(".", $file);
         my $last_part = $parts->[@$parts - 1];
@@ -121,7 +129,8 @@ class Sys::FileTest {
         }
       }
       else {
-        $ok = 1;
+        my $effective = 0;
+        $ok = $stat->cando(IO->S_IXUSR, $effective);
       }
     }
     
@@ -135,7 +144,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     # Block device
@@ -154,7 +162,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     # Character device
@@ -173,7 +180,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     my $ok = 0;
@@ -191,7 +197,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     my $ok = 0;
@@ -209,7 +214,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     my $ok = 0;
@@ -227,7 +231,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     my $ok = 0;
@@ -245,7 +248,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     my $ok = 0;
@@ -263,7 +265,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->lstat_raw($file, $stat);
     
     # Symbolic link
@@ -281,7 +282,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     my $ok = 0;
@@ -298,7 +298,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     # FIFO/PIPE
@@ -319,11 +318,14 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->eaccess_raw($file, IO->R_OK);
+    my $stat = Sys::IO::Stat->new;
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
+    # Character device
     my $ok = 0;
-    if ($status == 0) {
-      $ok = 1;
+    unless ($status == -1) {
+      my $effective = 1;
+      $ok = $stat->cando(IO->S_IRUSR, $effective);
     }
     
     return $ok;
@@ -349,7 +351,6 @@ class Sys::FileTest {
     }
     
     my $stat = Sys::IO::Stat->new;
-    
     my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
     # Character device
@@ -370,11 +371,14 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->eaccess_raw($file, IO->W_OK);
+    my $stat = Sys::IO::Stat->new;
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
+    # Character device
     my $ok = 0;
-    if ($status == 0) {
-      $ok = 1;
+    unless ($status == -1) {
+      my $effective = 1;
+      $ok = $stat->cando(IO->S_IWUSR, $effective);
     }
     
     return $ok;
@@ -389,11 +393,14 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $status = Sys::IO->eaccess_raw($file, IO->X_OK);
+    my $stat = Sys::IO::Stat->new;
+    my $status = Sys::IO::Stat->stat_raw($file, $stat);
     
+    # Character device
     my $ok = 0;
-    if ($status == 0) {
-      $ok = 1;
+    unless ($status == -1) {
+      my $effective = 1;
+      $ok = $stat->cando(IO->S_IXUSR, $effective);
     }
     
     return $ok;
