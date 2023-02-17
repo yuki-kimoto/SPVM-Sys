@@ -21,7 +21,7 @@ int32_t SPVM__Sys__User__getuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "getuid is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
-  int32_t uid = getuid();
+  uid_t uid = getuid();
   
   warn("GETUID %d", uid);
   warn("GETUID_ROW %lld", getuid());
@@ -40,7 +40,7 @@ int32_t SPVM__Sys__User__geteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "geteuid is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
-  int32_t euid = geteuid();
+  uid_t euid = geteuid();
   
   stack[0].ival  = euid;
   
@@ -56,7 +56,7 @@ int32_t SPVM__Sys__User__getgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "getgid is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
-  int32_t gid = getgid();
+  gid_t gid = getgid();
   
   stack[0].ival = gid;
 
@@ -72,7 +72,7 @@ int32_t SPVM__Sys__User__getegid(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "getegid is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
-  int32_t egid = getegid();
+  gid_t egid = getegid();
   
   stack[0].ival = egid;
   
@@ -88,7 +88,7 @@ int32_t SPVM__Sys__User__setuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "setuid is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
-  int32_t uid = stack[0].ival;
+  uid_t uid = stack[0].ival;
   int32_t status = setuid(uid);
   
   if (status == -1) {
@@ -132,7 +132,7 @@ int32_t SPVM__Sys__User__setgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "setgid is not supported on this system(_WIN32)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
-  int32_t gid = stack[0].ival;
+  gid_t gid = stack[0].ival;
   int32_t status = setgid(gid);
 
   if (status == -1) {
@@ -360,7 +360,7 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t e = 0;
   
-  int32_t uid = stack[0].ival;
+  uid_t uid = stack[0].ival;
   
   errno = 0;
   struct passwd* pwent = getpwuid(uid);
@@ -430,7 +430,7 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t e = 0;
   
-  int32_t gid = stack[0].ival;
+  gid_t gid = stack[0].ival;
   
   errno = 0;
   struct group* grent = getgrgid(gid);
