@@ -1,6 +1,8 @@
 0.41 2022-02-17
   [Incompatible Changes]
     * The x and X method in the Sys::FileTest class doesn't check the file extension on Windows.
+  [Bug Fix]
+    * Fixed link errors of Sys::Socket::Ip_mreq and Sys::Socket::Ipv6_mreq.
 0.40 2022-02-17
   [Incompatible Changes]
     * Renamed the eaccess_emulate in the Sys::IO class to eaccess.
