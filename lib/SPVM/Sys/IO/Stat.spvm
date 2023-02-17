@@ -259,11 +259,11 @@ class Sys::IO::Stat : pointer {
       my $uid = 0;
       if ($effective) {
         $uid = Sys::User->geteuid;
-        warn "EEE $uid" . 
+        warn "EEE $uid";
       }
       else {
         $uid = Sys::User->getuid;
-        warn "FFF $uid" . 
+        warn "FFF $uid";
       }
       
       warn "AAA $stuid $uid";
