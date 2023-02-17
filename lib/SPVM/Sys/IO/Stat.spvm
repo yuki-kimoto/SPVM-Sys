@@ -246,23 +246,24 @@ class Sys::IO::Stat : pointer {
   }
   
   method cando : int ($mode : int, $effective : int) {
-    my $uid = 0;
-    if ($effective) {
-      $uid = Sys::User->geteuid;
-    }
-    else {
-      $uid = Sys::User->getuid;
-    }
-    
     my $stmode = $self->st_mode;
-    my $stuid = $self->st_uid;
-    my $stgid = $self->st_gid;
     
     my $cando = 0;
     if (Sys->defined("_WIN32")) {
       $cando = $mode == $stmode;
     }
     else {
+      my $stuid = $self->st_uid;
+      my $stgid = $self->st_gid;
+      
+      my $uid = 0;
+      if ($effective) {
+        $uid = Sys::User->geteuid;
+      }
+      else {
+        $uid = Sys::User->getuid;
+      }
+      
       if ($stuid == $uid) {
         $cando = !!($stmode & $mode);
       }
