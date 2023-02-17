@@ -439,15 +439,15 @@ See the L<eaccess|https://linux.die.net/man/3/eaccess> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the C<$mode>.
 
-=head2 eaccess_emulate_raw
+=head2 eaccess_raw
 
-  static method eaccess_emulate : int ($pathname : string, $mode : int)
+  static method eaccess : int ($pathname : string, $mode : int)
 
-The same as L</"eaccess_emulate">, but even if the return value is C<-1>, an exception will not be thrown.
+The same as L</"eaccess">, but even if the return value is C<-1>, an exception will not be thrown.
 
-=head2 eaccess_emulate
+=head2 eaccess
 
-  static method eaccess_emulate : int ($pathname : string, $mode : int)
+  static method eaccess : int ($pathname : string, $mode : int)
 
 Emulates C<eaccess> using L</"faccessat">.
 

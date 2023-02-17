@@ -373,7 +373,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
 
-    my $status = Sys::IO->eaccess_emulate_raw($file, IO->R_OK);
+    my $status = Sys::IO->eaccess_raw($file, IO->R_OK);
 
     my $ok = 0;
     if ($status == 0) {
@@ -429,7 +429,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
 
-    my $status = Sys::IO->eaccess_emulate_raw($file, IO->W_OK);
+    my $status = Sys::IO->eaccess_raw($file, IO->W_OK);
 
     my $ok = 0;
     if ($status == 0) {
@@ -448,7 +448,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
 
-    my $status = Sys::IO->eaccess_emulate_raw($file, IO->X_OK);
+    my $status = Sys::IO->eaccess_raw($file, IO->X_OK);
 
     my $ok = 0;
     if ($status == 0) {

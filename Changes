@@ -1,3 +1,7 @@
+0.40 2022-02-14
+  [Incompatible Changes]
+    * Renamed the eaccess_emulate in the Sys::IO class to eaccess.
+    * Renamed the eaccess_emulate_raw in the Sys::IO class to eaccess_raw.
 0.39 2022-02-14
   [Compatible Intenal Changes]
     * Removed unused the Sys::Util class.
