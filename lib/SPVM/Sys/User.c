@@ -24,7 +24,7 @@ int32_t SPVM__Sys__User__getuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   uid_t uid = getuid();
   
   warn("GETUID %d", uid);
-  warn("GETUID_ROW %lld", getuid());
+  warn("GETUID_RAW %llu", getuid());
   
   stack[0].ival = uid;
   
