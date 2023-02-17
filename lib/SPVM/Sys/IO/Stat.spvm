@@ -264,13 +264,17 @@ class Sys::IO::Stat : pointer {
         $uid = Sys::User->getuid;
       }
       
+      warn "AAA $stuid $uid";
       if ($stuid == $uid) {
+        warn "BBB " . ($stmode & $mode);
         $cando = !!($stmode & $mode);
       }
       elsif (&_ingroup($stgid, $effective)) {
+        warn "CCC " . ($stmode & ($mode >> 3));
         $cando = !!($stmode & ($mode >> 3));
       }
       else {
+        warn "DDD " . ($stmode & ($mode >> 6));
         $cando = !!($stmode & ($mode >> 6));
       }
     }
