@@ -243,3 +243,67 @@ class Sys::IO::Stat : pointer {
     return $ok;
   }
 }
+
+=pod
+
+if (grep $^O eq $_, qw/os2 MSWin32/) {
+
+    # from doio.c
+    *cando = sub { ($_[0][2] & $_[1]) ? 1 : "" };
+}
+else {
+
+    # from doio.c
+    *cando = sub {
+        my ($s, $mode, $eff) = @_;
+        my $uid = $eff ? $> : $<;
+        my ($stmode, $stuid, $stgid) = @$s[2,4,5];
+
+        # This code basically assumes that the rwx bits of the mode are
+        # the 0777 bits, but so does Perl_cando.
+
+        if (_IS_CYGWIN ? _ingroup(544, $eff) : ($uid == 0 && $^O ne "VMS")) {
+            # If we're root on unix
+            # not testing for executable status => all file tests are true
+            return 1 if !($mode & 0111);
+            # testing for executable status =>
+            # for a file, any x bit will do
+            # for a directory, always true
+            return 1 if $stmode & 0111 || S_ISDIR($stmode);
+            return "";
+        }
+
+        if ($stuid == $uid) {
+            $stmode & $mode         and return 1;
+        }
+        elsif (_ingroup($stgid, $eff)) {
+            $stmode & ($mode >> 3)  and return 1;
+        }
+        else {
+            $stmode & ($mode >> 6)  and return 1;
+        }
+        return "";
+    };
+}
+
+# alias for those who don't like objects
+*stat_cando = \&cando;
+
+# from doio.c
+sub _ingroup {
+    my ($gid, $eff)   = @_;
+
+    # I am assuming that since VMS doesn't have getgroups(2), $) will
+    # always only contain a single entry.
+    $^O eq "VMS"    and return $_[0] == $);
+
+    my ($egid, @supp) = split " ", $);
+    my ($rgid)        = split " ", $(;
+
+    $gid == ($eff ? $egid : $rgid)  and return 1;
+    grep $gid == $_, @supp          and return 1;
+
+    return "";
+}
+
+=cut
