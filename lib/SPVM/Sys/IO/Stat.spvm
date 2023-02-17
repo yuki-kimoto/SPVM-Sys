@@ -263,7 +263,7 @@ class Sys::IO::Stat : pointer {
       }
       else {
         $uid = Sys::User->getuid;
-        warn "EEE $uid" . 
+        warn "FFF $uid" . 
       }
       
       warn "AAA $stuid $uid";
