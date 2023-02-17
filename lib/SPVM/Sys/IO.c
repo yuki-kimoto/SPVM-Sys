@@ -1,3 +1,6 @@
+// For 32bit Linux
+#define _FILE_OFFSET_BITS 64
+
 #include "spvm_native.h"
 
 #include <unistd.h>
