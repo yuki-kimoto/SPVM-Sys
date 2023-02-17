@@ -7,6 +7,7 @@
       method A : double ($base_time : long);
       method C : double ($base_time : long);
       method M : double ($base_time : long);
+      method O : int ();
       
 0.39 2022-02-14
   [Compatible Intenal Changes]
