@@ -17,7 +17,7 @@ class Sys::IO::Stat : pointer {
   }
   
   private native static method _new : Sys::IO::Stat ();
-
+  
   native static method stat_raw : int ($path : string, $stat : Sys::IO::Stat);
   
   native static method stat : int ($path : string, $stat : Sys::IO::Stat);
@@ -27,9 +27,9 @@ class Sys::IO::Stat : pointer {
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
   
   native static method fstat_raw : int ($fd : int, $stat : Sys::IO::Stat);
-
+  
   native static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
-
+  
   # Instance methods
   native method DESTROY : void ();
   native method st_dev : long ();
@@ -48,36 +48,36 @@ class Sys::IO::Stat : pointer {
   native method st_mtim_tv_nsec : long ();
   native method st_atim_tv_nsec : long ();
   native method st_ctim_tv_nsec : long ();
-
+  
   method A : double ($base_time : long) {
-
+    
     my $atime = $self->st_atime;
-
+    
     my $result_time = ($base_time - $atime) / 86400.0;
-
+    
     return $result_time;
   }
-
+  
   method C : double ($base_time : long) {
-
+    
     my $ctime = $self->st_ctime;
-
+    
     my $result_time = ($base_time - $ctime) / 86400.0;
-
+    
     return $result_time;
   }
-
+  
   method M : double ($base_time : long) {
-
+    
     my $mtime = $self->st_mtime;
-
+    
     my $result_time = ($base_time - $mtime) / 86400.0;
-
+    
     return $result_time;
   }
-
+  
   method O : int () {
-
+    
     my $ok = 0;
     if (Sys->defined("_WIN32")) {
       if ($self->st_uid == 0) {
@@ -92,7 +92,7 @@ class Sys::IO::Stat : pointer {
     
     return $ok;
   }
-
+  
   method S : int () {
     my $ok = 0;
     unless (Sys->defined("_WIN32")) {
@@ -104,20 +104,20 @@ class Sys::IO::Stat : pointer {
     
     return $ok;
   }
-
+  
   method b : int () {
-
+    
     # Block device
     my $ok = 0;
     if (($self->st_mode & IO->S_IFMT) == IO->S_IFBLK) {
       $ok = 1;
     }
-
+    
     return $ok;
   }
-
+  
   method c : int () {
-
+    
     # Character device
     my $ok = 0;
     if (($self->st_mode & IO->S_IFMT) == IO->S_IFCHR) {
@@ -126,9 +126,9 @@ class Sys::IO::Stat : pointer {
     
     return $ok;
   }
-
+  
   method d : int () {
-
+    
     my $ok = 0;
     if (($self->st_mode & IO->S_IFMT) == IO->S_IFDIR) {
       $ok = 1;
@@ -136,16 +136,16 @@ class Sys::IO::Stat : pointer {
     
     return $ok;
   }
-
+  
   method e : int () {
-
+    
     my $ok = 1;
-
+    
     return $ok;
   }
-
+  
   method f : int () {
-
+    
     my $ok = 0;
     if (($self->st_mode & IO->S_IFMT) == IO->S_IFREG) {
       $ok = 1;
@@ -153,9 +153,9 @@ class Sys::IO::Stat : pointer {
     
     return $ok;
   }
-
+  
   method g : int () {
-
+    
     my $ok = 0;
     unless (Sys->defined("_WIN32")) {
       if ($self->st_mode & IO->S_ISGID) {
@@ -165,9 +165,9 @@ class Sys::IO::Stat : pointer {
     
     return $ok;
   }
-
+  
   method k : int () {
-
+    
     my $ok = 0;
     unless (Sys->defined("_WIN32")) {
       if ($self->st_mode & IO->S_ISVTX) {
@@ -177,32 +177,32 @@ class Sys::IO::Stat : pointer {
     
     return $ok;
   }
-
+  
   method l : int () {
-
+    
     # Symbolic link
     my $ok = 0;
     if (($self->st_mode & IO->S_IFMT) == IO->S_IFLNK) {
       $ok = 1;
     }
-
+    
     return $ok;
   }
-
+  
   method o : int () {
     if (Sys->defined("_WIN32")) {
       return $self->O;
     }
-
+    
     my $ok = 0;
     if ($self->st_uid == Sys::User->geteuid) {
       $ok = 1;
     }
     return $ok;
   }
-
+  
   method p : int () {
-
+    
     # FIFO/PIPE
     my $ok = 0;
     if (($self->st_mode & IO->S_IFMT) == IO->S_IFIFO) {
@@ -211,16 +211,16 @@ class Sys::IO::Stat : pointer {
     
     return $ok;
   }
-
+  
   method s : long () {
-
+    
     my $size = $self->st_size;
-
+    
     return $size;
   }
-
+  
   method u : int () {
-
+    
     # Character device
     my $ok = 0;
     unless (Sys->defined("_WIN32")) {
@@ -228,12 +228,12 @@ class Sys::IO::Stat : pointer {
         $ok = 1;
       }
     }
-
+    
     return $ok;
   }
-
+  
   method z : int () {
-
+    
     my $ok = 0;
     my $size = $self->st_size;
     if ($size == 0) {
