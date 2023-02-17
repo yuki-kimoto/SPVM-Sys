@@ -25,6 +25,12 @@
       method u : int ();
       method z : int ();
       method cando : int ($mode : int, $effective : int);
+      method r : int ();
+      method w : int ();
+      method x : int ();
+      method R : int ();
+      method W : int ();
+      method X : int ();
 
    * Added the $path option arguments is added to the new method in the Sys::Stat.
      

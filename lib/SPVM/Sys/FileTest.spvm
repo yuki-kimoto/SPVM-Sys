@@ -72,8 +72,7 @@ class Sys::FileTest {
     # Character device
     my $ok = 0;
     unless ($status == -1) {
-      my $effective = 0;
-      $ok = $stat->cando(IO->S_IRUSR, $effective);
+      $ok = $stat->R;
     }
     
     return $ok;
@@ -102,8 +101,7 @@ class Sys::FileTest {
     # Character device
     my $ok = 0;
     unless ($status == -1) {
-      my $effective = 0;
-      $ok = $stat->cando(IO->S_IWUSR, $effective);
+      $ok = $stat->W;
     }
     
     return $ok;
@@ -129,8 +127,7 @@ class Sys::FileTest {
         }
       }
       else {
-        my $effective = 0;
-        $ok = $stat->cando(IO->S_IXUSR, $effective);
+        $ok = $stat->X;
       }
     }
     
@@ -324,8 +321,7 @@ class Sys::FileTest {
     # Character device
     my $ok = 0;
     unless ($status == -1) {
-      my $effective = 1;
-      $ok = $stat->cando(IO->S_IRUSR, $effective);
+      $ok = $stat->r;
     }
     
     return $ok;
@@ -377,8 +373,7 @@ class Sys::FileTest {
     # Character device
     my $ok = 0;
     unless ($status == -1) {
-      my $effective = 1;
-      $ok = $stat->cando(IO->S_IWUSR, $effective);
+      $ok = $stat->w;
     }
     
     return $ok;
@@ -399,8 +394,7 @@ class Sys::FileTest {
     # Character device
     my $ok = 0;
     unless ($status == -1) {
-      my $effective = 1;
-      $ok = $stat->cando(IO->S_IXUSR, $effective);
+      $ok = $stat->x;
     }
     
     return $ok;

@@ -306,6 +306,54 @@ class Sys::IO::Stat : pointer {
     
     return $ingroup;
   }
+  
+  method r : int () {
+    
+    my $effective = 1;
+    my $ok = $self->cando(IO->S_IRUSR, $effective);
+    
+    return $ok;
+  }
+  
+  method w : int () {
+    
+    my $effective = 1;
+    my $ok = $self->cando(IO->S_IWUSR, $effective);
+    
+    return $ok;
+  }
+  
+  method x : int () {
+    
+    my $effective = 1;
+    my $ok = $self->cando(IO->S_IXUSR, $effective);
+    
+    return $ok;
+  }
+  
+  method R : int () {
+    
+    my $effective = 0;
+    my $ok = $self->cando(IO->S_IRUSR, $effective);
+    
+    return $ok;
+  }
+  
+  method W : int () {
+    
+    my $effective = 0;
+    my $ok = $self->cando(IO->S_IWUSR, $effective);
+    
+    return $ok;
+  }
+  
+  method X : int () {
+    
+    my $effective = 0;
+    my $ok = $self->cando(IO->S_IXUSR, $effective);
+    
+    return $ok;
+  }
 }
 
 =pod
