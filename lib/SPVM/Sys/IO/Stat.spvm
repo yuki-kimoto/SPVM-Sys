@@ -32,4 +32,31 @@ class Sys::IO::Stat : pointer {
   native method st_mtim_tv_nsec : long ();
   native method st_atim_tv_nsec : long ();
   native method st_ctim_tv_nsec : long ();
+
+  method A : double ($base_time : long) {
+
+    my $atime = $self->st_atime;
+
+    my $result_time = ($base_time - $atime) / 86400.0;
+
+    return $result_time;
+  }
+
+  method C : double ($base_time : long) {
+
+    my $ctime = $self->st_ctime;
+
+    my $result_time = ($base_time - $ctime) / 86400.0;
+
+    return $result_time;
+  }
+
+  method M : double ($base_time : long) {
+
+    my $mtime = $self->st_mtime;
+
+    my $result_time = ($base_time - $mtime) / 86400.0;
+
+    return $result_time;
+  }
 }
