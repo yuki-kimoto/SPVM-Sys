@@ -264,14 +264,30 @@ class Sys::IO::Stat : pointer {
         $uid = Sys::User->getuid;
       }
       
-      if ($stuid == $uid) {
-        $cando = !!($stmode & $mode);
-      }
-      elsif (&_ingroup($stgid, $effective)) {
-        $cando = !!($stmode & ($mode >> 3));
+      # $uid becomes 0 in i386/ubuntu in non-root user, but this logic return the same result as Perl
+      if ($uid == 0) {
+        # If we're root on unix
+        # not testing for executable status => all file tests are true
+        if (!($mode & 0111)) {
+          $cando = 1;
+        }
+        # testing for executable status =>
+        # for a file, any x bit will do
+        # for a directory, always true
+        elsif ($stmode & 0111 || (($stmode & IO->S_IFMT) == IO->S_IFDIR)) {
+          $cando = 1;
+        }
       }
       else {
-        $cando = !!($stmode & ($mode >> 6));
+        if ($stuid == $uid) {
+          $cando = !!($stmode & $mode);
+        }
+        elsif (&_ingroup($stgid, $effective)) {
+          $cando = !!($stmode & ($mode >> 3));
+        }
+        else {
+          $cando = !!($stmode & ($mode >> 6));
+        }
       }
     }
     
