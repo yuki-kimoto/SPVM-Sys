@@ -2,6 +2,8 @@ class Sys::IO::Stat : pointer {
   use Sys::User;
   use Sys::IO::Constant as IO;
   use Hash;
+  use Sys;
+  use Fn;
   
   # Class methods
   static method new : Sys::IO::Stat ($path = undef : string) {
