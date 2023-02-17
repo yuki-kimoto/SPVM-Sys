@@ -2,6 +2,7 @@
   [Incompatible Changes]
     * Renamed the eaccess_emulate in the Sys::IO class to eaccess.
     * Renamed the eaccess_emulate_raw in the Sys::IO class to eaccess_raw.
+    * The z method in the Sys::FileTest method throw an exception when the file doesn't exist.
   [New Features]
     * Added the following methods to the Sys::IO::Stat class.
       method A : double ($base_time : long);
