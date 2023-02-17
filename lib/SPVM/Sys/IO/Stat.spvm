@@ -1,9 +1,22 @@
 class Sys::IO::Stat : pointer {
   use Sys::User;
   use Sys::IO::Constant as IO;
+  use Hash;
   
   # Class methods
-  native static method new : Sys::IO::Stat ();
+  static method new : Sys::IO::Stat ($path = undef : string) {
+    my $items = items;
+    
+    my $self = &_new;;
+    
+    if ($items > 0) {
+      &stat($path, $self);
+    }
+    
+    return $self;
+  }
+  
+  private native static method _new : Sys::IO::Stat ();
 
   native static method stat_raw : int ($path : string, $stat : Sys::IO::Stat);
   

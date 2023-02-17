@@ -24,7 +24,14 @@
       method s : long ();
       method u : int ();
       method z : int ();
-      
+   * Added the $path and $options option arguments is added to the new method in the Sys::Stat.
+     
+     [Before}
+     static method new : Sys::IO::Stat ();
+     
+     [After}
+     static method new : Sys::IO::Stat ($path = undef : string);
+
 0.39 2022-02-14
   [Compatible Intenal Changes]
     * Removed unused the Sys::Util class.
