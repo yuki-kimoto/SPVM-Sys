@@ -250,7 +250,7 @@ class Sys::IO::Stat : pointer {
     
     my $cando = 0;
     if (Sys->defined("_WIN32")) {
-      $cando = $mode == $stmode;
+      $cando = !!($mode & $stmode);
     }
     else {
       my $stuid = $self->st_uid;
