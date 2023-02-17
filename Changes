@@ -8,6 +8,21 @@
       method C : double ($base_time : long);
       method M : double ($base_time : long);
       method O : int ();
+      method S : int ();
+      method b : int ();
+      method c : int ();
+      method d : int ();
+      method d : int ();
+      method e : int ();
+      method f : int ();
+      method g : int ();
+      method k : int ();
+      method l : int ();
+      method o : int ();
+      method p : int ();
+      method s : long ();
+      method u : int ();
+      method z : int ();
       
 0.39 2022-02-14
   [Compatible Intenal Changes]

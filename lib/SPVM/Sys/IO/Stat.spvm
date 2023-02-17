@@ -1,5 +1,6 @@
 class Sys::IO::Stat : pointer {
   use Sys::User;
+  use Sys::IO::Constant as IO;
   
   # Class methods
   native static method new : Sys::IO::Stat ();
@@ -74,6 +75,156 @@ class Sys::IO::Stat : pointer {
       if ($self->st_uid == Sys::User->getuid) {
         $ok = 1;
       }
+    }
+    
+    return $ok;
+  }
+
+  method S : int () {
+    my $ok = 0;
+    unless (Sys->defined("_WIN32")) {
+      # Socket
+      if (($self->st_mode & IO->S_IFMT) == IO->S_IFSOCK) {
+        $ok = 1;
+      }
+    }
+    
+    return $ok;
+  }
+
+  method b : int () {
+
+    # Block device
+    my $ok = 0;
+    if (($self->st_mode & IO->S_IFMT) == IO->S_IFBLK) {
+      $ok = 1;
+    }
+
+    return $ok;
+  }
+
+  method c : int () {
+
+    # Character device
+    my $ok = 0;
+    if (($self->st_mode & IO->S_IFMT) == IO->S_IFCHR) {
+      $ok = 1;
+    }
+    
+    return $ok;
+  }
+
+  method d : int () {
+
+    my $ok = 0;
+    if (($self->st_mode & IO->S_IFMT) == IO->S_IFDIR) {
+      $ok = 1;
+    }
+    
+    return $ok;
+  }
+
+  method e : int () {
+
+    my $ok = 1;
+
+    return $ok;
+  }
+
+  method f : int () {
+
+    my $ok = 0;
+    if (($self->st_mode & IO->S_IFMT) == IO->S_IFREG) {
+      $ok = 1;
+    }
+    
+    return $ok;
+  }
+
+  method g : int () {
+
+    my $ok = 0;
+    unless (Sys->defined("_WIN32")) {
+      if ($self->st_mode & IO->S_ISGID) {
+        $ok = 1;
+      }
+    }
+    
+    return $ok;
+  }
+
+  method k : int () {
+
+    my $ok = 0;
+    unless (Sys->defined("_WIN32")) {
+      if ($self->st_mode & IO->S_ISVTX) {
+        $ok = 1;
+      }
+    }
+    
+    return $ok;
+  }
+
+  method l : int () {
+
+    # Symbolic link
+    my $ok = 0;
+    if (($self->st_mode & IO->S_IFMT) == IO->S_IFLNK) {
+      $ok = 1;
+    }
+
+    return $ok;
+  }
+
+  method o : int () {
+    if (Sys->defined("_WIN32")) {
+      return $self->O;
+    }
+
+    my $ok = 0;
+    if ($self->st_uid == Sys::User->geteuid) {
+      $ok = 1;
+    }
+    return $ok;
+  }
+
+  method p : int () {
+
+    # FIFO/PIPE
+    my $ok = 0;
+    if (($self->st_mode & IO->S_IFMT) == IO->S_IFIFO) {
+      $ok = 1;
+    }
+    
+    return $ok;
+  }
+
+  method s : long () {
+
+    my $size = $self->st_size;
+
+    return $size;
+  }
+
+  method u : int () {
+
+    # Character device
+    my $ok = 0;
+    unless (Sys->defined("_WIN32")) {
+      if ($self->st_mode & IO->S_ISUID) {
+        $ok = 1;
+      }
+    }
+
+    return $ok;
+  }
+
+  method z : int () {
+
+    my $ok = 0;
+    my $size = $self->st_size;
+    if ($size == 0) {
+      $ok = 1;
     }
     
     return $ok;
