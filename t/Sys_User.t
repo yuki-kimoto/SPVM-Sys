@@ -17,6 +17,7 @@ if ($^O eq 'MSWin32') {
   ok($@);
 }
 else {
+  warn("AAA " . SPVM::TestCase::Sys::User->getuid_value . " $<");
   is(SPVM::TestCase::Sys::User->getuid_value, "$<");
 }
 
