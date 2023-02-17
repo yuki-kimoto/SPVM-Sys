@@ -24,7 +24,9 @@
       method s : long ();
       method u : int ();
       method z : int ();
-   * Added the $path and $options option arguments is added to the new method in the Sys::Stat.
+      method cando : int ($mode : int, $effective : int);
+
+   * Added the $path option arguments is added to the new method in the Sys::Stat.
      
      [Before}
      static method new : Sys::IO::Stat ();
