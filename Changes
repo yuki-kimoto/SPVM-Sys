@@ -1,3 +1,8 @@
+0.42 2022-02-21
+  [Prerequirement Changes]
+    * SPVM 0.9692+ is needed.
+  [Bug Fix]
+    * Fixed link errors of Sys::Socket::Ip_mreq and Sys::Socket::Ipv6_mreq.
 0.41 2022-02-17
   [Incompatible Changes]
     * The x and X method in the Sys::FileTest class doesn't check the file extension on Windows.
