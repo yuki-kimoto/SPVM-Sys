@@ -22,20 +22,18 @@ my $file_myexe_exe = "t/ftest/myexe.exe";
 my $file_myexe_bat = "t/ftest/myexe.bat";
 my $file_myexe_cmd = "t/ftest/myexe.cmd";
 
-my $proc_start_time = $^T + 0; # Force a number.
-
 # File tests
 {
   ok(SPVM::TestCase::Sys::FileTest->A);
-  is(sprintf("%.14g", SPVM::Sys::FileTest->A($file_empty, $proc_start_time)), sprintf("%.14g", -A $file_empty));
+  is(sprintf("%.14g", SPVM::Sys::FileTest->A($file_empty)), sprintf("%.14g", -A $file_empty));
 }
 {
   ok(SPVM::TestCase::Sys::FileTest->C);
-  is(sprintf("%.14g", SPVM::Sys::FileTest->C($file_empty, $proc_start_time)), sprintf("%.14g", -C $file_empty));
+  is(sprintf("%.14g", SPVM::Sys::FileTest->C($file_empty)), sprintf("%.14g", -C $file_empty));
 }
 {
   ok(SPVM::TestCase::Sys::FileTest->M);
-  is(sprintf("%.14g", SPVM::Sys::FileTest->M($file_empty, $proc_start_time)), sprintf("%.14g", -M $file_empty));
+  is(sprintf("%.14g", SPVM::Sys::FileTest->M($file_empty)), sprintf("%.14g", -M $file_empty));
 }
 {
   ok(SPVM::TestCase::Sys::FileTest->O);

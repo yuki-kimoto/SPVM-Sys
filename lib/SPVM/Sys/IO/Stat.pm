@@ -195,15 +195,15 @@ Gets C<st_ctim.tv_nsec>.
 
 =head2 A
 
-  method A : double ($base_time : long);
+  method A : double ();
 
 =head2 C
 
-  method C : double ($base_time : long);
+  method C : double ();
 
 =head2 M
 
-  method M : double ($base_time : long);
+  method M : double ();
 
 =head2 O
 

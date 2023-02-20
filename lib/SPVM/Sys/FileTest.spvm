@@ -6,7 +6,7 @@ class Sys::FileTest {
   use Sys;
   use Fn;
   
-  static method A : double ($file : string, $base_time : long) {
+  static method A : double ($file : string) {
     
     unless ($file) {
       die "The file must be defined";
@@ -14,24 +14,24 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new($file);
     
-    my $result_time = $stat->A($base_time);
+    my $result_time = $stat->A;
     
     return $result_time;
   }
   
-  static method C : double ($file : string, $base_time : long) {
+  static method C : double ($file : string) {
     
     unless ($file) {
       die "The file must be defined";
     }
     
     my $stat = Sys::IO::Stat->new($file);
-    my $result_time = $stat->C($base_time);
+    my $result_time = $stat->C;
     
     return $result_time;
   }
   
-  static method M : double ($file : string, $base_time : long) {
+  static method M : double ($file : string) {
     
     unless ($file) {
       die "The file must be defined";
@@ -39,7 +39,7 @@ class Sys::FileTest {
     
     my $stat = Sys::IO::Stat->new($file);
     
-    my $result_time = $stat->M($base_time);
+    my $result_time = $stat->M;
     
     return $result_time;
   }

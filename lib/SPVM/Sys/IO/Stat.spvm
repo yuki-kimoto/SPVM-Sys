@@ -51,7 +51,9 @@ class Sys::IO::Stat : pointer {
   native method st_atim_tv_nsec : long ();
   native method st_ctim_tv_nsec : long ();
   
-  method A : double ($base_time : long) {
+  method A : double () {
+    
+    my $base_time = CommandInfo->BASE_TIME;
     
     my $atime = $self->st_atime;
     
@@ -60,7 +62,9 @@ class Sys::IO::Stat : pointer {
     return $result_time;
   }
   
-  method C : double ($base_time : long) {
+  method C : double () {
+    
+    my $base_time = CommandInfo->BASE_TIME;
     
     my $ctime = $self->st_ctime;
     
@@ -69,7 +73,9 @@ class Sys::IO::Stat : pointer {
     return $result_time;
   }
   
-  method M : double ($base_time : long) {
+  method M : double () {
+    
+    my $base_time = CommandInfo->BASE_TIME;
     
     my $mtime = $self->st_mtime;
     
