@@ -1,8 +1,10 @@
 0.43 2022-03-07
-  * Added the following methods in the Sys class.
-    
-    native static method is_windows : int ();
-    
+  [New Features]
+    * Added the following methods in the Sys class.
+      
+      native static method is_windows : int ();
+    * Added the Sys::OS class.
+    * Added the Sys::Env class.
 0.42 2022-02-21
   [Prerequirement Changes]
     * SPVM 0.9692+ is needed.

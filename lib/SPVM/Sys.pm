@@ -156,6 +156,8 @@ All modules that is included in this distribution.
 
 =item * L<Sys|SPVM::Sys>
 
+=item * L<Sys::Env|SPVM::Sys::Env>
+
 =item * L<Sys::FileTest|SPVM::Sys::FileTest>
 
 =item * L<Sys::IO|SPVM::Sys::IO>
@@ -177,6 +179,8 @@ All modules that is included in this distribution.
 =item * L<Sys::IO::Stat|SPVM::Sys::IO::Stat>
 
 =item * L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf>
+
+=item * L<Sys::OS|SPVM::Sys::OS>
 
 =item * L<Sys::Poll|SPVM::Sys::Poll>
 
@@ -282,4 +286,3 @@ Copyright Yuki Kimoto 2022-2022, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
-

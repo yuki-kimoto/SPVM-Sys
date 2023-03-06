@@ -12,6 +12,10 @@ lib/SPVM/Sys.c
 lib/SPVM/Sys.config
 lib/SPVM/Sys.pm
 lib/SPVM/Sys.spvm
+lib/SPVM/Sys/Env.c
+lib/SPVM/Sys/Env.config
+lib/SPVM/Sys/Env.pm
+lib/SPVM/Sys/Env.spvm
 lib/SPVM/Sys/FileTest.pm
 lib/SPVM/Sys/FileTest.spvm
 lib/SPVM/Sys/IO.c
@@ -54,6 +58,10 @@ lib/SPVM/Sys/Ioctl/Constant.c
 lib/SPVM/Sys/Ioctl/Constant.config
 lib/SPVM/Sys/Ioctl/Constant.pm
 lib/SPVM/Sys/Ioctl/Constant.spvm
+lib/SPVM/Sys/OS.c
+lib/SPVM/Sys/OS.config
+lib/SPVM/Sys/OS.pm
+lib/SPVM/Sys/OS.spvm
 lib/SPVM/Sys/Poll.c
 lib/SPVM/Sys/Poll.config
 lib/SPVM/Sys/Poll.pm
