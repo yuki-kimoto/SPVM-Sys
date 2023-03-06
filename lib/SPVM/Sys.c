@@ -5,6 +5,19 @@
 
 static const char* FILE_NAME = "Sys.c";
 
+int32_t SPVM__Sys__is_windows(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t defined = 0;
+  
+#   ifdef _WIN32
+  defined = 1;
+#   endif
+  
+  stack[0].ival = defined;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t items = env->get_args_stack_length(env, stack);

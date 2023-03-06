@@ -142,6 +142,12 @@ The C<get_osname> in the C<Sys> class supports the following os names.
 
 =back
 
+=head2 is_windows
+
+  static method is_windows : int ();
+
+If the OS is C<Windows>, returns C<1>, otherwise returns C<0>.
+
 =head1 Modules
 
 All modules that is included in this distribution.

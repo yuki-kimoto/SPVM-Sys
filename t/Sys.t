@@ -14,6 +14,16 @@ use SPVM 'Double';
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
+# is_windows
+{
+  if ($^O eq 'MSWin32') {
+    ok(SPVM::Sys->is_windows);
+  }
+  else {
+    ok(!SPVM::Sys->is_windows);
+  }
+}
+
 # defined
 {
   if ($^O eq 'MSWin32') {
