@@ -24,7 +24,7 @@ class Sys::IO::Stat : pointer {
   
   native static method stat : int ($path : string, $stat : Sys::IO::Stat);
   
-  static method statp : Sys::IO::Stat ($path : string, $stat : Sys::IO::Stat) {
+  static method statp : Sys::IO::Stat ($path : string) {
     my $stat = Sys::IO::Stat->new;
     &stat($path, $stat);
     return $stat;
@@ -34,7 +34,7 @@ class Sys::IO::Stat : pointer {
   
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
   
-  static method lstatp : Sys::IO::Stat ($path : string, $stat : Sys::IO::Stat) {
+  static method lstatp : Sys::IO::Stat ($path : string) {
     my $stat = Sys::IO::Stat->new;
     &lstat($path, $stat);
     return $stat;
@@ -388,14 +388,6 @@ class Sys::IO::Stat : pointer {
     my $ok = $self->cando(IO->S_IXUSR, $effective);
     
     return $ok;
-  }
-  
-  static method stat : Sys::IO::Stat ($path : string) {
-    return Sys::IO::Stat->statp($path);
-  }
-  
-  static method lstat : Sys::IO::Stat ($path : string) {
-    return Sys::IO::Stat->lstatp($path);
   }
 }
 

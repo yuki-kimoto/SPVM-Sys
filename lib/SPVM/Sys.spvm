@@ -7,6 +7,7 @@ class Sys {
   use Sys::Time;
   use Time;
   use Sys::Process;
+  use Sys::IO::Stat;
   
   static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double) {
     if (items == 2) {
@@ -276,5 +277,13 @@ class Sys {
   
   static method exec : int ($path : string, $args : string[]) {
     return Sys::Process->execv($path, $args);
+  }
+  
+  static method stat : Sys::IO::Stat ($path : string) {
+    return Sys::IO::Stat->statp($path);
+  }
+  
+  static method lstat : Sys::IO::Stat ($path : string) {
+    return Sys::IO::Stat->lstatp($path);
   }
 }
