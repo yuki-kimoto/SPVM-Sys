@@ -22,6 +22,202 @@ This distribution contains many modules for system calls such as L<Sys::IO|SPVM:
   
   my $is_windows = Sys->defined("_WIN32");
 
+=head1 Class Methods
+
+=head2 Environment Variable
+
+=head3 getenv
+
+  static method getenv : string ($name : string);
+
+The alias for the L<getenv|SPVM::Sys::Env/"getenv"> method in the L<Sys::Env|SPVM::Sys::Env> class.
+
+=head3 setenv
+
+  static method setenv : int ($name : string, $value : string, $overwrite : int);
+
+The alias for the L<setenv|SPVM::Sys::Env/"setenv"> method in the L<Sys::Env|SPVM::Sys::Env> class.
+
+=head3 unsetenv
+
+  static method unsetenv : int ($name : string);
+
+The alias for the L<unsetenv|SPVM::Sys::Env/"unsetenv"> method in the L<Sys::Env|SPVM::Sys::Env> class.
+
+=head2 OS
+
+=head3 defined
+
+  static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double);
+
+The alias for the L<defined|SPVM::Sys::OS/"defined"> method in the L<Sys::OS|SPVM::Sys::OS> class.
+
+=head3 get_osname
+
+  static method get_osname : string ()
+
+The alias for the L<get_osname|SPVM::Sys::OS/"get_osname"> method in the L<Sys::OS|SPVM::Sys::OS> class.
+
+=head3 is_windows
+
+  static method is_windows : int ();
+
+The alias for the L<is_windows|SPVM::Sys::OS/"is_windows"> method in the L<Sys::OS|SPVM::Sys::OS> class.
+
+=head2 File Test
+
+=head3 A
+
+  static method A : double ($file : string);
+
+The alias for the L<A|SPVM::Sys::FileTest/"A"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 C
+
+  static method C : double ($file : string);
+
+The alias for the L<C|SPVM::Sys::FileTest/"C"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 M
+
+  static method M : double ($file : string);
+
+The alias for the L<M|SPVM::Sys::FileTest/"M"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 O
+
+  static method O : int ($file : string);
+
+The alias for the L<O|SPVM::Sys::FileTest/"O"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 R
+
+  static method R : int ($file : string);
+
+The alias for the L<R|SPVM::Sys::FileTest/"R"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 S
+
+  static method S : int ($file : string);
+
+The alias for the L<S|SPVM::Sys::FileTest/"S"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 W
+
+  static method W : int ($file : string);
+
+The alias for the L<W|SPVM::Sys::FileTest/"W"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 X
+
+  static method X : int ($file : string);
+
+The alias for the L<X|SPVM::Sys::FileTest/"X"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 b
+
+  static method b : int ($file : string);
+
+The alias for the L<b|SPVM::Sys::FileTest/"b"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 c
+
+  static method c : int ($file : string);
+
+The alias for the L<c|SPVM::Sys::FileTest/"c"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 d
+
+  static method d : int ($file : string);
+
+The alias for the L<d|SPVM::Sys::FileTest/"d"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 e
+
+  static method e : int ($file : string);
+
+The alias for the L<e|SPVM::Sys::FileTest/"e"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 f
+
+  static method f : int ($file : string);
+
+The alias for the L<f|SPVM::Sys::FileTest/"f"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 g
+
+  static method g : int ($file : string);
+
+The alias for the L<g|SPVM::Sys::FileTest/"g"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 k
+
+  static method k : int ($file : string);
+
+The alias for the L<k|SPVM::Sys::FileTest/"k"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 l
+
+  static method l : int ($file : string);
+
+The alias for the L<l|SPVM::Sys::FileTest/"l"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 o
+
+  static method o : int ($file : string);
+
+The alias for the L<o|SPVM::Sys::FileTest/"o"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 p
+
+  static method p : int ($file : string);
+
+The alias for the L<p|SPVM::Sys::FileTest/"p"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 r
+
+  static method r : int ($file : string);
+
+The alias for the L<r|SPVM::Sys::FileTest/"r"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 s
+
+  static method s : long ($file : string);
+
+The alias for the L<s|SPVM::Sys::FileTest/"s"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 u
+
+  static method u : int ($file : string);
+
+The alias for the L<u|SPVM::Sys::FileTest/"u"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 w
+
+  static method w : int ($file : string);
+
+The alias for the L<w|SPVM::Sys::FileTest/"w"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 x
+
+  static method x : int ($file : string);
+
+The alias for the L<x|SPVM::Sys::FileTest/"x"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head3 z
+
+  static method z : int ($file : string);
+
+The alias for the L<A|SPVM::Sys::FileTest/"z"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
+
+=head2 IO Control
+
+=head3 ioctl
+
+  static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
+
+The alias for the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class.
+
 =head1 Modules
 
 All modules included in this distribution.
@@ -159,194 +355,6 @@ All modules included in this distribution.
 =head3 L<Sys::User::Group|SPVM::Sys::User::Group>
 
 =head3 L<Sys::User::Passwd|SPVM::Sys::User::Passwd>
-
-=head1 Class Methods
-
-=head2 getenv
-
-  static method getenv : string ($name : string);
-
-The alias for the L<getenv|SPVM::Sys::Env/"getenv"> method in the L<Sys::Env|SPVM::Sys::Env> class.
-
-=head2 setenv
-
-  static method setenv : int ($name : string, $value : string, $overwrite : int);
-
-The alias for the L<setenv|SPVM::Sys::Env/"setenv"> method in the L<Sys::Env|SPVM::Sys::Env> class.
-
-=head2 unsetenv
-
-  static method unsetenv : int ($name : string);
-
-The alias for the L<unsetenv|SPVM::Sys::Env/"unsetenv"> method in the L<Sys::Env|SPVM::Sys::Env> class.
-
-=head2 defined
-
-  static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double);
-
-The alias for the L<defined|SPVM::Sys::OS/"defined"> method in the L<Sys::OS|SPVM::Sys::OS> class.
-
-=head2 get_osname
-
-  static method get_osname : string ()
-
-The alias for the L<get_osname|SPVM::Sys::OS/"get_osname"> method in the L<Sys::OS|SPVM::Sys::OS> class.
-
-=head2 is_windows
-
-  static method is_windows : int ();
-
-The alias for the L<is_windows|SPVM::Sys::OS/"is_windows"> method in the L<Sys::OS|SPVM::Sys::OS> class.
-
-=head2 A
-
-  static method A : double ($file : string);
-
-The alias for the L<A|SPVM::Sys::FileTest/"A"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 C
-
-  static method C : double ($file : string);
-
-The alias for the L<C|SPVM::Sys::FileTest/"C"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 M
-
-  static method M : double ($file : string);
-
-The alias for the L<M|SPVM::Sys::FileTest/"M"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 O
-
-  static method O : int ($file : string);
-
-The alias for the L<O|SPVM::Sys::FileTest/"O"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 R
-
-  static method R : int ($file : string);
-
-The alias for the L<R|SPVM::Sys::FileTest/"R"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 S
-
-  static method S : int ($file : string);
-
-The alias for the L<S|SPVM::Sys::FileTest/"S"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 W
-
-  static method W : int ($file : string);
-
-The alias for the L<W|SPVM::Sys::FileTest/"W"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 X
-
-  static method X : int ($file : string);
-
-The alias for the L<X|SPVM::Sys::FileTest/"X"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 b
-
-  static method b : int ($file : string);
-
-The alias for the L<b|SPVM::Sys::FileTest/"b"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 c
-
-  static method c : int ($file : string);
-
-The alias for the L<c|SPVM::Sys::FileTest/"c"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 d
-
-  static method d : int ($file : string);
-
-The alias for the L<d|SPVM::Sys::FileTest/"d"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 e
-
-  static method e : int ($file : string);
-
-The alias for the L<e|SPVM::Sys::FileTest/"e"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 f
-
-  static method f : int ($file : string);
-
-The alias for the L<f|SPVM::Sys::FileTest/"f"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 g
-
-  static method g : int ($file : string);
-
-The alias for the L<g|SPVM::Sys::FileTest/"g"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 k
-
-  static method k : int ($file : string);
-
-The alias for the L<k|SPVM::Sys::FileTest/"k"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 l
-
-  static method l : int ($file : string);
-
-The alias for the L<l|SPVM::Sys::FileTest/"l"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 o
-
-  static method o : int ($file : string);
-
-The alias for the L<o|SPVM::Sys::FileTest/"o"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 p
-
-  static method p : int ($file : string);
-
-The alias for the L<p|SPVM::Sys::FileTest/"p"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 r
-
-  static method r : int ($file : string);
-
-The alias for the L<r|SPVM::Sys::FileTest/"r"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 s
-
-  static method s : long ($file : string);
-
-The alias for the L<s|SPVM::Sys::FileTest/"s"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 u
-
-  static method u : int ($file : string);
-
-The alias for the L<u|SPVM::Sys::FileTest/"u"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 w
-
-  static method w : int ($file : string);
-
-The alias for the L<w|SPVM::Sys::FileTest/"w"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 x
-
-  static method x : int ($file : string);
-
-The alias for the L<x|SPVM::Sys::FileTest/x"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 z
-
-  static method z : int ($file : string);
-
-The alias for the L<A|SPVM::Sys::FileTest/z"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
-
-=head2 ioctl
-
-  static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
-
-The alias for the L<ioctl|SPVM::Sys::FileTest/ioctl"> method in the L<Sys::FileTest|SPVM::Sys::FileTest> class.
 
 =head1 Author
 
