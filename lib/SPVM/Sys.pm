@@ -450,9 +450,115 @@ The alias for the L<execv|SPVM::Sys::Process/"execv"> method in the L<Process|SP
 
   static method stat : Sys::IO::Stat ($path : string);
 
+The alias for the L<statp|SPVM::Sys::IO::Stat/"statp"> method in the L<IO::Stat|SPVM::IO::Stat> class.
+
 =head3 lstat
 
   static method lstat : Sys::IO::Stat ($path : string);
+
+The alias for the L<lstatp|SPVM::Sys::IO::Stat/"lstatp"> method in the L<IO::Stat|SPVM::IO::Stat> class.
+
+=head3 mkdir
+
+  static method mkdir : int ($path : string, $mode : int) {
+
+The alias for the L<mkdir|SPVM::Sys::IO/"mkdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 umask
+
+  static method umask : int ($mode : int) {
+
+The alias for the L<umask|SPVM::Sys::IO/"umask"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 rmdir
+
+  static method rmdir : int ($path : string) {
+
+The alias for the L<rmdir|SPVM::Sys::IO/"rmdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 unlink
+
+  static method unlink : int ($pathname : string) {
+
+The alias for the L<unlink|SPVM::Sys::IO/"unlink"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 rename
+
+  static method rename : int ($oldpath : string, $newpath : string) {
+
+The alias for the L<rename|SPVM::Sys::IO/"rename"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 chdir
+
+  static method chdir : int ($path : string) {
+
+The alias for the L<chdir|SPVM::Sys::IO/"chdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 chmod
+
+  static method chmod : int ($mode :int, $path : string) {
+
+The alias for the L<chmodp|SPVM::Sys::IO/"chmodp"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 chown
+
+  static method chown : int ($owner : int, $group : int, $path : string) {
+
+The alias for the L<chownp|SPVM::Sys::IO/"chownp"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 symlink
+
+  static method symlink : int ($oldpath : string, $newpath : string) {
+
+The alias for the L<symlink|SPVM::Sys::IO/"symlink"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 readlink
+
+  static method readlink : int ($file : string) {
+
+The alias for the L<readlinkp|SPVM::Sys::IO/"readlinkp"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 opendir
+
+  static method opendir : Sys::IO::DirStream ($dir : string) {
+
+The alias for the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 closedir
+
+  static method closedir : int ($dirp : Sys::IO::DirStream) {
+
+The alias for the L<closedir|SPVM::Sys::IO/"closedir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 readdir
+
+  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
+
+The alias for the L<readdir|SPVM::Sys::IO/"readdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 rewinddir
+
+  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
+
+The alias for the L<rewinddir|SPVM::Sys::IO/"rewinddir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 telldir
+
+  static method telldir : long ($dirp : Sys::IO::DirStream) {
+
+The alias for the L<telldir|SPVM::Sys::IO/"telldir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 seekdir
+
+  static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long) {
+
+The alias for the L<seekdir|SPVM::Sys::IO/"seekdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head3 utime
+
+  static method utime : int ($atime : long, $mtime : long, $filename : string) {
+
+The alias for the L<utime|SPVM::Sys::IO/"utime"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head1 Modules
 

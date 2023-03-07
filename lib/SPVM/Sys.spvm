@@ -286,4 +286,72 @@ class Sys {
   static method lstat : Sys::IO::Stat ($path : string) {
     return Sys::IO::Stat->lstatp($path);
   }
+
+  static method mkdir : int ($path : string, $mode : int) {
+    return Sys::IO->mkdir($path, $mode);
+  }
+  
+  static method umask : int ($mode : int) {
+    return Sys::IO->umask($mode);
+  }
+  
+  static method rmdir : int ($path : string) {
+    return Sys::IO->rmdir($path);
+  }
+  
+  static method unlink : int ($pathname : string) {
+    return Sys::IO->unlink($pathname);
+  }
+  
+  static method rename : int ($oldpath : string, $newpath : string) {
+    return Sys::IO->rename($oldpath, $newpath);
+  }
+
+  static method chdir : int ($path : string) {
+    return Sys::IO->chdir($path);
+  }
+  
+  static method chmod : int ($mode :int, $path : string) {
+    return Sys::IO->chmodp($mode, $path);
+  }
+  
+  static method chown : int ($owner : int, $group : int, $path : string) {
+    return Sys::IO->chownp($owner, $group, $path);
+  }
+  
+  static method symlink : int ($oldpath : string, $newpath : string) {
+    return Sys::IO->symlink($oldpath, $newpath);
+  }
+  
+  static method readlink : string ($file : string) {
+    return Sys::IO->readlinkp($file);
+  }
+  
+  static method opendir : Sys::IO::DirStream ($dir : string) {
+    return Sys::IO->opendir($dir);
+  }
+  
+  static method closedir : int ($dirp : Sys::IO::DirStream) {
+    return Sys::IO->closedir($dirp);
+  }
+  
+  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
+    return Sys::IO->readdir($dirp);
+  }
+  
+  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
+    Sys::IO->rewinddir($dirp);
+  }
+  
+  static method telldir : long ($dirp : Sys::IO::DirStream) {
+    return Sys::IO->telldir($dirp);
+  }
+  
+  static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long) {
+    Sys::IO->seekdir($dirp, $offset);
+  }
+  
+  static method utime : int ($atime : long, $mtime : long, $filename : string) {
+    return Sys::IO->utimep($atime, $mtime, $filename);
+  }
 }

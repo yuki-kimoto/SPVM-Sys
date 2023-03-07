@@ -88,7 +88,15 @@ class Sys::IO {
   
   native static method chmod : int ($path : string, $mode :int);
   
+  static method chmodp : int ($mode :int, $path : string) {
+    return &chmod($path, $mode);
+  }
+  
   native static method chown : int ($path : string, $owner : int, $group : int);
+  
+  static method chownp : int ($owner : int, $group : int, $path : string) {
+    return &chown($path, $owner, $group);
+  }
   
   native static method truncate : int ($path : string, $length : long);
   
@@ -126,6 +134,14 @@ class Sys::IO {
   native static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long);
   
   native static method utime : int ($filename : string, $times : Sys::IO::Utimbuf);
+  
+  static method utimep : int ($atime : long, $mtime : long, $filename : string) {
+    my $times = Sys::IO::Utimbuf->new;
+    $times->set_actime($atime);
+    $times->set_modtime($mtime);
+    
+    return &utime($filename, $times);
+  } 
   
   native static method access_raw : int ($pathname : string, $mode : int);
   

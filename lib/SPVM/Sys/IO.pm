@@ -298,6 +298,10 @@ See the L<chmod|https://linux.die.net/man/2/chmod> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
 
+=head2 chmodp
+
+
+
 =head2 chown
 
   static method chown : int ($path : string, $owner : int, $group : int);

@@ -119,6 +119,40 @@
       static method stat : Sys::IO::Stat ($path : string);
       static method lstat : Sys::IO::Stat ($path : string);
 
+      static method mkdir : int ($path : string, $mode : int);
+
+      static method umask : int ($mode : int);
+
+      static method rmdir : int ($path : string);
+
+      static method unlink : int ($pathname : string);
+
+      static method rename : int ($oldpath : string, $newpath : string);
+
+      static method chdir : int ($path : string);
+
+      static method chmod : int ($mode :int, $path : string);
+
+      static method chown : int ($owner : int, $group : int, $path : string);
+
+      static method symlink : int ($oldpath : string, $newpath : string);
+
+      static method readlink : int ($file : string);
+
+      static method opendir : Sys::IO::DirStream ($dir : string);
+
+      static method closedir : int ($dirp : Sys::IO::DirStream);
+
+      static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream);
+
+      static method rewinddir : void ($dirp : Sys::IO::DirStream);
+
+      static method telldir : long ($dirp : Sys::IO::DirStream);
+
+      static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long);
+
+      static method utime : int ($atime : long, $mtime : long, $filename : string);
+
     * Added the Sys::OS class.
     * Added the Sys::Env class.
 0.42 2022-02-21
