@@ -28,129 +28,41 @@ This distribution contains many modules for system calls such as L<Sys::IO|SPVM:
 
   static method getenv : string ($name : string);
 
-The getenv() function searches the environment list to find the environment variable name, and returns a pointer to the corresponding value string.
-
-See the detail of the L<getenv|https://linux.die.net/man/3/getenv> function in the case of Linux.
+The alias for L<Sys::Env->getenv|Sys::Env/"getenv">.
 
 =head2 setenv
 
   static method setenv : int ($name : string, $value : string, $overwrite : int);
 
-The setenv() function adds the variable name to the environment with the value value, if name does not already exist. If name does exist in the environment, then its value is changed to value if overwrite is nonzero; if overwrite is zero, then the value of name is not changed. This function makes copies of the strings pointed to by name and value (by contrast with putenv(3)).
-
-See the detail of the L<setenv|https://linux.die.net/man/3/setenv> function in the case of Linux.
+The alias for L<Sys::Env->setenv|Sys::Env/"setenv">.
 
 =head2 unsetenv
 
   static method unsetenv : int ($name : string);
 
-The unsetenv() function deletes the variable name from the environment. If name does not exist in the environment, then the function succeeds, and the environment is unchanged.
-
-See the detail of the L<unsetenv|https://linux.die.net/man/3/unsetenv> function in the case of Linux.
+The alias for L<Sys::Env->unsetenv|Sys::Env/"unsetenv">.
 
 =head2 defined
 
   static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double);
 
-Checks if the macro in C<C langauge> is defined. If the macro is defined, returns C<1>. Otherwise returns C<0>.
-
-If C<$value> is specifed and C<$macro_name> is defined, the macro value converted to the given type is set to C<$value>.
-
-Supports the following macro names.
-
-=over 2
-
-=item * __GNUC__
-
-=item * __clang__
-
-=item * __BORLANDC__
-
-=item * __INTEL_COMPILER
-
-=item * __unix
-
-=item * __unix__
-
-=item * __linux
-
-=item * __linux__
-
-=item * __FreeBSD__
-
-=item * __NetBSD__
-
-=item * __OpenBSD__
-
-=item * _WIN32
-
-=item * WIN32
-
-=item * _WIN64
-
-=item * _WINDOWS
-
-=item * _CONSOLE
-
-=item * WINVER
-
-=item * _WIN32_WINDOWS
-
-=item * _WIN32_WINNT
-
-=item * WINCEOSVER
-
-=item * __CYGWIN__
-
-=item * __CYGWIN32__
-
-=item * __MINGW32__
-
-=item * __MINGW64__
-
-=item * __APPLE__
-
-=item * __MACH__
-
-=item * __sun
-
-=item * __solaris
-
-=back
+The alias for L<Sys::OS->defined|Sys::OS/"defined">.
 
 =head2 get_osname
 
   static method get_osname : string ()
 
-Gets the OS name(Perl's L<$^O|https://perldoc.perl.org/perlvar#$%5EO> ). The list of the OS names are described at L<PLATFORMS - perlport|https://perldoc.perl.org/perlport#PLATFORMS>.
-
-The C<get_osname> in the C<Sys> class supports the following os names.
-
-=over 2
-
-=item * linux
-
-=item * darwin
-
-=item * MSWin32
-
-=item * freebsd
-
-=item * openbsd
-
-=item * solaris
-
-=back
+The alias for L<Sys::OS->get_osname|Sys::OS/"get_osname">.
 
 =head2 is_windows
 
   static method is_windows : int ();
 
-If the OS is C<Windows>, returns C<1>, otherwise returns C<0>.
+The alias for L<Sys::OS->is_windows|Sys::OS/"is_windows">.
 
 =head1 Modules
 
-All modules that is included in this distribution.
+All modules included in this distribution.
 
 =over 2
 
