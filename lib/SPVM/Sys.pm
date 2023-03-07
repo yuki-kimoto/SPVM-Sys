@@ -366,6 +366,84 @@ The alias for the L<localtime|SPVM::Time/"localtime"> method in the L<Time|SPVM:
 
 The alias for the L<gmtime|SPVM::Time/"gmtime"> method in the L<Time|SPVM::Time> class.
 
+=head3 getpriority
+
+  static method getpriority : int ($which : int, $who : int);
+
+The alias for the L<getpriority|SPVM::Sys::Process/"getpriority"> method in the L<Process|SPVM::Process> class.
+
+=head3 setpriority
+
+  static method setpriority : int ($which : int, $who : int, $prio : int);
+
+The alias for the L<setpriority|SPVM::Sys::Process/"setpriority"> method in the L<Process|SPVM::Process> class.
+
+=head3 sleep
+
+  static method sleep : int ($seconds : int);
+
+The alias for the L<sleep|SPVM::Sys::Process/"sleep"> method in the L<Process|SPVM::Process> class.
+
+=head3 
+
+  static method wait : int ($wstatus_ref : int*);
+
+The alias for the L<wait|SPVM::Sys::Process/"wait"> method in the L<Process|SPVM::Process> class.
+
+=head3 waitpid
+
+  static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int);
+
+The alias for the L<waitpid|SPVM::Sys::Process/"waitpid"> method in the L<Process|SPVM::Process> class.
+
+=head3 system
+
+  static method system : int ($command : string);
+
+The alias for the L<system|SPVM::Sys::Process/"system"> method in the L<Process|SPVM::Process> class.
+
+=head3 exit
+
+  static method exit : int ($status : int);
+
+The alias for the L<exit|SPVM::Sys::Process/"exit"> method in the L<Process|SPVM::Process> class.
+
+=head3 pipe
+
+  static method pipe : int ($pipe_fds : int[]);
+
+The alias for the L<pipe|SPVM::Sys::Process/"pipe"> method in the L<Process|SPVM::Process> class.
+
+=head3 getpgid
+
+  static method getpgid : int ($pid : int);
+
+The alias for the L<getpgid|SPVM::Sys::Process/"getpgid"> method in the L<Process|SPVM::Process> class.
+
+=head3 setpgid
+
+  static method setpgid : int ($pid : int, $pgid : int);
+
+The alias for the L<setpgid|SPVM::Sys::Process/"setpgid"> method in the L<Process|SPVM::Process> class.
+
+=head3 getpid
+
+  static method getpid : int ();
+
+The alias for the L<getpid|SPVM::Sys::Process/"getpid"> method in the L<Process|SPVM::Process> class.
+
+=head3 getppid
+
+  static method getppid : int ();
+
+The alias for the L<getppid|SPVM::Sys::Process/"getppid"> method in the L<Process|SPVM::Process> class.
+
+=head3 exec
+
+  static method exec : int ($path : string, $args : string[]);
+
+The alias for the L<execv|SPVM::Sys::Process/"execv"> method in the L<Process|SPVM::Process> class.
+
 =head1 Modules
 
 All modules included in this distribution.
