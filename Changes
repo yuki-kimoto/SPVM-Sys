@@ -116,6 +116,9 @@
       static method getppid : int ();
       static method exec : int ($path : string, $args : string[]);
 
+      static method stat : Sys::IO::Stat ($path : string);
+      static method lstat : Sys::IO::Stat ($path : string);
+
     * Added the Sys::OS class.
     * Added the Sys::Env class.
 0.42 2022-02-21

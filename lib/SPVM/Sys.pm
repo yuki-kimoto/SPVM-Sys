@@ -444,6 +444,16 @@ The alias for the L<getppid|SPVM::Sys::Process/"getppid"> method in the L<Proces
 
 The alias for the L<execv|SPVM::Sys::Process/"execv"> method in the L<Process|SPVM::Process> class.
 
+=head2 IO
+
+=head3 stat
+
+  static method stat : Sys::IO::Stat ($path : string);
+
+=head3 lstat
+
+  static method lstat : Sys::IO::Stat ($path : string);
+
 =head1 Modules
 
 All modules included in this distribution.
