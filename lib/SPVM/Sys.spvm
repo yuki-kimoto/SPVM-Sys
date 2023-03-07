@@ -4,6 +4,8 @@ class Sys {
   use Sys::FileTest;
   use Sys::Ioctl;
   use Sys::User;
+  use Sys::Time;
+  use Time;
   
   static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double) {
     if (items == 2) {
@@ -205,5 +207,21 @@ class Sys {
   }
   static method getgrnam : Sys::User::Group ($name : string) {
     return Sys::User->getgrnam($name);
+  }
+  
+  static method times : Sys::Time::Tms () {
+    return Sys::Time->timesp();
+  }
+  
+  static method time : long () {
+    return Time->time();
+  }
+  
+  static method localtime : Time::Info ($time : long) {
+    return Time->localtime($time);
+  }
+  
+  static method gmtime : Time::Info ($time : long) {
+    return Time->gmtime($time);
   }
 }

@@ -82,6 +82,18 @@ times() stores the current process times in the struct tms that buf points to. T
 
 See the detail of the L<times|https://linux.die.net/man/2/times> function in the case of Linux.
 
+=head2 timesp
+
+  static method timesp : Sys::Time::Tms ();
+
+The same as the following method using the L</"times"> method.
+
+  static method timesp : Sys::Time::Tms () {
+    my $tms = Sys::Time::Tms->new;
+    &times($tms);
+    return $tms;
+  }
+
 =head2 clock_nanosleep
 
   static method clock_nanosleep : int ($clockid : int, $flags : int, $request : Sys::Time::Timespec, $remain : Sys::Time::Timespec);
