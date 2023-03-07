@@ -2,7 +2,58 @@
   [New Features]
     * Added the following methods in the Sys class.
       
-      native static method is_windows : int ();
+      static method is_windows : int ();
+
+      static method A : double ($file : string);
+
+      static method C : double ($file : string);
+
+      static method M : double ($file : string);
+
+      static method O : int ($file : string);
+
+      static method R : int ($file : string);
+
+      static method S : int ($file : string);
+
+      static method W : int ($file : string);
+
+      static method X : int ($file : string);
+
+      static method b : int ($file : string);
+
+      static method c : int ($file : string);
+
+      static method d : int ($file : string);
+
+      static method e : int ($file : string);
+
+      static method f : int ($file : string);
+
+      static method g : int ($file : string);
+
+      static method k : int ($file : string);
+
+      static method l : int ($file : string);
+
+      static method o : int ($file : string);
+
+      static method p : int ($file : string);
+
+      static method r : int ($file : string);
+
+      static method s : long ($file : string);
+
+      static method u : int ($file : string);
+
+      static method w : int ($file : string);
+
+      static method x : int ($file : string);
+
+      static method z : int ($file : string);
+      
+      static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
+
     * Added the Sys::OS class.
     * Added the Sys::Env class.
 0.42 2022-02-21

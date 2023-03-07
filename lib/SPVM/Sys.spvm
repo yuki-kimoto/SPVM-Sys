@@ -2,6 +2,7 @@ class Sys {
   use Sys::OS;
   use Sys::Env;
   use Sys::FileTest;
+  use Sys::Ioctl;
   
   static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double) {
     if (items == 2) {
@@ -126,5 +127,14 @@ class Sys {
   
   static method z : int ($file : string) {
     return Sys::FileTest->z($file);
+  }
+
+  static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object) {
+    if (items == 3) {
+      return Sys::Ioctl->ioctl($fd, $request, $request_arg);
+    }
+    else {
+      return Sys::Ioctl->ioctl($fd, $request);
+    }
   }
 }
