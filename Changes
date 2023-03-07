@@ -54,6 +54,47 @@
       
       static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
 
+    static method getuid : int (;
+
+    static method geteuid : int (;
+
+    static method getgid : int (;
+
+    static method getegid : int (;
+
+    static method setuid : int ($uid : int;
+
+    static method seteuid : int ($euid : int;
+
+    static method setgid : int ($gid : int;
+
+    static method setegid : int ($egid : int;
+
+    static method setpwent : void (;
+
+    static method endpwent : void (;
+
+    static method getpwent : Sys::User::Passwd (;
+
+    static method setgrent : void (;
+
+    static method endgrent : void (;
+
+    static method getgrent : Sys::User::Group (;
+
+    static method getgroups : int[] (;
+
+    static method setgroups : int ($groups : int[];
+
+    static method getpwuid : Sys::User::Passwd ($id : int;
+
+    static method getpwnam : Sys::User::Passwd ($name : string;
+
+    static method getgrgid : Sys::User::Group ($id : int;
+
+    static method getgrnam : Sys::User::Group ($name : string;
+
+
     * Added the Sys::OS class.
     * Added the Sys::Env class.
 0.42 2022-02-21

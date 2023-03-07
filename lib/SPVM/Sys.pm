@@ -218,6 +218,128 @@ The alias for the L<A|SPVM::Sys::FileTest/"z"> method in the L<Sys::FileTest|SPV
 
 The alias for the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class.
 
+=head2 User
+
+=head3 getuid
+
+  static method getuid : int () {
+
+The alias for the L<getuid|SPVM::Sys::User/"getuid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 geteuid
+
+  static method geteuid : int () {
+
+The alias for the L<geteuid|SPVM::Sys::User/"geteuid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 getgid
+
+  static method getgid : int () {
+
+The alias for the L<getgid|SPVM::Sys::User/"getgid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 getegid
+
+  static method getegid : int () {
+
+The alias for the L<getegid|SPVM::Sys::User/"getegid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 setuid
+
+  static method setuid : int ($uid : int) {
+
+The alias for the L<setuid|SPVM::Sys::User/"setuid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 seteuid
+
+  static method seteuid : int ($euid : int) {
+
+The alias for the L<seteuid|SPVM::Sys::User/"seteuid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 setgid
+
+  static method setgid : int ($gid : int) {
+
+The alias for the L<setgid|SPVM::Sys::User/"setgid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 setegid
+
+  static method setegid : int ($egid : int) {
+
+The alias for the L< setegid|SPVM::Sys::User/"setegid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 setpwent
+
+  static method setpwent : void () {
+
+The alias for the L<setpwent|SPVM::Sys::User/"setpwent"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 endpwent
+
+  static method endpwent : void () {
+
+The alias for the L<endpwent|SPVM::Sys::User/"endpwent"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 getpwent
+
+  static method getpwent : Sys::User::Passwd () {
+
+The alias for the L<getpwent|SPVM::Sys::User/"getpwent"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 setgrent
+
+  static method setgrent : void () {
+
+The alias for the L<setgrent|SPVM::Sys::User/"setgrent"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 endgrent
+
+  static method endgrent : void () {
+
+The alias for the L<endgrent|SPVM::Sys::User/"endgrent"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 getgrent
+
+  static method getgrent : Sys::User::Group () {
+
+The alias for the L<getuid|SPVM::Sys::User/"getgrent"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 getgroups
+
+  static method getgroups : int[] () {
+
+The alias for the L<getgroups|SPVM::Sys::User/"getgroups"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 setgroups
+
+  static method setgroups : int ($groups : int[]) {
+
+The alias for the L<setgroups|SPVM::Sys::User/"setgroups"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 getpwuid
+
+  static method getpwuid : Sys::User::Passwd ($id : int) {
+
+The alias for the L<getpwuid|SPVM::Sys::User/"getpwuid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 getpwnam
+
+  static method getpwnam : Sys::User::Passwd ($name : string) {
+
+The alias for the L<getpwnam|SPVM::Sys::User/"getpwnam"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 getgrgid
+
+  static method getgrgid : Sys::User::Group ($id : int) {
+
+The alias for the L<getgrgid|SPVM::Sys::User/"getgrgid"> method in the L<Sys::User|SPVM::Sys::User> class.
+
+=head3 getgrnam
+
+  static method getgrnam : Sys::User::Group ($name : string) {
+
+The alias for the L<getgrnam|SPVM::Sys::User/"getgrnam"> method in the L<Sys::User|SPVM::Sys::User> class.
+
 =head1 Modules
 
 All modules included in this distribution.

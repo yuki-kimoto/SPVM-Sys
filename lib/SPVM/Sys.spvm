@@ -3,6 +3,7 @@ class Sys {
   use Sys::Env;
   use Sys::FileTest;
   use Sys::Ioctl;
+  use Sys::User;
   
   static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double) {
     if (items == 2) {
@@ -136,5 +137,73 @@ class Sys {
     else {
       return Sys::Ioctl->ioctl($fd, $request);
     }
+  }
+
+  static method getuid : int () {
+    return Sys::User->getuid();
+  }
+  
+  static method geteuid : int () {
+    return Sys::User->geteuid();
+  }
+  static method getgid : int () {
+    return Sys::User->getgid();
+  }
+  static method getegid : int () {
+    return Sys::User->getegid();
+  }
+  
+  static method setuid : int ($uid : int) {
+    return Sys::User->setuid($uid);
+  }
+  static method seteuid : int ($euid : int) {
+    return Sys::User->seteuid($euid);
+  }
+  static method setgid : int ($gid : int) {
+    return Sys::User-> setgid($gid);
+  }
+  static method setegid : int ($egid : int) {
+    return Sys::User->setegid($egid);
+  }
+  
+  static method setpwent : void () {
+    Sys::User->setpwent();
+  }
+  static method endpwent : void () {
+    Sys::User->endpwent();
+  }
+  static method getpwent : Sys::User::Passwd () {
+    return Sys::User->getpwent();
+  }
+  
+  static method setgrent : void () {
+    Sys::User->setgrent();
+  }
+  static method endgrent : void () {
+    Sys::User->endgrent();
+  }
+  static method getgrent : Sys::User::Group () {
+    return Sys::User->getgrent();
+  }
+  
+  static method getgroups : int[] () {
+    return Sys::User->getgroups();
+  }
+  static method setgroups : int ($groups : int[]) {
+    return Sys::User->setgroups($groups);
+  }
+
+  static method getpwuid : Sys::User::Passwd ($id : int) {
+    return Sys::User->getpwuid($id);
+  }
+  static method getpwnam : Sys::User::Passwd ($name : string) {
+    return Sys::User->getpwnam($name);
+  }
+
+  static method getgrgid : Sys::User::Group ($id : int) {
+    return Sys::User->getgrgid($id);
+  }
+  static method getgrnam : Sys::User::Group ($name : string) {
+    return Sys::User->getgrnam($name);
   }
 }
