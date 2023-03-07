@@ -1,6 +1,7 @@
 class Sys {
   use Sys::OS;
   use Sys::Env;
+  use Sys::FileTest;
   
   static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double) {
     if (items == 2) {
@@ -29,5 +30,101 @@ class Sys {
   
   static method unsetenv : int ($name : string) {
     return Sys::Env->unsetenv($name);
+  }
+  
+  static method A : double ($file : string) {
+    return Sys::FileTest->A($file);
+  }
+  
+  static method C : double ($file : string) {
+    return Sys::FileTest->C($file);
+  }
+  
+  static method M : double ($file : string) {
+    return Sys::FileTest->M($file);
+  }
+  
+  static method O : int ($file : string) {
+    return Sys::FileTest->O($file);
+  }
+  
+  static method R : int ($file : string) {
+    return Sys::FileTest->R($file);
+  }
+  
+  static method S : int ($file : string) {
+    return Sys::FileTest->S($file);
+  }
+  
+  static method W : int ($file : string) {
+    return Sys::FileTest->W($file);
+  }
+  
+  static method X : int ($file : string) {
+    return Sys::FileTest->X($file);
+  }
+  
+  static method b : int ($file : string) {
+    return Sys::FileTest->b($file);
+  }
+  
+  static method c : int ($file : string) {
+    return Sys::FileTest->c($file);
+  }
+  
+  static method d : int ($file : string) {
+    return Sys::FileTest->d($file);
+  }
+  
+  static method e : int ($file : string) {
+    return Sys::FileTest->e($file);
+  }
+  
+  static method f : int ($file : string) {
+    return Sys::FileTest->f($file);
+  }
+  
+  static method g : int ($file : string) {
+    return Sys::FileTest->g($file);
+  }
+  
+  static method k : int ($file : string) {
+    return Sys::FileTest->k($file);
+  }
+  
+  static method l : int ($file : string) {
+    return Sys::FileTest->l($file);
+  }
+  
+  static method o : int ($file : string) {
+    return Sys::FileTest->o($file);
+  }
+  
+  static method p : int ($file : string) {
+    return Sys::FileTest->p($file);
+  }
+  
+  static method r : int ($file : string) {
+    return Sys::FileTest->r($file);
+  }
+  
+  static method s : long ($file : string) {
+    return Sys::FileTest->s($file);
+  }
+  
+  static method u : int ($file : string) {
+    return Sys::FileTest->u($file);
+  }
+  
+  static method w : int ($file : string) {
+    return Sys::FileTest->w($file);
+  }
+  
+  static method x : int ($file : string) {
+    return Sys::FileTest->x($file);
+  }
+  
+  static method z : int ($file : string) {
+    return Sys::FileTest->z($file);
   }
 }
