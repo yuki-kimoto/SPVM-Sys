@@ -50,6 +50,10 @@ lib/SPVM/Sys/IO/Utimbuf.c
 lib/SPVM/Sys/IO/Utimbuf.config
 lib/SPVM/Sys/IO/Utimbuf.pm
 lib/SPVM/Sys/IO/Utimbuf.spvm
+lib/SPVM/Sys/IO/Windows.c
+lib/SPVM/Sys/IO/Windows.config
+lib/SPVM/Sys/IO/Windows.pm
+lib/SPVM/Sys/IO/Windows.spvm
 lib/SPVM/Sys/Ioctl.c
 lib/SPVM/Sys/Ioctl.config
 lib/SPVM/Sys/Ioctl.pm
