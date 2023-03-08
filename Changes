@@ -1,4 +1,6 @@
 0.43 2022-03-07
+  [Incompatible Changes]
+    * Removed the fstat nad fstat_raw method in the Sys::IO::Stat class because Perl doesn't support these methods and its tests failed.
   [New Features]
     * Added the following methods in the Sys class.
       

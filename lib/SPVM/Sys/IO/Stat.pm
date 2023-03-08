@@ -73,22 +73,6 @@ See the L<lstat|https://linux.die.net/man/2/lstat> function in Linux.
 
 The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
-=head2 fstat_raw
-
-  static method fstat_raw : int ($fd : int, $stat : Sys::IO::Stat);
-
-The same as L</"fstat">, but even if the return value is C<-1>, an exception will not be thrown.
-
-=head2 fstat
-
-  static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
-
-fstat() is identical to stat(), except that the file to be stat-ed is specified by the file descriptor fd.
-
-See L<fstat(2) - Linux man page|https://linux.die.net/man/2/fsync> in Linux.
-
-The C<$stat> is a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
-
 =head1 Instance Methods
 
 =head2 DESTROY
