@@ -1,3 +1,4 @@
 class Sys::IO::Windows {
-  static method unlink ($pathname : string);
+  native static method is_symlink : int ($path : string);
+  native static method unlink : int ($pathname : string);
 }

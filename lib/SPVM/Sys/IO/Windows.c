@@ -80,7 +80,24 @@ is_symlink_name(const char *name) {
     return result;
 }
 
-int32_t SPVM__Sys__IO__Windows__unlink(const char *filename) {
+int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t success = is_symlink_name(path);
+  
+  stack[0].ival = success;
+  
+  return 0;
+}
+
+static int
+win32_unlink(const char *filename) {
     int ret;
     DWORD attrs;
     
@@ -103,5 +120,22 @@ int32_t SPVM__Sys__IO__Windows__unlink(const char *filename) {
     else {
         ret = unlink(filename);
     }
+    
     return ret;
+}
+
+int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t status = win32_unlink(path);
+  
+  stack[0].ival = status;
+  
+  return 0;
 }
