@@ -19,6 +19,9 @@ int32_t SPVM__Sys__IO__Windows__foo(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 // These implementations are originally copied form Perl win32/win32.c
 
+#define PerlDir_mapA(file) file
+#define dTHX 
+
 typedef struct {
     USHORT SubstituteNameOffset;
     USHORT SubstituteNameLength;
@@ -102,10 +105,13 @@ int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 static int
-win32_unlink(const char *filename) {
+win32_unlink(const char *filename)
+{
+    dTHX;
     int ret;
     DWORD attrs;
-    
+
+    filename = PerlDir_mapA(filename);
     attrs = GetFileAttributesA(filename);
     if (attrs == 0xFFFFFFFF) {
         errno = ENOENT;
@@ -125,7 +131,6 @@ win32_unlink(const char *filename) {
     else {
         ret = unlink(filename);
     }
-    
     return ret;
 }
 
@@ -151,12 +156,13 @@ win32_rename(const char *oname, const char *newname)
     char szOldName[MAX_PATH+1];
     BOOL bResult;
     DWORD dwFlags = MOVEFILE_COPY_ALLOWED;
+    dTHX;
 
     if (stricmp(newname, oname))
         dwFlags |= MOVEFILE_REPLACE_EXISTING;
-    strcpy(szOldName, oname);
+    strcpy(szOldName, PerlDir_mapA(oname));
 
-    bResult = MoveFileExA(szOldName, newname, dwFlags);
+    bResult = MoveFileExA(szOldName,PerlDir_mapA(newname), dwFlags);
     if (!bResult) {
         DWORD err = GetLastError();
         switch (err) {
@@ -205,3 +211,16 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
+
+typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
+
+#ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
+#  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
+#endif
+
+#ifndef SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
+#  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
+#endif
+
