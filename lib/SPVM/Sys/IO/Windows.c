@@ -1,5 +1,9 @@
 #include "spvm_native.h"
 
+static const char* FILE_NAME = "Sys/IO/Windows.c";
+
+#if defined(_WIN32)
+
 #include <unistd.h>
 #include <windows.h>
 #include <errno.h>
@@ -7,15 +11,6 @@
 #ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
 #  define EDQUOT		WSAEDQUOT
 #endif
-
-static const char* FILE_NAME = "Sys/IO/Windows.c";
-
-int32_t SPVM__Sys__IO__Windows__foo(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  return 0;
-}
 
 // These implementations are originally copied form Perl win32/win32.c
 
@@ -89,22 +84,6 @@ is_symlink_name(const char *name) {
     return result;
 }
 
-int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_path = stack[0].oval;
-  if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  int32_t success = is_symlink_name(path);
-  
-  stack[0].ival = success;
-  
-  return 0;
-}
-
 static int
 win32_unlink(const char *filename)
 {
@@ -133,22 +112,6 @@ win32_unlink(const char *filename)
         ret = unlink(filename);
     }
     return ret;
-}
-
-int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_path = stack[0].oval;
-  if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  int32_t status = win32_unlink(path);
-  
-  stack[0].ival = status;
-  
-  return 0;
 }
 
 static int
@@ -190,27 +153,6 @@ win32_rename(const char *oname, const char *newname)
         return -1;
     }
     return 0;
-}
-
-int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_oldpath = stack[0].oval;
-  if (!obj_oldpath) {
-    return env->die(env, stack, "The $oldpath must be defined", __func__, FILE_NAME, __LINE__);
-  }
-  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
-  
-  void* obj_newpath = stack[0].oval;
-  if (!obj_newpath) {
-    return env->die(env, stack, "The $newpath must be defined", __func__, FILE_NAME, __LINE__);
-  }
-  const char* newpath = env->get_chars(env, stack, obj_newpath);
-  
-  int32_t status = win32_rename(oldpath, newpath);
-  
-  stack[0].ival = status;
-  
-  return 0;
 }
 
 static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
@@ -377,7 +319,88 @@ win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
     return bytes_out;
 }
 
+#endif // _WIN32
+
+int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+#if defined(_WIN32)
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t success = is_symlink_name(path);
+  
+  stack[0].ival = success;
+  
+  return 0;
+
+#else
+
+  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+#if defined(_WIN32)
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t status = win32_unlink(path);
+  
+  stack[0].ival = status;
+  
+  return 0;
+
+#else
+
+  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#if defined(_WIN32)
+  void* obj_oldpath = stack[0].oval;
+  if (!obj_oldpath) {
+    return env->die(env, stack, "The $oldpath must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
+  
+  void* obj_newpath = stack[0].oval;
+  if (!obj_newpath) {
+    return env->die(env, stack, "The $newpath must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* newpath = env->get_chars(env, stack, obj_newpath);
+  
+  int32_t status = win32_rename(oldpath, newpath);
+  
+  stack[0].ival = status;
+  
+  return 0;
+
+#else
+
+  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+
+#endif
+
+}
+
 int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#if defined(_WIN32)
   int32_t e = 0;
   
   void* obj_path = stack[0].oval;
@@ -411,4 +434,11 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = placed_length;
   
   return 0;
+
+#else
+
+  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+
+#endif
+
 }
