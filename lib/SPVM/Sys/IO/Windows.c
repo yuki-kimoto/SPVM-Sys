@@ -21,6 +21,7 @@ int32_t SPVM__Sys__IO__Windows__foo(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #define PerlDir_mapA(file) file
 #define dTHX 
+#define bool BOOL
 
 typedef struct {
     USHORT SubstituteNameOffset;
@@ -224,3 +225,190 @@ typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
 #  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
 #endif
 
+static void
+translate_to_errno(void)
+{
+    /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
+       both permissions errors and if the source is a directory, while
+       POSIX wants EACCES and EPERM respectively.
+    */
+    switch (GetLastError()) {
+    case ERROR_BAD_NET_NAME:
+    case ERROR_BAD_NETPATH:
+    case ERROR_BAD_PATHNAME:
+    case ERROR_FILE_NOT_FOUND:
+    case ERROR_FILENAME_EXCED_RANGE:
+    case ERROR_INVALID_DRIVE:
+    case ERROR_PATH_NOT_FOUND:
+      errno = ENOENT;
+      break;
+    case ERROR_ALREADY_EXISTS:
+      errno = EEXIST;
+      break;
+    case ERROR_ACCESS_DENIED:
+      errno = EACCES;
+      break;
+    case ERROR_PRIVILEGE_NOT_HELD:
+      errno = EPERM;
+      break;
+    case ERROR_NOT_SAME_DEVICE:
+      errno = EXDEV;
+      break;
+    case ERROR_DISK_FULL:
+      errno = ENOSPC;
+      break;
+    case ERROR_NOT_ENOUGH_QUOTA:
+      errno = EDQUOT;
+      break;
+    default:
+      /* ERROR_INVALID_FUNCTION - eg. symlink on a FAT volume */
+      errno = EINVAL;
+      break;
+    }
+}
+
+static int
+do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
+    MY_REPARSE_DATA_BUFFER linkdata;
+    DWORD linkdata_returned;
+
+    if (is_symlink)
+        *is_symlink = FALSE;
+
+    if (!DeviceIoControl(hlink, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+        translate_to_errno();
+        return -1;
+    }
+
+    int bytes_out;
+    BOOL used_default;
+    switch (linkdata.ReparseTag) {
+    case IO_REPARSE_TAG_SYMLINK:
+        {
+            const MY_SYMLINK_REPARSE_BUFFER * const sd =
+                &linkdata.Data.SymbolicLinkReparseBuffer;
+            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
+                errno = EINVAL;
+                return -1;
+            }
+            bytes_out =
+                WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS,
+                                    sd->PathBuffer + sd->PrintNameOffset/2,
+                                    sd->PrintNameLength/2,
+                                    buf, (int)bufsiz, NULL, &used_default);
+            if (is_symlink)
+                *is_symlink = TRUE;
+        }
+        break;
+    case IO_REPARSE_TAG_MOUNT_POINT:
+        {
+            const MY_MOUNT_POINT_REPARSE_BUFFER * const rd =
+                &linkdata.Data.MountPointReparseBuffer;
+            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
+                errno = EINVAL;
+                return -1;
+            }
+            bytes_out =
+                WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS,
+                                    rd->PathBuffer + rd->PrintNameOffset/2,
+                                    rd->PrintNameLength/2,
+                                    buf, (int)bufsiz, NULL, &used_default);
+            if (is_symlink)
+                *is_symlink = TRUE;
+        }
+        break;
+
+    default:
+        errno = EINVAL;
+        return -1;
+    }
+
+    if (bytes_out == 0 || used_default) {
+        /* failed conversion from unicode to ANSI or otherwise failed */
+        errno = EINVAL;
+        return -1;
+    }
+
+    return bytes_out;
+}
+
+static int
+win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
+    if (pathname == NULL || buf == NULL) {
+        errno = EFAULT;
+        return -1;
+    }
+    if (bufsiz <= 0) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    DWORD fileattr = GetFileAttributes(pathname);
+    if (fileattr == INVALID_FILE_ATTRIBUTES) {
+        translate_to_errno();
+        return -1;
+    }
+
+    if (!(fileattr & FILE_ATTRIBUTE_REPARSE_POINT)) {
+        /* not a symbolic link */
+        errno = EINVAL;
+        return -1;
+    }
+
+    HANDLE hlink =
+        CreateFileA(pathname, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                    FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    if (hlink == INVALID_HANDLE_VALUE) {
+        translate_to_errno();
+        return -1;
+    }
+    int bytes_out = do_readlink_handle(hlink, buf, bufsiz, NULL);
+    CloseHandle(hlink);
+    if (bytes_out < 0) {
+        /* errno already set */
+        return -1;
+    }
+
+    if ((size_t)bytes_out > bufsiz) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    return bytes_out;
+}
+
+int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+  int32_t e = 0;
+  
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  void* obj_buf = stack[1].oval;
+  if (!obj_buf) {
+    return env->die(env, stack, "The $buf must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  char* buf = (char*)env->get_chars(env, stack, obj_buf);
+  int32_t buf_length = env->length(env, stack, obj_buf);
+  
+  int32_t bufsiz = stack[2].ival;
+  if (!(bufsiz >= 0)) {
+    return env->die(env, stack, "The $bufsiz must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+  }
+  if (!(bufsiz <= buf_length)) {
+    return env->die(env, stack, "The $bufsiz must be less than or equal to the length of the $buf", __func__, FILE_NAME, __LINE__);
+  }
+  
+  errno = 0;
+  int32_t placed_length = win32_readlink(path, buf, bufsiz);
+  if (placed_length == -1) {
+    env->die(env, stack, "[System Error]readlink failed:%s. The reading of the symbolic link of the \"%s\" file failed", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = placed_length;
+  
+  return 0;
+}
