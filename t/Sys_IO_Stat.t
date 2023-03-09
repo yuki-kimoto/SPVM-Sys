@@ -46,27 +46,27 @@ my $test_dir = "$FindBin::Bin";
 
   {
     my $file = "$test_dir/ftest/readline_long_lines.txt";
-    my $stat_info = SPVM::Sys::IO::Stat->new();
-    SPVM::Sys::IO::Stat->stat($file, $stat_info);
-    my $stat_info_expected = File::stat::stat($file);
+    my $stat = SPVM::Sys::IO::Stat->new();
+    SPVM::Sys::IO::Stat->stat($file, $stat);
+    my $stat_expected = File::stat::stat($file);
     use Data::Dumper;
-    warn Dumper $stat_info_expected;
+    warn Dumper $stat_expected;
     
-    is($stat_info->st_dev, $stat_info_expected->dev, "st_dev");
-    is($stat_info->st_ino, $stat_info_expected->ino, "st_ino");
-    is($stat_info->st_mode, $stat_info_expected->mode, "st_mode");
-    is($stat_info->st_nlink, $stat_info_expected->nlink, "st_nlink");
-    is($stat_info->st_uid, $stat_info_expected->uid, "uid");
-    is($stat_info->st_gid, $stat_info_expected->gid, "gid");
-    is($stat_info->st_rdev, $stat_info_expected->rdev, "rdev");
-    is($stat_info->st_size, $stat_info_expected->size, "size");
-    is($stat_info->st_atime, $stat_info_expected->atime, "atime);
-    is($stat_info->st_mtime, $stat_info_expected->mtime, "mtime");
-    is($stat_info->st_ctime, $stat_info_expected->ctime, "ctime");
+    is($stat->st_dev, $stat_expected->dev, "st_dev");
+    is($stat->st_ino, $stat_expected->ino, "st_ino");
+    is($stat->st_mode, $stat_expected->mode, "st_mode");
+    is($stat->st_nlink, $stat_expected->nlink, "st_nlink");
+    is($stat->st_uid, $stat_expected->uid, "uid");
+    is($stat->st_gid, $stat_expected->gid, "gid");
+    is($stat->st_rdev, $stat_expected->rdev, "rdev");
+    is($stat->st_size, $stat_expected->size, "size");
+    is($stat->st_atime, $stat_expected->atime, "atime");
+    is($stat->st_mtime, $stat_expected->mtime, "mtime");
+    is($stat->st_ctime, $stat_expected->ctime, "ctime");
     
     unless ($^O eq 'MSWin32') {
-      is($stat_info->st_blksize, $stat_info_expected->blksize, "blksize");
-      is($stat_info->st_blocks, $stat_info_expected->blocks, "blocks");
+      is($stat->st_blksize, $stat_expected->blksize, "blksize");
+      is($stat->st_blocks, $stat_expected->blocks, "blocks");
     }
   }
 }
@@ -76,27 +76,27 @@ unless ($^O eq 'MSWin32') {
   
   {
     my $file = "$test_dir/ftest/readline_long_lines.txt";
-    my $stat_info = SPVM::Sys::IO::Stat->new();
-    SPVM::Sys::IO::Stat->lstat($file, $stat_info);
-    my $stat_info_expected = File::stat::lstat($file);
+    my $stat = SPVM::Sys::IO::Stat->new();
+    SPVM::Sys::IO::Stat->lstat($file, $stat);
+    my $stat_expected = File::stat::lstat($file);
     use Data::Dumper;
-    warn Dumper $stat_info_expected;
+    warn Dumper $stat_expected;
     
-    is($stat_info->st_dev, $stat_info_expected->dev, "st_dev");
-    is($stat_info->st_ino, $stat_info_expected->ino, "st_ino");
-    is($stat_info->st_mode, $stat_info_expected->mode, "st_mode");
-    is($stat_info->st_nlink, $stat_info_expected->nlink, "st_nlink");
-    is($stat_info->st_uid, $stat_info_expected->uid, "stat[4]");
-    is($stat_info->st_gid, $stat_info_expected->gid, "stat[5]");
-    is($stat_info->st_rdev, $stat_info_expected->rdev, "stat[6]");
-    is($stat_info->st_size, $stat_info_expected->size, "stat[7]");
-    is($stat_info->st_atime, $stat_info_expected->atime, "stat[8]");
-    is($stat_info->st_mtime, $stat_info_expected->mtime, "stat[9]");
-    is($stat_info->st_ctime, $stat_info_expected->ctime, "stat[10]");
+    is($stat->st_dev, $stat_expected->dev, "st_dev");
+    is($stat->st_ino, $stat_expected->ino, "st_ino");
+    is($stat->st_mode, $stat_expected->mode, "st_mode");
+    is($stat->st_nlink, $stat_expected->nlink, "st_nlink");
+    is($stat->st_uid, $stat_expected->uid, "uid");
+    is($stat->st_gid, $stat_expected->gid, "gid");
+    is($stat->st_rdev, $stat_expected->rdev, "rdev");
+    is($stat->st_size, $stat_expected->size, "size");
+    is($stat->st_atime, $stat_expected->atime, "atime");
+    is($stat->st_mtime, $stat_expected->mtime, "mtime");
+    is($stat->st_ctime, $stat_expected->ctime, "ctime");
     
     unless ($^O eq 'MSWin32') {
-      is($stat_info->st_blksize, $stat_info_expected->blksize, "blksize");
-      is($stat_info->st_blocks, $stat_info_expected->blocks, "blocks");
+      is($stat->st_blksize, $stat_expected->blksize, "blksize");
+      is($stat->st_blocks, $stat_expected->blocks, "blocks");
     }
   }
 }
