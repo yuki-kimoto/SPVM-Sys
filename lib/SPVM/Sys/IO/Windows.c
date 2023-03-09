@@ -2,6 +2,11 @@
 
 #include <unistd.h>
 #include <windows.h>
+#include <errno.h>
+
+#ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
+#  define EDQUOT		WSAEDQUOT
+#endif
 
 static const char* FILE_NAME = "Sys/IO/Windows.c";
 
@@ -134,6 +139,67 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* path = env->get_chars(env, stack, obj_path);
   
   int32_t status = win32_unlink(path);
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+static int
+win32_rename(const char *oname, const char *newname)
+{
+    char szOldName[MAX_PATH+1];
+    BOOL bResult;
+    DWORD dwFlags = MOVEFILE_COPY_ALLOWED;
+
+    if (stricmp(newname, oname))
+        dwFlags |= MOVEFILE_REPLACE_EXISTING;
+    strcpy(szOldName, oname);
+
+    bResult = MoveFileExA(szOldName, newname, dwFlags);
+    if (!bResult) {
+        DWORD err = GetLastError();
+        switch (err) {
+        case ERROR_BAD_NET_NAME:
+        case ERROR_BAD_NETPATH:
+        case ERROR_BAD_PATHNAME:
+        case ERROR_FILE_NOT_FOUND:
+        case ERROR_FILENAME_EXCED_RANGE:
+        case ERROR_INVALID_DRIVE:
+        case ERROR_NO_MORE_FILES:
+        case ERROR_PATH_NOT_FOUND:
+            errno = ENOENT;
+            break;
+        case ERROR_DISK_FULL:
+            errno = ENOSPC;
+            break;
+        case ERROR_NOT_ENOUGH_QUOTA:
+            errno = EDQUOT;
+            break;
+        default:
+            errno = EACCES;
+            break;
+        }
+        return -1;
+    }
+    return 0;
+}
+
+int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_oldpath = stack[0].oval;
+  if (!obj_oldpath) {
+    return env->die(env, stack, "The $oldpath must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
+  
+  void* obj_newpath = stack[0].oval;
+  if (!obj_newpath) {
+    return env->die(env, stack, "The $newpath must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* newpath = env->get_chars(env, stack, obj_newpath);
+  
+  int32_t status = win32_rename(oldpath, newpath);
   
   stack[0].ival = status;
   
