@@ -4,6 +4,8 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #if defined(_WIN32)
 
+// These implementations are originally copied form Perl win32/win32.c and win32/win32.h
+
 #include <unistd.h>
 #include <windows.h>
 #include <errno.h>
@@ -13,11 +15,21 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #  define EDQUOT		WSAEDQUOT
 #endif
 
-// These implementations are originally copied form Perl win32/win32.c
-
 #define PerlDir_mapA(file) file
 #define dTHX 
 #define bool BOOL
+
+static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
+
+typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
+
+#ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
+#  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
+#endif
+
+#ifndef SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
+#  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
+#endif
 
 typedef struct {
     USHORT SubstituteNameOffset;
@@ -155,18 +167,6 @@ win32_rename(const char *oname, const char *newname)
     }
     return 0;
 }
-
-static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
-
-typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
-
-#ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
-#  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
-#endif
-
-#ifndef SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
-#  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
-#endif
 
 static void
 translate_to_errno(void)
