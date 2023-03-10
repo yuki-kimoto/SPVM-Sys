@@ -252,7 +252,7 @@ See the L<rename|https://linux.die.net/man/2/rename> function in Linux.
 
   static method renamep : int ($oldpath : string, $newpath : string);
 
-If the OS is C<Windows>, calls the L<rename|SPVM::Sys::IO::Windows/"rename"> in the L<Sys::IO::Windows|SPVM::Sys::IO::Windows>.
+If the OS is C<Windows>, it calls the L<rename|SPVM::Sys::IO::Windows/"rename"> in the L<Sys::IO::Windows|SPVM::Sys::IO::Windows>.
 
 Otherwise calls the L</"rename"> method in this class.
 
@@ -333,6 +333,14 @@ See the L<truncate|https://linux.die.net/man/2/truncate> function in Linux.
 symlink() creates a symbolic link named newpath which contains the string oldpath.
 
 See the L<symlink|https://linux.die.net/man/2/symlink> function in Linux.
+
+=head2 symlinkp
+
+  static method symlinkp : int ($oldpath : string, $newpath : string);
+
+If the OS is C<Windows>, it calls the L<symlink|SPVM::Sys::IO::Windows/"symlink"> in the L<Sys::IO::Windows|SPVM::Sys::IO::Windows>.
+
+Otherwise calls the L</"symlink"> method in this class.
 
 =head2 readlink
 

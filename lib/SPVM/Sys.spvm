@@ -324,7 +324,7 @@ class Sys {
   }
   
   static method symlink : int ($oldpath : string, $newpath : string) {
-    return Sys::IO->symlink($oldpath, $newpath);
+    return Sys::IO->symlinkp($oldpath, $newpath);
   }
   
   static method opendir : Sys::IO::DirStream ($dir : string) {

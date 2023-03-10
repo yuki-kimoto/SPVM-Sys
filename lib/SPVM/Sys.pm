@@ -474,6 +474,12 @@ The alias for the L<unlinkp|SPVM::Sys::IO/"unlinkp"> method in the L<Sys::IO|SPV
 
 The alias for the L<renamep|SPVM::Sys::IO/"renamep"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+=head2 symlink
+
+  static method symlink : int ($oldpath : string, $newpath : string) {
+
+The alias for the L<symlinkp|SPVM::Sys::IO/"symlinkp"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
 =head2 readlink
 
   static method readlink : int ($file : string) {
