@@ -1,4 +1,10 @@
 0.43 2022-03-10
+  [Exception Message Improvement]
+    * Improve the following exception messages.
+      [Before]
+        [System Error]unlink failed:%s. The \"%s\" directory can't be removed"      
+      [After]
+        [System Error]unlink failed:%s. The \"%s\" file can't be removed"      
   [Test Improvement]
     * Improved tests of Sys::IO::Stat.
   [Incompatible Changes]
