@@ -306,7 +306,11 @@ class Sys {
   static method rename : int ($oldpath : string, $newpath : string) {
     return Sys::IO->renamep($oldpath, $newpath);
   }
-
+  
+  static method readlink : string ($file : string) {
+    return Sys::IO->readlinkp($file);
+  }
+  
   static method chdir : int ($path : string) {
     return Sys::IO->chdir($path);
   }
