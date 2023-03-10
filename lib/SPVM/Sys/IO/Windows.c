@@ -18,6 +18,12 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #define PerlDir_mapA(file) file
 #define dTHX 
 #define bool BOOL
+#define strEQ(string1, string2) (strcmp(string1, string2) == 0)
+#define isSLASH(c) ((c) == '/' || (c) == '\\')
+
+#define savepv(string) ((char*)env->get_chars(env, stack, env->new_string(env, stack, string, strlen(string))))
+
+#define SAVEFREEPV(pv) ((void*)NULL)
 
 static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
 
@@ -320,6 +326,118 @@ win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
     return bytes_out;
 }
 
+int
+win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char *newfile)
+{
+    dTHX;
+    size_t oldfile_len = strlen(oldfile);
+    pCreateSymbolicLinkA_t pCreateSymbolicLinkA =
+        (pCreateSymbolicLinkA_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "CreateSymbolicLinkA");
+    DWORD create_flags = 0;
+
+    /* this flag can be used only on Windows 10 1703 or newer */
+    if (g_osver.dwMajorVersion > 10 ||
+        (g_osver.dwMajorVersion == 10 &&
+         (g_osver.dwMinorVersion > 0 || g_osver.dwBuildNumber > 15063)))
+    {
+        create_flags |= SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
+    }
+
+    if (!pCreateSymbolicLinkA) {
+        errno = ENOSYS;
+        return -1;
+    }
+
+    /* oldfile might be relative and we don't want to change that,
+       so don't map that.
+    */
+    newfile = PerlDir_mapA(newfile);
+
+    if (strchr(oldfile, '/')) {
+        /* Win32 (or perhaps NTFS) won't follow symlinks containing
+           /, so replace any with \\
+        */
+        char *temp = savepv(oldfile);
+        SAVEFREEPV(temp);
+        char *p = temp;
+        while (*p) {
+            if (*p == '/') {
+                *p = '\\';
+            }
+            ++p;
+        }
+        *p = 0;
+        oldfile = temp;
+        oldfile_len = p - temp;
+    }
+
+    /* are we linking to a directory?
+       CreateSymlinkA() needs to know if the target is a directory,
+       If it looks like a directory name:
+        - ends in slash
+        - is just . or ..
+        - ends in /. or /.. (with either slash)
+        - is a simple drive letter
+       assume it's a directory.
+       Otherwise if the oldfile is relative we need to make a relative path
+       based on the newfile to check if the target is a directory.
+    */
+    if ((oldfile_len >= 1 && isSLASH(oldfile[oldfile_len-1])) ||
+        strEQ(oldfile, "..") ||
+        strEQ(oldfile, ".") ||
+        (isSLASH(oldfile[oldfile_len-2]) && oldfile[oldfile_len-1] == '.') ||
+        strEQ(oldfile+oldfile_len-3, "\\..") ||
+        (oldfile_len == 2 && oldfile[1] == ':')) {
+        create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+    }
+    else {
+        DWORD dest_attr;
+        const char *dest_path = oldfile;
+        char szTargetName[MAX_PATH+1];
+
+        if (oldfile_len >= 3 && oldfile[1] == ':') {
+            /* relative to current directory on a drive, or absolute */
+            /* dest_path = oldfile; already done */
+        }
+        else if (oldfile[0] != '\\') {
+            size_t newfile_len = strlen(newfile);
+            char *last_slash = strrchr(newfile, '/');
+            char *last_bslash = strrchr(newfile, '\\');
+            char *end_dir = last_slash && last_bslash
+                ? ( last_slash > last_bslash ? last_slash : last_bslash)
+                : last_slash ? last_slash : last_bslash ? last_bslash : NULL;
+
+            if (end_dir) {
+                if ((end_dir - newfile + 1) + oldfile_len > MAX_PATH) {
+                    /* too long */
+                    errno = EINVAL;
+                    return -1;
+                }
+
+                memcpy(szTargetName, newfile, end_dir - newfile + 1);
+                strcpy(szTargetName + (end_dir - newfile + 1), oldfile);
+                dest_path = szTargetName;
+            }
+            else {
+                /* newpath is just a filename */
+                /* dest_path = oldfile; */
+            }
+        }
+
+        dest_attr = GetFileAttributes(dest_path);
+        if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
+            create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+        }
+    }
+
+    if (!pCreateSymbolicLinkA(newfile, oldfile, create_flags)) {
+        translate_to_errno();
+        return -1;
+    }
+
+    return 0;
+}
+
 #endif // _WIN32
 
 int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -485,4 +603,36 @@ int32_t SPVM__Sys__IO__Windows__syscopy(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #endif
 
+}
+
+int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  env->die(env, stack, "win32_symlink is not supported on this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
+#else
+  int32_t e = 0;
+  
+  void* obj_oldpath = stack[0].oval;
+  if (!obj_oldpath) {
+    return env->die(env, stack, "The $oldpath must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
+
+  void* obj_newpath = stack[1].oval;
+  if (!obj_newpath) {
+    return env->die(env, stack, "The $newpath must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* newpath = env->get_chars(env, stack, obj_newpath);
+  
+  errno = 0;
+  int32_t status = win32_symlink(env, stack, oldpath, newpath);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]win32_symlink failed:%s. The symbolic link from \"%s\" to \"%s\" can't be created", env->strerror(env, stack, errno, 0), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
 }
