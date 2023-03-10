@@ -7,6 +7,7 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #include <unistd.h>
 #include <windows.h>
 #include <errno.h>
+#include <winbase.h>
 
 #ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
 #  define EDQUOT		WSAEDQUOT
@@ -348,16 +349,20 @@ int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
-  void* obj_path = stack[0].oval;
-  if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+  void* obj_pathname = stack[0].oval;
+  if (!obj_pathname) {
+    return env->die(env, stack, "The $pathname must be defined", __func__, FILE_NAME, __LINE__);
   }
   
-  const char* path = env->get_chars(env, stack, obj_path);
+  const char* pathname = env->get_chars(env, stack, obj_pathname);
   
-  int32_t status = win32_unlink(path);
+  int32_t status = win32_unlink(pathname);
   
   stack[0].ival = status;
+  if (status == -1) {
+    env->die(env, stack, "[System Error]unlink failed:%s. The \"%s\" directory can't be removed", env->strerror(env, stack, errno, 0), pathname, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
   
   return 0;
 
@@ -385,6 +390,10 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
   int32_t status = win32_rename(oldpath, newpath);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]rename failed:%s. The \"%s\" file can't be renamed to the \"%s\" file", env->strerror(env, stack, errno, 0), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
   
   stack[0].ival = status;
   
@@ -432,6 +441,41 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = placed_length;
+  
+  return 0;
+
+#else
+
+  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Windows__syscopy(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#if defined(_WIN32)
+  void* obj_oldpath = stack[0].oval;
+  if (!obj_oldpath) {
+    return env->die(env, stack, "The $oldpath must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
+  
+  void* obj_newpath = stack[0].oval;
+  if (!obj_newpath) {
+    return env->die(env, stack, "The $newpath must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* newpath = env->get_chars(env, stack, obj_newpath);
+  
+  BOOL bFailIfExists = FALSE;
+  int32_t success = CopyFileA(oldpath, newpath, bFailIfExists);
+  
+  if (!success) {
+    env->die(env, stack, "[System Error]CopyFileA failed:%s. The \"%s\" file can't be copied to the \"%s\" file", env->strerror(env, stack, errno, 0), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = success;
   
   return 0;
 
