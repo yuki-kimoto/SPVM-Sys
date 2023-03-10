@@ -570,41 +570,6 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 }
 
-int32_t SPVM__Sys__IO__Windows__syscopy(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#if defined(_WIN32)
-  void* obj_oldpath = stack[0].oval;
-  if (!obj_oldpath) {
-    return env->die(env, stack, "The $oldpath must be defined", __func__, FILE_NAME, __LINE__);
-  }
-  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
-  
-  void* obj_newpath = stack[0].oval;
-  if (!obj_newpath) {
-    return env->die(env, stack, "The $newpath must be defined", __func__, FILE_NAME, __LINE__);
-  }
-  const char* newpath = env->get_chars(env, stack, obj_newpath);
-  
-  BOOL bFailIfExists = FALSE;
-  int32_t success = CopyFileA(oldpath, newpath, bFailIfExists);
-  
-  if (!success) {
-    env->die(env, stack, "[System Error]CopyFileA failed:%s. The \"%s\" file can't be copied to the \"%s\" file", env->strerror(env, stack, errno, 0), oldpath, newpath, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
-  }
-  
-  stack[0].ival = success;
-  
-  return 0;
-
-#else
-
-  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
-
-#endif
-
-}
-
 int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   env->die(env, stack, "win32_symlink is not supported on this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
