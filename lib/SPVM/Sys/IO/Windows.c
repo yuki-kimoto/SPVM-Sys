@@ -326,6 +326,37 @@ win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
     return bytes_out;
 }
 
+static int
+win32_get_readlink_buffer_size(const char *pathname) {
+    DWORD fileattr = GetFileAttributes(pathname);
+    if (fileattr == INVALID_FILE_ATTRIBUTES) {
+        translate_to_errno();
+        return -1;
+    }
+
+    if (!(fileattr & FILE_ATTRIBUTE_REPARSE_POINT)) {
+        /* not a symbolic link */
+        errno = EINVAL;
+        return -1;
+    }
+
+    HANDLE hlink =
+        CreateFileA(pathname, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                    FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    if (hlink == INVALID_HANDLE_VALUE) {
+        translate_to_errno();
+        return -1;
+    }
+    int bytes_out = do_readlink_handle(hlink, NULL, 0, NULL);
+    CloseHandle(hlink);
+    if (bytes_out < 0) {
+        /* errno already set */
+        return -1;
+    }
+
+    return bytes_out;
+}
+
 int
 win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char *newfile)
 {
@@ -570,6 +601,36 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 }
 
+int32_t SPVM__Sys__IO__Windows__get_readlink_buffer_size(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#if defined(_WIN32)
+  int32_t e = 0;
+  
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+
+  errno = 0;
+  int32_t placed_length = win32_get_readlink_buffer_size(path);
+  if (placed_length < 0) {
+    env->die(env, stack, "[System Error]win32_get_readlink_buffer_size failed:%s. The reading of the symbolic link of the \"%s\" file failed", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
+  }
+  
+  stack[0].ival = placed_length;
+  
+  return 0;
+
+#else
+
+  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+
+#endif
+
+}
+
 int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   env->die(env, stack, "win32_symlink is not supported on this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
@@ -601,3 +662,4 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 #endif
 }
+
