@@ -6,7 +6,7 @@ package SPVM::Sys::IO::Windows;
 
 =head1 Name
 
-SPVM::Sys::IO::Windows - Short Description
+SPVM::Sys::IO::Windows - IO System Call on Windows
 
 =head1 Description
 
@@ -16,30 +16,28 @@ C<SPVM::Sys::IO::Windows> is the C<Sys::IO::Windows> class in L<SPVM> language.
 
   use Sys::IO::Windows;
 
-=head1 Fields
-
-
-
 =head1 Class Methods
 
+=head2 is_symlink
 
+  native static method is_symlink : int ($path : string);
 
-=head1 Instance Methods
+The same as Perl L<-l|https://perldoc.perl.org/functions/-X> on Windows.
 
+=head2 unlink
 
+  native static method unlink : int ($pathname : string);
 
-=head1 Repository
+The same as Perl L<rename|https://perldoc.perl.org/functions/unlink> on Windows.
 
+=head2 rename
 
+  static method rename : int ($oldpath : string, $newpath : string);
 
-=head1 Author
+The same as Perl L<rename|https://perldoc.perl.org/functions/rename> on Windows.
 
-[--user-name] C<[--user-email]>
+=head2 readlink
 
-=head1 Copyright & License
+  native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
 
-Copyright 2023-2023 [--user-name], all rights reserved.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
+The same as Perl L<readlink|https://perldoc.perl.org/functions/readlink> on Windows.

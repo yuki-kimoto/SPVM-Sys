@@ -466,13 +466,13 @@ The alias for the L<rmdir|SPVM::Sys::IO/"rmdir"> method in the L<Sys::IO|SPVM::S
 
   static method unlink : int ($pathname : string) {
 
-The alias for the L<unlink|SPVM::Sys::IO/"unlink"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+The alias for the L<unlinkp|SPVM::Sys::IO/"unlinkp"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 rename
 
   static method rename : int ($oldpath : string, $newpath : string) {
 
-The alias for the L<rename|SPVM::Sys::IO/"rename"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+The alias for the L<renamep|SPVM::Sys::IO/"renamep"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 chdir
 
@@ -497,12 +497,6 @@ The alias for the L<chownp|SPVM::Sys::IO/"chownp"> method in the L<Sys::IO|SPVM:
   static method symlink : int ($oldpath : string, $newpath : string) {
 
 The alias for the L<symlink|SPVM::Sys::IO/"symlink"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 readlink
-
-  static method readlink : int ($file : string) {
-
-The alias for the L<readlinkp|SPVM::Sys::IO/"readlinkp"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 opendir
 

@@ -300,11 +300,11 @@ class Sys {
   }
   
   static method unlink : int ($pathname : string) {
-    return Sys::IO->unlink($pathname);
+    return Sys::IO->unlinkp($pathname);
   }
   
   static method rename : int ($oldpath : string, $newpath : string) {
-    return Sys::IO->rename($oldpath, $newpath);
+    return Sys::IO->renamep($oldpath, $newpath);
   }
 
   static method chdir : int ($path : string) {
@@ -321,10 +321,6 @@ class Sys {
   
   static method symlink : int ($oldpath : string, $newpath : string) {
     return Sys::IO->symlink($oldpath, $newpath);
-  }
-  
-  static method readlink : string ($file : string) {
-    return Sys::IO->readlinkp($file);
   }
   
   static method opendir : Sys::IO::DirStream ($dir : string) {

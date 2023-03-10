@@ -251,16 +251,21 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->lstat_raw($file, $stat);
-    
-    # Symbolic link
-    my $ok = 0;
-    unless ($status == -1) {
-      $ok = $stat->l;
+    if (Sys->is_windows) {
+      Sys::IO::Windows->is_symlink($file);
     }
-    
-    return $ok;
+    else {
+      my $stat = Sys::IO::Stat->new;
+      my $status = Sys::IO::Stat->lstat_raw($file, $stat);
+      
+      # Symbolic link
+      my $ok = 0;
+      unless ($status == -1) {
+        $ok = $stat->l;
+      }
+      
+      return $ok;
+    }
   }
   
   static method o : int ($file : string) {

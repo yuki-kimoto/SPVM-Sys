@@ -248,6 +248,14 @@ rename() renames a file, moving it between directories if required. Any other ha
 
 See the L<rename|https://linux.die.net/man/2/rename> function in Linux.
 
+=head2 renamep
+
+  static method renamep : int ($oldpath : string, $newpath : string);
+
+If the OS is C<Windows>, calls the L<rename|SPVM::Sys::IO::Windows/"rename"> in the L<Sys::IO::Windows|SPVM::Sys::IO::Windows>.
+
+Otherwise calls the L</"rename"> method in this class.
+
 =head2 getcwd
 
   static method getcwd : mutable string ($buf : mutable string, $size : int);
@@ -333,12 +341,6 @@ See the L<symlink|https://linux.die.net/man/2/symlink> function in Linux.
 readlink() places the contents of the symbolic link path in the buf buf, which has size bufsiz. readlink() does not append a null byte to buf. It will truncate the contents (to a length of bufsiz characters), in case the buf is too small to hold all of the contents.
 
 See the L<readlink|https://linux.die.net/man/2/readlink> function in Linux.
-
-=head2 readlinkp
-
-  static method readlinkp : string ($file : string);
-
-The same behaivior of Perl's L<readlink|https://perldoc.perl.org/functions/readlink> function.
 
 =head2 opendir
 

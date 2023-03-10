@@ -1,9 +1,12 @@
-0.43 2022-03-07
+0.43 2022-03-10
   [Test Improvement]
     * Improved tests of Sys::IO::Stat.
   [Incompatible Changes]
     * Removed the fstat nad fstat_raw method in the Sys::IO::Stat class because Perl doesn't support these methods and its tests failed.
+    * Removed the readlink method in the Sys class and the readlinkp method in the Sys::IO class because I don't know the Windows/Unix portable way to allocate memory yet.
   [New Features]
+    * The l method in the Sys::FileTest supports Windows.
+    * Added the Sys::IO::Windows class.
     * Added the following methods in the Sys class.
       
       static method is_windows : int ();
