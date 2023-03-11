@@ -143,13 +143,18 @@ class Sys::IO {
   }
   
   static method readlinkp : string ($file : string) {
-    my $buffer_size = &get_readlink_buffer_size($file);
-    my $buffer = (mutable string)new_string_len $buffer_size;
-    &readlink($file, $buffer, $buffer_size);
-    
-    warn $buffer;
-    
-    return $buffer;
+    if (Sys->is_windows) {
+      my $buffer_size = Sys::IO::Windows->get_readlink_buffer_size($file);
+      my $buffer = (mutable string)new_string_len $buffer_size;
+      Sys::IO::Windows->readlink($file, $buffer, $buffer_size);
+      return $buffer;
+    }
+    else {
+      my $buffer_size = &get_readlink_buffer_size($file);
+      my $buffer = (mutable string)new_string_len $buffer_size;
+      &readlink($file, $buffer, $buffer_size);
+      return $buffer;
+    }
   }
   
   native static method opendir : Sys::IO::DirStream ($dir : string);
