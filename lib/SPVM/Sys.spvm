@@ -31,11 +31,11 @@ class Sys {
   }
   
   static method setenv : int ($name : string, $value : string, $overwrite : int) {
-    return Sys::Env->setenv($name, $value, $overwrite);
+    return Sys::Env->setenv($name, $value, $overwrite) == 0;
   }
   
   static method unsetenv : int ($name : string) {
-    return Sys::Env->unsetenv($name);
+    return Sys::Env->unsetenv($name) == 0;
   }
   
   static method A : double ($file : string) {
@@ -158,16 +158,16 @@ class Sys {
   }
   
   static method setuid : int ($uid : int) {
-    return Sys::User->setuid($uid);
+    return Sys::User->setuid($uid) == 0;
   }
   static method seteuid : int ($euid : int) {
-    return Sys::User->seteuid($euid);
+    return Sys::User->seteuid($euid) == 0;
   }
   static method setgid : int ($gid : int) {
-    return Sys::User-> setgid($gid);
+    return Sys::User-> setgid($gid) == 0;
   }
   static method setegid : int ($egid : int) {
-    return Sys::User->setegid($egid);
+    return Sys::User->setegid($egid) == 0;
   }
   
   static method setpwent : void () {
@@ -194,7 +194,7 @@ class Sys {
     return Sys::User->getgroups();
   }
   static method setgroups : int ($groups : int[]) {
-    return Sys::User->setgroups($groups);
+    return Sys::User->setgroups($groups) == 0;
   }
 
   static method getpwuid : Sys::User::Passwd ($id : int) {
@@ -232,19 +232,19 @@ class Sys {
   }
   
   static method setpriority : int ($which : int, $who : int, $prio : int) {
-    return Sys::Process->setpriority($which, $who, $prio);
+    return Sys::Process->setpriority($which, $who, $prio) == 0;
   }
   
   static method sleep : int ($seconds : int) {
-    return Sys::Process->sleep($seconds);
+    return Sys::Process->sleep($seconds) == 0;
   }
   
   static method wait : int ($wstatus_ref : int*) {
-    return Sys::Process->wait($wstatus_ref);
+    return Sys::Process->wait($wstatus_ref) == 0;
   }
   
   static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int) {
-    return Sys::Process->waitpid($pid, $wstatus_ref, $options);
+    return Sys::Process->waitpid($pid, $wstatus_ref, $options) == 0;
   }
   
   static method system : int ($command : string) {
@@ -252,11 +252,11 @@ class Sys {
   }
   
   static method exit : int ($status : int) {
-    return Sys::Process->exit($status);
+    return Sys::Process->exit($status) == 0;
   }
   
   static method pipe : int ($pipe_fds : int[]) {
-    return Sys::Process->pipe($pipe_fds);
+    return Sys::Process->pipe($pipe_fds) == 0;
   }
   
   static method getpgid : int ($pid : int) {
@@ -264,7 +264,7 @@ class Sys {
   }
   
   static method setpgid : int ($pid : int, $pgid : int) {
-    return Sys::Process->setpgid($pid, $pgid);
+    return Sys::Process->setpgid($pid, $pgid) == 0;
   }
   
   static method getpid : int () {
@@ -288,15 +288,15 @@ class Sys {
   }
 
   static method mkdir : int ($path : string, $mode : int) {
-    return Sys::IO->mkdir($path, $mode);
+    return Sys::IO->mkdir($path, $mode) == 0;
   }
   
   static method umask : int ($mode : int) {
-    return Sys::IO->umask($mode);
+    return Sys::IO->umask($mode) == 0;
   }
   
   static method rmdir : int ($path : string) {
-    return Sys::IO->rmdir($path);
+    return Sys::IO->rmdir($path) == 0;
   }
   
   static method unlink : int ($pathname : string) {
@@ -312,7 +312,7 @@ class Sys {
   }
   
   static method chdir : int ($path : string) {
-    return Sys::IO->chdir($path);
+    return Sys::IO->chdir($path) == 0;
   }
   
   static method chmod : int ($mode :int, $path : string) {
@@ -332,7 +332,7 @@ class Sys {
   }
   
   static method closedir : int ($dirp : Sys::IO::DirStream) {
-    return Sys::IO->closedir($dirp);
+    return Sys::IO->closedir($dirp) == 0;
   }
   
   static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
@@ -352,6 +352,6 @@ class Sys {
   }
   
   static method utime : int ($atime : long, $mtime : long, $filename : string) {
-    return Sys::IO->utimep($atime, $mtime, $filename);
+    return Sys::IO->utimep($atime, $mtime, $filename) == 0;
   }
 }
