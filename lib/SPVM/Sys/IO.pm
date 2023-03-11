@@ -350,6 +350,12 @@ readlink() places the contents of the symbolic link path in the buf buf, which h
 
 See the L<readlink|https://linux.die.net/man/2/readlink> function in Linux.
 
+=head2 get_readlink_buffer_size
+
+  native static method get_readlink_buffer_size : int ($path : string);
+
+Gets the L</"readlink"> needed buffer size.
+
 =head2 opendir
 
   static method opendir : Sys::IO::DirStream ($dir : string);
