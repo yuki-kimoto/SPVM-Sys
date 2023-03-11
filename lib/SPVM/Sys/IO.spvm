@@ -84,20 +84,21 @@ class Sys::IO {
       $status = &unlink($pathname);
     }
     
-    my $success = $status == 0;
-    
-    return $success;
+    return $status == 0;
   }
   
   native static method rename : int ($oldpath : string, $newpath : string);
   
   static method renamep : int ($oldpath : string, $newpath : string) {
+    my $status = 0;
     if (Sys->is_windows) {
-      return Sys::IO::Windows->rename($oldpath, $newpath);
+      $status = Sys::IO::Windows->rename($oldpath, $newpath);
     }
     else {
-      return &rename($oldpath, $newpath);
+      $status = &rename($oldpath, $newpath);
     }
+    
+    return $status == 0;
   }
   
   native static method getcwd : mutable string ($buf : mutable string, $size : int);
@@ -113,13 +114,13 @@ class Sys::IO {
   native static method chmod : int ($path : string, $mode :int);
   
   static method chmodp : int ($mode :int, $path : string) {
-    return &chmod($path, $mode);
+    return &chmod($path, $mode) == 0;
   }
   
   native static method chown : int ($path : string, $owner : int, $group : int);
   
   static method chownp : int ($owner : int, $group : int, $path : string) {
-    return &chown($path, $owner, $group);
+    return &chown($path, $owner, $group) == 0;
   }
   
   native static method truncate : int ($path : string, $length : long);
@@ -135,9 +136,7 @@ class Sys::IO {
       $status = &symlink($oldpath, $newpath);
     }
     
-    my $success = $status == 0;
-    
-    return $success;
+    return $status == 0;
   }
   
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
@@ -186,7 +185,7 @@ class Sys::IO {
     $times->set_actime($atime);
     $times->set_modtime($mtime);
     
-    return &utime($filename, $times);
+    return &utime($filename, $times) == 0;
   } 
   
   native static method access_raw : int ($pathname : string, $mode : int);
