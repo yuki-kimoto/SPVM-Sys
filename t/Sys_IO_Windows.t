@@ -10,10 +10,13 @@ use File::Temp ();
 
 use Errno;
 use Cwd qw(getcwd);
+use File::Basename;
 
+use SPVM 'Sys';
 use SPVM 'Sys::IO';
 use SPVM 'Sys::IO::Windows';
 use SPVM 'Sys::FileTest';
+use File::Spec;
 
 Win32::FsType() eq 'NTFS'
     or skip_all("need NTFS");
@@ -28,10 +31,10 @@ plan skip_all => "no symlink available in this Windows"
 
 my $tmp_dir = File::Temp->newdir;
 
-my $tmpfile1 = "$tmp_dir/file1";
-my $tmpfile2 = "$tmp_dir/file2";
+my $tmpfile1 = File::Spec->catfile($tmp_dir, 'file1');
+my $tmpfile2 = File::Spec->catfile($tmp_dir, 'file2');
 
-warn "$tmpfile1 $tmpfile2";
+warn "[Test Output]$tmpfile1 $tmpfile2";
 
 my $ok = SPVM::Sys::IO->symlinkp($tmpfile1, $tmpfile2);
 plan skip_all => "no access to symlink as this user"
@@ -39,7 +42,7 @@ plan skip_all => "no access to symlink as this user"
 
 ok($ok, "create a dangling symbolic link");
 ok(SPVM::Sys::IO::Windows->is_symlink($tmpfile2), "-l sees it as a symlink");
-ok(SPVM::Sys::IO::Windows->unlink($tmpfile2), "and remove it");
+ok(SPVM::Sys::IO->unlinkp($tmpfile2), "and remove it");
 
 ok(mkdir($tmpfile1), "make a directory");
 ok(!SPVM::Sys::IO::Windows->is_symlink($tmpfile1), "doesn't look like a symlink");
@@ -49,7 +52,7 @@ ok(SPVM::Sys::IO::Windows->is_symlink($tmpfile2), "which does look like a symlin
 ok(SPVM::Sys::FileTest->d($tmpfile2), "normal -d sees it as a directory");
 is(SPVM::Sys::IO->readlinkp($tmpfile2), $tmpfile1, "readlink works");
 check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
-ok(SPVM::Sys::IO::Windows->unlink($tmpfile2), "and we can unlink the symlink (rather than only rmdir)");
+ok(SPVM::Sys::IO->unlinkp($tmpfile2), "and we can unlink the symlink (rather than only rmdir)");
 
 # test our various name based directory tests
 {
@@ -75,15 +78,16 @@ ok(SPVM::Sys::IO::Windows->unlink($tmpfile2), "and we can unlink the symlink (ra
         my $attr = GetFileAttributes($tmpfile2);
         ok($attr != INVALID_FILE_ATTRIBUTES && ($attr & FILE_ATTRIBUTE_DIRECTORY) != 0,
            "symlink $path: treated as a directory");
-        SPVM::Sys::IO::Windows->unlink($tmpfile2);
+        SPVM::Sys::IO->unlinkp($tmpfile2);
     }
 }
 
 # to check the unlink code for symlinks isn't mis-handling non-symlink
 # directories
-ok(!SPVM::Sys::IO::Windows->unlink($tmpfile1), "we can't unlink the original directory");
+eval { SPVM::Sys::IO->unlinkp($tmpfile1); };
+ok($@, "we can't unlink the original directory");
 
-ok(SPVM::Sys::IO->rmdir($tmpfile1), "we can rmdir it");
+ok(SPVM::Sys->rmdir($tmpfile1), "we can rmdir it");
 
 ok(open(my $fh, ">", $tmpfile1), "make a file");
 close $fh if $fh;
@@ -93,15 +97,24 @@ ok(SPVM::Sys::IO::Windows->is_symlink($tmpfile2), "-l sees a link");
 ok(SPVM::Sys::FileTest->f($tmpfile2), "normal -f sees it as a file");
 is(SPVM::Sys::IO->readlinkp($tmpfile2), $tmpfile1, "readlink works");
 check_stat($tmpfile1, $tmpfile2, "check file and link stat are the same");
-ok(SPVM::Sys::IO::Windows->unlink($tmpfile2), "unlink the symlink");
+ok(SPVM::Sys::IO->unlinkp($tmpfile2), "unlink the symlink");
 
 # make a relative link
-unlike($tmpfile1, qr([\\/]), "temp filename has no path");
-ok(SPVM::Sys::IO->symlinkp("./$tmpfile1", $tmpfile2), "UNIX (/) relative link to the file");
-ok(SPVM::Sys::FileTest->f($tmpfile2), "we can see it through the link");
-ok(SPVM::Sys::IO::Windows->unlink($tmpfile2), "unlink the symlink");
+{
+  my $tmpfile1 = basename $tmpfile1;
+  my $tmpdir = dirname $tmpfile1;
+  
+  my $original_dir = getcwd;
+  
+  chdir $tmpdir or die;
+  unlike($tmpfile1, qr([\\/]), "temp filename has no path");
+  ok(SPVM::Sys::IO->symlinkp("./$tmpfile1", $tmpfile2), "UNIX (/) relative link to the file");
+  ok(SPVM::Sys::FileTest->f($tmpfile2), "we can see it through the link");
+  ok(SPVM::Sys::IO->unlinkp($tmpfile2), "unlink the symlink");
+  chdir $tmpdir or die;
+}
 
-ok(SPVM::Sys::IO::Windows->unlink($tmpfile1), "and the file");
+ok(SPVM::Sys::IO->unlinkp($tmpfile1), "and the file");
 
 # test we don't treat directory junctions like symlinks
 ok(mkdir($tmpfile1), "make a directory");
@@ -113,7 +126,7 @@ if (system("mklink /j $tmpfile2 $tmpfile1") == 0) {
     ok(SPVM::Sys::IO::Windows->is_symlink($tmpfile2), "junction does look like a symlink");
     like(SPVM::Sys::IO->readlinkp($tmpfile2), qr/\Q$tmpfile1\E$/,
          "readlink() works on a junction");
-    ok(SPVM::Sys::IO::Windows->unlink($tmpfile2), "unlink magic for junctions");
+    ok(SPVM::Sys::IO->unlinkp($tmpfile2), "unlink magic for junctions");
 }
 rmdir($tmpfile1);
 
@@ -124,7 +137,7 @@ rmdir($tmpfile1);
     ok(SPVM::Sys::IO->symlinkp($cwd, $tmpfile1),
        "symlink to an absolute path to cwd");
     ok(-d $tmpfile1, "the link looks like a directory");
-    SPVM::Sys::IO::Windows->unlink($tmpfile1);
+    SPVM::Sys::IO->unlinkp($tmpfile1);
 }
 
 done_testing();
