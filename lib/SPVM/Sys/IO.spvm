@@ -122,12 +122,17 @@ class Sys::IO {
   native static method symlink : int ($oldpath : string, $newpath : string);
   
   static method symlinkp : int ($oldpath : string, $newpath : string) {
+    my $status = 0;
     if (Sys->is_windows) {
-      return Sys::IO::Windows->symlink($oldpath, $newpath);
+      $status = Sys::IO::Windows->symlink($oldpath, $newpath);
     }
     else {
-      return &symlink($oldpath, $newpath);
+      $status = &symlink($oldpath, $newpath);
     }
+    
+    my $success = $status == 0;
+    
+    return $success;
   }
   
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
