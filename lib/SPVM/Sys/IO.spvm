@@ -76,12 +76,17 @@ class Sys::IO {
   native static method unlink : int ($pathname : string);
   
   static method unlinkp : int ($pathname : string) {
+    my $status = 0;
     if (Sys->is_windows) {
-      return Sys::IO::Windows->unlink($pathname);
+      $status = Sys::IO::Windows->unlink($pathname);
     }
     else {
-      return &unlink($pathname);
+      $status = &unlink($pathname);
     }
+    
+    my $success = $status == 0;
+    
+    return $success;
   }
   
   native static method rename : int ($oldpath : string, $newpath : string);
