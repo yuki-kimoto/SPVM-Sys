@@ -41,3 +41,9 @@ The same as Perl L<rename|https://perldoc.perl.org/functions/rename> on Windows.
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
 
 The same as Perl L<readlink|https://perldoc.perl.org/functions/readlink> on Windows.
+
+=head2 get_readlink_buffer_size
+
+  native static method get_readlink_buffer_size : int ($path : string);
+
+Gets the L</"readlink"> needed buffer size.
