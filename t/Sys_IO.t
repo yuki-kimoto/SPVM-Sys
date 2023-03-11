@@ -144,7 +144,7 @@ if ($^O eq 'MSWin32') {
 }
 else {
   my $tmp_dir = File::Temp->newdir;
-  ok(!SPVM::TestCase::Sys::IO->readlinkp("$tmp_dir"));
+  ok(SPVM::TestCase::Sys::IO->readlinkp("$tmp_dir"));
 }
 
 ok(SPVM::TestCase::Sys::IO->readline("$test_dir"));

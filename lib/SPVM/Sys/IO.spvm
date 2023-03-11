@@ -132,23 +132,26 @@ class Sys::IO {
   
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
   
-  static method readlinkp : string ($file : string) {
+  static method get_readlink_buffer_size : int ($path : string) {
     my $stat = Sys::IO::Stat->new;
 
-    my $status = Sys::IO::Stat->lstat($file, $stat);
+    Sys::IO::Stat->lstat($path, $stat);
 
-    my $link_text = (string)undef;
-    if ($status == 0) {
-      if (($stat->st_mode & IO->S_IFMT) == IO->S_IFLNK) {
-        my $link_text_length = (int)$stat->st_size;
-        my $link_text = (mutable string)new_string_len $link_text_length;
-        &readlink($file, $link_text, $link_text_length);
-      }
-    }
+    my $readlink_buffer_size = (int)$stat->st_size;
 
-    return $link_text;
+    return $readlink_buffer_size;
   }
-
+  
+  static method readlinkp : string ($file : string) {
+    my $buffer_size = &get_readlink_buffer_size($file);
+    my $buffer = (mutable string)new_string_len $buffer_size;
+    &readlink($file, $buffer, $buffer_size);
+    
+    warn $buffer;
+    
+    return $buffer;
+  }
+  
   native static method opendir : Sys::IO::DirStream ($dir : string);
   
   native static method closedir : int ($dirp : Sys::IO::DirStream);
