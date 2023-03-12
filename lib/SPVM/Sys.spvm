@@ -388,6 +388,10 @@ class Sys {
   }
   
   static method utime : int ($atime : long, $mtime : long, $filename : string) {
-    return Sys::IO->utimep($atime, $mtime, $filename) == 0;
+    my $times = Sys::IO::Utimbuf->new;
+    $times->set_actime($atime);
+    $times->set_modtime($mtime);
+    
+    return &utime($filename, $times) == 0;
   }
 }

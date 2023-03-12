@@ -121,14 +121,6 @@ class Sys::IO {
   
   native static method utime : int ($filename : string, $times : Sys::IO::Utimbuf);
   
-  static method utimep : int ($atime : long, $mtime : long, $filename : string) {
-    my $times = Sys::IO::Utimbuf->new;
-    $times->set_actime($atime);
-    $times->set_modtime($mtime);
-    
-    return &utime($filename, $times) == 0;
-  } 
-  
   native static method access_raw : int ($pathname : string, $mode : int);
   
   native static method access : int ($pathname : string, $mode : int);
