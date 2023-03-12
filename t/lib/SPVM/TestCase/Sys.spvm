@@ -1,0 +1,43 @@
+class TestCase::Sys {
+  use Sys;
+  use Sys::IO;
+  use Sys::FileTest;
+  
+  static method readlink : int ($test_dir : string) {
+    
+    my $file = "$test_dir/foo.txt";
+    {
+      my $stream = Sys::IO->fopen($file, "wb");
+      
+      unless ($stream) {
+        return 0;
+      }
+      Sys::IO->fclose($stream);
+    }
+    
+    my $file_symlink = "$test_dir/foo_link";
+    {
+      my $success = Sys->symlink($file, $file_symlink);
+      
+      unless ($success) {
+        return 0;
+      }
+      
+      my $exists_symlink_file = Sys->l($file_symlink);
+      unless ($exists_symlink_file) {
+        return 0;
+      }
+    }
+    
+    {
+      my $buffer = (mutable string)new_string_len 255;
+      my $ret_file = Sys->readlink($file_symlink);
+      
+      unless ($ret_file eq $file) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+}

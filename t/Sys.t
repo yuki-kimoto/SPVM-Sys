@@ -11,6 +11,8 @@ use SPVM 'Int';
 use SPVM 'Long';
 use SPVM 'Double';
 
+use SPVM 'TestCase::Sys';
+
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
@@ -83,6 +85,12 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 # get_osname
 {
   is(SPVM::Sys->get_osname, $^O);
+}
+
+# readlink
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys->readlink("$tmp_dir"));
 }
 
 SPVM::set_exception(undef);
