@@ -212,7 +212,9 @@ class Sys {
   }
   
   static method times : Sys::Time::Tms () {
-    return Sys::Time->timesp();
+    my $tms = Sys::Time::Tms->new;
+    Sys::Time->times($tms);
+    return $tms;
   }
   
   static method time : long () {
