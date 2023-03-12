@@ -300,7 +300,16 @@ class Sys {
   }
   
   static method unlink : int ($pathname : string) {
-    return Sys::IO->unlinkp($pathname);
+    my $status = 0;
+    
+    if (Sys->is_windows) {
+      $status = Sys::IO::Windows->unlink($pathname);
+    }
+    else {
+      $status = Sys::IO->unlink($pathname);
+    }
+    
+    return $status == 0;
   }
   
   static method rename : int ($oldpath : string, $newpath : string) {
