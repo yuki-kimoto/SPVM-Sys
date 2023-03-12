@@ -288,9 +288,11 @@ class Sys {
   }
   
   static method lstat : Sys::IO::Stat ($path : string) {
-    return Sys::IO::Stat->lstatp($path);
+    my $stat = Sys::IO::Stat->new;
+    Sys::IO::Stat->lstat($path, $stat);
+    return $stat;
   }
-
+  
   static method mkdir : int ($path : string, $mode : int) {
     return Sys::IO->mkdir($path, $mode) == 0;
   }

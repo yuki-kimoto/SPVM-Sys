@@ -28,12 +28,6 @@ class Sys::IO::Stat : pointer {
   
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
   
-  static method lstatp : Sys::IO::Stat ($path : string) {
-    my $stat = Sys::IO::Stat->new;
-    &lstat($path, $stat);
-    return $stat;
-  }
-  
   # Instance methods
   native method DESTROY : void ();
   native method st_dev : long ();
