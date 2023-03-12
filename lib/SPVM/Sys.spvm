@@ -392,6 +392,6 @@ class Sys {
     $times->set_actime($atime);
     $times->set_modtime($mtime);
     
-    return &utime($filename, $times) == 0;
+    return Sys::IO->utime($filename, $times) == 0;
   }
 }
