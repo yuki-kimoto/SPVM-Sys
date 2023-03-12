@@ -103,18 +103,6 @@ class Sys::IO {
   
   native static method symlink : int ($oldpath : string, $newpath : string);
   
-  static method symlinkp : int ($oldpath : string, $newpath : string) {
-    my $status = 0;
-    if (Sys->is_windows) {
-      $status = Sys::IO::Windows->symlink($oldpath, $newpath);
-    }
-    else {
-      $status = &symlink($oldpath, $newpath);
-    }
-    
-    return $status == 0;
-  }
-  
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
   
   static method get_readlink_buffer_size : int ($path : string) {
