@@ -15,6 +15,7 @@
     * Removed the symlinkp method in the SPVM::Sys::IO class. This logic is moved to the symlink method in the Sys class.
     * Removed the readlinkp method in the SPVM::Sys::IO class. This logic is moved to the readlink method in the Sys class.
     * Removed the chmodp method in the SPVM::Sys::IO class. This logic is moved to the chmod method in the Sys class.
+    * Removed the chownp method in the SPVM::Sys::IO class. This logic is moved to the chown method in the Sys class.
   [New Features]
     * Added the Sys::IO::Windows class.
     * Added the symlinkp method in the Sys::IO: class.

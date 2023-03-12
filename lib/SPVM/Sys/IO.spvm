@@ -91,10 +91,6 @@ class Sys::IO {
   
   native static method chown : int ($path : string, $owner : int, $group : int);
   
-  static method chownp : int ($owner : int, $group : int, $path : string) {
-    return &chown($path, $owner, $group) == 0;
-  }
-  
   native static method truncate : int ($path : string, $length : long);
   
   native static method symlink : int ($oldpath : string, $newpath : string);

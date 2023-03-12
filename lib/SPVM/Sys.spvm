@@ -348,7 +348,7 @@ class Sys {
   }
   
   static method chown : int ($owner : int, $group : int, $path : string) {
-    return Sys::IO->chownp($owner, $group, $path);
+    return Sys::IO->chown($path, $owner, $group) == 0;
   }
   
   static method symlink : int ($oldpath : string, $newpath : string) {
