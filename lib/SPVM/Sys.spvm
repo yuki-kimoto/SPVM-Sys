@@ -344,7 +344,7 @@ class Sys {
   }
   
   static method chmod : int ($mode :int, $path : string) {
-    return Sys::IO->chmodp($mode, $path);
+    return Sys::IO->chmod($path, $mode) == 0;
   }
   
   static method chown : int ($owner : int, $group : int, $path : string) {

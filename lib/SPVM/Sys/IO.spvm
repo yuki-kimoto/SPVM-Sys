@@ -89,10 +89,6 @@ class Sys::IO {
   
   native static method chmod : int ($path : string, $mode :int);
   
-  static method chmodp : int ($mode :int, $path : string) {
-    return &chmod($path, $mode) == 0;
-  }
-  
   native static method chown : int ($path : string, $owner : int, $group : int);
   
   static method chownp : int ($owner : int, $group : int, $path : string) {
