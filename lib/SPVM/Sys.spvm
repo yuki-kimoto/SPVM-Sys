@@ -18,12 +18,12 @@ class Sys {
     }
   }
   
-  static method get_osname : string () {
-    return Sys::OS->get_osname;
-  }
-  
   static method is_windows : int () {
     return Sys::OS->is_windows;
+  }
+  
+  static method get_osname : string () {
+    return Sys::OS->get_osname;
   }
   
   static method getenv : string ($name : string) {
@@ -142,7 +142,7 @@ class Sys {
       return Sys::Ioctl->ioctl($fd, $request);
     }
   }
-
+  
   static method getuid : int () {
     return Sys::User->getuid();
   }

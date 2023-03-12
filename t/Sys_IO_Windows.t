@@ -18,6 +18,10 @@ use SPVM 'Sys::IO::Windows';
 use SPVM 'Sys::FileTest';
 use File::Spec;
 
+plan( skip_all => 'This tests are for Windows' ) unless $^O eq 'MSWin32';
+
+require Win32;
+
 Win32::FsType() eq 'NTFS'
     or skip_all("need NTFS");
 
@@ -56,8 +60,8 @@ ok(SPVM::Sys::IO->unlinkp($tmpfile2), "and we can unlink the symlink (rather tha
 
 # test our various name based directory tests
 {
-    use Win32API::File qw(GetFileAttributes FILE_ATTRIBUTE_DIRECTORY
-                          INVALID_FILE_ATTRIBUTES);
+    require Win32API::File; Win32API::File->import(qw(GetFileAttributes FILE_ATTRIBUTE_DIRECTORY
+                          INVALID_FILE_ATTRIBUTES));
     # we can't use lstat() here, since the directory && symlink state
     # can't be preserved in it's result, and normal stat would
     # follow the link (which is broken for most of these)
@@ -76,7 +80,7 @@ ok(SPVM::Sys::IO->unlinkp($tmpfile2), "and we can unlink the symlink (rather tha
     for my $path (@tests) {
         ok(SPVM::Sys::IO->symlinkp($path, $tmpfile2), "symlink $path");
         my $attr = GetFileAttributes($tmpfile2);
-        ok($attr != INVALID_FILE_ATTRIBUTES && ($attr & FILE_ATTRIBUTE_DIRECTORY) != 0,
+        ok($attr != INVALID_FILE_ATTRIBUTES() && ($attr & FILE_ATTRIBUTE_DIRECTORY()) != 0,
            "symlink $path: treated as a directory");
         SPVM::Sys::IO->unlinkp($tmpfile2);
     }
