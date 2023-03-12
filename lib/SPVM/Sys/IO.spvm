@@ -77,18 +77,6 @@ class Sys::IO {
   
   native static method rename : int ($oldpath : string, $newpath : string);
   
-  static method renamep : int ($oldpath : string, $newpath : string) {
-    my $status = 0;
-    if (Sys->is_windows) {
-      $status = Sys::IO::Windows->rename($oldpath, $newpath);
-    }
-    else {
-      $status = &rename($oldpath, $newpath);
-    }
-    
-    return $status == 0;
-  }
-  
   native static method getcwd : mutable string ($buf : mutable string, $size : int);
   
   native static method _getdcwd : mutable string ($drive : int, $buffer : mutable string, $maxlen : int);

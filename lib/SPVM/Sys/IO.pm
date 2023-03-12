@@ -248,14 +248,6 @@ rename() renames a file, moving it between directories if required. Any other ha
 
 See the L<rename|https://linux.die.net/man/2/rename> function in Linux.
 
-=head2 renamep
-
-  static method renamep : int ($oldpath : string, $newpath : string);
-
-If the OS is C<Windows>, it calls the L<rename|SPVM::Sys::IO::Windows/"rename"> in the L<Sys::IO::Windows|SPVM::Sys::IO::Windows>.
-
-Otherwise calls the L</"rename"> method in this class.
-
 =head2 getcwd
 
   static method getcwd : mutable string ($buf : mutable string, $size : int);

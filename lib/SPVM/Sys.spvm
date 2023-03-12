@@ -313,7 +313,15 @@ class Sys {
   }
   
   static method rename : int ($oldpath : string, $newpath : string) {
-    return Sys::IO->renamep($oldpath, $newpath);
+    my $status = 0;
+    if (Sys->is_windows) {
+      $status = Sys::IO::Windows->rename($oldpath, $newpath);
+    }
+    else {
+      $status = Sys::IO->rename($oldpath, $newpath);
+    }
+    
+    return $status == 0;
   }
   
   static method readlink : string ($file : string) {
