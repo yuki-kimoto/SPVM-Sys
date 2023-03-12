@@ -24,12 +24,6 @@ class Sys::IO::Stat : pointer {
   
   native static method stat : int ($path : string, $stat : Sys::IO::Stat);
   
-  static method statp : Sys::IO::Stat ($path : string) {
-    my $stat = Sys::IO::Stat->new;
-    &stat($path, $stat);
-    return $stat;
-  }
-  
   native static method lstat_raw : int ($path : string, $stat : Sys::IO::Stat);
   
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
