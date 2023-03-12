@@ -12,7 +12,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $stat = Sys::IO::Stat->new($file);
+    my $stat = Sys->stat($file);
     
     my $result_time = $stat->A;
     
@@ -25,7 +25,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $stat = Sys::IO::Stat->new($file);
+    my $stat = Sys->stat($file);
     my $result_time = $stat->C;
     
     return $result_time;
@@ -37,7 +37,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $stat = Sys::IO::Stat->new($file);
+    my $stat = Sys->stat($file);
     
     my $result_time = $stat->M;
     
@@ -83,7 +83,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $stat = Sys::IO::Stat->new($file);
+    my $stat = Sys->stat($file);
     
     my $ok = $stat->S;
     
@@ -324,7 +324,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $stat = Sys::IO::Stat->new($file);
+    my $stat = Sys->stat($file);
     
     my $size = $stat->s;
     
@@ -389,7 +389,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    my $stat = Sys::IO::Stat->new($file);
+    my $stat = Sys->stat($file);
     
     my $ok = $stat->z;
     

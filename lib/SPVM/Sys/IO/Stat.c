@@ -6,7 +6,7 @@
 
 const char* FILE_NAME = "Sys/IO/Stat.c";
 
-int32_t SPVM__Sys__IO__Stat___new(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
