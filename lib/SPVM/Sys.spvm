@@ -549,14 +549,6 @@ class Sys {
     return Sys::Process->sleep($seconds) == 0;
   }
   
-  static method wait : int ($wstatus_ref : int*) {
-    return Sys::Process->wait($wstatus_ref) == 0;
-  }
-  
-  static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int) {
-    return Sys::Process->waitpid($pid, $wstatus_ref, $options) == 0;
-  }
-  
   static method pipe : int ($pipe_fds : int[]) {
     return Sys::Process->pipe($pipe_fds) == 0;
   }

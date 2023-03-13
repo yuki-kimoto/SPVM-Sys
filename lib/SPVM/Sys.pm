@@ -475,18 +475,6 @@ See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
 
 Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
 
-=head2 wait
-
-  static method wait : int ($wstatus_ref : int*);
-
-Calls the C<wait> function on this system.
-
-=head2 waitpid
-
-  static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int);
-
-Calls the C<waitpid> function on this system.
-
 =head2 exec
 
   static method exec : int ($path : string, $args : string[]);
