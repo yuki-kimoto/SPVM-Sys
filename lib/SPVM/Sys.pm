@@ -208,41 +208,53 @@ File is executable by effective uid/gid. The same as Perl L<-x|https://perldoc.p
 
 File has zero size (is empty). The same as Perl L<-z|https://perldoc.perl.org/functions/-X>.
 
-=head2 ioctl
-
-  static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
-
 =head2 getuid
 
   static method getuid : int ();
+
+Gets the real uid of this process. The same as the getting of Perl L<$E<lt>|https://perldoc.perl.org/perlvar#$REAL_USER_ID>.
 
 =head2 geteuid
 
   static method geteuid : int ();
 
+Gets the effective uid of this process. The same as the getting of Perl L<$E<gt>|https://perldoc.perl.org/perlvar#$EFFECTIVE_USER_ID>.
+
 =head2 getgid
 
   static method getgid : int ();
+
+Gets the real gid of this process.  The same as the getting of Perl L<$(|https://perldoc.perl.org/perlvar#$REAL_GROUP_ID>.
 
 =head2 getegid
 
   static method getegid : int ();
 
+Gets the effective gid of this process. The same as the getting of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
+
 =head2 setuid
 
   static method setuid : int ($uid : int);
+
+Sets the real uid of this process. The same as the setting of Perl L<$E<lt>|https://perldoc.perl.org/perlvar#$REAL_USER_ID>.
 
 =head2 seteuid
 
   static method seteuid : int ($euid : int);
 
+Sets the effective uid of this process. The same as the setting of Perl L<$E<gt>|https://perldoc.perl.org/perlvar#$EFFECTIVE_USER_ID>.
+
 =head2 setgid
 
   static method setgid : int ($gid : int);
 
+Sets the real gid of this process. The same as the setting of Perl L<$(|https://perldoc.perl.org/perlvar#$REAL_GROUP_ID>.
+
 =head2 setegid
 
   static method setegid : int ($egid : int);
+
+Sets the effective gid of this process. The same as the setting of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
 
 =head2 setpwent
 
@@ -439,6 +451,10 @@ File has zero size (is empty). The same as Perl L<-z|https://perldoc.perl.org/fu
 =head2 utime
 
   static method utime : int ($atime : long, $mtime : long, $filename : string) {
+
+=head2 ioctl
+
+  static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
 
 =head1 Modules
 
