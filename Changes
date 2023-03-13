@@ -84,22 +84,6 @@
 
       static method z : int ($file : string);
       
-      static method getuid : int ();
-
-      static method geteuid : int ();
-
-      static method getgid : int ();
-
-      static method getegid : int ();
-
-      static method setuid : int ($uid : int);
-
-      static method seteuid : int ($euid : int);
-
-      static method setgid : int ($gid : int);
-
-      static method setegid : int ($egid : int);
-
       static method time : long ();
 
       static method localtime : Time::Info ($time : long);
@@ -107,8 +91,6 @@
       static method gmtime : Time::Info ($time : long);
 
       static method sleep : int ($seconds : int);
-      static method getpgid : int ($pid : int);
-      static method setpgid : int ($pid : int, $pgid : int);
       static method getpid : int ();
 
       static method stat : Sys::IO::Stat ($path : string);

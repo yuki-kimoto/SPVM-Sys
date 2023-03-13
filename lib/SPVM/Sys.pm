@@ -216,66 +216,6 @@ File is executable by effective uid/gid. The same as Perl L<-x|https://perldoc.p
 
 File has zero size (is empty). The same as Perl L<-z|https://perldoc.perl.org/functions/-X>.
 
-=head2 getuid
-
-  static method getuid : int ();
-
-Gets the real uid of this process. The same as the getting of Perl L<$E<lt>|https://perldoc.perl.org/perlvar#$REAL_USER_ID>.
-
-=head2 geteuid
-
-  static method geteuid : int ();
-
-Gets the effective uid of this process. The same as the getting of Perl L<$E<gt>|https://perldoc.perl.org/perlvar#$EFFECTIVE_USER_ID>.
-
-=head2 getgid
-
-  static method getgid : int ();
-
-Gets the real gid of this process.  The same as the getting of Perl L<$(|https://perldoc.perl.org/perlvar#$REAL_GROUP_ID>.
-
-=head2 getegid
-
-  static method getegid : int ();
-
-Gets the effective gid of this process. The same as the getting first return value of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
-
-=head2 getgroups
-
-  static method getgroups : int[] ();
-
-Gets the list of effective gid. The same as the getting second and subsequent return values of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
-
-=head2 setuid
-
-  static method setuid : int ($uid : int);
-
-Sets the real uid of this process. The same as the setting of Perl L<$E<lt>|https://perldoc.perl.org/perlvar#$REAL_USER_ID>.
-
-=head2 seteuid
-
-  static method seteuid : int ($euid : int);
-
-Sets the effective uid of this process. The same as the setting of Perl L<$E<gt>|https://perldoc.perl.org/perlvar#$EFFECTIVE_USER_ID>.
-
-=head2 setgid
-
-  static method setgid : int ($gid : int);
-
-Sets the real gid of this process. The same as the setting of Perl L<$(|https://perldoc.perl.org/perlvar#$REAL_GROUP_ID>.
-
-=head2 setegid
-
-  static method setegid : int ($egid : int);
-
-Sets the effective gid of this process. The same as the setting of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
-
-=head2 setgroups
-
-  static method setgroups : int ($groups : int[]);
-
-Sets the list of effective gid. The same as the setting second and subsequent arguments of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
-
 =head2 time
 
   static method time : long ();
@@ -333,10 +273,6 @@ Works just like localtime, but the returned values are localized for the standar
 =head2 chmod
 
   static method chmod : int ($mode :int, $path : string) {
-
-=head2 chown
-
-  static method chown : int ($owner : int, $group : int, $path : string) {
 
 =head2 symlink
 
