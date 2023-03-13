@@ -124,8 +124,6 @@
 
       static method getgrnam : Sys::User::Group ($name : string);
 
-      static method times : Sys::Time::Tms ();
-
       static method time : long ();
 
       static method localtime : Time::Info ($time : long);

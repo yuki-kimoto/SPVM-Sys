@@ -348,14 +348,6 @@ The same as the Perl L<getgrnam|https://perldoc.perl.org/functions/getgrnam>.
 
 The return type is L<Sys::User::Group|SPVM::Sys::User::Group>.
 
-=head2 times
-
-  static method times : Sys::Time::Tms ();
-
-Returns the user and system times in seconds for this process and any exited children of this process. The same as the Perl L<times|https://perldoc.perl.org/functions/times>.
-
-The return type is L<Sys::Time::Tms|SPVM::Sys::Time::Tms>.
-
 =head2 time
 
   static method time : long ();

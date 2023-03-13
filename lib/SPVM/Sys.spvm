@@ -510,12 +510,6 @@ class Sys {
     return Sys::User->getgrnam($name);
   }
   
-  static method times : Sys::Time::Tms () {
-    my $tms = Sys::Time::Tms->new;
-    Sys::Time->times($tms);
-    return $tms;
-  }
-  
   static method time : long () {
     return Time->time();
   }
