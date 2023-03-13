@@ -23,6 +23,7 @@
     * Remvoed the argument of the new method in the Sys::IO::Stat class.
     * Removed the is_windows method in the Sys class. This is used from the Sys::OS class.
     * Removed the defined method in the Sys class. This is used from the Sys::OS class.
+    * Removed the get_osname method in the Sys::OS class.
   [New Features]
     * Added the Sys::IO::Windows class.
     * Added the symlinkp method in the Sys::IO: class.

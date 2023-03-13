@@ -44,6 +44,26 @@ The same as deleting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#
 
   static method get_osname : string ()
 
+Gets the OS name(Perl's L<$^O|https://perldoc.perl.org/perlvar#$%5EO> ). The list of the OS names are described at L<PLATFORMS - perlport|https://perldoc.perl.org/perlport#PLATFORMS>.
+
+The C<get_osname> in the C<Sys::OS> class supports the following os names.
+
+=over 2
+
+=item * linux
+
+=item * darwin
+
+=item * MSWin32
+
+=item * freebsd
+
+=item * openbsd
+
+=item * solaris
+
+=back
+
 =head2 A
 
   static method A : double ($file : string);

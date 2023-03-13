@@ -10,7 +10,34 @@ class Sys {
   use Sys::IO::Stat;
   
   static method get_osname : string () {
-    return Sys::OS->get_osname;
+    my $osname : string;
+    
+    if (Sys::OS->defined("__linux__")) {
+      $osname = "linux";
+    }
+    elsif (Sys::OS->defined("_WIN32")) {
+      $osname = "MSWin32";
+    }
+    elsif (Sys::OS->defined("__FreeBSD__")) {
+      $osname = "freebsd";
+    }
+    elsif (Sys::OS->defined("__OpenBSD__")) {
+      $osname = "openbsd";
+    }
+    elsif (Sys::OS->defined("__solaris")) {
+      $osname = "solaris";
+    }
+    elsif (Sys::OS->defined("__sun")) {
+      $osname = "solaris";
+    }
+    elsif (Sys::OS->defined("__APPLE__")) {
+      $osname = "darwin";
+    }
+    else {
+      die "The get_osname method is not supported this os";
+    }
+    
+    return $osname;
   }
   
   static method getenv : string ($name : string) {
