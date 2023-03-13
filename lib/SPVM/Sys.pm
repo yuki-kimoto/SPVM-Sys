@@ -26,27 +26,27 @@ This distribution contains many modules for system calls such as L<Sys::IO|SPVM:
 
   static method getenv : string ($name : string);
 
-The same as getting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
+Gets an environment variable. The same as getting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 
 =head2 setenv
 
   static method setenv : int ($name : string, $value : string, $overwrite : int);
 
-The same as setting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
+Sets an environment variable. The same as setting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 
 =head2 unsetenv
 
   static method unsetenv : int ($name : string);
 
-The same as deleting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
+Deletes an environment variable. The same as deleting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 
 =head2 osname
 
   static method osname : string ()
 
-Gets the OS name(Perl's L<$^O|https://perldoc.perl.org/perlvar#$%5EO> ). The list of the OS names are described at L<PLATFORMS - perlport|https://perldoc.perl.org/perlport#PLATFORMS>.
+Gets OS name. The same as Perl L<$^O|https://perldoc.perl.org/perlvar#$%5EO>.
 
-The C<osname> in the C<Sys::OS> class supports the following os names.
+Currently the following OS names are supported.
 
 =over 2
 
@@ -68,97 +68,145 @@ The C<osname> in the C<Sys::OS> class supports the following os names.
 
   static method A : double ($file : string);
 
+Script start time minus file access time, in days. The same as Perl L<-A|https://perldoc.perl.org/functions/-X>.
+
 =head2 C
 
   static method C : double ($file : string);
+
+Script start time minus file inode change time, in days. The same as Perl L<-C|https://perldoc.perl.org/functions/-X>.
 
 =head2 M
 
   static method M : double ($file : string);
 
+Script start time minus file modification time, in days. The same as Perl L<-M|https://perldoc.perl.org/functions/-X>.
+
 =head2 O
 
   static method O : int ($file : string);
+
+File is owned by real uid. The same as Perl L<-O|https://perldoc.perl.org/functions/-X>.
 
 =head2 R
 
   static method R : int ($file : string);
 
+File is readable by real uid/gid. The same as Perl L<-R|https://perldoc.perl.org/functions/-X>.
+
 =head2 S
 
   static method S : int ($file : string);
+
+File is a socket. The same as Perl L<-S|https://perldoc.perl.org/functions/-X>.
 
 =head2 W
 
   static method W : int ($file : string);
 
+File is writable by real uid/gid. The same as Perl L<-W|https://perldoc.perl.org/functions/-X>.
+
 =head2 X
 
   static method X : int ($file : string);
+
+File is executable by real uid/gid. The same as Perl L<-X|https://perldoc.perl.org/functions/-X>.
 
 =head2 b
 
   static method b : int ($file : string);
 
+File is a block special file. The same as Perl L<-b|https://perldoc.perl.org/functions/-X>.
+
 =head2 c
 
   static method c : int ($file : string);
+
+File is a character special file. The same as Perl L<-c|https://perldoc.perl.org/functions/-X>.
 
 =head2 d
 
   static method d : int ($file : string);
 
+File is a directory. The same as Perl L<-d|https://perldoc.perl.org/functions/-X>.
+
 =head2 e
 
   static method e : int ($file : string);
+
+File exists. The same as Perl L<-e|https://perldoc.perl.org/functions/-X>.
 
 =head2 f
 
   static method f : int ($file : string);
 
+File is a plain file. The same as Perl L<-f|https://perldoc.perl.org/functions/-X>.
+
 =head2 g
 
   static method g : int ($file : string);
+
+File has setgid bit set. The same as Perl L<-g|https://perldoc.perl.org/functions/-X>.
 
 =head2 k
 
   static method k : int ($file : string);
 
+File has sticky bit set. The same as Perl L<-k|https://perldoc.perl.org/functions/-X>.
+
 =head2 l
 
   static method l : int ($file : string);
+
+File is a symbolic link (false if symlinks aren't supported by the file system). The same as Perl L<-l|https://perldoc.perl.org/functions/-X>.
 
 =head2 o
 
   static method o : int ($file : string);
 
+File is owned by effective uid. The same as Perl L<-l|https://perldoc.perl.org/functions/-X>.
+
 =head2 p
 
   static method p : int ($file : string);
+
+File is a named pipe (FIFO), or Filehandle is a pipe. The same as Perl L<-p|https://perldoc.perl.org/functions/-X>.
 
 =head2 r
 
   static method r : int ($file : string);
 
+File is readable by effective uid/gid. The same as Perl L<-r|https://perldoc.perl.org/functions/-X>.
+
 =head2 s
 
   static method s : long ($file : string);
+
+File has nonzero size (returns size in bytes). The same as Perl L<-s|https://perldoc.perl.org/functions/-X>.
 
 =head2 u
 
   static method u : int ($file : string);
 
+File has setuid bit set. The same as Perl L<-u|https://perldoc.perl.org/functions/-X>.
+
 =head2 w
 
   static method w : int ($file : string);
+
+File is writable by effective uid/gid. The same as Perl L<-u|https://perldoc.perl.org/functions/-X>.
 
 =head2 x
 
   static method x : int ($file : string);
 
+File is executable by effective uid/gid. The same as Perl L<-x|https://perldoc.perl.org/functions/-X>.
+
 =head2 z
 
   static method z : int ($file : string);
+
+File has zero size (is empty). The same as Perl L<-z|https://perldoc.perl.org/functions/-X>.
 
 =head2 ioctl
 
