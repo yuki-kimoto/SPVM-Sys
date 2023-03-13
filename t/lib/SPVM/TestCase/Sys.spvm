@@ -2,10 +2,19 @@ class TestCase::Sys {
   use Sys;
   use Sys::IO;
   use Sys::FileTest;
+  use Sys::OS;
   
   static method readlink : int ($test_dir : string) {
     
-    my $file = "$test_dir/foo.txt";
+    my $sep = (string)undef;
+    if (Sys::OS->is_windows) {
+      $sep = "\\";
+    }
+    else {
+      $sep = "/";
+    }
+    
+    my $file = "$test_dir${sep}foo.txt";
     {
       my $stream = Sys::IO->fopen($file, "wb");
       
@@ -15,14 +24,14 @@ class TestCase::Sys {
       Sys::IO->fclose($stream);
     }
     
-    my $file_symlink = "$test_dir/foo_link";
+    my $file_symlink = "$test_dir${sep}foo_link";
     {
       my $success = Sys->symlink($file, $file_symlink);
       
       unless ($success) {
         return 0;
       }
-      
+    
       my $exists_symlink_file = Sys->l($file_symlink);
       unless ($exists_symlink_file) {
         return 0;
