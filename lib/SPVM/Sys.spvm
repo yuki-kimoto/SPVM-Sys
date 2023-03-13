@@ -9,19 +9,6 @@ class Sys {
   use Sys::Process;
   use Sys::IO::Stat;
   
-  static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double) {
-    if (items == 2) {
-      return Sys::OS->defined($macro_name, $value);
-    }
-    else {
-      return Sys::OS->defined($macro_name);
-    }
-  }
-  
-  static method is_windows : int () {
-    return Sys::OS->is_windows;
-  }
-  
   static method get_osname : string () {
     return Sys::OS->get_osname;
   }
@@ -308,7 +295,7 @@ class Sys {
   static method unlink : int ($pathname : string) {
     my $status = 0;
     
-    if (Sys->is_windows) {
+    if (Sys::OS->is_windows) {
       $status = Sys::IO::Windows->unlink($pathname);
     }
     else {
@@ -320,7 +307,7 @@ class Sys {
   
   static method rename : int ($oldpath : string, $newpath : string) {
     my $status = 0;
-    if (Sys->is_windows) {
+    if (Sys::OS->is_windows) {
       $status = Sys::IO::Windows->rename($oldpath, $newpath);
     }
     else {
@@ -331,7 +318,7 @@ class Sys {
   }
   
   static method readlink : string ($file : string) {
-    if (Sys->is_windows) {
+    if (Sys::OS->is_windows) {
       my $buffer_size = Sys::IO::Windows->get_readlink_buffer_size($file);
       my $buffer = (mutable string)new_string_len $buffer_size;
       Sys::IO::Windows->readlink($file, $buffer, $buffer_size);
@@ -359,7 +346,7 @@ class Sys {
   
   static method symlink : int ($oldpath : string, $newpath : string) {
     my $status = 0;
-    if (Sys->is_windows) {
+    if (Sys::OS->is_windows) {
       $status = Sys::IO::Windows->symlink($oldpath, $newpath);
     }
     else {

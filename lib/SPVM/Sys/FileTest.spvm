@@ -4,6 +4,7 @@ class Sys::FileTest {
   use Sys::IO::Constant as IO;
   use Sys::User;
   use Sys;
+  use Sys::OS;
   use Fn;
   
   static method A : double ($file : string) {
@@ -251,7 +252,7 @@ class Sys::FileTest {
       die "The file must be defined";
     }
     
-    if (Sys->is_windows) {
+    if (Sys::OS->is_windows) {
       Sys::IO::Windows->is_symlink($file);
     }
     else {

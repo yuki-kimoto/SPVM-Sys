@@ -21,6 +21,8 @@
     * Removed the statp method in the SPVM::Sys::IO::Stat class. This logic is moved to the stat method in the Sys class.
     * Removed the lstatp method in the SPVM::Sys::IO::Stat class. This logic is moved to the lstat method in the Sys class.
     * Remvoed the argument of the new method in the Sys::IO::Stat class.
+    * Remvoed the is_windows method in the Sys class.
+    * Remvoed the defined method in the Sys class.
   [New Features]
     * Added the Sys::IO::Windows class.
     * Added the symlinkp method in the Sys::IO: class.

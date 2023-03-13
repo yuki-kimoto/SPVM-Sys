@@ -20,33 +20,29 @@ This distribution contains many modules for system calls such as L<Sys::IO|SPVM:
   
   my $path = Sys->getenv("PATH");
   
-  my $is_windows = Sys->defined("_WIN32");
-
 =head1 Class Methods
 
 =head2 getenv
 
   static method getenv : string ($name : string);
 
+The same as getting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
+
 =head2 setenv
 
   static method setenv : int ($name : string, $value : string, $overwrite : int);
+
+The same as setting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 
 =head2 unsetenv
 
   static method unsetenv : int ($name : string);
 
-=head2 defined
-
-  static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double);
+The same as deleting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 
 =head2 get_osname
 
   static method get_osname : string ()
-
-=head2 is_windows
-
-  static method is_windows : int ();
 
 =head2 A
 

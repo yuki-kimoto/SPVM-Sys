@@ -237,6 +237,7 @@ t/ftest/myexe.exe
 t/ftest/readline_basic.txt
 t/ftest/readline_eof.txt
 t/ftest/readline_long_lines.txt
+t/lib/SPVM/TestCase/Sys.spvm
 t/lib/SPVM/TestCase/Sys/FileTest.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/IO/Stat.spvm
@@ -259,6 +260,7 @@ t/Sys_IO.t
 t/Sys_IO_Stat.t
 t/Sys_IO_Windows.t
 t/Sys_Ioctl.t
+t/Sys_OS.t
 t/Sys_Poll.t
 t/Sys_Process.t
 t/Sys_Select.t
