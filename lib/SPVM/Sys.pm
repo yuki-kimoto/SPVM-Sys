@@ -460,10 +460,6 @@ Gets the process number of the running this program. The same as the Perl L<$$|h
 
 Returns the process id of the parent process. The same as the Perl L<getppid|https://perldoc.perl.org/functions/getppid>.
 
-=head2 ioctl
-
-  static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
-
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.

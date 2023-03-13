@@ -442,15 +442,6 @@ class Sys {
     return $ok;
   }
 
-  static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object) {
-    if (items == 3) {
-      return Sys::Ioctl->ioctl($fd, $request, $request_arg);
-    }
-    else {
-      return Sys::Ioctl->ioctl($fd, $request);
-    }
-  }
-  
   static method getuid : int () {
     return Sys::User->getuid();
   }
