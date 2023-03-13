@@ -561,10 +561,6 @@ class Sys {
     return Sys::Process->getppid();
   }
   
-  static method exec : int ($path : string, $args : string[]) {
-    return Sys::Process->execv($path, $args);
-  }
-  
   static method stat : Sys::IO::Stat ($path : string) {
     my $stat = Sys::IO::Stat->new;
     Sys::IO::Stat->stat($path, $stat);

@@ -432,10 +432,6 @@ Works just like localtime, but the returned values are localized for the standar
 
 Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
 
-=head2 exec
-
-  static method exec : int ($path : string, $args : string[]);
-
 =head2 pipe
 
   static method pipe : int ($pipe_fds : int[]);
