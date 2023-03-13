@@ -141,7 +141,6 @@
       static method sleep : int ($seconds : int);
       static method wait : int ($wstatus_ref : int*);
       static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int);
-      static method exit : int ($status : int);
       static method pipe : int ($pipe_fds : int[]);
       static method getpgid : int ($pid : int);
       static method setpgid : int ($pid : int, $pgid : int);

@@ -557,10 +557,6 @@ class Sys {
     return Sys::Process->waitpid($pid, $wstatus_ref, $options) == 0;
   }
   
-  static method exit : int ($status : int) {
-    return Sys::Process->exit($status) == 0;
-  }
-  
   static method pipe : int ($pipe_fds : int[]) {
     return Sys::Process->pipe($pipe_fds) == 0;
   }

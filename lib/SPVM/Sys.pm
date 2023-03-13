@@ -487,12 +487,6 @@ Calls the C<wait> function on this system.
 
 Calls the C<waitpid> function on this system.
 
-=head2 exit
-
-  static method exit : int ($status : int);
-
-Calls the C<exit> function on this system.
-
 =head2 exec
 
   static method exec : int ($path : string, $args : string[]);
