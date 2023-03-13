@@ -651,26 +651,6 @@ class Sys {
     return Sys::IO->opendir($dir);
   }
   
-  static method closedir : int ($dirp : Sys::IO::DirStream) {
-    return Sys::IO->closedir($dirp) == 0;
-  }
-  
-  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
-    return Sys::IO->readdir($dirp);
-  }
-  
-  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
-    Sys::IO->rewinddir($dirp);
-  }
-  
-  static method telldir : long ($dirp : Sys::IO::DirStream) {
-    return Sys::IO->telldir($dirp);
-  }
-  
-  static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long) {
-    Sys::IO->seekdir($dirp, $offset);
-  }
-  
   static method utime : int ($atime : long, $mtime : long, $filename : string) {
     my $times = Sys::IO::Utimbuf->new;
     $times->set_actime($atime);

@@ -422,30 +422,6 @@ Works just like localtime, but the returned values are localized for the standar
 
   static method symlink : int ($oldpath : string, $newpath : string) {
 
-=head2 opendir
-
-  static method opendir : Sys::IO::DirStream ($dir : string) {
-
-=head2 closedir
-
-  static method closedir : int ($dirp : Sys::IO::DirStream) {
-
-=head2 readdir
-
-  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
-
-=head2 rewinddir
-
-  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
-
-=head2 telldir
-
-  static method telldir : long ($dirp : Sys::IO::DirStream) {
-
-=head2 seekdir
-
-  static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long) {
-
 =head2 utime
 
   static method utime : int ($atime : long, $mtime : long, $filename : string) {

@@ -36,8 +36,6 @@
     * The l method in the Sys::FileTest supports Windows.
     * Added the following methods in the Sys class.
       
-      static method is_windows : int ();
-
       static method A : double ($file : string);
 
       static method C : double ($file : string);
@@ -167,18 +165,6 @@
       static method symlink : int ($oldpath : string, $newpath : string);
 
       static method readlink : int ($file : string);
-
-      static method opendir : Sys::IO::DirStream ($dir : string);
-
-      static method closedir : int ($dirp : Sys::IO::DirStream);
-
-      static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream);
-
-      static method rewinddir : void ($dirp : Sys::IO::DirStream);
-
-      static method telldir : long ($dirp : Sys::IO::DirStream);
-
-      static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long);
 
       static method utime : int ($atime : long, $mtime : long, $filename : string);
 
