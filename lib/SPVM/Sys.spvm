@@ -9,7 +9,7 @@ class Sys {
   use Sys::Process;
   use Sys::IO::Stat;
   
-  static method get_osname : string () {
+  static method osname : string () {
     my $osname : string;
     
     if (Sys::OS->defined("__linux__")) {
@@ -34,7 +34,7 @@ class Sys {
       $osname = "darwin";
     }
     else {
-      die "The get_osname method is not supported this os";
+      die "The osname method is not supported this os";
     }
     
     return $osname;

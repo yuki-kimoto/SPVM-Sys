@@ -24,6 +24,7 @@
     * Removed the is_windows method in the Sys class. This is used from the Sys::OS class.
     * Removed the defined method in the Sys class. This is used from the Sys::OS class.
     * Removed the get_osname method in the Sys::OS class.
+    * Renamed the get_osname method in the Sys class to osname.
   [New Features]
     * Added the Sys::IO::Windows class.
     * Added the symlinkp method in the Sys::IO: class.

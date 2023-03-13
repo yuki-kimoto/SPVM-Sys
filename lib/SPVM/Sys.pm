@@ -40,13 +40,13 @@ The same as setting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%
 
 The same as deleting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 
-=head2 get_osname
+=head2 osname
 
-  static method get_osname : string ()
+  static method osname : string ()
 
 Gets the OS name(Perl's L<$^O|https://perldoc.perl.org/perlvar#$%5EO> ). The list of the OS names are described at L<PLATFORMS - perlport|https://perldoc.perl.org/perlport#PLATFORMS>.
 
-The C<get_osname> in the C<Sys::OS> class supports the following os names.
+The C<osname> in the C<Sys::OS> class supports the following os names.
 
 =over 2
 

@@ -16,9 +16,9 @@ use SPVM 'TestCase::Sys';
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 
-# get_osname
+# osname
 {
-  is(SPVM::Sys->get_osname, $^O);
+  is(SPVM::Sys->osname, $^O);
 }
 
 # readlink
