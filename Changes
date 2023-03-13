@@ -144,8 +144,8 @@
       static method system : int ($command : string);
       static method exit : int ($status : int);
       static method pipe : int ($pipe_fds : int[]);
-      static method getpgid : int ($pid : int);
-      static method setpgid : int ($pid : int, $pgid : int);
+      static method getpgrp : int ($pid : int);
+      static method setpgrp : int ($pid : int, $pgid : int);
       static method getpid : int ();
       static method getppid : int ();
       static method exec : int ($path : string, $args : string[]);
