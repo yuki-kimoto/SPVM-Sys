@@ -537,14 +537,6 @@ class Sys {
     return Time->gmtime($time);
   }
   
-  static method getpriority : int ($which : int, $who : int) {
-    return Sys::Process->getpriority($which, $who);
-  }
-  
-  static method setpriority : int ($which : int, $who : int, $prio : int) {
-    return Sys::Process->setpriority($which, $who, $prio) == 0;
-  }
-  
   static method sleep : int ($seconds : int) {
     return Sys::Process->sleep($seconds) == 0;
   }

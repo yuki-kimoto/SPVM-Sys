@@ -136,8 +136,6 @@
 
       static method gmtime : Time::Info ($time : long);
 
-      static method getpriority : int ($which : int, $who : int);
-      static method setpriority : int ($which : int, $who : int, $prio : int);
       static method sleep : int ($seconds : int);
       static method pipe : int ($pipe_fds : int[]);
       static method getpgid : int ($pid : int);

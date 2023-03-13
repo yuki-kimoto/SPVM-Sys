@@ -454,21 +454,6 @@ Works just like localtime, but the returned values are localized for the standar
 
   static method utime : int ($atime : long, $mtime : long, $filename : string) {
 
-=head2 getpriority
-
-  static method getpriority : int ($which : int, $who : int);
-
-Returns the current priority for a process, a process group. The same as the Perl L<getpriority|https://perldoc.perl.org/functions/getpriority>.
-
-See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
-
-=head2 setpriority
-
-  static method setpriority : int ($which : int, $who : int, $prio : int);
-Sets the current priority for a process, a process group, or a user. The same as the Perl L<setpriority|https://perldoc.perl.org/functions/setpriority>.
-
-See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
-
 =head2 sleep
 
   static method sleep : int ($seconds : int);
