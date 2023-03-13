@@ -12,14 +12,22 @@ SPVM::Sys - System Calls for File IO, User, Process, Signal, Socket
 
 C<SPVM::Sys> is the C<Sys> class in L<SPVM> language. It provides system calls such as file IO, user manipulation, process, socket, time,
 
-This distribution contains many modules for system calls such as L<Sys::IO|SPVM::Sys::IO>. See L</"Modules">.
+This class provides methods compatible with functions related to system calls provided by Perl.
+
+This distribution contains many modules for system calls such as L<Sys::IO|SPVM::Sys::IO>, L<Sys::Socket|SPVM::Sys::Socket>, L<Sys::Process|SPVM::Sys::Process>. See L</"Modules">.
+
+Methods compatible with file IO, sockets, file paths, current directory, select, and poll are implemented as other modules such as L<IO::File|SPVM::IO::File>, L<IO::Socket|SPVM::IO::Socket>, L<Cwd|SPVM::Cwd>. See L</"See Also">.
 
 =head1 Usage
 
   use Sys;
   
-  my $path = Sys->getenv("PATH");
+  Sys->mkdir("foo");
   
+  Sys->rmdir("foo");
+  
+  my $process_id = Sys->getpid;
+
 =head1 Class Methods
 
 =head2 getenv
@@ -50,17 +58,17 @@ Currently the following OS names are supported.
 
 =over 2
 
-=item * linux
+=item * C<linux>
 
-=item * darwin
+=item * C<darwin>
 
-=item * MSWin32
+=item * C<MSWin32>
 
-=item * freebsd
+=item * C<freebsd>
 
-=item * openbsd
+=item * C<openbsd>
 
-=item * solaris
+=item * C<solaris>
 
 =back
 
@@ -230,7 +238,13 @@ Gets the real gid of this process.  The same as the getting of Perl L<$(|https:/
 
   static method getegid : int ();
 
-Gets the effective gid of this process. The same as the getting of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
+Gets the effective gid of this process. The same as the getting first return value of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
+
+=head2 getgroups
+
+  static method getgroups : int[] ();
+
+Gets the list of effective gid. The same as the getting second and subsequent return values of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
 
 =head2 setuid
 
@@ -256,83 +270,131 @@ Sets the real gid of this process. The same as the setting of Perl L<$(|https://
 
 Sets the effective gid of this process. The same as the setting of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
 
+=head2 setgroups
+
+  static method setgroups : int ($groups : int[]);
+
+Sets the list of effective gid. The same as the setting second and subsequent arguments of Perl L<$)|https://perldoc.perl.org/perlvar#$EFFECTIVE_GROUP_ID>.
+
 =head2 setpwent
 
   static method setpwent : void ();
+
+The same as the Perl L<setpwent|https://perldoc.perl.org/functions/setpwent>.
 
 =head2 endpwent
 
   static method endpwent : void ();
 
+The same as the Perl L<endpwent|https://perldoc.perl.org/functions/endpwent>.
+
 =head2 getpwent
 
   static method getpwent : Sys::User::Passwd ();
+
+The same as the Perl L<getpwent|https://perldoc.perl.org/functions/getpwent>.
+
+The return type is L<Sys::User::Passwd|SPVM::Sys::User::Passwd>.
 
 =head2 setgrent
 
   static method setgrent : void ();
 
+The same as the Perl L<setgrent|https://perldoc.perl.org/functions/setgrent>.
+
 =head2 endgrent
 
   static method endgrent : void ();
+
+The same as the Perl L<endgrent|https://perldoc.perl.org/functions/endgrent>.
 
 =head2 getgrent
 
   static method getgrent : Sys::User::Group ();
 
-=head2 getgroups
+The same as the Perl L<getgrent|https://perldoc.perl.org/functions/getgrent>.
 
-  static method getgroups : int[] ();
-
-=head2 setgroups
-
-  static method setgroups : int ($groups : int[]);
+The return type is L<Sys::User::Group|SPVM::Sys::User::Group>.
 
 =head2 getpwuid
 
   static method getpwuid : Sys::User::Passwd ($id : int);
 
+The same as the Perl L<getpwuid|https://perldoc.perl.org/functions/getpwuid>.
+
+The return type is L<Sys::User::Passwd|SPVM::Sys::User::Passwd>.
+
 =head2 getpwnam
 
   static method getpwnam : Sys::User::Passwd ($name : string);
+
+The same as the Perl L<getpwnam|https://perldoc.perl.org/functions/getpwnam>.
+
+The return type is L<Sys::User::Passwd|SPVM::Sys::User::Passwd>.
 
 =head2 getgrgid
 
   static method getgrgid : Sys::User::Group ($id : int);
 
+The same as the Perl L<getgrgid|https://perldoc.perl.org/functions/getgrgid>.
+
+The return type is L<Sys::User::Group|SPVM::Sys::User::Group>.
+
 =head2 getgrnam
 
   static method getgrnam : Sys::User::Group ($name : string);
+
+The same as the Perl L<getgrnam|https://perldoc.perl.org/functions/getgrnam>.
+
+The return type is L<Sys::User::Group|SPVM::Sys::User::Group>.
 
 =head2 times
 
   static method times : Sys::Time::Tms ();
 
+Returns the user and system times in seconds for this process and any exited children of this process. The same as the Perl L<times|https://perldoc.perl.org/functions/times>.
+
+The return type is L<Sys::Time::Tms|SPVM::Sys::Time::Tms>.
+
 =head2 time
 
   static method time : long ();
+
+Returns the number of non-leap seconds since whatever time the system considers to be the epoch, suitable for feeding to gmtime and localtime. The same as the Perl L<time|https://perldoc.perl.org/functions/time>. This is the alias for L<time|SPVM::Time/"time"> method in the L<Time|SPVM::Time> class.
 
 =head2 localtime
 
   static method localtime : Time::Info ($time : long);
 
+Converts a time as returned by the time function to a L<Time::Info|SPVM::Time::Info> object with the time analyzed for the local time zone. The same as the Perl L<localtime|https://perldoc.perl.org/functions/localtime>. This is the alias for L<localtime|SPVM::Time/"localtime"> method in the L<Time|SPVM::Time> class.
+
 =head2 gmtime
 
   static method gmtime : Time::Info ($time : long);
+
+Works just like localtime, but the returned values are localized for the standard Greenwich time zone. The same as the Perl L<gmtime|https://perldoc.perl.org/functions/gmtime>. This is the alias for L<gmtime|SPVM::Time/"gmtime"> method in the L<Time|SPVM::Time> class.
 
 =head2 getpriority
 
   static method getpriority : int ($which : int, $who : int);
 
+Returns the current priority for a process, a process group. The same as the Perl L<getpriority|https://perldoc.perl.org/functions/getpriority>.
+
+See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
+
 =head2 setpriority
 
   static method setpriority : int ($which : int, $who : int, $prio : int);
+
+Sets the current priority for a process, a process group, or a user. The same as the Perl L<setpriority|https://perldoc.perl.org/functions/setpriority>.
+
+See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
 
 =head2 sleep
 
   static method sleep : int ($seconds : int);
 
-=head2 
+=head2 wait
 
   static method wait : int ($wstatus_ref : int*);
 
@@ -458,15 +520,11 @@ Sets the effective gid of this process. The same as the setting of Perl L<$)|htt
 
 =head1 Modules
 
-All modules included in this distribution.
+All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.
 
 =head2 Sys::Env
 
 =head4 L<Sys::Env|SPVM::Sys::Env>
-
-=head2 Sys::FileTest
-
-=head4 L<Sys::FileTest|SPVM::Sys::FileTest>
 
 =head2 Sys::IO
 
@@ -593,6 +651,10 @@ All modules included in this distribution.
 =head4 L<Sys::User::Group|SPVM::Sys::User::Group>
 
 =head4 L<Sys::User::Passwd|SPVM::Sys::User::Passwd>
+
+=head2 Sys::FileTest
+
+=head4 L<Sys::FileTest|SPVM::Sys::FileTest> (Deparecated)
 
 =head1 See Also
 
