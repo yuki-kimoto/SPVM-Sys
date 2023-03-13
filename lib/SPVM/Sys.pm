@@ -493,12 +493,6 @@ Calls the C<waitpid> function on this system.
 
 Calls the C<exit> function on this system.
 
-=head2 system
-
-  static method system : int ($command : string);
-
-Calls the C<system> function on this OS.
-
 =head2 exec
 
   static method exec : int ($path : string, $args : string[]);
@@ -507,13 +501,17 @@ Calls the C<system> function on this OS.
 
   static method pipe : int ($pipe_fds : int[]);
 
-=head2 getpgid
+=head2 getpgrp
 
-  static method getpgid : int ($pid : int);
+  static method getpgrp : int ($pid : int);
 
-=head2 setpgid
+Returns the current process group for the specified PID. The same as the Perl L<getpgrp|https://perldoc.perl.org/functions/getpgrp>.
 
-  static method setpgid : int ($pid : int, $pgid : int);
+=head2 setpgrp
+
+  static method setpgrp : int ($pid : int, $pgid : int);
+
+Sets the current process group for the specified PID. The same as the Perl L<getpgrp|https://perldoc.perl.org/functions/setpgrp>.
 
 =head2 getpid
 

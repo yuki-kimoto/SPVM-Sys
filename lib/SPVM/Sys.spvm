@@ -557,10 +557,6 @@ class Sys {
     return Sys::Process->waitpid($pid, $wstatus_ref, $options) == 0;
   }
   
-  static method system : int ($command : string) {
-    return Sys::Process->system($command);
-  }
-  
   static method exit : int ($status : int) {
     return Sys::Process->exit($status) == 0;
   }
@@ -569,11 +565,11 @@ class Sys {
     return Sys::Process->pipe($pipe_fds) == 0;
   }
   
-  static method getpgid : int ($pid : int) {
+  static method getpgrp : int ($pid : int) {
     return Sys::Process->getpgid($pid);
   }
   
-  static method setpgid : int ($pid : int, $pgid : int) {
+  static method setpgrp : int ($pid : int, $pgid : int) {
     return Sys::Process->setpgid($pid, $pgid) == 0;
   }
   
