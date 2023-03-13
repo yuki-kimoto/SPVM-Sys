@@ -35,8 +35,6 @@
     * The l method in the Sys::FileTest supports Windows.
     * Added the following methods in the Sys class.
       
-      static method is_windows : int ();
-
       static method A : double ($file : string);
 
       static method C : double ($file : string);
@@ -85,72 +83,17 @@
 
       static method z : int ($file : string);
       
-      static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
-
-      static method getuid : int ();
-
-      static method geteuid : int ();
-
-      static method getgid : int ();
-
-      static method getegid : int ();
-
-      static method setuid : int ($uid : int);
-
-      static method seteuid : int ($euid : int);
-
-      static method setgid : int ($gid : int);
-
-      static method setegid : int ($egid : int);
-
-      static method setpwent : void ();
-
-      static method endpwent : void ();
-
-      static method getpwent : Sys::User::Passwd ();
-
-      static method setgrent : void ();
-
-      static method endgrent : void ();
-
-      static method getgrent : Sys::User::Group ();
-
-      static method getgroups : int[] ();
-
-      static method setgroups : int ($groups : int[]);
-
-      static method getpwuid : Sys::User::Passwd ($id : int);
-
-      static method getpwnam : Sys::User::Passwd ($name : string);
-
-      static method getgrgid : Sys::User::Group ($id : int);
-
-      static method getgrnam : Sys::User::Group ($name : string);
-
-      static method times : Sys::Time::Tms ();
-
       static method time : long ();
 
       static method localtime : Time::Info ($time : long);
 
       static method gmtime : Time::Info ($time : long);
 
-      static method getpriority : int ($which : int, $who : int);
-      static method setpriority : int ($which : int, $who : int, $prio : int);
       static method sleep : int ($seconds : int);
-      static method wait : int ($wstatus_ref : int*);
-      static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int);
-      static method system : int ($command : string);
-      static method exit : int ($status : int);
-      static method pipe : int ($pipe_fds : int[]);
-      static method getpgrp : int ($pid : int);
-      static method setpgrp : int ($pid : int, $pgid : int);
+      
       static method getpid : int ();
-      static method getppid : int ();
-      static method exec : int ($path : string, $args : string[]);
 
       static method stat : Sys::IO::Stat ($path : string);
-      static method lstat : Sys::IO::Stat ($path : string);
 
       static method mkdir : int ($path : string, $mode : int);
 
@@ -173,18 +116,6 @@
       static method symlink : int ($oldpath : string, $newpath : string);
 
       static method readlink : int ($file : string);
-
-      static method opendir : Sys::IO::DirStream ($dir : string);
-
-      static method closedir : int ($dirp : Sys::IO::DirStream);
-
-      static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream);
-
-      static method rewinddir : void ($dirp : Sys::IO::DirStream);
-
-      static method telldir : long ($dirp : Sys::IO::DirStream);
-
-      static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long);
 
       static method utime : int ($atime : long, $mtime : long, $filename : string);
 

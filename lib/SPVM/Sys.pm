@@ -12,14 +12,22 @@ SPVM::Sys - System Calls for File IO, User, Process, Signal, Socket
 
 C<SPVM::Sys> is the C<Sys> class in L<SPVM> language. It provides system calls such as file IO, user manipulation, process, socket, time,
 
-This distribution contains many modules for system calls such as L<Sys::IO|SPVM::Sys::IO>. See L</"Modules">.
+This class provides methods compatible with functions related to system calls provided by Perl.
+
+This distribution contains many modules for system calls such as L<Sys::IO|SPVM::Sys::IO>, L<Sys::Socket|SPVM::Sys::Socket>, L<Sys::Process|SPVM::Sys::Process>. See L</"Modules">.
+
+Methods compatible with file IO, sockets, file paths, current directory, select, and poll are implemented as other modules such as L<IO::File|SPVM::IO::File>, L<IO::Socket|SPVM::IO::Socket>, L<Cwd|SPVM::Cwd>. See L</"See Also">.
 
 =head1 Usage
 
   use Sys;
   
-  my $path = Sys->getenv("PATH");
+  Sys->mkdir("foo");
   
+  Sys->rmdir("foo");
+  
+  my $process_id = Sys->getpid;
+
 =head1 Class Methods
 
 =head2 getenv
@@ -50,17 +58,17 @@ Currently the following OS names are supported.
 
 =over 2
 
-=item * linux
+=item * C<linux>
 
-=item * darwin
+=item * C<darwin>
 
-=item * MSWin32
+=item * C<MSWin32>
 
-=item * freebsd
+=item * C<freebsd>
 
-=item * openbsd
+=item * C<openbsd>
 
-=item * solaris
+=item * C<solaris>
 
 =back
 
@@ -208,165 +216,27 @@ File is executable by effective uid/gid. The same as Perl L<-x|https://perldoc.p
 
 File has zero size (is empty). The same as Perl L<-z|https://perldoc.perl.org/functions/-X>.
 
-=head2 ioctl
-
-  static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
-
-=head2 getuid
-
-  static method getuid : int ();
-
-=head2 geteuid
-
-  static method geteuid : int ();
-
-=head2 getgid
-
-  static method getgid : int ();
-
-=head2 getegid
-
-  static method getegid : int ();
-
-=head2 setuid
-
-  static method setuid : int ($uid : int);
-
-=head2 seteuid
-
-  static method seteuid : int ($euid : int);
-
-=head2 setgid
-
-  static method setgid : int ($gid : int);
-
-=head2 setegid
-
-  static method setegid : int ($egid : int);
-
-=head2 setpwent
-
-  static method setpwent : void ();
-
-=head2 endpwent
-
-  static method endpwent : void ();
-
-=head2 getpwent
-
-  static method getpwent : Sys::User::Passwd ();
-
-=head2 setgrent
-
-  static method setgrent : void ();
-
-=head2 endgrent
-
-  static method endgrent : void ();
-
-=head2 getgrent
-
-  static method getgrent : Sys::User::Group ();
-
-=head2 getgroups
-
-  static method getgroups : int[] ();
-
-=head2 setgroups
-
-  static method setgroups : int ($groups : int[]);
-
-=head2 getpwuid
-
-  static method getpwuid : Sys::User::Passwd ($id : int);
-
-=head2 getpwnam
-
-  static method getpwnam : Sys::User::Passwd ($name : string);
-
-=head2 getgrgid
-
-  static method getgrgid : Sys::User::Group ($id : int);
-
-=head2 getgrnam
-
-  static method getgrnam : Sys::User::Group ($name : string);
-
-=head2 times
-
-  static method times : Sys::Time::Tms ();
-
 =head2 time
 
   static method time : long ();
+
+Returns the number of non-leap seconds since whatever time the system considers to be the epoch, suitable for feeding to gmtime and localtime. The same as the Perl L<time|https://perldoc.perl.org/functions/time>. This is the alias for L<time|SPVM::Time/"time"> method in the L<Time|SPVM::Time> class.
 
 =head2 localtime
 
   static method localtime : Time::Info ($time : long);
 
+Converts a time as returned by the time function to a L<Time::Info|SPVM::Time::Info> object with the time analyzed for the local time zone. The same as the Perl L<localtime|https://perldoc.perl.org/functions/localtime>. This is the alias for L<localtime|SPVM::Time/"localtime"> method in the L<Time|SPVM::Time> class.
+
 =head2 gmtime
 
   static method gmtime : Time::Info ($time : long);
 
-=head2 getpriority
-
-  static method getpriority : int ($which : int, $who : int);
-
-=head2 setpriority
-
-  static method setpriority : int ($which : int, $who : int, $prio : int);
-
-=head2 sleep
-
-  static method sleep : int ($seconds : int);
-
-=head2 
-
-  static method wait : int ($wstatus_ref : int*);
-
-=head2 waitpid
-
-  static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int);
-
-=head2 system
-
-  static method system : int ($command : string);
-
-=head2 exit
-
-  static method exit : int ($status : int);
-
-=head2 pipe
-
-  static method pipe : int ($pipe_fds : int[]);
-
-=head2 getpgid
-
-  static method getpgid : int ($pid : int);
-
-=head2 setpgid
-
-  static method setpgid : int ($pid : int, $pgid : int);
-
-=head2 getpid
-
-  static method getpid : int ();
-
-=head2 getppid
-
-  static method getppid : int ();
-
-=head2 exec
-
-  static method exec : int ($path : string, $args : string[]);
+Works just like localtime, but the returned values are localized for the standard Greenwich time zone. The same as the Perl L<gmtime|https://perldoc.perl.org/functions/gmtime>. This is the alias for L<gmtime|SPVM::Time/"gmtime"> method in the L<Time|SPVM::Time> class.
 
 =head2 stat
 
   static method stat : Sys::IO::Stat ($path : string);
-
-=head2 lstat
-
-  static method lstat : Sys::IO::Stat ($path : string);
 
 =head2 mkdir
 
@@ -404,53 +274,33 @@ File has zero size (is empty). The same as Perl L<-z|https://perldoc.perl.org/fu
 
   static method chmod : int ($mode :int, $path : string) {
 
-=head2 chown
-
-  static method chown : int ($owner : int, $group : int, $path : string) {
-
 =head2 symlink
 
   static method symlink : int ($oldpath : string, $newpath : string) {
-
-=head2 opendir
-
-  static method opendir : Sys::IO::DirStream ($dir : string) {
-
-=head2 closedir
-
-  static method closedir : int ($dirp : Sys::IO::DirStream) {
-
-=head2 readdir
-
-  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
-
-=head2 rewinddir
-
-  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
-
-=head2 telldir
-
-  static method telldir : long ($dirp : Sys::IO::DirStream) {
-
-=head2 seekdir
-
-  static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long) {
 
 =head2 utime
 
   static method utime : int ($atime : long, $mtime : long, $filename : string) {
 
+=head2 sleep
+
+  static method sleep : int ($seconds : int);
+
+Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
+
+=head2 getpid
+
+  static method getpid : int ();
+
+Gets the process number of the running this program. The same as the Perl L<$$|https://perldoc.perl.org/perlvar#$PROCESS_ID>.
+
 =head1 Modules
 
-All modules included in this distribution.
+All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.
 
 =head2 Sys::Env
 
 =head4 L<Sys::Env|SPVM::Sys::Env>
-
-=head2 Sys::FileTest
-
-=head4 L<Sys::FileTest|SPVM::Sys::FileTest>
 
 =head2 Sys::IO
 
@@ -577,6 +427,10 @@ All modules included in this distribution.
 =head4 L<Sys::User::Group|SPVM::Sys::User::Group>
 
 =head4 L<Sys::User::Passwd|SPVM::Sys::User::Passwd>
+
+=head2 Sys::FileTest
+
+=head4 L<Sys::FileTest|SPVM::Sys::FileTest> (Deparecated)
 
 =head1 See Also
 
