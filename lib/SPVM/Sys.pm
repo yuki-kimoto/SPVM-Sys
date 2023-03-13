@@ -352,29 +352,11 @@ Works just like localtime, but the returned values are localized for the standar
 
 Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
 
-=head2 getpgrp
-
-  static method getpgrp : int ($pid : int);
-
-Returns the current process group for the specified PID. The same as the Perl L<getpgrp|https://perldoc.perl.org/functions/getpgrp>.
-
-=head2 setpgrp
-
-  static method setpgrp : int ($pid : int, $pgid : int);
-
-Sets the current process group for the specified PID. The same as the Perl L<getpgrp|https://perldoc.perl.org/functions/setpgrp>.
-
 =head2 getpid
 
   static method getpid : int ();
 
 Gets the process number of the running this program. The same as the Perl L<$$|https://perldoc.perl.org/perlvar#$PROCESS_ID>.
-
-=head2 getppid
-
-  static method getppid : int ();
-
-Returns the process id of the parent process. The same as the Perl L<getppid|https://perldoc.perl.org/functions/getppid>.
 
 =head1 Modules
 

@@ -110,7 +110,6 @@
       static method getpgid : int ($pid : int);
       static method setpgid : int ($pid : int, $pgid : int);
       static method getpid : int ();
-      static method getppid : int ();
 
       static method stat : Sys::IO::Stat ($path : string);
 
