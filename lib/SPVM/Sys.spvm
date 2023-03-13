@@ -532,10 +532,6 @@ class Sys {
     return Sys::Process->sleep($seconds) == 0;
   }
   
-  static method pipe : int ($pipe_fds : int[]) {
-    return Sys::Process->pipe($pipe_fds) == 0;
-  }
-  
   static method getpgrp : int ($pid : int) {
     return Sys::Process->getpgid($pid);
   }

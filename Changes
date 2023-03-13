@@ -133,7 +133,6 @@
       static method gmtime : Time::Info ($time : long);
 
       static method sleep : int ($seconds : int);
-      static method pipe : int ($pipe_fds : int[]);
       static method getpgid : int ($pid : int);
       static method setpgid : int ($pid : int, $pgid : int);
       static method getpid : int ();
