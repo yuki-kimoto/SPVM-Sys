@@ -378,10 +378,6 @@ Works just like localtime, but the returned values are localized for the standar
 
   static method stat : Sys::IO::Stat ($path : string);
 
-=head2 lstat
-
-  static method lstat : Sys::IO::Stat ($path : string);
-
 =head2 mkdir
 
   static method mkdir : int ($path : string, $mode : int) {

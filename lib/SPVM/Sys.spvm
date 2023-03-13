@@ -571,12 +571,6 @@ class Sys {
     return $stat;
   }
   
-  static method lstat : Sys::IO::Stat ($path : string) {
-    my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->lstat($path, $stat);
-    return $stat;
-  }
-  
   static method mkdir : int ($path : string, $mode : int) {
     return Sys::IO->mkdir($path, $mode) == 0;
   }
