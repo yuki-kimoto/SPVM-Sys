@@ -374,66 +374,6 @@ Converts a time as returned by the time function to a L<Time::Info|SPVM::Time::I
 
 Works just like localtime, but the returned values are localized for the standard Greenwich time zone. The same as the Perl L<gmtime|https://perldoc.perl.org/functions/gmtime>. This is the alias for L<gmtime|SPVM::Time/"gmtime"> method in the L<Time|SPVM::Time> class.
 
-=head2 getpriority
-
-  static method getpriority : int ($which : int, $who : int);
-
-Returns the current priority for a process, a process group. The same as the Perl L<getpriority|https://perldoc.perl.org/functions/getpriority>.
-
-See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
-
-=head2 setpriority
-
-  static method setpriority : int ($which : int, $who : int, $prio : int);
-
-Sets the current priority for a process, a process group, or a user. The same as the Perl L<setpriority|https://perldoc.perl.org/functions/setpriority>.
-
-See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
-
-=head2 sleep
-
-  static method sleep : int ($seconds : int);
-
-=head2 wait
-
-  static method wait : int ($wstatus_ref : int*);
-
-=head2 waitpid
-
-  static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int);
-
-=head2 system
-
-  static method system : int ($command : string);
-
-=head2 exit
-
-  static method exit : int ($status : int);
-
-=head2 pipe
-
-  static method pipe : int ($pipe_fds : int[]);
-
-=head2 getpgid
-
-  static method getpgid : int ($pid : int);
-
-=head2 setpgid
-
-  static method setpgid : int ($pid : int, $pgid : int);
-
-=head2 getpid
-
-  static method getpid : int ();
-
-=head2 getppid
-
-  static method getppid : int ();
-
-=head2 exec
-
-  static method exec : int ($path : string, $args : string[]);
-
 =head2 stat
 
   static method stat : Sys::IO::Stat ($path : string);
@@ -513,6 +453,79 @@ See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
 =head2 utime
 
   static method utime : int ($atime : long, $mtime : long, $filename : string) {
+
+=head2 getpriority
+
+  static method getpriority : int ($which : int, $who : int);
+
+Returns the current priority for a process, a process group. The same as the Perl L<getpriority|https://perldoc.perl.org/functions/getpriority>.
+
+See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
+
+=head2 setpriority
+
+  static method setpriority : int ($which : int, $who : int, $prio : int);
+Sets the current priority for a process, a process group, or a user. The same as the Perl L<setpriority|https://perldoc.perl.org/functions/setpriority>.
+
+See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> for constants.
+
+=head2 sleep
+
+  static method sleep : int ($seconds : int);
+
+Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
+
+=head2 wait
+
+  static method wait : int ($wstatus_ref : int*);
+
+Calls the C<wait> function on this system.
+
+=head2 waitpid
+
+  static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int);
+
+Calls the C<waitpid> function on this system.
+
+=head2 exit
+
+  static method exit : int ($status : int);
+
+Calls the C<exit> function on this system.
+
+=head2 system
+
+  static method system : int ($command : string);
+
+Calls the C<system> function on this OS.
+
+=head2 exec
+
+  static method exec : int ($path : string, $args : string[]);
+
+=head2 pipe
+
+  static method pipe : int ($pipe_fds : int[]);
+
+=head2 getpgid
+
+  static method getpgid : int ($pid : int);
+
+=head2 setpgid
+
+  static method setpgid : int ($pid : int, $pgid : int);
+
+=head2 getpid
+
+  static method getpid : int ();
+
+Gets the process number of the running this program. The same as the Perl L<$$|https://perldoc.perl.org/perlvar#$PROCESS_ID>.
+
+=head2 getppid
+
+  static method getppid : int ();
+
+Returns the process id of the parent process. The same as the Perl L<getppid|https://perldoc.perl.org/functions/getppid>.
 
 =head2 ioctl
 
