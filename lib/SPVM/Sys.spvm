@@ -634,10 +634,6 @@ class Sys {
     return $status == 0;
   }
   
-  static method opendir : Sys::IO::DirStream ($dir : string) {
-    return Sys::IO->opendir($dir);
-  }
-  
   static method utime : int ($atime : long, $mtime : long, $filename : string) {
     my $times = Sys::IO::Utimbuf->new;
     $times->set_actime($atime);
