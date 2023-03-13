@@ -469,45 +469,12 @@ class Sys {
     return Sys::User->setegid($egid) == 0;
   }
   
-  static method setpwent : void () {
-    Sys::User->setpwent();
-  }
-  static method endpwent : void () {
-    Sys::User->endpwent();
-  }
-  static method getpwent : Sys::User::Passwd () {
-    return Sys::User->getpwent();
-  }
-  
-  static method setgrent : void () {
-    Sys::User->setgrent();
-  }
-  static method endgrent : void () {
-    Sys::User->endgrent();
-  }
-  static method getgrent : Sys::User::Group () {
-    return Sys::User->getgrent();
-  }
-  
   static method getgroups : int[] () {
     return Sys::User->getgroups();
   }
+  
   static method setgroups : int ($groups : int[]) {
     return Sys::User->setgroups($groups) == 0;
-  }
-
-  static method getpwuid : Sys::User::Passwd ($id : int) {
-    return Sys::User->getpwuid($id);
-  }
-  static method getpwnam : Sys::User::Passwd ($name : string) {
-    return Sys::User->getpwnam($name);
-  }
-
-  static method getgrgid : Sys::User::Group ($id : int) {
-    return Sys::User->getgrgid($id);
-  }
-  static method getgrnam : Sys::User::Group ($name : string) {
-    return Sys::User->getgrnam($name);
   }
   
   static method time : long () {
