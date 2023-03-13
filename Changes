@@ -24,7 +24,6 @@
     * Removed the lstatp method in the SPVM::Sys::IO::Stat class. This logic is moved to the lstat method in the Sys class.
     * Remvoed the argument of the new method in the Sys::IO::Stat class.
     * Removed the is_windows method in the Sys class. This is used from the Sys::OS class.
-    * Removed the defined method in the Sys class. This is used from the Sys::OS class.
     * Removed the get_osname method in the Sys::OS class.
     * Renamed the get_osname method in the Sys class to osname.
   [New Features]

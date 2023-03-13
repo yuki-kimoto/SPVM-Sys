@@ -9,6 +9,10 @@ class Sys {
   use Sys::Process;
   use Sys::IO::Stat;
   
+  static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double) {
+    return Sys::OS->defined($macro_name, $value);
+  }
+  
   static method osname : string () {
     my $osname : string;
     
