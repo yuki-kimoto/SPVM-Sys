@@ -26,6 +26,8 @@ Methods compatible with file IO, sockets, file paths, current directory, select,
   
   Sys->rmdir("foo");
   
+  my $path = Sys->env("PATH");
+  
   my $process_id = Sys->getpid;
 
 =head1 Class Methods
