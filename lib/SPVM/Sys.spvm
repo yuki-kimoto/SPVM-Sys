@@ -51,7 +51,7 @@ class Sys {
     return $osname;
   }
   
-  static method getenv : string ($name : string) {
+  static method env : string ($name : string) {
     return Sys::Env->getenv($name);
   }
   

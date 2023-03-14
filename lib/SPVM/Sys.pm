@@ -30,9 +30,9 @@ Methods compatible with file IO, sockets, file paths, current directory, select,
 
 =head1 Class Methods
 
-=head2 getenv
+=head2 env
 
-  static method getenv : string ($name : string);
+  static method env : string ($name : string);
 
 Gets an environment variable. The same as getting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 

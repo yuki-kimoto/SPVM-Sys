@@ -22,9 +22,9 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   is(SPVM::Sys->osname, $^O);
 }
 
-# getenv
+# env
 {
-  is(SPVM::Sys->getenv("PATH"), $ENV{PATH});
+  is(SPVM::Sys->env("PATH"), $ENV{PATH});
 }
 
 {

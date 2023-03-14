@@ -118,6 +118,8 @@
 
       static method utime : int ($atime : long, $mtime : long, $filename : string);
 
+      static method env : string ($name : string);
+
     * Added the Sys::OS class.
     * Added the Sys::Env class.
 0.42 2022-02-21
