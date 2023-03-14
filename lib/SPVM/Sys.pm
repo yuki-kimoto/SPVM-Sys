@@ -224,6 +224,12 @@ Converts a time as returned by the time function to a L<Time::Info|SPVM::Time::I
 
 Works just like localtime, but the returned values are localized for the standard Greenwich time zone. The same as the Perl L<gmtime|https://perldoc.perl.org/functions/gmtime>. This is the alias for L<gmtime|SPVM::Time/"gmtime"> method in the L<Time|SPVM::Time> class.
 
+=head2 process_id
+
+  static method process_id : int ();
+
+Gets the process number of the running this program. The same as the Perl L<$$|https://perldoc.perl.org/perlvar#$PROCESS_ID>.
+
 =head2 stat
 
   static method stat : Sys::IO::Stat ($path : string);
@@ -277,12 +283,6 @@ Works just like localtime, but the returned values are localized for the standar
   static method sleep : int ($seconds : int);
 
 Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
-
-=head2 getpid
-
-  static method getpid : int ();
-
-Gets the process number of the running this program. The same as the Perl L<$$|https://perldoc.perl.org/perlvar#$PROCESS_ID>.
 
 =head1 Modules
 

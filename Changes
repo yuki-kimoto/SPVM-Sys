@@ -88,9 +88,7 @@
 
       static method gmtime : Time::Info ($time : long);
 
-      static method sleep : int ($seconds : int);
-      
-      static method getpid : int ();
+      static method process_id : int ();
 
       static method stat : Sys::IO::Stat ($path : string);
 
@@ -120,6 +118,8 @@
 
       static method env : string ($name : string);
 
+      static method sleep : int ($seconds : int);
+      
     * Added the Sys::OS class.
     * Added the Sys::Env class.
 0.42 2022-02-21

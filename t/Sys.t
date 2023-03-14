@@ -72,6 +72,10 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   is($tm->tm_isdst, $isdst);
 }
 
+# process_id
+{
+  is(SPVM::Sys->process_id, $$);
+}
 
 {
   my $file_not_exists = "t/ftest/not_exists.txt";

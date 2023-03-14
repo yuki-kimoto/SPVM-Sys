@@ -457,11 +457,7 @@ class Sys {
     return Time->gmtime($time);
   }
   
-  static method sleep : int ($seconds : int) {
-    return Sys::Process->sleep($seconds) == 0;
-  }
-  
-  static method getpid : int () {
+  static method process_id : int () {
     return Sys::Process->getpid();
   }
   
@@ -549,5 +545,9 @@ class Sys {
     $times->set_modtime($mtime);
     
     return Sys::IO->utime($filename, $times) == 0;
+  }
+  
+  static method sleep : int ($seconds : int) {
+    return Sys::Process->sleep($seconds) == 0;
   }
 }
