@@ -239,7 +239,6 @@ t/ftest/readline_basic.txt
 t/ftest/readline_eof.txt
 t/ftest/readline_long_lines.txt
 t/lib/SPVM/TestCase/Sys.spvm
-t/lib/SPVM/TestCase/Sys/FileTest.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/IO/Stat.spvm
 t/lib/SPVM/TestCase/Sys/Ioctl.spvm
@@ -256,7 +255,6 @@ t/lib/SPVM/TestUtil/SocketAutoClose.spvm
 t/lib/TestUtil/Socket.pm
 t/print_hello.pl
 t/Sys.t
-t/Sys_FileTest.t
 t/Sys_IO.t
 t/Sys_IO_Stat.t
 t/Sys_IO_Windows.t
