@@ -55,14 +55,6 @@ class Sys {
     return Sys::Env->getenv($name);
   }
   
-  static method setenv : int ($name : string, $value : string, $overwrite : int) {
-    return Sys::Env->setenv($name, $value, $overwrite) == 0;
-  }
-  
-  static method unsetenv : int ($name : string) {
-    return Sys::Env->unsetenv($name) == 0;
-  }
-  
   static method A : double ($file : string) {
     
     unless ($file) {

@@ -36,18 +36,6 @@ Methods compatible with file IO, sockets, file paths, current directory, select,
 
 Gets an environment variable. The same as getting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 
-=head2 setenv
-
-  static method setenv : int ($name : string, $value : string, $overwrite : int);
-
-Sets an environment variable. The same as setting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
-
-=head2 unsetenv
-
-  static method unsetenv : int ($name : string);
-
-Deletes an environment variable. The same as deleting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
-
 =head2 osname
 
   static method osname : string ()
