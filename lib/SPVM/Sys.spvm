@@ -472,7 +472,7 @@ class Sys {
   }
   
   static method umask : int ($mode : int) {
-    return Sys::IO->umask($mode) == 0;
+    return Sys::IO->umask($mode);
   }
   
   static method rmdir : int ($path : string) {

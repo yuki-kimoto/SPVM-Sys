@@ -3,6 +3,7 @@ class TestCase::Sys {
   use Sys::IO;
   use Sys::OS;
   use Time;
+  use Sys::IO::Constant as IO;
 
   static method A : int () {
 
@@ -568,6 +569,23 @@ class TestCase::Sys {
         return 0;
       }
     }
+    
+    return 1;
+  }
+
+  static method umask : int ($test_dir : string) {
+    my $dir = "$test_dir/foo";
+    
+    my $old_mask = Sys->umask(IO->S_IRUSR);
+    
+    my $cur_mask = Sys->umask(IO->S_IWUSR);
+
+    unless ($cur_mask == IO->S_IRUSR) {
+      return 0;
+    }
+    
+    # Restore
+    Sys::IO->umask($old_mask);
     
     return 1;
   }
