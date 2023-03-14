@@ -317,8 +317,6 @@ class Sys {
       my $stat = Sys::IO::Stat->new;
       my $status = Sys::IO::Stat->lstat_raw($file, $stat);
       
-      # Symbolic link
-      my $ok = 0;
       unless ($status == -1) {
         $ok = $stat->l;
       }
