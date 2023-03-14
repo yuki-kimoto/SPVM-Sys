@@ -467,6 +467,14 @@ class Sys {
     return $stat;
   }
   
+  static method chdir : int ($path : string) {
+    return Sys::IO->chdir($path) == 0;
+  }
+  
+  static method chmod : int ($mode :int, $path : string) {
+    return Sys::IO->chmod($path, $mode) == 0;
+  }
+  
   static method mkdir : int ($path : string, $mode : int) {
     return Sys::IO->mkdir($path, $mode) == 0;
   }
@@ -517,14 +525,6 @@ class Sys {
       Sys::IO->readlink($file, $buffer, $buffer_size);
       return $buffer;
     }
-  }
-  
-  static method chdir : int ($path : string) {
-    return Sys::IO->chdir($path) == 0;
-  }
-  
-  static method chmod : int ($mode :int, $path : string) {
-    return Sys::IO->chmod($path, $mode) == 0;
   }
   
   static method symlink : int ($oldpath : string, $newpath : string) {

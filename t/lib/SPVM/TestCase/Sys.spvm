@@ -618,4 +618,28 @@ class TestCase::Sys {
     
     return 1;
   }
+  
+  static method chdir : int ($test_dir : string) {
+    my $dir = "$test_dir/ftest/dir_empty";
+    
+    my $success = Sys->chdir($dir);
+    
+    unless ($success) {
+      return 0;
+    }
+    
+    my $cwd = Sys::IO->getcwd(undef, 0);
+    unless (Fn->contains($cwd, "dir_empty")) {
+      return 0;
+    }
+    
+    {
+      eval { Sys->chdir("$dir/not_found.txt"); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }

@@ -263,6 +263,11 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   ok(SPVM::TestCase::Sys->rmdir("$tmp_dir"));
 }
 
+{
+  my $test_dir = "$FindBin::Bin";
+  ok(SPVM::TestCase::Sys->chdir("$test_dir"));
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
