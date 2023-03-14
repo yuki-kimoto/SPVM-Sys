@@ -31,7 +31,6 @@ class TestCase::Sys {
       unless ($success) {
         return 0;
       }
-    
       my $exists_symlink_file = Sys->l($file_symlink);
       unless ($exists_symlink_file) {
         return 0;

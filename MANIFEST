@@ -269,5 +269,6 @@ t/Sys_Signal.t
 t/Sys_Signal_alarm.t
 t/Sys_Signal_ualarm.t
 t/Sys_Socket.t
+t/Sys_symlink.t
 t/Sys_Time.t
 t/Sys_User.t

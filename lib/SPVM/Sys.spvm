@@ -304,12 +304,14 @@ class Sys {
   
   static method l : int ($file : string) {
     
+    my $ok = 0;
+    
     unless ($file) {
       die "The file must be defined";
     }
     
     if (Sys::OS->is_windows) {
-      Sys::IO::Windows->is_symlink($file);
+      $ok = Sys::IO::Windows->is_symlink($file);
     }
     else {
       my $stat = Sys::IO::Stat->new;
@@ -320,9 +322,9 @@ class Sys {
       unless ($status == -1) {
         $ok = $stat->l;
       }
-      
-      return $ok;
     }
+    
+    return $ok;
   }
   
   static method o : int ($file : string) {
