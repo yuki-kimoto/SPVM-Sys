@@ -32,6 +32,26 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   is(SPVM::Sys->time, time);
 }
 
+# localtime
+{
+  my $time = time;
+  
+  #     0    1    2     3     4    5     6     7     8
+  my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($time);
+  
+  my $tm = SPVM::Sys->localtime($time);
+  
+  is($tm->tm_sec, $sec);
+  is($tm->tm_min, $min);
+  is($tm->tm_hour, $hour);
+  is($tm->tm_mday, $mday);
+  is($tm->tm_mon, $mon);
+  is($tm->tm_year, $year);
+  is($tm->tm_wday, $wday);
+  is($tm->tm_yday, $yday);
+  is($tm->tm_isdst, $isdst);
+}
+
 {
   my $file_not_exists = "t/ftest/not_exists.txt";
   my $file_empty = "t/ftest/file_empty.txt";
