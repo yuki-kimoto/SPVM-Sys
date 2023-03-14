@@ -697,4 +697,41 @@ class TestCase::Sys {
     
     return 1;
   }
+
+  static method rename : int ($test_dir : string) {
+
+    my $file = "$test_dir/foo.txt";
+    Sys::IO->fopen($file, "w");
+    
+    unless (Sys->e($file)) {
+      return 0;
+    }
+    
+    my $new_file = "$test_dir/foo_new.txt";
+    my $success = Sys::IO->rename($file, $new_file);
+    
+    unless ($success == 0) {
+      return 0;
+    }
+    
+    if (Sys->e($file)) {
+      return 0;
+    }
+
+    unless (Sys->e($new_file)) {
+      return 0;
+    }
+    
+    {
+      eval { Sys::IO->rename($file, $new_file); };
+      unless (Fn->contains($@, "foo.txt")) {
+        return 0;
+      }
+      unless (Fn->contains($@, "foo_new.txt")) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }
