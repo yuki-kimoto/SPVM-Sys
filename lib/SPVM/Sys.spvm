@@ -454,89 +454,6 @@ class Sys {
     
     return $ok;
   }
-
-  static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object) {
-    if (items == 3) {
-      return Sys::Ioctl->ioctl($fd, $request, $request_arg);
-    }
-    else {
-      return Sys::Ioctl->ioctl($fd, $request);
-    }
-  }
-  
-  static method getuid : int () {
-    return Sys::User->getuid();
-  }
-  
-  static method geteuid : int () {
-    return Sys::User->geteuid();
-  }
-  static method getgid : int () {
-    return Sys::User->getgid();
-  }
-  static method getegid : int () {
-    return Sys::User->getegid();
-  }
-  
-  static method setuid : int ($uid : int) {
-    return Sys::User->setuid($uid) == 0;
-  }
-  static method seteuid : int ($euid : int) {
-    return Sys::User->seteuid($euid) == 0;
-  }
-  static method setgid : int ($gid : int) {
-    return Sys::User-> setgid($gid) == 0;
-  }
-  static method setegid : int ($egid : int) {
-    return Sys::User->setegid($egid) == 0;
-  }
-  
-  static method setpwent : void () {
-    Sys::User->setpwent();
-  }
-  static method endpwent : void () {
-    Sys::User->endpwent();
-  }
-  static method getpwent : Sys::User::Passwd () {
-    return Sys::User->getpwent();
-  }
-  
-  static method setgrent : void () {
-    Sys::User->setgrent();
-  }
-  static method endgrent : void () {
-    Sys::User->endgrent();
-  }
-  static method getgrent : Sys::User::Group () {
-    return Sys::User->getgrent();
-  }
-  
-  static method getgroups : int[] () {
-    return Sys::User->getgroups();
-  }
-  static method setgroups : int ($groups : int[]) {
-    return Sys::User->setgroups($groups) == 0;
-  }
-
-  static method getpwuid : Sys::User::Passwd ($id : int) {
-    return Sys::User->getpwuid($id);
-  }
-  static method getpwnam : Sys::User::Passwd ($name : string) {
-    return Sys::User->getpwnam($name);
-  }
-
-  static method getgrgid : Sys::User::Group ($id : int) {
-    return Sys::User->getgrgid($id);
-  }
-  static method getgrnam : Sys::User::Group ($name : string) {
-    return Sys::User->getgrnam($name);
-  }
-  
-  static method times : Sys::Time::Tms () {
-    my $tms = Sys::Time::Tms->new;
-    Sys::Time->times($tms);
-    return $tms;
-  }
   
   static method time : long () {
     return Time->time();
@@ -550,67 +467,17 @@ class Sys {
     return Time->gmtime($time);
   }
   
-  static method getpriority : int ($which : int, $who : int) {
-    return Sys::Process->getpriority($which, $who);
-  }
-  
-  static method setpriority : int ($which : int, $who : int, $prio : int) {
-    return Sys::Process->setpriority($which, $who, $prio) == 0;
-  }
-  
   static method sleep : int ($seconds : int) {
     return Sys::Process->sleep($seconds) == 0;
-  }
-  
-  static method wait : int ($wstatus_ref : int*) {
-    return Sys::Process->wait($wstatus_ref) == 0;
-  }
-  
-  static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int) {
-    return Sys::Process->waitpid($pid, $wstatus_ref, $options) == 0;
-  }
-  
-  static method system : int ($command : string) {
-    return Sys::Process->system($command);
-  }
-  
-  static method exit : int ($status : int) {
-    return Sys::Process->exit($status) == 0;
-  }
-  
-  static method pipe : int ($pipe_fds : int[]) {
-    return Sys::Process->pipe($pipe_fds) == 0;
-  }
-  
-  static method getpgid : int ($pid : int) {
-    return Sys::Process->getpgid($pid);
-  }
-  
-  static method setpgid : int ($pid : int, $pgid : int) {
-    return Sys::Process->setpgid($pid, $pgid) == 0;
   }
   
   static method getpid : int () {
     return Sys::Process->getpid();
   }
   
-  static method getppid : int () {
-    return Sys::Process->getppid();
-  }
-  
-  static method exec : int ($path : string, $args : string[]) {
-    return Sys::Process->execv($path, $args);
-  }
-  
   static method stat : Sys::IO::Stat ($path : string) {
     my $stat = Sys::IO::Stat->new;
     Sys::IO::Stat->stat($path, $stat);
-    return $stat;
-  }
-  
-  static method lstat : Sys::IO::Stat ($path : string) {
-    my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->lstat($path, $stat);
     return $stat;
   }
   
@@ -674,10 +541,6 @@ class Sys {
     return Sys::IO->chmod($path, $mode) == 0;
   }
   
-  static method chown : int ($owner : int, $group : int, $path : string) {
-    return Sys::IO->chown($path, $owner, $group) == 0;
-  }
-  
   static method symlink : int ($oldpath : string, $newpath : string) {
     my $status = 0;
     if (Sys::OS->is_windows) {
@@ -688,30 +551,6 @@ class Sys {
     }
     
     return $status == 0;
-  }
-  
-  static method opendir : Sys::IO::DirStream ($dir : string) {
-    return Sys::IO->opendir($dir);
-  }
-  
-  static method closedir : int ($dirp : Sys::IO::DirStream) {
-    return Sys::IO->closedir($dirp) == 0;
-  }
-  
-  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
-    return Sys::IO->readdir($dirp);
-  }
-  
-  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
-    Sys::IO->rewinddir($dirp);
-  }
-  
-  static method telldir : long ($dirp : Sys::IO::DirStream) {
-    return Sys::IO->telldir($dirp);
-  }
-  
-  static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long) {
-    Sys::IO->seekdir($dirp, $offset);
   }
   
   static method utime : int ($atime : long, $mtime : long, $filename : string) {
