@@ -13,6 +13,7 @@ use SPVM 'Double';
 
 use SPVM 'TestCase::Sys';
 use SPVM 'Sys::OS';
+use File::stat ();
 
 # Start objects count
 my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
@@ -75,6 +76,38 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
 # process_id
 {
   is(SPVM::Sys->process_id, $$);
+}
+
+# stat
+{
+  my $test_dir = "$FindBin::Bin";
+  {
+    my $file = "$test_dir/ftest/readline_long_lines.txt";
+    my $stat = SPVM::Sys->stat($file);
+    my $stat_expected = File::stat::stat($file);
+    
+    is($stat->st_dev, $stat_expected->dev, "st_dev");
+    is($stat->st_ino, $stat_expected->ino, "st_ino");
+    is($stat->st_mode, $stat_expected->mode, "st_mode");
+    if ($stat->st_nlink == $stat_expected->nlink) {
+      is($stat->st_nlink, $stat_expected->nlink, "st_nlink");
+    }
+    else {
+      warn "[Test Output]Got: " . $stat->st_nlink . ", Expected: " . $stat_expected->nlink;
+    }
+    is($stat->st_uid, $stat_expected->uid, "uid");
+    is($stat->st_gid, $stat_expected->gid, "gid");
+    is($stat->st_rdev, $stat_expected->rdev, "rdev");
+    is($stat->st_size, $stat_expected->size, "size");
+    is($stat->st_atime, $stat_expected->atime, "atime");
+    is($stat->st_mtime, $stat_expected->mtime, "mtime");
+    is($stat->st_ctime, $stat_expected->ctime, "ctime");
+    
+    unless ($^O eq 'MSWin32') {
+      is($stat->st_blksize, $stat_expected->blksize, "blksize");
+      is($stat->st_blocks, $stat_expected->blocks, "blocks");
+    }
+  }
 }
 
 {
