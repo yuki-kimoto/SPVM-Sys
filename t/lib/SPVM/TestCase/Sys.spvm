@@ -589,4 +589,33 @@ class TestCase::Sys {
     
     return 1;
   }
+
+  static method rmdir : int ($test_dir : string) {
+    my $dir = "$test_dir/foo";
+    
+    Sys->mkdir($dir, 0755);
+    
+    unless (Sys->d($dir)) {
+      return 0;
+    }
+    
+    my $success = Sys->rmdir($dir);
+
+    unless ($success) {
+      return 0;
+    }
+    
+    if (Sys->e($dir)) {
+      return 0;
+    }
+    
+    {
+      eval { Sys->rmdir($dir); };
+      unless (Fn->contains($@, "foo")) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }
