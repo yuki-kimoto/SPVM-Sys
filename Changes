@@ -82,6 +82,8 @@
 
       static method z : int ($file : string);
       
+      static method env : string ($name : string);
+
       static method time : long ();
 
       static method localtime : Time::Info ($time : long);
@@ -91,6 +93,10 @@
       static method process_id : int ();
 
       static method stat : Sys::IO::Stat ($path : string);
+
+      static method chdir : int ($path : string);
+
+      static method chmod : int ($mode :int, $path : string);
 
       static method mkdir : int ($path : string, $mode : int);
 
@@ -104,19 +110,7 @@
 
       static method symlink : int ($oldpath : string, $newpath : string);
 
-      static method chdir : int ($path : string);
-
-      static method chmod : int ($mode :int, $path : string);
-
-      static method chown : int ($owner : int, $group : int, $path : string);
-
-      static method symlink : int ($oldpath : string, $newpath : string);
-
       static method readlink : int ($file : string);
-
-      static method utime : int ($atime : long, $mtime : long, $filename : string);
-
-      static method env : string ($name : string);
 
       static method sleep : int ($seconds : int);
       

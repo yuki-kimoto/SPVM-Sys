@@ -539,14 +539,6 @@ class Sys {
     return $status == 0;
   }
   
-  static method utime : int ($atime : long, $mtime : long, $filename : string) {
-    my $times = Sys::IO::Utimbuf->new;
-    $times->set_actime($atime);
-    $times->set_modtime($mtime);
-    
-    return Sys::IO->utime($filename, $times) == 0;
-  }
-  
   static method sleep : int ($seconds : int) {
     return Sys::Process->sleep($seconds) == 0;
   }

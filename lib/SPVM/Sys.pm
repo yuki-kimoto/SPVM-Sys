@@ -234,49 +234,41 @@ Gets the process number of the running this program. The same as the Perl L<$$|h
 
   static method stat : Sys::IO::Stat ($path : string);
 
-=head2 mkdir
-
-  static method mkdir : int ($path : string, $mode : int) {
-
-=head2 umask
-
-  static method umask : int ($mode : int) {
-
-=head2 rmdir
-
-  static method rmdir : int ($path : string) {
-
-=head2 unlink
-
-  static method unlink : int ($pathname : string) {
-
-=head2 rename
-
-  static method rename : int ($oldpath : string, $newpath : string) {
-
-=head2 symlink
-
-  static method symlink : int ($oldpath : string, $newpath : string) {
-
-=head2 readlink
-
-  static method readlink : int ($file : string) {
-
 =head2 chdir
 
-  static method chdir : int ($path : string) {
+  static method chdir : int ($path : string);
 
 =head2 chmod
 
-  static method chmod : int ($mode :int, $path : string) {
+  static method chmod : int ($mode :int, $path : string);
+
+=head2 mkdir
+
+  static method mkdir : int ($path : string, $mode : int);
+
+=head2 umask
+
+  static method umask : int ($mode : int);
+
+=head2 rmdir
+
+  static method rmdir : int ($path : string);
+
+=head2 unlink
+
+  static method unlink : int ($pathname : string);
+
+=head2 rename
+
+  static method rename : int ($oldpath : string, $newpath : string);
+
+=head2 readlink
+
+  static method readlink : int ($file : string);
 
 =head2 symlink
 
-  static method symlink : int ($oldpath : string, $newpath : string) {
-
-=head2 utime
-
-  static method utime : int ($atime : long, $mtime : long, $filename : string) {
+  static method symlink : int ($oldpath : string, $newpath : string);
 
 =head2 sleep
 
