@@ -31,8 +31,8 @@ int32_t SPVM__Sys__Env__getenv(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifdef _WIN32
-  env->die(env, stack, "setenv is not supported on this system", __func__, FILE_NAME, __LINE__);
+#if defined(_WIN32)
+  env->die(env, stack, "setenv is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   void* obj_name = stack[0].oval;
@@ -63,8 +63,8 @@ int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Env__unsetenv(SPVM_ENV* env, SPVM_VALUE* stack) {
-#ifdef _WIN32
-  env->die(env, stack, "unsetenv is not supported on this system", __func__, FILE_NAME, __LINE__);
+#if defined(_WIN32)
+  env->die(env, stack, "unsetenv is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_CLASS_ID_ERROR_NOT_SUPPORTED;
 #else
   void* obj_name = stack[0].oval;
