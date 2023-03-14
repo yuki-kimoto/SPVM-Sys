@@ -30,4 +30,22 @@ plan skip_all => "no symlink available on this system"
   ok(SPVM::TestCase::Sys->readlink("$tmp_dir"));
 }
 
+# File Tests
+{
+  my $file_not_exists = "t/ftest/not_exists.txt";
+  my $file_empty = "t/ftest/file_empty.txt";
+  my $file_bytes8 = "t/ftest/file_bytes8.txt";
+  my $file_myexe_exe = "t/ftest/myexe.exe";
+  my $file_myexe_bat = "t/ftest/myexe.bat";
+  my $file_myexe_cmd = "t/ftest/myexe.cmd";
+
+  # File tests
+  {
+    ok(SPVM::TestCase::Sys->l);
+    is(!!SPVM::Sys->l($file_not_exists), !!-l $file_not_exists);
+    is(!!SPVM::Sys->l($file_empty), !!-l $file_empty);
+    is(!!SPVM::Sys->l($file_bytes8), !!-l $file_bytes8);
+  }
+}
+
 done_testing();

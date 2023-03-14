@@ -101,15 +101,6 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
     is(!!SPVM::Sys->k($file_empty), !!-k $file_empty);
     is(!!SPVM::Sys->k($file_bytes8), !!-k $file_bytes8);
   }
-  if (SPVM::Sys::OS->is_windows) {
-    warn "[Test Output]The tests of lstat is skiped.";
-  }
-  else {
-    ok(SPVM::TestCase::Sys->l);
-    is(!!SPVM::Sys->l($file_not_exists), !!-l $file_not_exists);
-    is(!!SPVM::Sys->l($file_empty), !!-l $file_empty);
-    is(!!SPVM::Sys->l($file_bytes8), !!-l $file_bytes8);
-  }
   {
     ok(SPVM::TestCase::Sys->b);
     is(!!SPVM::Sys->b($file_not_exists), !!-b $file_not_exists);
