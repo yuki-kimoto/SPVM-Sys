@@ -248,6 +248,11 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   }
 }
 
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys->mkdir("$tmp_dir"));
+}
+
 SPVM::set_exception(undef);
 
 # All object is freed
