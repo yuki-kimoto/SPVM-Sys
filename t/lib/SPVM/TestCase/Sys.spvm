@@ -642,4 +642,30 @@ class TestCase::Sys {
     
     return 1;
   }
+
+  static method chmod : int ($test_dir : string) {
+    my $file = "$test_dir/foo.txt";
+    my $stream = Sys::IO->fopen($file, "w");
+    
+    unless (Sys->f($file)) {
+      return 0;
+    }
+    
+    Sys::IO->fclose($stream);
+    
+    my $success = Sys->chmod(0755, $file);
+    
+    unless ($success) {
+      return 0;
+    }
+    
+    {
+      eval { Sys->chmod(0755, "$file/not_found.txt"); };
+      unless (Fn->contains($@, "not_found.txt")) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }
