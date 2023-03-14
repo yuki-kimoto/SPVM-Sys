@@ -22,6 +22,11 @@ my $start_memory_blocks_count = SPVM::get_memory_blocks_count();
   is(SPVM::Sys->osname, $^O);
 }
 
+# getenv
+{
+  is(SPVM::Sys->getenv("PATH"), $ENV{PATH});
+}
+
 {
   my $file_not_exists = "t/ftest/not_exists.txt";
   my $file_empty = "t/ftest/file_empty.txt";
