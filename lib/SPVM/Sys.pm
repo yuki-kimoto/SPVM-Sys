@@ -234,41 +234,61 @@ Gets the process number of the running this program. The same as the Perl L<$$|h
 
   static method stat : Sys::IO::Stat ($path : string);
 
+Returns a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object giving the status info for a file. The same as the Perl L<stat|https://perldoc.perl.org/functions/stat> function.
+
 =head2 chdir
 
   static method chdir : int ($path : string);
+
+Changes the working directory to $path. The same as the Perl L<chdir|https://perldoc.perl.org/functions/chdir> function.
 
 =head2 chmod
 
   static method chmod : int ($mode :int, $path : string);
 
+Changes the permissions of a file. The same as the Perl L<chmod|https://perldoc.perl.org/functions/chmod> function.
+
 =head2 mkdir
 
   static method mkdir : int ($path : string, $mode : int);
+
+Creates the directory specified by $path and $mode. The same as the Perl L<mkdir|https://perldoc.perl.org/functions/mkdir> function.
 
 =head2 umask
 
   static method umask : int ($mode : int);
 
+Sets the umask for the process to $mode and returns the previous value. The same as the Perl L<umask|https://perldoc.perl.org/functions/umask> function.
+
 =head2 rmdir
 
   static method rmdir : int ($path : string);
+
+Deletes the directory specified by $path. The same as the Perl L<rmdir|https://perldoc.perl.org/functions/rmdir> function.
 
 =head2 unlink
 
   static method unlink : int ($pathname : string);
 
+Deletes a file. The same as the Perl L<unlink|https://perldoc.perl.org/functions/unlink> function.
+
 =head2 rename
 
   static method rename : int ($oldpath : string, $newpath : string);
+
+Changes the name of a file. The same as the Perl L<rename|https://perldoc.perl.org/functions/rename> function.
 
 =head2 readlink
 
   static method readlink : int ($file : string);
 
+Returns the value of a symbolic link. The same as the Perl L<readlink|https://perldoc.perl.org/functions/readlink> function.
+
 =head2 symlink
 
   static method symlink : int ($oldpath : string, $newpath : string);
+
+Creates a $newpath symbolically linked to the $oldpath. The same as the Perl L<symlink|https://perldoc.perl.org/functions/symlink> function.
 
 =head2 sleep
 
@@ -442,7 +462,7 @@ L<SPVM::Sys - Github|https://github.com/yuki-kimoto/SPVM-Sys>
 
 =head1 Copyright & License
 
-Copyright Yuki Kimoto 2022-2022, all rights reserved.
+Copyright Yuki Kimoto 2022-2023, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

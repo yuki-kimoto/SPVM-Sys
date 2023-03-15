@@ -1,4 +1,4 @@
-0.43 2022-03-14
+0.43 2022-03-15
   [Deprecation]
     * SPVM::FileTest is deprecated. Use methods in the Sys class instead.
   [Exception Message Improvement]
