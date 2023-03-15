@@ -147,10 +147,20 @@ rmdir($tmpfile1);
 done_testing();
 
 sub check_stat {
-    my ($file1, $file2, $name) = @_;
+  my ($file1, $file2, $name) = @_;
 
-    my @stat1 = stat($file1);
-    my @stat2 = stat($file2);
+  my $stat1 = SPVM::Sys->stat($file1);
+  my $stat2 = SPVM::Sys->stat($file2);
 
-    is("@stat1", "@stat2", $name);
+  is($stat1->st_dev, $stat2->st_dev, "st_dev");
+  is($stat1->st_ino, $stat2->st_ino, "st_ino");
+  is($stat1->st_mode, $stat2->st_mode, "st_mode");
+  is($stat1->st_nlink, $stat2->st_nlink, "st_nlink");
+  is($stat1->st_uid, $stat2->st_uid, "uid");
+  is($stat1->st_gid, $stat2->st_gid, "gid");
+  is($stat1->st_rdev, $stat2->st_rdev, "rdev");
+  is($stat1->st_size, $stat2->st_size, "size");
+  is($stat1->st_atime, $stat2->st_atime, "atime");
+  is($stat1->st_mtime, $stat2->st_mtime, "mtime");
+  is($stat1->st_ctime, $stat2->st_ctime, "ctime");
 }
