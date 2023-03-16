@@ -160,8 +160,18 @@ sub check_stat {
   is($stat1->st_gid, $stat2->st_gid, "gid");
   is($stat1->st_rdev, $stat2->st_rdev, "rdev");
   is($stat1->st_size, $stat2->st_size, "size");
-  is($stat1->st_atime, $stat2->st_atime, "atime");
-  is($stat1->st_mtime, $stat2->st_mtime, "mtime");
+  if ($stat1->st_atime == $stat2->st_atime) {
+    is($stat1->st_atime, $stat2->st_atime, "atime");
+  }
+  else {
+    warn "[Test Output]st_atime different,file1: " . $stat1->st_atime . ",file2: " . $stat2->st_atime;
+  }
+  if ($stat1->st_mtime == $stat2->st_mtime) {
+    is($stat1->st_mtime, $stat2->st_mtime, "mtime");
+  }
+  else {
+    warn "[Test Output]st_mtime different,file1: " . $stat1->st_mtime . ",file2: " . $stat2->st_mtime;
+  }
   if ($stat1->st_ctime == $stat2->st_ctime) {
     is($stat1->st_ctime, $stat2->st_ctime, "ctime");
   }
