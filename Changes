@@ -1,4 +1,6 @@
 0.44 2022-03-16
+  [Test Fix]
+    * Fixed symlink tests when some time st_atime, st_mtime, st_ctime is different in target and symbolic link.
   [Incompatible Changes]
     * Removed the following temporary resotred methods in the Sys class.
       static method getenv : string ($name : string);
