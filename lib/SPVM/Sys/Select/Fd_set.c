@@ -25,7 +25,7 @@ int32_t SPVM__Sys__Select__Fd_set__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   fd_set* type_fd_set = env->new_memory_stack(env, stack, sizeof(fd_set));
   
-  void* obj_fd_set = env->new_pointer_by_name(env, stack, "Sys::Select::Fd_set", type_fd_set, &e, __func__, FILE_NAME, __LINE__);
+  void* obj_fd_set = env->new_pointer_object_by_name(env, stack, "Sys::Select::Fd_set", type_fd_set, &e, __func__, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_fd_set;

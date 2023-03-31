@@ -14,7 +14,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__new(SPVM_ENV* env, SPVM_VALUE* stack)
   
   struct ip_mreq_source* multi_request_source = env->new_memory_stack(env, stack, sizeof(struct ip_mreq_source));
 
-  void* obj_multi_request_source = env->new_pointer_by_name(env, stack, "Sys::Socket::Ip_mreq_source", multi_request_source, &e, __func__, FILE_NAME, __LINE__);
+  void* obj_multi_request_source = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Ip_mreq_source", multi_request_source, &e, __func__, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_multi_request_source;
@@ -58,7 +58,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__imr_multiaddr(SPVM_ENV* env, SPVM_VAL
   struct in_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in_addr));
   *address_ret = address;
 
-  void* obj_address_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, __func__, FILE_NAME, __LINE__);
+  void* obj_address_ret = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, __func__, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_address_ret;
@@ -101,7 +101,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__imr_interface(SPVM_ENV* env, SPVM_VAL
   struct in_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in_addr));
   *address_ret = address;
 
-  void* obj_address_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, __func__, FILE_NAME, __LINE__);
+  void* obj_address_ret = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, __func__, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_address_ret;
@@ -144,7 +144,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__imr_sourceaddr(SPVM_ENV* env, SPVM_VA
   struct in_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in_addr));
   *address_ret = address;
 
-  void* obj_address_ret = env->new_pointer_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, __func__, FILE_NAME, __LINE__);
+  void* obj_address_ret = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &e, __func__, FILE_NAME, __LINE__);
   if (e) { return e; }
   
   stack[0].oval = obj_address_ret;
