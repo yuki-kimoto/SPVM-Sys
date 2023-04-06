@@ -46,7 +46,7 @@ my %configure_and_runtime_requires = (
 WriteMakefile(
   NAME              => 'SPVM::Sys',
   VERSION_FROM      => 'lib/SPVM/Sys.pm',
-  LICENSE           => 'perl_5',
+  LICENSE           => 'mit',
   ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
     (ABSTRACT_FROM  => 'lib/SPVM/Sys.pm',
      AUTHOR         => 'USER_NAME<USER_MAIL>') : ()),

@@ -462,7 +462,7 @@ L<SPVM::Sys - Github|https://github.com/yuki-kimoto/SPVM-Sys>
 
 =head1 Copyright & License
 
-Copyright Yuki Kimoto 2022-2023, all rights reserved.
+Copyright (c) 2023 Yuki Kimoto
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+MIT License
+

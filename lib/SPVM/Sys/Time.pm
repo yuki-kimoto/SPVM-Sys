@@ -106,3 +106,9 @@ The rqtp is a L<Sys::Time::Timespec> object.
 
 The rmtp is a L<Sys::Time::Timespec> object.
 
+=head1 Copyright & License
+
+Copyright (c) 2023 Yuki Kimoto
+
+MIT License
+
