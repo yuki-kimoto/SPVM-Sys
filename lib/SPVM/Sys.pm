@@ -210,19 +210,19 @@ File has zero size (is empty). The same as Perl L<-z|https://perldoc.perl.org/fu
 
   static method time : long ();
 
-Returns the number of non-leap seconds since whatever time the system considers to be the epoch, suitable for feeding to gmtime and localtime. The same as the Perl L<time|https://perldoc.perl.org/functions/time>. This is the alias for L<time|SPVM::Time/"time"> method in the L<Time|SPVM::Time> class.
+Returns the number of non-leap seconds since whatever time the system considers to be the epoch, suitable for feeding to gmtime and localtime. The same as the Perl L<time|https://perldoc.perl.org/functions/time>. 
 
 =head2 localtime
 
-  static method localtime : Time::Info ($time : long);
+  static method localtime : Sys::Time::Tm ($time : long);
 
-Converts a time as returned by the time function to a L<Time::Info|SPVM::Time::Info> object with the time analyzed for the local time zone. The same as the Perl L<localtime|https://perldoc.perl.org/functions/localtime>. This is the alias for L<localtime|SPVM::Time/"localtime"> method in the L<Time|SPVM::Time> class.
+Converts a time as returned by the time function to a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object with the time analyzed for the local time zone. The same as the Perl L<localtime|https://perldoc.perl.org/functions/localtime>.
 
 =head2 gmtime
 
-  static method gmtime : Time::Info ($time : long);
+  static method gmtime : Sys::Time::Tm ($time : long);
 
-Works just like localtime, but the returned values are localized for the standard Greenwich time zone. The same as the Perl L<gmtime|https://perldoc.perl.org/functions/gmtime>. This is the alias for L<gmtime|SPVM::Time/"gmtime"> method in the L<Time|SPVM::Time> class.
+Works just like localtime, but the returned values are localized for the standard Greenwich time zone. The same as the Perl L<gmtime|https://perldoc.perl.org/functions/gmtime>.
 
 =head2 process_id
 
@@ -419,6 +419,8 @@ All modules included in this distribution. These classes have methods that direc
 =head4 L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>
 
 =head4 L<Sys::Time::Timezone|SPVM::Sys::Time::Timezone>
+
+=head4 L<Sys::Time::Tms|SPVM::Sys::Time::Tm>
 
 =head4 L<Sys::Time::Tms|SPVM::Sys::Time::Tms>
 
