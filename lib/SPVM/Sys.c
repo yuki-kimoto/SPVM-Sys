@@ -23,14 +23,13 @@ int32_t SPVM__Sys__is_windows(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t items = env->get_args_stack_length(env, stack);
-  
   void* obj_macro_name = stack[0].oval;
   if (!obj_macro_name) {
     return env->die(env, stack, "The $macro_name must be defined", __func__, FILE_NAME, __LINE__);
   }
-  
   const char* macro_name = env->get_chars(env, stack, obj_macro_name);
+  
+  void* obj_value = stack[1].oval;
   
   int32_t defined = 0;
   int32_t ival = 0;
@@ -241,8 +240,7 @@ int32_t SPVM__Sys__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The macro name \"%s\" is not supported yet", macro_name, __func__, FILE_NAME, __LINE__);
   }
 
-  if (items > 1) {
-    void* obj_value = stack[1].oval;
+  if (obj_value) {
     
     int32_t e = 0;
     
