@@ -74,8 +74,6 @@ int32_t SPVM__Sys__IO__INIT_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t items = env->get_args_stack_length(env, stack);
-  
   void* obj_path = stack[0].oval;
   
   if (!obj_path) {
@@ -84,10 +82,7 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t flags = stack[1].ival;
   
-  int32_t mode = 0;
-  if (items > 2) {
-    mode = stack[2].ival;
-  }
+  int32_t mode = stack[2].ival;
   
   const char* path = env->get_chars(env, stack, obj_path);
   
@@ -105,8 +100,6 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t items = env->get_args_stack_length(env, stack);
-  
   int32_t e = 0;
   
   int32_t fd = stack[0].ival;
@@ -123,10 +116,7 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $count must be more than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
   
-  int32_t buf_offset = 0;
-  if (items > 3) {
-    buf_offset = stack[3].ival;
-  }
+  int32_t buf_offset = stack[3].ival;
   if (!(count <= buf_length - buf_offset)) {
     return env->die(env, stack, "The $count must be less than the length of the $buf - the $buf_offset", __func__, FILE_NAME, __LINE__);
   }
@@ -145,8 +135,6 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t items = env->get_args_stack_length(env, stack);
-  
   int32_t e = 0;
   
   int32_t fd = stack[0].ival;
@@ -164,10 +152,7 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $count must be more than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
   
-  int32_t buf_offset = 0;
-  if (items > 3) {
-    buf_offset = stack[3].ival;
-  }
+  int32_t buf_offset = stack[3].ival;
   if (!(count <= buf_length - buf_offset)) {
     return env->die(env, stack, "The $count must be less than the length of the $buf - the $buf_offset", __func__, FILE_NAME, __LINE__);
   }
@@ -310,8 +295,6 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t items = env->get_args_stack_length(env, stack);
-
   int32_t e = 0;
   
   void* obj_ptr = stack[0].oval;
@@ -337,10 +320,7 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $stream must be defined", __func__, FILE_NAME, __LINE__);
   }
   
-  int32_t ptr_offset = 0;
-  if (items > 4) {
-    ptr_offset = stack[4].ival;
-  }
+  int32_t ptr_offset = stack[4].ival;
   if (!(nmemb * size <= ((ptr_length - ptr_offset))  )) {
     return env->die(env, stack, "The $nmemb * the $size must be less than or equal to the length of the $ptr - $ptr_offset", __func__, FILE_NAME, __LINE__);
   }
@@ -424,8 +404,6 @@ int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  int32_t items = env->get_args_stack_length(env, stack);
-
   int32_t e = 0;
   
   void* obj_s = stack[0].oval;
@@ -445,10 +423,7 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $stream must be defined", __func__, FILE_NAME, __LINE__);
   }
   
-  int32_t s_offset = 0;
-  if (items > 3) {
-    s_offset = stack[3].ival;
-  }
+  int32_t s_offset = stack[3].ival;
   
   if (!(size <= s_length - s_offset)) {
     return env->die(env, stack, "The $size must be less than the length of the $s - the $s_offset", __func__, FILE_NAME, __LINE__);
@@ -470,8 +445,6 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  int32_t items = env->get_args_stack_length(env, stack);
-  
   int32_t e = 0;
   
   void* obj_ptr = stack[0].oval;
@@ -496,10 +469,7 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $stream must be defined", __func__, FILE_NAME, __LINE__);
   }
 
-  int32_t ptr_offset = 0;
-  if (items > 4) {
-    ptr_offset = stack[4].ival;
-  }
+  int32_t ptr_offset = stack[4].ival;
   if (!(nmemb * size <= ((ptr_length - ptr_offset))  )) {
     return env->die(env, stack, "The $nmemb * the $size must be less than or equal to the length of the $ptr - $ptr_offset", __func__, FILE_NAME, __LINE__);
   }
@@ -1348,20 +1318,14 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t e = 0;
   
-  int32_t items = env->get_args_stack_length(env, stack);
-  
   int32_t fd = stack[0].ival;
   
   int32_t command = stack[1].ival;
   
   int32_t ret;
   
-  void* obj_command_arg;
-  if (items <= 2) {
-    ret = fcntl(fd, command);
-  }
-  else {
-    void* obj_command_arg = stack[2].oval;
+  void* obj_command_arg = stack[2].oval;
+  if (!obj_command_arg) {
     
     if (!obj_command_arg) {
       ret = fcntl(fd, command, NULL);
