@@ -1,3 +1,12 @@
+0.482 2023-05-09
+  [Incompatible Changes]
+    * The definition of the defined method in the Sys::OS class is changed.
+      [Before]
+      static method defined : int ($macro_name : string, $value = undef : object of Int|Long|Double);
+      
+      [After]
+      static method defined : int ($macro_name : string, $value_ref = undef : object of int[]|long[]|double[])
+
 0.481 2023-05-08
   [New Features]
     * The version string can be got.

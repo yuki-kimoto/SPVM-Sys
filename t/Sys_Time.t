@@ -13,8 +13,10 @@ use SPVM 'Int';
 
 use SPVM 'TestCase::Sys::Time';
 
+my $api = SPVM::api();
+
 # Start objects count
-my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+my $start_memory_blocks_count = $api->get_memory_blocks_count();
 
 # Sys::Time::Tm
 {
@@ -71,7 +73,7 @@ my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
 
 # Start objects count
-my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+my $start_memory_blocks_count = $api->get_memory_blocks_count();
 
 ok(SPVM::TestCase::Sys::Time->gettimeofday);
 
@@ -108,14 +110,13 @@ else {
 {
   my $clock_nanosleep_supported;
   
-  my $obj_major_version = SPVM::Int->new(0);
+  my $obj_major_version_ref = $api->new_int_array([0]);
 
   if (SPVM::Sys::OS->defined('__APPLE__')) {
     $clock_nanosleep_supported = 0;
   }
-  elsif (SPVM::Sys::OS->defined('__FreeBSD__', $obj_major_version)) {
-    my $major_version = $obj_major_version->value;
-    if ($major_version >= 13) {
+  elsif (SPVM::Sys::OS->defined('__FreeBSD__', $obj_major_version_ref)) {
+    if ($obj_major_version_ref->[0] >= 13) {
       $clock_nanosleep_supported = 1;
     }
     else {
@@ -137,10 +138,10 @@ else {
 
 ok(SPVM::TestCase::Sys::Time->nanosleep);
 
-SPVM::api->set_exception(undef);
+$api->set_exception(undef);
 
 # All object is freed
-my $end_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+my $end_memory_blocks_count = $api->get_memory_blocks_count();
 is($end_memory_blocks_count, $start_memory_blocks_count);
 
 done_testing;
