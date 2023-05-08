@@ -5,6 +5,7 @@
 
 #if defined(_WIN32)
   #include <winsock2.h>
+  #defined ioctl ioctlsocket
 #else
   #include <sys/ioctl.h>
 #endif
@@ -74,46 +75,20 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   void* obj_request_arg = stack[2].oval;
   
-#if defined(_WIN32)
-    
-  if (!obj_request_arg) {
-    return env->die(env, stack, "The $request_arg must be defined", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t request_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_request_arg);
-  int32_t request_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_request_arg);
-  
-  if (!(request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && request_arg_type_dimension == 0)) {
-    return env->die(env, stack, "The $request_arg must be an Int object", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t request_arg_int32 = env->get_field_int_by_name(env, stack, obj_request_arg, "value", &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
-  
-  u_long request_arg_u_long = (u_long)request_arg_int32;
-  
-  ret = ioctlsocket(fd, request, &request_arg_u_long);
-  
-  request_arg_int32 = (int32_t)request_arg_u_long;
-  
-  env->set_field_int_by_name(env, stack, obj_request_arg, "value", request_arg_int32, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
-  
-#else
   if (!obj_request_arg) {
     ret = ioctl(fd, request, NULL);
   }
   else {
     int32_t request_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_request_arg);
     int32_t request_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_request_arg);
-
+    
     // Byte
     if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_BYTE_CLASS && request_arg_type_dimension == 0) {
       int8_t request_arg_int8 = env->get_field_byte_by_name(env, stack, obj_request_arg, "value", &e, __func__, FILE_NAME, __LINE__);
       if (e) { return e; }
       
       ret = ioctl(fd, request, &request_arg_int8);
-
+      
       env->set_field_byte_by_name(env, stack, obj_request_arg, "value", request_arg_int8, &e, __func__, FILE_NAME, __LINE__);
       if (e) { return e; }
     }
@@ -123,7 +98,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
       if (e) { return e; }
       
       ret = ioctl(fd, request, &request_arg_int16);
-
+      
       env->set_field_short_by_name(env, stack, obj_request_arg, "value", request_arg_int16, &e, __func__, FILE_NAME, __LINE__);
       if (e) { return e; }
     }
@@ -133,7 +108,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
       if (e) { return e; }
       
       ret = ioctl(fd, request, &request_arg_int32);
-
+      
       env->set_field_int_by_name(env, stack, obj_request_arg, "value", request_arg_int32, &e, __func__, FILE_NAME, __LINE__);
       if (e) { return e; }
     }
@@ -143,7 +118,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
       if (e) { return e; }
       
       ret = ioctl(fd, request, &request_arg_int64);
-
+      
       env->set_field_long_by_name(env, stack, obj_request_arg, "value", request_arg_int64, &e, __func__, FILE_NAME, __LINE__);
       if (e) { return e; }
     }
@@ -153,7 +128,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
       if (e) { return e; }
       
       ret = ioctl(fd, request, &request_arg_float);
-
+      
       env->set_field_float_by_name(env, stack, obj_request_arg, "value", request_arg_float, &e, __func__, FILE_NAME, __LINE__);
       if (e) { return e; }
     }
@@ -163,7 +138,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
       if (e) { return e; }
       
       ret = ioctl(fd, request, &request_arg_double);
-
+      
       env->set_field_double_by_name(env, stack, obj_request_arg, "value", request_arg_double, &e, __func__, FILE_NAME, __LINE__);
       if (e) { return e; }
     }
@@ -176,13 +151,12 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
       return env->die(env, stack, "The $request_arg must be an Byte/Short/Int/Long/Float/Double object or the object that is a pointer class", __func__, FILE_NAME, __LINE__);
     }
   }
-#endif
-
+  
   if (ret == -1) {
     env->die(env, stack, "[System Error]ioctl failed: %s", socket_strerror(env, stack, socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_CLASS_ID_ERROR_SYSTEM;
   }
-
+  
   stack[0].ival = ret;
   
   return 0;

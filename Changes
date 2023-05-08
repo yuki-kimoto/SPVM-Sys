@@ -1,6 +1,8 @@
 0.481 2023-05-08
   [New Features]
     * The version string can be got.
+  [Changes]
+    * The implementation logic of the ioctl method in the Sys::Ioclt class got to be the one on Linux.
 0.48 2023-04-07
   [New Features and Incompatible Changes]
     * Added the Sys::Time::Tm class.
