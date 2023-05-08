@@ -5,7 +5,7 @@
 
 #if defined(_WIN32)
   #include <winsock2.h>
-  #defined ioctl ioctlsocket
+  #define ioctl ioctlsocket
 #else
   #include <sys/ioctl.h>
 #endif
