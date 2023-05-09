@@ -65,90 +65,55 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t e = 0;
   
-  int32_t items = env->get_args_stack_length(env, stack);
-  
   int32_t fd = stack[0].ival;
   
   int32_t request = stack[1].ival;
   
   int32_t ret;
 
-  void* obj_request_arg = stack[2].oval;
+  void* obj_request_arg_ref = stack[2].oval;
   
-  if (!obj_request_arg) {
+  if (!obj_request_arg_ref) {
     ret = ioctl(fd, request, NULL);
   }
   else {
-    int32_t request_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_request_arg);
-    int32_t request_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_request_arg);
-    
-    // Byte
-    if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_BYTE_CLASS && request_arg_type_dimension == 0) {
-      int8_t request_arg_int8 = env->get_field_byte_by_name(env, stack, obj_request_arg, "value", &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
-      
-      ret = ioctl(fd, request, &request_arg_int8);
-      
-      env->set_field_byte_by_name(env, stack, obj_request_arg, "value", request_arg_int8, &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
+    // byte[]
+    if (env->is_type(env, stack, obj_request_arg_ref, SPVM_NATIVE_C_BASIC_TYPE_ID_BYTE,  1)) {
+      int8_t* request_arg_ref = env->get_elems_byte(env, stack, obj_request_arg_ref);
+      ret = ioctl(fd, request, &request_arg_ref);
     }
-    // Short
-    else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_SHORT_CLASS && request_arg_type_dimension == 0) {
-      int16_t request_arg_int16 = env->get_field_short_by_name(env, stack, obj_request_arg, "value", &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
-      
-      ret = ioctl(fd, request, &request_arg_int16);
-      
-      env->set_field_short_by_name(env, stack, obj_request_arg, "value", request_arg_int16, &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
+    // short[]
+    else if (env->is_type(env, stack, obj_request_arg_ref, SPVM_NATIVE_C_BASIC_TYPE_ID_SHORT,  1)) {
+      int16_t* request_arg_ref = env->get_elems_short(env, stack, obj_request_arg_ref);
+      ret = ioctl(fd, request, &request_arg_ref);
     }
-    // Int
-    else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && request_arg_type_dimension == 0) {
-      int32_t request_arg_int32 = env->get_field_int_by_name(env, stack, obj_request_arg, "value", &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
-      
-      ret = ioctl(fd, request, &request_arg_int32);
-      
-      env->set_field_int_by_name(env, stack, obj_request_arg, "value", request_arg_int32, &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
+    // int[]
+    else if (env->is_type(env, stack, obj_request_arg_ref, SPVM_NATIVE_C_BASIC_TYPE_ID_INT,  1)) {
+      int32_t* request_arg_ref = env->get_elems_int(env, stack, obj_request_arg_ref);
+      ret = ioctl(fd, request, &request_arg_ref);
     }
-    // Long
-    else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_LONG_CLASS && request_arg_type_dimension == 0) {
-      int64_t request_arg_int64 = env->get_field_long_by_name(env, stack, obj_request_arg, "value", &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
-      
-      ret = ioctl(fd, request, &request_arg_int64);
-      
-      env->set_field_long_by_name(env, stack, obj_request_arg, "value", request_arg_int64, &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
+    // long[]
+    else if (env->is_type(env, stack, obj_request_arg_ref, SPVM_NATIVE_C_BASIC_TYPE_ID_LONG,  1)) {
+      int64_t* request_arg_ref = env->get_elems_long(env, stack, obj_request_arg_ref);
+      ret = ioctl(fd, request, &request_arg_ref);
     }
-    // Float
-    else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_FLOAT_CLASS && request_arg_type_dimension == 0) {
-      float request_arg_float = env->get_field_float_by_name(env, stack, obj_request_arg, "value", &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
-      
-      ret = ioctl(fd, request, &request_arg_float);
-      
-      env->set_field_float_by_name(env, stack, obj_request_arg, "value", request_arg_float, &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
+    // float[]
+    else if (env->is_type(env, stack, obj_request_arg_ref, SPVM_NATIVE_C_BASIC_TYPE_ID_FLOAT,  1)) {
+      float* request_arg_ref = env->get_elems_float(env, stack, obj_request_arg_ref);
+      ret = ioctl(fd, request, &request_arg_ref);
     }
-    // Double
-    else if (request_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_DOUBLE_CLASS && request_arg_type_dimension == 0) {
-      double request_arg_double = env->get_field_double_by_name(env, stack, obj_request_arg, "value", &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
-      
-      ret = ioctl(fd, request, &request_arg_double);
-      
-      env->set_field_double_by_name(env, stack, obj_request_arg, "value", request_arg_double, &e, __func__, FILE_NAME, __LINE__);
-      if (e) { return e; }
+    // double[]
+    else if (env->is_type(env, stack, obj_request_arg_ref, SPVM_NATIVE_C_BASIC_TYPE_ID_DOUBLE,  1)) {
+      double* request_arg_ref = env->get_elems_double(env, stack, obj_request_arg_ref);
+      ret = ioctl(fd, request, &request_arg_ref);
     }
     // A pointer class
-    else if (env->is_pointer_class(env, stack, obj_request_arg)) {
-      void* request_arg = env->get_pointer(env, stack, obj_request_arg);
-      ret = ioctl(fd, request, request_arg);
+    else if (env->is_pointer_class(env, stack, obj_request_arg_ref)) {
+      void* request_arg_ref = env->get_pointer(env, stack, obj_request_arg_ref);
+      ret = ioctl(fd, request, request_arg_ref);
     }
     else {
-      return env->die(env, stack, "The $request_arg must be an Byte/Short/Int/Long/Float/Double object or the object that is a pointer class", __func__, FILE_NAME, __LINE__);
+      return env->die(env, stack, "The $request_arg_ref must be an byte[]/short[]/int[]/long[]/float[]/double[] type object or the object that is a pointer class", __func__, FILE_NAME, __LINE__);
     }
   }
   
