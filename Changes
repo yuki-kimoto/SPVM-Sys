@@ -10,7 +10,11 @@
       static method ioctl : int ($fd : int, $request : int, $request_arg = undef : object of Byte|Short|Int|Long|Float|Double|object);
       [After]
       static method ioctl : int ($fd : int, $request : int, $request_arg_ref = undef : object of byte[]|short[]|int[]|long[]|float[]|double[]|object);
-
+    * The definition of the fcntl method in the Sys::IO class is changed.
+      [Before]
+      static method fcntl : int ($fd : int, $command : int, $command_arg = undef : object of Byte|Short|Int|Long|Float|Double|Sys::IO::Flock|object);
+      [After]
+      static method fcntl : int ($fd : int, $command : int, $command_arg = undef : object of Int|Sys::IO::Flock|object);    
 0.481 2023-05-08
   [New Features]
     * The version string can be got.
