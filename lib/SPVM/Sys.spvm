@@ -2,7 +2,7 @@
 # MIT License
 
 class Sys {
-  version "0.481006";
+  version "0.481007";
   
   use Sys::OS;
   use Sys::Env;
