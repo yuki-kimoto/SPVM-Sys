@@ -78,7 +78,7 @@ int32_t SPVM__Sys__User__Group__gr_mem(SPVM_ENV* env, SPVM_VALUE* stack) {
     gr_mem++;
   }
   
-  void* obj_gr_mems = env->new_object_array(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_STRING, gr_mem_length);
+  void* obj_gr_mems = env->new_string_array(env, stack, gr_mem_length);
   
   for (int32_t i = 0; i < gr_mem_length; i++) {
     char* gr_mem = gr_mems[i];

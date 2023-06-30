@@ -182,12 +182,12 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (af == AF_INET) {
-    if (!env->is_type(env, stack, obj_dst, In_addr, 0)) {
+    if (!env->is_type_by_name(env, stack, obj_dst, "Sys::Socket::In_addr", 0)) {
       return env->die(env, stack, "The $dst must be the Sys::Socket::In_addr class", __func__, FILE_NAME, __LINE__);
     }
   }
   else if (af == AF_INET6) {
-    if (!env->is_type(env, stack, obj_dst, In6_addr, 0)) {
+    if (!env->is_type_by_name(env, stack, obj_dst, "Sys::Socket::In6_addr", 0)) {
       return env->die(env, stack, "The $dst must be the Sys::Socket::In6_addr class", __func__, FILE_NAME, __LINE__);
     }
   }
