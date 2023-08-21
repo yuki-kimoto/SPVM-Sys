@@ -12,6 +12,7 @@ class Sys {
   use Sys::Time;
   use Sys::Process;
   use Sys::IO::Stat;
+  use Sys::Socket;
   
   static method osname : string () {
     my $osname : string;
