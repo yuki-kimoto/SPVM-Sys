@@ -628,6 +628,14 @@ Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the p
 
 See L<stderr(3) - Linux man page|https://linux.die.net/man/3/stderr> in Linux.
 
+=head2 ioctl
+
+  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);
+
+The ioctl() function manipulates the underlying device parameters of special files. In particular, many operating characteristics of character special files (e.g., terminals) may be controlled with ioctl() requests. The argument d must be an open file descriptor.
+
+See the L<ioctl|https://linux.die.net/man/2/ioctl> function in Linux.
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

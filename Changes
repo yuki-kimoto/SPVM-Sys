@@ -1,3 +1,11 @@
+0.482 2023-08-22
+  [Changes]
+    * The ioctl method is added to the Sys::IO class.
+    * The FIONBIO method is added to the Sys::IO::Contant class.
+  [Deprecation]
+    * The Sys::Ioctl class is deprecated.
+    * The Sys::Ioctl::Constant class is deprecated.
+
 0.481008 2023-07-12
   [Internal Changes]
     * Only internal changes were done.
