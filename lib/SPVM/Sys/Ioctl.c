@@ -16,7 +16,10 @@
 const char* FILE_NAME = "Sys/Ioctl.c";
 
 int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+#if defined(_WIN32)
+  env->die(env, stack, "The ioctl method in the Sys::IO class is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
   int32_t e = 0;
   
   int32_t fd = stack[0].ival;
@@ -72,13 +75,14 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (ret == -1) {
-    env->die(env, stack, "[System Error]ioctl failed: %s", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]ioctl failed: %s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
   stack[0].ival = ret;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Ioctl__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
