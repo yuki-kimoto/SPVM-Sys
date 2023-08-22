@@ -907,37 +907,3 @@ int32_t SPVM__Sys__Socket__sendto(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "The ioctlsocket method in the Sys::IO class is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-
-  int32_t e = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  int32_t request = stack[1].ival;
-  
-  int32_t ret;
-  
-  void* obj_request_arg_ref = stack[2].oval;
-  
-  if (!obj_request_arg_ref) {
-    ret = ioctlsocket(fd, request, NULL);
-  }
-  else {
-    int32_t* request_arg_ref = env->get_elems_int(env, stack, obj_request_arg_ref);
-    ret = ioctlsocket(fd, request, (u_long*)request_arg_ref);
-  }
-  
-  if (ret == -1) {
-    env->die(env, stack, "[System Error]ioctl failed: %s", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = ret;
-  
-  return 0;
-#endif
-}

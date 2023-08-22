@@ -918,12 +918,6 @@ Gets the value of C<_IOLBF>. If the value is not defined in the system, an excep
 
 Gets the value of C<_IOFBF>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
-=head2 FIONBIO
-
-  static method FIONBIO : int ();
-
-Gets the value of C<FIONBIO>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

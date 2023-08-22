@@ -3,6 +3,18 @@
     * The ioctlsocket method is added to the Sys::Ioctl class.
   [Incompatible Changes]
     * The ioctl method in the Sys::Ioctl throws an exception in Windows.
+  [Reversion]
+    The following changes are reverted.
+    
+    0.482 2023-08-22
+    [Changes]
+      * The ioctl method is added to the Sys::IO class.
+      * The FIONBIO method is added to the Sys::IO::Contant class.
+      * The ioctlsocket method is added to the Sys::Socket class.
+    [Deprecation]
+      * The Sys::Ioctl class is deprecated.
+      * The Sys::Ioctl::Constant class is deprecated.
+
 0.482 2023-08-22
   [New Features]
     * The ioctl method is added to the Sys class.

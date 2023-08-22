@@ -3,6 +3,7 @@ class TestCase::Sys {
   use Sys::IO;
   use Sys::OS;
   use Sys::IO::Constant as IO;
+  use Sys::Ioctl::Constant as IOCTL;
   use Sys::Socket::Constant as SOCKET;
   use TestUtil::SocketAutoClose;
 
@@ -753,7 +754,7 @@ class TestCase::Sys {
     
     my $value_ref = [1];
     my $status_ioctl = 0;
-    eval { $status_ioctl = Sys->ioctl($socket, IO->FIONBIO, $value_ref); };
+    eval { $status_ioctl = Sys->ioctl($socket, IOCTL->FIONBIO, $value_ref); };
     
     if (Sys::OS->is_windows) {
       unless ($status_ioctl == 0) {

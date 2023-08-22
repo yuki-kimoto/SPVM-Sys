@@ -258,6 +258,4 @@ class Sys::IO::Constant {
   native static method _IOLBF : int ();
 
   native static method _IOFBF : int ();
-
-  native static method FIONBIO : int ();
 }
