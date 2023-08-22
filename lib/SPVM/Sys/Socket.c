@@ -509,7 +509,7 @@ int32_t SPVM__Sys__Socket__getsockname(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "socketpair is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "socketpair is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
@@ -850,7 +850,7 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-    env->die(env, stack, "[Not Supported]sockatmark is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[Not Supported]sockatmark is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
@@ -909,7 +909,7 @@ int32_t SPVM__Sys__Socket__sendto(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
-  env->die(env, stack, "The ioctlsocket method in the Sys::IO class is not supported on this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The ioctlsocket method in the Sys::IO class is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
 

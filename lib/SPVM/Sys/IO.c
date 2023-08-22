@@ -588,7 +588,7 @@ int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The flock method in the class Sys::IO is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The flock method in the class Sys::IO is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
@@ -770,7 +770,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
-  env->die(env, stack, "_getdcwd is not supported on this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "_getdcwd is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;
@@ -818,7 +818,7 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "realpath is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "realpath is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
@@ -860,7 +860,7 @@ int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
-  env->die(env, stack, "_fullpath is not supported on this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "_fullpath is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_absPath = stack[0].oval;
@@ -946,7 +946,7 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
-  env->die(env, stack, "chown is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "chown is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_path = stack[0].oval;
@@ -999,7 +999,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "symlink is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "symlink is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;
@@ -1031,7 +1031,7 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "readlink is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "readlink is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;
@@ -1274,7 +1274,7 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__faccessat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  return env->die(env, stack, "faccessat is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return env->die(env, stack, "faccessat is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
 #else
   int32_t dirfd = stack[0].ival;
   
@@ -1315,7 +1315,7 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  return env->die(env, stack, "fcntl is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return env->die(env, stack, "fcntl is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
 #else
   
   int32_t e = 0;
@@ -1474,7 +1474,7 @@ int32_t SPVM__Sys__IO__ungetc(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  return env->die(env, stack, "fsync is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return env->die(env, stack, "fsync is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
 #else
   int32_t fd = stack[0].ival;
   
@@ -1569,7 +1569,7 @@ int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The ioctl method in the Sys::IO class is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The ioctl method in the Sys::IO class is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;

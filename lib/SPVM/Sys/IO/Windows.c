@@ -636,7 +636,7 @@ int32_t SPVM__Sys__IO__Windows__get_readlink_buffer_size(SPVM_ENV* env, SPVM_VAL
 
 int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
-  env->die(env, stack, "win32_symlink is not supported on this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "win32_symlink is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;

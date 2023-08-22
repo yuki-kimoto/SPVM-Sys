@@ -170,7 +170,7 @@ int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "getitimer is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "getitimer is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   (void)env;
@@ -208,7 +208,7 @@ int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__getitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "getitimer is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "getitimer is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   (void)env;
@@ -241,7 +241,7 @@ int32_t SPVM__Sys__Time__getitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__times(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "times is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "times is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_tms = stack[0].oval;
@@ -268,13 +268,13 @@ int32_t SPVM__Sys__Time__times(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __APPLE__
-  env->die(env, stack, "clock_nanosleep is not supported on this system(__APPLE__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "clock_nanosleep is not supported in this system(__APPLE__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #elif __FreeBSD__ && !(__FreeBSD__ >= 13)
-  env->die(env, stack, "clock_nanosleep is not supported on this system(__FreeBSD__ && !(__FreeBSD__ >= 13))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "clock_nanosleep is not supported in this system(__FreeBSD__ && !(__FreeBSD__ >= 13))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #elif __OpenBSD__
-  env->die(env, stack, "clock_nanosleep is not supported on this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "clock_nanosleep is not supported in this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   (void)env;

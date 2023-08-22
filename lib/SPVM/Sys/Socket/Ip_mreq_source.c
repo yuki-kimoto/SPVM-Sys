@@ -10,7 +10,7 @@ const char* FILE_NAME = "Sys/Socket/Ip_mreq_source.c";
 
 int32_t SPVM__Sys__Socket__Ip_mreq_source__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __OpenBSD__
-  env->die(env, stack, "The new method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported on this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The new method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported in this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;
@@ -29,7 +29,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__new(SPVM_ENV* env, SPVM_VALUE* stack)
 
 int32_t SPVM__Sys__Socket__Ip_mreq_source__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __OpenBSD__
-  env->die(env, stack, "The new method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported on this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The new method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported in this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_multi_request_source = stack[0].oval;
@@ -47,7 +47,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__DESTROY(SPVM_ENV* env, SPVM_VALUE* st
 
 int32_t SPVM__Sys__Socket__Ip_mreq_source__imr_multiaddr(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __OpenBSD__
-  env->die(env, stack, "The new method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported on this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The new method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported in this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;
@@ -72,7 +72,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__imr_multiaddr(SPVM_ENV* env, SPVM_VAL
 
 int32_t SPVM__Sys__Socket__Ip_mreq_source__set_imr_multiaddr(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __OpenBSD__
-  env->die(env, stack, "The set_imr_multiaddr method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported on this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The set_imr_multiaddr method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported in this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_self = stack[0].oval;
@@ -90,7 +90,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__set_imr_multiaddr(SPVM_ENV* env, SPVM
 
 int32_t SPVM__Sys__Socket__Ip_mreq_source__imr_interface(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __OpenBSD__
-  env->die(env, stack, "The imr_interface method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported on this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The imr_interface method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported in this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;
@@ -115,7 +115,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__imr_interface(SPVM_ENV* env, SPVM_VAL
 
 int32_t SPVM__Sys__Socket__Ip_mreq_source__set_imr_interface(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __OpenBSD__
-  env->die(env, stack, "The set_imr_interface method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported on this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The set_imr_interface method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported in this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_self = stack[0].oval;
@@ -133,7 +133,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__set_imr_interface(SPVM_ENV* env, SPVM
 
 int32_t SPVM__Sys__Socket__Ip_mreq_source__imr_sourceaddr(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __OpenBSD__
-  env->die(env, stack, "The imr_sourceaddr method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported on this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The imr_sourceaddr method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported in this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;
@@ -158,7 +158,7 @@ int32_t SPVM__Sys__Socket__Ip_mreq_source__imr_sourceaddr(SPVM_ENV* env, SPVM_VA
 
 int32_t SPVM__Sys__Socket__Ip_mreq_source__set_imr_sourceaddr(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __OpenBSD__
-  env->die(env, stack, "The set_imr_sourceaddr method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported on this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The set_imr_sourceaddr method in the Sys::Socket::Ip_mreq_sourceclock_nanosleep is not supported in this system(__OpenBSD__)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_self = stack[0].oval;

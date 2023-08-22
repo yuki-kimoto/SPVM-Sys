@@ -84,7 +84,7 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__lstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  return env->die(env, stack, "lstat is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return env->die(env, stack, "lstat is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
 #else
 
   int32_t e = 0;
@@ -218,7 +218,7 @@ int32_t SPVM__Sys__IO__Stat__st_size(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_blksize(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The \"st_blksize\" method in the class \"Sys::IO::Stat\" is not supported on this system", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The \"st_blksize\" method in the class \"Sys::IO::Stat\" is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_stat = stack[0].oval;
@@ -233,7 +233,7 @@ int32_t SPVM__Sys__IO__Stat__st_blksize(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_blocks(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The \"st_blocks\" method in the class \"Sys::IO::Stat\" is not supported on this system", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The \"st_blocks\" method in the class \"Sys::IO::Stat\" is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_stat = stack[0].oval;
@@ -326,10 +326,10 @@ int32_t SPVM__Sys__IO__Stat__st_ctime(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_atim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The st_atim_tv_nsec method in the Sys::IO::Stat is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The st_atim_tv_nsec method in the Sys::IO::Stat is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #elif defined(__solaris) || defined(__sun)
-  env->die(env, stack, "The st_atim_tv_nsec method in the Sys::IO::Stat is not supported on this system(__solaris or __sun)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The st_atim_tv_nsec method in the Sys::IO::Stat is not supported in this system(__solaris or __sun)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_stat = stack[0].oval;
@@ -348,10 +348,10 @@ int32_t SPVM__Sys__IO__Stat__st_atim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_mtim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The st_mtim_tv_nsec method in the Sys::IO::Stat is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The st_mtim_tv_nsec method in the Sys::IO::Stat is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #elif defined(__solaris) || defined(__sun)
-  env->die(env, stack, "The st_mtim_tv_nsec method in the Sys::IO::Stat is not supported on this system(__solaris or __sun)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The st_mtim_tv_nsec method in the Sys::IO::Stat is not supported in this system(__solaris or __sun)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_stat = stack[0].oval;
@@ -370,10 +370,10 @@ int32_t SPVM__Sys__IO__Stat__st_mtim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_ctim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The st_ctim_tv_nsec method in the Sys::IO::Stat is not supported on this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The st_ctim_tv_nsec method in the Sys::IO::Stat is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #elif defined(__solaris) || defined(__sun)
-  env->die(env, stack, "The st_ctim_tv_nsec method in the Sys::IO::Stat is not supported on this system(__solaris or __sun)", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The st_ctim_tv_nsec method in the Sys::IO::Stat is not supported in this system(__solaris or __sun)", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_stat = stack[0].oval;
