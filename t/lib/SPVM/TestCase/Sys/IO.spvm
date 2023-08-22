@@ -1073,9 +1073,12 @@ class TestCase::Sys::IO {
   }
 
   static method unlink : int ($test_dir : string) {
-
+    
     my $file = "$test_dir/foo.txt";
-    Sys::IO->fopen($file, "w");
+    
+    {
+      Sys::IO->fopen($file, "w");
+    }
     
     unless (Sys::FileTest->f($file)) {
       return 0;
@@ -1104,7 +1107,10 @@ class TestCase::Sys::IO {
   static method rename : int ($test_dir : string) {
 
     my $file = "$test_dir/foo.txt";
-    Sys::IO->fopen($file, "w");
+    
+    {
+      Sys::IO->fopen($file, "w");
+    }
     
     unless (Sys::FileTest->e($file)) {
       return 0;

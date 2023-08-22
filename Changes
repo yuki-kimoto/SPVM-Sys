@@ -8,7 +8,8 @@
   [Deprecation]
     * The Sys::Ioctl class is deprecated.
     * The Sys::Ioctl::Constant class is deprecated.
-
+  [Test Fix]
+    * Tests on Windows are fixed.
 0.481008 2023-07-12
   [Internal Changes]
     * Only internal changes were done.
