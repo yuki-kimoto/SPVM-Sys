@@ -296,6 +296,20 @@ Creates a $newpath symbolically linked to the $oldpath. The same as the Perl L<s
 
 Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
 
+=head2 ioctl
+
+  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);
+
+Calls the L<ioctlsocket|SPVM::Sys::Socket/"ioctlsocket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class in Windows.
+
+Calls the L<ioctl|SPVM::Sys::IO/"ioctl"> method in the L<Sys::IO|SPVM::Sys::IO> class in other systems.
+
+=head2 select
+
+  static method select : int ($nfds : int, $readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : Sys::Time::Timeval);
+
+Calls the L<select|SPVM::Sys::Select/"select"> method in the L<Sys::Select|SPVM::Sys::Select> class.
+
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.

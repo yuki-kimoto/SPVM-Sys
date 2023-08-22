@@ -13,6 +13,7 @@ class Sys {
   use Sys::Process;
   use Sys::IO::Stat;
   use Sys::Socket;
+  use Sys::Select;
   
   static method osname : string () {
     my $osname : string;
@@ -549,4 +550,10 @@ class Sys {
     
     return $status;
   }
+  
+  static method select : int ($nfds : int, $readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : Sys::Time::Timeval) {
+    my $status = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout);
+    return $status;
+  }
+  
 }
