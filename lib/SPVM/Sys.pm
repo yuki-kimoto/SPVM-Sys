@@ -300,9 +300,9 @@ Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|h
 
   static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);
 
-Calls the L<ioctlsocket|SPVM::Sys::Socket/"ioctlsocket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class in Windows.
+Calls the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class in Windows.
 
-Calls the L<ioctl|SPVM::Sys::IO/"ioctl"> method in the L<Sys::IO|SPVM::Sys::IO> class in other systems.
+Calls the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class in other systems.
 
 =head2 select
 

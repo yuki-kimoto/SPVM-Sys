@@ -542,10 +542,10 @@ class Sys {
     my $status = -1;
     
     if (Sys::OS->is_windows) {
-      $status = Sys::Socket->ioctlsocket($fd, $request, (int[])$request_arg_ref);
+      $status = Sys::Ioctl->ioctlsocket($fd, $request, (int[])$request_arg_ref);
     }
     else {
-      $status = Sys::IO->ioctl($fd, $request, $request_arg_ref);
+      $status = Sys::Ioctl->ioctl($fd, $request, $request_arg_ref);
     }
     
     return $status;
