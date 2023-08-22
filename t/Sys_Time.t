@@ -71,10 +71,6 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count();
   is($perl_gmtime[8], $time_info->tm_isdst);
 }
 
-
-# Start objects count
-my $start_memory_blocks_count = $api->get_memory_blocks_count();
-
 ok(SPVM::TestCase::Sys::Time->gettimeofday);
 
 ok(SPVM::TestCase::Sys::Time->clock);

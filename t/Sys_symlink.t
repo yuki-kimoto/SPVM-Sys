@@ -27,7 +27,6 @@ if (SPVM::Sys::OS->is_windows) {
 
   Win32::FsType() eq 'NTFS'
       or skip_all("need NTFS");
-  my $symlink_supported;
   eval { SPVM::Sys->symlink('', '') };
   if ($@ && $@ !~ /not permitted/) {
     $symlink_supported = 1;
