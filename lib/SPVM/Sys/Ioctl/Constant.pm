@@ -20,7 +20,7 @@ C<Sys::Ioctl::Constant> is the class for the constant values for the C<ioctl> fu
 
   static method FIONBIO : int ();
 
-Get the constant value of C<FIONBIO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Gets the value of C<FIONBIO>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head1 Copyright & License
 
