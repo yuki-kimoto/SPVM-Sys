@@ -1,6 +1,6 @@
 0.483 2023-08-22
-  [Incompatible Changes]
-    * The ioctlsocket method is added to the Sys::Socket class.
+  [New Features]
+    * The ioctlsocket method is added to the Sys::Ioctl class.
   
 0.482 2023-08-22
   [New Features]

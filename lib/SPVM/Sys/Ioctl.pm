@@ -24,7 +24,9 @@ The ioctl() function manipulates the underlying device parameters of special fil
 
 See the L<ioctl|https://linux.die.net/man/2/ioctl> function in Linux.
 
-On Windows, C<ioctl> calls C<ioctlsocket>.
+=head2 ioctlsocket
+
+  static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int[] = undef);
 
 See the L<ioctlsocket|https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-ioctlsocket> function in Windows.
 
