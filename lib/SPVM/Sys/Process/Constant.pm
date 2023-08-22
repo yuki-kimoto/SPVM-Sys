@@ -22,49 +22,49 @@ C<Sys::Process::Constant> provides the methods for the constant values for the p
 
   static method EXIT_FAILURE : int ();
 
-Gets the value of C<EXIT_FAILURE>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Gets the value of C<EXIT_FAILURE>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 EXIT_SUCCESS
 
   static method EXIT_SUCCESS : int ();
 
-Gets the value of C<EXIT_SUCCESS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Gets the value of C<EXIT_SUCCESS>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 WNOHANG
 
   static method WNOHANG : int ();
 
-Gets the value of C<WNOHANG>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Gets the value of C<WNOHANG>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 WUNTRACED
 
   static method WUNTRACED : int ();
 
-Gets the value of C<WUNTRACED>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Gets the value of C<WUNTRACED>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 WCONTINUED
 
   static method WCONTINUED : int ();
 
-Gets the value of C<WCONTINUED>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Gets the value of C<WCONTINUED>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 PRIO_PROCESS
 
   static method PRIO_PROCESS : int ();
 
-Gets the value of C<PRIO_PROCESS>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Gets the value of C<PRIO_PROCESS>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 PRIO_PGRP
 
   static method PRIO_PGRP : int ();
 
-Gets the value of C<PRIO_PGRP>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Gets the value of C<PRIO_PGRP>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 PRIO_USER
 
   static method PRIO_USER : int ();
 
-Gets the value of C<PRIO_USER>. If the system doesn't define this constant, an exception will be thrown. The error code is set to the class id of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+Gets the value of C<PRIO_USER>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head1 Copyright & License
 
