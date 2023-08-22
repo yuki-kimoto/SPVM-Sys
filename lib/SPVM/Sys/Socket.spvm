@@ -88,4 +88,8 @@ class Sys::Socket {
   native static method sockatmark : int ($sockfd : int);
 
   native static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+
+
+  native static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int[] = undef);
+
 }

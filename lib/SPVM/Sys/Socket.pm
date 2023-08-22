@@ -371,6 +371,12 @@ Portalbe C<strerror> related to the errors of the socket.
 
   static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
 
+=head2 ioctlsocket
+
+  static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int[] = undef);
+
+See the L<ioctlsocket|https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-ioctlsocket> function in Windows.
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto
