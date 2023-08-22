@@ -6,11 +6,16 @@
 
 #include "spvm_native.h"
 
+
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/fcntl.h>
 #include <sys/stat.h>
 #include <sys/file.h>
+
+#if !defined(_WIN32)
+  #include <sys/ioctl.h>
+#endif
 
 static const char* FILE_NAME = "Sys/IO/Constant.c";
 

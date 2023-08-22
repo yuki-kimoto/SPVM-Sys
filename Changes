@@ -3,6 +3,7 @@
     * The ioctl method is added to the Sys::IO class.
     * The FIONBIO method is added to the Sys::IO::Contant class.
     * The ioctlsocket method is added to the Sys::Socket class.
+    * The ioctl method is added to the Sys class.
   [Deprecation]
     * The Sys::Ioctl class is deprecated.
     * The Sys::Ioctl::Constant class is deprecated.

@@ -536,4 +536,17 @@ class Sys {
   static method sleep : int ($seconds : int) {
     return Sys::Process->sleep($seconds) == 0;
   }
+  
+  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef) {
+    my $status = -1;
+    
+    if (Sys::OS->is_windows) {
+      $status = Sys::Socket->ioctlsocket($fd, $request, (int[])$request_arg_ref);
+    }
+    else {
+      $status = Sys::IO->ioctl($fd, $request, $request_arg_ref);
+    }
+    
+    return $status;
+  }
 }

@@ -283,6 +283,8 @@ my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
   ok(SPVM::TestCase::Sys->rename("$tmp_dir"));
 }
 
+ok(SPVM::TestCase::Sys->ioctl);
+
 SPVM::api->set_exception(undef);
 
 # All object is freed
