@@ -581,7 +581,7 @@ class Sys {
   }
   
   static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0) {
-    return Sys::Socket->recv($sockfd, $buf, $len, $flags, $buf_offset);
+    return Sys::Socket->send($sockfd, $buf, $len, $flags, $buf_offset);
   }
   
   static method shutdown : int ($sockfd : int, $how : int) {
