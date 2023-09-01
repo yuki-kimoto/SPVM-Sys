@@ -43,7 +43,7 @@ int32_t SPVM__Sys__Time__Itimerval__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Time__Itimerval__copy_it_interval(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Time__Itimerval__it_interval(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   env->die(env, stack, "The copy_it_interval method in the Sys::Time::Itimerval is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
@@ -90,7 +90,7 @@ int32_t SPVM__Sys__Time__Itimerval__set_it_interval(SPVM_ENV* env, SPVM_VALUE* s
 #endif
 }
 
-int32_t SPVM__Sys__Time__Itimerval__copy_it_value(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Time__Itimerval__it_value(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   env->die(env, stack, "The copy_it_value method in the Sys::Time::Itimerval is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;

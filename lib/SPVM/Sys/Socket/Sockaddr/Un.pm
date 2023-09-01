@@ -54,7 +54,7 @@ Sets C<sun_family>.
 
 =head2 copy_sun_path
 
-  method copy_sun_path : string ();
+  method sun_path : string ();
 
 Copies C<sun_path>.
 

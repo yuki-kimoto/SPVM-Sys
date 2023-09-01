@@ -56,7 +56,7 @@ Sets C<sin_family>.
 
 =head2 copy_sin_addr
 
-  method copy_sin_addr : Sys::Socket::In_addr ();
+  method sin_addr : Sys::Socket::In_addr ();
 
 Copies C<sin_addr>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 

@@ -82,13 +82,13 @@ Sets C<ai_protocol>.
 
 =head2 copy_ai_addr
 
-  method copy_ai_addr : Sys::Socket::Sockaddr ();
+  method ai_addr : Sys::Socket::Sockaddr ();
 
 Copies C<ai_addr>.
 
 =head2 copy_ai_canonname
 
-  method copy_ai_canonname : string ();
+  method ai_canonname : string ();
 
 Copies C<ai_canonname>.
 

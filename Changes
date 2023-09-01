@@ -1,3 +1,36 @@
+0.483 2023-09-02
+
+  [Incompatible Changes]
+  * The following names of methods in clesses are renamed.
+  
+    class Sys::Socket::Addrinfo
+    -  native method copy_ai_addr : Sys::Socket::Sockaddr ();
+    +  native method ai_addr : Sys::Socket::Sockaddr ();
+    -  native method copy_ai_canonname : string ();
+    +  native method ai_canonname : string ();
+    class Sys::Socket::Sockaddr::In extends Sys::Socket::Sockaddr : pointer
+    -  native method copy_sin_addr : Sys::Socket::In_addr ();
+    +  native method sin_addr : Sys::Socket::In_addr ();
+    class Sys::Socket::Sockaddr::In extends Sys::Socket::Sockaddr : pointer
+    -    $clone->set_sin_addr($self->copy_sin_addr);
+    +    $clone->set_sin_addr($self->sin_addr);
+    class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer
+    -  native method copy_sin6_addr : Sys::Socket::In6_addr ();
+    +  native method sin6_addr : Sys::Socket::In6_addr ();
+    class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer
+    -    $clone->set_sin6_addr($self->copy_sin6_addr);
+    +    $clone->set_sin6_addr($self->sin6_addr);
+    class Sys::Socket::Sockaddr::Un extends Sys::Socket::Sockaddr : pointer
+    -  native method copy_sun_path : string ();
+    +  native method sun_path : string ();
+    -    $clone->set_sun_path($self->copy_sun_path);
+    +    $clone->set_sun_path($self->sun_path);
+    class Sys::Time::Itimerval : pointer
+    -  native method copy_it_interval : Sys::Time::Timeval ();
+    -  native method copy_it_value : Sys::Time::Timeval ();
+    +  native method it_interval : Sys::Time::Timeval ();
+    +  native method it_value : Sys::Time::Timeval ();
+
 0.483 2023-08-22
   [New Features]
     * The ioctlsocket method is added to the Sys::Ioctl class.

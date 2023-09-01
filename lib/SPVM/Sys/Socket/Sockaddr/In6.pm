@@ -80,7 +80,7 @@ Sets C<sin6_scope_id>.
 
 =head2 copy_sin6_addr
 
-  method copy_sin6_addr : Sys::Socket::In6_addr ();
+  method sin6_addr : Sys::Socket::In6_addr ();
 
 Copies C<sin6_addr>. This is a L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> object.
 

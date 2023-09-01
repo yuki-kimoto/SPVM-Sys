@@ -25,7 +25,7 @@ class TestCase::Sys::Poll {
       my $no0_address = Sys::Socket::Sockaddr::In->new;
       $no0_address->set_sin_family((byte)SOCKET->AF_INET);
       $no0_address->set_sin_port(Sys::Socket->htons((short)$port));
-      my $no0_sin_addr = $no0_address->copy_sin_addr;
+      my $no0_sin_addr = $no0_address->sin_addr;
       Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $no0_sin_addr);
       $no0_address->set_sin_addr($no0_sin_addr);
       
@@ -50,7 +50,7 @@ class TestCase::Sys::Poll {
       my $no1_address = Sys::Socket::Sockaddr::In->new;
       $no1_address->set_sin_family((byte)SOCKET->AF_INET);
       $no1_address->set_sin_port(Sys::Socket->htons((short)$port));
-      my $no1_sin_addr = $no1_address->copy_sin_addr;
+      my $no1_sin_addr = $no1_address->sin_addr;
       Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $no1_sin_addr);
       $no1_address->set_sin_addr($no1_sin_addr);
       

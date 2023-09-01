@@ -28,7 +28,7 @@ class Sys::Socket::Addrinfo {
 
   native method set_ai_protocol : void ($ai_protocol : int);
 
-  native method copy_ai_addr : Sys::Socket::Sockaddr ();
+  native method ai_addr : Sys::Socket::Sockaddr ();
 
-  native method copy_ai_canonname : string ();
+  native method ai_canonname : string ();
 }

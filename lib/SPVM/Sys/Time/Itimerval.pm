@@ -12,10 +12,10 @@ SPVM::Sys::Time::Itimerval - struct timeval in C language
   
   my $tv = Sys::Time::Itimerval->new;
   
-  my $it_interval = $tv->copy_it_interval;
+  my $it_interval = $tv->it_interval;
   $tv->set_it_interval(12);
   
-  my $it_value = $tv->copy_it_value;
+  my $it_value = $tv->it_value;
   $tv->set_it_value(34);
 
 =head1 Description
@@ -38,11 +38,11 @@ Creates a new C<Sys::Time::Itimerval> object.
 
 =head2 copy_it_interval
 
-  method copy_it_interval : Sys::Time::Timeval ()
+  method it_interval : Sys::Time::Timeval ()
 
 Copies C<it_interval>.
 
-  my $it_interval = $tv->copy_it_interval;
+  my $it_interval = $tv->it_interval;
 
 =head2 set_it_interval
 
@@ -54,11 +54,11 @@ Sets C<it_interval>.
 
 =head2 copy_it_value
   
-  method copy_it_value : Sys::Time::Timeval ()
+  method it_value : Sys::Time::Timeval ()
 
 Copies C<it_value>.
 
-  my $it_value = $tv->copy_it_value;
+  my $it_value = $tv->it_value;
 
 =head2 set_it_value
 
