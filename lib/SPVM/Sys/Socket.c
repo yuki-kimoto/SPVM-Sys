@@ -602,6 +602,69 @@ int32_t SPVM__Sys__Socket__setsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM__Sys__Socket__setsockopt(env, stack);
 }
 
+int32_t SPVM__Sys__Socket__setsockopt_v2(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t sockfd = stack[0].ival;
+
+  int32_t level = stack[1].ival;
+
+  int32_t optname = stack[2].ival;
+  
+  void* obj_optval_ref = stack[3].oval;
+  if (!obj_optval_ref) {
+    return env->die(env, stack, "The $optval_ref must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t optlen = stack[4].ival;
+  
+  int32_t optval_ref_length = env->length(env, stack, obj_optval_ref);
+  
+  if (!(optval_ref_length == 1)) {
+    return env->die(env, stack, "The length of the $optval_ref must be 1", __func__, FILE_NAME, __LINE__);
+  }
+  
+  void* obj_optval = env->get_elem_object(env, stack, obj_optval_ref, 0);
+  if (!obj_optval) {
+    return env->die(env, stack, "The element of the $optval_ref must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t status = -1;
+  socklen_t socklen_t_optlen = -1;
+  if (env->is_type_by_name(env, stack, obj_optval_ref, "Int", 1)) {
+    optlen = sizeof(int);
+    int optval = (int)env->get_field_int_by_name(env, stack, obj_optval, "value", &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) { return error_id; }
+    
+    status = setsockopt(sockfd, level, optname, &optval, optlen);
+  }
+  else if (env->is_type_by_name(env, stack, obj_optval_ref, "string", 1)) {
+    char* optval = (char*)env->get_chars(env, stack, obj_optval);
+    int32_t optval_length = env->length(env, stack, obj_optval);
+    
+    if (!(optlen <= optval_length)) {
+      return env->die(env, stack, "The $optlen must be less than or equal to the length of the element of the $optval_ref.", __func__, FILE_NAME, __LINE__);
+    }
+    
+    status = setsockopt(sockfd, level, optname, &optval, optlen);
+  }
+  else {
+    return env->die(env, stack, "The type of the $optval_ref must be Int[] or string[]", __func__, FILE_NAME, __LINE__);
+  }
+  
+  void* obj_opt_val = env->get_elem_object(env, stack, obj_optval_ref, 0);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]setsockopt failed: %s", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
@@ -691,11 +754,9 @@ int32_t SPVM__Sys__Socket__getsockopt_v2(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The length of the $optval_ref must be 1", __func__, FILE_NAME, __LINE__);
   }
   
-  void* obj_optval = env->get_elem_object(env, stack, obj_optval_ref, 0);
-  
   int32_t status = -1;
   socklen_t socklen_t_optlen = -1;
-  if (env->is_type_by_name(env, stack, obj_optval, "Int", 0)) {
+  if (env->is_type_by_name(env, stack, obj_optval_ref, "Int", 1)) {
     int optlen = sizeof(int);
     int optval;
     status = getsockopt(sockfd, level, optname, &optval, &optlen);
@@ -705,7 +766,7 @@ int32_t SPVM__Sys__Socket__getsockopt_v2(SPVM_ENV* env, SPVM_VALUE* stack) {
     
     env->set_elem_object(env, stack, obj_optval_ref, 0, obj_optval);
   }
-  else if (env->is_type_by_name(env, stack, obj_optval, "string", 0)) {
+  else if (env->is_type_by_name(env, stack, obj_optval_ref, "string", 1)) {
     if (!(*optlen_ref >= 0)) {
       return env->die(env, stack, "The length of the $$optlen_ref must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
     }
@@ -728,7 +789,7 @@ int32_t SPVM__Sys__Socket__getsockopt_v2(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
   }
   else {
-    return env->die(env, stack, "The type of the element of the $optval_ref must be Int or string", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The type of the $optval_ref must be Int[] or string[]", __func__, FILE_NAME, __LINE__);
   }
   
   void* obj_opt_val = env->get_elem_object(env, stack, obj_optval_ref, 0);
