@@ -310,6 +310,66 @@ Calls the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys
 
 Calls the L<select|SPVM::Sys::Select/"select"> method in the L<Sys::Select|SPVM::Sys::Select> class.
 
+=head2 bind
+
+  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+
+Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 accept
+
+  static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+
+Calls the L<accept|SPVM::Sys::Socket/"accept"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 connect
+
+  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+
+Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 getpeername
+
+  static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+
+Calls the L<getpeername|SPVM::Sys::Socket/"getpeername"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 getsockname
+
+  static method getsockname : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+
+Calls the L<getsockname|SPVM::Sys::Socket/"getsockname"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 recv
+
+  static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);
+
+Calls the L<recv|SPVM::Sys::Socket/"recv"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 send
+
+  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
+
+Calls the L<send|SPVM::Sys::Socket/"send"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 shutdown
+
+  static method shutdown : int ($sockfd : int, $how : int);
+
+Calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 socket
+
+  static method socket : int ($domain : int, $type : int, $protocol : int);
+
+Calls the L<socket|SPVM::Sys::Socket/"socket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 socketpair
+
+  static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
+
+Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.
