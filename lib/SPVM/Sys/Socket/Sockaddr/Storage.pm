@@ -54,7 +54,7 @@ Gets C<ss_family>.
 
 Sets C<ss_family>.
 
-=head2 sizeof
+=head2 size
 
   method size : int ()
 

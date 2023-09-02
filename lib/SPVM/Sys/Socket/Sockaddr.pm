@@ -52,7 +52,7 @@ Gets C<sa_family>.
 
 Sets C<sa_family>.
 
-=head2 sizeof
+=head2 size
 
   method size : int ()
 

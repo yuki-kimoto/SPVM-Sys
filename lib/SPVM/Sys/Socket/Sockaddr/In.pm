@@ -78,7 +78,7 @@ Gets C<sin_port>.
 
 Sets C<sin_port>.
 
-=head2 sizeof
+=head2 size
 
   method size : int ()
 

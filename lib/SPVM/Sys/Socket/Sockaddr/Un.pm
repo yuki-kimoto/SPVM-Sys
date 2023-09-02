@@ -64,7 +64,7 @@ Copies C<sun_path>.
 
 Sets C<sun_path>.
 
-=head2 sizeof
+=head2 size
 
   method size : int ()
 

@@ -102,7 +102,7 @@ Gets C<sin6_port>.
 
 Sets C<sin6_port>.
 
-=head2 sizeof
+=head2 size
 
   method size : int ()
 
