@@ -24,18 +24,34 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =back
 
+=head1 Class Methods
+
+=head2 new
+
+  static method new : Sys::Socket::Sockaddr::In ();
+
+Create a new C<Sys::Socket::Sockaddr> object.
+
 =head1 Instance Methods
+
+=head2 DESTROY
+
+  method DESTROY : void ();
+
+The destructor.
 
 =head2 sa_family
 
   method sa_family : int ()
 
-Gets a family. This method is planed to be implemented in a child class.
+Gets C<sa_family>.
 
-Exception:
+=head2 set_sa_family
 
-  Not implemented.
-  
+  method sa_family : int ()
+
+Sets C<sa_family>.
+
 =head2 sizeof
 
   method size : int ()

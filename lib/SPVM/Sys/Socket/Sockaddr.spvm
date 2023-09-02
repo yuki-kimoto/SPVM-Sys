@@ -4,7 +4,15 @@
 class Sys::Socket::Sockaddr : pointer {
   interface Cloneable;
   
-  method sa_family : int () { die "Not implemented."; }
+  # Class methods
+  native static method new : Sys::Socket::Sockaddr ();
+  
+  # Instance methods
+  native method DESTROY : void ();
+  
+  native method sa_family : int ();
+  
+  native method set_sa_family : void ($family : int);
   
   method size : int () { die "Not implemented."; }
   

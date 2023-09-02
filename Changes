@@ -1,23 +1,33 @@
 0.483 2023-09-02
   [New Features]
-  
-    The following methods are added to the Sys class.
+    
+    * The following methods are added to the Sys::Socket::Sockaddr class.
+    
+      +  static method new : Sys::Socket::Sockaddr::In ();
+      +  method DESTROY : void ();
+      +  method set_sa_family : void ($family : int);
+      
+    * The following methods in the Sys::Socket::Sockaddr class is implemented.
+    
+      +  method sa_family : int ();
+    
+    * The following methods are added to the Sys class.
 
-    +  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
-    +  static method listen : int ($sockfd : int, $backlog : int);
-    +  static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
-    +  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr)
-    +  static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
-    +  static method getsockname : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
-    +  static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);
-    +  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
-    +  static method shutdown : int ($sockfd : int, $how : int);
-    +  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);
-    +  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);
-    +  static method shutdown : int ($sockfd : int, $how : int);
-    +  static method socket : int ($domain : int, $type : int, $protocol : int);
-    +  static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
-    +  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
+      +  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
+      +  static method listen : int ($sockfd : int, $backlog : int);
+      +  static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+      +  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr)
+      +  static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+      +  static method getsockname : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+      +  static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);
+      +  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
+      +  static method shutdown : int ($sockfd : int, $how : int);
+      +  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);
+      +  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);
+      +  static method shutdown : int ($sockfd : int, $how : int);
+      +  static method socket : int ($domain : int, $type : int, $protocol : int);
+      +  static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
+      +  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
 
   [Incompatible Changes]
     * The setsockopt_int and setsockopt_int is removed from the Sys::Socket class.
