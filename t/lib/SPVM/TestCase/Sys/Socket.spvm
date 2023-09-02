@@ -631,9 +631,9 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_setsockopt_int = Sys::Socket->setsockopt_int($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
+    my $status_setsockopt = Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
     
-    unless ($status_setsockopt_int == 0) {
+    unless ($status_setsockopt == 0) {
       return 0;
     }
     
@@ -666,7 +666,7 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
 
-    Sys::Socket->setsockopt_int($server_socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
+    Sys->setsockopt($server_socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
     
     Sys::Socket->bind($server_socket, $address, $address->size);
     

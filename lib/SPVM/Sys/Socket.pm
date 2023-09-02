@@ -259,12 +259,6 @@ The length of the option value must be less than or equal to the option length. 
 
 If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
-=head2 setsockopt_int
-
-  static method setsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval : int);
-
-The same as L</"setsockopt">, but the option value can be specifed by the C<int> type.
-
 =head2 getsockopt
 
   static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : mutable string, $optlen_ref : int*);
@@ -286,12 +280,6 @@ The $optval is a string. The following is an example to get an int value.
   my $optval_int_ref = [0];
   Fn->memcpy($result_ref, 0, $optval, 0, 4);
   my $optval_int = $optval_int_ref->[0];
-
-=head2 getsockopt_int
-
-  static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
-
-The same as L</"getsockopt">, but the option value can be specifed by the C<int> type.
 
 =head2 getaddrinfo_raw
 

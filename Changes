@@ -19,6 +19,7 @@
     +  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
 
   [Incompatible Changes]
+    * The setsockopt_int and setsockopt_int is removed from the Sys::Socket class.
     * The sizeof method in the Sys::Socket::Sockaddr class and its child classes are renamed to the size method.
     * The Sys::Socket::Sockaddr::Interface interface is removed.
     * The Sys::Socket::Sockaddr class does not have the Sys::Socket::Sockaddr::Interface interface.

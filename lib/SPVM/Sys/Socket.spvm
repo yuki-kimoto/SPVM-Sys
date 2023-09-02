@@ -56,12 +56,8 @@ class Sys::Socket {
 
   native static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : string, $optlen : int);
 
-  native static method setsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval : int);
-
   native static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : mutable string, $optlen_ref : int*);
 
-  native static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*);
-  
   native static method getaddrinfo_raw : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
                 $res : Sys::Socket::AddrinfoLinkedList[]);
