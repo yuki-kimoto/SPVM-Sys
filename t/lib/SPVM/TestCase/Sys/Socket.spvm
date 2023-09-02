@@ -849,18 +849,12 @@ class TestCase::Sys::Socket {
     my $sin_addr = $address->sin_addr;
     $sin_addr->set_s_addr(Sys::Socket->htonl(SOCKET->INADDR_ANY));
     $address->set_sin_addr($sin_addr);
-
+    
     {
-      my $result = 0;
-      my $status_getsockopt_int = Sys::Socket->getsockopt_int($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, \$result);
-      
-      warn "\n[Test Output]$status_getsockopt_int";
-      
-      unless ($status_getsockopt_int == 0) {
-        return 0;
-      }
-
-      warn "\n[Test Output]$result";
+      my $result_packed = Sys->getsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR);
+      my $result_ref = [0];
+      Fn->memcpy($result_ref, 0, $result_packed, 0, 4);
+      my $result = $result_ref->[0];
       
       unless ($result == 0) {
         return 0;
@@ -873,17 +867,11 @@ class TestCase::Sys::Socket {
       unless ($status_setsockopt == 0) {
         return 0;
       }
-    
-      my $result = 0;
-      my $status_getsockopt_int = Sys::Socket->getsockopt_int($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, \$result);
       
-      warn "\n[Test Output]$status_getsockopt_int";
-      
-      unless ($status_getsockopt_int == 0) {
-        return 0;
-      }
-
-      warn "\n[Test Output]$result";
+      my $result_packed = Sys->getsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR);
+      my $result_ref = [0];
+      Fn->memcpy($result_ref, 0, $result_packed, 0, 4);
+      my $result = $result_ref->[0];
       
       if ($result == 0) {
         return 0;

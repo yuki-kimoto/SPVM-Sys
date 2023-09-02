@@ -618,5 +618,18 @@ class Sys {
     }
   }
   
+  static method getsockopt : string ($sockfd : int, $level : int, $optname : int, $optlen : int = -1) {
+    
+    unless ($optlen >= 0) {
+      $optlen = 4;
+    }
+    
+    my $optval = (mutable string)new_string_len $optlen;
+    
+    Sys::Socket->getsockopt($sockfd, $level, $optname, $optval, \$optlen);
+    
+    return $optval;
+  }
+  
   # TODO getsockopt
 }
