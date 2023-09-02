@@ -479,7 +479,7 @@ class TestCase::Sys::Socket {
       return 0;
     }
 
-    my $status_shutdown = Sys::Socket->shutdown($socket, SOCKET->SHUT_WR);
+    my $status_shutdown = Sys->shutdown($socket, SOCKET->SHUT_WR);
     
     unless ($status_shutdown == 0) {
       return 0;
