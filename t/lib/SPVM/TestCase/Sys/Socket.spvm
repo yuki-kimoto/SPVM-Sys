@@ -335,6 +335,15 @@ class TestCase::Sys::Socket {
       }
     }
     
+    # IPv4/TCP
+    {
+      my $socket = -1;
+      Sys->socket(\$socket, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+      
+      unless ($socket > 0) {
+        return 0;
+      }
+    }
     return 1;
   }
 

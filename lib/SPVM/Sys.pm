@@ -370,9 +370,10 @@ Calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the L<Sys::Socket|S
 
 =head2 socket
 
-  static method socket : int ($domain : int, $type : int, $protocol : int);
+  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);
 
-Calls the L<socket|SPVM::Sys::Socket/"socket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Calls the L<socket|SPVM::Sys::Socket/"socket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $domain, $type, $protocal,
+and the return value is set to $$sockfd_ref.
 
 =head2 socketpair
 
