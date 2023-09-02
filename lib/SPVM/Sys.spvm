@@ -561,6 +561,10 @@ class Sys {
     return Sys::Socket->bind($sockfd, $addr, $addrlen);
   }
   
+  static method listen : int ($sockfd : int, $backlog : int) {
+    return Sys::Socket->listen($sockfd, $backlog);
+  }
+  
   static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*) {
     return Sys::Socket->accept($sockfd, $addr, $addrlen_ref);
   }

@@ -318,6 +318,12 @@ The next argument $addrlen is set to the size of the $addr.
 
 Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $addrlen.
 
+=head2 listen
+
+  static method listen : int ($sockfd : int, $backlog : int);
+
+Calls the L<listen|SPVM::Sys::Socket/"listen"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
 =head2 accept
 
   static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
