@@ -226,6 +226,8 @@ else {
 ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
 ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
 
+ok(SPVM::TestCase::Sys::Socket->setsockopt_v2($port));
+
 unless ($^O eq 'MSWin32') {
   ok(SPVM::TestCase::Sys::Socket->sockaddr_un);
 }
