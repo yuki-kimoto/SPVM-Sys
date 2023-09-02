@@ -603,7 +603,7 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    my $status_bind = Sys::Socket->bind($socket, $address, $address->size);
+    my $status_bind = Sys->bind($socket, $address);
     
     unless ($status_bind == 0) {
       return 0;

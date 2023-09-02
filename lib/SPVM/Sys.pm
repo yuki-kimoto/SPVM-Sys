@@ -312,9 +312,11 @@ Calls the L<select|SPVM::Sys::Select/"select"> method in the L<Sys::Select|SPVM:
 
 =head2 bind
 
-  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
 
-Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+The next argument $addrlen is set to the size of the $addr.
+
+Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $addrlen.
 
 =head2 accept
 

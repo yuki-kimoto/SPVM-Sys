@@ -556,7 +556,8 @@ class Sys {
     return $status;
   }
   
-  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int) {
+  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+    my $addrlen = $addr->size;
     return Sys::Socket->bind($sockfd, $addr, $addrlen);
   }
   
