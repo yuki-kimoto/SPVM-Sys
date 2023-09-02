@@ -370,6 +370,10 @@ Calls the L<socket|SPVM::Sys::Socket/"socket"> method in the L<Sys::Socket|SPVM:
 
 Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
+=head2 setsockopt
+
+  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int) {
+
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.

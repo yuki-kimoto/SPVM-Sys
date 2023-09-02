@@ -596,5 +596,27 @@ class Sys {
     return Sys::Socket->socketpair($domain, $type, $protocol, $pair);
   }
   
-  # TODO getsockopt, setsockopt
+  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int) {
+    
+    unless ($optval) {
+      die "The \$optval must be defined.";
+    }
+    
+    if ($optval is_type Int) {
+      my $optval_ref = [$optval->(Int)->value];
+      my $optval_string = new_string_len 4;
+      Fn->memcpy($optval_string, 0, $optval_ref, 0, 4);
+      
+      return Sys::Socket->setsockopt($sockfd, $level, $optname, $optval_string, 4);
+    }
+    elsif ($optval is_type string) {
+      my $optval_string = (string)$optval;
+      return Sys::Socket->setsockopt($sockfd, $level, $optname, $optval_string, length $optval_string);
+    }
+    else {
+      die "The type of \$optval must be Int or string.";
+    }
+  }
+  
+  # TODO getsockopt
 }
