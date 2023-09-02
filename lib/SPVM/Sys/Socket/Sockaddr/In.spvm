@@ -27,7 +27,7 @@ class Sys::Socket::Sockaddr::In extends Sys::Socket::Sockaddr : pointer {
   
   native method set_sin_port : void ($port : int);
 
-  native method sizeof : int ();
+  native method size : int ();
   
   method clone : Sys::Socket::Sockaddr::In () {
     my $clone = Sys::Socket::Sockaddr::In->new;

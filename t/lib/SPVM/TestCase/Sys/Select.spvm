@@ -32,7 +32,7 @@ class TestCase::Sys::Select {
       Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $no0_sin_addr);
       $no0_address->set_sin_addr($no0_sin_addr);
       
-      my $no0_status_connect = Sys::Socket->connect($no0_socket, $no0_address, $no0_address->sizeof);
+      my $no0_status_connect = Sys::Socket->connect($no0_socket, $no0_address, $no0_address->size);
       
       unless ($no0_status_connect == 0) {
         Sys::Socket->close($no0_socket);
@@ -57,7 +57,7 @@ class TestCase::Sys::Select {
       Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $no1_sin_addr);
       $no1_address->set_sin_addr($no1_sin_addr);
       
-      my $no1_status_connect = Sys::Socket->connect($no1_socket, $no1_address, $no1_address->sizeof);
+      my $no1_status_connect = Sys::Socket->connect($no1_socket, $no1_address, $no1_address->size);
       
       unless ($no1_status_connect == 0) {
         Sys::Socket->close($no1_socket);

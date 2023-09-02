@@ -66,7 +66,7 @@ Sets C<sun_path>.
 
 =head2 sizeof
 
-  method sizeof : int ()
+  method size : int ()
 
 The size of C<struct sockaddr_un>.
 

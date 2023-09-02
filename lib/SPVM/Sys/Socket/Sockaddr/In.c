@@ -120,7 +120,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_port(SPVM_ENV* env, SPVM_VALUE*
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__Sockaddr__In__sizeof(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Sockaddr__In__size(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   

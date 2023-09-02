@@ -38,7 +38,7 @@ Exception:
   
 =head2 sizeof
 
-  method sizeof : int ()
+  method size : int ()
 
 Returns the size of the structure. This method is planed to be implemented in a child class.
 

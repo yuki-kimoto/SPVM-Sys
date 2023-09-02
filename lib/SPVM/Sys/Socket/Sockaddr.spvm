@@ -6,7 +6,7 @@ class Sys::Socket::Sockaddr : pointer {
   
   method sa_family : int () { die "Not implemented."; }
   
-  method sizeof : int () { die "Not implemented."; }
+  method size : int () { die "Not implemented."; }
   
   method clone : Sys::Socket::Sockaddr () { die "Not implemented."; }
 }

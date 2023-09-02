@@ -402,7 +402,7 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->size);
     
     unless ($status_connect == 0) {
       return 0;
@@ -433,7 +433,7 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->size);
     
     unless ($status_connect == 0) {
       return 0;
@@ -464,7 +464,7 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->size);
     
     unless ($status_connect == 0) {
       return 0;
@@ -507,7 +507,7 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->size);
     
     unless ($status_connect == 0) {
       Sys::Socket->close($socket);
@@ -603,7 +603,7 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    my $status_bind = Sys::Socket->bind($socket, $address, $address->sizeof);
+    my $status_bind = Sys::Socket->bind($socket, $address, $address->size);
     
     unless ($status_bind == 0) {
       return 0;
@@ -637,7 +637,7 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    my $status_bind = Sys::Socket->bind($socket, $address, $address->sizeof);
+    my $status_bind = Sys::Socket->bind($socket, $address, $address->size);
     
     unless ($status_bind == 0) {
       return 0;
@@ -668,12 +668,12 @@ class TestCase::Sys::Socket {
 
     Sys::Socket->setsockopt_int($server_socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
     
-    Sys::Socket->bind($server_socket, $address, $address->sizeof);
+    Sys::Socket->bind($server_socket, $address, $address->size);
     
     Sys::Socket->listen($server_socket, SOCKET->SOMAXCONN);
     
     while (1) {
-      my $address_size = $address->sizeof;
+      my $address_size = $address->size;
       my $client_socket = Sys::Socket->accept($server_socket, $address, \$address_size);
       
       my $recv_buffer = (mutable string)new_string_len 1024;
@@ -704,11 +704,11 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->size);
     
     my $result_address = Sys::Socket::Sockaddr::In->new;
     
-    my $result_address_size = $result_address->sizeof;
+    my $result_address_size = $result_address->size;
     my $status_getpeername = Sys::Socket->getpeername($socket, $result_address, \$result_address_size);
 
     unless ($status_getpeername == 0) {
@@ -723,7 +723,7 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    unless ($result_address->sizeof == $address->sizeof) {
+    unless ($result_address->size == $address->size) {
       return 0;
     }
     
@@ -749,11 +749,11 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $address, $address->sizeof);
+    my $status_connect = Sys::Socket->connect($socket, $address, $address->size);
     
     my $result_address = Sys::Socket::Sockaddr::In->new;
     
-    my $result_address_size = $result_address->sizeof;
+    my $result_address_size = $result_address->size;
     my $status_getsockname = Sys::Socket->getsockname($socket, $result_address, \$result_address_size);
 
     unless ($status_getsockname == 0) {
@@ -768,7 +768,7 @@ class TestCase::Sys::Socket {
       return 0;
     }
 
-    unless ($result_address->sizeof == $address->sizeof) {
+    unless ($result_address->size == $address->size) {
       return 0;
     }
     
@@ -894,7 +894,7 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    unless ($address->sizeof > 0) {
+    unless ($address->size > 0) {
       return 0;
     }
     
@@ -920,7 +920,7 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    unless ($address->sizeof > 0) {
+    unless ($address->size > 0) {
       return 0;
     }
     
@@ -1047,7 +1047,7 @@ class TestCase::Sys::Socket {
       $address->set_sin_addr($sin_addr);
       
       my $host = (mutable string)new_string_len SOCKET->NI_MAXHOST;
-      my $status = Sys::Socket->getnameinfo($address, $address->sizeof, $host, length $host, undef, 0, 0);
+      my $status = Sys::Socket->getnameinfo($address, $address->size, $host, length $host, undef, 0, 0);
 
       unless ($status == 0) {
         return 0;
@@ -1070,7 +1070,7 @@ class TestCase::Sys::Socket {
       $address->set_sin6_addr($sin_addr);
       
       my $host = (mutable string)new_string_len SOCKET->NI_MAXHOST;
-      my $status = Sys::Socket->getnameinfo($address, $address->sizeof, $host, length $host, undef, 0, 0);
+      my $status = Sys::Socket->getnameinfo($address, $address->size, $host, length $host, undef, 0, 0);
 
       unless ($status == 0) {
         return 0;
@@ -1091,7 +1091,7 @@ class TestCase::Sys::Socket {
       $address->set_sin_port(Sys::Socket->htons(80));
       
       my $service = (mutable string)new_string_len SOCKET->NI_MAXSERV;
-      my $status = Sys::Socket->getnameinfo($address, $address->sizeof, undef, 0, $service, length $service, 0);
+      my $status = Sys::Socket->getnameinfo($address, $address->size, undef, 0, $service, length $service, 0);
 
       unless ($status == 0) {
         return 0;

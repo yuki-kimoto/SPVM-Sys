@@ -18,7 +18,7 @@ class Sys::Socket::Sockaddr::Storage extends Sys::Socket::Sockaddr : pointer {
 
   native method set_ss_family : void ($family : int);
   
-  native method sizeof : int ();
+  native method size : int ();
 
   method clone : Sys::Socket::Sockaddr::Storage () {
     my $clone = Sys::Socket::Sockaddr::Storage->new;

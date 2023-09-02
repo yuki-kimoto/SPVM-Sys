@@ -129,7 +129,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__set_sun_path(SPVM_ENV* env, SPVM_VALUE*
 #endif
 }
 
-int32_t SPVM__Sys__Socket__Sockaddr__Un__sizeof(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__Sockaddr__Un__size(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   env->die(env, stack, "The \"sizeof\" method in the class \"Sys::Socket::Sockaddr::Un\" is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;

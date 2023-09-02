@@ -104,7 +104,7 @@ Sets C<sin6_port>.
 
 =head2 sizeof
 
-  method sizeof : int ()
+  method size : int ()
 
 The size of C<struct sockaddr_in6>.
 
