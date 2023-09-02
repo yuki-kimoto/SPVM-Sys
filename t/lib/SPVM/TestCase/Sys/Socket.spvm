@@ -402,7 +402,7 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $address, $address->size);
+    my $status_connect = Sys->connect($socket, $address);
     
     unless ($status_connect == 0) {
       return 0;

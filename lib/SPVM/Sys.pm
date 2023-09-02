@@ -332,9 +332,11 @@ Calls the L<accept|SPVM::Sys::Socket/"accept"> method in the L<Sys::Socket|SPVM:
 
 =head2 connect
 
-  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
 
-Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+The next argument $addrlen is set to the size of the $addr.
+
+Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $addrlen.
 
 =head2 getpeername
 

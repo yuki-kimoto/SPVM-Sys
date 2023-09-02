@@ -569,7 +569,8 @@ class Sys {
     return Sys::Socket->accept($sockfd, $addr, $addrlen_ref);
   }
   
-  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int) {
+  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+    my $addrlen = $addr->size;
     return Sys::Socket->connect($sockfd, $addr, $addrlen);
   }
   
