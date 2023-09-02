@@ -542,7 +542,7 @@ class TestCase::Sys::Socket {
     
     {
       my $recv_buffer = (mutable string)new_string_len 3;
-      my $recv_length = Sys::Socket->recv($socket, $recv_buffer, length $recv_buffer, 0);
+      my $recv_length = Sys->recv($socket, $recv_buffer, length $recv_buffer, 0);
       
       unless ($recv_length == 3) {
         return 0;

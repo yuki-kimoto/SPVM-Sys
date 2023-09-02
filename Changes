@@ -4,6 +4,7 @@
     The following methods are added to the Sys class.
 
     +  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
+    +  static method listen : int ($sockfd : int, $backlog : int);
     +  static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
     +  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
     +  static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
