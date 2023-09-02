@@ -598,8 +598,16 @@ class Sys {
     $$sockfd_ref = Sys::Socket->socket($domain, $type, $protocol);
   }
   
-  static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]) {
-    return Sys::Socket->socketpair($domain, $type, $protocol, $pair);
+  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
+    my $pair = new int[2];
+    
+    my $status = Sys::Socket->socketpair($domain, $type, $protocol, $pair);
+    
+    $$sock_fd1_ref = $pair->[0];
+    
+    $$sock_fd2_ref = $pair->[1];
+    
+    return $status;
   }
   
   static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int) {

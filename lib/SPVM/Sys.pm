@@ -377,9 +377,12 @@ and the return value is set to $$sockfd_ref.
 
 =head2 socketpair
 
-  static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
+  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);
 
-Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Creates a new int array with the length 2 for the next argument $pair.
+
+Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $pair,
+and the $$sock_fd1_ref is set the first element of the $pair, and the $$sock_fd2_ref is set the second element of the $pair, nad 
 
 =head2 setsockopt
 

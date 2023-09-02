@@ -809,6 +809,30 @@ class TestCase::Sys::Socket {
       }
     }
     
+    {
+      my $socket1 = -1;
+      my $socket2 = -1;
+      my $status = Sys->socketpair(\$socket1, \$socket2, SOCKET->AF_UNIX, SOCKET->SOCK_STREAM, 0);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+
+      # Close socket at the end of this scope
+      my $socket1_auto_close = TestUtil::SocketAutoClose->new($socket1);
+      
+      # Close socket at the end of this scope
+      my $socket2_auto_close = TestUtil::SocketAutoClose->new($socket2);
+      
+      unless ($socket1 > 0) {
+        return 0;
+      }
+      
+      unless ($socket2 > 0) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 

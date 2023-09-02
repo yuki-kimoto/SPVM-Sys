@@ -13,7 +13,7 @@
     +  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
     +  static method shutdown : int ($sockfd : int, $how : int);
     +  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);
-    +  static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
+    +  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);
     +  static method shutdown : int ($sockfd : int, $how : int);
     +  static method socket : int ($domain : int, $type : int, $protocol : int);
     +  static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
