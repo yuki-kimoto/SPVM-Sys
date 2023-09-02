@@ -630,6 +630,4 @@ class Sys {
     
     return $optval;
   }
-  
-  # TODO getsockopt
 }

@@ -372,7 +372,31 @@ Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Sock
 
 =head2 setsockopt
 
-  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int) {
+  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
+
+If the $optval is the L<Int|SPVM::Int> type, a string for the next argument $optval is created by the length 4.
+
+If the $optval is the string type, a string that for the next argument $optval is created by the length of the $optval.
+
+Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
+with the $optval and $optlen.
+
+Exceptions:
+
+The $optval must be defined. Otherwise an exception is thrown.
+
+The type of $optval must be Int or string. Otherwise an exception is thrown.
+
+=head2 getsockopt
+
+  static method getsockopt : string ($sockfd : int, $level : int, $optname : int, $optlen : int = -1);
+
+If the $optlen is less than 0, it is set to 4.
+
+A string for the next argument $optval is created by the length $optlen.
+
+Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
+with the $optval and $optlen, and the $optval set by this method is returnd.
 
 =head1 Modules
 
