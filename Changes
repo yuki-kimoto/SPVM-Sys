@@ -19,6 +19,9 @@
     +  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
 
   [Incompatible Changes]
+    * The Sys::Socket::Sockaddr::Interface interface is removed.
+    * The Sys::Socket::Sockaddr class does not have the Sys::Socket::Sockaddr::Interface interface.
+    * The has_interface method is removed from the Sys::Socket::Sockaddr class.
     * The following names of methods in clesses are renamed.
     
       class Sys::Socket::Addrinfo

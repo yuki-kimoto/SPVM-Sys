@@ -20,38 +20,42 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =over 2
 
-=item L<Sys::Socket::Sockaddr::Interface|SPVM::Sys::Socket::Sockaddr::Interface>
-
 =item L<Cloneable|SPVM::Cloneable>
 
 =back
 
 =head1 Instance Methods
 
-=head2 has_interfaces
-
-  required method has_interfaces : int ();
-
-Retruns C<1>.
-
 =head2 sa_family
 
   method sa_family : int ()
 
-Gets C<sa_family>.
+Gets a family. This method is planed to be implemented in a child class.
 
+Exception:
+
+  Not implemented.
+  
 =head2 sizeof
 
   method sizeof : int ()
 
-The size of the structure internally used.
+Returns the size of the structure. This method is planed to be implemented in a child class.
 
+Exception:
+
+  Not implemented.
+  
 =head2 clone
 
   method clone : Sys::Socket::Sockaddr ();
 
-Clones this object.
+Clones this object. This method is planed to be implemented in a child class.
 
+Exception:
+
+  Not implemented.
+  
 =head1 Well Known Child Classes
 
 =over 2

@@ -2,27 +2,11 @@
 # MIT License
 
 class Sys::Socket::Sockaddr : pointer {
-  interface Sys::Socket::Sockaddr::Interface;
   interface Cloneable;
   
-  method has_interfaces : int () { return 1; }
+  method sa_family : int () { die "Not implemented."; }
   
-  method sa_family : int () {
-    my $sa_family = $self->(Sys::Socket::Sockaddr::Interface)->sa_family;
-    
-    return $sa_family;
-  }
+  method sizeof : int () { die "Not implemented."; }
   
-  method sizeof : int () {
-    my $size = $self->(Sys::Socket::Sockaddr::Interface)->sizeof;
-    
-    return $size;
-  }
-  
-  method clone : Sys::Socket::Sockaddr () {
-    
-    my $clone = (Sys::Socket::Sockaddr)$self->(Cloneable)->clone;
-    
-    return $clone;
-  }
+  method clone : Sys::Socket::Sockaddr () { die "Not implemented."; }
 }
