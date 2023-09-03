@@ -411,9 +411,9 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_connect = Sys->connect($socket, $address);
+    my $success_connect = Sys->connect($socket, $address);
     
-    unless ($status_connect == 0) {
+    unless ($success_connect) {
       return 0;
     }
     
@@ -479,9 +479,9 @@ class TestCase::Sys::Socket {
       return 0;
     }
 
-    my $status_shutdown = Sys->shutdown($socket, SOCKET->SHUT_WR);
+    my $success_shutdown = Sys->shutdown($socket, SOCKET->SHUT_WR);
     
-    unless ($status_shutdown == 0) {
+    unless ($success_shutdown) {
       return 0;
     }
     
@@ -606,15 +606,15 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_setsockopt = Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
+    my $success_setsockopt = Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
     
-    unless ($status_setsockopt == 0) {
+    unless ($success_setsockopt) {
       return 0;
     }
     
-    my $status_bind = Sys->bind($socket, $address);
+    my $success_bind = Sys->bind($socket, $address);
     
-    unless ($status_bind == 0) {
+    unless ($success_bind) {
       return 0;
     }
     
@@ -640,9 +640,9 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $sin_addr);
     $address->set_sin_addr($sin_addr);
     
-    my $status_setsockopt = Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
+    my $success_setsockopt = Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
     
-    unless ($status_setsockopt == 0) {
+    unless ($success_setsockopt) {
       return 0;
     }
     
@@ -652,9 +652,9 @@ class TestCase::Sys::Socket {
       return 0;
     }
 
-    my $status_listen = Sys->listen($socket, SOCKET->SOMAXCONN);
+    my $success_listen = Sys->listen($socket, SOCKET->SOMAXCONN);
     
-    unless ($status_listen == 0) {
+    unless ($success_listen) {
       return 0;
     }
     
@@ -848,9 +848,9 @@ class TestCase::Sys::Socket {
     {
       my $socket1 = -1;
       my $socket2 = -1;
-      my $status = Sys->socketpair(\$socket1, \$socket2, SOCKET->AF_UNIX, SOCKET->SOCK_STREAM, 0);
+      my $success = Sys->socketpair(\$socket1, \$socket2, SOCKET->AF_UNIX, SOCKET->SOCK_STREAM, 0);
       
-      unless ($status == 0) {
+      unless ($success) {
         return 0;
       }
 
@@ -891,9 +891,9 @@ class TestCase::Sys::Socket {
     $sin_addr->set_s_addr(Sys::Socket->htonl(SOCKET->INADDR_ANY));
     $address->set_sin_addr($sin_addr);
     
-    my $status_setsockopt = Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
+    my $success_setsockopt = Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
     
-    unless ($status_setsockopt == 0) {
+    unless ($success_setsockopt) {
       return 0;
     }
     
@@ -931,9 +931,9 @@ class TestCase::Sys::Socket {
     }
     
     {
-      my $status_setsockopt = Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
+      my $success_setsockopt = Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
       
-      unless ($status_setsockopt == 0) {
+      unless ($success_setsockopt) {
         return 0;
       }
       

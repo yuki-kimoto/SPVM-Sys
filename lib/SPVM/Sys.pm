@@ -336,11 +336,15 @@ The next argument $addrlen is set to the size of the $addr.
 
 Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $addrlen.
 
+If succeed, returns 1.
+
 =head2 listen
 
   static method listen : int ($sockfd : int, $backlog : int);
 
 Calls the L<listen|SPVM::Sys::Socket/"listen"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+If succeed, returns 1.
 
 =head2 accept
 
@@ -360,6 +364,8 @@ The original return value is set to $$new_sockfd_ref.
 The next argument $addrlen is set to the size of the $addr.
 
 Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $addrlen.
+
+If succeed, returns 1.
 
 =head2 getpeername
 
@@ -401,6 +407,8 @@ Calls the L<send|SPVM::Sys::Socket/"send"> method in the L<Sys::Socket|SPVM::Sys
 
 Calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
+If succeed, returns 1.
+
 =head2 socket
 
   static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);
@@ -417,6 +425,8 @@ Creates a new int array with the length 2 for the next argument $pair.
 Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $pair,
 and the $$sock_fd1_ref is set the first element of the $pair, and the $$sock_fd2_ref is set the second element of the $pair, nad 
 
+If succeed, returns 1.
+
 =head2 setsockopt
 
   static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
@@ -427,6 +437,8 @@ If the $optval is the string type, a string that for the next argument $optval i
 
 Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
 with the $optval and $optlen.
+
+If succeed, returns 1.
 
 Exceptions:
 
