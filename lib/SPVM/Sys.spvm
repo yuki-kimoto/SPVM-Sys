@@ -565,8 +565,16 @@ class Sys {
     return Sys::Socket->listen($sockfd, $backlog);
   }
   
-  static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*) {
-    return Sys::Socket->accept($sockfd, $addr, $addrlen_ref);
+  static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int) {
+    my $addrlen = 128;
+    
+    my $addr = Sys::Socket::Sockaddr->new;
+    
+    $$new_sockfd_ref = Sys::Socket->accept($sockfd, $addr, \$addrlen);
+    
+    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    
+    return $addr_child;
   }
   
   static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {

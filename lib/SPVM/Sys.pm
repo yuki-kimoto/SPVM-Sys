@@ -326,9 +326,14 @@ Calls the L<listen|SPVM::Sys::Socket/"listen"> method in the L<Sys::Socket|SPVM:
 
 =head2 accept
 
-  static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+  static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int);
 
-Calls the L<accept|SPVM::Sys::Socket/"accept"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+The next argument $addrlen is set to 128.
+
+Calls the L<accept|SPVM::Sys::Socket/"accept"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen,
+and returns the $addr.
+
+The original return value is set to $$new_sockfd_ref.
 
 =head2 connect
 

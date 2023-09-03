@@ -682,9 +682,8 @@ class TestCase::Sys::Socket {
     Sys::Socket->listen($server_socket, SOCKET->SOMAXCONN);
     
     while (1) {
-      my $peer_address = Sys::Socket::Sockaddr::In->new;
-      my $peer_address_size = $peer_address->size;
-      my $client_socket = Sys::Socket->accept($server_socket, $peer_address, \$peer_address_size);
+      my $client_socket = -1;
+      my $peer_address = Sys->accept(\$client_socket, $server_socket);
       
       my $recv_buffer = (mutable string)new_string_len 1024;
       my $recv_length = Sys::Socket->recv($client_socket, $recv_buffer, length $recv_buffer, 0);
