@@ -926,6 +926,7 @@ int32_t SPVM__Sys__Socket__to_family_sockaddr(SPVM_ENV* env, SPVM_VALUE* stack) 
   int32_t sa_family = addr->sa_family;
   
   void* obj_addr_child = NULL;
+  
   switch (sa_family) {
     case AF_INET: {
       struct sockaddr_in* addr_in = env->new_memory_stack(env, stack, sizeof(struct sockaddr_in));

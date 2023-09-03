@@ -716,27 +716,45 @@ class TestCase::Sys::Socket {
     
     my $status_connect = Sys::Socket->connect($socket, $address, $address->size);
     
-    my $result_address = Sys::Socket::Sockaddr::In->new;
-    
-    my $result_address_size = $result_address->size;
-    my $status_getpeername = Sys::Socket->getpeername($socket, $result_address, \$result_address_size);
+    {
+      my $result_address = Sys::Socket::Sockaddr::In->new;
+      
+      my $result_address_size = $result_address->size;
+      my $status_getpeername = Sys::Socket->getpeername($socket, $result_address, \$result_address_size);
 
-    unless ($status_getpeername == 0) {
-      return 0;
+      unless ($status_getpeername == 0) {
+        return 0;
+      }
+      
+      unless (Sys::Socket->ntohs((short)$result_address->sin_port) == $port) {
+        return 0;
+      }
+      
+      unless ($result_address->sin_addr->s_addr == $sin_addr->s_addr) {
+        return 0;
+      }
+      
+      unless ($result_address->size == $address->size) {
+        return 0;
+      }
     }
-    
-    unless (Sys::Socket->ntohs((short)$result_address->sin_port) == $port) {
-      return 0;
+
+    {
+      my $result_address = (Sys::Socket::Sockaddr::In)Sys->getpeername($socket);
+      
+      unless ($result_address->sin_family == SOCKET->AF_INET) {
+        return 0;
+      }
+      
+      unless (Sys::Socket->ntohs((short)$result_address->sin_port) != 0) {
+        return 0;
+      }
+      
+      unless ($result_address->sin_addr->s_addr == $sin_addr->s_addr) {
+        return 0;
+      }
     }
-    
-    unless ($result_address->sin_addr->s_addr == $sin_addr->s_addr) {
-      return 0;
-    }
-    
-    unless ($result_address->size == $address->size) {
-      return 0;
-    }
-    
+
     return 1;
   }
 
@@ -761,25 +779,43 @@ class TestCase::Sys::Socket {
     
     my $status_connect = Sys::Socket->connect($socket, $address, $address->size);
     
-    my $result_address = Sys::Socket::Sockaddr::In->new;
-    
-    my $result_address_size = $result_address->size;
-    my $status_getsockname = Sys::Socket->getsockname($socket, $result_address, \$result_address_size);
+    {
+      my $result_address = Sys::Socket::Sockaddr::In->new;
+      
+      my $result_address_size = $result_address->size;
+      my $status_getsockname = Sys::Socket->getsockname($socket, $result_address, \$result_address_size);
 
-    unless ($status_getsockname == 0) {
-      return 0;
-    }
-    
-    unless (Sys::Socket->ntohs((short)$result_address->sin_port) != 0) {
-      return 0;
-    }
-    
-    unless ($result_address->sin_addr->s_addr == $sin_addr->s_addr) {
-      return 0;
-    }
+      unless ($status_getsockname == 0) {
+        return 0;
+      }
+      
+      unless (Sys::Socket->ntohs((short)$result_address->sin_port) != 0) {
+        return 0;
+      }
+      
+      unless ($result_address->sin_addr->s_addr == $sin_addr->s_addr) {
+        return 0;
+      }
 
-    unless ($result_address->size == $address->size) {
-      return 0;
+      unless ($result_address->size == $address->size) {
+        return 0;
+      }
+    }
+    
+    {
+      my $result_address = (Sys::Socket::Sockaddr::In)Sys->getsockname($socket);
+      
+      unless ($result_address->sin_family == SOCKET->AF_INET) {
+        return 0;
+      }
+      
+      unless (Sys::Socket->ntohs((short)$result_address->sin_port) != 0) {
+        return 0;
+      }
+      
+      unless ($result_address->sin_addr->s_addr == $sin_addr->s_addr) {
+        return 0;
+      }
     }
     
     return 1;

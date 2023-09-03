@@ -21,8 +21,8 @@
       +  static method listen : int ($sockfd : int, $backlog : int);
       +  static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
       +  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr)
-      +  static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
-      +  static method getsockname : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+      +  static method getpeername : Sys::Socket::Sockaddr ($sockfd : int)
+      +  static method getsockname : Sys::Socket::Sockaddr ($sockfd : int)
       +  static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);
       +  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
       +  static method shutdown : int ($sockfd : int, $how : int);
