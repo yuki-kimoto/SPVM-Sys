@@ -16,7 +16,7 @@
       +  method sa_family : int ();
     
     * The following methods are added to the Sys class.
-
+      +  static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string);
       +  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
       +  static method listen : int ($sockfd : int, $backlog : int);
       +  static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int);

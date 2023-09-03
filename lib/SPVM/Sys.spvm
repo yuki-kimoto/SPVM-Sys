@@ -482,6 +482,13 @@ class Sys {
     return Sys::IO->rmdir($path) == 0;
   }
   
+  static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string) {
+    
+    $dh_ref->[0] = Sys::IO->opendir($dir);
+    
+    return $dh_ref->[0] != undef;
+  }
+  
   static method unlink : int ($pathname : string) {
     my $status = 0;
     
@@ -669,4 +676,6 @@ class Sys {
     
     return $optval;
   }
+  
+  
 }

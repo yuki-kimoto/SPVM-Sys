@@ -1887,12 +1887,30 @@ class TestCase::Sys::IO {
 
   static method opendir : int ($test_dir : string) {
     
-    my $file = "$test_dir/ftest";
+    {
+      my $file = "$test_dir/ftest";
+      
+      my $stream = Sys::IO->opendir($test_dir);
+      
+      unless ($stream) {
+        return 0;
+      }
+    }
     
-    my $stream = Sys::IO->opendir($test_dir);
-    
-    unless ($stream) {
-      return 0;
+    {
+      my $file = "$test_dir/ftest";
+      
+      my $dh_ref = [(Sys::IO::DirStream)undef];
+      
+      my $success = Sys->opendir($dh_ref, $test_dir);
+      
+      unless ($dh_ref->[0]) {
+        return 0;
+      }
+      
+      unless ($success) {
+        return 0;
+      }
     }
     
     return 1;

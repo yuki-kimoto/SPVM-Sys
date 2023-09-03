@@ -266,6 +266,16 @@ Sets the umask for the process to $mode and returns the previous value. The same
 
 Deletes the directory specified by $path. The same as the Perl L<rmdir|https://perldoc.perl.org/functions/rmdir> function.
 
+=head2 opendir
+
+  static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string);
+
+Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+The return value is set to $dh_ref->[0].
+
+If succeed, returns a true value.
+
 =head2 unlink
 
   static method unlink : int ($pathname : string);
