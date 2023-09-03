@@ -489,6 +489,14 @@ class Sys {
     return $dh_ref->[0] != undef;
   }
   
+  static method closedir : int ($dirp : Sys::IO::DirStream) {
+    my $status = Sys::IO->closedir($dirp);
+    
+    my $success = $status == 0;
+    
+    return $success;
+  }
+  
   static method unlink : int ($pathname : string) {
     my $status = 0;
     

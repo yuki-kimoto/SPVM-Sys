@@ -1911,6 +1911,12 @@ class TestCase::Sys::IO {
       unless ($success) {
         return 0;
       }
+      
+      my $closedir_success = Sys->closedir($dh_ref->[0]);
+      
+      unless ($closedir_success) {
+        return 0;
+      }
     }
     
     return 1;
