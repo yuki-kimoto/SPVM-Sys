@@ -85,6 +85,6 @@ class Sys::Socket {
 
   native static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
   
-  native static method to_family_sockaddr : int ($addr : Sys::Socket::Sockaddr);
+  native static method to_family_sockaddr : Sys::Socket::Sockaddr ($addr : Sys::Socket::Sockaddr);
   
 }

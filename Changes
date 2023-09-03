@@ -1,6 +1,10 @@
 0.483 2023-09-02
   [New Features]
     
+    * The following methods are added to the Sys::Socket class.
+    
+      static method to_family_sockaddr : Sys::Socket::Sockaddr ($addr : Sys::Socket::Sockaddr);
+    
     * The following methods are added to the Sys::Socket::Sockaddr class.
     
       +  static method new : Sys::Socket::Sockaddr::In ();

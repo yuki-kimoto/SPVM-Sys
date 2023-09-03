@@ -375,7 +375,7 @@ static method to_child_sockaddr : int ($addr : Sys::Socket::Sockaddr);
 
 =head2 to_family_sockaddr
 
-  static method to_family_sockaddr : int ($addr : Sys::Socket::Sockaddr);
+  static method to_family_sockaddr : Sys::Socket::Sockaddr ($addr : Sys::Socket::Sockaddr);
 
 Copies the $addr and creates a new L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object corresponding to the address family, and returns it.
 
