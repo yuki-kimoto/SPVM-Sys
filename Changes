@@ -1,3 +1,75 @@
+0.484 2023-09-04
+  [New Features]
+    
+    * The following methods are added to the Sys::Socket class.
+    
+      static method to_family_sockaddr : Sys::Socket::Sockaddr ($addr : Sys::Socket::Sockaddr);
+    
+    * The following methods are added to the Sys::Socket::Sockaddr class.
+    
+      +  static method new : Sys::Socket::Sockaddr::In ();
+      +  method DESTROY : void ();
+      +  method set_sa_family : void ($family : int);
+      
+    * The following methods in the Sys::Socket::Sockaddr class is implemented.
+    
+      +  method sa_family : int ();
+    
+    * The following methods are added to the Sys class.
+      + static method closedir : int ($dirp : Sys::IO::DirStream);
+      +  static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string);
+      +  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
+      +  static method listen : int ($sockfd : int, $backlog : int);
+      +  static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int);
+      +  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr)
+      +  static method getpeername : Sys::Socket::Sockaddr ($sockfd : int)
+      +  static method getsockname : Sys::Socket::Sockaddr ($sockfd : int)
+      +  static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);
+      +  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
+      +  static method shutdown : int ($sockfd : int, $how : int);
+      +  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);
+      +  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);
+      +  static method shutdown : int ($sockfd : int, $how : int);
+      +  static method socket : int ($domain : int, $type : int, $protocol : int);
+      +  static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
+      +  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
+
+  [Incompatible Changes]
+    * The setsockopt_int and setsockopt_int is removed from the Sys::Socket class.
+    * The sizeof method in the Sys::Socket::Sockaddr class and its child classes are renamed to the size method.
+    * The Sys::Socket::Sockaddr::Interface interface is removed.
+    * The Sys::Socket::Sockaddr class does not have the Sys::Socket::Sockaddr::Interface interface.
+    * The has_interface method is removed from the Sys::Socket::Sockaddr class.
+    * The following names of methods in clesses are renamed.
+    
+      class Sys::Socket::Addrinfo
+      -  native method copy_ai_addr : Sys::Socket::Sockaddr ();
+      +  native method ai_addr : Sys::Socket::Sockaddr ();
+      -  native method copy_ai_canonname : string ();
+      +  native method ai_canonname : string ();
+      class Sys::Socket::Sockaddr::In extends Sys::Socket::Sockaddr : pointer
+      -  native method copy_sin_addr : Sys::Socket::In_addr ();
+      +  native method sin_addr : Sys::Socket::In_addr ();
+      class Sys::Socket::Sockaddr::In extends Sys::Socket::Sockaddr : pointer
+      -    $clone->set_sin_addr($self->copy_sin_addr);
+      +    $clone->set_sin_addr($self->sin_addr);
+      class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer
+      -  native method copy_sin6_addr : Sys::Socket::In6_addr ();
+      +  native method sin6_addr : Sys::Socket::In6_addr ();
+      class Sys::Socket::Sockaddr::In6 extends Sys::Socket::Sockaddr : pointer
+      -    $clone->set_sin6_addr($self->copy_sin6_addr);
+      +    $clone->set_sin6_addr($self->sin6_addr);
+      class Sys::Socket::Sockaddr::Un extends Sys::Socket::Sockaddr : pointer
+      -  native method copy_sun_path : string ();
+      +  native method sun_path : string ();
+      -    $clone->set_sun_path($self->copy_sun_path);
+      +    $clone->set_sun_path($self->sun_path);
+      class Sys::Time::Itimerval : pointer
+      -  native method copy_it_interval : Sys::Time::Timeval ();
+      -  native method copy_it_value : Sys::Time::Timeval ();
+      +  native method it_interval : Sys::Time::Timeval ();
+      +  native method it_value : Sys::Time::Timeval ();
+
 0.483 2023-08-22
   [New Features]
     * The ioctlsocket method is added to the Sys::Ioctl class.
