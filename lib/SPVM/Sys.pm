@@ -1,6 +1,6 @@
 package SPVM::Sys;
 
-our $VERSION = "0.483";
+our $VERSION = "0.484";
 
 1;
 
@@ -266,6 +266,24 @@ Sets the umask for the process to $mode and returns the previous value. The same
 
 Deletes the directory specified by $path. The same as the Perl L<rmdir|https://perldoc.perl.org/functions/rmdir> function.
 
+=head2 opendir
+
+  static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string);
+
+Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+The return value is set to $dh_ref->[0].
+
+If succeed, returns 1. Otherwise returns 0.
+
+=head2 closedir
+
+  static method closedir : int ($dirp : Sys::IO::DirStream);
+
+Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+If succeed, returns 1. Otherwise returns 0.
+
 =head2 unlink
 
   static method unlink : int ($pathname : string);
@@ -309,6 +327,135 @@ Calls the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys
   static method select : int ($nfds : int, $readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : Sys::Time::Timeval);
 
 Calls the L<select|SPVM::Sys::Select/"select"> method in the L<Sys::Select|SPVM::Sys::Select> class.
+
+=head2 bind
+
+  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
+
+The next argument $addrlen is set to the size of the $addr.
+
+Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $addrlen.
+
+If succeed, returns 1.
+
+=head2 listen
+
+  static method listen : int ($sockfd : int, $backlog : int);
+
+Calls the L<listen|SPVM::Sys::Socket/"listen"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+If succeed, returns 1.
+
+=head2 accept
+
+  static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int);
+
+The next argument $addrlen is set to 128.
+
+Calls the L<accept|SPVM::Sys::Socket/"accept"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen,
+and returns the $addr.
+
+The original return value is set to $$new_sockfd_ref.
+
+=head2 connect
+
+  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
+
+The next argument $addrlen is set to the size of the $addr.
+
+Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $addrlen.
+
+If succeed, returns 1.
+
+=head2 getpeername
+
+  static method getpeername : Sys::Socket::Sockaddr ($sockfd : int);
+
+The next argument $addrlen is set to 128.
+
+Calls the L<getpeername|SPVM::Sys::Socket/"getpeername"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+The return valus is convert to a child L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object
+using L<to_family_sockaddr|SPVM::Sys::Socket/"to_family_sockaddr"> method in the L<Sys:Socket|SPVM::Sys::Socket> class.
+
+=head2 getsockname
+
+  static method getsockname : Sys::Socket::Sockaddr ($sockfd : int)
+
+The next argument $addrlen is set to 128.
+
+Calls the L<getsockname|SPVM::Sys::Socket/"getsockname"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+The return valus is convert to a child L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object
+using L<to_family_sockaddr|SPVM::Sys::Socket/"to_family_sockaddr"> method in the L<Sys:Socket|SPVM::Sys::Socket> class.
+
+=head2 recv
+
+  static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);
+
+Calls the L<recv|SPVM::Sys::Socket/"recv"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 send
+
+  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
+
+Calls the L<send|SPVM::Sys::Socket/"send"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 shutdown
+
+  static method shutdown : int ($sockfd : int, $how : int);
+
+Calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+If succeed, returns 1.
+
+=head2 socket
+
+  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);
+
+Calls the L<socket|SPVM::Sys::Socket/"socket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $domain, $type, $protocal,
+and the return value is set to $$sockfd_ref.
+
+=head2 socketpair
+
+  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);
+
+Creates a new int array with the length 2 for the next argument $pair.
+
+Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $pair,
+and the $$sock_fd1_ref is set the first element of the $pair, and the $$sock_fd2_ref is set the second element of the $pair, nad 
+
+If succeed, returns 1.
+
+=head2 setsockopt
+
+  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
+
+If the $optval is the L<Int|SPVM::Int> type, a string for the next argument $optval is created by the length 4.
+
+If the $optval is the string type, a string that for the next argument $optval is created by the length of the $optval.
+
+Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
+with the $optval and $optlen.
+
+If succeed, returns 1.
+
+Exceptions:
+
+The $optval must be defined. Otherwise an exception is thrown.
+
+The type of $optval must be Int or string. Otherwise an exception is thrown.
+
+=head2 getsockopt
+
+  static method getsockopt : string ($sockfd : int, $level : int, $optname : int, $optlen : int = -1);
+
+If the $optlen is less than 0, it is set to 4.
+
+A string for the next argument $optval is created by the length $optlen.
+
+Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
+with the $optval and $optlen, and the $optval set by this method is returnd.
 
 =head1 Modules
 

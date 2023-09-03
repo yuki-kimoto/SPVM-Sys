@@ -2,7 +2,7 @@
 # MIT License
 
 class Sys {
-  version "0.483";
+  version "0.484";
   
   use Sys::OS;
   use Sys::Env;
@@ -482,6 +482,21 @@ class Sys {
     return Sys::IO->rmdir($path) == 0;
   }
   
+  static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string) {
+    
+    $dh_ref->[0] = Sys::IO->opendir($dir);
+    
+    return $dh_ref->[0] != undef;
+  }
+  
+  static method closedir : int ($dirp : Sys::IO::DirStream) {
+    my $status = Sys::IO->closedir($dirp);
+    
+    my $success = $status == 0;
+    
+    return $success;
+  }
+  
   static method unlink : int ($pathname : string) {
     my $status = 0;
     
@@ -554,6 +569,149 @@ class Sys {
   static method select : int ($nfds : int, $readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : Sys::Time::Timeval) {
     my $status = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout);
     return $status;
+  }
+  
+  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+    my $addrlen = $addr->size;
+    my $status = Sys::Socket->bind($sockfd, $addr, $addrlen);
+    my $success = $status == 0;
+    return $success;
+  }
+  
+  static method listen : int ($sockfd : int, $backlog : int) {
+    my $status = Sys::Socket->listen($sockfd, $backlog);
+    my $success = $status == 0;
+    return $success;
+  }
+  
+  static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int) {
+    my $addrlen = 128;
+    
+    my $addr = Sys::Socket::Sockaddr->new;
+    
+    $$new_sockfd_ref = Sys::Socket->accept($sockfd, $addr, \$addrlen);
+    
+    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    
+    return $addr_child;
+  }
+  
+  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+    my $addrlen = $addr->size;
+    my $status = Sys::Socket->connect($sockfd, $addr, $addrlen);
+    my $success = $status == 0;
+    
+    return $success;
+  }
+  
+  static method getpeername : Sys::Socket::Sockaddr ($sockfd : int) {
+    my $addrlen = 128;
+    
+    my $addr = Sys::Socket::Sockaddr->new;
+    
+    my $status = Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
+    
+    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    
+    return $addr_child;
+  }
+  
+  static method getsockname : Sys::Socket::Sockaddr ($sockfd : int) {
+    
+    my $addrlen = 128;
+    
+    my $addr = Sys::Socket::Sockaddr->new;
+    
+    my $status = Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
+    
+    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    
+    return $addr_child;
+  }
+  
+  static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0) {
+    my $recv_length = Sys::Socket->recv($sockfd, $buf, $len, $flags, $buf_offset);
+    
+    return $recv_length;
+  }
+  
+  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0) {
+    my $send_length = Sys::Socket->send($sockfd, $buf, $len, $flags, $buf_offset);
+    
+    return $send_length;
+  }
+  
+  static method shutdown : int ($sockfd : int, $how : int) {
+    my $status = Sys::Socket->shutdown($sockfd, $how);
+    
+    my $success = $status == 0;
+    
+    return $success;
+  }
+  
+  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int) {
+    $$sockfd_ref = Sys::Socket->socket($domain, $type, $protocol);
+  }
+  
+  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
+    my $pair = new int[2];
+    
+    my $status = Sys::Socket->socketpair($domain, $type, $protocol, $pair);
+    
+    $$sock_fd1_ref = $pair->[0];
+    
+    $$sock_fd2_ref = $pair->[1];
+    
+    my $success = $status == 0;
+    
+    return $success;
+  }
+  
+  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int) {
+    
+    unless ($optval) {
+      die "The \$optval must be defined.";
+    }
+    
+    my $status = -1;
+    if ($optval is_type Int) {
+      my $optval_ref = [$optval->(Int)->value];
+      my $optval_string = new_string_len 4;
+      Fn->memcpy($optval_string, 0, $optval_ref, 0, 4);
+      
+      $status = Sys::Socket->setsockopt($sockfd, $level, $optname, $optval_string, 4);
+    }
+    elsif ($optval is_type string) {
+      my $optval_string = (string)$optval;
+      $status = Sys::Socket->setsockopt($sockfd, $level, $optname, $optval_string, length $optval_string);
+    }
+    else {
+      die "The type of \$optval must be Int or string.";
+    }
+    
+    my $success = $status == 0;
+    
+    return $success;
+  }
+  
+  static method getsockopt : string ($sockfd : int, $level : int, $optname : int, $optlen : int = -1) {
+    
+    unless ($optlen >= 0) {
+      $optlen = 4;
+    }
+    
+    my $optval = (mutable string)new_string_len $optlen;
+    
+    my $status = Sys::Socket->getsockopt($sockfd, $level, $optname, $optval, \$optlen);
+    
+    my $success = $status == 0;
+    
+    if ($success) {
+      return $optval;
+    }
+    else {
+      return undef;
+    }
   }
   
 }
