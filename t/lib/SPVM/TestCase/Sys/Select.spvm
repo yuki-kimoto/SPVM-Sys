@@ -81,7 +81,7 @@ class TestCase::Sys::Select {
         my $timeout = Sys::Time::Timeval->new;
         $timeout->set_tv_sec(10);
         
-        my $ready_count_out = Sys::Select->select($socket_max + 1, undef, $writefds, undef, $timeout);
+        my $ready_count_out = Sys->select(undef, $writefds, undef, $timeout);
         
         unless ($ready_count_out == 2) {
           return 0;
@@ -167,7 +167,7 @@ class TestCase::Sys::Select {
         my $timeout = Sys::Time::Timeval->new;
         $timeout->set_tv_sec(10);
         
-        my $ready_count_out = Sys->select($socket_max + 1, $readfds, undef, undef, $timeout);
+        my $ready_count_out = Sys->select($readfds, undef, undef, $timeout);
         
         unless ($ready_count_out == 2) {
           return 0;

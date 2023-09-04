@@ -87,7 +87,7 @@ int32_t SPVM__Sys__Select__FD_SET(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
 
-  if (!(fd < FD_SETSIZE)) {
+  if (!(fd <= FD_SETSIZE)) {
     return env->die(env, stack, "The $fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
   }
 
@@ -112,7 +112,7 @@ int32_t SPVM__Sys__Select__FD_CLR(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
 
-  if (!(fd < FD_SETSIZE)) {
+  if (!(fd <= FD_SETSIZE)) {
     return env->die(env, stack, "The $fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
   }
 
@@ -137,7 +137,7 @@ int32_t SPVM__Sys__Select__FD_ISSET(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The $fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
 
-  if (!(fd < FD_SETSIZE)) {
+  if (!(fd <= FD_SETSIZE)) {
     return env->die(env, stack, "The $fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
   }
 
@@ -162,7 +162,7 @@ int32_t SPVM__Sys__Select__select(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!(fd >= 0)) {
     return env->die(env, stack, "The $fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
-  if (!(fd < FD_SETSIZE)) {
+  if (!(fd <= FD_SETSIZE)) {
     return env->die(env, stack, "The $fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
   }
   
