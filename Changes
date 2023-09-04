@@ -1,3 +1,11 @@
+0.486 2023-09-04
+  
+  [Incompatible Changes]
+    * The following methods in the Sys class is changed.
+    
+      -  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
+      +  static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : Sys::Socket::Sockaddr = undef);
+  
 0.485 2023-09-04
   [Exception Message Changes]
     * Error messages in the Sys::Time::Itimerval class are improved.

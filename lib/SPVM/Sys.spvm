@@ -635,8 +635,15 @@ class Sys {
     return $recv_length;
   }
   
-  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0) {
-    my $send_length = Sys::Socket->send($sockfd, $buf, $len, $flags, $buf_offset);
+  static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : Sys::Socket::Sockaddr = undef) {
+    my $send_length = -1;
+    
+    if ($addr) {
+      $send_length = Sys::Socket->sendto($sockfd, $buf, length $buf, $flags, $addr, $addr->size);
+    }
+    else {
+      $send_length = Sys::Socket->send($sockfd, $buf, length $buf, $flags);
+    }
     
     return $send_length;
   }

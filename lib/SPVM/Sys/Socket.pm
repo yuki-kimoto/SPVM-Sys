@@ -201,6 +201,10 @@ The buffer(C<$buf> must be defined. Otherwise an exception will be thrown.
 
 See the detail of the L<send|https://linux.die.net/man/2/send> function in the case of Linux.
 
+=head2 sendto
+
+  static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+
 =head2 getpeername
 
   static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
@@ -362,10 +366,6 @@ Portalbe C<strerror> related to the errors of the socket.
 =head2 sockatmark
 
   static method sockatmark : int ($sockfd : int);
-
-=head2 sendto
-
-  static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
 
 =head2 ioctlsocket
 

@@ -526,7 +526,7 @@ class TestCase::Sys::Socket {
     {
       my $send_buffer = "abcd";
       
-      my $send_length = Sys::Socket->send($socket, $send_buffer, length $send_buffer, 0);
+      my $send_length = Sys->send($socket, $send_buffer, 0);
       
       unless ($send_length == 4) {
         return 0;
