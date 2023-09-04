@@ -282,7 +282,7 @@ If succeed, returns 1. Otherwise returns 0.
 
 Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
-If succeed, returns 1. Otherwise returns 0.
+If succeed, returns 1.
 
 =head2 unlink
 
@@ -290,11 +290,15 @@ If succeed, returns 1. Otherwise returns 0.
 
 Deletes a file. The same as the Perl L<unlink|https://perldoc.perl.org/functions/unlink> function.
 
+If succeed, returns 1.
+
 =head2 rename
 
   static method rename : int ($oldpath : string, $newpath : string);
 
 Changes the name of a file. The same as the Perl L<rename|https://perldoc.perl.org/functions/rename> function.
+
+If succeed, returns 1.
 
 =head2 readlink
 
@@ -307,6 +311,8 @@ Returns the value of a symbolic link. The same as the Perl L<readlink|https://pe
   static method symlink : int ($oldpath : string, $newpath : string);
 
 Creates a $newpath symbolically linked to the $oldpath. The same as the Perl L<symlink|https://perldoc.perl.org/functions/symlink> function.
+
+If succeed, returns 1.
 
 =head2 sleep
 

@@ -507,7 +507,9 @@ class Sys {
       $status = Sys::IO->unlink($pathname);
     }
     
-    return $status == 0;
+    my $success = $status == 0;
+    
+    return $success;
   }
   
   static method rename : int ($oldpath : string, $newpath : string) {
@@ -519,7 +521,9 @@ class Sys {
       $status = Sys::IO->rename($oldpath, $newpath);
     }
     
-    return $status == 0;
+    my $success = $status == 0;
+    
+    return $success;
   }
   
   static method readlink : string ($file : string) {
@@ -546,7 +550,9 @@ class Sys {
       $status = Sys::IO->symlink($oldpath, $newpath);
     }
     
-    return $status == 0;
+    my $success = $status == 0;
+    
+    return $success;
   }
   
   static method sleep : int ($seconds : int) {
