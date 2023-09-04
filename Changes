@@ -1,5 +1,8 @@
 0.485 2023-09-04
   
+  [Bug Fix]
+    * A bug fix: the sleep method in the Sys class has been wrong.
+    
   [Incompatible Changes]
     * The following methods in the Sys class is changed.
     
