@@ -343,7 +343,9 @@ See the detail of the L<getnameinfo|https://linux.die.net/man/3/gai_strerror> fu
 
   static method close : int ($fd : int);
 
-The same as L<close in Sys::IO|SPVM::Sys::IO/"close">, but portable in socket.
+Calls the L<closesocket|SPVM::Sys::Socket/"closesocket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class in Windows.
+
+Calls the L<close|Sys::IO/"closesocket"> method in the the L<Sys::Socket|SPVM::Sys::Socket> class in other systems.
 
 =head2 socket_errno
 
