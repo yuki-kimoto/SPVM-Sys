@@ -45,7 +45,7 @@ int32_t SPVM__Sys__Time__Itimerval__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Itimerval__it_interval(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The copy_it_interval method in the Sys::Time::Itimerval is not supported in this system", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The it_interval method in the Sys::Time::Itimerval is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;
@@ -54,10 +54,10 @@ int32_t SPVM__Sys__Time__Itimerval__it_interval(SPVM_ENV* env, SPVM_VALUE* stack
   
   struct itimerval* st_it = env->get_pointer(env, stack, obj_it);
   
-  struct timeval* copy_st_it_it_interval = env->new_memory_stack(env, stack, sizeof(struct timeval));
-  memcpy(copy_st_it_it_interval, &st_it->it_interval, sizeof(struct timeval));
+  struct timeval* st_it_it_interval = env->new_memory_stack(env, stack, sizeof(struct timeval));
+  memcpy(st_it_it_interval, &st_it->it_interval, sizeof(struct timeval));
 
-  void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", copy_st_it_it_interval, &e, __func__, FILE_NAME, __LINE__);
+  void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", st_it_it_interval, &e, __func__, FILE_NAME, __LINE__);
   if (e) { return e; }
 
   stack[0].oval = obj_tv;
@@ -92,7 +92,7 @@ int32_t SPVM__Sys__Time__Itimerval__set_it_interval(SPVM_ENV* env, SPVM_VALUE* s
 
 int32_t SPVM__Sys__Time__Itimerval__it_value(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The copy_it_value method in the Sys::Time::Itimerval is not supported in this system", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The it_value method in the Sys::Time::Itimerval is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t e = 0;
@@ -101,10 +101,10 @@ int32_t SPVM__Sys__Time__Itimerval__it_value(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct itimerval* st_it = env->get_pointer(env, stack, obj_it);
   
-  struct timeval* copy_st_it_it_value = env->new_memory_stack(env, stack, sizeof(struct timeval));
-  memcpy(copy_st_it_it_value, &st_it->it_value, sizeof(struct timeval));
+  struct timeval* st_it_it_value = env->new_memory_stack(env, stack, sizeof(struct timeval));
+  memcpy(st_it_it_value, &st_it->it_value, sizeof(struct timeval));
 
-  void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", copy_st_it_it_value, &e, __func__, FILE_NAME, __LINE__);
+  void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", st_it_it_value, &e, __func__, FILE_NAME, __LINE__);
   if (e) { return e; }
 
   stack[0].oval = obj_tv;
