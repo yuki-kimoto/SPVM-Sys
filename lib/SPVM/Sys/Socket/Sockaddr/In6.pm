@@ -78,7 +78,7 @@ Gets C<sin6_scope_id>.
 
 Sets C<sin6_scope_id>.
 
-=head2 copy_sin6_addr
+=head2 sin6_addr
 
   method sin6_addr : Sys::Socket::In6_addr ();
 

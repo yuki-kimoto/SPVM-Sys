@@ -54,7 +54,7 @@ Gets C<sin_family>.
 
 Sets C<sin_family>.
 
-=head2 copy_sin_addr
+=head2 sin_addr
 
   method sin_addr : Sys::Socket::In_addr ();
 

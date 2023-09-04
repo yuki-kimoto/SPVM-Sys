@@ -52,7 +52,7 @@ Gets C<sun_family>.
 
 Sets C<sun_family>.
 
-=head2 copy_sun_path
+=head2 sun_path
 
   method sun_path : string ();
 

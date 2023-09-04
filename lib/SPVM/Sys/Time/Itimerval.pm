@@ -36,7 +36,7 @@ Creates a new C<Sys::Time::Itimerval> object.
 
 =head1 Instance Methods
 
-=head2 copy_it_interval
+=head2 it_interval
 
   method it_interval : Sys::Time::Timeval ()
 
@@ -52,7 +52,7 @@ Sets C<it_interval>.
 
   $tv->set_it_interval(12);
 
-=head2 copy_it_value
+=head2 it_value
   
   method it_value : Sys::Time::Timeval ()
 
