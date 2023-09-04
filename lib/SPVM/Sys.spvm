@@ -484,9 +484,13 @@ class Sys {
   
   static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string) {
     
-    $dh_ref->[0] = Sys::IO->opendir($dir);
+    my $dh = Sys::IO->opendir($dir);
     
-    return $dh_ref->[0] != undef;
+    $dh_ref->[0] = $dh;
+    
+    my $success = !($dh == undef);
+    
+    return $success;
   }
   
   static method closedir : int ($dirp : Sys::IO::DirStream) {
