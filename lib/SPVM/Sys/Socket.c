@@ -689,15 +689,15 @@ int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__close(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  env->die(env, stack, "[Not Supported]closesocket is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
   int32_t s = stack[0].ival;
   
-#if defined(_WIN32)
   int32_t status = closesocket(s);
-#else
-  int32_t status = close(s);
-#endif
-
+  
   if (!(status == 0)) {
     env->die(env, stack, "[System Error]close failed: %s", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -706,6 +706,7 @@ int32_t SPVM__Sys__Socket__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
