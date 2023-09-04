@@ -242,17 +242,23 @@ Returns a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object giving the status info for
 
 Changes the working directory to $path. The same as the Perl L<chdir|https://perldoc.perl.org/functions/chdir> function.
 
+If succeed, returns 1.
+
 =head2 chmod
 
   static method chmod : int ($mode :int, $path : string);
 
 Changes the permissions of a file. The same as the Perl L<chmod|https://perldoc.perl.org/functions/chmod> function.
 
+If succeed, returns 1.
+
 =head2 mkdir
 
   static method mkdir : int ($path : string, $mode : int);
 
 Creates the directory specified by $path and $mode. The same as the Perl L<mkdir|https://perldoc.perl.org/functions/mkdir> function.
+
+If succeed, returns 1.
 
 =head2 umask
 
@@ -266,6 +272,8 @@ Sets the umask for the process to $mode and returns the previous value. The same
 
 Deletes the directory specified by $path. The same as the Perl L<rmdir|https://perldoc.perl.org/functions/rmdir> function.
 
+If succeed, returns 1.
+
 =head2 opendir
 
   static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string);
@@ -274,7 +282,7 @@ Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::S
 
 The return value is set to $dh_ref->[0].
 
-If succeed, returns 1. Otherwise returns 0.
+If succeed, returns 1.
 
 =head2 closedir
 

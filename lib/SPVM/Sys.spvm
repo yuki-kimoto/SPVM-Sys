@@ -47,7 +47,8 @@ class Sys {
   }
   
   static method env : string ($name : string) {
-    return Sys::Env->getenv($name);
+    my $env_value = Sys::Env->getenv($name);
+    return $env_value;
   }
   
   static method A : double ($file : string) {
@@ -441,19 +442,23 @@ class Sys {
   }
   
   static method time : long () {
-    return Sys::Time->time();
+    my $time = Sys::Time->time();
+    return $time;
   }
   
   static method localtime : Sys::Time::Tm ($time : long) {
-    return Sys::Time->localtime($time);
+    my $tm = Sys::Time->localtime($time);
+    return $tm;
   }
   
   static method gmtime : Sys::Time::Tm ($time : long) {
-    return Sys::Time->gmtime($time);
+    my $tm = Sys::Time->gmtime($time);
+    return $tm;
   }
   
   static method process_id : int () {
-    return Sys::Process->getpid();
+    my $process_id = Sys::Process->getpid();
+    return $process_id;
   }
   
   static method stat : Sys::IO::Stat ($path : string) {
@@ -463,23 +468,33 @@ class Sys {
   }
   
   static method chdir : int ($path : string) {
-    return Sys::IO->chdir($path) == 0;
+    my $status = Sys::IO->chdir($path);
+    my $success = $status == 0;
+    return $success;
   }
   
   static method chmod : int ($mode :int, $path : string) {
-    return Sys::IO->chmod($path, $mode) == 0;
+    my $status = Sys::IO->chmod($path, $mode);
+    my $success = $status == 0;
+    return $success;
   }
   
   static method mkdir : int ($path : string, $mode : int) {
-    return Sys::IO->mkdir($path, $mode) == 0;
+    my $status = Sys::IO->mkdir($path, $mode);
+    my $success = $status == 0;
+    return $success;
   }
   
   static method umask : int ($mode : int) {
-    return Sys::IO->umask($mode);
+    my $current_umask = Sys::IO->umask($mode);
+    
+    return $current_umask;
   }
   
   static method rmdir : int ($path : string) {
-    return Sys::IO->rmdir($path) == 0;
+    my $status = Sys::IO->rmdir($path);
+    my $success = $status == 0;
+    return $success;
   }
   
   static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string) {
@@ -560,26 +575,27 @@ class Sys {
   }
   
   static method sleep : int ($seconds : int) {
-    return Sys::Process->sleep($seconds) == 0;
+    my $slept_number = Sys::Process->sleep($seconds);
+    return $slept_number;
   }
   
   static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef) {
-    my $status = -1;
+    my $ioctl_ret = -1;
     
     if (Sys::OS->is_windows) {
-      $status = Sys::Ioctl->ioctlsocket($fd, $request, (int[])$request_arg_ref);
+      $ioctl_ret = Sys::Ioctl->ioctlsocket($fd, $request, (int[])$request_arg_ref);
     }
     else {
-      $status = Sys::Ioctl->ioctl($fd, $request, $request_arg_ref);
+      $ioctl_ret = Sys::Ioctl->ioctl($fd, $request, $request_arg_ref);
     }
     
-    return $status;
+    return $ioctl_ret;
   }
   
   static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : Sys::Time::Timeval) {
     my $nfds = 1024;
-    my $status = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout);
-    return $status;
+    my $fd_number = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout);
+    return $fd_number;
   }
   
   static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
