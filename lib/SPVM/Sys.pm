@@ -547,6 +547,8 @@ All modules included in this distribution. These classes have methods that direc
 
 =head2 Sys::Socket
 
+=head4 L<Sys::Socket::Util|SPVM::Sys::Socket::Util>
+
 =head4 L<Sys::Socket|SPVM::Sys::Socket>
 
 =head4 L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>

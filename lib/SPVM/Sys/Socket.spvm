@@ -98,48 +98,4 @@ class Sys::Socket {
   native static method sockatmark : int ($sockfd : int);
   
   native static method to_family_sockaddr : Sys::Socket::Sockaddr ($addr : Sys::Socket::Sockaddr);
-  
-  static method sockaddr_in : Sys::Socket::Sockaddr::In ($port : int, $in_addr : Sys::Socket::In_addr) {
-    
-    unless ($in_addr) {
-      die "The \$in_addr must be defined.";
-    }
-    
-    my $sockaddr_in = Sys::Socket::Sockaddr::In->new;
-    
-    $sockaddr_in->set_sin_family(SOCKET->AF_INET);
-    
-    $sockaddr_in->set_sin_addr($in_addr);
-    
-    my $port_network_byte_order = Sys::Socket->htons((short)$port);
-    $sockaddr_in->set_sin_port($port_network_byte_order);
-  }
-  
-  static method sockaddr_in6 : Sys::Socket::Sockaddr::In6 ($port : int, $in6_addr : Sys::Socket::In6_addr) {
-    
-    unless ($in6_addr) {
-      die "The \$in6_addr must be defined.";
-    }
-    
-    my $sockaddr_in6 = Sys::Socket::Sockaddr::In6->new;
-    
-    $sockaddr_in6->set_sin6_family(SOCKET->AF_INET6);
-    
-    $sockaddr_in6->set_sin6_addr($in6_addr);
-    
-    my $port_network_byte_order = Sys::Socket->htons((short)$port);
-    $sockaddr_in6->set_sin6_port($port_network_byte_order);
-  }
-  
-  static method sockaddr_un : Sys::Socket::Sockaddr::Un ($path : string) {
-    
-    unless ($path) {
-      die "The \$path must be defined.";
-    }
-    
-    my $sockaddr_un = Sys::Socket::Sockaddr::Un->new;
-    $sockaddr_un->set_sun_family(SOCKET->AF_UNIX);
-    $sockaddr_un->set_sun_path($path);
-  }
-  
 }
