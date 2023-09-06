@@ -2,7 +2,10 @@
 
   [New Features]
     * The Sys::Socket::Util class is added.
-  
+    * The Sys::Socket::In_addr_base class is added.
+    * The Sys::Socket::In_addr class extends Sys::Socket::In_addr_base.
+    * The Sys::Socket::In6_addr class extends Sys::Socket::In_addr_base.
+    
 0.485 2023-09-04
   
   [Bug Fix]

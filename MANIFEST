@@ -143,6 +143,8 @@ lib/SPVM/Sys/Socket/In_addr.c
 lib/SPVM/Sys/Socket/In_addr.config
 lib/SPVM/Sys/Socket/In_addr.pm
 lib/SPVM/Sys/Socket/In_addr.spvm
+lib/SPVM/Sys/Socket/In_addr_base.pm
+lib/SPVM/Sys/Socket/In_addr_base.spvm
 lib/SPVM/Sys/Socket/Ip_mreq.c
 lib/SPVM/Sys/Socket/Ip_mreq.config
 lib/SPVM/Sys/Socket/Ip_mreq.pm
