@@ -565,6 +565,8 @@ All modules included in this distribution. These classes have methods that direc
 
 =head4 L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr>
 
+=head4 L<Sys::Socket::In_addr_base|SPVM::Sys::Socket::In_addr_base>
+
 =head4 L<Sys::Socket::Ip_mreq|SPVM::Sys::Socket::Ip_mreq>
 
 =head4 L<Sys::Socket::Ip_mreq_source|SPVM::Sys::Socket::Ip_mreq_source>
