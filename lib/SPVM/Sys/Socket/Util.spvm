@@ -25,7 +25,7 @@ class Sys::Socket::Util {
     return $in_addr;
   }
   
-  static method inet_pton : object ($family : int, $address : string) {
+  static method inet_pton : Sys::Socket::In_addr_base ($family : int, $address : string) {
     
     my $in_addr = (Sys::Socket::In_addr_base)undef;
     
