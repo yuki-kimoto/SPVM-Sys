@@ -75,6 +75,8 @@ class Sys::Socket::Util {
     
     my $port_network_byte_order = Sys::Socket->htons((short)$port);
     $sockaddr_in->set_sin_port($port_network_byte_order);
+    
+    return $sockaddr_in;
   }
   
   static method sockaddr_in6 : Sys::Socket::Sockaddr::In6 ($port : int, $in6_addr : Sys::Socket::In6_addr) {
@@ -91,6 +93,8 @@ class Sys::Socket::Util {
     
     my $port_network_byte_order = Sys::Socket->htons((short)$port);
     $sockaddr_in6->set_sin6_port($port_network_byte_order);
+    
+    return $sockaddr_in6;
   }
   
   static method sockaddr_un : Sys::Socket::Sockaddr::Un ($path : string) {
@@ -102,5 +106,7 @@ class Sys::Socket::Util {
     my $sockaddr_un = Sys::Socket::Sockaddr::Un->new;
     $sockaddr_un->set_sun_family(SOCKET->AF_UNIX);
     $sockaddr_un->set_sun_path($path);
+    
+    return $sockaddr_un;
   }
 }

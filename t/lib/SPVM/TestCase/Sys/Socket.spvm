@@ -405,15 +405,10 @@ class TestCase::Sys::Socket {
     }
     
     # IPv4 address
-    my $sockaddr = Sys::Socket::Sockaddr::In->new;
-    $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-    $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
     my $in_addr = Sys::Socket::Util->inet_aton("127.0.0.1");
-    $sockaddr->set_sin_addr($in_addr);
+    my $sockaddr_in = Sys::Socket::Util->sockaddr_in($port, $in_addr);
     
-    # my $sockaddr_in = Sys::Socket::Util->sockaddr_in($port, $in_addr);
-    
-    my $success_connect = Sys->connect($socket, $sockaddr);
+    my $success_connect = Sys->connect($socket, $sockaddr_in);
     
     unless ($success_connect) {
       return 0;
