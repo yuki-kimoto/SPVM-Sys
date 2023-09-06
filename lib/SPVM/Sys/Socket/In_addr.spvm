@@ -3,14 +3,14 @@
 
 class Sys::Socket::In_addr : pointer {
   
-  # Class methods
+  # Class Methods
   native static method new : Sys::Socket::In_addr ();
-
-  # Instance methods
+  
+  # Instance Methods
   native method DESTROY : void ();
-
-  # Instance methods
+  
+  # Instance Methods
   native method s_addr : int ();
-
+  
   native method set_s_addr : void ($s_addr : int);
 }
