@@ -1,5 +1,6 @@
 0.486 2023-09-06
-
+  [Bug Fix]
+    * Some bugs are fixed: The connect, getaddrinfo, and getnameinfo have not return correct return values.
   [New Features]
     * The Sys::Socket::Util class is added.
     * The Sys::Socket::In_addr_base class is added.

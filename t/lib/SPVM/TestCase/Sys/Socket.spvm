@@ -397,27 +397,48 @@ class TestCase::Sys::Socket {
   }
 
   static method connect : int ($port : int) {
-    # Socket
-    my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
-    
-    unless ($socket> 0) {
-      return 0;
-    }
-    
     # IPv4 address
-    my $in_addr = Sys::Socket::Util->inet_aton("127.0.0.1");
-    my $sockaddr_in = Sys::Socket::Util->sockaddr_in($port, $in_addr);
-    
-    my $success_connect = Sys->connect($socket, $sockaddr_in);
-    
-    unless ($success_connect) {
-      return 0;
+    {
+      my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+      
+      unless ($socket> 0) {
+        return 0;
+      }
+      
+      my $in_addr = Sys::Socket::Util->inet_aton("127.0.0.1");
+      my $sockaddr_in = Sys::Socket::Util->sockaddr_in($port, $in_addr);
+      
+      my $success_connect = Sys->connect($socket, $sockaddr_in);
+      
+      unless ($success_connect) {
+        return 0;
+      }
+      
+      my $status_close = Sys::Socket->close($socket);
+      
+      unless ($status_close == 0) {
+        return 0;
+      }
     }
     
-    my $status_close = Sys::Socket->close($socket);
-    
-    unless ($status_close == 0) {
-      return 0;
+    # IPv6 address
+    {
+      my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+      
+      unless ($socket> 0) {
+        return 0;
+      }
+      
+      my $in6_addr = (Sys::Socket::In6_addr)Sys::Socket::Util->inet_pton(SOCKET->AF_INET6, "::1");
+      my $sockaddr_in6 = Sys::Socket::Util->sockaddr_in6($port, $in6_addr);
+      my $success_connect = Sys->connect($socket, $sockaddr_in6);
+      unless ($success_connect) {
+        return 0;
+      }
+      my $status_close = Sys::Socket->close($socket);
+      unless ($status_close == 0) {
+        return 0;
+      }
     }
     
     return 1;

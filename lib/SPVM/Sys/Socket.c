@@ -307,6 +307,8 @@ int32_t SPVM__Sys__Socket__connect(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
+  stack[0].ival = status;
+  
   return 0;
 }
 
@@ -794,6 +796,8 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
+  stack[0].ival = status;
+  
   return 0;
 }
 
@@ -850,6 +854,8 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]getnameinfo failed: %s", ch_gai_strerror, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+  
+  stack[0].ival = status;
   
   return 0;
 }

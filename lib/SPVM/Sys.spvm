@@ -626,6 +626,7 @@ class Sys {
   static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
     my $addrlen = $addr->size;
     my $status = Sys::Socket->connect($sockfd, $addr, $addrlen);
+    
     my $success = $status == 0;
     
     return $success;
