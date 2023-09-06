@@ -5,6 +5,7 @@ class Sys::Socket::Util {
   use Sys;
   use Sys::Socket;
   use Sys::Socket::Constant as SOCKET;
+  use Sys::Socket::In_addr;
   use Sys::Socket::Sockaddr;
   use Sys::Socket::Sockaddr::In;
   use Sys::Socket::Sockaddr::In6;
@@ -15,6 +16,33 @@ class Sys::Socket::Util {
   use Sys::Process;
   use Sys::IO::Constant as IO;
   use Sys::Ioctl::Constant as IOCTL;
+  
+  static method inet_aton : Sys::Socket::In_addr ($address : string) {
+    my $in_addr = Sys::Socket::In_addr->new;
+    
+    Sys::Socket->inet_aton($address, $in_addr);
+    
+    return $in_addr;
+  }
+  
+  static method inet_pton : object ($family : int, $address : string) {
+    
+    my $in_addr = (object)undef;
+    
+    if ($family == SOCKET->AF_INET) {
+      $in_addr = Sys::Socket::In_addr->new;
+    }
+    elsif ($family == SOCKET->AF_INET6) {
+      $in_addr = Sys::Socket::In6_addr->new;
+    }
+    else {
+      die "The address family $family is not available.";
+    }
+    
+    Sys::Socket->inet_pton($family, $address, $in_addr);
+    
+    return $in_addr;
+  }
   
   static method sockaddr_in : Sys::Socket::Sockaddr::In ($port : int, $in_addr : Sys::Socket::In_addr) {
     

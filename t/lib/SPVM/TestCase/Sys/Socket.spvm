@@ -12,6 +12,7 @@ class TestCase::Sys::Socket {
   use Sys::Process;
   use Sys::IO::Constant as IO;
   use Sys::Ioctl::Constant as IOCTL;
+  use Sys::Socket::Util;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
   
