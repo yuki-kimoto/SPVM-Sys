@@ -176,6 +176,16 @@ class TestCase::Sys::Socket {
         return 0;
       }
     }
+    
+    {
+      my $in_addr = Sys::Socket::Util->inet_aton("127.0.0.1");
+      
+      my $address = Sys::Socket->inet_ntoa($in_addr);
+      
+      unless ($address eq "127.0.0.1") {
+        return 0;
+      }
+    }
     return 1;
   }
 
@@ -281,6 +291,24 @@ class TestCase::Sys::Socket {
         return 0;
       }
 
+      my $buffer = (mutable string)new_string_len SOCKET->INET6_ADDRSTRLEN;
+      
+      my $address = Sys::Socket->inet_ntop(SOCKET->AF_INET6, $in6_addr, $buffer, SOCKET->INET6_ADDRSTRLEN);
+      
+      unless ($address) {
+        return 0;
+      }
+      
+      Fn->shorten_null_char($address);
+      
+      unless ($address eq "abcd:ef01:2345:6789:abcd:ef01:2345:6789") {
+        return 0;
+      }
+    }
+    
+    {
+      my $in6_addr = Sys::Socket::Util->inet_pton(SOCKET->AF_INET6, "abcd:ef01:2345:6789:abcd:ef01:2345:6789");
+      
       my $buffer = (mutable string)new_string_len SOCKET->INET6_ADDRSTRLEN;
       
       my $address = Sys::Socket->inet_ntop(SOCKET->AF_INET6, $in6_addr, $buffer, SOCKET->INET6_ADDRSTRLEN);
