@@ -5,6 +5,14 @@
     * The Sys::Socket::In_addr_base class is added.
     * The Sys::Socket::In_addr class extends Sys::Socket::In_addr_base.
     * The Sys::Socket::In6_addr class extends Sys::Socket::In_addr_base.
+  [Incompatible Changes]
+    * The following methods in the Sys::Socket class are changed.
+      
+      -  static method inet_pton : int ($af : int, $src : string, $dst : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
+      +  static method inet_pton : int ($af : int, $src : string, $dst : Sys::Socket::In_addr_base);
+      
+      -  static method inet_ntop : mutable string ($af : int, $src : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $dst : mutable string, $size : int);
+      +  static method inet_ntop : mutable string ($af : int, $src : Sys::Socket::In_addr_base, $dst : mutable string, $size : int);
     
 0.485 2023-09-04
   

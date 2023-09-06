@@ -27,7 +27,7 @@ class Sys::Socket::Util {
   
   static method inet_pton : object ($family : int, $address : string) {
     
-    my $in_addr = (object)undef;
+    my $in_addr = (Sys::Socket::In_addr_base)undef;
     
     if ($family == SOCKET->AF_INET) {
       $in_addr = Sys::Socket::In_addr->new;
