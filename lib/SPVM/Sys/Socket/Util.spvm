@@ -25,6 +25,12 @@ class Sys::Socket::Util {
     return $in_addr;
   }
   
+  static method inet_ntoa : string ($in_addr : Sys::Socket::In_addr) {
+    my $address = Sys::Socket->inet_ntoa($in_addr);
+    
+    return $address;
+  }
+  
   static method inet_pton : Sys::Socket::In_addr_base ($family : int, $address : string) {
     
     my $in_addr = (Sys::Socket::In_addr_base)undef;
@@ -42,6 +48,17 @@ class Sys::Socket::Util {
     Sys::Socket->inet_pton($family, $address, $in_addr);
     
     return $in_addr;
+  }
+  
+  static method inet_ntop : string ($family : int, $in_addr : Sys::Socket::In_addr_base) {
+    
+    my $address = (mutable string)new_string_len SOCKET->INET6_ADDRSTRLEN;
+    
+    Sys::Socket->inet_ntop($family, $in_addr, $address, SOCKET->INET6_ADDRSTRLEN);
+    
+    Fn->shorten_null_char($address);
+    
+    return $address;
   }
   
   static method sockaddr_in : Sys::Socket::Sockaddr::In ($port : int, $in_addr : Sys::Socket::In_addr) {
