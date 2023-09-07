@@ -1728,6 +1728,41 @@ class TestCase::Sys::IO {
         }
       }
     }
+    
+    {
+      my $file = "$test_file_dir/ftest/readline_basic.txt";
+      
+      my $stream = Sys::IO->fopen($file, "rb");
+
+      {
+        my $line = Sys->readline($stream);
+        unless ($line eq "abcd\n") {
+          return 0;
+        }
+      }
+
+      {
+        my $line = Sys->readline($stream);
+        unless ($line eq "fghi\n") {
+          return 0;
+        }
+      }
+
+      {
+        my $line = Sys->readline($stream);
+        unless ($line eq "klm\n") {
+          return 0;
+        }
+      }
+
+      {
+        my $line = Sys->readline($stream);
+        unless ($line == undef) {
+          return 0;
+        }
+      }
+    }
+
   }
 
   static method truncate : int ($test_dir : string) {

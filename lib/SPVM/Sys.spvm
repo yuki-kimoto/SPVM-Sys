@@ -784,4 +784,10 @@ class Sys {
     my $fd = Sys::IO->fileno($stream);
     return $fd;
   }
+  
+  static method readline : mutable string ($stream : Sys::IO::FileStream) {
+    my $line = Sys::IO->readline($stream);
+    return $line;
+  }
+
 }

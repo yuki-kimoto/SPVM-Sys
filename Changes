@@ -9,6 +9,7 @@
       + static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0);
       + static method fileno : int ($stream : Sys::IO::Stream);
       + static method eof : int ($stream : Sys::IO::Stream);
+      + static method readline : mutable string ($stream : Sys::IO::FileStream);
       
 0.486 2023-09-06
   [Bug Fix]
