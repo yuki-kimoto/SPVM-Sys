@@ -2,7 +2,8 @@
   [New Features]
     * The following methods in the Sys class are added.
     
-      static method fstat : Sys::IO::Stat ($fd : int);
+      + static method fstat : Sys::IO::Stat ($fd : int);
+      + static method truncate : int ($fd : int, $legnth : long);
     
 0.486 2023-09-06
   [Bug Fix]

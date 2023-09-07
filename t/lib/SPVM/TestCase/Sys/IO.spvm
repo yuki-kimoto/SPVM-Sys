@@ -1644,35 +1644,71 @@ class TestCase::Sys::IO {
 
   static method ftruncate : int ($test_dir : string) {
     
-    my $file = "$test_dir/foo.txt";
     {
-      my $stream = Sys::IO->fopen($file, "wb");
+      my $file = "$test_dir/foo.txt";
+      {
+        my $stream = Sys::IO->fopen($file, "wb");
+        
+        my $write_length = 0;
+        my $size = 1;
+        my $length = 4;
+        
+        $write_length = Sys::IO->fwrite("abcd", $size, $length, $stream);
+        unless ($write_length == 4) {
+          return 0;
+        }
+      }
       
-      my $write_length = 0;
-      my $size = 1;
-      my $length = 4;
+      warn "[Test Output]" . Sys::FileTest->s($file);
+      unless (Sys::FileTest->s($file) > 0) {
+        return 0;
+      }
+        
+      {
+        my $stream = Sys::IO->fopen($file, "wb");
+        my $status = Sys::IO->ftruncate(Sys::IO->fileno($stream), 0);
+        unless ($status == 0) {
+          return 0;
+        }
+      }
       
-      $write_length = Sys::IO->fwrite("abcd", $size, $length, $stream);
-      unless ($write_length == 4) {
+      warn "[Test Output]" . Sys::FileTest->s($file);
+      unless (Sys::FileTest->s($file) == 0) {
         return 0;
       }
     }
     
-    warn "[Test Output]" . Sys::FileTest->s($file);
-    unless (Sys::FileTest->s($file) > 0) {
-      return 0;
-    }
-      
     {
-      my $stream = Sys::IO->fopen($file, "wb");
-      Sys::IO->ftruncate(Sys::IO->fileno($stream), 0);
+      my $file = "$test_dir/foo.txt";
+      {
+        my $stream = Sys::IO->fopen($file, "wb");
+        
+        my $write_length = 0;
+        my $size = 1;
+        my $length = 4;
+        
+        $write_length = Sys::IO->fwrite("abcd", $size, $length, $stream);
+        unless ($write_length == 4) {
+          return 0;
+        }
+      }
+      
+      unless (Sys::FileTest->s($file) > 0) {
+        return 0;
+      }
+        
+      {
+        my $stream = Sys::IO->fopen($file, "wb");
+        my $success = Sys->truncate(Sys::IO->fileno($stream), 0);
+        unless ($success) {
+          return 0;
+        }
+      }
+      
+      unless (Sys::FileTest->s($file) == 0) {
+        return 0;
+      }
     }
-
-    warn "[Test Output]" . Sys::FileTest->s($file);
-    unless (Sys::FileTest->s($file) == 0) {
-      return 0;
-    }
-    
     return 1;
   }
 

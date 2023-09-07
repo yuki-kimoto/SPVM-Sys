@@ -755,4 +755,12 @@ class Sys {
     }
   }
   
+  static method truncate : int ($fd : int, $legnth : long) {
+    
+    my $status = Sys::IO->ftruncate($fd, $legnth);
+    
+    my $success = $status == 0;
+    
+    return $success;
+  }
 }
