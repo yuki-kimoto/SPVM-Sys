@@ -19,6 +19,7 @@
       + static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream);
       + static method seek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
       + static method sysseek : long ($fd : int, $offset : long, $whence : int);
+      + static method tell : long ($stream : Sys::IO::FileStream);
       
 0.486 2023-09-06
   [Bug Fix]

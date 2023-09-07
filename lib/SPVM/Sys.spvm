@@ -838,4 +838,9 @@ class Sys {
     my $result_offset = Sys::IO->lseek($fd, $offset, $whence);
     return $result_offset;
   }
+  
+  static method tell : long ($stream : Sys::IO::FileStream) {
+    my $current_position = Sys::IO->ftell($stream);
+    return $current_position;
+  }
 }

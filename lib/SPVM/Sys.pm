@@ -577,6 +577,12 @@ Calls the L<lseek|SPVM::Sys::IO/"lseek"> method in the L<Sys::IO|SPVM::Sys::IO> 
 
 If succeed, returns 1.
 
+=head2 tell
+
+  static method tell : long ($stream : Sys::IO::FileStream);
+
+Calls the L<ftell|SPVM::Sys::IO/"ftell"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.

@@ -1227,6 +1227,32 @@ class TestCase::Sys::IO {
       }
     }
     
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      unless ($stream) {
+        return 0;
+      }
+      
+      my $buffer = (mutable string)new_string_len 4;
+      my $size = 1;
+      my $length = 4;
+      
+      my $read_length = 0;
+      
+      my $streameek_status = Sys::IO->fseek($stream, 4, IO->SEEK_SET);
+      
+      unless ($streameek_status == 0) {
+        return 0;
+      }
+      
+      my $offset = Sys->tell($stream);
+      
+      unless ($offset == 4) {
+        return 0;
+      }
+    }
     return 1;
   }
 
