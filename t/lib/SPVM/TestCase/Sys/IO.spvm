@@ -95,6 +95,47 @@ class TestCase::Sys::IO {
       Sys::IO->close($fd);
     }
     
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $fd = Sys::IO->open($file, IO->O_RDONLY);
+      
+      unless ($fd >= 0) {
+        return 0;
+      }
+
+      my $buffer = (mutable string)new_string_len 4;
+      my $count = 4;
+      
+      my $read_length = 0;
+      
+      $read_length = Sys->sysread($fd, $buffer, $count);
+      
+      unless ($buffer eq "abcd") {
+        return 0;
+      }
+      
+      unless ($read_length == 4) {
+        return 0;
+      }
+
+      $read_length = Sys->sysread($fd, $buffer, $count);
+      
+      unless ($buffer eq "efgh") {
+        return 0;
+      }
+      
+      unless ($read_length == 4) {
+        return 0;
+      }
+
+      $read_length = Sys->sysread($fd, $buffer, $count);
+      
+      unless ($read_length == 0) {
+        return 0;
+      }
+      Sys::IO->close($fd);
+    }
+    
     return 1;
   }
 

@@ -763,4 +763,10 @@ class Sys {
     
     return $success;
   }
+  
+  static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0) {
+    my $read_length = Sys::IO->read($fd, $buf, $count, $buf_offset);
+    return $read_length;
+  }
+
 }
