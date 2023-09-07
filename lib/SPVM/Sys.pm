@@ -569,6 +569,14 @@ Calls the L<fseek|SPVM::Sys::IO/"fseek"> method in the L<Sys::IO|SPVM::Sys::IO> 
 
 If succeed, returns 1.
 
+=head2 sysseek
+
+  static method sysseek : long ($fd : int, $offset : long, $whence : int);
+
+Calls the L<lseek|SPVM::Sys::IO/"lseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+If succeed, returns 1.
+
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.

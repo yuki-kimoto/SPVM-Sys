@@ -834,4 +834,8 @@ class Sys {
     return $success;
   }
   
+  static method sysseek : long ($fd : int, $offset : long, $whence : int) {
+    my $result_offset = Sys::IO->lseek($fd, $offset, $whence);
+    return $result_offset;
+  }
 }
