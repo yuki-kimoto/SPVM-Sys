@@ -1161,6 +1161,29 @@ class TestCase::Sys::IO {
       IO->LOCK_UN;
     }
     
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $fd = Sys::IO->open($file, IO->O_RDONLY, IO->O_TRUNC);
+      
+      my $status_lock = Sys::IO->flock($fd, IO->LOCK_SH);
+      
+      unless ($status_lock == 0) {
+        return 0;
+      }
+
+      my $success_unlock = Sys->flock($fd, IO->LOCK_UN);
+      
+      unless ($success_unlock) {
+        return 0;
+      }
+      
+      my $close_status = Sys::IO->close($fd);
+      
+      unless ($close_status == 0) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 

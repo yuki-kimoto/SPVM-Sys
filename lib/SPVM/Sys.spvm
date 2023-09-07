@@ -794,4 +794,10 @@ class Sys {
     my $char = Sys::IO->getc($stream);
     return $char;
   }
+  
+  static method flock : int ($fd : int, $operation : int) {
+    my $status = Sys::IO->flock($fd, $operation);
+    my $success = $status == 0;
+    return $success;
+  }
 }
