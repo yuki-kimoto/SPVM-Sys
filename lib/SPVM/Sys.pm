@@ -529,6 +529,14 @@ Calls the L<flock|SPVM::Sys::IO/"flock"> method in the L<Sys::IO|SPVM::Sys::IO> 
 
 If succeed, returns 1.
 
+=head2 print
+
+  static method print : int ($stream : Sys::IO::FileStream, $string : string);
+
+Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO> class given the length of $string.
+
+If succeed, returns 1.
+
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.

@@ -12,6 +12,7 @@
       + static method readline : mutable string ($stream : Sys::IO::FileStream);
       + static method getc : int ($stream : Sys::IO::FileStream);
       + static method flock : int ($fd : int, $operation : int);
+      + static method print : int ($stream : Sys::IO::FileStream, $string : string);
       
 0.486 2023-09-06
   [Bug Fix]

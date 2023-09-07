@@ -800,4 +800,10 @@ class Sys {
     my $success = $status == 0;
     return $success;
   }
+  
+  static method print : int ($stream : Sys::IO::FileStream, $string : string) {
+    my $write_length = Sys::IO->fwrite($string, 1, length $string, $stream);
+    my $success = $write_length >= 0;
+    return $success;
+  }
 }

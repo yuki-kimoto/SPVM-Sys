@@ -932,6 +932,32 @@ class TestCase::Sys::IO {
         
         Sys::IO->fclose($stream);
       }
+      
+      {
+        my $file = "$test_dir/foo.txt";
+        my $stream = Sys::IO->fopen($file, "wb");
+        
+        unless ($stream) {
+          return 0;
+        }
+
+        my $success = 0;
+        my $size = 1;
+        my $length = 4;
+        
+        $success = Sys->print($stream, "abcd");
+        unless ($success) {
+          return 0;
+        }
+        
+        $success = Sys->print($stream, "efgh");
+        unless ($success) {
+          return 0;
+        }
+        
+        Sys::IO->fclose($stream);
+      }
+      
     }
     
     # Big buffer
