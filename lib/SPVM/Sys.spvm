@@ -469,6 +469,12 @@ class Sys {
     return $stat;
   }
   
+  static method fstat : Sys::IO::Stat ($fd : int) {
+    my $stat = Sys::IO::Stat->new;
+    Sys::IO::Stat->fstat($fd, $stat);
+    return $stat;
+  }
+  
   static method chdir : int ($path : string) {
     my $status = Sys::IO->chdir($path);
     my $success = $status == 0;
@@ -811,6 +817,10 @@ class Sys {
   static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0) {
     my $read_length = Sys::IO->fread($buf, 1, $count, $stream);
     return $read_length;
+  }
+  
+  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
+    Sys::IO->rewinddir($dirp);
   }
   
 }

@@ -2289,6 +2289,9 @@ class TestCase::Sys::IO {
       return 0;
     }
     
+    Sys::IO->rewinddir($stream);
+    Sys->rewinddir($stream);
+    
     my $check_file_count = 0;
     while (my $dirent = Sys::IO->readdir($stream)) {
       my $d_ino = $dirent->d_ino;
