@@ -1,3 +1,9 @@
+0.487 2023-09-07
+  [New Features]
+    * The following methods in the Sys class are added.
+    
+      static method fstat : Sys::IO::Stat ($fd : int);
+    
 0.486 2023-09-06
   [Bug Fix]
     * Some bugs are fixed: The connect, getaddrinfo, and getnameinfo have not return correct return values.

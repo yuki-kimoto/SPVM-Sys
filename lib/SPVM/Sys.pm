@@ -236,6 +236,12 @@ Gets the process number of the running this program. The same as the Perl L<$$|h
 
 Returns a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object giving the status info for a file. The same as the Perl L<stat|https://perldoc.perl.org/functions/stat> function.
 
+=head2 fstat
+
+  static method fstat : Sys::IO::Stat ($fd : int);
+
+Returns a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object giving the status info for a file descriptor. The same as the Perl L<stat|https://perldoc.perl.org/functions/stat> function.
+
 =head2 chdir
 
   static method chdir : int ($path : string);

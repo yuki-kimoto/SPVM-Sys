@@ -467,6 +467,12 @@ class Sys {
     return $stat;
   }
   
+  static method fstat : Sys::IO::Stat ($fd : int) {
+    my $stat = Sys::IO::Stat->new;
+    Sys::IO::Stat->fstat($fd, $stat);
+    return $stat;
+  }
+  
   static method chdir : int ($path : string) {
     my $status = Sys::IO->chdir($path);
     my $success = $status == 0;
