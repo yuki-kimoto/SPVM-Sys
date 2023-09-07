@@ -204,6 +204,28 @@ class TestCase::Sys::IO {
       Sys::IO->close($fd);
     }
     
+    {
+      my $file = "$test_dir/foo.txt";
+      my $fd = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, 0666);
+      
+      unless ($fd >= 0) {
+        return 0;
+      }
+
+      my $write_length = 0;
+      $write_length = Sys->syswrite($fd, "abcd", 4);
+      unless ($write_length == 4) {
+        return 0;
+      }
+      
+      $write_length = Sys->syswrite($fd, "efgh");
+      unless ($write_length == 4) {
+        return 0;
+      }
+      
+      Sys::IO->close($fd);
+    }
+    
     return 1;
   }
 

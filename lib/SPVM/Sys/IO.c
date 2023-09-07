@@ -148,13 +148,19 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   char* buf = (char*)env->get_chars(env, stack, obj_buf);
   int32_t buf_length = env->length(env, stack, obj_buf);
-
+  
   int32_t count = stack[2].ival;
-  if (!(count >= 0)) {
-    return env->die(env, stack, "The $count must be more than or equal to 0", __func__, FILE_NAME, __LINE__);
-  }
   
   int32_t buf_offset = stack[3].ival;
+  
+  if (!(buf_offset >= 0)) {
+    return env->die(env, stack, "The $buf_offse must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+  }
+  
+  if (count < 0) {
+    count = buf_length - buf_offset;
+  }
+  
   if (!(count <= buf_length - buf_offset)) {
     return env->die(env, stack, "The $count must be less than the length of the $buf - the $buf_offset", __func__, FILE_NAME, __LINE__);
   }

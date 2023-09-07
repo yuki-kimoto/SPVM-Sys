@@ -768,5 +768,9 @@ class Sys {
     my $read_length = Sys::IO->read($fd, $buf, $count, $buf_offset);
     return $read_length;
   }
-
+  
+  static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0) {
+    my $write_length = Sys::IO->write($fd, $buf, $count, $buf_offset);
+    return $write_length;
+  }
 }

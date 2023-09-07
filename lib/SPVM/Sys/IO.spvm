@@ -34,8 +34,8 @@ class Sys::IO {
   
   native static method read : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);
   
-  native static method write : int ($fd : int, $buf : string, $count : int, $buf_offset : int = 0);
-
+  native static method write : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0);
+  
   native static method lseek : long ($fd : int, $offset : long, $whence : int);
   
   native static method close : int ($fd : int);
