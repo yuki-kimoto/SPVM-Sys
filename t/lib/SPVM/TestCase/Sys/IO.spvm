@@ -726,6 +726,54 @@ class TestCase::Sys::IO {
       }
     }
     
+    {
+      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      unless ($stream) {
+        return 0;
+      }
+      
+      my $char = 0;
+      
+      $char = Sys->getc($stream);
+      unless ($char == 'a') {
+        return 0;
+      }
+      $char = Sys->getc( $stream);
+      unless ($char == 'b') {
+        return 0;
+      }
+      $char = Sys->getc( $stream);
+      unless ($char == 'c') {
+        return 0;
+      }
+      $char = Sys->getc( $stream);
+      unless ($char == 'd') {
+        return 0;
+      }
+      $char = Sys->getc( $stream);
+      unless ($char == 'e') {
+        return 0;
+      }
+      $char = Sys->getc( $stream);
+      unless ($char == 'f') {
+        return 0;
+      }
+      $char = Sys->getc( $stream);
+      unless ($char == 'g') {
+        return 0;
+      }
+      $char = Sys->getc( $stream);
+      unless ($char == 'h') {
+        return 0;
+      }
+      $char = Sys->getc( $stream);
+      unless ($char == IO->EOF) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 

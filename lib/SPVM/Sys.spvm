@@ -789,5 +789,9 @@ class Sys {
     my $line = Sys::IO->readline($stream);
     return $line;
   }
-
+  
+  static method getc : int ($stream : Sys::IO::FileStream) {
+    my $char = Sys::IO->getc($stream);
+    return $char;
+  }
 }

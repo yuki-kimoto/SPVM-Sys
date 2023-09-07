@@ -511,9 +511,15 @@ Calls the L<fileno|SPVM::Sys::IO/"fileno"> method in the L<Sys::IO|SPVM::Sys::IO
 
 =head2 readline
 
-  static method readline : mutable string ($stream : Sys::IO::FileStream)
+  static method readline : mutable string ($stream : Sys::IO::FileStream);
 
 Calls the L<readline|SPVM::Sys::IO/"readline"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 getc
+
+  static method getc : int ($stream : Sys::IO::FileStream);
+
+Calls the L<getc|SPVM::Sys::IO/"getc"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head1 Modules
 
