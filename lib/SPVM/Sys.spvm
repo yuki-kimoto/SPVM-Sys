@@ -773,10 +773,4 @@ class Sys {
     my $write_length = Sys::IO->write($fd, $buf, $count, $buf_offset);
     return $write_length;
   }
-  
-  static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0) {
-    my $read_length = Sys::IO->fread($buf, 1, $count, $stream, $buf_offset);
-    return $read_length;
-  }
-  
 }
