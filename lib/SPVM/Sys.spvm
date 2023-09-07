@@ -813,4 +813,10 @@ class Sys {
     my $success = &print($stream, $formated_string);
     return $success;
   }
+  
+  static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0) {
+    my $read_length = Sys::IO->fread($buf, 1, $count, $stream);
+    return $read_length;
+  }
+  
 }

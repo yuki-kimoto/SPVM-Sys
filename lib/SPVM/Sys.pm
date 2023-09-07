@@ -543,6 +543,12 @@ If succeed, returns 1.
 
 Calls the L</"print"> method after creating formatted string given $stream and $args using the L<sprintf|SPVM::Format/"sprintf"> method in the L<Format|SPVM::Format> class.
 
+=head2 read
+
+  static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0);
+
+Calls the L<fread|SPVM::Sys::IO/"fread"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.

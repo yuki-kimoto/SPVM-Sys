@@ -14,6 +14,7 @@
       + static method flock : int ($fd : int, $operation : int);
       + static method print : int ($stream : Sys::IO::FileStream, $string : string);
       + static method printf : int ($stream, $format : string, $args : object[]);
+      + static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0);
       
 0.486 2023-09-06
   [Bug Fix]
