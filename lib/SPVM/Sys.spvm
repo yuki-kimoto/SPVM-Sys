@@ -14,6 +14,7 @@ class Sys {
   use Sys::IO::Stat;
   use Sys::Socket;
   use Sys::Select;
+  use Sys::IO::FileStream;
   
   static method osname : string () {
     my $osname : string;
@@ -772,5 +773,15 @@ class Sys {
   static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0) {
     my $write_length = Sys::IO->write($fd, $buf, $count, $buf_offset);
     return $write_length;
+  }
+  
+  static method eof : int ($stream : Sys::IO::FileStream) {
+    my $eof = Sys::IO->feof($stream);
+    return $eof;
+  }
+  
+  static method fileno : int ($stream : Sys::IO::FileStream) {
+    my $fd = Sys::IO->fileno($stream);
+    return $fd;
   }
 }

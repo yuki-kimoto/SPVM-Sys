@@ -6,6 +6,9 @@
       + static method truncate : int ($fd : int, $legnth : long);
       + static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);
       + static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0);
+      + static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0);
+      + static method fileno : int ($stream : Sys::IO::Stream);
+      + static method eof : int ($stream : Sys::IO::Stream);
       
 0.486 2023-09-06
   [Bug Fix]
