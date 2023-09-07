@@ -823,4 +823,9 @@ class Sys {
     Sys::IO->rewinddir($dirp);
   }
   
+  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
+    my $next_dirp = Sys::IO->readdir($dirp);
+    return $next_dirp;
+  }
+
 }
