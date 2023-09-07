@@ -537,6 +537,12 @@ Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO
 
 If succeed, returns 1.
 
+=head2 printf
+
+  static method printf : int ($stream, $format : string, $args : object[])
+
+Calls the L</"print"> method after creating formatted string given $stream and $args using the L<sprintf|SPVM::Format/"sprintf"> method in the L<Format|SPVM::Format> class.
+
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.

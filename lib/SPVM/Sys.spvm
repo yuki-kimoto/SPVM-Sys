@@ -15,6 +15,7 @@ class Sys {
   use Sys::Socket;
   use Sys::Select;
   use Sys::IO::FileStream;
+  use Format;
   
   static method osname : string () {
     my $osname : string;
@@ -804,6 +805,12 @@ class Sys {
   static method print : int ($stream : Sys::IO::FileStream, $string : string) {
     my $write_length = Sys::IO->fwrite($string, 1, length $string, $stream);
     my $success = $write_length >= 0;
+    return $success;
+  }
+  
+  static method printf : int ($stream : Sys::IO::FileStream, $format : string, $args : object[]) {
+    my $formated_string = Format->sprintf($format, $args);
+    my $success = &print($stream, $formated_string);
     return $success;
   }
 }
