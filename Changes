@@ -17,6 +17,7 @@
       + static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0);
       + static method rewinddir : void ($dirp : Sys::IO::DirStream);
       + static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream);
+      + static method seek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
       
 0.486 2023-09-06
   [Bug Fix]

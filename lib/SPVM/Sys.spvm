@@ -827,5 +827,11 @@ class Sys {
     my $next_dirp = Sys::IO->readdir($dirp);
     return $next_dirp;
   }
-
+  
+  static method seek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int) {
+    my $status = Sys::IO->fseek($stream, $offset, $whence);
+    my $success = $status == 0;
+    return $success;
+  }
+  
 }

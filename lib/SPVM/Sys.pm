@@ -561,6 +561,14 @@ Calls the L<rewinddir|SPVM::Sys::IO/"rewinddir"> method in the L<Sys::IO|SPVM::S
 
 Calls the L<readdir|SPVM::Sys::IO/"readdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+=head2 seek
+
+  static method seek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
+
+Calls the L<fseek|SPVM::Sys::IO/"fseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+If succeed, returns 1.
+
 =head1 Modules
 
 All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.
