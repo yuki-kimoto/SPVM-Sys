@@ -10,7 +10,7 @@ class TestUtil::Scope::Guard {
     my $self = new TestUtil::Scope::Guard;
     
     unless ($handler) {
-      die "The \$handler must be defined";
+      die "\$handler must be defined";
     }
     
     $self->{handler} = $handler;

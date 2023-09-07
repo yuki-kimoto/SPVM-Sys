@@ -705,7 +705,7 @@ class Sys {
   static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int) {
     
     unless ($optval) {
-      die "The \$optval must be defined.";
+      die "\$optval must be defined.";
     }
     
     my $status = -1;

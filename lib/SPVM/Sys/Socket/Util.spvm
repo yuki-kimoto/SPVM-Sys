@@ -64,7 +64,7 @@ class Sys::Socket::Util {
   static method sockaddr_in : Sys::Socket::Sockaddr::In ($port : int, $in_addr : Sys::Socket::In_addr) {
     
     unless ($in_addr) {
-      die "The \$in_addr must be defined.";
+      die "\$in_addr must be defined.";
     }
     
     my $sockaddr_in = Sys::Socket::Sockaddr::In->new;
@@ -82,7 +82,7 @@ class Sys::Socket::Util {
   static method sockaddr_in6 : Sys::Socket::Sockaddr::In6 ($port : int, $in6_addr : Sys::Socket::In6_addr) {
     
     unless ($in6_addr) {
-      die "The \$in6_addr must be defined.";
+      die "\$in6_addr must be defined.";
     }
     
     my $sockaddr_in6 = Sys::Socket::Sockaddr::In6->new;
@@ -100,7 +100,7 @@ class Sys::Socket::Util {
   static method sockaddr_un : Sys::Socket::Sockaddr::Un ($path : string) {
     
     unless ($path) {
-      die "The \$path must be defined.";
+      die "\$path must be defined.";
     }
     
     my $sockaddr_un = Sys::Socket::Sockaddr::Un->new;
