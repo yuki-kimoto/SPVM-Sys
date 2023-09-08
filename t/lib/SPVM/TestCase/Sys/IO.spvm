@@ -1710,28 +1710,53 @@ class TestCase::Sys::IO {
   }
 
   static method chown : int ($test_dir : string) {
-    my $file = "$test_dir/foo.txt";
-    my $stream = Sys::IO->fopen($file, "w");
-    
-    unless (Sys::FileTest->f($file)) {
-      return 0;
-    }
-    
-    Sys::IO->fclose($stream);
-    
-    my $status = Sys::IO->chown($file, -1, -1);
-    
-    unless ($status == 0) {
-      return 0;
-    }
-    
     {
-      eval { Sys::IO->chown("$file/not_found.txt", -1, -1); };
-      unless (Fn->contains($@, "not_found.txt")) {
+      my $file = "$test_dir/foo.txt";
+      my $stream = Sys::IO->fopen($file, "w");
+      
+      unless (Sys::FileTest->f($file)) {
         return 0;
+      }
+      
+      Sys::IO->fclose($stream);
+      
+      my $status = Sys::IO->chown($file, -1, -1);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+      
+      {
+        eval { Sys::IO->chown("$file/not_found.txt", -1, -1); };
+        unless (Fn->contains($@, "not_found.txt")) {
+          return 0;
+        }
       }
     }
     
+    {
+      my $file = "$test_dir/foo.txt";
+      my $stream = Sys::IO->fopen($file, "w");
+      
+      unless (Sys::FileTest->f($file)) {
+        return 0;
+      }
+      
+      Sys::IO->fclose($stream);
+      
+      my $success = Sys->chown(-1, -1, $file);
+      
+      unless ($success) {
+        return 0;
+      }
+      
+      {
+        eval { Sys->chown(-1, -1, "$file/not_found.txt"); };
+        unless (Fn->contains($@, "not_found.txt")) {
+          return 0;
+        }
+      }
+    }
     return 1;
   }
 

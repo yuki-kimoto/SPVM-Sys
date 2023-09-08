@@ -22,6 +22,7 @@
       + static method telldir : long ($dirp : Sys::IO::DirStream);
       + static method lstat : Sys::IO::Stat ($path : string);
       + static method utime : int ($atime : long, $mtime : long, $filename : string);
+      + static method chown : int ($owner : int, $group : int, $path : string);
       
 0.486 2023-09-06
   [Bug Fix]

@@ -601,6 +601,14 @@ Unless $atime < 0 and $mtime < 0, creates a L<Sys::IO::Utimbuf|SPVM::Sys::IO::Ut
 
 And calls the L<utime|SPVM::Sys::IO/"utime"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+=head2 chown
+
+  static method chown : int ($owner : int, $group : int, $path : string);
+
+Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+If succeed, returns 1.
+
 =head2 Sys::Env
 
 =head4 L<Sys::Env|SPVM::Sys::Env>

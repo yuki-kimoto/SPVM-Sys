@@ -862,8 +862,15 @@ class Sys {
       $utimbuf->set_modtime($mtime);
     }
     
-    my $status = utime($filename, $utimbuf);
+    my $status = Sys::IO->utime($filename, $utimbuf);
     my $success = $status == 0;
     return $success;
   }
+  
+  static method chown : int ($owner : int, $group : int, $path : string) {
+    my $status = Sys::IO->chown($path, $owner, $group);
+    my $success = $status == 0;
+    return $success;
+  }
+
 }
