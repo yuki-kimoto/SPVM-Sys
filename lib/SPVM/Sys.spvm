@@ -849,4 +849,21 @@ class Sys {
     return $stat;
   }
   
+  static method utime : int ($atime : long, $mtime : long, $filename : string) {
+    
+    my $utimbuf = (Sys::IO::Utimbuf)undef;
+    
+    if ($atime < 0 && $mtime < 0) {
+      # Do nothing
+    }
+    else {
+      $utimbuf = Sys::IO::Utimbuf->new;
+      $utimbuf->set_actime($atime);
+      $utimbuf->set_modtime($mtime);
+    }
+    
+    my $status = utime($filename, $utimbuf);
+    my $success = $status == 0;
+    return $success;
+  }
 }

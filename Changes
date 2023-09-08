@@ -21,6 +21,7 @@
       + static method tell : long ($stream : Sys::IO::FileStream);
       + static method telldir : long ($dirp : Sys::IO::DirStream);
       + static method lstat : Sys::IO::Stat ($path : string);
+      + static method utime : int ($atime : long, $mtime : long, $filename : string);
       
 0.486 2023-09-06
   [Bug Fix]

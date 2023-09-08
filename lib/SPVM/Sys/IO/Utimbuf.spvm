@@ -7,10 +7,10 @@ class Sys::IO::Utimbuf : pointer {
   
   # Instance methods
   native method DESTROY : void ();
-
+  
   native method actime : long ();
   native method set_actime : long ($actime : long);
-
+  
   native method modtime : long ();
   native method set_modtime : long ($modtime : long);
 }

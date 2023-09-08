@@ -589,9 +589,17 @@ Calls the L<telldir|SPVM::Sys::IO/"telldir"> method in the L<Sys::IO|SPVM::Sys::
 
   static method lstat : Sys::IO::Stat ($path : string);
 
-Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<lstat||SPVM::Sys::IO::Stat/"lstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
+Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
 
 And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+
+=head2 utime
+
+  static method utime : int ($atime : long, $mtime : long, $filename : string);
+
+Unless $atime < 0 and $mtime < 0, creates a L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> object.
+
+And calls the L<utime|SPVM::Sys::IO/"utime"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 Sys::Env
 
