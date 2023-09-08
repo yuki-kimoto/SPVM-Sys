@@ -2379,6 +2379,20 @@ class TestCase::Sys::IO {
     Sys::IO->rewinddir($stream);
     Sys->rewinddir($stream);
     
+    {
+      my $current_offset = Sys::IO->telldir($stream);
+      unless ($current_offset == 0) {
+        return 0;
+      }
+    }
+    
+    {
+      my $current_offset = Sys->telldir($stream);
+      unless ($current_offset == 0) {
+        return 0;
+      }
+    }
+    
     my $check_file_count = 0;
     while (my $dirent = Sys::IO->readdir($stream)) {
       my $d_ino = $dirent->d_ino;

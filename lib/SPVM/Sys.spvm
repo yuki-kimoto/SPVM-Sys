@@ -843,4 +843,9 @@ class Sys {
     my $current_position = Sys::IO->ftell($stream);
     return $current_position;
   }
+  
+  static method telldir : long ($dirp : Sys::IO::DirStream) {
+    my $current_position = Sys::IO->telldir($dirp);
+    return $current_position;
+  }
 }
