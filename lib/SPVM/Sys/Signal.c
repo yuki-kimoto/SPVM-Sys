@@ -81,21 +81,21 @@ int32_t SPVM__Sys__Signal__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t usecs = stack[0].ival;
 
   if (!(usecs >= 0)) {
-    return env->die(env, stack, "The $usecs must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$usecs must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
 
   if (!(usecs < 1000000)) {
-    return env->die(env, stack, "The $usecs must be less than 1000000", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$usecs must be less than 1000000", __func__, FILE_NAME, __LINE__);
   }
 
   int32_t interval = stack[1].ival;
   
   if (!(interval >= 0)) {
-    return env->die(env, stack, "The $usecs must be greater than 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$usecs must be greater than 0", __func__, FILE_NAME, __LINE__);
   }
 
   if (!(interval < 1000000)) {
-    return env->die(env, stack, "The $usecs must be less than 1000000", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$usecs must be less than 1000000", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t rest_usecs = ualarm(usecs, interval);
@@ -184,17 +184,17 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t signum = stack[0].ival;
   if (!(signum >= 0)) {
-    return env->die(env, stack, "The $signum must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$signum must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
   
   if (!(signum < 256)) {
-    return env->die(env, stack, "The $signum must be less than 256", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$signum must be less than 256", __func__, FILE_NAME, __LINE__);
   }
   
   void* obj_handler = stack[1].oval;
 
   if (!obj_handler) {
-    return env->die(env, stack, "The $handler must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$handler must be defined", __func__, FILE_NAME, __LINE__);
   }
   
   void* handler = env->get_pointer(env, stack, obj_handler);
@@ -235,11 +235,11 @@ int32_t SPVM__Sys__Signal__reset_monitored_signal(SPVM_ENV* env, SPVM_VALUE* sta
   
   int32_t signum = stack[0].ival;
   if (!(signum >= 0)) {
-    return env->die(env, stack, "The $signum must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$signum must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
   
   if (!(signum < 256)) {
-    return env->die(env, stack, "The $signum must be less than 256", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$signum must be less than 256", __func__, FILE_NAME, __LINE__);
   }
   
   monitored_signal_numbers[signum] = 0;
@@ -253,11 +253,11 @@ int32_t SPVM__Sys__Signal__check_monitored_signal(SPVM_ENV* env, SPVM_VALUE* sta
   
   int32_t signum = stack[0].ival;
   if (!(signum >= 0)) {
-    return env->die(env, stack, "The $signum must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$signum must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
   
   if (!(signum < 256)) {
-    return env->die(env, stack, "The $signum must be less than 256", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$signum must be less than 256", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t monitored_signal_number = monitored_signal_numbers[signum];

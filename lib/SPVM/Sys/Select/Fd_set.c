@@ -62,7 +62,7 @@ int32_t SPVM__Sys__Select__Fd_set__set(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_fd_set_arg = stack[1].oval;
   if (!obj_fd_set_arg) {
-    return env->die(env, stack, "The $set must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$set must be defined", __func__, FILE_NAME, __LINE__);
   }
   fd_set* type_fd_set_arg = env->get_pointer(env, stack, obj_fd_set_arg);
   

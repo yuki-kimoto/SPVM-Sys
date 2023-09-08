@@ -279,7 +279,7 @@ The length of the option value must be less than or equal to the option length. 
 
 If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
-The $optval is a string. The following is an example to get an int value.
+$optval is a string. The following is an example to get an int value.
 
   my $optval_int_ref = [0];
   Fn->memcpy($result_ref, 0, $optval, 0, 4);
@@ -379,7 +379,7 @@ static method to_child_sockaddr : int ($addr : Sys::Socket::Sockaddr);
 
   static method to_family_sockaddr : Sys::Socket::Sockaddr ($addr : Sys::Socket::Sockaddr);
 
-Copies the $addr and creates a new L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object corresponding to the address family, and returns it.
+Copies $addr and creates a new L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object corresponding to the address family, and returns it.
 
 If address family is AF_INET, returns a L<Sys::Socket::Sockaddr::In|SPVM::Sys::Socket::Sockaddr::In> object.
 
@@ -389,7 +389,7 @@ If address family is AF_UNIX, returns a L<Sys::Socket::Sockaddr::Un|SPVM::Sys::S
 
 Exceptions:
 
-The $addr must be defined. Otherwise an exception is thrown.
+$addr must be defined. Otherwise an exception is thrown.
 
 If the address family is not available, an exception is thrown.
 

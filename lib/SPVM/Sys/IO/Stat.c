@@ -46,13 +46,13 @@ int32_t SPVM__Sys__IO__Stat__stat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
   void* obj_stat = stack[1].oval;
   if (!obj_stat) {
-    return env->die(env, stack, "The $stat must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stat must be defined", __func__, FILE_NAME, __LINE__);
   }
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
@@ -91,13 +91,13 @@ int32_t SPVM__Sys__IO__Stat__lstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
   void* obj_lstat = stack[1].oval;
   if (!obj_lstat) {
-    return env->die(env, stack, "The $lstat must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$lstat must be defined", __func__, FILE_NAME, __LINE__);
   }
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_lstat);
@@ -137,7 +137,7 @@ int32_t SPVM__Sys__IO__Stat__fstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stat = stack[1].oval;
   
   if (!obj_stat) {
-    return env->die(env, stack, "The $stat must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stat must be defined", __func__, FILE_NAME, __LINE__);
   }
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);

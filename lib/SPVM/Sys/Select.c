@@ -84,17 +84,17 @@ int32_t SPVM__Sys__Select__FD_SET(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t fd = stack[0].ival;
 
   if (!(fd >= 0)) {
-    return env->die(env, stack, "The $fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
 
   if (!(fd <= FD_SETSIZE)) {
-    return env->die(env, stack, "The $fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
   }
 
   void* obj_set = stack[1].oval;
 
   if (!obj_set) {
-    return env->die(env, stack, "The $set must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$set must be defined", __func__, FILE_NAME, __LINE__);
   }
 
   fd_set* set = env->get_pointer(env, stack, obj_set);
@@ -109,17 +109,17 @@ int32_t SPVM__Sys__Select__FD_CLR(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t fd = stack[0].ival;
 
   if (!(fd >= 0)) {
-    return env->die(env, stack, "The $fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
 
   if (!(fd <= FD_SETSIZE)) {
-    return env->die(env, stack, "The $fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
   }
 
   void* obj_set = stack[1].oval;
 
   if (!obj_set) {
-    return env->die(env, stack, "The $set must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$set must be defined", __func__, FILE_NAME, __LINE__);
   }
 
   fd_set* set = env->get_pointer(env, stack, obj_set);
@@ -134,17 +134,17 @@ int32_t SPVM__Sys__Select__FD_ISSET(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t fd = stack[0].ival;
 
   if (!(fd >= 0)) {
-    return env->die(env, stack, "The $fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
 
   if (!(fd <= FD_SETSIZE)) {
-    return env->die(env, stack, "The $fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
   }
 
   void* obj_set = stack[1].oval;
 
   if (!obj_set) {
-    return env->die(env, stack, "The $set must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$set must be defined", __func__, FILE_NAME, __LINE__);
   }
 
   fd_set* set = env->get_pointer(env, stack, obj_set);
@@ -160,10 +160,10 @@ int32_t SPVM__Sys__Select__select(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t fd = stack[0].ival;
   if (!(fd >= 0)) {
-    return env->die(env, stack, "The $fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$fd must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
   if (!(fd <= FD_SETSIZE)) {
-    return env->die(env, stack, "The $fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$fd must be less than FD_SETSIZE", __func__, FILE_NAME, __LINE__);
   }
   
   void* obj_readfds = stack[1].oval;

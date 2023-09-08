@@ -320,7 +320,7 @@ Returns the value of a symbolic link. The same as the Perl L<readlink|https://pe
 
   static method symlink : int ($oldpath : string, $newpath : string);
 
-Creates a $newpath symbolically linked to the $oldpath. The same as the Perl L<symlink|https://perldoc.perl.org/functions/symlink> function.
+Creates a $newpath symbolically linked to $oldpath. The same as the Perl L<symlink|https://perldoc.perl.org/functions/symlink> function.
 
 If succeed, returns 1.
 
@@ -342,15 +342,15 @@ Calls the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys
 
   static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : Sys::Time::Timeval);
 
-Calls the L<select|SPVM::Sys::Select/"select"> method in the L<Sys::Select|SPVM::Sys::Select> class with the $ndfs set to 1024.
+Calls the L<select|SPVM::Sys::Select/"select"> method in the L<Sys::Select|SPVM::Sys::Select> class with $ndfs set to 1024.
 
 =head2 bind
 
   static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
 
-The next argument $addrlen is set to the size of the $addr.
+The next argument $addrlen is set to the size of $addr.
 
-Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $addrlen.
+Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen.
 
 If succeed, returns 1.
 
@@ -369,7 +369,7 @@ If succeed, returns 1.
 The next argument $addrlen is set to 128.
 
 Calls the L<accept|SPVM::Sys::Socket/"accept"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen,
-and returns the $addr.
+and returns $addr.
 
 The original return value is set to $$new_sockfd_ref.
 
@@ -377,9 +377,9 @@ The original return value is set to $$new_sockfd_ref.
 
   static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
 
-The next argument $addrlen is set to the size of the $addr.
+The next argument $addrlen is set to the size of $addr.
 
-Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $addrlen.
+Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen.
 
 If succeed, returns 1.
 
@@ -429,7 +429,7 @@ If succeed, returns 1.
 
   static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);
 
-Calls the L<socket|SPVM::Sys::Socket/"socket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $domain, $type, $protocal,
+Calls the L<socket|SPVM::Sys::Socket/"socket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $domain, $type, $protocal,
 and the return value is set to $$sockfd_ref.
 
 =head2 socketpair
@@ -438,8 +438,8 @@ and the return value is set to $$sockfd_ref.
 
 Creates a new int array with the length 2 for the next argument $pair.
 
-Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with the $pair,
-and the $$sock_fd1_ref is set the first element of the $pair, and the $$sock_fd2_ref is set the second element of the $pair, nad 
+Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $pair,
+and the $$sock_fd1_ref is set the first element of $pair, and the $$sock_fd2_ref is set the second element of $pair, nad 
 
 If succeed, returns 1.
 
@@ -447,18 +447,18 @@ If succeed, returns 1.
 
   static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
 
-If the $optval is the L<Int|SPVM::Int> type, a string for the next argument $optval is created by the length 4.
+If $optval is the L<Int|SPVM::Int> type, a string for the next argument $optval is created by the length 4.
 
-If the $optval is the string type, a string that for the next argument $optval is created by the length of the $optval.
+If $optval is the string type, a string that for the next argument $optval is created by the length of $optval.
 
 Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
-with the $optval and $optlen.
+with $optval and $optlen.
 
 If succeed, returns 1.
 
 Exceptions:
 
-The $optval must be defined. Otherwise an exception is thrown.
+$optval must be defined. Otherwise an exception is thrown.
 
 The type of $optval must be Int or string. Otherwise an exception is thrown.
 
@@ -466,12 +466,12 @@ The type of $optval must be Int or string. Otherwise an exception is thrown.
 
   static method getsockopt : string ($sockfd : int, $level : int, $optname : int, $optlen : int = -1);
 
-If the $optlen is less than 0, it is set to 4.
+If $optlen is less than 0, it is set to 4.
 
 A string for the next argument $optval is created by the length $optlen.
 
 Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
-with the $optval and $optlen, and the $optval set by this method is returnd.
+with $optval and $optlen, and $optval set by this method is returnd.
 
 =head2 truncate
 

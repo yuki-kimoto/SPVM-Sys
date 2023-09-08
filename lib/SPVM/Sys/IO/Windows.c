@@ -479,7 +479,7 @@ int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
   }
   
   const char* path = env->get_chars(env, stack, obj_path);
@@ -503,7 +503,7 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   void* obj_pathname = stack[0].oval;
   if (!obj_pathname) {
-    return env->die(env, stack, "The $pathname must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$pathname must be defined", __func__, FILE_NAME, __LINE__);
   }
   
   const char* pathname = env->get_chars(env, stack, obj_pathname);
@@ -531,13 +531,13 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   void* obj_oldpath = stack[0].oval;
   if (!obj_oldpath) {
-    return env->die(env, stack, "The $oldpath must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$oldpath must be defined", __func__, FILE_NAME, __LINE__);
   }
   const char* oldpath = env->get_chars(env, stack, obj_oldpath);
   
   void* obj_newpath = stack[0].oval;
   if (!obj_newpath) {
-    return env->die(env, stack, "The $newpath must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$newpath must be defined", __func__, FILE_NAME, __LINE__);
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
@@ -566,23 +566,23 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
 
   void* obj_buf = stack[1].oval;
   if (!obj_buf) {
-    return env->die(env, stack, "The $buf must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$buf must be defined", __func__, FILE_NAME, __LINE__);
   }
   char* buf = (char*)env->get_chars(env, stack, obj_buf);
   int32_t buf_length = env->length(env, stack, obj_buf);
   
   int32_t bufsiz = stack[2].ival;
   if (!(bufsiz >= 0)) {
-    return env->die(env, stack, "The $bufsiz must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$bufsiz must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
   if (!(bufsiz <= buf_length)) {
-    return env->die(env, stack, "The $bufsiz must be less than or equal to the length of the $buf", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$bufsiz must be less than or equal to the length of $buf", __func__, FILE_NAME, __LINE__);
   }
   
   errno = 0;
@@ -611,7 +611,7 @@ int32_t SPVM__Sys__IO__Windows__get_readlink_buffer_size(SPVM_ENV* env, SPVM_VAL
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "The $path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
 
@@ -643,13 +643,13 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_oldpath = stack[0].oval;
   if (!obj_oldpath) {
-    return env->die(env, stack, "The $oldpath must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$oldpath must be defined", __func__, FILE_NAME, __LINE__);
   }
   const char* oldpath = env->get_chars(env, stack, obj_oldpath);
 
   void* obj_newpath = stack[1].oval;
   if (!obj_newpath) {
-    return env->die(env, stack, "The $newpath must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$newpath must be defined", __func__, FILE_NAME, __LINE__);
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   

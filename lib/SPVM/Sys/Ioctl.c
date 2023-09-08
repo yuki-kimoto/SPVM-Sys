@@ -70,7 +70,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
       ret = ioctl(fd, request, request_arg_ref);
     }
     else {
-      return env->die(env, stack, "The $request_arg_ref must be an byte[]/short[]/int[]/long[]/float[]/double[] type object or the object that is a pointer class", __func__, FILE_NAME, __LINE__);
+      return env->die(env, stack, "$request_arg_ref must be an byte[]/short[]/int[]/long[]/float[]/double[] type object or the object that is a pointer class", __func__, FILE_NAME, __LINE__);
     }
   }
   

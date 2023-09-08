@@ -28,7 +28,7 @@ The address family is set to C<AF_INET>.
 
 Exceptions:
 
-The $in_addr must be defined. Otherwise an exception is thrown.
+$in_addr must be defined. Otherwise an exception is thrown.
 
 =head2 sockaddr_in6
 
@@ -40,7 +40,7 @@ The address family is set to C<AF_INET6>.
 
 Exceptions:
 
-The $in6_addr must be defined. Otherwise an exception is thrown.
+$in6_addr must be defined. Otherwise an exception is thrown.
 
 =head2 sockaddr_un
 
@@ -52,7 +52,7 @@ The address family is set to C<AF_UNIX>.
 
 Exceptions:
 
-The $path must be defined. Otherwise an exception is thrown.
+$path must be defined. Otherwise an exception is thrown.
 
 =head1 Copyright & License
 
