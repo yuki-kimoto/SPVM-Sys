@@ -499,6 +499,8 @@ The command argument can receive a L<Sys::IO::Flock|SPVM::Sys::IO::Flock> object
 
 =head2 readline
 
+(Deprecated)
+
   static method readline : string ($stream : Sys::IO::FileStream);
 
 Reads characters from C<$stream> until C<\n> or C<EOF> is found and return it.

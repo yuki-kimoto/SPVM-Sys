@@ -23,6 +23,10 @@
       + static method lstat : Sys::IO::Stat ($path : string);
       + static method utime : int ($atime : long, $mtime : long, $filename : string);
       + static method chown : int ($owner : int, $group : int, $path : string);
+  [Deprecation]
+    * The following methods in the Sys::IO class are deprecated. Use the readline method in the Sys class.
+      
+      static method readline : string ($stream : Sys::IO::FileStream);
       
 0.486 2023-09-06
   [Bug Fix]
