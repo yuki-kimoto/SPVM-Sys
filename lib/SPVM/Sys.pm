@@ -234,7 +234,9 @@ Gets the process number of the running this program. The same as the Perl L<$$|h
 
   static method stat : Sys::IO::Stat ($path : string);
 
-Returns a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object giving the status info for a file. The same as the Perl L<stat|https://perldoc.perl.org/functions/stat> function.
+Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<stat||SPVM::Sys::IO::Stat/"stat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
+
+And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 chdir
 
@@ -583,9 +585,13 @@ Calls the L<ftell|SPVM::Sys::IO/"ftell"> method in the L<Sys::IO|SPVM::Sys::IO> 
 
 Calls the L<telldir|SPVM::Sys::IO/"telldir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
-=head1 Modules
+=head2 lstat
 
-All modules included in this distribution. These classes have methods that directly correspond to Linux/Unix/Mac or Windows system call functions written in C. In addition, several helper methods are implemented.
+  static method lstat : Sys::IO::Stat ($path : string);
+
+Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<lstat||SPVM::Sys::IO::Stat/"lstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
+
+And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 Sys::Env
 

@@ -843,9 +843,9 @@ class Sys {
     return $current_position;
   }
   
-  static method lstat : Sys::IO::Stat ($fd : int) {
+  static method lstat : Sys::IO::Stat ($path : string) {
     my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->lstat($fd, $stat);
+    Sys::IO::Stat->lstat($path, $stat);
     return $stat;
   }
   

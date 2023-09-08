@@ -20,6 +20,7 @@
       + static method sysseek : long ($fd : int, $offset : long, $whence : int);
       + static method tell : long ($stream : Sys::IO::FileStream);
       + static method telldir : long ($dirp : Sys::IO::DirStream);
+      + static method lstat : Sys::IO::Stat ($path : string);
       
 0.486 2023-09-06
   [Bug Fix]
