@@ -562,7 +562,7 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #if defined(_WIN32)
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
@@ -607,7 +607,7 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__IO__Windows__get_readlink_buffer_size(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #if defined(_WIN32)
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
@@ -639,7 +639,7 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "win32_symlink is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_oldpath = stack[0].oval;
   if (!obj_oldpath) {

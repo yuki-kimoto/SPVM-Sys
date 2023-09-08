@@ -10,12 +10,12 @@ const char* FILE_NAME = "Sys/Socket/Sockaddr/Storage.c";
 
 int32_t SPVM__Sys__Socket__Sockaddr__Storage__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   struct sockaddr_storage* socket_address = env->new_memory_stack(env, stack, sizeof(struct sockaddr_storage));
 
-  void* obj_socket_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr::Storage", socket_address, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_socket_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr::Storage", socket_address, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_socket_address;
   

@@ -82,10 +82,10 @@ int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  int32_t e = 0;
+  int32_t error_id = 0;
   
-  int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   void* obj_cp = stack[0].oval;
   
@@ -155,16 +155,16 @@ int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
-  int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
 
   int32_t In_addr = env->get_basic_type_id(env, stack, "Sys::Socket::In_addr");
-  if (e) { return e; }
+  if (error_id) { return error_id; }
 
   int32_t In6_addr = env->get_basic_type_id(env, stack, "Sys::Socket::In6_addr");
-  if (e) { return e; }
+  if (error_id) { return error_id; }
 
   int32_t af = stack[0].ival;
   
@@ -732,7 +732,7 @@ int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__getaddrinfo_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_node = stack[0].oval;
   
@@ -770,8 +770,8 @@ int32_t SPVM__Sys__Socket__getaddrinfo_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == 0) {
     int32_t fields_length = 1;
-    void* obj_res = env->new_pointer_object_by_name(env, stack, "Sys::Socket::AddrinfoLinkedList", res, &e, __func__, FILE_NAME, __LINE__);
-    if (e) { return e; }
+    void* obj_res = env->new_pointer_object_by_name(env, stack, "Sys::Socket::AddrinfoLinkedList", res, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) { return error_id; }
     env->set_elem_object(env, stack, obj_res_array, 0, obj_res);
   }
   
@@ -781,10 +781,10 @@ int32_t SPVM__Sys__Socket__getaddrinfo_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
-  int32_t e = 0;
+  int32_t error_id = 0;
   
-  e = SPVM__Sys__Socket__getaddrinfo_raw(env, stack);
-  if (e) { return e; }
+  error_id = SPVM__Sys__Socket__getaddrinfo_raw(env, stack);
+  if (error_id) { return error_id; }
   
   int32_t status = stack[0].ival;
   if (!(status == 0)) {
@@ -802,7 +802,7 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__getnameinfo_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_sa = stack[0].oval;
   
@@ -840,10 +840,10 @@ int32_t SPVM__Sys__Socket__getnameinfo_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
-  int32_t e = 0;
+  int32_t error_id = 0;
   
-  e = SPVM__Sys__Socket__getnameinfo_raw(env, stack);
-  if (e) { return e; }
+  error_id = SPVM__Sys__Socket__getnameinfo_raw(env, stack);
+  if (error_id) { return error_id; }
   
   int32_t status = stack[0].ival;
   if (!(status == 0)) {

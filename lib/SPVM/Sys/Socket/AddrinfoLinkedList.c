@@ -39,7 +39,7 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__to_array(SPVM_ENV* env, SPVM_VALU
   (void)env;
   (void)stack;
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_addrinfo = stack[0].oval;
   
@@ -59,8 +59,8 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__to_array(SPVM_ENV* env, SPVM_VALU
     }
   }
   
-  void* obj_addrinfos = env->new_object_array_by_name(env, stack, "Sys::Socket::Addrinfo", length, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_addrinfos = env->new_object_array_by_name(env, stack, "Sys::Socket::Addrinfo", length, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   int32_t index = 0;
   {
@@ -74,8 +74,8 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__to_array(SPVM_ENV* env, SPVM_VALU
         tmp_st_addrinfo = env->new_memory_stack(env, stack, sizeof(struct addrinfo));
         memcpy(tmp_st_addrinfo, cur_st_addrinfo, sizeof(struct addrinfo));
         
-        void* obj_addrinfo = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Addrinfo", tmp_st_addrinfo, &e, __func__, FILE_NAME, __LINE__);
-        if (e) { return e; }
+        void* obj_addrinfo = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Addrinfo", tmp_st_addrinfo, &error_id, __func__, FILE_NAME, __LINE__);
+        if (error_id) { return error_id; }
         
         env->set_elem_object(env, stack, obj_addrinfos, index, obj_addrinfo);
         

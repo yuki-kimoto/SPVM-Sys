@@ -13,12 +13,12 @@ int32_t SPVM__Sys__Time__Itimerval__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "The new method in the Sys::Time::Itimerval is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t e;
+  int32_t error_id = 0;
   
   struct itimerval* st_it = env->new_memory_stack(env, stack, sizeof(struct itimerval));
   
-  void* obj_it = env->new_pointer_object_by_name(env, stack, "Sys::Time::Itimerval", st_it, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_it = env->new_pointer_object_by_name(env, stack, "Sys::Time::Itimerval", st_it, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
 
   stack[0].oval = obj_it;
   
@@ -48,7 +48,7 @@ int32_t SPVM__Sys__Time__Itimerval__it_interval(SPVM_ENV* env, SPVM_VALUE* stack
   env->die(env, stack, "The it_interval method in the Sys::Time::Itimerval is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_it = stack[0].oval;
   
@@ -57,8 +57,8 @@ int32_t SPVM__Sys__Time__Itimerval__it_interval(SPVM_ENV* env, SPVM_VALUE* stack
   struct timeval* st_it_it_interval = env->new_memory_stack(env, stack, sizeof(struct timeval));
   memcpy(st_it_it_interval, &st_it->it_interval, sizeof(struct timeval));
 
-  void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", st_it_it_interval, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", st_it_it_interval, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
 
   stack[0].oval = obj_tv;
   
@@ -95,7 +95,7 @@ int32_t SPVM__Sys__Time__Itimerval__it_value(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "The it_value method in the Sys::Time::Itimerval is not supported in this system", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_it = stack[0].oval;
   
@@ -104,8 +104,8 @@ int32_t SPVM__Sys__Time__Itimerval__it_value(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct timeval* st_it_it_value = env->new_memory_stack(env, stack, sizeof(struct timeval));
   memcpy(st_it_it_value, &st_it->it_value, sizeof(struct timeval));
 
-  void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", st_it_it_value, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", st_it_it_value, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
 
   stack[0].oval = obj_tv;
   

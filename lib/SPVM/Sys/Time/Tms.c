@@ -17,12 +17,12 @@ int32_t SPVM__Sys__Time__Tms__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   struct tms* st_tms = env->new_memory_stack(env, stack, sizeof(struct tms));
 
-  void* obj_st_tms = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tms", st_tms, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_st_tms = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tms", st_tms, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_st_tms;
   

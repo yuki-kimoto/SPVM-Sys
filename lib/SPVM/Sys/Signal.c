@@ -116,10 +116,10 @@ int32_t SPVM__Sys__Signal__new_signal_handler_sig_monitor(SPVM_ENV* env, SPVM_VA
   (void)env;
   (void)stack;
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
-  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __func__, __FILE__, __LINE__);
-  if (e) { return e; }
+  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &error_id, __func__, __FILE__, __LINE__);
+  if (error_id) { return error_id; }
   
   env->set_pointer(env, stack, obj_signal_handler_monitor, &set_monitored_signal_numbers);
   
@@ -132,10 +132,10 @@ int32_t SPVM__Sys__Signal__new_signal_handler_sig_dfl(SPVM_ENV* env, SPVM_VALUE*
   (void)env;
   (void)stack;
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
-  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __func__, __FILE__, __LINE__);
-  if (e) { return e; }
+  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &error_id, __func__, __FILE__, __LINE__);
+  if (error_id) { return error_id; }
   
   env->set_pointer(env, stack, obj_signal_handler_monitor, SIG_DFL);
   
@@ -148,10 +148,10 @@ int32_t SPVM__Sys__Signal__new_signal_handler_sig_ign(SPVM_ENV* env, SPVM_VALUE*
   (void)env;
   (void)stack;
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
-  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __func__, __FILE__, __LINE__);
-  if (e) { return e; }
+  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &error_id, __func__, __FILE__, __LINE__);
+  if (error_id) { return error_id; }
   
   env->set_pointer(env, stack, obj_signal_handler_monitor, SIG_IGN);
   
@@ -164,10 +164,10 @@ int32_t SPVM__Sys__Signal__new_signal_handler_sig_err(SPVM_ENV* env, SPVM_VALUE*
   (void)env;
   (void)stack;
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
-  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &e, __func__, __FILE__, __LINE__);
-  if (e) { return e; }
+  void* obj_signal_handler_monitor = env->new_object_by_name(env, stack, "Sys::Signal::Handler", &error_id, __func__, __FILE__, __LINE__);
+  if (error_id) { return error_id; }
   
   env->set_pointer(env, stack, obj_signal_handler_monitor, SIG_ERR);
   
@@ -180,7 +180,7 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   (void)env;
   (void)stack;
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t signum = stack[0].ival;
   if (!(signum >= 0)) {
@@ -208,20 +208,20 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_old_handler;
   if (old_handler == SIG_DFL) {
-    obj_old_handler = env->get_class_var_object_by_name(env, stack, "Sys::Signal", "$SIG_DFL", &e, __func__, __FILE__, __LINE__);
-    if (e) { return e; }
+    obj_old_handler = env->get_class_var_object_by_name(env, stack, "Sys::Signal", "$SIG_DFL", &error_id, __func__, __FILE__, __LINE__);
+    if (error_id) { return error_id; }
   }
   else if (old_handler == SIG_IGN) {
-    obj_old_handler = env->get_class_var_object_by_name(env, stack, "Sys::Signal", "$SIG_IGN", &e, __func__, __FILE__, __LINE__);
-    if (e) { return e; }
+    obj_old_handler = env->get_class_var_object_by_name(env, stack, "Sys::Signal", "$SIG_IGN", &error_id, __func__, __FILE__, __LINE__);
+    if (error_id) { return error_id; }
   }
   else if (old_handler == &set_monitored_signal_numbers) {
-    obj_old_handler = env->get_class_var_object_by_name(env, stack, "Sys::Signal", "$SIG_MONITOR", &e, __func__, __FILE__, __LINE__);
-    if (e) { return e; }
+    obj_old_handler = env->get_class_var_object_by_name(env, stack, "Sys::Signal", "$SIG_MONITOR", &error_id, __func__, __FILE__, __LINE__);
+    if (error_id) { return error_id; }
   }
   else {
-    obj_old_handler = env->new_object_by_name(env, stack, "Sys::Signal::Handler::Unknown", &e, __func__, __FILE__, __LINE__);
-    if (e) { return e; }
+    obj_old_handler = env->new_object_by_name(env, stack, "Sys::Signal::Handler::Unknown", &error_id, __func__, __FILE__, __LINE__);
+    if (error_id) { return error_id; }
   }
   
   stack[0].oval = obj_old_handler;

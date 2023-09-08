@@ -24,15 +24,15 @@ const char* FILE_NAME = "Sys/IO.c";
 
 int32_t SPVM__Sys__IO__INIT_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   FILE* stream = stdin;
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
 
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
   
@@ -41,15 +41,15 @@ int32_t SPVM__Sys__IO__INIT_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__INIT_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   FILE* stream = stdout;
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
   
@@ -58,16 +58,16 @@ int32_t SPVM__Sys__IO__INIT_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__INIT_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   FILE* stream = stderr;
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
   
@@ -102,7 +102,7 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t fd = stack[0].ival;
   
@@ -137,7 +137,7 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t fd = stack[0].ival;
   
@@ -220,7 +220,7 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
@@ -242,8 +242,8 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
   
@@ -252,7 +252,7 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t fd = stack[0].ival;
   
@@ -271,8 +271,8 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
   
@@ -303,7 +303,7 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_ptr = stack[0].oval;
   
@@ -393,7 +393,7 @@ int32_t SPVM__Sys__IO__clearerr(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_stream = stack[0].oval;
   
@@ -412,7 +412,7 @@ int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_s = stack[0].oval;
   if (!obj_s) {
@@ -453,7 +453,7 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_ptr = stack[0].oval;
   if (!obj_ptr) {
@@ -493,7 +493,7 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_stream = stack[0].oval;
   
@@ -510,8 +510,8 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "closed", 1, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  env->set_field_byte_by_name(env, stack, obj_stream, "closed", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].ival = status;
   
@@ -702,7 +702,7 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_oldpath = stack[0].oval;
   
@@ -734,7 +734,7 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_buf = stack[0].oval;
 
@@ -779,7 +779,7 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "_getdcwd is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t drive = stack[0].ival;
   
@@ -1008,7 +1008,7 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "symlink is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_oldpath = stack[0].oval;
   if (!obj_oldpath) {
@@ -1040,7 +1040,7 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "readlink is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
@@ -1078,7 +1078,7 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_dir = stack[0].oval;
   if (!obj_dir) {
@@ -1093,8 +1093,8 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 
-  void* obj_dir_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::DirStream", dir_stream, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_dir_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::DirStream", dir_stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_dir_stream;
   
@@ -1103,7 +1103,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
@@ -1118,8 +1118,8 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 
-  env->set_field_byte_by_name(env, stack, obj_dirp, "closed", 1, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  env->set_field_byte_by_name(env, stack, obj_dirp, "closed", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
 
   stack[0].ival = status;
   
@@ -1128,7 +1128,7 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
@@ -1144,8 +1144,8 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (dirent) {
-    void* obj_dirent = env->new_pointer_object_by_name(env, stack, "Sys::IO::Dirent", dirent, &e, __func__, FILE_NAME, __LINE__);
-    if (e) { return e; }
+    void* obj_dirent = env->new_pointer_object_by_name(env, stack, "Sys::IO::Dirent", dirent, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) { return error_id; }
     stack[0].oval = obj_dirent;
   }
   else {
@@ -1213,7 +1213,7 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_filename = stack[0].oval;
   if (!obj_filename) {
@@ -1324,7 +1324,7 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
   return env->die(env, stack, "fcntl is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
 #else
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t fd = stack[0].ival;
   
@@ -1344,8 +1344,8 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
       
       // Int
       if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && command_arg_type_dimension == 0) {
-        int32_t command_arg_int32 = env->get_field_int_by_name(env, stack, obj_command_arg, "value", &e, __func__, FILE_NAME, __LINE__);
-        if (e) { return e; }
+        int32_t command_arg_int32 = env->get_field_int_by_name(env, stack, obj_command_arg, "value", &error_id, __func__, FILE_NAME, __LINE__);
+        if (error_id) { return error_id; }
         
         ret = fcntl(fd, command, &command_arg_int32);
       }
@@ -1368,7 +1368,7 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__readline(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e;
+  int32_t error_id = 0;
   
   void* obj_stream = stack[0].oval;
   if (!obj_stream) {
@@ -1499,7 +1499,7 @@ int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
@@ -1578,7 +1578,7 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "The ioctl method in the Sys::IO class is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t fd = stack[0].ival;
   

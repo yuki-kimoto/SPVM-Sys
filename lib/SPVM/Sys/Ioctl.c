@@ -20,7 +20,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "The ioctl method in the Sys::IO class is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t fd = stack[0].ival;
   
@@ -91,7 +91,7 @@ int32_t SPVM__Sys__Ioctl__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
 
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t fd = stack[0].ival;
   

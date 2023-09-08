@@ -26,7 +26,7 @@ int32_t SPVM__Sys__Time__time(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e;
+  int32_t error_id = 0;
   
   time_t time = (time_t)stack[0].lval;
   struct tm* st_tm = env->new_memory_stack(env, stack, sizeof(struct tm));
@@ -37,8 +37,8 @@ int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   localtime_r(&time, st_tm);
 #endif
   
-  void* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_time_info;
   
@@ -47,7 +47,7 @@ int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e;
+  int32_t error_id = 0;
   
   time_t time = (time_t)stack[0].lval;
   struct tm* st_tm = env->new_memory_stack(env, stack, sizeof(struct tm));
@@ -58,8 +58,8 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   gmtime_r(&time, st_tm);
 #endif
   
-  void* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_time_info;
   

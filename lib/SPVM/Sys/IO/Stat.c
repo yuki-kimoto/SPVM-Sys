@@ -11,14 +11,14 @@ const char* FILE_NAME = "Sys/IO/Stat.c";
 
 int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   // sizeof(struct stat) is maybe right, but Ubuntu/Linux 32bit doesn't work well in this setting.
   // So sizeof(struct stat) * 2 is allocated.
   struct stat* st_stat = env->new_memory_stack(env, stack, sizeof(struct stat) * 2);
   
-  void* obj_stat = env->new_pointer_object_by_name(env, stack, "Sys::IO::Stat", st_stat, &e, __func__, FILE_NAME, __LINE__);
-  if (e) { return e; }
+  void* obj_stat = env->new_pointer_object_by_name(env, stack, "Sys::IO::Stat", st_stat, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   stack[0].oval = obj_stat;
   
@@ -42,7 +42,7 @@ int32_t SPVM__Sys__IO__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__stat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
@@ -87,7 +87,7 @@ int32_t SPVM__Sys__IO__Stat__lstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   return env->die(env, stack, "lstat is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
 #else
 
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
@@ -130,7 +130,7 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__fstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  int32_t e = 0;
+  int32_t error_id = 0;
   
   int32_t fd = stack[0].ival;
   

@@ -242,7 +242,7 @@ int32_t SPVM__Sys__OS__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (obj_value_ref) {
     
-    int32_t e = 0;
+    int32_t error_id = 0;
     
     if (env->is_type(env, stack, obj_value_ref, env->get_basic_type_by_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_INT), 1)) {
       int32_t* value_ref = env->get_elems_int(env, stack, obj_value_ref);
