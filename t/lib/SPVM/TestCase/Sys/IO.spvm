@@ -1906,7 +1906,6 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      return 1;
     }
 
     # EOF
@@ -1949,7 +1948,7 @@ class TestCase::Sys::IO {
           return 0;
         }
       }
-      return 1;
+      
     }
 
     # Long lines
@@ -1985,7 +1984,7 @@ class TestCase::Sys::IO {
           return 0;
         }
       }
-      return 1;
+      
     }
 
     # With chomp
@@ -2035,7 +2034,8 @@ class TestCase::Sys::IO {
         }
       }
     }
-
+    
+    return 1;
   }
 
   static method truncate : int ($test_dir : string) {

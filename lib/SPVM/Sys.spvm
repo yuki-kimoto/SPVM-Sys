@@ -16,6 +16,7 @@ class Sys {
   use Sys::Select;
   use Sys::IO::FileStream;
   use Format;
+  use Sys::IO::Constant as IO;
   
   static method osname : string () {
     my $osname : string;
@@ -780,8 +781,58 @@ class Sys {
     return $fd;
   }
   
-  static method readline : mutable string ($stream : Sys::IO::FileStream) {
-    my $line = Sys::IO->readline($stream);
+  precompile static method readline : mutable string ($stream : Sys::IO::FileStream) {
+    
+    unless ($stream) {
+      die("\$stream must be defined.");
+    }
+    
+    my $capacity = 80;
+    my $buf = (mutable string)new_string_len $capacity;
+    
+    my $pos = 0;
+    my $end_is_eof = 0;
+    my $eof = IO->EOF;
+    while (1) {
+      my $ch = Sys->getc($stream);
+      if ($ch == $eof) {
+        $end_is_eof = 1;
+        last;
+      }
+      else {
+        if ($pos >= $capacity) {
+          my $new_capacity = $capacity * 2;
+          my $new_buf = (mutable string)new_string_len $new_capacity;
+          
+          Fn->memcpy($new_buf, 0, $buf, 0, $capacity);
+          
+          $capacity = $new_capacity;
+          $buf = $new_buf;
+        }
+        
+        if ($ch == '\n') {
+          $buf->[$pos] = (byte)$ch;
+          $pos++;
+          last;
+        }
+        else {
+          $buf->[$pos] = (byte)$ch;
+          $pos++;
+        }
+      }
+    }
+    
+    my $line = (mutable string)undef;
+    if ($pos > 0 || !$end_is_eof) {
+      if ($pos == 0) {
+        $line = (mutable string)new_string_len 0;
+      }
+      else {
+        $line = (mutable string)new_string_len $pos;
+        Fn->memcpy($line, 0, $buf, 0, $pos);
+      }
+    }
+    
     return $line;
   }
   
