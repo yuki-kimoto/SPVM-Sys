@@ -7,6 +7,7 @@ class TestCase::Sys::IO {
   use Sys;
   use Sys::IO::Utimbuf;
   use Sys::Time;
+  use Sys::IO::Flock;
 
   static method open : int ($test_dir : string, $tmp_dir : string) {
     
@@ -2465,6 +2466,17 @@ class TestCase::Sys::IO {
         
         {
           my $ret = Sys::IO->fcntl($fd, IO->F_SETFL, IO->O_APPEND);
+          
+          unless ($ret == 0) {
+            return 0;
+          }
+        }
+        
+        {
+          my $flock = Sys::IO::Flock->new;
+          $flock->set_l_type(IO->F_WRLCK);
+          $flock->set_l_whence(IO->SEEK_SET);
+          my $ret = Sys::IO->fcntl($fd, IO->F_SETLK, $flock);
           
           unless ($ret == 0) {
             return 0;
