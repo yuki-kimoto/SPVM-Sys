@@ -1,3 +1,7 @@
+0.488 2023-09-11
+  [Prerequirement Changes]
+    * Require SPVM 0.989041.
+    
 0.487 2023-09-08
   [New Features]
     * The following methods in the Sys class are added.
