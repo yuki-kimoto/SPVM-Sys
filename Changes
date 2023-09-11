@@ -1,3 +1,6 @@
+0.490 2023-09-11
+  [Bug Fix]
+    * Fix a bug that the fcntl method in the Sys::IO class does not work well.
 0.489 2023-09-11
   [New Features]
     * The following methods in the Sys class are added.

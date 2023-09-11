@@ -2507,21 +2507,19 @@ class TestCase::Sys::IO {
           unless ($ret >= 0) {
             return 0;
           }
-        }
-        
-        {
-          my $ret = Sys::IO->fcntl($fd, IO->F_SETFL, IO->O_APPEND);
           
-          unless ($ret == 0) {
+          Sys::IO->fcntl($fd, IO->F_SETFL, $ret);
+          
+          my $ret2 = Sys::IO->fcntl($fd, IO->F_GETFL);
+          
+          unless ($ret == $ret2) {
             return 0;
           }
         }
         
         {
-          my $flock = Sys::IO::Flock->new;
-          $flock->set_l_type(IO->F_WRLCK);
-          $flock->set_l_whence(IO->SEEK_SET);
-          my $ret = Sys::IO->fcntl($fd, IO->F_SETLK, $flock);
+          my $current_flags = Sys::IO->fcntl($fd, IO->F_GETFL);
+          my $ret = Sys::IO->fcntl($fd, IO->F_SETFL, $current_flags | IO->O_APPEND);
           
           unless ($ret == 0) {
             return 0;
@@ -2534,10 +2532,27 @@ class TestCase::Sys::IO {
           unless ($ret >= 0) {
             return 0;
           }
+          
+          my $ret2 = Sys->fcntl($fd, IO->F_GETFL);
+          
+          unless ($ret == $ret2) {
+            return 0;
+          }
         }
         
         {
           my $ret = Sys->fcntl($fd, IO->F_SETFL, IO->O_APPEND);
+          
+          unless ($ret == 0) {
+            return 0;
+          }
+        }
+        
+        {
+          my $flock = Sys::IO::Flock->new;
+          $flock->set_l_type(IO->F_WRLCK);
+          $flock->set_l_whence(IO->SEEK_SET);
+          my $ret = Sys::IO->fcntl($fd, IO->F_SETLK, $flock);
           
           unless ($ret == 0) {
             return 0;
