@@ -1,6 +1,11 @@
 0.488 2023-09-11
   [Prerequirement Changes]
     * Require SPVM 0.989041.
+  [Incompatible Changes]
+    The following method in the Sys class is changed.
+    
+      -  static method stat : Sys::IO::Stat ($path : string);
+      +  static method stat : Sys::IO::Stat ($path_or_fd : object of string|Int)
     
 0.487 2023-09-08
   [New Features]
