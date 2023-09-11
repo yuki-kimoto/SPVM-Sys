@@ -147,17 +147,6 @@ class TestCase::Sys::IO::Stat {
       }
     }
     
-    {
-      my $file = "$test_dir/ftest/readline_long_lines.txt";
-      my $stream = Sys::IO->fopen($file, "rb");
-      
-      my $stat = Sys->stat(Sys::IO->fileno($stream));
-      
-      unless ($stat && $stat is_type Sys::IO::Stat) {
-        return 0;
-      }
-    }
-    
     return 1;
   }
 

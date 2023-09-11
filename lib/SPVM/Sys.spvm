@@ -464,26 +464,9 @@ class Sys {
     return $process_id;
   }
   
-  static method stat : Sys::IO::Stat ($path_or_fd : object of string|Int) {
-    
-    unless ($path_or_fd) {
-      die "\$path_or_fd must be defined.";
-    }
-    
+  static method stat : Sys::IO::Stat ($path : string) {
     my $stat = Sys::IO::Stat->new;
-    
-    if ($path_or_fd is_type string) {
-      my $path = (string)$path_or_fd;
-      Sys::IO::Stat->stat($path, $stat);
-    }
-    elsif ($path_or_fd is_type Int) {
-      my $fd = $path_or_fd->(Int)->value;
-      Sys::IO::Stat->fstat($fd, $stat);
-    }
-    else {
-      die "The type of \$path_or_fd must be string or Int.";
-    }
-    
+    Sys::IO::Stat->stat($path, $stat);
     return $stat;
   }
   

@@ -232,21 +232,11 @@ Gets the process number of the running this program. The same as the Perl L<$$|h
 
 =head2 stat
 
-  static method stat : Sys::IO::Stat ($path_or_fd : object of string|Int);
+  static method stat : Sys::IO::Stat ($path : string);
 
-Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
-
-If the type of $path_or_fd is string, And calls the L<stat|SPVM::Sys::IO::Stat/"stat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
-
-If the type of $path_or_fd is Int, And calls the L<fstat|SPVM::Sys::IO::Stat/"fstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
+Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<stat||SPVM::Sys::IO::Stat/"stat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
 
 And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
-
-Exceptions:
-
-$path_or_fd must be defined. Otherwise an exception is thrown.
-
-The type of \$path_or_fd must be string or Int. Otherwise an exception is thrown.
 
 =head2 chdir
 
