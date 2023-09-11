@@ -238,6 +238,14 @@ Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<stat||SPVM
 
 And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
+=head2 fstat
+
+  static method fstat : Sys::IO::Stat ($fd : int);
+
+Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<fstat||SPVM::Sys::IO::Stat/"fstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
+
+And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+
 =head2 chdir
 
   static method chdir : int ($path : string);
