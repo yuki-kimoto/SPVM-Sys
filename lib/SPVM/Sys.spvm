@@ -940,5 +940,10 @@ class Sys {
     my $success = $status == 0;
     return $success;
   }
-
+  
+  static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef) {
+    my $fcntl_ret = Sys::IO->fcntl($fd, $command, $command_arg);
+    return $fcntl_ret;
+  }
+  
 }

@@ -1,3 +1,10 @@
+0.489 2023-09-11
+  [New Features]
+    * The following methods in the Sys class are added.
+    
+      + static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef);
+  [Bug Fix]
+    * Fix a bug that the fcntl method in the Sys::IO class does not work well.
 0.488 2023-09-11
   [Prerequirement Changes]
     * Require SPVM 0.989041.

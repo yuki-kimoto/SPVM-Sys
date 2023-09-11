@@ -1330,33 +1330,31 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t command = stack[1].ival;
   
-  int32_t ret;
+  int32_t ret = -1;
   
   void* obj_command_arg = stack[2].oval;
-  if (!obj_command_arg) {
     
-    if (!obj_command_arg) {
-      ret = fcntl(fd, command, NULL);
+  if (!obj_command_arg) {
+    ret = fcntl(fd, command, NULL);
+  }
+  else {
+    int32_t command_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_command_arg);
+    int32_t command_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_command_arg);
+    
+    // Int
+    if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && command_arg_type_dimension == 0) {
+      int32_t command_arg_int32 = env->get_field_int_by_name(env, stack, obj_command_arg, "value", &error_id, __func__, FILE_NAME, __LINE__);
+      if (error_id) { return error_id; }
+      
+      ret = fcntl(fd, command, &command_arg_int32);
+    }
+    // A pointer class
+    else if (env->is_pointer_class(env, stack, obj_command_arg)) {
+      void* command_arg = env->get_pointer(env, stack, obj_command_arg);
+      ret = fcntl(fd, command, command_arg);
     }
     else {
-      int32_t command_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_command_arg);
-      int32_t command_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_command_arg);
-      
-      // Int
-      if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && command_arg_type_dimension == 0) {
-        int32_t command_arg_int32 = env->get_field_int_by_name(env, stack, obj_command_arg, "value", &error_id, __func__, FILE_NAME, __LINE__);
-        if (error_id) { return error_id; }
-        
-        ret = fcntl(fd, command, &command_arg_int32);
-      }
-      // A pointer class
-      else if (env->is_pointer_class(env, stack, obj_command_arg)) {
-        void* command_arg = env->get_pointer(env, stack, obj_command_arg);
-        ret = fcntl(fd, command, command_arg);
-      }
-      else {
-        return env->die(env, stack, "$command_arg must be an Int object or the object that is a pointer class", __func__, FILE_NAME, __LINE__);
-      }
+      return env->die(env, stack, "$command_arg must be an Int object or the object that is a pointer class", __func__, FILE_NAME, __LINE__);
     }
   }
   

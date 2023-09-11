@@ -178,6 +178,11 @@ ok(SPVM::TestCase::Sys::IO->utime("$test_dir"));
   ok(SPVM::TestCase::Sys::IO->readdir($test_dir));
 }
 
+# fcntl
+{
+  ok(SPVM::TestCase::Sys::IO->fcntl($test_dir));
+}
+
 SPVM::api->set_exception(undef);
 
 # All object is freed

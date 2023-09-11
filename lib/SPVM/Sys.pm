@@ -619,6 +619,12 @@ Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> 
 
 If succeed, returns 1.
 
+=head2 fcntl
+
+  static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef);
+
+Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
 =head2 Sys::Env
 
 =head4 L<Sys::Env|SPVM::Sys::Env>

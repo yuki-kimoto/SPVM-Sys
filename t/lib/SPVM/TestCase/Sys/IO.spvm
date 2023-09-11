@@ -2438,4 +2438,60 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+
+  static method fcntl : int ($test_dir : string) {
+    
+    if (Sys::OS->is_windows) {
+      warn "Skip tests of fcntl in Windows";
+    }
+    else {
+      my $dir = "$test_dir/ftest";
+      
+      {
+        my $file = "$test_dir/ftest/file_empty.txt";
+        my $fd = Sys::IO->open($file, IO->O_RDWR);
+        
+        unless ($fd >= 0) {
+          return 0;
+        }
+        
+        {
+          my $ret = Sys::IO->fcntl($fd, IO->F_GETFL);
+          
+          unless ($ret >= 0) {
+            return 0;
+          }
+        }
+        
+        {
+          my $ret = Sys::IO->fcntl($fd, IO->F_SETFL, IO->O_APPEND);
+          
+          unless ($ret == 0) {
+            return 0;
+          }
+        }
+        
+        {
+          my $ret = Sys->fcntl($fd, IO->F_GETFL);
+          
+          unless ($ret >= 0) {
+            return 0;
+          }
+        }
+        
+        {
+          my $ret = Sys->fcntl($fd, IO->F_SETFL, IO->O_APPEND);
+          
+          unless ($ret == 0) {
+            return 0;
+          }
+        }
+        
+        Sys::IO->close($fd);
+      }
+      
+    }
+    
+    return 1;
+  }
 }
