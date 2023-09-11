@@ -935,4 +935,91 @@ class Sys {
     return $fcntl_ret;
   }
   
+  static method open : int ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file_name : string) {
+    
+    unless ($stream_ref) {
+      die "\$stream_ref must be defined.";
+    }
+    
+    unless (@$stream_ref == 1) {
+      die "The length of \$stream_ref must be equal to 1.";
+    }
+    
+    if ($open_mode eq "<") {
+      $open_mode = "rb";
+    }
+    elsif ($open_mode eq ">") {
+      $open_mode = "wb";
+    }
+    elsif ($open_mode eq ">>") {
+      $open_mode = "wa";
+    }
+    elsif ($open_mode eq "+<") {
+      $open_mode = "r+b";
+    }
+    elsif ($open_mode eq "+>") {
+      $open_mode = "w+b";
+    }
+    elsif ($open_mode eq "+>>") {
+      $open_mode = "a+b";
+    }
+    
+    my $stream = Sys::IO->fopen($file_name, $open_mode);
+    
+    $stream_ref->[0] = $stream;
+    
+    my $success = $stream != undef;
+    
+    return $success;
+  }
+  
+  static method fdopen : int ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $fd : int) {
+    
+    unless ($stream_ref) {
+      die "\$stream_ref must be defined.";
+    }
+    
+    unless (@$stream_ref == 1) {
+      die "The length of \$stream_ref must be equal to 1.";
+    }
+    
+    if ($open_mode eq "<") {
+      $open_mode = "rb";
+    }
+    elsif ($open_mode eq ">") {
+      $open_mode = "wb";
+    }
+    elsif ($open_mode eq ">>") {
+      $open_mode = "wa";
+    }
+    elsif ($open_mode eq "+<") {
+      $open_mode = "r+b";
+    }
+    elsif ($open_mode eq "+>") {
+      $open_mode = "w+b";
+    }
+    elsif ($open_mode eq "+>>") {
+      $open_mode = "a+b";
+    }
+    
+    my $stream = Sys::IO->fdopen($fd, $open_mode);
+    
+    $stream_ref->[0] = $stream;
+    
+    my $success = $stream != undef;
+    
+    return $success;
+  }
+  
+  static method sysopen : int ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0) {
+    
+    my $fd = Sys::IO->open($path, $flags, $mode);
+    
+    $$fd_ref = $fd;
+    
+    my $success = $fd >= 0;
+    
+    return $success;
+  }
+  
 }

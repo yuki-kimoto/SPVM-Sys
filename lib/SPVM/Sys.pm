@@ -623,6 +623,86 @@ If succeed, returns 1.
 
 Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+=head2 open
+
+  static method open : int ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file_name : string);
+
+$open_mode is replaced by the following logic.
+
+  if ($open_mode eq "<") {
+    $open_mode = "rb";
+  }
+  elsif ($open_mode eq ">") {
+    $open_mode = "wb";
+  }
+  elsif ($open_mode eq ">>") {
+    $open_mode = "wa";
+  }
+  elsif ($open_mode eq "+<") {
+    $open_mode = "r+b";
+  }
+  elsif ($open_mode eq "+>") {
+    $open_mode = "w+b";
+  }
+  elsif ($open_mode eq "+>>") {
+    $open_mode = "a+b";
+  }
+
+Calls the L<fopen|SPVM::Sys::IO/"fopen"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+The return values is set to $stream_ref->[0].
+
+If succeed, returns 1.
+
+Exceptions:
+
+$stream_ref must be defined. Otherwise an exception is thrown.
+
+The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
+
+=head2 fdopen
+
+  static method fdopen : int ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $fd : int);
+
+$open_mode is replaced by the following logic.
+
+  if ($open_mode eq "<") {
+    $open_mode = "rb";
+  }
+  elsif ($open_mode eq ">") {
+    $open_mode = "wb";
+  }
+  elsif ($open_mode eq ">>") {
+    $open_mode = "wa";
+  }
+  elsif ($open_mode eq "+<") {
+    $open_mode = "r+b";
+  }
+  elsif ($open_mode eq "+>") {
+    $open_mode = "w+b";
+  }
+  elsif ($open_mode eq "+>>") {
+    $open_mode = "a+b";
+  }
+
+Calls the L<fdopen|SPVM::Sys::IO/"fdopen"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+The return values is set to $stream_ref->[0].
+
+If succeed, returns 1.
+
+Exceptions:
+
+$stream_ref must be defined. Otherwise an exception is thrown.
+
+The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
+
+=head2 sysopen
+
+  static method sysopen : Sys::IO::FileStream ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0);
+
+Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
 =head2 Sys::Env
 
 =head4 L<Sys::Env|SPVM::Sys::Env>

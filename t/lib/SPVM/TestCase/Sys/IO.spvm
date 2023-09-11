@@ -13,7 +13,7 @@ class TestCase::Sys::IO {
     
     {
       my $file = "$test_dir/ftest/file_empty.txt";
-      my $fd = Sys::IO->open($file, IO->O_RDONLY, IO->O_TRUNC);
+      my $fd = Sys::IO->open($file, IO->O_RDONLY, 0644);
       
       unless ($fd >= 0) {
         return 0;
@@ -23,7 +23,7 @@ class TestCase::Sys::IO {
     
     {
       my $file = "$test_dir/ftest/not_found.txt";
-      eval { Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC); };
+      eval { Sys::IO->open($file, IO->O_RDWR, 0644); };
       
       unless ($@) {
         return 0;
@@ -43,6 +43,17 @@ class TestCase::Sys::IO {
       my $fd = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, IO->S_IRUSR | IO->S_IWUSR | IO->S_IRGRP | IO->S_IWGRP | IO->S_IROTH | IO->S_IWOTH);
       
       unless ($fd >= 0) {
+        return 0;
+      }
+      Sys::IO->close($fd);
+    }
+    
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $fd = -1;
+      my $success = Sys->sysopen(\$fd, $file, IO->O_RDONLY, 0644);
+      
+      unless ($success) {
         return 0;
       }
       Sys::IO->close($fd);
@@ -388,6 +399,20 @@ class TestCase::Sys::IO {
       }
     }
     
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $stream_ref = [(Sys::IO::FileStream)undef];
+      my $success = Sys->open($stream_ref, "<", $file);
+      
+      unless ($success) {
+        return 0;
+      }
+      
+      unless ($stream_ref->[0]) {
+        return 0;
+      }
+    }
+    
     $@ = undef;
     
     return 1;
@@ -397,12 +422,12 @@ class TestCase::Sys::IO {
     
     {
       my $file = "$test_dir/ftest/file_empty.txt";
-      my $fd = Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC);
+      my $fd = Sys::IO->open($file, IO->O_RDWR, 0666);
       
       unless ($fd >= 0) {
         return 0;
       }
-
+      
       my $stream = Sys::IO->fdopen($fd, "rb");
       
       unless ($stream) {
@@ -418,6 +443,26 @@ class TestCase::Sys::IO {
       }
       
       unless (eval_error_id == basic_type_id Error::System) {
+        return 0;
+      }
+    }
+    
+    {
+      my $file = "$test_dir/ftest/file_empty.txt";
+      my $fd = Sys::IO->open($file, IO->O_RDWR, 0666);
+      
+      unless ($fd >= 0) {
+        return 0;
+      }
+      
+      my $stream_ref = [(Sys::IO::FileStream)undef];
+      my $success = Sys->fdopen($stream_ref, "<", $fd);
+      
+      unless ($success) {
+        return 0;
+      }
+      
+      unless ($stream_ref->[0]) {
         return 0;
       }
     }
