@@ -6,10 +6,24 @@ class TestCase::Sys::Signal {
   
   static method kill : int () {
     
-    my $status = Sys::Signal->kill(0, 0);
+    {
+      my $process_id = Sys->process_id;
+      
+      my $status = Sys::Signal->kill($process_id, 0);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+    }
     
-    unless ($status == 0) {
-      return 0;
+    {
+      my $process_id = Sys->process_id;
+      
+      my $success = Sys->kill(0, $process_id);
+      
+      unless ($success) {
+        return 0;
+      }
     }
     
     return 1;
