@@ -9,6 +9,9 @@
       static method STDOUT : Sys::IO::FileStream ();
 
       static method STDERR : Sys::IO::FileStream ();
+      
+      static method signal : void ($signum : int, $handler_name : string);
+   
   [Incompatible Changes]
   
     * The Sys::Signal::Handler::Monitor class is removed.
@@ -27,7 +30,7 @@
       $handler must be a Sys::Signal::Handler::Default object or a Sys::Signal::Handler::Ignore object. Otherwise an exception is thrown.
       
       User signal handlers are wrong implementation for SPVM differnt from the C language.
-
+    
 Calls the L<stderr|SPVM::Sys::IO/"stderr"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 0.490 2023-09-11
   [Bug Fix]

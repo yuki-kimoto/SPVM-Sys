@@ -727,6 +727,18 @@ Calls the L<stdout|SPVM::Sys::IO/"stdout"> method in the L<Sys::IO|SPVM::Sys::IO
 
 Calls the L<stderr|SPVM::Sys::IO/"stderr"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+=head2 signal
+
+  static method signal : void ($signum : int, $handler_name : string);
+
+If $handler_name is "DEFAULT", $handler is set to the return value of the L<"SIG_DFL"|SPVM::Sys::Signal/"SIG_DFL"> method.
+
+If $handler_name is "IGNORE", $handler is set to the return value of the L<"SIG_IGN"|SPVM::Sys::Signal/"SIG_IGN"> method.
+
+And calls the L<signal|SPVM::Sys::Signal/"signal"> method in the L<Sys::Signal|SPVM::Sys::Signal> class.
+
+=head1 Modules
+
 =head2 Sys::Env
 
 =head4 L<Sys::Env|SPVM::Sys::Env>

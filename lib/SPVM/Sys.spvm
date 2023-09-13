@@ -17,6 +17,7 @@ class Sys {
   use Sys::IO::FileStream;
   use Format;
   use Sys::IO::Constant as IO;
+  use Sys::Signal;
   
   static method osname : string () {
     my $osname : string;
@@ -1028,6 +1029,26 @@ class Sys {
   }
   
   static method STDIN : Sys::IO::FileStream () { return Sys::IO->stdin; }
+  
   static method STDOUT : Sys::IO::FileStream () { return Sys::IO->stdout; }
+  
   static method STDERR : Sys::IO::FileStream () { return Sys::IO->stderr; }
+  
+  static method signal : void ($signum : int, $handler_name : string) {
+    
+    my $handler = (Sys::Signal::Handler)undef;
+    
+    if ($handler_name eq "IGNORE") {
+      $handler = Sys::Signal->SIG_IGN;
+    }
+    elsif ($handler_name eq "DEFAULT") {
+      $handler = Sys::Signal->SIG_DFL;
+    }
+    else {
+      die "\$handler_name \"$hander_name\" is not available.";
+    }
+    
+    Sys::Signale->signal($signum, $handler);
+  }
+  
 }
