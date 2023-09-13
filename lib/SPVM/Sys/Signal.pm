@@ -35,12 +35,6 @@ Gets a singlton L<Sys::Signal::Handler::Default|SPVM::Sys::Signal::Handler::Defa
 
 Gets a singlton L<Sys::Signal::Handler::Ignore|SPVM::Sys::Signal::Handler::Ignore> object that represents C<SIG_IGN> in C<C Language>.
 
-=head2 $SIG_MONITOR
-
-  our $SIG_MONITOR : ro Sys::Signal::Handler::Monitor;
-
-Gets a singlton L<Sys::Signal::Handler::Monitor|Sys::Signal::Handler::Monitor> object to monitor signals.
-
 =head1 Class Methods
 
 =head2 raise
@@ -73,20 +67,6 @@ alarm() arranges for a SIGALRM signal to be delivered to the calling process in 
 
 See L<alarm(2) - Linux man page|https://linux.die.net/man/2/alarm> in Linux.
 
-B<Examples:>
-
-  Sys::Signal->reset_monitored_signal(SIGNAL->SIGALRM);
-  
-  Sys::Signal->signal(SIGNAL->SIGALRM, Sys::Signal->SIG_MONITOR);
-  
-  Sys::Signal->alarm(1);
-  
-  while (1) {
-    if (Sys::Signal->check_monitored_signal(SIGNAL->SIGALRM)) {
-      # Do something
-    }
-  }
-
 =head2 ualarm
 
   static method ualarm : int ($usecs : int, $interval : int)
@@ -105,48 +85,13 @@ See L<signal(2) - Linux man page|https://linux.die.net/man/2/signal> in Linux.
 
 Constant values specified in C<$signum> is defined in L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant>.
 
-The C<$handler> is a L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> object.
+The C<$handler> must be a L<Sys::Signal::Handler::Default|SPVM::Sys::Signal::Handler::Default> object or a L<Sys::Signal::Handler::Ignore|SPVM::Sys::Signal::Handler::Ignore> object
 
-The well known L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> classes are L<Sys::Signal::Handler::Default|SPVM::Sys::Signal::Handler::Default>, L<Sys::Signal::Handler::Ignore|SPVM::Sys::Signal::Handler::Ignore>, L<Sys::Signal::Handler::Monitor|SPVM::Sys::Signal::Handler::Monitor>, and L<Sys::Signal::Handler::Unknown|SPVM::Sys::Signal::Handler::Unknown>.
+Exceptions:
 
-B<Examples:>
+$handler must be defined. Otherwise an exception is thrown.
 
-  # SIG_DFL
-  Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_DFL);
-  
-  # SIG_IGN
-  Sys::Signal->signal(SIGNAL->SIGINT, Sys::Signal->SIG_IGN);
-  
-  # Monitor signal
-  Sys::Signal->reset_monitored_signal(SIGNAL->SIGTERM);
-
-  my $old_handler = Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_MONITOR);
-  
-  Sys::Signal->raise(SIGNAL->SIGTERM);
-  
-  while (1) {
-    if (Sys::Signal->check_monitored_signal(SIGNAL->SIGTERM)) {
-      # Do something
-    }
-  }
-
-=head2 reset_monitored_signal
-
-  static method reset_monitored_signal : void ($signum : int);
-
-Set a monitored signal by monitored L<Sys::Signal::Handler::Monitor|Sys::Signal::Handler::Monitor> to C<0>.
-
-Constant values specified in C<$signum> is defined in L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant>.
-
-=head2 check_monitored_signal
-
-  static method check_monitored_signal : int ($signum : int);
-
-Gets a monitored signal by monitored L<Sys::Signal::Handler::Monitor|Sys::Signal::Handler::Monitor>.
-
-If a signal is received, the monitored signal was set to C<1> by the L<Sys::Signal::Handler::Monitor|Sys::Signal::Handler::Monitor> specified in the L</"signal"> method.
-
-Constant values specified in C<$signum> is defined in L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant>.
+$handler must be a Sys::Signal::Handler::Default object or a Sys::Signal::Handler::Ignore object. Otherwise an exception is thrown.
 
 =head1 Copyright & License
 
