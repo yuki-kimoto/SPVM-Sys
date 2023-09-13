@@ -737,6 +737,14 @@ If $handler_name is "IGNORE", $handler is set to the return value of the L<"SIG_
 
 And calls the L<signal|SPVM::Sys::Signal/"signal"> method in the L<Sys::Signal|SPVM::Sys::Signal> class.
 
+=head2 kill
+
+  static method kill : int ($sig : int, $pid : int);
+
+Calls the L<kill|SPVM::Sys::IO/"kill"> method in the L<Sys::Signal|SPVM::Sys::Signal> class.
+
+If succeed, returns 1.
+
 =head1 Modules
 
 =head2 Sys::Env
