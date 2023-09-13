@@ -8,7 +8,7 @@ class TestCase::Sys::IO {
   use Sys::IO::Utimbuf;
   use Sys::Time;
   use Sys::IO::Flock;
-
+  
   static method open : int ($test_dir : string, $tmp_dir : string) {
     
     {
@@ -2591,4 +2591,65 @@ class TestCase::Sys::IO {
     
     return 1;
   }
+  
+  static method stdout : int () {
+    {
+      my $stdout = Sys::IO->stdout;
+      
+      unless (Sys->fileno($stdout) == IO->STDOUT_FILENO) {
+        return 0;
+      }
+    }
+    
+    {
+      my $stdout = Sys->STDOUT;
+      
+      unless (Sys->fileno($stdout) == IO->STDOUT_FILENO) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method stderr : int () {
+    {
+      my $stderr = Sys::IO->stderr;
+      
+      unless (Sys->fileno($stderr) == IO->STDERR_FILENO) {
+        return 0;
+      }
+    }
+    
+    {
+      my $stderr = Sys->STDERR;
+      
+      unless (Sys->fileno($stderr) == IO->STDERR_FILENO) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method stdin : int () {
+    {
+      my $stdin = Sys::IO->stdin;
+      
+      unless (Sys->fileno($stdin) == IO->STDIN_FILENO) {
+        return 0;
+      }
+    }
+    
+    {
+      my $stdin = Sys->STDIN;
+      
+      unless (Sys->fileno($stdin) == IO->STDIN_FILENO) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
 }

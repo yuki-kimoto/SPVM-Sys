@@ -709,6 +709,24 @@ Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> cl
 
 Calls the L</"print"> method adding C<\n> to the end of $string.
 
+=head2 STDIN
+
+  static method STDIN : Sys::IO::FileStream ();
+
+Calls the L<stdin|SPVM::Sys::IO/"stdin"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 STDOUT
+
+  static method STDOUT : Sys::IO::FileStream ();
+
+Calls the L<stdout|SPVM::Sys::IO/"stdout"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 STDERR
+
+  static method STDERR : Sys::IO::FileStream ();
+
+Calls the L<stderr|SPVM::Sys::IO/"stderr"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
 =head2 Sys::Env
 
 =head4 L<Sys::Env|SPVM::Sys::Env>

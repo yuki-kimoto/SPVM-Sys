@@ -1027,4 +1027,7 @@ class Sys {
     return $success;
   }
   
+  static method STDIN : Sys::IO::FileStream () { return Sys::IO->stdin; }
+  static method STDOUT : Sys::IO::FileStream () { return Sys::IO->stdout; }
+  static method STDERR : Sys::IO::FileStream () { return Sys::IO->stderr; }
 }

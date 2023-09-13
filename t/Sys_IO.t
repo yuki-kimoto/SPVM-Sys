@@ -182,6 +182,20 @@ ok(SPVM::TestCase::Sys::IO->utime("$test_dir"));
 {
   ok(SPVM::TestCase::Sys::IO->fcntl($test_dir));
 }
+# stdout
+{
+  ok(SPVM::TestCase::Sys::IO->stdout);
+}
+
+# stderr
+{
+  ok(SPVM::TestCase::Sys::IO->stderr);
+}
+
+# stdin
+{
+  ok(SPVM::TestCase::Sys::IO->stdin);
+}
 
 SPVM::api->set_exception(undef);
 
