@@ -63,9 +63,7 @@ else {
   }
 }
 
-unless ($^O eq 'MSWin32') {
-  ok(SPVM::TestCase::Sys::Signal->signal);
-}
+ok(SPVM::TestCase::Sys::Signal->signal);
 
 SPVM::api->set_exception(undef);
 
