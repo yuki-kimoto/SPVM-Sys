@@ -1022,4 +1022,9 @@ class Sys {
     return $success;
   }
   
+  static method say : int ($stream : Sys::IO::FileStream, $string : string) {
+    my $success = &print($stream, "$string\n");
+    return $success;
+  }
+  
 }

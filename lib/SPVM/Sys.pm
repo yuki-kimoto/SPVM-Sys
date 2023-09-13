@@ -703,6 +703,12 @@ The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
 
 Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+=head2 say
+
+  static method say : int ($stream : Sys::IO::FileStream, $string : string);
+
+Calls the L</"print"> method adding C<\n> to the end of $string.
+
 =head2 Sys::Env
 
 =head4 L<Sys::Env|SPVM::Sys::Env>
