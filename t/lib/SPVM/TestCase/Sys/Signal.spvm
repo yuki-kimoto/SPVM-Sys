@@ -44,11 +44,15 @@ class TestCase::Sys::Signal {
   static method signal : int () {
     
     {
-      warn dump  Sys::Signal->SIG_DFL;
-      
       Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_DFL);
       
       Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_IGN);
+    }
+    
+    {
+      Sys->signal(SIGNAL->SIGTERM, "DEFAULT");
+      
+      Sys->signal(SIGNAL->SIGTERM, "IGNORE");
     }
     
     return 1;

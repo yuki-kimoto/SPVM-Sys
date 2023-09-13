@@ -1045,10 +1045,10 @@ class Sys {
       $handler = Sys::Signal->SIG_DFL;
     }
     else {
-      die "\$handler_name \"$hander_name\" is not available.";
+      die "\$handler_name \"$handler_name\" is not available.";
     }
     
-    Sys::Signale->signal($signum, $handler);
+    Sys::Signal->signal($signum, $handler);
   }
   
   static method kill : int ($sig : int, $pid : int) {
