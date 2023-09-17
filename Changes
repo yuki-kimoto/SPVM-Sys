@@ -1,3 +1,6 @@
+0.492 2023-09-18
+  [Incompatibe Changes]
+    * Remove the readline method in the Sys::IO class. Use the readline method in the Sys class.
 0.491 2023-09-13
   [New Features]
     * The following methods in the Sys class are added.
