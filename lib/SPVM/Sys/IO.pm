@@ -497,16 +497,6 @@ See the L<lstat|https://linux.die.net/man/2/fcntl> function in Linux.
 
 The command argument can receive a L<Sys::IO::Flock|SPVM::Sys::IO::Flock> object.
 
-=head2 readline
-
-(Deprecated)
-
-  static method readline : string ($stream : Sys::IO::FileStream);
-
-Reads characters from C<$stream> until C<\n> or C<EOF> is found and return it.
-
-The C<$stream> must be defined. Otherwise an exception will thrown.
-
 =head2 ftruncate
 
   static method ftruncate : int ($fd : int, $length : long);

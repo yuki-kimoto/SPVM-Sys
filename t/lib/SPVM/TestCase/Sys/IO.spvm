@@ -1931,28 +1931,28 @@ class TestCase::Sys::IO {
       my $stream = Sys::IO->fopen($file, "rb");
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "abcd\n") {
           return 0;
         }
       }
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "fghi\n") {
           return 0;
         }
       }
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "klm\n") {
           return 0;
         }
       }
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line == undef) {
           return 0;
         }
@@ -1966,7 +1966,7 @@ class TestCase::Sys::IO {
       my $stream = Sys::IO->fopen($file, "rb");
 
       my $lstrings = StringList->new((string[])undef);
-      while (my $line = Sys::IO->readline($stream)) {
+      while (my $line = Sys->readline($stream)) {
         $lstrings->push($line);
       }
 
@@ -1986,35 +1986,35 @@ class TestCase::Sys::IO {
       my $stream = Sys::IO->fopen($file, "rb");
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "abcd\n") {
           return 0;
         }
       }
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "fghi\n") {
           return 0;
         }
       }
       
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "\n") {
           return 0;
         }
       }
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "klm") {
           return 0;
         }
       }
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line == undef) {
           return 0;
         }
@@ -2029,28 +2029,28 @@ class TestCase::Sys::IO {
       my $stream = Sys::IO->fopen($file, "rb");
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n") {
           return 0;
         }
       }
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "fghi\n") {
           return 0;
         }
       }
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line eq "klm\n") {
           return 0;
         }
       }
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         unless ($line == undef) {
           return 0;
         }
@@ -2064,7 +2064,7 @@ class TestCase::Sys::IO {
       my $stream = Sys::IO->fopen($file, "rb");
 
       {
-        my $line = Sys::IO->readline($stream);
+        my $line = Sys->readline($stream);
         Fn->chomp($line);
         unless ($line eq "abcd") {
           return 0;
