@@ -28,7 +28,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-  static method new : Sys::Socket::Sockaddr::In ();
+C<static method new : L<Sys::Socket::Sockaddr::In|SPVM::Sys::Socket::Sockaddr::In> ();>
 
 Create a new C<Sys::Socket::Sockaddr> object.
 
@@ -36,25 +36,25 @@ Create a new C<Sys::Socket::Sockaddr> object.
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 sa_family
 
-  method sa_family : int ()
+C<method sa_family : int ()>
 
 Gets C<sa_family>.
 
 =head2 set_sa_family
 
-  method sa_family : int ()
+C<method sa_family : int ()>
 
 Sets C<sa_family>.
 
 =head2 sizeof
 
-  method size : int ()
+C<method size : int ()>
 
 Returns the size of the structure. This method is planed to be implemented in a child class.
 
@@ -64,7 +64,7 @@ Exception:
   
 =head2 clone
 
-  method clone : Sys::Socket::Sockaddr ();
+C<method clone : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ();>
 
 Clones this object. This method is planed to be implemented in a child class.
 

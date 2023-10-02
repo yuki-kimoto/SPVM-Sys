@@ -24,49 +24,49 @@ This class inherits L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>.
 
 =head2 new
 
-  static method new : Sys::Socket::Sockaddr::Un ();
+C<static method new : L<Sys::Socket::Sockaddr::Un|SPVM::Sys::Socket::Sockaddr::Un> ();>
 
 =head1 Instance Methods
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 sa_family
 
-  method sa_family : int ()
+C<method sa_family : int ()>
 
 Gets C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
 
 =head2 sun_family
 
-  method sun_family : int ();
+C<method sun_family : int ();>
 
 Gets C<sun_family>.
 
 =head2 set_sun_family
 
-  method set_sun_family : void ($family : int)
+C<method set_sun_family : void ($family : int)>
 
 Sets C<sun_family>.
 
 =head2 sun_path
 
-  method sun_path : string ();
+C<method sun_path : string ();>
 
 Copies C<sun_path>.
 
 =head2 set_sun_path
 
-  method set_sun_path : void ($path : string)
+C<method set_sun_path : void ($path : string)>
 
 Sets C<sun_path>.
 
 =head2 size
 
-  method size : int ()
+C<method size : int ()>
 
 The size of C<struct sockaddr_un>.
 

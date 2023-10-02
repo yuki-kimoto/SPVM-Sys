@@ -28,7 +28,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-  static method new : Sys::IO::Utimbuf ();
+C<static method new : L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> ();>
 
 Create a new C<Sys::IO::Utimbuf> object.
 
@@ -36,31 +36,31 @@ Create a new C<Sys::IO::Utimbuf> object.
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 actime
 
-  method actime : long ();
+C<method actime : long ();>
 
 Get C<actime>.
 
 =head2 set_actime
 
-  method set_actime : long ($actime : long);
+C<method set_actime : long ($actime : long);>
 
 Set C<actime>.
 
 =head2 modtime
 
-  method modtime : long ();
+C<method modtime : long ();>
 
 Get C<modtime>.
 
 =head2 set_modtime
 
-  method set_modtime : long ($modtime : long);
+C<method set_modtime : long ($modtime : long);>
 
 Set C<modtime>.
 

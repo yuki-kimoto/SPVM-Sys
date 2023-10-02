@@ -32,7 +32,7 @@ The directory stream is closed.
 
 =head1 Instance Methods
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 

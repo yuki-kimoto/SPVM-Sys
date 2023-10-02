@@ -20,23 +20,23 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-  static method new : Sys::Socket::In6_addr ();
+C<static method new : L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> ();>
 
 =head1 Instance Methods
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 =head2 s6_addr
 
-  method s6_addr : string ();
+C<method s6_addr : string ();>
 
 Gets C<s6_addr>. Its value is copied and a new string is created.
 
 =head2 set_s6_addr
 
-  method set_s6_addr : void ($address : string);
+C<method set_s6_addr : void ($address : string);>
 
 Sets C<s6_addr>.
 

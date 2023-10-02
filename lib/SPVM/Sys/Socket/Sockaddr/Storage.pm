@@ -24,7 +24,7 @@ This class inherits L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>.
 
 =head2 new
 
-  static method new : Sys::Socket::Sockaddr::Storage ();
+C<static method new : L<Sys::Socket::Sockaddr::Storage|SPVM::Sys::Socket::Sockaddr::Storage> ();>
 
 Create a new C<Sys::Socket::Sockaddr::Storage> object.
 
@@ -32,31 +32,31 @@ Create a new C<Sys::Socket::Sockaddr::Storage> object.
 
 =head2 DESTROY
 
-  method DESTROY : void ()
+C<method DESTROY : void ()>
 
 The destructor.
 
 =head2 sa_family
 
-  method sa_family : int ()
+C<method sa_family : int ()>
 
 Gets C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
 
 =head2 ss_family
 
-  method ss_family : int ()
+C<method ss_family : int ()>
 
 Gets C<ss_family>.
 
 =head2 set_ss_family
 
-  method set_ss_family : void ($family : int)
+C<method set_ss_family : void ($family : int)>
 
 Sets C<ss_family>.
 
 =head2 size
 
-  method size : int ()
+C<method size : int ()>
 
 The size of C<struct sockaddr_storage>.
 

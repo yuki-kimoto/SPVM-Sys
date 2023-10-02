@@ -34,13 +34,13 @@ Methods compatible with file IO, sockets, file paths, current directory, select,
 
 =head2 env
 
-  static method env : string ($name : string);
+C<static method env : string ($name : string);>
 
 Gets an environment variable. The same as getting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 
 =head2 osname
 
-  static method osname : string ()
+C<static method osname : string ()>
 
 Gets OS name. The same as Perl L<$^O|https://perldoc.perl.org/perlvar#$%5EO>.
 
@@ -64,175 +64,175 @@ Currently the following OS names are supported.
 
 =head2 A
 
-  static method A : double ($file : string);
+C<static method A : double ($file : string);>
 
 Script start time minus file access time, in days. The same as Perl L<-A|https://perldoc.perl.org/functions/-X>.
 
 =head2 C
 
-  static method C : double ($file : string);
+C<static method C : double ($file : string);>
 
 Script start time minus file inode change time, in days. The same as Perl L<-C|https://perldoc.perl.org/functions/-X>.
 
 =head2 M
 
-  static method M : double ($file : string);
+C<static method M : double ($file : string);>
 
 Script start time minus file modification time, in days. The same as Perl L<-M|https://perldoc.perl.org/functions/-X>.
 
 =head2 O
 
-  static method O : int ($file : string);
+C<static method O : int ($file : string);>
 
 File is owned by real uid. The same as Perl L<-O|https://perldoc.perl.org/functions/-X>.
 
 =head2 R
 
-  static method R : int ($file : string);
+C<static method R : int ($file : string);>
 
 File is readable by real uid/gid. The same as Perl L<-R|https://perldoc.perl.org/functions/-X>.
 
 =head2 S
 
-  static method S : int ($file : string);
+C<static method S : int ($file : string);>
 
 File is a socket. The same as Perl L<-S|https://perldoc.perl.org/functions/-X>.
 
 =head2 W
 
-  static method W : int ($file : string);
+C<static method W : int ($file : string);>
 
 File is writable by real uid/gid. The same as Perl L<-W|https://perldoc.perl.org/functions/-X>.
 
 =head2 X
 
-  static method X : int ($file : string);
+C<static method X : int ($file : string);>
 
 File is executable by real uid/gid. The same as Perl L<-X|https://perldoc.perl.org/functions/-X>.
 
 =head2 b
 
-  static method b : int ($file : string);
+C<static method b : int ($file : string);>
 
 File is a block special file. The same as Perl L<-b|https://perldoc.perl.org/functions/-X>.
 
 =head2 c
 
-  static method c : int ($file : string);
+C<static method c : int ($file : string);>
 
 File is a character special file. The same as Perl L<-c|https://perldoc.perl.org/functions/-X>.
 
 =head2 d
 
-  static method d : int ($file : string);
+C<static method d : int ($file : string);>
 
 File is a directory. The same as Perl L<-d|https://perldoc.perl.org/functions/-X>.
 
 =head2 e
 
-  static method e : int ($file : string);
+C<static method e : int ($file : string);>
 
 File exists. The same as Perl L<-e|https://perldoc.perl.org/functions/-X>.
 
 =head2 f
 
-  static method f : int ($file : string);
+C<static method f : int ($file : string);>
 
 File is a plain file. The same as Perl L<-f|https://perldoc.perl.org/functions/-X>.
 
 =head2 g
 
-  static method g : int ($file : string);
+C<static method g : int ($file : string);>
 
 File has setgid bit set. The same as Perl L<-g|https://perldoc.perl.org/functions/-X>.
 
 =head2 k
 
-  static method k : int ($file : string);
+C<static method k : int ($file : string);>
 
 File has sticky bit set. The same as Perl L<-k|https://perldoc.perl.org/functions/-X>.
 
 =head2 l
 
-  static method l : int ($file : string);
+C<static method l : int ($file : string);>
 
 File is a symbolic link (false if symlinks aren't supported by the file system). The same as Perl L<-l|https://perldoc.perl.org/functions/-X>.
 
 =head2 o
 
-  static method o : int ($file : string);
+C<static method o : int ($file : string);>
 
 File is owned by effective uid. The same as Perl L<-l|https://perldoc.perl.org/functions/-X>.
 
 =head2 p
 
-  static method p : int ($file : string);
+C<static method p : int ($file : string);>
 
 File is a named pipe (FIFO), or Filehandle is a pipe. The same as Perl L<-p|https://perldoc.perl.org/functions/-X>.
 
 =head2 r
 
-  static method r : int ($file : string);
+C<static method r : int ($file : string);>
 
 File is readable by effective uid/gid. The same as Perl L<-r|https://perldoc.perl.org/functions/-X>.
 
 =head2 s
 
-  static method s : long ($file : string);
+C<static method s : long ($file : string);>
 
 File has nonzero size (returns size in bytes). The same as Perl L<-s|https://perldoc.perl.org/functions/-X>.
 
 =head2 u
 
-  static method u : int ($file : string);
+C<static method u : int ($file : string);>
 
 File has setuid bit set. The same as Perl L<-u|https://perldoc.perl.org/functions/-X>.
 
 =head2 w
 
-  static method w : int ($file : string);
+C<static method w : int ($file : string);>
 
 File is writable by effective uid/gid. The same as Perl L<-u|https://perldoc.perl.org/functions/-X>.
 
 =head2 x
 
-  static method x : int ($file : string);
+C<static method x : int ($file : string);>
 
 File is executable by effective uid/gid. The same as Perl L<-x|https://perldoc.perl.org/functions/-X>.
 
 =head2 z
 
-  static method z : int ($file : string);
+C<static method z : int ($file : string);>
 
 File has zero size (is empty). The same as Perl L<-z|https://perldoc.perl.org/functions/-X>.
 
 =head2 time
 
-  static method time : long ();
+C<static method time : long ();>
 
 Returns the number of non-leap seconds since whatever time the system considers to be the epoch, suitable for feeding to gmtime and localtime. The same as the Perl L<time|https://perldoc.perl.org/functions/time>. 
 
 =head2 localtime
 
-  static method localtime : Sys::Time::Tm ($time : long);
+C<static method localtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
 
 Converts a time as returned by the time function to a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object with the time analyzed for the local time zone. The same as the Perl L<localtime|https://perldoc.perl.org/functions/localtime>.
 
 =head2 gmtime
 
-  static method gmtime : Sys::Time::Tm ($time : long);
+C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
 
 Works just like localtime, but the returned values are localized for the standard Greenwich time zone. The same as the Perl L<gmtime|https://perldoc.perl.org/functions/gmtime>.
 
 =head2 process_id
 
-  static method process_id : int ();
+C<static method process_id : int ();>
 
 Gets the process number of the running this program. The same as the Perl L<$$|https://perldoc.perl.org/perlvar#$PROCESS_ID>.
 
 =head2 stat
 
-  static method stat : Sys::IO::Stat ($path : string);
+C<static method stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
 
 Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<stat||SPVM::Sys::IO::Stat/"stat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
 
@@ -240,7 +240,7 @@ And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 fstat
 
-  static method fstat : Sys::IO::Stat ($fd : int);
+C<static method fstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($fd : int);>
 
 Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<fstat||SPVM::Sys::IO::Stat/"fstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
 
@@ -248,7 +248,7 @@ And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 chdir
 
-  static method chdir : int ($path : string);
+C<static method chdir : int ($path : string);>
 
 Changes the working directory to $path. The same as the Perl L<chdir|https://perldoc.perl.org/functions/chdir> function.
 
@@ -256,7 +256,7 @@ If succeed, returns 1.
 
 =head2 chmod
 
-  static method chmod : int ($mode :int, $path : string);
+C<static method chmod : int ($mode :int, $path : string);>
 
 Changes the permissions of a file. The same as the Perl L<chmod|https://perldoc.perl.org/functions/chmod> function.
 
@@ -264,7 +264,7 @@ If succeed, returns 1.
 
 =head2 mkdir
 
-  static method mkdir : int ($path : string, $mode : int);
+C<static method mkdir : int ($path : string, $mode : int);>
 
 Creates the directory specified by $path and $mode. The same as the Perl L<mkdir|https://perldoc.perl.org/functions/mkdir> function.
 
@@ -272,13 +272,13 @@ If succeed, returns 1.
 
 =head2 umask
 
-  static method umask : int ($mode : int);
+C<static method umask : int ($mode : int);>
 
 Sets the umask for the process to $mode and returns the previous value. The same as the Perl L<umask|https://perldoc.perl.org/functions/umask> function.
 
 =head2 rmdir
 
-  static method rmdir : int ($path : string);
+C<static method rmdir : int ($path : string);>
 
 Deletes the directory specified by $path. The same as the Perl L<rmdir|https://perldoc.perl.org/functions/rmdir> function.
 
@@ -286,7 +286,7 @@ If succeed, returns 1.
 
 =head2 opendir
 
-  static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string);
+C<static method opendir : int ($dh_ref : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>[], $dir : string);>
 
 Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
@@ -296,7 +296,7 @@ If succeed, returns 1.
 
 =head2 closedir
 
-  static method closedir : int ($dirp : Sys::IO::DirStream);
+C<static method closedir : int ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
 Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
@@ -304,7 +304,7 @@ If succeed, returns 1.
 
 =head2 unlink
 
-  static method unlink : int ($pathname : string);
+C<static method unlink : int ($pathname : string);>
 
 Deletes a file. The same as the Perl L<unlink|https://perldoc.perl.org/functions/unlink> function.
 
@@ -312,7 +312,7 @@ If succeed, returns 1.
 
 =head2 rename
 
-  static method rename : int ($oldpath : string, $newpath : string);
+C<static method rename : int ($oldpath : string, $newpath : string);>
 
 Changes the name of a file. The same as the Perl L<rename|https://perldoc.perl.org/functions/rename> function.
 
@@ -320,13 +320,13 @@ If succeed, returns 1.
 
 =head2 readlink
 
-  static method readlink : int ($file : string);
+C<static method readlink : int ($file : string);>
 
 Returns the value of a symbolic link. The same as the Perl L<readlink|https://perldoc.perl.org/functions/readlink> function.
 
 =head2 symlink
 
-  static method symlink : int ($oldpath : string, $newpath : string);
+C<static method symlink : int ($oldpath : string, $newpath : string);>
 
 Creates a $newpath symbolically linked to $oldpath. The same as the Perl L<symlink|https://perldoc.perl.org/functions/symlink> function.
 
@@ -334,13 +334,13 @@ If succeed, returns 1.
 
 =head2 sleep
 
-  static method sleep : int ($seconds : int);
+C<static method sleep : int ($seconds : int);>
 
 Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
 
 =head2 ioctl
 
-  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);
+C<static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);>
 
 Calls the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class in Windows.
 
@@ -348,13 +348,13 @@ Calls the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys
 
 =head2 select
 
-  static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : Sys::Time::Timeval);
+C<static method select : int ($readfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $writefds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $exceptfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $timeout : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>);>
 
 Calls the L<select|SPVM::Sys::Select/"select"> method in the L<Sys::Select|SPVM::Sys::Select> class with $ndfs set to 1024.
 
 =head2 bind
 
-  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
+C<static method bind : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
 The next argument $addrlen is set to the size of $addr.
 
@@ -364,7 +364,7 @@ If succeed, returns 1.
 
 =head2 listen
 
-  static method listen : int ($sockfd : int, $backlog : int);
+C<static method listen : int ($sockfd : int, $backlog : int);>
 
 Calls the L<listen|SPVM::Sys::Socket/"listen"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
@@ -372,7 +372,7 @@ If succeed, returns 1.
 
 =head2 accept
 
-  static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int);
+C<static method accept : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($new_sockfd_ref : int*, $sockfd : int);>
 
 The next argument $addrlen is set to 128.
 
@@ -383,7 +383,7 @@ The original return value is set to $$new_sockfd_ref.
 
 =head2 connect
 
-  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr);
+C<static method connect : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
 The next argument $addrlen is set to the size of $addr.
 
@@ -393,7 +393,7 @@ If succeed, returns 1.
 
 =head2 getpeername
 
-  static method getpeername : Sys::Socket::Sockaddr ($sockfd : int);
+C<static method getpeername : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int);>
 
 The next argument $addrlen is set to 128.
 
@@ -404,7 +404,7 @@ using L<to_family_sockaddr|SPVM::Sys::Socket/"to_family_sockaddr"> method in the
 
 =head2 getsockname
 
-  static method getsockname : Sys::Socket::Sockaddr ($sockfd : int)
+C<static method getsockname : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int)>
 
 The next argument $addrlen is set to 128.
 
@@ -415,19 +415,19 @@ using L<to_family_sockaddr|SPVM::Sys::Socket/"to_family_sockaddr"> method in the
 
 =head2 recv
 
-  static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);
+C<static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);>
 
 Calls the L<recv|SPVM::Sys::Socket/"recv"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
 =head2 send
 
-  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
+C<static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);>
 
 Calls the L<send|SPVM::Sys::Socket/"send"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
 =head2 shutdown
 
-  static method shutdown : int ($sockfd : int, $how : int);
+C<static method shutdown : int ($sockfd : int, $how : int);>
 
 Calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
@@ -435,14 +435,14 @@ If succeed, returns 1.
 
 =head2 socket
 
-  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);
+C<static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);>
 
 Calls the L<socket|SPVM::Sys::Socket/"socket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $domain, $type, $protocal,
 and the return value is set to $$sockfd_ref.
 
 =head2 socketpair
 
-  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);
+C<static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);>
 
 Creates a new int array with the length 2 for the next argument $pair.
 
@@ -453,7 +453,7 @@ If succeed, returns 1.
 
 =head2 setsockopt
 
-  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);
+C<static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);>
 
 If $optval is the L<Int|SPVM::Int> type, a string for the next argument $optval is created by the length 4.
 
@@ -472,7 +472,7 @@ The type of $optval must be Int or string. Otherwise an exception is thrown.
 
 =head2 getsockopt
 
-  static method getsockopt : string ($sockfd : int, $level : int, $optname : int, $optlen : int = -1);
+C<static method getsockopt : string ($sockfd : int, $level : int, $optname : int, $optlen : int = -1);>
 
 If $optlen is less than 0, it is set to 4.
 
@@ -483,7 +483,7 @@ with $optval and $optlen, and $optval set by this method is returnd.
 
 =head2 truncate
 
-  static method truncate : int ($fd : int, $legnth : long);
+C<static method truncate : int ($fd : int, $legnth : long);>
 
 Calls the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
@@ -491,43 +491,43 @@ If succeed, returns 1.
 
 =head2 sysread
 
-  static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);
+C<static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
 
 Calls the L<read|SPVM::Sys::IO/"read"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 syswrite
 
-  static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0);
+C<static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0);>
 
 Calls the L<write|SPVM::Sys::IO/"write"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 eof
 
-  static method eof : int ($stream : Sys::IO::Stream);
+C<static method eof : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
 
 Calls the L<feof|SPVM::Sys::IO/"feof"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 fileno
 
-  static method fileno : int ($stream : Sys::IO::Stream);
+C<static method fileno : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
 
 Calls the L<fileno|SPVM::Sys::IO/"fileno"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 readline
 
-  static method readline : mutable string ($stream : Sys::IO::FileStream);
+C<static method readline : mutable string ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
 Calls the L<readline|SPVM::Sys::IO/"readline"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 getc
 
-  static method getc : int ($stream : Sys::IO::FileStream);
+C<static method getc : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
 Calls the L<getc|SPVM::Sys::IO/"getc"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 flock
 
-  static method flock : int ($fd : int, $operation : int);
+C<static method flock : int ($fd : int, $operation : int);>
 
 Calls the L<flock|SPVM::Sys::IO/"flock"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
@@ -535,7 +535,7 @@ If succeed, returns 1.
 
 =head2 print
 
-  static method print : int ($stream : Sys::IO::FileStream, $string : string);
+C<static method print : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
 
 Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO> class given the length of $string.
 
@@ -543,31 +543,31 @@ If succeed, returns 1.
 
 =head2 printf
 
-  static method printf : int ($stream, $format : string, $args : object[])
+C<static method printf : int ($stream, $format : string, $args : object[])>
 
 Calls the L</"print"> method after creating formatted string given $stream and $args using the L<sprintf|SPVM::Format/"sprintf"> method in the L<Format|SPVM::Format> class.
 
 =head2 read
 
-  static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0);
+C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $count : int, $buf_offset : int = 0);>
 
 Calls the L<fread|SPVM::Sys::IO/"fread"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 rewinddir
 
-  static method rewinddir : void ($dirp : Sys::IO::DirStream);
+C<static method rewinddir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
 Calls the L<rewinddir|SPVM::Sys::IO/"rewinddir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 readdir
 
-  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream);
+C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
 Calls the L<readdir|SPVM::Sys::IO/"readdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 seek
 
-  static method seek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
+C<static method seek : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $offset : long, $whence : int);>
 
 Calls the L<fseek|SPVM::Sys::IO/"fseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
@@ -575,7 +575,7 @@ If succeed, returns 1.
 
 =head2 sysseek
 
-  static method sysseek : long ($fd : int, $offset : long, $whence : int);
+C<static method sysseek : long ($fd : int, $offset : long, $whence : int);>
 
 Calls the L<lseek|SPVM::Sys::IO/"lseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
@@ -583,19 +583,19 @@ If succeed, returns 1.
 
 =head2 tell
 
-  static method tell : long ($stream : Sys::IO::FileStream);
+C<static method tell : long ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
 Calls the L<ftell|SPVM::Sys::IO/"ftell"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 telldir
 
-  static method telldir : long ($dirp : Sys::IO::DirStream);
+C<static method telldir : long ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
 Calls the L<telldir|SPVM::Sys::IO/"telldir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 lstat
 
-  static method lstat : Sys::IO::Stat ($path : string);
+C<static method lstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
 
 Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
 
@@ -603,7 +603,7 @@ And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 utime
 
-  static method utime : int ($atime : long, $mtime : long, $filename : string);
+C<static method utime : int ($atime : long, $mtime : long, $filename : string);>
 
 Unless $atime < 0 and $mtime < 0, creates a L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> object.
 
@@ -611,7 +611,7 @@ And calls the L<utime|SPVM::Sys::IO/"utime"> method in the L<Sys::IO|SPVM::Sys::
 
 =head2 chown
 
-  static method chown : int ($owner : int, $group : int, $path : string);
+C<static method chown : int ($owner : int, $group : int, $path : string);>
 
 Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
@@ -619,13 +619,13 @@ If succeed, returns 1.
 
 =head2 fcntl
 
-  static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef);
+C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef);>
 
 Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 open
 
-  static method open : int ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file_name : string);
+C<static method open : int ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
 
 $open_mode is replaced by the following logic.
 
@@ -662,7 +662,7 @@ The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
 
 =head2 fdopen
 
-  static method fdopen : int ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $fd : int);
+C<static method fdopen : int ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $fd : int);>
 
 $open_mode is replaced by the following logic.
 
@@ -699,37 +699,37 @@ The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
 
 =head2 sysopen
 
-  static method sysopen : Sys::IO::FileStream ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0);
+C<static method sysopen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0);>
 
 Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 say
 
-  static method say : int ($stream : Sys::IO::FileStream, $string : string);
+C<static method say : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
 
 Calls the L</"print"> method adding C<\n> to the end of $string.
 
 =head2 STDIN
 
-  static method STDIN : Sys::IO::FileStream ();
+C<static method STDIN : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
 Calls the L<stdin|SPVM::Sys::IO/"stdin"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 STDOUT
 
-  static method STDOUT : Sys::IO::FileStream ();
+C<static method STDOUT : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
 Calls the L<stdout|SPVM::Sys::IO/"stdout"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 STDERR
 
-  static method STDERR : Sys::IO::FileStream ();
+C<static method STDERR : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
 Calls the L<stderr|SPVM::Sys::IO/"stderr"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 signal
 
-  static method signal : void ($signum : int, $handler_name : string);
+C<static method signal : void ($signum : int, $handler_name : string);>
 
 If $handler_name is "DEFAULT", $handler is set to the return value of the L<"SIG_DFL"|SPVM::Sys::Signal/"SIG_DFL"> method.
 
@@ -739,7 +739,7 @@ And calls the L<signal|SPVM::Sys::Signal/"signal"> method in the L<Sys::Signal|S
 
 =head2 kill
 
-  static method kill : int ($sig : int, $pid : int);
+C<static method kill : int ($sig : int, $pid : int);>
 
 Calls the L<kill|SPVM::Sys::IO/"kill"> method in the L<Sys::Signal|SPVM::Sys::Signal> class.
 

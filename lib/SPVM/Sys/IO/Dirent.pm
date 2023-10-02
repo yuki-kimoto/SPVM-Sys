@@ -22,19 +22,19 @@ This class is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 d_ino
 
-  method d_ino : int ();
+C<method d_ino : int ();>
 
 Gets C<d_ino>.
 
 =head2 d_reclen
 
-  method d_reclen : int ();
+C<method d_reclen : int ();>
 
 Gets C<d_reclen>.
 
 =head2 d_name
 
-  method d_name : string ();
+C<method d_name : string ();>
 
 Gets C<d_name>. This value is copied.
 

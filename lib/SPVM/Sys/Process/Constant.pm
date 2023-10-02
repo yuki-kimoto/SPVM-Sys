@@ -20,49 +20,49 @@ C<Sys::Process::Constant> provides the methods for the constant values for the p
 
 =head2 EXIT_FAILURE
 
-  static method EXIT_FAILURE : int ();
+C<static method EXIT_FAILURE : int ();>
 
 Gets the value of C<EXIT_FAILURE>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 EXIT_SUCCESS
 
-  static method EXIT_SUCCESS : int ();
+C<static method EXIT_SUCCESS : int ();>
 
 Gets the value of C<EXIT_SUCCESS>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 WNOHANG
 
-  static method WNOHANG : int ();
+C<static method WNOHANG : int ();>
 
 Gets the value of C<WNOHANG>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 WUNTRACED
 
-  static method WUNTRACED : int ();
+C<static method WUNTRACED : int ();>
 
 Gets the value of C<WUNTRACED>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 WCONTINUED
 
-  static method WCONTINUED : int ();
+C<static method WCONTINUED : int ();>
 
 Gets the value of C<WCONTINUED>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 PRIO_PROCESS
 
-  static method PRIO_PROCESS : int ();
+C<static method PRIO_PROCESS : int ();>
 
 Gets the value of C<PRIO_PROCESS>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 PRIO_PGRP
 
-  static method PRIO_PGRP : int ();
+C<static method PRIO_PGRP : int ();>
 
 Gets the value of C<PRIO_PGRP>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head2 PRIO_USER
 
-  static method PRIO_USER : int ();
+C<static method PRIO_USER : int ();>
 
 Gets the value of C<PRIO_USER>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 

@@ -18,7 +18,7 @@ C<Sys::Ioctl> is the class for the ioctl function.
 
 =head2 ioctl
 
-  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);
+C<static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);>
 
 The ioctl() function manipulates the underlying device parameters of special files. In particular, many operating characteristics of character special files (e.g., terminals) may be controlled with ioctl() requests. The argument d must be an open file descriptor.
 
@@ -26,7 +26,7 @@ See the L<ioctl|https://linux.die.net/man/2/ioctl> function in Linux.
 
 =head2 ioctlsocket
 
-  static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int[] = undef);
+C<static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int[] = undef);>
 
 See the L<ioctlsocket|https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-ioctlsocket> function in Windows.
 

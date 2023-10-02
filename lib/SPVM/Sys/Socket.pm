@@ -20,7 +20,7 @@ C<Sys::Socket> is the class for system calls of socket.
 
 =head2 htonl
 
-  static method htonl : int ($hostlong : int);
+C<static method htonl : int ($hostlong : int);>
 
 The htonl() function converts the unsigned integer hostlong from host byte order to network byte order.
 
@@ -28,7 +28,7 @@ See the detail of the L<htonl|https://linux.die.net/man/3/htonl> function in the
 
 =head2 htons
 
-  static method htons : short ($hostshort : short);
+C<static method htons : short ($hostshort : short);>
 
 The htons() function converts the unsigned short integer hostshort from host byte order to network byte order.
 
@@ -36,7 +36,7 @@ See the detail of the L<htons|https://linux.die.net/man/3/htons> function in the
 
 =head2 ntohl
 
-  static method ntohl : int ($netlong : int);
+C<static method ntohl : int ($netlong : int);>
 
 The ntohl() function converts the unsigned integer netlong from network byte order to host byte order.
 
@@ -44,7 +44,7 @@ See the detail of the L<ntohl|https://linux.die.net/man/3/ntohl> function in the
 
 =head2 ntohs
 
-  static method ntohs : short ($netshort : short);
+C<static method ntohs : short ($netshort : short);>
 
 The ntohs() function converts the unsigned short integer netshort from network byte order to host byte order.
 
@@ -52,7 +52,7 @@ See the detail of the L<ntohs|https://linux.die.net/man/3/ntohs> function in the
 
 =head2 inet_aton
 
-  static method inet_aton : int ($cp : string, $inp : Sys::Socket::In_addr);
+C<static method inet_aton : int ($cp : string, $inp : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr>);>
 
 inet_aton() converts the Internet host address cp from the IPv4 numbers-and-dots notation into binary form (in network byte order) and stores it in the structure that inp points to. inet_aton() returns nonzero if the address is valid, zero if not. The address supplied in cp can have one of the following forms:
 
@@ -66,7 +66,7 @@ The output address(inp) must be defined. Otherwise an exception will be thrown.
 
 =head2 inet_ntoa
 
-  static method inet_ntoa : string ($in : Sys::Socket::In_addr);
+C<static method inet_ntoa : string ($in : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr>);>
 
 The inet_ntoa() function converts the Internet host address in, given in network byte order, to a string in IPv4 dotted-decimal notation. The string is returned in a statically allocated buffer, which subsequent calls will overwrite.
 
@@ -78,7 +78,7 @@ The input address must be defined. Otherwise an exception will be thrown.
 
 =head2 inet_pton
 
-  static method inet_pton : int ($af : int, $src : string, $dst : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);
+C<static method inet_pton : int ($af : int, $src : string, $dst : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);>
 
 This function converts the character string src into a network address structure in the af address family, then copies the network address structure to dst. The af argument must be either AF_INET or AF_INET6.
 
@@ -92,7 +92,7 @@ The output address(dst) must be defined. Otherwise an exception will be thrown.
 
 =head2 inet_ntop
 
-  static method inet_ntop : mutable string ($af : int, $src : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $dst : mutable string, $size : int);
+C<static method inet_ntop : mutable string ($af : int, $src : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $dst : mutable string, $size : int);>
 
 This function converts the network address structure src in the af address family into a character string. The resulting string is copied to the buffer pointed to by dst, which must be a non-NULL pointer. The caller specifies the number of bytes available in this buffer in the argument size.
 
@@ -106,7 +106,7 @@ The output address(dst) must be defined. Otherwise an exception will be thrown.
 
 =head2 socket
 
-  static method socket : int ($domain : int, $type : int, $protocol : int);
+C<static method socket : int ($domain : int, $type : int, $protocol : int);>
 
 socket() creates an endpoint for communication and returns a descriptor.
 The domain argument specifies a communication domain; this selects the protocol family which will be used for communication. These families are defined in <sys/socket.h>. The currently understood formats include:
@@ -117,11 +117,11 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 connect_raw
 
-  static method connect_raw : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+C<static method connect_raw : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen : int);>
 
 =head2 connect
 
-  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+C<static method connect : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen : int);>
 
 The connect() system call connects the socket referred to by the file descriptor sockfd to the address specified by addr. The addrlen argument specifies the size of addr. The format of the address in addr is determined by the address space of the socket sockfd; see socket(2) for further details.
 
@@ -133,7 +133,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 bind
 
-  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+C<static method bind : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen : int);>
 
 When a socket is created with socket(2), it exists in a name space (address family) but has no address assigned to it. bind() assigns the address specified by addr to the socket referred to by the file descriptor sockfd. addrlen specifies the size, in bytes, of the address structure pointed to by addr. Traditionally, this operation is called "assigning a name to a socket".
 
@@ -147,7 +147,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 accept
 
-  static method accept : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+C<static method accept : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen_ref : int*);>
 
 The accept() system call is used with connection-based socket types (SOCK_STREAM, SOCK_SEQPACKET). It extracts the first connection request on the queue of pending connections for the listening socket, sockfd, creates a new connected socket, and returns a new file descriptor referring to that socket. The newly created socket is not in the listening state. The original socket sockfd is unaffected by this call.
 
@@ -161,7 +161,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 listen
 
-  static method listen : int ($sockfd : int, $backlog : int);
+C<static method listen : int ($sockfd : int, $backlog : int);>
 
 listen() marks the socket referred to by sockfd as a passive socket, that is, as a socket that will be used to accept incoming connection requests using accept(2).
 
@@ -171,7 +171,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 shutdown
 
-  static method shutdown : int ($sockfd : int, $how : int);
+C<static method shutdown : int ($sockfd : int, $how : int);>
 
 The shutdown() call causes all or part of a full-duplex connection on the socket associated with sockfd to be shut down. If how is SHUT_RD, further receptions will be disallowed. If how is SHUT_WR, further transmissions will be disallowed. If how is SHUT_RDWR, further receptions and transmissions will be disallowed.
 
@@ -181,7 +181,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 recv
 
-  static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);
+C<static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);>
 
 The recv() call is normally used only on a connected socket (see connect(2)) and is identical to recvfrom() with a NULL src_addr argument.
 
@@ -193,7 +193,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 send
 
-  static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
+C<static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);>
 
 The send() call may be used only when the socket is in a connected state (so that the intended recipient is known). The only difference between send() and write(2) is the presence of flags. With a zero flags argument, send() is equivalent to write(2). Also, the following call
 
@@ -203,11 +203,11 @@ See the detail of the L<send|https://linux.die.net/man/2/send> function in the c
 
 =head2 sendto
 
-  static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+C<static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen : int);>
 
 =head2 getpeername
 
-  static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+C<static method getpeername : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen_ref : int*);>
 
 getpeername() returns the address of the peer connected to the socket sockfd, in the buffer pointed to by addr. The addrlen argument should be initialized to indicate the amount of space pointed to by addr. On return it contains the actual size of the name returned (in bytes). The name is truncated if the buffer provided is too small.
 
@@ -221,7 +221,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 getsockname
 
-  static method getsockname : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
+C<static method getsockname : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen_ref : int*);>
 
 getsockname() returns the current address to which the socket sockfd is bound, in the buffer pointed to by addr. The addrlen argument should be initialized to indicate the amount of space (in bytes) pointed to by addr. On return it contains the actual size of the socket address.
 
@@ -235,7 +235,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 socketpair
 
-  static method socketpair : int ($domain : int, $type : int, $protocol : int, $sv : int[]);
+C<static method socketpair : int ($domain : int, $type : int, $protocol : int, $sv : int[]);>
 
 The socketpair() call creates an unnamed pair of connected sockets in the specified domain, of the specified type, and using the optionally specified protocol. For further details of these arguments, see socket(2).
 
@@ -249,7 +249,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 setsockopt
 
-  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : string, $optlen : int);
+C<static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : string, $optlen : int);>
 
 getsockopt() and setsockopt() manipulate options for the socket referred to by the file descriptor sockfd. Options may exist at multiple protocol levels; they are always present at the uppermost socket level.
 
@@ -265,7 +265,7 @@ If the system call failed, an exception will be thrown with the error code set t
 
 =head2 getsockopt
 
-  static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : mutable string, $optlen_ref : int*);
+C<static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : mutable string, $optlen_ref : int*);>
 
 getsockopt() and setsockopt() manipulate options for the socket referred to by the file descriptor sockfd. Options may exist at multiple protocol levels; they are always present at the uppermost socket level.
 
@@ -287,7 +287,7 @@ $optval is a string. The following is an example to get an int value.
 
 =head2 getaddrinfo_raw
 
-  static method getaddrinfo_raw : int ($node : string, $service : string,
+C<static method getaddrinfo_raw : int ($node : string, $service : string,>
                 $hints : Sys::Socket::Addrinfo,
                 $res : Sys::Socket::Addrinfo[]);
 
@@ -295,7 +295,7 @@ Same as the L</"getaddrinfo"> method, but doesn't throw exceptions related to sy
 
 =head2 getaddrinfo
 
-  static method getaddrinfo : int ($node : string, $service : string,
+C<static method getaddrinfo : int ($node : string, $service : string,>
                 $hints : Sys::Socket::Addrinfo,
                 $res : Sys::Socket::Addrinfo[]);
 
@@ -315,7 +315,7 @@ If a system error occur, an exception will be thrown with the error code set to 
 
 =head2 getnameinfo_raw
 
-  static method getnameinfo_raw : int ($sa : Sys::Socket::Sockaddr, $salen : int,
+C<static method getnameinfo_raw : int ($sa : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $salen : int,>
                 $host : mutable string, $hostlen : int,
                 $serv : mutable string, $servlen : int, $flags : int);
 
@@ -323,7 +323,7 @@ Same as the L</"getnameinfo"> method, but doesn't throw exceptions related to sy
 
 =head2 getnameinfo
 
-  static method getnameinfo : int ($sa : Sys::Socket::Sockaddr, $salen : int,
+C<static method getnameinfo : int ($sa : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $salen : int,>
                 $host : mutable string, $hostlen : int,
                 $serv : mutable string, $servlen : int, $flags : int);
 
@@ -337,7 +337,7 @@ If a system error occur, an exception will be thrown with the error code set to 
 
 =head2 gai_strerror
 
-  static method gai_strerror : string($errcode : int);
+C<static method gai_strerror : string($errcode : int);>
 
 The gai_strerror() function translates these error codes to a human readable string, suitable for error reporting.
 
@@ -345,7 +345,7 @@ See the detail of the L<getnameinfo|https://linux.die.net/man/3/gai_strerror> fu
 
 =head2 close
 
-  static method close : int ($fd : int);
+C<static method close : int ($fd : int);>
 
 Calls the L<closesocket|SPVM::Sys::Socket/"closesocket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class in Windows.
 
@@ -353,23 +353,23 @@ Calls the L<close|Sys::IO/"closesocket"> method in the the L<Sys::Socket|SPVM::S
 
 =head2 socket_errno
 
-  static method socket_errno : int ();
+C<static method socket_errno : int ();>
 
 Portalbe C<errno> related to the errors of the socket.
 
 =head2 socket_strerror
 
-  static method socket_strerror : string ($errno : int, $length : int);
+C<static method socket_strerror : string ($errno : int, $length : int);>
 
 Portalbe C<strerror> related to the errors of the socket.
 
 =head2 sockatmark
 
-  static method sockatmark : int ($sockfd : int);
+C<static method sockatmark : int ($sockfd : int);>
 
 =head2 ioctlsocket
 
-  static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int[] = undef);
+C<static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int[] = undef);>
 
 See the L<ioctlsocket|https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-ioctlsocket> function in Windows.
 
@@ -377,7 +377,7 @@ static method to_child_sockaddr : int ($addr : Sys::Socket::Sockaddr);
 
 =head2 to_family_sockaddr
 
-  static method to_family_sockaddr : Sys::Socket::Sockaddr ($addr : Sys::Socket::Sockaddr);
+C<static method to_family_sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
 Copies $addr and creates a new L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object corresponding to the address family, and returns it.
 

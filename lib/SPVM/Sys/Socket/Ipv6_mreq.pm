@@ -20,7 +20,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-  static method new : Sys::Socket::Ipv6_mreq ();
+C<static method new : L<Sys::Socket::Ipv6_mreq|SPVM::Sys::Socket::Ipv6_mreq> ();>
 
 Create a new C<Sys::Socket::Ipv6_mreq> object.
 
@@ -28,29 +28,29 @@ Create a new C<Sys::Socket::Ipv6_mreq> object.
 
 =head2 
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 =head2 ipv6mr_multiaddr
 
-  method ipv6mr_multiaddr : Sys::Socket::In6_addr ();
+C<method ipv6mr_multiaddr : L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> ();>
 
 Get C<ipv6mr_multiaddr>. This is a L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> object.
 
 =head2 set_ipv6mr_multiaddr
 
-  method set_ipv6mr_multiaddr : void ($interface : Sys::Socket::In6_addr);
+C<method set_ipv6mr_multiaddr : void ($interface : L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr>);>
 
 Set C<ipv6mr_multiaddr>. This is a L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> object.
 
 =head2 ipv6mr_interface
 
-  method ipv6mr_interface : int ();
+C<method ipv6mr_interface : int ();>
 
 Get C<ipv6mr_interface>.
 
 =head2 set_ipv6mr_interface
 
-  method set_ipv6mr_interface : void ($interface : int);
+C<method set_ipv6mr_interface : void ($interface : int);>
 
 Set C<ipv6mr_interface>.
 

@@ -38,7 +38,7 @@ The file stream is not needed to be freed.
 
 =head1 Instance Methods
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 

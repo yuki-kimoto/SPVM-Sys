@@ -20,7 +20,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-  static method new : Sys::Socket::Ip_mreq_source ();
+C<static method new : L<Sys::Socket::Ip_mreq_source|SPVM::Sys::Socket::Ip_mreq_source> ();>
 
 Create a new C<Sys::Socket::Ip_mreq_source> object.
 
@@ -28,43 +28,43 @@ Create a new C<Sys::Socket::Ip_mreq_source> object.
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 imr_multiaddr
 
-  method imr_multiaddr : Sys::Socket::In_addr ();
+C<method imr_multiaddr : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> ();>
 
 Get C<imr_multiaddr>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
 =head2 set_imr_multiaddr
 
-  method set_imr_multiaddr : void ($address : Sys::Socket::In_addr);
+C<method set_imr_multiaddr : void ($address : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr>);>
 
 Set C<imr_multiaddr>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
 =head2 imr_interface
 
-  method imr_interface : Sys::Socket::In_addr ();
+C<method imr_interface : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> ();>
 
 Get C<imr_interface>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
 =head2 set_imr_interface
 
-  method set_imr_interface : void ($address : Sys::Socket::In_addr);
+C<method set_imr_interface : void ($address : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr>);>
 
 Set C<imr_interface>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
 =head2 imr_sourceaddr
 
-  method imr_sourceaddr : Sys::Socket::In_addr ();
+C<method imr_sourceaddr : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> ();>
 
 Get C<imr_sourceaddr>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
 =head2 set_imr_sourceaddr
 
-  method set_imr_sourceaddr : void ($address : Sys::Socket::In_addr);
+C<method set_imr_sourceaddr : void ($address : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr>);>
 
 Set C<imr_sourceaddr>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 

@@ -39,7 +39,7 @@ Gets a singlton L<Sys::Signal::Handler::Ignore|SPVM::Sys::Signal::Handler::Ignor
 
 =head2 raise
 
-  static method raise : int ($sig : int)
+C<static method raise : int ($sig : int)>
 
 The raise() function sends a signal to the calling process or thread.
 
@@ -49,7 +49,7 @@ Constant values specified in C<$sig> is defined in L<Sys::Signal::Constant|SPVM:
 
 =head2 kill
 
-  static method kill : int ($pid : int, $sig : int)
+C<static method kill : int ($pid : int, $sig : int)>
 
 The kill() system call can be used to send any signal to any process group or process.
 
@@ -61,7 +61,7 @@ Constant values specified in C<$sig> is defined in L<Sys::Signal::Constant|SPVM:
 
 =head2 alarm
 
-  static method alarm : int ($seconds : int)
+C<static method alarm : int ($seconds : int)>
 
 alarm() arranges for a SIGALRM signal to be delivered to the calling process in seconds seconds.
 
@@ -69,7 +69,7 @@ See L<alarm(2) - Linux man page|https://linux.die.net/man/2/alarm> in Linux.
 
 =head2 ualarm
 
-  static method ualarm : int ($usecs : int, $interval : int)
+C<static method ualarm : int ($usecs : int, $interval : int)>
 
 The ualarm() function causes the signal SIGALRM to be sent to the invoking process after (not less than) usecs microseconds. The delay may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
 
@@ -77,7 +77,7 @@ See L<ualarm(3) - Linux man page|https://linux.die.net/man/3/ualarm> in Linux.
 
 =head2 signal
 
-  static method signal : Sys::Signal::Handler ($signum : int, $handler : Sys::Signal::Handler);
+C<static method signal : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ($signum : int, $handler : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler>);>
 
 signal() sets the disposition of the signal signum to handler.
 

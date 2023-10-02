@@ -30,7 +30,7 @@ The length of the array.
 
 =head2 new
 
-  static method new : Sys::Poll::PollfdArray ($length : int);
+C<static method new : L<Sys::Poll::PollfdArray|SPVM::Sys::Poll::PollfdArray> ($length : int);>
 
 Create a new C<Sys::Poll::PollfdArray> object with the length.
 
@@ -38,19 +38,19 @@ Create a new C<Sys::Poll::PollfdArray> object with the length.
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 length
 
-  method length : int ();
+C<method length : int ();>
 
 Get the lenght of the array.
 
 =head2 fd
 
-  method fd : int ($index : int);
+C<method fd : int ($index : int);>
 
 Get C<fd> of the position specifed by the index.
 
@@ -60,7 +60,7 @@ The index must be less than the length of the file descripters. Otherwise an exc
 
 =head2 set_fd
 
-  method set_fd : void ($index : int, $fd : int);
+C<method set_fd : void ($index : int, $fd : int);>
 
 Set C<fd> of the position specifed by the index.
 
@@ -70,7 +70,7 @@ The index must be less than the length of the file descripters. Otherwise an exc
 
 =head2 events
 
-  method events : int ($index : int);
+C<method events : int ($index : int);>
 
 Get C<events> of the position specifed by the index.
 
@@ -82,7 +82,7 @@ See L<Sys::Poll::PollfdArray|SPVM::Sys::Poll::PollfdArray> about the constant va
 
 =head2 set_events
 
-  method set_events : void ($index : int, $events : int);
+C<method set_events : void ($index : int, $events : int);>
 
 Set C<events> of the position specifed by the index.
 
@@ -94,7 +94,7 @@ See L<Sys::Poll::PollfdArray|SPVM::Sys::Poll::PollfdArray> about the constant va
 
 =head2 events
 
-  method revents : int ($index : int);
+C<method revents : int ($index : int);>
 
 Get C<revents> of the position specifed by the index.
 
@@ -106,7 +106,7 @@ See L<Sys::Poll::PollfdArray|SPVM::Sys::Poll::PollfdArray> about the constant va
 
 =head2 set_revents
 
-  method set_revents : void ($index : int, $revents : int);
+C<method set_revents : void ($index : int, $revents : int);>
 
 Set C<revents> of the position specifed by the index.
 

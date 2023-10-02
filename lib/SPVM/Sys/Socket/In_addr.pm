@@ -20,7 +20,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-  static method new : Sys::Socket::In_addr ();
+C<static method new : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> ();>
 
 Creates a new C<Sys::Socket::In_addr> object.
 
@@ -28,19 +28,19 @@ Creates a new C<Sys::Socket::In_addr> object.
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 s_addr
 
-  method s_addr : int ();
+C<method s_addr : int ();>
 
 Gets C<s_addr>.
 
 =head2 set_s_addr
 
-  method set_s_addr : void ();
+C<method set_s_addr : void ();>
 
 Sets C<s_addr>.
 

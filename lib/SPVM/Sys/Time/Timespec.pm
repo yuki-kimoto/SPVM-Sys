@@ -28,7 +28,7 @@ See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday>
 
 =head2 new
 
-  static method new : Sys::Time::Timespec ()
+C<static method new : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> ()>
 
 Creates a new C<Sys::Time::Timespec> object.
 
@@ -38,13 +38,13 @@ Creates a new C<Sys::Time::Timespec> object.
 
 =head2 DESTROY
 
-  native method DESTROY : void ();
+C<native method DESTROY : void ();>
 
 The destructor.
 
 =head2 tv_sec
 
-  method tv_sec : long ()
+C<method tv_sec : long ()>
 
 Gets C<tv_sec>.
 
@@ -52,7 +52,7 @@ Gets C<tv_sec>.
 
 =head2 set_tv_sec
 
-  method set_tv_sec : void ($tv_sec : long)
+C<method set_tv_sec : void ($tv_sec : long)>
 
 Sets C<tv_sec>.
 
@@ -60,7 +60,7 @@ Sets C<tv_sec>.
 
 =head2 tv_nsec
   
-  method tv_nsec : long ()
+C<method tv_nsec : long ()>
 
 Gets C<tv_nsec>.
 
@@ -68,7 +68,7 @@ Gets C<tv_nsec>.
 
 =head2 set_tv_nsec
 
-  method set_tv_nsec : void ($tv_nsec : long)
+C<method set_tv_nsec : void ($tv_nsec : long)>
 
 Sets C<tv_nsec>.
 

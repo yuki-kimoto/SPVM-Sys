@@ -28,7 +28,7 @@ See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday>
 
 =head2 new
 
-  static method new : Sys::Time::Itimerval ()
+C<static method new : L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval> ()>
 
 Creates a new C<Sys::Time::Itimerval> object.
 
@@ -38,7 +38,7 @@ Creates a new C<Sys::Time::Itimerval> object.
 
 =head2 it_interval
 
-  method it_interval : Sys::Time::Timeval ()
+C<method it_interval : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> ()>
 
 Copies C<it_interval>.
 
@@ -46,7 +46,7 @@ Copies C<it_interval>.
 
 =head2 set_it_interval
 
-  method set_it_interval : void ($it_interval : Sys::Time::Timeval)
+C<method set_it_interval : void ($it_interval : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>)>
 
 Sets C<it_interval>.
 
@@ -54,7 +54,7 @@ Sets C<it_interval>.
 
 =head2 it_value
   
-  method it_value : Sys::Time::Timeval ()
+C<method it_value : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> ()>
 
 Copies C<it_value>.
 
@@ -62,7 +62,7 @@ Copies C<it_value>.
 
 =head2 set_it_value
 
-  method set_it_value : void ($it_value : Sys::Time::Timeval)
+C<method set_it_value : void ($it_value : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>)>
 
 Sets C<it_value>.
 

@@ -31,7 +31,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-  static method new : Sys::IO::Stat ($path : string = undef, $options : object[] = undef);
+C<static method new : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string = undef, $options : object[] = undef);>
 
 Creates a new C<Sys::IO::Stat> object.
 
@@ -39,13 +39,13 @@ If $path is specified, L</"stat"> is called.
 
 =head2 stat_raw
 
-  static method stat_raw : int ($path : string, $stat : Sys::IO::Stat);
+C<static method stat_raw : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
 
 The same as L</"stat">, but even if the return value is C<-1>, an exception will not be thrown.
 
 =head2 stat
 
-  static method stat : int ($path : string, $stat : Sys::IO::Stat);
+C<static method stat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
 
 These functions return information about a file. No permissions are required on the file itself, but-in the case of stat() and lstat() - execute (search) permission is required on all of the directories in path that lead to the file.
 
@@ -57,13 +57,13 @@ The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 lstat_raw
 
-  static method lstat_raw : int ($path : string, $stat : Sys::IO::Stat);
+C<static method lstat_raw : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
 
 The same as L</"lstat">, but even if the return value is C<-1>, an exception will not be thrown.
 
 =head2 lstat
 
-  static method lstat : int ($path : string, $stat : Sys::IO::Stat);
+C<static method lstat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
 
 These functions return information about a file. No permissions are required on the file itself, but-in the case of stat() and lstat() - execute (search) permission is required on all of the directories in path that lead to the file.
 
@@ -75,13 +75,13 @@ The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 fstat_raw
 
-  static method fstat_raw : int ($fd : int, $stat : Sys::IO::Stat);
+C<static method fstat_raw : int ($fd : int, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
 
 The same as L</"fstat">, but even if the return value is C<-1>, an exception will not be thrown.
 
 =head2 fstat
 
-  static method fstat : int ($fd : int, $stat : Sys::IO::Stat);
+C<static method fstat : int ($fd : int, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
 
 fstat() is identical to stat(), except that the file to be stat-ed is specified by the file descriptor fd.
 
@@ -93,205 +93,205 @@ The C<$stat> is a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 st_dev
 
-  method st_dev : int ();
+C<method st_dev : int ();>
 
 Gets C<st_dev>.
 
 =head2 st_ino
 
-  method st_ino : int ();
+C<method st_ino : int ();>
 
 Gets C<st_ino>.
 
 =head2 st_mode
 
-  method st_mode : int ();
+C<method st_mode : int ();>
 
 Gets C<st_mode>.
 
 =head2 st_nlink
 
-  method st_nlink : int ();
+C<method st_nlink : int ();>
 
 Gets C<st_nlink>.
 
 =head2 st_uid
 
-  method st_uid : int ();
+C<method st_uid : int ();>
 
 Gets C<st_uid>.
 
 =head2 st_gid
 
-  method st_gid : int ();
+C<method st_gid : int ();>
 
 Gets C<st_gid>.
 
 =head2 st_rdev
 
-  method st_rdev : int ();
+C<method st_rdev : int ();>
 
 Gets C<st_rdev>.
 
 =head2 st_size
 
-  method st_size : long ();
+C<method st_size : long ();>
 
 Gets C<st_size>.
 
 =head2 st_blksize
 
-  method st_blksize : long ();
+C<method st_blksize : long ();>
 
 Gets C<st_blksize>.
 
 =head2 st_blocks
 
-  method st_blocks : long ();
+C<method st_blocks : long ();>
 
 Gets C<st_blocks>.
 
 =head2 st_mtime
 
-  method st_mtime : long ();
+C<method st_mtime : long ();>
 
 Gets C<st_mtime>.
 
 =head2 st_atime
 
-  method st_atime : long ();
+C<method st_atime : long ();>
 
 Gets C<st_atime>.
 
 =head2 st_ctime
 
-  method st_ctime : long ();
+C<method st_ctime : long ();>
 
 Gets C<st_ctime>.
 
 =head2 st_mtim_tv_nsec
 
-  method st_mtim_tv_nsec : long ();
+C<method st_mtim_tv_nsec : long ();>
 
 Gets C<st_mtim.tv_nsec>.
 
 =head2 st_atim_tv_nsec
 
-  method st_atim_tv_nsec : long ();
+C<method st_atim_tv_nsec : long ();>
 
 Gets C<st_atim.tv_nsec>.
 
 =head2 st_ctim_tv_nsec
 
-  method st_ctim_tv_nsec : long ();
+C<method st_ctim_tv_nsec : long ();>
 
 Gets C<st_ctim.tv_nsec>.
 
 =head2 A
 
-  method A : double ();
+C<method A : double ();>
 
 =head2 C
 
-  method C : double ();
+C<method C : double ();>
 
 =head2 M
 
-  method M : double ();
+C<method M : double ();>
 
 =head2 O
 
-  method O : int ();
+C<method O : int ();>
 
 =head2 S
 
-  method S : int ();
+C<method S : int ();>
 
 =head2 b
 
-  method b : int ();
+C<method b : int ();>
 
 =head2 c
 
-  method c : int ();
+C<method c : int ();>
 
 =head2 d
 
-  method d : int ();
+C<method d : int ();>
 
 =head2 e
 
-  method e : int ();
+C<method e : int ();>
 
 =head2 f
 
-  method f : int ();
+C<method f : int ();>
 
 =head2 g
 
-  method g : int ();
+C<method g : int ();>
 
 =head2 k
 
-  method k : int ();
+C<method k : int ();>
 
 =head2 l
 
-  method l : int ();
+C<method l : int ();>
 
 =head2 o
 
-  method o : int ();
+C<method o : int ();>
 
 =head2 p
 
-  method p : int ();
+C<method p : int ();>
 
 =head2 s
 
-  method s : long ();
+C<method s : long ();>
 
 =head2 u
 
-  method u : int ();
+C<method u : int ();>
 
 =head2 z
 
-  method z : int ();
+C<method z : int ();>
 
 =head2 cando
 
-  method cando : int ($mode : int, $effective : int);
+C<method cando : int ($mode : int, $effective : int);>
 
 =head2 r
 
-  method r : int ();
+C<method r : int ();>
 
 =head2 w
 
-  method w : int ();
+C<method w : int ();>
 
 =head2 x
 
-  method x : int ();
+C<method x : int ();>
 
 =head2 R
 
-  method R : int ();
+C<method R : int ();>
 
 =head2 W
 
-  method W : int ();
+C<method W : int ();>
 
 =head2 X
 
-  method X : int ();
+C<method X : int ();>
 
 =head1 Copyright & License
 

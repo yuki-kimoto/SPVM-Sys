@@ -20,7 +20,7 @@ C<Sys::Select::Constant> is the class for the constant values for the select fun
 
 =head2 FD_SETSIZE
 
-  static method FD_SETSIZE : int ();
+C<static method FD_SETSIZE : int ();>
 
 Gets the value of C<FD_SETSIZE>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 

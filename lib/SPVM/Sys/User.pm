@@ -20,121 +20,121 @@ C<Sys::User> is the class for the user manipulation.
 
 =head2 getuid
 
-  native static method getuid : int ()
+C<native static method getuid : int ()>
 
 Get the real user ID.
 
 =head2 geteuid
 
-  native static method geteuid : int ()
+C<native static method geteuid : int ()>
   
 Get the effective user ID.
 
 =head2 getgid
 
-  native static method getgid : int ()
+C<native static method getgid : int ()>
 
 Get the real group ID.
 
 =head2 getegid
 
-  native static method getegid : int ()
+C<native static method getegid : int ()>
   
 Get the effective group ID.
 
 =head2 setuid
 
-  native static method setuid : int ($uid : int)
+C<native static method setuid : int ($uid : int)>
 
 Set the user ID.
 
 =head2 seteuid
 
-  native static method seteuid : int ($euid : int)
+C<native static method seteuid : int ($euid : int)>
 
 Set the effective user ID.
 
 =head2 setgid
 
-  native static method setgid : int ($gid : int)
+C<native static method setgid : int ($gid : int)>
 
 Set the real user ID.
 
 =head2 setegid
 
-  native static method setegid : int ($egid : int)
+C<native static method setegid : int ($egid : int)>
 
 Set the effective group ID.
 
 =head2 setpwent
 
-  native static method setpwent : void ()
+C<native static method setpwent : void ()>
 
 Move to the head of the group database.
 
 =head2 endpwent
 
-  native static method endpwent : void ()
+C<native static method endpwent : void ()>
 
 Close the group database.
 
 =head2 getpwent
 
-  native static method getpwent : Sys::User::Passwd ()
+C<native static method getpwent : L<Sys::User::Passwd|SPVM::Sys::User::Passwd> ()>
 
 Get a group entry. The group entry is a L<Sys::User::Passwd|SPVM::Sys::User::Passwd> object.
 
 =head2 setgrent
 
-  native static method setgrent : void ()
+C<native static method setgrent : void ()>
 
 Move to the head of the group database.
 
 =head2 endgrent
 
-  native static method endgrent : void ()
+C<native static method endgrent : void ()>
 
 Close the group database.
 
 =head2 getgrent
 
-  native static method getgrent : Sys::User::Group ()
+C<native static method getgrent : L<Sys::User::Group|SPVM::Sys::User::Group> ()>
 
 Get a group entry as L<Sys::User::Group|SPVM::Sys::User::Group>
 
 =head2 getgroups
 
-  native static method getgroups : int[] ()
+C<native static method getgroups : int[] ()>
 
 Get group IDs.
 
 =head2 setgroups
 
-  native static method setgroups : void ($groups : int[])
+C<native static method setgroups : void ($groups : int[])>
 
 Set group IDs.
 
 =head2 getpwuid
 
-  native static method getpwuid : Sys::User::Passwd ($id : int)
+C<native static method getpwuid : L<Sys::User::Passwd|SPVM::Sys::User::Passwd> ($id : int)>
 
 Get a group entry by the user id. The group entry is a L<Sys::User::Passwd|SPVM::Sys::User::Passwd> object.
 
 =head2 getpwnam
 
-  native static method getpwnam : Sys::User::Passwd ($name : string)
+C<native static method getpwnam : L<Sys::User::Passwd|SPVM::Sys::User::Passwd> ($name : string)>
 
 Get a group entry by the user name. The group entry is a L<Sys::User::Passwd|SPVM::Sys::User::Passwd> object.
 
 =head2 getgrgid
 
-  native static method getgrgid : Sys::User::Group ($id : int)
+C<native static method getgrgid : L<Sys::User::Group|SPVM::Sys::User::Group> ($id : int)>
 
 Get a group entry by the user id. The group entry is a L<Sys::User::Group|SPVM::Sys::User::Group> object.
 
 =head2 getgrnam
 
-  native static method getgrnam : Sys::User::Group ($name : string)
+C<native static method getgrnam : L<Sys::User::Group|SPVM::Sys::User::Group> ($name : string)>
 
 Get a group entry by the user id. The group entry is a L<Sys::User::Group|SPVM::Sys::User::Group> object.
 

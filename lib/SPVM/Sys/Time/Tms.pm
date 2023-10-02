@@ -28,7 +28,7 @@ See L<times(2) - Linux man page|https://linux.die.net/man/2/times> about C<struc
 
 =head2 new
 
-  static method new : Sys::Time::Tms ()
+C<static method new : L<Sys::Time::Tms|SPVM::Sys::Time::Tms> ()>
 
 Creates a new C<Sys::Time::Tms> object.
 
@@ -38,13 +38,13 @@ Creates a new C<Sys::Time::Tms> object.
 
 =head2 DESTROY
 
-  native method DESTROY : void ();
+C<native method DESTROY : void ();>
 
 The destructor.
 
 =head2 tms_utime
 
-  method tms_utime : long ()
+C<method tms_utime : long ()>
 
 Gets C<tms_utime>.
 
@@ -52,7 +52,7 @@ Gets C<tms_utime>.
 
 =head2 set_tms_utime
 
-  method set_tms_utime : void ($tms_utime : long)
+C<method set_tms_utime : void ($tms_utime : long)>
 
 Sets C<tms_utime>.
 
@@ -60,7 +60,7 @@ Sets C<tms_utime>.
 
 =head2 tms_stime
 
-  method tms_stime : long ()
+C<method tms_stime : long ()>
 
 Gets C<tms_stime>.
 
@@ -68,7 +68,7 @@ Gets C<tms_stime>.
 
 =head2 set_tms_stime
 
-  method set_tms_stime : void ($tms_stime : long)
+C<method set_tms_stime : void ($tms_stime : long)>
 
 Sets C<tms_stime>.
 
@@ -76,7 +76,7 @@ Sets C<tms_stime>.
 
 =head2 tms_cutime
 
-  method tms_cutime : long ()
+C<method tms_cutime : long ()>
 
 Gets C<tms_cutime>.
 
@@ -84,7 +84,7 @@ Gets C<tms_cutime>.
 
 =head2 set_tms_cutime
 
-  method set_tms_cutime : void ($tms_cutime : long)
+C<method set_tms_cutime : void ($tms_cutime : long)>
 
 Sets C<tms_cutime>.
 
@@ -92,7 +92,7 @@ Sets C<tms_cutime>.
 
 =head2 tms_cstime
 
-  method tms_cstime : long ()
+C<method tms_cstime : long ()>
 
 Gets C<tms_cstime>.
 
@@ -100,7 +100,7 @@ Gets C<tms_cstime>.
 
 =head2 set_tms_cstime
 
-  method set_tms_cstime : void ($tms_cstime : long)
+C<method set_tms_cstime : void ($tms_cstime : long)>
 
 Sets C<tms_cstime>.
 

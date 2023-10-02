@@ -24,7 +24,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-  static method new : Sys::Select::Fd_set ();
+C<static method new : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set> ();>
 
 Create a new C<Sys::Select::Fd_set> object.
 
@@ -32,13 +32,13 @@ Create a new C<Sys::Select::Fd_set> object.
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 set
 
-  method set : void ($set : Sys::Select::Fd_set);
+C<method set : void ($set : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>);>
 
 Sets the value of this object by copying the C<$set>.
 

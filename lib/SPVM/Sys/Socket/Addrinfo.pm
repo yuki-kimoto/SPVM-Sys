@@ -20,7 +20,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-  method new : Sys::Socket::Addrinfo ();
+C<method new : L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo> ();>
 
 Create a new Sys::Socket::Addrinfo object.
 
@@ -28,67 +28,67 @@ Create a new Sys::Socket::Addrinfo object.
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 ai_flags
 
-  method ai_flags : int ();
+C<method ai_flags : int ();>
 
 Gets C<ai_flags>.
 
 =head2 set_ai_flags
 
-  method set_ai_flags : void ($ai_flags : int);
+C<method set_ai_flags : void ($ai_flags : int);>
 
 Sets C<ai_flags>.
 
 =head2 ai_family
 
-  method ai_family : int ();
+C<method ai_family : int ();>
 
 Gets C<ai_family>.
 
 =head2 set_ai_family
 
-  method set_ai_family : void ($ai_family : int);
+C<method set_ai_family : void ($ai_family : int);>
 
 Sets C<ai_family>.
 
 =head2 ai_socktype
 
-  method ai_socktype : int ();
+C<method ai_socktype : int ();>
 
 Gets C<ai_socktype>.
 
 =head2 set_ai_socktype
 
-  method set_ai_socktype : void ($ai_socktype : int);
+C<method set_ai_socktype : void ($ai_socktype : int);>
 
 Sets C<ai_socktype>.
 
 =head2 ai_protocol
 
-  method ai_protocol : int ();
+C<method ai_protocol : int ();>
 
 Gets C<ai_protocol>.
 
 =head2 set_ai_protocol
 
-  method set_ai_protocol : void ($ai_protocol : int);
+C<method set_ai_protocol : void ($ai_protocol : int);>
 
 Sets C<ai_protocol>.
 
 =head2 ai_addr
 
-  method ai_addr : Sys::Socket::Sockaddr ();
+C<method ai_addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ();>
 
 Copies C<ai_addr>.
 
 =head2 ai_canonname
 
-  method ai_canonname : string ();
+C<method ai_canonname : string ();>
 
 Copies C<ai_canonname>.
 

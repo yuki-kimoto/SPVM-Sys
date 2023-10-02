@@ -24,7 +24,7 @@ This class inherits L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>.
 
 =head2 new
 
-  static method new : Sys::Socket::Sockaddr::In ();
+C<static method new : L<Sys::Socket::Sockaddr::In|SPVM::Sys::Socket::Sockaddr::In> ();>
 
 Create a new C<Sys::Socket::Sockaddr::In> object.
 
@@ -32,61 +32,61 @@ Create a new C<Sys::Socket::Sockaddr::In> object.
 
 =head2 DESTROY
 
-  method DESTROY : void ();
+C<method DESTROY : void ();>
 
 The destructor.
 
 =head2 sa_family
 
-  method sa_family : int ()
+C<method sa_family : int ()>
 
 Gets C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
 
 =head2 sin_family
 
-  method sin_family : int ();
+C<method sin_family : int ();>
   
 Gets C<sin_family>.
 
 =head2 set_sin_family
 
-  method set_sin_family : void ($family : int);
+C<method set_sin_family : void ($family : int);>
 
 Sets C<sin_family>.
 
 =head2 sin_addr
 
-  method sin_addr : Sys::Socket::In_addr ();
+C<method sin_addr : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> ();>
 
 Copies C<sin_addr>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
 =head2 set_sin_addr
 
-  method set_sin_addr : void ($address : Sys::Socket::In_addr);
+C<method set_sin_addr : void ($address : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr>);>
 
 Sets C<sin_addr>. This is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
 =head2 sin_port
 
-  method sin_port : int ();
+C<method sin_port : int ();>
 
 Gets C<sin_port>.
 
 =head2 set_sin_port
 
-  method set_sin_port : void ($port : int);
+C<method set_sin_port : void ($port : int);>
 
 Sets C<sin_port>.
 
 =head2 size
 
-  method size : int ()
+C<method size : int ()>
 
 The size of C<struct sockaddr_in>.
 
 =head2 clone
 
-  method clone : Sys::Socket::Sockaddr::In () {
+C<method clone : L<Sys::Socket::Sockaddr::In|SPVM::Sys::Socket::Sockaddr::In> ()>
 
 Clones this object.
 

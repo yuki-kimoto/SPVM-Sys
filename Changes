@@ -5,6 +5,8 @@
     * Use new native APIs.
   [Exception Message Changes]
     * Improve English of exception messages.
+  [Document Changes]
+    * Improve the formats of documents.
 0.492 2023-09-18
   [Incompatibe Changes]
     * Remove the readline method in the Sys::IO class. Use the readline method in the Sys class.

@@ -28,7 +28,7 @@ See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday>
 
 =head2 new
 
-  static method new : Sys::Time::Timeval ()
+C<static method new : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> ()>
 
 Creates a new C<Sys::Time::Timeval> object.
 
@@ -38,7 +38,7 @@ Creates a new C<Sys::Time::Timeval> object.
 
 =head2 tv_sec
 
-  method tv_sec : long ()
+C<method tv_sec : long ()>
 
 Gets C<tv_sec>.
 
@@ -46,7 +46,7 @@ Gets C<tv_sec>.
 
 =head2 set_tv_sec
 
-  method set_tv_sec : void ($tv_sec : long)
+C<method set_tv_sec : void ($tv_sec : long)>
 
 Sets C<tv_sec>.
 
@@ -54,7 +54,7 @@ Sets C<tv_sec>.
 
 =head2 tv_usec
   
-  method tv_usec : long ()
+C<method tv_usec : long ()>
 
 Gets C<tv_usec>.
 
@@ -62,7 +62,7 @@ Gets C<tv_usec>.
 
 =head2 set_tv_usec
 
-  method set_tv_usec : void ($tv_usec : long)
+C<method set_tv_usec : void ($tv_usec : long)>
 
 Sets C<tv_usec>.
 
