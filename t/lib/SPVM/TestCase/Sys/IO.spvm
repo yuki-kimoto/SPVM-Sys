@@ -1669,7 +1669,7 @@ class TestCase::Sys::IO {
   private static method replace_chars : void ($string : mutable string, $from : byte, $to : byte) {
     
     unless ($string) {
-      die "The string must be defined";
+      die "\$string must be defined.";
     }
     
     my $string_length = length $string;

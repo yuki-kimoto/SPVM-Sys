@@ -44,7 +44,7 @@ class Sys {
       $osname = "darwin";
     }
     else {
-      die "The osname method is not supported this os";
+      die "The OS name cannot be got.";
     }
     
     return $osname;
@@ -58,7 +58,7 @@ class Sys {
   static method A : double ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys->stat($file);
@@ -71,7 +71,7 @@ class Sys {
   static method C : double ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys->stat($file);
@@ -83,7 +83,7 @@ class Sys {
   static method M : double ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys->stat($file);
@@ -96,7 +96,7 @@ class Sys {
   static method O : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -112,7 +112,7 @@ class Sys {
   
   static method R : int ($file : string) {
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -129,7 +129,7 @@ class Sys {
   
   static method S : int ($file : string) {
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys->stat($file);
@@ -141,7 +141,7 @@ class Sys {
   
   static method W : int ($file : string) {
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -158,7 +158,7 @@ class Sys {
   
   static method X : int ($file : string) {
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -176,7 +176,7 @@ class Sys {
   static method b : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -194,7 +194,7 @@ class Sys {
   static method c : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -212,7 +212,7 @@ class Sys {
   static method d : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -229,7 +229,7 @@ class Sys {
   static method e : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -246,7 +246,7 @@ class Sys {
   static method f : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -263,7 +263,7 @@ class Sys {
   static method g : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -280,7 +280,7 @@ class Sys {
   static method k : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -299,7 +299,7 @@ class Sys {
     my $ok = 0;
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     if (Sys::OS->is_windows) {
@@ -319,7 +319,7 @@ class Sys {
   
   static method o : int ($file : string) {
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -335,7 +335,7 @@ class Sys {
   static method p : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -352,7 +352,7 @@ class Sys {
   
   static method r : int ($file : string) {
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -370,7 +370,7 @@ class Sys {
   static method s : long ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys->stat($file);
@@ -383,7 +383,7 @@ class Sys {
   static method u : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -400,7 +400,7 @@ class Sys {
   
   static method w : int ($file : string) {
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -417,7 +417,7 @@ class Sys {
   
   static method x : int ($file : string) {
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys::IO::Stat->new;
@@ -435,7 +435,7 @@ class Sys {
   static method z : int ($file : string) {
     
     unless ($file) {
-      die "The file must be defined";
+      die "\$file must be defined.";
     }
     
     my $stat = Sys->stat($file);

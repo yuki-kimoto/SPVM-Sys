@@ -3,6 +3,8 @@
     * Require SPVM 0.989047.
   [Internal Changes]
     * Use new native APIs.
+  [Exception Message Changes]
+    * Improve English of exception messages.
 0.492 2023-09-18
   [Incompatibe Changes]
     * Remove the readline method in the Sys::IO class. Use the readline method in the Sys class.
