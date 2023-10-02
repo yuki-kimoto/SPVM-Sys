@@ -26,13 +26,13 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 closed
 
-  has closed : ro byte;
+C<has closed : ro byte;>
 
 The file stream is closed.
 
 =head2 no_close
 
-  has no_close : ro byte;
+C<has no_close : ro byte;>
 
 If this field is set to a true value, the file stream must not be closed.
 

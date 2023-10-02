@@ -22,7 +22,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 length
 
-  has length : ro int;
+C<has length : ro int;>
 
 The length of the array.
 

@@ -26,7 +26,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 closed
 
-  has closed : ro byte;
+C<has closed : ro byte;>
 
 The directory stream is closed.
 
