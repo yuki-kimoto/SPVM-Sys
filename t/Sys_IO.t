@@ -182,6 +182,12 @@ ok(SPVM::TestCase::Sys::IO->utime("$test_dir"));
 {
   ok(SPVM::TestCase::Sys::IO->fcntl($test_dir));
 }
+
+# stdin
+{
+  ok(SPVM::TestCase::Sys::IO->stdin);
+}
+
 # stdout
 {
   ok(SPVM::TestCase::Sys::IO->stdout);
@@ -192,9 +198,19 @@ ok(SPVM::TestCase::Sys::IO->utime("$test_dir"));
   ok(SPVM::TestCase::Sys::IO->stderr);
 }
 
-# stdin
+# spvm_stdin
 {
-  ok(SPVM::TestCase::Sys::IO->stdin);
+  ok(SPVM::TestCase::Sys::IO->spvm_stdin);
+}
+
+# spvm_stdout
+{
+  ok(SPVM::TestCase::Sys::IO->spvm_stdout);
+}
+
+# spvm_stderr
+{
+  ok(SPVM::TestCase::Sys::IO->spvm_stderr);
 }
 
 SPVM::api->set_exception(undef);

@@ -16,19 +16,43 @@ class Sys::IO {
   our $STDOUT : Sys::IO::FileStream;
   our $STDERR : Sys::IO::FileStream;
   
+  our $SPVM_STDIN : Sys::IO::FileStream;
+  our $SPVM_STDOUT : Sys::IO::FileStream;
+  our $SPVM_STDERR : Sys::IO::FileStream;
+  
   INIT {
     $STDIN = &INIT_STDIN();
     $STDOUT = &INIT_STDOUT();
     $STDERR = &INIT_STDERR();
+    
+    $SPVM_STDIN = &INIT_STDIN();
+    $SPVM_STDOUT = &INIT_STDOUT();
+    $SPVM_STDERR = &INIT_STDERR();
   }
   
   native private static method INIT_STDIN : Sys::IO::FileStream ();
+  
   native private static method INIT_STDOUT : Sys::IO::FileStream ();
+  
   native private static method INIT_STDERR : Sys::IO::FileStream ();
   
+  native private static method INIT_SPVM_STDIN : Sys::IO::FileStream ();
+  
+  native private static method INIT_SPVM_STDOUT : Sys::IO::FileStream ();
+  
+  native private static method INIT_SPVM_STDERR : Sys::IO::FileStream ();
+  
   static method stdin : Sys::IO::FileStream () { return $STDIN; }
+  
   static method stdout : Sys::IO::FileStream () { return $STDOUT; }
+  
   static method stderr : Sys::IO::FileStream () { return $STDERR; }
+  
+  static method spvm_stdin : Sys::IO::FileStream () { return $SPVM_STDIN; }
+  
+  static method spvm_stdout : Sys::IO::FileStream () { return $SPVM_STDOUT; }
+  
+  static method spvm_stderr : Sys::IO::FileStream () { return $SPVM_STDERR; }
   
   native static method open : int ($path : string, $flags : int, $mode : int = 0);
   

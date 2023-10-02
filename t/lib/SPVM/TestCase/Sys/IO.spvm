@@ -2592,6 +2592,26 @@ class TestCase::Sys::IO {
     return 1;
   }
   
+  static method stdin : int () {
+    {
+      my $stdin = Sys::IO->stdin;
+      
+      unless (Sys->fileno($stdin) == IO->STDIN_FILENO) {
+        return 0;
+      }
+    }
+    
+    {
+      my $stdin = Sys->STDIN;
+      
+      unless (Sys->fileno($stdin) == IO->STDIN_FILENO) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
   static method stdout : int () {
     {
       my $stdout = Sys::IO->stdout;
@@ -2632,21 +2652,25 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method stdin : int () {
+  static method spvm_stdin : int () {
     {
-      my $stdin = Sys::IO->stdin;
-      
-      unless (Sys->fileno($stdin) == IO->STDIN_FILENO) {
-        return 0;
-      }
+      my $spvm_stdin = Sys::IO->spvm_stdin;
     }
     
+    return 1;
+  }
+  
+  static method spvm_stdout : int () {
     {
-      my $stdin = Sys->STDIN;
-      
-      unless (Sys->fileno($stdin) == IO->STDIN_FILENO) {
-        return 0;
-      }
+      my $spvm_stdout = Sys::IO->spvm_stdout;
+    }
+    
+    return 1;
+  }
+  
+  static method spvm_stderr : int () {
+    {
+      my $spvm_stderr = Sys::IO->spvm_stderr;
     }
     
     return 1;

@@ -1,4 +1,4 @@
-0.492001 2023-10-02
+0.493 2023-10-02
   [Requirement Changes]
     * Require SPVM 0.989047.
   [Internal Changes]
@@ -7,6 +7,11 @@
     * Improve English of exception messages.
   [Document Changes]
     * Improve the formats of documents.
+  [New Features]
+    * Add the spvm_stdin method to the Sys::IO class.
+    * Add the spvm_stdout method to the Sys::IO class.
+    * Add the spvm_stderr method to the Sys::IO class.
+    
 0.492 2023-09-18
   [Incompatibe Changes]
     * Remove the readline method in the Sys::IO class. Use the readline method in the Sys class.
