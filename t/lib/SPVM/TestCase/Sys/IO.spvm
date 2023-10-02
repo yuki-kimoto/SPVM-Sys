@@ -441,10 +441,6 @@ class TestCase::Sys::IO {
       unless ($@) {
         return 0;
       }
-      
-      unless (eval_error_id == basic_type_id Error::System) {
-        return 0;
-      }
     }
     
     {

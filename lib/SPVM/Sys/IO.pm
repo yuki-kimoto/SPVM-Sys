@@ -80,6 +80,10 @@ See the L<fdopen|https://linux.die.net/man/3/fdopen> function in Linux.
 
 The return value is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
+Exceptions:
+
+$fd must be greater than or equal to 0. Otherwise an exception is thrown.
+
 =head2 fileno
 
 C<static method fileno : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
