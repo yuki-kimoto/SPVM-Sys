@@ -13,7 +13,7 @@ int32_t SPVM__Sys__Time__Timespec__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t error_id = 0;
   
-  struct timespec* st_tv = env->new_memory_stack(env, stack, sizeof(struct timespec));
+  struct timespec* st_tv = env->new_memory_block(env, stack, sizeof(struct timespec));
   
   void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timespec", st_tv, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -31,7 +31,7 @@ int32_t SPVM__Sys__Time__Timespec__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   assert(st_tv);
   
-  env->free_memory_stack(env, stack, st_tv);
+  env->free_memory_block(env, stack, st_tv);
   
   return 0;
 }

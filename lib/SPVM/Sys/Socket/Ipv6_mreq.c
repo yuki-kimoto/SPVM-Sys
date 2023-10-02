@@ -12,7 +12,7 @@ int32_t SPVM__Sys__Socket__Ipv6_mreq__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  struct ipv6_mreq* multi_request = env->new_memory_stack(env, stack, sizeof(struct ipv6_mreq));
+  struct ipv6_mreq* multi_request = env->new_memory_block(env, stack, sizeof(struct ipv6_mreq));
 
   void* obj_multi_request = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Ipv6_mreq", multi_request, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -31,7 +31,7 @@ int32_t SPVM__Sys__Socket__Ipv6_mreq__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   assert(multi_request);
   
-  env->free_memory_stack(env, stack, multi_request);
+  env->free_memory_block(env, stack, multi_request);
   env->set_pointer(env, stack, obj_multi_request, NULL);
   
   return 0;
@@ -47,7 +47,7 @@ int32_t SPVM__Sys__Socket__Ipv6_mreq__ipv6mr_multiaddr(SPVM_ENV* env, SPVM_VALUE
   
   struct in6_addr address = multi_request->ipv6mr_multiaddr;
 
-  struct in6_addr* address_ret = env->new_memory_stack(env, stack, sizeof(struct in6_addr));
+  struct in6_addr* address_ret = env->new_memory_block(env, stack, sizeof(struct in6_addr));
   *address_ret = address;
 
   void* obj_address_ret = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In6_addr", address_ret, &error_id, __func__, FILE_NAME, __LINE__);

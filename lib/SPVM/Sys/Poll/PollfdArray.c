@@ -26,7 +26,7 @@ int32_t SPVM__Sys__Poll__PollfdArray__new(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The length must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
   }
   
-  struct pollfd* fds = env->new_memory_stack(env, stack, sizeof(struct pollfd) * length);
+  struct pollfd* fds = env->new_memory_block(env, stack, sizeof(struct pollfd) * length);
   
   int32_t fields_length = 1;
   void* obj_self = env->new_pointer_object_by_name(env, stack, "Sys::Poll::PollfdArray", fds, &error_id, __func__, FILE_NAME, __LINE__);
@@ -48,7 +48,7 @@ int32_t SPVM__Sys__Poll__PollfdArray__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   assert(fds);
   
-  env->free_memory_stack(env, stack, fds);
+  env->free_memory_block(env, stack, fds);
   env->set_pointer(env, stack, obj_self, NULL);
   
   return 0;

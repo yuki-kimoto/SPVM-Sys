@@ -14,7 +14,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  struct addrinfo* addrinfo = env->new_memory_stack(env, stack, sizeof(struct addrinfo));
+  struct addrinfo* addrinfo = env->new_memory_block(env, stack, sizeof(struct addrinfo));
 
   void* obj_addrinfo = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Addrinfo", addrinfo, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -32,7 +32,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   assert(st_addrinfo);
   
-  env->free_memory_stack(env, stack, st_addrinfo);
+  env->free_memory_block(env, stack, st_addrinfo);
 
   env->set_pointer(env, stack, obj_addrinfo, NULL);
   
@@ -167,13 +167,13 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
       
       case AF_INET: {
         sockaddr_class_name = "Sys::Socket::Sockaddr::In";
-        tmp_ai_addr = env->new_memory_stack(env, stack, sizeof(struct sockaddr_in));
+        tmp_ai_addr = env->new_memory_block(env, stack, sizeof(struct sockaddr_in));
         memcpy(tmp_ai_addr, ai_addr, sizeof(struct sockaddr_in));
         break;
       }
       case AF_INET6: {
         sockaddr_class_name = "Sys::Socket::Sockaddr::In6";
-        tmp_ai_addr = env->new_memory_stack(env, stack, sizeof(struct sockaddr_in6));
+        tmp_ai_addr = env->new_memory_block(env, stack, sizeof(struct sockaddr_in6));
         memcpy(tmp_ai_addr, ai_addr, sizeof(struct sockaddr_in6));
         break;
       }

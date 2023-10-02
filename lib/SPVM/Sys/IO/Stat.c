@@ -15,7 +15,7 @@ int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   // sizeof(struct stat) is maybe right, but Ubuntu/Linux 32bit doesn't work well in this setting.
   // So sizeof(struct stat) * 2 is allocated.
-  struct stat* st_stat = env->new_memory_stack(env, stack, sizeof(struct stat) * 2);
+  struct stat* st_stat = env->new_memory_block(env, stack, sizeof(struct stat) * 2);
   
   void* obj_stat = env->new_pointer_object_by_name(env, stack, "Sys::IO::Stat", st_stat, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -33,7 +33,7 @@ int32_t SPVM__Sys__IO__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   assert(st_stat);
   
-  env->free_memory_stack(env, stack, st_stat);
+  env->free_memory_block(env, stack, st_stat);
 
   env->set_pointer(env, stack, obj_stat, NULL);
   

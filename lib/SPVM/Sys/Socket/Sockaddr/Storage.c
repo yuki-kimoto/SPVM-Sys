@@ -12,7 +12,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Storage__new(SPVM_ENV* env, SPVM_VALUE* sta
   
   int32_t error_id = 0;
   
-  struct sockaddr_storage* socket_address = env->new_memory_stack(env, stack, sizeof(struct sockaddr_storage));
+  struct sockaddr_storage* socket_address = env->new_memory_block(env, stack, sizeof(struct sockaddr_storage));
 
   void* obj_socket_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr::Storage", socket_address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -30,7 +30,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Storage__DESTROY(SPVM_ENV* env, SPVM_VALUE*
   
   assert(socket_address);
   
-  env->free_memory_stack(env, stack, socket_address);
+  env->free_memory_block(env, stack, socket_address);
   env->set_pointer(env, stack, obj_socket_address, NULL);
   
   return 0;

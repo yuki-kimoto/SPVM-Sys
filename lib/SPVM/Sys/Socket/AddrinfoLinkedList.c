@@ -71,7 +71,7 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__to_array(SPVM_ENV* env, SPVM_VALU
         int32_t fields_length = 1;
         
         struct addrinfo* tmp_st_addrinfo = NULL;
-        tmp_st_addrinfo = env->new_memory_stack(env, stack, sizeof(struct addrinfo));
+        tmp_st_addrinfo = env->new_memory_block(env, stack, sizeof(struct addrinfo));
         memcpy(tmp_st_addrinfo, cur_st_addrinfo, sizeof(struct addrinfo));
         
         void* obj_addrinfo = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Addrinfo", tmp_st_addrinfo, &error_id, __func__, FILE_NAME, __LINE__);

@@ -19,7 +19,7 @@ int32_t SPVM__Sys__Time__Tms__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  struct tms* st_tms = env->new_memory_stack(env, stack, sizeof(struct tms));
+  struct tms* st_tms = env->new_memory_block(env, stack, sizeof(struct tms));
 
   void* obj_st_tms = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tms", st_tms, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -41,7 +41,7 @@ int32_t SPVM__Sys__Time__Tms__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   
   if (st_tms) {
-    env->free_memory_stack(env, stack, st_tms);
+    env->free_memory_block(env, stack, st_tms);
     env->set_pointer(env, stack, obj_self, NULL);
   }
   

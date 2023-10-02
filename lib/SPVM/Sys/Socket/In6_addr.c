@@ -12,7 +12,7 @@ int32_t SPVM__Sys__Socket__In6_addr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  struct in6_addr* address = env->new_memory_stack(env, stack, sizeof(struct in6_addr));
+  struct in6_addr* address = env->new_memory_block(env, stack, sizeof(struct in6_addr));
 
   void* obj_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In6_addr", address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -30,7 +30,7 @@ int32_t SPVM__Sys__Socket__In6_addr__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   assert(address);
   
-  env->free_memory_stack(env, stack, address);
+  env->free_memory_block(env, stack, address);
   env->set_pointer(env, stack, obj_address, NULL);
   
   return 0;

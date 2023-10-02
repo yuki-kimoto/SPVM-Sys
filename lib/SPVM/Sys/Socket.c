@@ -936,7 +936,7 @@ int32_t SPVM__Sys__Socket__to_family_sockaddr(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   switch (sa_family) {
     case AF_INET: {
-      struct sockaddr_in* addr_in = env->new_memory_stack(env, stack, sizeof(struct sockaddr_in));
+      struct sockaddr_in* addr_in = env->new_memory_block(env, stack, sizeof(struct sockaddr_in));
       memcpy(addr_in, addr, sizeof(struct sockaddr_in));
       obj_addr_child = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr::In", addr_in, &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) { return error_id; }
@@ -944,7 +944,7 @@ int32_t SPVM__Sys__Socket__to_family_sockaddr(SPVM_ENV* env, SPVM_VALUE* stack) 
       break;
     }
     case AF_INET6: {
-      struct sockaddr_in6* addr_in6 = env->new_memory_stack(env, stack, sizeof(struct sockaddr_in6));
+      struct sockaddr_in6* addr_in6 = env->new_memory_block(env, stack, sizeof(struct sockaddr_in6));
       memcpy(addr_in6, addr, sizeof(struct sockaddr_in6));
       obj_addr_child = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr::In6", addr_in6, &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) { return error_id; }
@@ -956,7 +956,7 @@ int32_t SPVM__Sys__Socket__to_family_sockaddr(SPVM_ENV* env, SPVM_VALUE* stack) 
       env->die(env, stack, "AF_UNIX is not supported in this system(defined(_WIN32))", sa_family, __func__, FILE_NAME, __LINE__);
       return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-      struct sockaddr_un* addr_un = env->new_memory_stack(env, stack, sizeof(struct sockaddr_un));
+      struct sockaddr_un* addr_un = env->new_memory_block(env, stack, sizeof(struct sockaddr_un));
       memcpy(addr_un, addr, sizeof(struct sockaddr_un));
       obj_addr_child = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr::Un", addr_un, &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) { return error_id; }

@@ -1,6 +1,8 @@
 0.492001 2023-10-02
   [Requirement Changes]
     * Require SPVM 0.989047.
+  [Internal Changes]
+    * Use new native APIs.
 0.492 2023-09-18
   [Incompatibe Changes]
     * Remove the readline method in the Sys::IO class. Use the readline method in the Sys class.

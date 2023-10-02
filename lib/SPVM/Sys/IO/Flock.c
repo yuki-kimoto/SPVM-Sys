@@ -16,7 +16,7 @@ int32_t SPVM__Sys__IO__Flock__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  struct flock* st_flock = env->new_memory_stack(env, stack, sizeof(struct flock));
+  struct flock* st_flock = env->new_memory_block(env, stack, sizeof(struct flock));
 
   void* obj_st_flock = env->new_pointer_object_by_name(env, stack, "Sys::IO::Flock", st_flock, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -39,7 +39,7 @@ int32_t SPVM__Sys__IO__Flock__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   assert(st_flock);
   
-  env->free_memory_stack(env, stack, st_flock);
+  env->free_memory_block(env, stack, st_flock);
   env->set_pointer(env, stack, obj_st_flock, NULL);
   
   return 0;

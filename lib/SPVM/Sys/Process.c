@@ -310,7 +310,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t args_length = 0;
   if (obj_args) {
     args_length = env->length(env, stack, obj_args);
-    argv = env->new_memory_stack(env, stack, sizeof(char*) * (args_length + 1));
+    argv = env->new_memory_block(env, stack, sizeof(char*) * (args_length + 1));
     for (int32_t i = 0; i < args_length; i++) {
       void* obj_arg = env->get_elem_object(env, stack, obj_args, i);
       char* arg = (char*)env->get_chars(env, stack, obj_arg);
@@ -318,13 +318,13 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
   }
   else {
-    argv = env->new_memory_stack(env, stack, sizeof(char*) * 1);
+    argv = env->new_memory_block(env, stack, sizeof(char*) * 1);
   }
   assert(argv[args_length] == NULL);
   
   int32_t status = execv(path, argv);
   
-  env->free_memory_stack(env, stack, argv);
+  env->free_memory_block(env, stack, argv);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]execv failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);

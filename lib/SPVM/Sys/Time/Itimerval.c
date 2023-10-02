@@ -15,7 +15,7 @@ int32_t SPVM__Sys__Time__Itimerval__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  struct itimerval* st_it = env->new_memory_stack(env, stack, sizeof(struct itimerval));
+  struct itimerval* st_it = env->new_memory_block(env, stack, sizeof(struct itimerval));
   
   void* obj_it = env->new_pointer_object_by_name(env, stack, "Sys::Time::Itimerval", st_it, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -37,7 +37,7 @@ int32_t SPVM__Sys__Time__Itimerval__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   assert(st_it);
   
-  env->free_memory_stack(env, stack, st_it);
+  env->free_memory_block(env, stack, st_it);
   
   return 0;
 #endif
@@ -54,7 +54,7 @@ int32_t SPVM__Sys__Time__Itimerval__it_interval(SPVM_ENV* env, SPVM_VALUE* stack
   
   struct itimerval* st_it = env->get_pointer(env, stack, obj_it);
   
-  struct timeval* st_it_it_interval = env->new_memory_stack(env, stack, sizeof(struct timeval));
+  struct timeval* st_it_it_interval = env->new_memory_block(env, stack, sizeof(struct timeval));
   memcpy(st_it_it_interval, &st_it->it_interval, sizeof(struct timeval));
 
   void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", st_it_it_interval, &error_id, __func__, FILE_NAME, __LINE__);
@@ -101,7 +101,7 @@ int32_t SPVM__Sys__Time__Itimerval__it_value(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct itimerval* st_it = env->get_pointer(env, stack, obj_it);
   
-  struct timeval* st_it_it_value = env->new_memory_stack(env, stack, sizeof(struct timeval));
+  struct timeval* st_it_it_value = env->new_memory_block(env, stack, sizeof(struct timeval));
   memcpy(st_it_it_value, &st_it->it_value, sizeof(struct timeval));
 
   void* obj_tv = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timeval", st_it_it_value, &error_id, __func__, FILE_NAME, __LINE__);
