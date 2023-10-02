@@ -713,19 +713,19 @@ Calls the L</"print"> method adding C<\n> to the end of $string.
 
 C<static method STDIN : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Calls the L<stdin|SPVM::Sys::IO/"stdin"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Calls the L<stdin|SPVM::Sys::IO/"spvm_stdin"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 STDOUT
 
 C<static method STDOUT : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Calls the L<stdout|SPVM::Sys::IO/"stdout"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Calls the L<stdout|SPVM::Sys::IO/"spvm_stdout"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 STDERR
 
 C<static method STDERR : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Calls the L<stderr|SPVM::Sys::IO/"stderr"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Calls the L<stderr|SPVM::Sys::IO/"spvm_stderr"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 signal
 

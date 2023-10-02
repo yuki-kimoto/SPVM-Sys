@@ -620,6 +620,24 @@ Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the p
 
 See L<stderr(3) - Linux man page|https://linux.die.net/man/3/stderr> in Linux.
 
+=head2 spvm_stdin
+
+C<static method spvm_stdin : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+
+Returns the stdin opened by the SPVM language.
+
+=head2 spvm_stdout
+
+C<static method spvm_stdout : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+
+Returns the stdin opened by the SPVM language.
+
+=head2 spvm_stderr
+
+C<static method spvm_stderr : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+
+Returns the stdin opened by the SPVM language.
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto
