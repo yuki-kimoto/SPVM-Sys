@@ -1028,11 +1028,11 @@ class Sys {
     return $success;
   }
   
-  static method STDIN : Sys::IO::FileStream () { return Sys::IO->stdin; }
+  static method STDIN : Sys::IO::FileStream () { return Sys::IO->spvm_stdin; }
   
-  static method STDOUT : Sys::IO::FileStream () { return Sys::IO->stdout; }
+  static method STDOUT : Sys::IO::FileStream () { return Sys::IO->spvm_stdout; }
   
-  static method STDERR : Sys::IO::FileStream () { return Sys::IO->stderr; }
+  static method STDERR : Sys::IO::FileStream () { return Sys::IO->spvm_stderr; }
   
   static method signal : void ($signum : int, $handler_name : string) {
     

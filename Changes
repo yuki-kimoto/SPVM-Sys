@@ -11,6 +11,10 @@
     * Add the spvm_stdin method to the Sys::IO class.
     * Add the spvm_stdout method to the Sys::IO class.
     * Add the spvm_stderr method to the Sys::IO class.
+  [Incompatible Changes]
+    * The STDIN method in the Sys class retruns the return value of the spvm_stdin method in the Sys::IO class.
+    * The STDOUT method in the Sys class retruns the return value of the spvm_stdout method in the Sys::IO class.
+    * The STDERR method in the Sys class retruns the return value of the spvm_stderr method in the Sys::IO class.
     
 0.492 2023-09-18
   [Incompatibe Changes]
