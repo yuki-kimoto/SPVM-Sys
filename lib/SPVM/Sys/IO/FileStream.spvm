@@ -5,7 +5,7 @@ class Sys::IO::FileStream : pointer {
   # Fields
   has closed : ro byte;
 
-  has no_need_free : ro byte;
+  has no_close : ro byte;
   
   # Instance Methods
   native method DESTROY : void ();

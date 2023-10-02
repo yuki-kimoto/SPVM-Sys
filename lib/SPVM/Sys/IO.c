@@ -31,7 +31,7 @@ int32_t SPVM__Sys__IO__INIT_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_close", 1, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
@@ -48,7 +48,7 @@ int32_t SPVM__Sys__IO__INIT_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_close", 1, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
@@ -66,7 +66,7 @@ int32_t SPVM__Sys__IO__INIT_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (error_id) { return error_id; }
   
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_close", 1, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
@@ -87,7 +87,7 @@ int32_t SPVM__Sys__IO__INIT_SPVM_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_close", 1, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
@@ -108,7 +108,7 @@ int32_t SPVM__Sys__IO__INIT_SPVM_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_close", 1, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
@@ -130,7 +130,7 @@ int32_t SPVM__Sys__IO__INIT_SPVM_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (error_id) { return error_id; }
   
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_need_free", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_close", 1, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;

@@ -30,11 +30,11 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 The file stream is closed.
 
-=head2 no_need_free
+=head2 no_close
 
-  has no_need_free : ro byte;
+  has no_close : ro byte;
 
-The file stream is not needed to be freed.
+If this field is set to a true value, the file stream must not be closed.
 
 =head1 Instance Methods
 
