@@ -19,7 +19,8 @@
     * The fdopen method in the Sys::IO throws an exception.
     
       $fd must be greater than or equal to 0. Otherwise an exception is thrown.
-    
+  [Bug Fix]
+    * Fix the test bug that tests of Sys::IO on Windows does not work well.
 0.492 2023-09-18
   [Incompatibe Changes]
     * Remove the readline method in the Sys::IO class. Use the readline method in the Sys class.
