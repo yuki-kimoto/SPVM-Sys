@@ -16,6 +16,11 @@
     * The STDOUT method in the Sys class retruns the return value of the spvm_stdout method in the Sys::IO class.
     * The STDERR method in the Sys class retruns the return value of the spvm_stderr method in the Sys::IO class.
     * The no_need_free field in the Sys::IO::FileStream class is renamed to no_close.
+    * The fdopen method in the Sys::IO throws an exception.
+    
+      $fd must be greater than or equal to 0. Otherwise an exception is thrown.
+  [Bug Fix]
+    * Fix the test bug that tests of Sys::IO on Windows does not work well.
 0.492 2023-09-18
   [Incompatibe Changes]
     * Remove the readline method in the Sys::IO class. Use the readline method in the Sys class.

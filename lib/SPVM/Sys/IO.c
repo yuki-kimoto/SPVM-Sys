@@ -320,6 +320,10 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
+  if (!(fd >= 0)) {
+    return env->die(env, stack, "$fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+  
   void* obj_mode = stack[1].oval;
   
   if (!obj_mode) {
