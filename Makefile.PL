@@ -72,6 +72,9 @@ WriteMakefile(
     %configure_and_runtime_requires,
     'SPVM::Errno' => '0.06',
   },
+  TEST_REQUIRES => {
+    'Test::TCP' => '2.22',
+  }
 );
 
 sub MY::postamble {

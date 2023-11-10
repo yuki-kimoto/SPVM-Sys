@@ -11,6 +11,7 @@ use Socket;
 use IO::Socket;
 use IO::Socket::INET;
 use TestUtil::Socket;
+use Test::TCP;
 
 use SPVM 'Sys::Socket';
 use SPVM 'TestCase::Sys::Socket';
@@ -73,25 +74,21 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # connect
 {
-  my $process_id = fork;
-
-  # Child
-  if ($process_id == 0) {
-    TestUtil::Socket::run_do_nothing_server($port);
-  }
-  else {
-    TestUtil::Socket::wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Socket->connect($port));
-    
-    TestUtil::Socket::kill_term_and_wait($process_id);
-  }
+  my $server = Test::TCP->new(
+    code => sub {
+      my ($port) = @_;
+      
+      TestUtil::Socket::run_do_nothing_server($port);
+    },
+  );
+  
+  ok(SPVM::TestCase::Sys::Socket->connect($server->port));
 }
 
 # close
 {
   my $process_id = fork;
-
+  
   # Child
   if ($process_id == 0) {
     TestUtil::Socket::run_echo_server($port);
