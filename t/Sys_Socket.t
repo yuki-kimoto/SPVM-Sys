@@ -87,19 +87,15 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # close
 {
-  my $process_id = fork;
+  my $server = TestUtil::ServerRunner->new(
+    code => sub {
+      my ($port) = @_;
+      
+      TestUtil::Socket::run_do_nothing_server($port);
+    },
+  );
   
-  # Child
-  if ($process_id == 0) {
-    TestUtil::Socket::run_echo_server($port);
-  }
-  else {
-    TestUtil::Socket::wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Socket->close($port));
-    
-    TestUtil::Socket::kill_term_and_wait($process_id);
-  }
+  ok(SPVM::TestCase::Sys::Socket->close($server->port));
 }
 
 # shutdown
