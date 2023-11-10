@@ -11,7 +11,6 @@ use Socket;
 use IO::Socket;
 use IO::Socket::INET;
 use TestUtil::Socket;
-use Test::TCP;
 use TestUtil::ServerRunner;
 
 use SPVM 'Sys::Socket';

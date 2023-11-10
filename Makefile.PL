@@ -73,7 +73,6 @@ WriteMakefile(
     'SPVM::Errno' => '0.06',
   },
   TEST_REQUIRES => {
-    'Test::TCP' => '2.22',
   }
 );
 
