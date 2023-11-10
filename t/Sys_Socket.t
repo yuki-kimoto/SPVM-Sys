@@ -79,7 +79,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     code => sub {
       my ($port) = @_;
       
-      TestUtil::Socket::run_do_nothing_server($port);
+      TestUtil::ServerRunner->run_do_nothing_server($port);
     },
   );
   
@@ -92,7 +92,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     code => sub {
       my ($port) = @_;
       
-      TestUtil::Socket::run_do_nothing_server($port);
+      TestUtil::ServerRunner->run_do_nothing_server($port);
     },
   );
   
