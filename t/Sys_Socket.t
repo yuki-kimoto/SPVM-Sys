@@ -12,6 +12,7 @@ use IO::Socket;
 use IO::Socket::INET;
 use TestUtil::Socket;
 use Test::TCP;
+use TestUtil::ServerRunner;
 
 use SPVM 'Sys::Socket';
 use SPVM 'TestCase::Sys::Socket';
