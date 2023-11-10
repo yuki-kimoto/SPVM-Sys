@@ -15,8 +15,6 @@ use TestUtil::ServerRunner;
 use SPVM 'Sys::Select';
 use SPVM 'TestCase::Sys::Select';
 
-my $localhost = "127.0.0.1";
-
 # Start objects count
 my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
