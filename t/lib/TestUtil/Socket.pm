@@ -69,7 +69,7 @@ sub wait_port_prepared {
   }
 }
 
-sub start_do_nothing_server {
+sub run_do_nothing_server {
   my ($port) = @_;
   
   my $server_socket = IO::Socket::INET->new(
