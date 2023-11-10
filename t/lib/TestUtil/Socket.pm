@@ -101,6 +101,7 @@ sub start_echo_server {
       print $client_socket $data;
       
       if ($close) {
+        $client_socket->close;
         last;
       }
     }
