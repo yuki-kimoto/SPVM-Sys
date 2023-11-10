@@ -10,7 +10,6 @@ use Time::HiRes 'usleep';
 use Socket;
 use IO::Socket;
 use IO::Socket::INET;
-use TestUtil::Socket;
 use TestUtil::ServerRunner;
 
 use SPVM 'Sys::Socket';
@@ -23,7 +22,7 @@ my $localhost = "127.0.0.1";
 my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
 # Port
-my $port = TestUtil::Socket::search_available_port;
+my $port = TestUtil::ServerRunner->search_available_port;
 
 # The constant values
 {
@@ -152,7 +151,7 @@ unless ($^O eq 'MSWin32') {
     SPVM::TestCase::Sys::Socket->run_echo_server($port);
   }
   else {
-    TestUtil::Socket::wait_port_prepared($port);
+    TestUtil::ServerRunner->wait_port_prepared($port);
     
     my $sock = IO::Socket::INET->new(
       Proto    => 'tcp',
@@ -175,42 +174,34 @@ unless ($^O eq 'MSWin32') {
     
     $sock->close;
     
-    TestUtil::Socket::kill_term_and_wait($process_id);
+    TestUtil::ServerRunner->kill_term_and_wait($process_id);
   }
 }
 
 # getpeername
 {
-  my $process_id = fork;
-
-  # Child
-  if ($process_id == 0) {
-    TestUtil::Socket::run_echo_server($port);
-  }
-  else {
-    TestUtil::Socket::wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Socket->getpeername($port));
-    
-    TestUtil::Socket::kill_term_and_wait($process_id);
-  }
+  my $server = TestUtil::ServerRunner->new(
+    code => sub {
+      my ($port) = @_;
+      
+      TestUtil::ServerRunner->run_echo_server($port);
+    },
+  );
+  
+  ok(SPVM::TestCase::Sys::Socket->getpeername($port));
 }
 
 # getsockname
 {
-  my $process_id = fork;
-
-  # Child
-  if ($process_id == 0) {
-    TestUtil::Socket::run_echo_server($port);
-  }
-  else {
-    TestUtil::Socket::wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Socket->getsockname($port));
-    
-    TestUtil::Socket::kill_term_and_wait($process_id);
-  }
+  my $server = TestUtil::ServerRunner->new(
+    code => sub {
+      my ($port) = @_;
+      
+      TestUtil::ServerRunner->run_echo_server($port);
+    },
+  );
+  
+  ok(SPVM::TestCase::Sys::Socket->getsockname($port));
 }
 
 if ($^O eq 'MSWin32') {
