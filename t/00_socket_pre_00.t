@@ -5,10 +5,10 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
-use TestUtil::Socket;
+use TestUtil::ServerRunner;
 
 # Port
-my $port = TestUtil::Socket::search_available_port();
+my $port = TestUtil::ServerRunner->search_available_port();
 
 warn "[Test Output]Port:$port";
 

@@ -5,10 +5,10 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
-use TestUtil::Socket;
+use TestUtil::ServerRunner;
 
 # Port
-my $port = TestUtil::Socket::search_available_port();
+my $port = TestUtil::ServerRunner->search_available_port();
 
 warn "[Test Output]Port:$port";
 
@@ -19,12 +19,12 @@ ok($port >= 20000);
 
   # Child
   if ($process_id == 0) {
-    TestUtil::Socket::run_echo_server($port);
+    TestUtil::ServerRunner->run_echo_server($port);
   }
   else {
-    TestUtil::Socket::wait_port_prepared($port);
+    TestUtil::ServerRunner->wait_port_prepared($port);
     
-    TestUtil::Socket::kill_term_and_wait($process_id);
+    TestUtil::ServerRunner->kill_term_and_wait($process_id);
   }
 }
 
