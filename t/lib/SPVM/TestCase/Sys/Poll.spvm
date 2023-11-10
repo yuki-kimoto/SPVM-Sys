@@ -7,7 +7,7 @@ class TestCase::Sys::Poll {
   use Sys::Socket::Sockaddr::In;
   use Sys::Process;
   
-  use TestUtil::SocketAutoClose;
+  use Fn;
   
   static method poll : int ($port : int) {
     {
@@ -18,8 +18,9 @@ class TestCase::Sys::Poll {
         return 0;
       }
       
-      # Close socket at the end of this scope
-      my $no0_socket_auto_close = TestUtil::SocketAutoClose->new($no0_socket);
+      Fn->defer([$no0_socket : int] method :void () {
+        Sys::Socket->close($no0_socket);
+      });
       
       # IPv4 address
       my $no0_address = Sys::Socket::Sockaddr::In->new;
@@ -43,8 +44,9 @@ class TestCase::Sys::Poll {
         return 0;
       }
       
-      # Close socket at the end of this scope
-      my $no1_socket_auto_close = TestUtil::SocketAutoClose->new($no1_socket);
+      Fn->defer([$no1_socket : int] method :void () {
+        Sys::Socket->close($no1_socket);
+      });
       
       # IPv4 address
       my $no1_address = Sys::Socket::Sockaddr::In->new;

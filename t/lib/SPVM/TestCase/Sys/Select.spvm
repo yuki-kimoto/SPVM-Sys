@@ -10,19 +10,20 @@ class TestCase::Sys::Select {
   use Sys::Socket::Sockaddr::In;
   use Sys::Process;
   
-  use TestUtil::SocketAutoClose;
+  use Fn;
   
   static method select : int ($port : int) {
     {
       # Socket
       my $no0_socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
 
-      unless ($no0_socket> 0) {
+      unless ($no0_socket > 0) {
         return 0;
       }
       
-      # Close socket at the end of this scope
-      my $no0_socket_auto_close = TestUtil::SocketAutoClose->new($no0_socket);
+      Fn->defer([$no0_socket : int] method :void () {
+        Sys::Socket->close($no0_socket);
+      });
       
       # IPv4 address
       my $no0_address = Sys::Socket::Sockaddr::In->new;
@@ -46,8 +47,9 @@ class TestCase::Sys::Select {
         return 0;
       }
       
-      # Close socket at the end of this scope
-      my $no1_socket_auto_close = TestUtil::SocketAutoClose->new($no1_socket);
+      Fn->defer([$no1_socket : int] method :void () {
+        Sys::Socket->close($no1_socket);
+      });
       
       # IPv4 address
       my $no1_address = Sys::Socket::Sockaddr::In->new;
