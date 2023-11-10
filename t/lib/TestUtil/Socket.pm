@@ -69,6 +69,27 @@ sub wait_port_prepared {
   }
 }
 
+sub start_do_nothing_server {
+  my ($port) = @_;
+  
+  my $server_socket = IO::Socket::INET->new(
+    LocalAddr => $localhost,
+    LocalPort => $port,
+    Listen    => SOMAXCONN,
+    Proto     => 'tcp',
+    Reuse => 1,
+  );
+  unless ($server_socket) {
+    confess "Can't create a server socket:$@";
+  }
+  
+  while (1) {
+    my $client_socket = $server_socket->accept;
+    
+    $client_socket->close;
+  }
+}
+
 # Starts a echo server
 # if "\0" is sent, the server will stop.
 sub start_echo_server {
@@ -85,7 +106,6 @@ sub start_echo_server {
     confess "Can't create a server socket:$@";
   }
   
-  my $server_close;
   while (1) {
     my $client_socket = $server_socket->accept;
     
