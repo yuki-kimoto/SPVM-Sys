@@ -67,11 +67,15 @@ ok(SPVM::TestCase::Sys::Socket->inet_ntop);
 
 ok(SPVM::TestCase::Sys::Socket->socket);
 
+warn;
+
 # Sys::Socket::Sockaddr
 {
   my $port = TestUtil::ServerRunner->search_available_port;
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
+
+warn;
 
 # connect
 {
@@ -86,6 +90,8 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   ok(SPVM::TestCase::Sys::Socket->connect($server->port));
 }
 
+warn;
+
 # close
 {
   my $server = TestUtil::ServerRunner->new(
@@ -99,45 +105,43 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   ok(SPVM::TestCase::Sys::Socket->close($server->port));
 }
 
+warn;
+
 # shutdown
 {
-  my $process_id = fork;
-
-  # Child
-  if ($process_id == 0) {
-    TestUtil::Socket::run_echo_server($port);
-  }
-  else {
-    TestUtil::Socket::wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Socket->shutdown($port));
-    
-    TestUtil::Socket::kill_term_and_wait($process_id);
-  }
+  my $server = TestUtil::ServerRunner->new(
+    code => sub {
+      my ($port) = @_;
+      
+      TestUtil::ServerRunner->run_do_nothing_server($port);
+    },
+  );
+  
+  ok(SPVM::TestCase::Sys::Socket->shutdown($server->port));
 }
 
 # send and recv
 {
+  my $server = TestUtil::ServerRunner->new(
+    code => sub {
+      my ($port) = @_;
+      
+      TestUtil::ServerRunner->run_echo_server($port);
+    },
+  );
   
-  my $process_id = fork;
-
-  # Child
-  if ($process_id == 0) {
-    TestUtil::Socket::run_echo_server($port);
-  }
-  else {
-    TestUtil::Socket::wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Socket->send_and_recv($port));
-    
-    TestUtil::Socket::kill_term_and_wait($process_id);
-  }
+  ok(SPVM::TestCase::Sys::Socket->send_and_recv($server->port));
 }
 
-ok(SPVM::TestCase::Sys::Socket->bind($port));
+{
+  my $port = TestUtil::ServerRunner->search_available_port;
+  ok(SPVM::TestCase::Sys::Socket->bind($port));
+}
 
-ok(SPVM::TestCase::Sys::Socket->listen($port));
-
+{
+  my $port = TestUtil::ServerRunner->search_available_port;
+  ok(SPVM::TestCase::Sys::Socket->listen($port));
+}
 # accept
 # TODO : Windows
 unless ($^O eq 'MSWin32') {
@@ -217,8 +221,14 @@ else {
   ok(SPVM::TestCase::Sys::Socket->socketpair);
 }
 
-ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
-ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
+{
+  my $port = TestUtil::ServerRunner->search_available_port;
+  ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
+}
+{
+  my $port = TestUtil::ServerRunner->search_available_port;
+  ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
+}
 
 unless ($^O eq 'MSWin32') {
   ok(SPVM::TestCase::Sys::Socket->sockaddr_un);

@@ -34,7 +34,6 @@ sub new {
   # Child
   if ($process_id == 0) {
     $code->($port);
-    exit;
   }
   else {
     $self->{process_id} = $process_id;
