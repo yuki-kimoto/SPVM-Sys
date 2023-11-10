@@ -75,7 +75,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # connect
 {
-  my $server = Test::TCP->new(
+  my $server = TestUtil::ServerRunner->new(
     code => sub {
       my ($port) = @_;
       

@@ -10,6 +10,9 @@ use IO::Socket::INET;
 
 my $localhost = "127.0.0.1";
 
+# Fields
+sub port { shift->{port} }
+
 # Functions
 sub search_available_port {
   my $try_port = 20000;
@@ -93,6 +96,8 @@ sub new {
   bless $self, ref $class || $class;
   
   my $port = &search_available_port;
+  
+  $self->{port} = $port;
   
   my $code = $self->{code};
   
