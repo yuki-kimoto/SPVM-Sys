@@ -257,7 +257,6 @@ t/lib/SPVM/TestUtil/Scope/Guard.spvm
 t/lib/SPVM/TestUtil/Scope/Guard/Handler.spvm
 t/lib/SPVM/TestUtil/SocketAutoClose.spvm
 t/lib/TestUtil/ServerRunner.pm
-t/lib/TestUtil/Socket.pm
 t/print_hello.pl
 t/Sys.t
 t/Sys_IO.t

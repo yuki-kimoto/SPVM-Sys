@@ -7,11 +7,6 @@ use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 use Time::HiRes 'usleep';
 
-use Socket;
-use IO::Socket;
-use IO::Socket::INET;
-use TestUtil::Socket;
-
 use SPVM 'Sys::Ioctl';
 use SPVM 'TestCase::Sys::Ioctl';
 

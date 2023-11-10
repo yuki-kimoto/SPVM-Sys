@@ -10,37 +10,26 @@ use Time::HiRes 'usleep';
 use Socket;
 use IO::Socket;
 use IO::Socket::INET;
-use TestUtil::Socket;
+use TestUtil::ServerRunner;
 
 use SPVM 'Sys::Poll';
 use SPVM 'TestCase::Sys::Poll';
 use SPVM 'Sys::Poll::Constant';
 
-my $localhost = "127.0.0.1";
-
 # Start objects count
 my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
-# Port
-my $port = TestUtil::Socket::search_available_port;
-
-warn "[Test Output]$port";
-
 # poll
 {
-  my $process_id = fork;
-
-  # Child
-  if ($process_id == 0) {
-    TestUtil::Socket::run_echo_server($port);
-  }
-  else {
-    TestUtil::Socket::wait_port_prepared($port);
-    
-    ok(SPVM::TestCase::Sys::Poll->poll($port));
-    
-    TestUtil::Socket::kill_term_and_wait($process_id);
-  }
+  my $server = TestUtil::ServerRunner->new(
+    code => sub {
+      my ($port) = @_;
+      
+      TestUtil::ServerRunner->run_echo_server($port);
+    },
+  );
+  
+  ok(SPVM::TestCase::Sys::Poll->poll($server->port));
 }
 
 # poll constant values
