@@ -93,7 +93,16 @@ sub start_echo_server {
     
     my $data;
     while ($data = <$client_socket>) {
+      my $close = 0;
+      if ($data =~ s/\0.*//) {
+        $close = 1;
+      }
+      
       print $client_socket $data;
+      
+      if ($close) {
+        last;
+      }
     }
   }
 }
