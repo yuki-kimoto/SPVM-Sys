@@ -69,6 +69,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # Sys::Socket::Sockaddr
 {
+  my $port = TestUtil::ServerRunner->search_available_port;
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
 
