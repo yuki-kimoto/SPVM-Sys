@@ -35,7 +35,7 @@ ok(SPVM::TestCase::Sys::Select->select_utils);
 
   # Child
   if ($process_id == 0) {
-    TestUtil::Socket::start_echo_server($port);
+    TestUtil::Socket::run_echo_server($port);
   }
   else {
     TestUtil::Socket::wait_port_prepared($port);

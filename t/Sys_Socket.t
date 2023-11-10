@@ -94,7 +94,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
   # Child
   if ($process_id == 0) {
-    TestUtil::Socket::start_echo_server($port);
+    TestUtil::Socket::run_echo_server($port);
   }
   else {
     TestUtil::Socket::wait_port_prepared($port);
@@ -111,7 +111,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
   # Child
   if ($process_id == 0) {
-    TestUtil::Socket::start_echo_server($port);
+    TestUtil::Socket::run_echo_server($port);
   }
   else {
     TestUtil::Socket::wait_port_prepared($port);
@@ -129,7 +129,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
   # Child
   if ($process_id == 0) {
-    TestUtil::Socket::start_echo_server($port);
+    TestUtil::Socket::run_echo_server($port);
   }
   else {
     TestUtil::Socket::wait_port_prepared($port);
@@ -151,7 +151,7 @@ unless ($^O eq 'MSWin32') {
 
   # Child
   if ($process_id == 0) {
-    SPVM::TestCase::Sys::Socket->start_echo_server($port);
+    SPVM::TestCase::Sys::Socket->run_echo_server($port);
   }
   else {
     TestUtil::Socket::wait_port_prepared($port);
@@ -187,7 +187,7 @@ unless ($^O eq 'MSWin32') {
 
   # Child
   if ($process_id == 0) {
-    TestUtil::Socket::start_echo_server($port);
+    TestUtil::Socket::run_echo_server($port);
   }
   else {
     TestUtil::Socket::wait_port_prepared($port);
@@ -204,7 +204,7 @@ unless ($^O eq 'MSWin32') {
 
   # Child
   if ($process_id == 0) {
-    TestUtil::Socket::start_echo_server($port);
+    TestUtil::Socket::run_echo_server($port);
   }
   else {
     TestUtil::Socket::wait_port_prepared($port);

@@ -92,7 +92,7 @@ sub start_do_nothing_server {
 
 # Starts a echo server
 # if "\0" is sent, the server will stop.
-sub start_echo_server {
+sub run_echo_server {
   my ($port) = @_;
   
   my $server_socket = IO::Socket::INET->new(

@@ -14,13 +14,13 @@ warn "[Test Output]Port:$port";
 
 ok($port >= 20000);
 
-# start_echo_server again
+# run_echo_server again
 {
   my $process_id = fork;
 
   # Child
   if ($process_id == 0) {
-    TestUtil::Socket::start_echo_server($port);
+    TestUtil::Socket::run_echo_server($port);
   }
   else {
     TestUtil::Socket::wait_port_prepared($port);

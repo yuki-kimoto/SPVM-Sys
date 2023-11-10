@@ -708,7 +708,7 @@ class TestCase::Sys::Socket {
   }
 
   # accept
-  static method start_echo_server : void ($port : int) {
+  static method run_echo_server : void ($port : int) {
 
     # Socket
     my $server_socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
