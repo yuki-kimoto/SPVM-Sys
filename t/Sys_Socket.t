@@ -22,7 +22,7 @@ my $localhost = "127.0.0.1";
 my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
 # Port
-my $port = TestUtil::ServerRunner->search_available_port;
+my $port = TestUtil::ServerRunner->empty_port;
 
 # The constant values
 {
@@ -68,7 +68,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # Sys::Socket::Sockaddr
 {
-  my $port = TestUtil::ServerRunner->search_available_port;
+  my $port = TestUtil::ServerRunner->empty_port;
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
 
@@ -125,12 +125,12 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 }
 
 {
-  my $port = TestUtil::ServerRunner->search_available_port;
+  my $port = TestUtil::ServerRunner->empty_port;
   ok(SPVM::TestCase::Sys::Socket->bind($port));
 }
 
 {
-  my $port = TestUtil::ServerRunner->search_available_port;
+  my $port = TestUtil::ServerRunner->empty_port;
   ok(SPVM::TestCase::Sys::Socket->listen($port));
 }
 # accept
@@ -201,11 +201,11 @@ else {
 }
 
 {
-  my $port = TestUtil::ServerRunner->search_available_port;
+  my $port = TestUtil::ServerRunner->empty_port;
   ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
 }
 {
-  my $port = TestUtil::ServerRunner->search_available_port;
+  my $port = TestUtil::ServerRunner->empty_port;
   ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
 }
 

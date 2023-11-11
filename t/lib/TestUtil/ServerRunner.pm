@@ -26,7 +26,7 @@ sub new {
   
   bless $self, ref $class || $class;
   
-  my $port = $self->search_available_port;
+  my $port = $self->empty_port;
   
   $self->{port} = $port;
   
@@ -41,13 +41,13 @@ sub new {
   else {
     $self->{process_id} = $process_id;
     
-    $self->wait_port_prepared($port);
+    $self->wait_port($port);
   }
   
   return $self;
 }
 
-sub search_available_port {
+sub empty_port {
   my ($class) = @_;
   
   my $try_port = 20000;
@@ -82,7 +82,7 @@ sub search_available_port {
   return $available_port;
 }
 
-sub wait_port_prepared {
+sub wait_port {
   my ($class, $port) = @_;
   
   my $max_wait = 3;
