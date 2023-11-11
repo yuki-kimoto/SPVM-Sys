@@ -1,6 +1,8 @@
 0.494 2023-11-11
   [Prerequirement Changes]
     * Require SPVM 0.989060.
+  [Test Improvement]
+    * Tests of sockets becomes more relaiable.
 0.493 2023-10-02
   [Requirement Changes]
     * Require SPVM 0.989047.
