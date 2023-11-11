@@ -8,6 +8,9 @@ use Socket;
 use IO::Socket;
 use IO::Socket::INET;
 
+# process does not die when received SIGTERM, on win32.
+my $TERMSIG = $^O eq 'MSWin32' ? 'KILL' : 'TERM';
+
 my $localhost = "127.0.0.1";
 
 # Fields
@@ -106,19 +109,6 @@ sub wait_port_prepared {
   }
 }
 
-sub stop {
-  my ($class, $process_id) = @_;
-  
-  my $process_id = $self->{process_id}
-  
-  kill 'TERM', $process_id;
-  
-  # On Windows, waitpid never return. I don't understan yet this reason(maybe IO blocking).
-  unless ($^O eq 'MSWin32') {
-    waitpid $process_id, 0;
-  }
-}
-
 sub run_do_nothing_server {
   my ($class, $port) = @_;
   
@@ -180,8 +170,21 @@ sub run_echo_server {
 
 
 # Instance Methods
+sub stop {
+  my ($self) = @_;
+  
+  my $process_id = $self->{process_id};
+  
+  kill $TERMSIG, $process_id;
+  
+  # On Windows, waitpid never return. I don't understan yet this reason(maybe IO blocking).
+  unless ($^O eq 'MSWin32') {
+    waitpid $process_id, 0;
+  }
+}
+
 sub DESTROY {
   my ($self) = @_;
   
-  $self->stop($process_id);
+  $self->stop;
 }
