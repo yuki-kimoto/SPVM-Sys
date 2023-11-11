@@ -19,16 +19,6 @@ ok($port >= 20000);
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_do_nothing_server($port);
-    },
-  );
-}
-
-{
-  my $server = TestUtil::ServerRunner->new(
-    code => sub {
-      my ($port) = @_;
-      
       TestUtil::ServerRunner->run_echo_server($port);
     },
   );

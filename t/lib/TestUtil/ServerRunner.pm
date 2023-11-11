@@ -150,27 +150,6 @@ sub wait_port {
   }
 }
 
-sub run_do_nothing_server {
-  my ($class, $port) = @_;
-  
-  my $server_socket = IO::Socket::INET->new(
-    LocalAddr => $localhost,
-    LocalPort => $port,
-    Listen    => SOMAXCONN,
-    Proto     => 'tcp',
-    Reuse => 1,
-  );
-  unless ($server_socket) {
-    confess "Can't create a server socket:$@";
-  }
-  
-  while (1) {
-    my $client_socket = $server_socket->accept;
-    
-    $client_socket->close;
-  }
-}
-
 # Starts a echo server
 sub run_echo_server {
   my ($class, $port) = @_;
