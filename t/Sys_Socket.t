@@ -66,15 +66,11 @@ ok(SPVM::TestCase::Sys::Socket->inet_ntop);
 
 ok(SPVM::TestCase::Sys::Socket->socket);
 
-warn;
-
 # Sys::Socket::Sockaddr
 {
   my $port = TestUtil::ServerRunner->search_available_port;
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
-
-warn;
 
 # connect
 {
@@ -89,8 +85,6 @@ warn;
   ok(SPVM::TestCase::Sys::Socket->connect($server->port));
 }
 
-warn;
-
 # close
 {
   my $server = TestUtil::ServerRunner->new(
@@ -103,8 +97,6 @@ warn;
   
   ok(SPVM::TestCase::Sys::Socket->close($server->port));
 }
-
-warn;
 
 # shutdown
 {
@@ -144,38 +136,34 @@ warn;
 # accept
 # TODO : Windows
 unless ($^O eq 'MSWin32') {
-  my $process_id = fork;
-
-  # Child
-  if ($process_id == 0) {
-    SPVM::TestCase::Sys::Socket->run_echo_server($port);
-  }
-  else {
-    TestUtil::ServerRunner->wait_port_prepared($port);
-    
-    my $sock = IO::Socket::INET->new(
-      Proto    => 'tcp',
-      PeerAddr => $localhost,
-      PeerPort => $port,
-    );
-
-    ok($sock);
-    
-    $sock->autoflush(1);
-    
-    $sock->send("abc");
-    
-    $sock->shutdown(IO::Socket::SHUT_WR);
-    
-    my $buffer;
-    $sock->recv($buffer, 3);
-    
-    is($buffer, "abc");
-    
-    $sock->close;
-    
-    TestUtil::ServerRunner->kill_term_and_wait($process_id);
-  }
+  my $server = TestUtil::ServerRunner->new(
+    code => sub {
+      my ($port) = @_;
+      
+      TestUtil::ServerRunner->run_echo_server($port);
+    },
+  );
+  
+  my $sock = IO::Socket::INET->new(
+    Proto    => 'tcp',
+    PeerAddr => $localhost,
+    PeerPort => $port,
+  );
+  
+  ok($sock);
+  
+  $sock->autoflush(1);
+  
+  $sock->send("abc");
+  
+  $sock->shutdown(IO::Socket::SHUT_WR);
+  
+  my $buffer;
+  $sock->recv($buffer, 3);
+  
+  is($buffer, "abc");
+  
+  $sock->close;
 }
 
 # getpeername

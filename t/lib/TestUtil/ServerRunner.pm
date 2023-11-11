@@ -106,7 +106,7 @@ sub wait_port_prepared {
   }
 }
 
-sub kill_term_and_wait {
+sub stop {
   my ($class, $process_id) = @_;
   
   kill 'TERM', $process_id;
@@ -183,5 +183,5 @@ sub DESTROY {
   
   my $process_id = $self->{process_id};
   
-  $self->kill_term_and_wait($process_id);
+  $self->stop($process_id);
 }
