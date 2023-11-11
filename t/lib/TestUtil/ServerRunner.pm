@@ -30,14 +30,14 @@ sub new {
   
   my $code = $self->{code};
   
-  my $process_id = fork;
+  my $pid = fork;
   
   # Child
-  if ($process_id == 0) {
+  if ($pid == 0) {
     $code->($port);
   }
   else {
-    $self->{process_id} = $process_id;
+    $self->{pid} = $pid;
     
     $self->wait_port($port);
   }
@@ -212,13 +212,13 @@ sub run_echo_server {
 sub stop {
   my ($self) = @_;
   
-  my $process_id = $self->{process_id};
+  my $pid = $self->{pid};
   
-  kill $TERMSIG, $process_id;
+  kill $TERMSIG, $pid;
   
   # On Windows, waitpid never return. I don't understan yet this reason(maybe IO blocking).
   unless ($^O eq 'MSWin32') {
-    waitpid $process_id, 0;
+    waitpid $pid, 0;
   }
 }
 
