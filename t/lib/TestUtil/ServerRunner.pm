@@ -4,8 +4,6 @@ use strict;
 use warnings;
 use Carp 'confess';
 
-use Socket;
-use IO::Socket;
 use IO::Socket::INET;
 
 # process does not die when received SIGTERM, on win32.
@@ -47,39 +45,80 @@ sub new {
   return $self;
 }
 
-sub empty_port {
-  my ($class) = @_;
-  
-  my $try_port = 20000;
-  
-  my $available_port;
-  my $retry_max = 10;
-  my $retry_count = 0;
-  while (1) {
-    if ($retry_count > 0) {
-      warn "[Test Output]Perform the ${retry_count} retry to search an available port $try_port";
-    }
-    
-    if ($retry_count > $retry_max) {
-      confess "Can't find an available port";
-    }
-    
-    my $server_socket = IO::Socket::INET->new(
-      PeerAddr => $localhost,
-      PeerPort => $try_port,
-      Timeout => 5,
+sub can_bind {
+    my ($host, $port, $proto) = @_;
+    # The following must be split across two statements, due to
+    # https://rt.perl.org/Public/Bug/Display.html?id=124248
+    my $s = _listen_socket($host, $port, $proto);
+    return defined $s;
+}
+
+sub _listen_socket {
+    my ($host, $port, $proto) = @_;
+    $port  ||= 0;
+    $proto ||= 'tcp';
+    IO::Socket::INET->new(
+        (($proto eq 'udp') ? () : (Listen => 5)),
+        LocalAddr => $host,
+        LocalPort => $port,
+        Proto     => $proto,
+        # V6Only    => 1,
+        (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
     );
-    
-    unless ($server_socket) {
-      $available_port = $try_port;
-      last;
+}
+
+# get a empty port on 49152 .. 65535
+# http://www.iana.org/assignments/port-numbers
+sub empty_port {
+    my ($host, $port, $proto) = @_ && ref $_[0] eq 'HASH' ? ($_[0]->{host}, $_[0]->{port}, $_[0]->{proto}) : (undef, @_);
+    $host = '127.0.0.1'
+        unless defined $host;
+    $proto = $proto ? lc($proto) : 'tcp';
+ 
+    if (defined $port) {
+        # to ensure lower bound, check one by one in order
+        $port = 49152 unless $port =~ /^[0-9]+$/ && $port < 49152;
+        while ( $port++ < 65000 ) {
+            # Remote checks don't work on UDP, and Local checks would be redundant here...
+            next if ($proto eq 'tcp' && check_port({ host => $host, port => $port }));
+            return $port if can_bind($host, $port, $proto);
+        }
+    } else {
+        # kernel will select an unused port
+        while ( my $sock = _listen_socket($host, undef, $proto) ) {
+            $port = $sock->sockport;
+            $sock->close;
+            next if ($proto eq 'tcp' && check_port({ host => $host, port => $port }));
+            return $port;
+        }
     }
-    
-    $try_port++;
-    $retry_count++;
-  }
-  
-  return $available_port;
+    die "empty port not found";
+}
+
+sub check_port {
+    my ($host, $port, $proto) = @_ && ref $_[0] eq 'HASH' ? ($_[0]->{host}, $_[0]->{port}, $_[0]->{proto}) : (undef, @_);
+    $host = '127.0.0.1'
+        unless defined $host;
+ 
+    return _check_port_udp($host, $port)
+        if $proto && lc($proto) eq 'udp';
+ 
+    # TCP, check if possible to connect
+    my $sock = IO::Socket::INET->new(
+        Proto    => 'tcp',
+        PeerAddr => $host,
+        PeerPort => $port,
+        # V6Only   => 1,
+    );
+ 
+    if ($sock) {
+        close $sock;
+        return 1; # The port is used.
+    }
+    else {
+        return 0; # The port is not used.
+    }
+ 
 }
 
 sub wait_port {
