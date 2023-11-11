@@ -21,9 +21,6 @@ my $localhost = "127.0.0.1";
 # Start objects count
 my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
-# Port
-my $port = TestUtil::ServerRunner->empty_port;
-
 # The constant values
 {
   is(SPVM::Sys::Socket::Constant->AF_INET, Socket::AF_INET);
@@ -147,7 +144,7 @@ unless ($^O eq 'MSWin32') {
   my $sock = IO::Socket::INET->new(
     Proto    => 'tcp',
     PeerAddr => $localhost,
-    PeerPort => $port,
+    PeerPort => $server->port,
   );
   
   ok($sock);
@@ -176,7 +173,7 @@ unless ($^O eq 'MSWin32') {
     },
   );
   
-  ok(SPVM::TestCase::Sys::Socket->getpeername($port));
+  ok(SPVM::TestCase::Sys::Socket->getpeername($server->port));
 }
 
 # getsockname
@@ -189,7 +186,7 @@ unless ($^O eq 'MSWin32') {
     },
   );
   
-  ok(SPVM::TestCase::Sys::Socket->getsockname($port));
+  ok(SPVM::TestCase::Sys::Socket->getsockname($server ->port));
 }
 
 if ($^O eq 'MSWin32') {

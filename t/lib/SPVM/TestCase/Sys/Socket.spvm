@@ -746,7 +746,6 @@ class TestCase::Sys::Socket {
     Fn->defer([$socket : int] method :void () {
       Sys::Socket->close($socket);
     });
-    
     unless ($socket> 0) {
       return 0;
     }
@@ -766,40 +765,33 @@ class TestCase::Sys::Socket {
       
       my $result_address_size = $result_address->size;
       my $status_getpeername = Sys::Socket->getpeername($socket, $result_address, \$result_address_size);
-
       unless ($status_getpeername == 0) {
         return 0;
       }
+      my $port_got = ((int)Sys::Socket->ntohs((short)$result_address->sin_port)) & 0xFFFF;
       
-      unless (Sys::Socket->ntohs((short)$result_address->sin_port) == $port) {
+      unless ($port_got == $port) {
         return 0;
       }
-      
       unless ($result_address->sin_addr->s_addr == $in_addr->s_addr) {
         return 0;
       }
-      
       unless ($result_address->size == $sockaddr->size) {
         return 0;
       }
     }
-
     {
       my $result_address = (Sys::Socket::Sockaddr::In)Sys->getpeername($socket);
-      
       unless ($result_address->sin_family == SOCKET->AF_INET) {
         return 0;
       }
-      
       unless (Sys::Socket->ntohs((short)$result_address->sin_port) != 0) {
         return 0;
       }
-      
       unless ($result_address->sin_addr->s_addr == $in_addr->s_addr) {
         return 0;
       }
     }
-
     return 1;
   }
 
