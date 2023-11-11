@@ -172,7 +172,6 @@ sub run_do_nothing_server {
 }
 
 # Starts a echo server
-# if "\0" is sent, the server will stop.
 sub run_echo_server {
   my ($class, $port) = @_;
   
@@ -190,21 +189,8 @@ sub run_echo_server {
   while (1) {
     my $client_socket = $server_socket->accept;
     
-    $client_socket->autoflush(1);
-    
-    my $data;
-    while ($data = <$client_socket>) {
-      my $close = 0;
-      if ($data =~ s/\0.*//) {
-        $close = 1;
-      }
-      
+    while (my $data = <$client_socket>) {
       print $client_socket $data;
-      
-      if ($close) {
-        $client_socket->close;
-        last;
-      }
     }
   }
 }
