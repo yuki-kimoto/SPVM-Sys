@@ -109,6 +109,8 @@ sub wait_port_prepared {
 sub stop {
   my ($class, $process_id) = @_;
   
+  my $process_id = $self->{process_id}
+  
   kill 'TERM', $process_id;
   
   # On Windows, waitpid never return. I don't understan yet this reason(maybe IO blocking).
@@ -179,9 +181,7 @@ sub run_echo_server {
 
 # Instance Methods
 sub DESTROY {
-  my $self = shift;
-  
-  my $process_id = $self->{process_id};
+  my ($self) = @_;
   
   $self->stop($process_id);
 }
