@@ -16,8 +16,7 @@ class TestCase::Sys::Socket {
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
   
-  use TestUtil::SocketAutoClose;
-  use TestUtil::Scope::Guard;
+  use Fn;
   
   static method htonl : int () {
     my $host_int = 20000;
@@ -548,12 +547,10 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    # Close socket at the end of this scope
-    my $socket_auto_close = TestUtil::Scope::Guard->new([has socket : int = $socket] method : void () {
-      my $socket = $self->{socket};
+    Fn->defer([$socket : int] method :void () {
       Sys::Socket->close($socket);
     });
-
+    
     # IPv4 address
     my $sockaddr = Sys::Socket::Sockaddr::In->new;
     $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
@@ -641,8 +638,9 @@ class TestCase::Sys::Socket {
       return 0;
     }
 
-    # Close socket at the end of this scope
-    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    Fn->defer([$socket : int] method :void () {
+      Sys::Socket->close($socket);
+    });
     
     # IPv4 address
     my $sockaddr = Sys::Socket::Sockaddr::In->new;
@@ -675,8 +673,9 @@ class TestCase::Sys::Socket {
       return 0;
     }
 
-    # Close socket at the end of this scope
-    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    Fn->defer([$socket : int] method :void () {
+      Sys::Socket->close($socket);
+    });
     
     # IPv4 address
     my $sockaddr = Sys::Socket::Sockaddr::In->new;
@@ -744,8 +743,9 @@ class TestCase::Sys::Socket {
     # Socket
     my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
 
-    # Close socket at the end of this scope
-    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    Fn->defer([$socket : int] method :void () {
+      Sys::Socket->close($socket);
+    });
     
     unless ($socket> 0) {
       return 0;
@@ -807,8 +807,9 @@ class TestCase::Sys::Socket {
     # Socket
     my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
 
-    # Close socket at the end of this scope
-    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    Fn->defer([$socket : int] method :void () {
+      Sys::Socket->close($socket);
+    });
     
     unless ($socket> 0) {
       return 0;
@@ -875,12 +876,16 @@ class TestCase::Sys::Socket {
       unless ($status == 0) {
         return 0;
       }
-
-      # Close socket at the end of this scope
-      my $socket1_auto_close = TestUtil::SocketAutoClose->new($sockets->[0]);
       
-      # Close socket at the end of this scope
-      my $socket2_auto_close = TestUtil::SocketAutoClose->new($sockets->[1]);
+      my $sockets0 = $sockets->[0];
+      Fn->defer([$sockets0 : int] method :void () {
+        Sys::Socket->close($sockets0);
+      });
+      
+      my $sockets1 = $sockets->[1];
+      Fn->defer([$sockets1 : int] method :void () {
+        Sys::Socket->close($sockets1);
+      });
       
       unless ($sockets->[0] > 0) {
         return 0;
@@ -900,12 +905,15 @@ class TestCase::Sys::Socket {
         return 0;
       }
 
-      # Close socket at the end of this scope
-      my $socket1_auto_close = TestUtil::SocketAutoClose->new($socket1);
+      Fn->defer([$socket1 : int] method :void () {
+        Sys::Socket->close($socket1);
+      });
+    
       
-      # Close socket at the end of this scope
-      my $socket2_auto_close = TestUtil::SocketAutoClose->new($socket2);
-      
+      Fn->defer([$socket2 : int] method :void () {
+        Sys::Socket->close($socket2);
+      });
+    
       unless ($socket1 > 0) {
         return 0;
       }
@@ -926,8 +934,10 @@ class TestCase::Sys::Socket {
       return 0;
     }
 
-    # Close socket at the end of this scope
-    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    Fn->defer([$socket : int] method :void () {
+      Sys::Socket->close($socket);
+    });
+    
     
     # IPv4 address
     my $sockaddr = Sys::Socket::Sockaddr::In->new;
@@ -954,8 +964,10 @@ class TestCase::Sys::Socket {
       return 0;
     }
 
-    # Close socket at the end of this scope
-    my $socket_auto_close = TestUtil::SocketAutoClose->new($socket);
+    Fn->defer([$socket : int] method :void () {
+      Sys::Socket->close($socket);
+    });
+    
     
     # IPv4 address
     my $sockaddr = Sys::Socket::Sockaddr::In->new;
