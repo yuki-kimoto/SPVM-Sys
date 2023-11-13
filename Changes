@@ -5,6 +5,7 @@
     * Remove the connect_raw method in the Sys::Socket class.
     * Remove the getaddrinfo_raw method in the Sys::Socket class.
     * Remove the getnameinfo_raw method in the Sys::Socket class.
+    * Remove the access_raw method in the Sys::IOt class.
 0.494 2023-11-12
   [Prerequirement Changes]
     * Require SPVM 0.989060.

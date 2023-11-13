@@ -1310,8 +1310,8 @@ int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__access_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
+
   void* obj_pathname = stack[0].oval;
   
   if (!obj_pathname) {
@@ -1324,24 +1324,13 @@ int32_t SPVM__Sys__IO__access_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = access(pathname, mode);
   
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  void* obj_pathname = stack[0].oval;
-  
-  SPVM__Sys__IO__access_raw(env, stack);
-  
-  int32_t status = stack[0].ival;
-  
   if (status == -1) {
     const char* pathname = env->get_chars(env, stack, obj_pathname);
     env->die(env, stack, "[System Error]access failed:%s", env->strerror(env, stack, errno, 0), pathname, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+  
+  stack[0].ival = status;
   
   return 0;
 }

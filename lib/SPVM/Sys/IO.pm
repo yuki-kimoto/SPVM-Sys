@@ -411,12 +411,6 @@ See the L<utime|https://linux.die.net/man/2/utime> function in Linux.
 
 The buf is a L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> object.
 
-=head2 access_raw
-
-C<static method access_raw : int ($pathname : string, $mode : int);>
-
-The same as L</"access">, but even if the return value is C<-1>, an exception will not be thrown.
-
 =head2 access
 
 C<static method access : int ($pathname : string, $mode : int);>
