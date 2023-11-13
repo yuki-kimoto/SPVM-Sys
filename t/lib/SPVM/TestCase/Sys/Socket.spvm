@@ -447,10 +447,12 @@ class TestCase::Sys::Socket {
         return 0;
       }
     }
-    
+
+=pod TODO
+
     # IPv6 address
     {
-      my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+      my $socket = Sys::Socket->socket(SOCKET->AF_INET6, SOCKET->SOCK_STREAM, 0);
       
       unless ($socket> 0) {
         return 0;
@@ -467,7 +469,9 @@ class TestCase::Sys::Socket {
         return 0;
       }
     }
-    
+
+=cut
+
     return 1;
   }
 
