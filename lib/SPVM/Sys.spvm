@@ -100,10 +100,10 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->O;
     }
     
@@ -116,11 +116,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # Character device
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->R;
     }
     
@@ -145,11 +145,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # Character device
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->W;
     }
     
@@ -162,11 +162,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # Character device
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->X;
     }
     
@@ -180,11 +180,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # Block device
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->b;
     }
     
@@ -198,11 +198,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # Character device
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->c;
     }
     
@@ -216,10 +216,10 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->d;
     }
     
@@ -233,10 +233,10 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->e;
     }
     
@@ -250,10 +250,10 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->f;
     }
     
@@ -267,10 +267,10 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->g;
     }
     
@@ -284,10 +284,10 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->k;
     }
     
@@ -323,10 +323,10 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->o;
     }
     return $ok;
@@ -339,11 +339,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # FIFO/PIPE
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->p;
     }
     
@@ -356,11 +356,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # Character device
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->r;
     }
     
@@ -387,11 +387,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # Character device
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->u;
     }
     
@@ -404,11 +404,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # Character device
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->w;
     }
     
@@ -421,11 +421,11 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    my $status = Sys::IO::Stat->stat_raw($file, $stat);
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
     # Character device
     my $ok = 0;
-    unless ($status == -1) {
+    unless ($@) {
       $ok = $stat->x;
     }
     
