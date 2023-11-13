@@ -1335,7 +1335,8 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__faccessat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
 #if defined(_WIN32)
   return env->die(env, stack, "faccessat is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
 #else
@@ -1354,26 +1355,16 @@ int32_t SPVM__Sys__IO__faccessat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   errno = 0;
   int32_t status = faccessat(dirfd, pathname, mode, flags);
   
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
-  void* obj_pathname = stack[1].oval;
-  
-  SPVM__Sys__IO__faccessat_raw(env, stack);
-  
-  int32_t status = stack[0].ival;
-  
   if (status == -1) {
     const char* pathname = env->get_chars(env, stack, obj_pathname);
     env->die(env, stack, "[System Error]faccessat failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
+  stack[0].ival = status;
+  
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {

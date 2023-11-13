@@ -429,7 +429,17 @@ eaccess() checks whether the calling process can eaccess the file pathname. If p
 
 See the L<eaccess|https://linux.die.net/man/3/eaccess> function in Linux.
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the C<$mode>.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the $mode.
+
+=head2 faccessat
+
+  static method faccessat : int ($dirfd : int, $pathname : string, $mode : int, $flags : int);
+
+check user's permissions of a file relative to a directory file descriptor.
+
+See the L<faccessat|https://linux.die.net/man/2/faccessat> function in Linux.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the $mode and $flag.
 
 =head2 stat_raw
 

@@ -7,6 +7,9 @@
     * Remove the getnameinfo_raw method in the Sys::Socket class.
     * Remove the access_raw method in the Sys::IO class.
     * Remove the eaccess_raw method in the Sys::IO class.
+    * Remove the faccessat_raw method in the Sys::IO class.
+  [Document Fix]
+    * Add the doc of the faccessat method in the Sys::IO class.
 0.494 2023-11-12
   [Prerequirement Changes]
     * Require SPVM 0.989060.
