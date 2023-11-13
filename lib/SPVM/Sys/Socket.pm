@@ -281,14 +281,6 @@ $optval is a string. The following is an example to get an int value.
   Fn->memcpy($result_ref, 0, $optval, 0, 4);
   my $optval_int = $optval_int_ref->[0];
 
-=head2 getaddrinfo_raw
-
-C<static method getaddrinfo_raw : int ($node : string, $service : string,>
-                $hints : Sys::Socket::Addrinfo,
-                $res : Sys::Socket::Addrinfo[]);
-
-Same as the L</"getaddrinfo"> method, but doesn't throw exceptions related to system errors.
-
 =head2 getaddrinfo
 
 C<static method getaddrinfo : int ($node : string, $service : string,>

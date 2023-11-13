@@ -774,11 +774,47 @@ int32_t SPVM__Sys__Socket__getaddrinfo_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
-  error_id = SPVM__Sys__Socket__getaddrinfo_raw(env, stack);
-  if (error_id) { return error_id; }
+  void* obj_node = stack[0].oval;
   
-  int32_t status = stack[0].ival;
-  if (!(status == 0)) {
+  const char* node = NULL;
+  if (obj_node) {
+    node = env->get_chars(env, stack, obj_node);
+  }
+  
+  void* obj_service = stack[1].oval;
+  
+  const char* service = NULL;
+  if (obj_service) {
+    service = env->get_chars(env, stack, obj_service);
+  }
+  
+  void* obj_hints = stack[2].oval;
+  
+  struct addrinfo *hints = NULL;
+  if (obj_hints) {
+    hints = env->get_pointer(env, stack, obj_hints);
+  }
+  
+  void* obj_res_array = stack[3].oval;
+  if (!obj_res_array) {
+    return env->die(env, stack, "$res_array must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  int32_t res_array_length = env->length(env, stack, obj_res_array);
+  if (!(res_array_length >= 1)) {
+    return env->die(env, stack, "The length of $res_array must be greater than or equal to 1", __func__, FILE_NAME, __LINE__);
+  }
+  
+  struct addrinfo *res = NULL;
+  
+  int32_t status = getaddrinfo(node, service, hints, &res);
+  
+  if (status == 0) {
+    int32_t fields_length = 1;
+    void* obj_res = env->new_pointer_object_by_name(env, stack, "Sys::Socket::AddrinfoLinkedList", res, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) { return error_id; }
+    env->set_elem_object(env, stack, obj_res_array, 0, obj_res);
+  }
+  else {
     stack[0].ival = status;
     SPVM__Sys__Socket__gai_strerror(env, stack);
     void* obj_gai_strerror = stack[0].oval;
