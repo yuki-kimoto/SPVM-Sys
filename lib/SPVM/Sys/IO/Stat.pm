@@ -73,12 +73,6 @@ See the L<lstat|https://linux.die.net/man/2/lstat> function in Linux.
 
 The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
-=head2 fstat_raw
-
-C<static method fstat_raw : int ($fd : int, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
-
-The same as L</"fstat">, but even if the return value is C<-1>, an exception will not be thrown.
-
 =head2 fstat
 
 C<static method fstat : int ($fd : int, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>

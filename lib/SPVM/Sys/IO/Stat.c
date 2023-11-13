@@ -128,8 +128,8 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__Stat__fstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
   int32_t error_id = 0;
   
   int32_t fd = stack[0].ival;
@@ -143,21 +143,13 @@ int32_t SPVM__Sys__IO__Stat__fstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
   
   int32_t status = fstat(fd, stat_buf);
-
-  stack[0].ival = status;
   
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
-  SPVM__Sys__IO__Stat__fstat_raw(env, stack);
-  
-  int32_t status = stack[0].ival;
-
   if (status == -1) {
     env->die(env, stack, "[System Error]fstat failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+  
+  stack[0].ival = status;
   
   return 0;
 }
