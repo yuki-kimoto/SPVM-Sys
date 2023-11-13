@@ -421,12 +421,6 @@ See the L<access|https://linux.die.net/man/2/access> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
 
-=head2 eaccess_raw
-
-C<static method eaccess_raw : int ($pathname : string, $mode : int);>
-
-The same as L</"eaccess">, but even if the return value is C<-1>, an exception will not be thrown.
-
 =head2 eaccess
 
 C<static method eaccess : int ($pathname : string, $mode : int);>
@@ -436,18 +430,6 @@ eaccess() checks whether the calling process can eaccess the file pathname. If p
 See the L<eaccess|https://linux.die.net/man/3/eaccess> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the C<$mode>.
-
-=head2 eaccess_raw
-
-C<static method eaccess : int ($pathname : string, $mode : int)>
-
-The same as L</"eaccess">, but even if the return value is C<-1>, an exception will not be thrown.
-
-=head2 eaccess
-
-C<static method eaccess : int ($pathname : string, $mode : int)>
-
-Emulates C<eaccess> using L</"faccessat">.
 
 =head2 stat_raw
 
