@@ -115,10 +115,6 @@ See the detail of the L<socket|https://linux.die.net/man/2/socket> function in t
 
 If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
-=head2 connect_raw
-
-C<static method connect_raw : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen : int);>
-
 =head2 connect
 
 C<static method connect : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen : int);>

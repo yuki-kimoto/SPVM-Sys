@@ -448,6 +448,30 @@ class TestCase::Sys::Socket {
       }
     }
 
+    # Exception
+    {
+      # AF_INET6 is wrong setting
+      my $socket = Sys::Socket->socket(SOCKET->AF_INET6, SOCKET->SOCK_STREAM, 0);
+      
+      unless ($socket> 0) {
+        return 0;
+      }
+      
+      my $in_addr = Sys::Socket::Util->inet_aton("127.0.0.1");
+      my $sockaddr_in = Sys::Socket::Util->sockaddr_in($port, $in_addr);
+      
+      eval { Sys->connect($socket, $sockaddr_in); }
+      
+      unless ($@) {
+        return 0;
+      }
+      
+      unless (eval_error_id is_error Error::System) {
+        return 0;
+      }
+      
+    }
+
 =pod TODO
 
     # IPv6 address
@@ -471,6 +495,8 @@ class TestCase::Sys::Socket {
     }
 
 =cut
+    
+    $@ = undef;
 
     return 1;
   }

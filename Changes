@@ -1,6 +1,9 @@
 0.495 2023-11-14
   [Bug Fix]
     * Fix the bug that the error handling of the connect method in the Sys::Socket does not work well.
+  [Incompatible Changes]
+    * Remove the connect_raw in the Sys::Socket class.
+    
 0.494 2023-11-12
   [Prerequirement Changes]
     * Require SPVM 0.989060.
