@@ -3,8 +3,8 @@
     * Fix the bug that the error handling of the connect method in the Sys::Socket does not work well.
   [Incompatible Changes]
     * Remove the connect_raw method in the Sys::Socket class.
-    * Remove the getaddrinfo method in the Sys::Socket class.
-    
+    * Remove the getaddrinfo_raw method in the Sys::Socket class.
+    * Remove the getnameinfo_raw method in the Sys::Socket class.
 0.494 2023-11-12
   [Prerequirement Changes]
     * Require SPVM 0.989060.

@@ -867,12 +867,39 @@ int32_t SPVM__Sys__Socket__getnameinfo_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
   int32_t error_id = 0;
   
-  error_id = SPVM__Sys__Socket__getnameinfo_raw(env, stack);
-  if (error_id) { return error_id; }
+  void* obj_sa = stack[0].oval;
   
-  int32_t status = stack[0].ival;
+  if (!obj_sa) {
+    return env->die(env, stack, "$sa must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const struct sockaddr* sa = env->get_pointer(env, stack, obj_sa);
+
+  int32_t salen = stack[1].ival;
+  
+  void* obj_host = stack[2].oval;
+  char* host = NULL;
+  if (obj_host) {
+    host = (char*)env->get_chars(env, stack, obj_host);
+  }
+  
+  int32_t hostlen = stack[3].ival;
+  
+  void* obj_serv = stack[4].oval;
+  char* serv = NULL;
+  if (obj_serv) {
+    serv = (char*)env->get_chars(env, stack, obj_serv);
+  }
+  
+  int32_t servlen = stack[5].ival;
+
+  int32_t flags = stack[6].ival;
+  
+  int32_t status = getnameinfo(sa, salen, host, hostlen, serv, servlen, flags);
+  
   if (!(status == 0)) {
     stack[0].ival = status;
     SPVM__Sys__Socket__gai_strerror(env, stack);

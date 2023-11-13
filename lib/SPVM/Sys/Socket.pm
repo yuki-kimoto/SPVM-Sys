@@ -301,14 +301,6 @@ The length of the array of the response must be greater than or equal to 1. Othe
 
 If a system error occur, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
 
-=head2 getnameinfo_raw
-
-C<static method getnameinfo_raw : int ($sa : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $salen : int,>
-                $host : mutable string, $hostlen : int,
-                $serv : mutable string, $servlen : int, $flags : int);
-
-Same as the L</"getnameinfo"> method, but doesn't throw exceptions related to system errors.
-
 =head2 getnameinfo
 
 C<static method getnameinfo : int ($sa : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $salen : int,>
