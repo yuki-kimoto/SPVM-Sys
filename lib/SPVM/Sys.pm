@@ -541,6 +541,14 @@ Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO
 
 If succeed, returns 1.
 
+=head2 say
+
+C<static method say : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
+
+Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO> class given the length of $string and C<\n>.
+
+If succeed, returns 1.
+
 =head2 printf
 
 C<static method printf : int ($stream, $format : string, $args : object[])>

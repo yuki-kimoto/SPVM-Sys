@@ -1103,6 +1103,31 @@ class TestCase::Sys::IO {
         unless ($stream) {
           return 0;
         }
+
+        my $success = 0;
+        my $size = 1;
+        my $length = 4;
+        
+        $success = Sys->say($stream, "abcd");
+        unless ($success) {
+          return 0;
+        }
+        
+        $success = Sys->say($stream, "efgh");
+        unless ($success) {
+          return 0;
+        }
+        
+        Sys::IO->fclose($stream);
+      }
+      
+      {
+        my $file = "$test_dir/foo.txt";
+        my $stream = Sys::IO->fopen($file, "wb");
+        
+        unless ($stream) {
+          return 0;
+        }
         
         my $success = 0;
         my $size = 1;
