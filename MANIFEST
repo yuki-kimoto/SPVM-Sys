@@ -128,6 +128,8 @@ lib/SPVM/Sys/Socket/Constant.c
 lib/SPVM/Sys/Socket/Constant.config
 lib/SPVM/Sys/Socket/Constant.pm
 lib/SPVM/Sys/Socket/Constant.spvm
+lib/SPVM/Sys/Socket/Errno.pm
+lib/SPVM/Sys/Socket/Errno.spvm
 lib/SPVM/Sys/Socket/Error.spvm
 lib/SPVM/Sys/Socket/Error/InetInvalidNetworkAddress.pm
 lib/SPVM/Sys/Socket/Error/InetInvalidNetworkAddress.spvm
@@ -265,6 +267,7 @@ t/Sys_Signal.t
 t/Sys_Signal_alarm.t
 t/Sys_Signal_ualarm.t
 t/Sys_Socket.t
+t/Sys_Socket_Errno.t
 t/Sys_symlink.t
 t/Sys_Time.t
 t/Sys_User.t

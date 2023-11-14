@@ -1,3 +1,6 @@
+0.495001 2023-11-14
+  [Bug Fix]
+    * Fix a bug that the Sys::Socket::Errno class file is not added.
 0.495 2023-11-14
   [Bug Fix]
     * Fix the bug that the error handling of the connect method in the Sys::Socket does not work well.
