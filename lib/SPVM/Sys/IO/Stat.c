@@ -67,17 +67,32 @@ int32_t SPVM__Sys__IO__Stat__stat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 
 int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
   void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
   
-  SPVM__Sys__IO__Stat__stat_raw(env, stack);
+  void* obj_stat = stack[1].oval;
+  if (!obj_stat) {
+    return env->die(env, stack, "$stat must be defined", __func__, FILE_NAME, __LINE__);
+  }
   
-  int32_t status = stack[0].ival;
-
+  struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
+  
+  errno = 0;
+  int32_t status = stat(path, stat_buf);
+  
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
     env->die(env, stack, "[System Error]stat failed:%s. The specified file is \"%s\"", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+  
+  stack[0].ival = status;
   
   return 0;
 }

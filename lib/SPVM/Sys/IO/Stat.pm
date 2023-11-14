@@ -37,12 +37,6 @@ Creates a new C<Sys::IO::Stat> object.
 
 If $path is specified, L</"stat"> is called.
 
-=head2 stat_raw
-
-C<static method stat_raw : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
-
-The same as L</"stat">, but even if the return value is C<-1>, an exception will not be thrown.
-
 =head2 stat
 
 C<static method stat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
