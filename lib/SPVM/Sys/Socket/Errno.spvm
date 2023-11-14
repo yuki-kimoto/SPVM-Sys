@@ -1,0 +1,377 @@
+# Copyright (c) 2023 Yuki Kimoto
+# MIT License
+
+class Sys::Socket::Errno {
+  use Sys::OS;
+  use Errno;
+  
+  static method INTR : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEINTR;
+    }
+    else {
+      return Errno->EINTR;
+    }
+  }
+
+  static method BADF : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEBADF;
+    }
+    else {
+      return Errno->EBADF;
+    }
+  }
+
+  static method ACCES : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEACCES;
+    }
+    else {
+      return Errno->EACCES;
+    }
+  }
+
+  static method FAULT : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEFAULT;
+    }
+    else {
+      return Errno->EFAULT;
+    }
+  }
+
+  static method INVAL : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEINVAL;
+    }
+    else {
+      return Errno->EINVAL;
+    }
+  }
+
+  static method MFILE : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEMFILE;
+    }
+    else {
+      return Errno->EMFILE;
+    }
+  }
+
+  static method WOULDBLOCK : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEWOULDBLOCK;
+    }
+    else {
+      return Errno->EWOULDBLOCK;
+    }
+  }
+
+  static method INPROGRESS : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEINPROGRESS;
+    }
+    else {
+      return Errno->EINPROGRESS;
+    }
+  }
+
+  static method ALREADY : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEALREADY;
+    }
+    else {
+      return Errno->EALREADY;
+    }
+  }
+
+  static method NOTSOCK : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAENOTSOCK;
+    }
+    else {
+      return Errno->ENOTSOCK;
+    }
+  }
+
+  static method DESTADDRREQ : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEDESTADDRREQ;
+    }
+    else {
+      return Errno->EDESTADDRREQ;
+    }
+  }
+
+  static method MSGSIZE : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEMSGSIZE;
+    }
+    else {
+      return Errno->EMSGSIZE;
+    }
+  }
+
+  static method PROTOTYPE : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEPROTOTYPE;
+    }
+    else {
+      return Errno->EPROTOTYPE;
+    }
+  }
+
+  static method NOPROTOOPT : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAENOPROTOOPT;
+    }
+    else {
+      return Errno->ENOPROTOOPT;
+    }
+  }
+
+  static method PROTONOSUPPORT : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEPROTONOSUPPORT;
+    }
+    else {
+      return Errno->EPROTONOSUPPORT;
+    }
+  }
+
+  static method SOCKTNOSUPPORT : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAESOCKTNOSUPPORT;
+    }
+    else {
+      return Errno->ESOCKTNOSUPPORT;
+    }
+  }
+
+  static method OPNOTSUPP : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEOPNOTSUPP;
+    }
+    else {
+      return Errno->EOPNOTSUPP;
+    }
+  }
+
+  static method PFNOSUPPORT : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEPFNOSUPPORT;
+    }
+    else {
+      return Errno->EPFNOSUPPORT;
+    }
+  }
+
+  static method AFNOSUPPORT : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEAFNOSUPPORT;
+    }
+    else {
+      return Errno->EAFNOSUPPORT;
+    }
+  }
+
+  static method ADDRINUSE : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEADDRINUSE;
+    }
+    else {
+      return Errno->EADDRINUSE;
+    }
+  }
+
+  static method ADDRNOTAVAIL : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEADDRNOTAVAIL;
+    }
+    else {
+      return Errno->EADDRNOTAVAIL;
+    }
+  }
+
+  static method NETDOWN : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAENETDOWN;
+    }
+    else {
+      return Errno->ENETDOWN;
+    }
+  }
+
+  static method NETUNREACH : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAENETUNREACH;
+    }
+    else {
+      return Errno->ENETUNREACH;
+    }
+  }
+
+  static method NETRESET : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAENETRESET;
+    }
+    else {
+      return Errno->ENETRESET;
+    }
+  }
+
+  static method CONNABORTED : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAECONNABORTED;
+    }
+    else {
+      return Errno->ECONNABORTED;
+    }
+  }
+
+  static method CONNRESET : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAECONNRESET;
+    }
+    else {
+      return Errno->ECONNRESET;
+    }
+  }
+
+  static method NOBUFS : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAENOBUFS;
+    }
+    else {
+      return Errno->ENOBUFS;
+    }
+  }
+
+  static method ISCONN : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEISCONN;
+    }
+    else {
+      return Errno->EISCONN;
+    }
+  }
+
+  static method NOTCONN : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAENOTCONN;
+    }
+    else {
+      return Errno->ENOTCONN;
+    }
+  }
+
+  static method SHUTDOWN : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAESHUTDOWN;
+    }
+    else {
+      return Errno->ESHUTDOWN;
+    }
+  }
+
+  static method TIMEDOUT : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAETIMEDOUT;
+    }
+    else {
+      return Errno->ETIMEDOUT;
+    }
+  }
+
+  static method CONNREFUSED : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAECONNREFUSED;
+    }
+    else {
+      return Errno->ECONNREFUSED;
+    }
+  }
+
+  static method LOOP : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAELOOP;
+    }
+    else {
+      return Errno->ELOOP;
+    }
+  }
+
+  static method NAMETOOLONG : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAENAMETOOLONG;
+    }
+    else {
+      return Errno->ENAMETOOLONG;
+    }
+  }
+
+  static method HOSTDOWN : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEHOSTDOWN;
+    }
+    else {
+      return Errno->EHOSTDOWN;
+    }
+  }
+
+  static method HOSTUNREACH : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEHOSTUNREACH;
+    }
+    else {
+      return Errno->EHOSTUNREACH;
+    }
+  }
+
+  static method NOTEMPTY : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAENOTEMPTY;
+    }
+    else {
+      return Errno->ENOTEMPTY;
+    }
+  }
+
+  static method USERS : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEUSERS;
+    }
+    else {
+      return Errno->EUSERS;
+    }
+  }
+
+  static method DQUOT : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEDQUOT;
+    }
+    else {
+      return Errno->EDQUOT;
+    }
+  }
+
+  static method STALE : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAESTALE;
+    }
+    else {
+      return Errno->ESTALE;
+    }
+  }
+
+  static method REMOTE : int () {
+    if (Sys::OS->is_windows) {
+      return Errno->WSAEREMOTE;
+    }
+    else {
+      return Errno->EREMOTE;
+    }
+  }
+
+}
