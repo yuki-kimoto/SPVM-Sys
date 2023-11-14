@@ -15,6 +15,9 @@
     * Add the doc of the faccessat method in the Sys::IO class.
   [Exception Message Changes]
     * Add periods to exception messages.
+  [New Features]
+    * Add the Sys::Socket::Errno doc.
+    
 0.494 2023-11-12
   [Prerequirement Changes]
     * Require SPVM 0.989060.
