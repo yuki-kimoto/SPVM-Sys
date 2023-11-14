@@ -82,7 +82,8 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__Stat__lstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
 #if defined(_WIN32)
   return env->die(env, stack, "lstat is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
 #else
@@ -105,26 +106,17 @@ int32_t SPVM__Sys__IO__Stat__lstat_raw(SPVM_ENV* env, SPVM_VALUE* stack) {
   errno = 0;
   int32_t status = lstat(path, stat_buf);
   
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
-
-int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
-  void* obj_path = stack[0].oval;
-  
-  SPVM__Sys__IO__Stat__lstat_raw(env, stack);
-  
-  int32_t status = stack[0].ival;
-
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
     env->die(env, stack, "[System Error]lstat failed:%s. The specified file is \"%s\"", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+
   return 0;
 }
 

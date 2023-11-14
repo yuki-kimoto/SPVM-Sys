@@ -55,12 +55,6 @@ See the L<stat|https://linux.die.net/man/2/stat> function in Linux.
 
 The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
-=head2 lstat_raw
-
-C<static method lstat_raw : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
-
-The same as L</"lstat">, but even if the return value is C<-1>, an exception will not be thrown.
-
 =head2 lstat
 
 C<static method lstat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
