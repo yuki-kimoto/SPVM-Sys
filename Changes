@@ -13,6 +13,8 @@
     * Remove the stat_raw method in the Sys::IO::Stat class.
   [Document Fix]
     * Add the doc of the faccessat method in the Sys::IO class.
+  [Exception Message Changes]
+    * Add periods to exception messages.
 0.494 2023-11-12
   [Prerequirement Changes]
     * Require SPVM 0.989060.

@@ -81,7 +81,7 @@ int32_t SPVM__Sys__Time__Itimerval__set_it_interval(SPVM_ENV* env, SPVM_VALUE* s
     st_it_interval = env->get_pointer(env, stack, obj_it_interval);
   }
   else {
-    return env->die(env, stack, "The it_interval must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The it_interval must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   memcpy(&st_it->it_interval, st_it_interval, sizeof(struct timeval));
@@ -128,7 +128,7 @@ int32_t SPVM__Sys__Time__Itimerval__set_it_value(SPVM_ENV* env, SPVM_VALUE* stac
     st_it_value = env->get_pointer(env, stack, obj_it_value);
   }
   else {
-    return env->die(env, stack, "The it_value must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The it_value must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   memcpy(&st_it->it_value, st_it_value, sizeof(struct timeval));

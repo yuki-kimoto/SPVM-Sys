@@ -143,7 +143,7 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
     || env->is_type_by_name(env, stack, obj_handler, "Sys::Signal::Handler::Ignore", 0);
   
   if (!is_valid_handler) {
-    return env->die(env, stack, "$handler must be a Sys::Signal::Handler::Default object or a Sys::Signal::Handler::Ignore object,", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$handler must be a Sys::Signal::Handler::Default object or a Sys::Signal::Handler::Ignore object,.", __func__, FILE_NAME, __LINE__);
   }
   
   void* handler = env->get_pointer(env, stack, obj_handler);

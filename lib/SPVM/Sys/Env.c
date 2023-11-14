@@ -13,7 +13,7 @@ int32_t SPVM__Sys__Env__getenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_name = stack[0].oval;
   
   if (!obj_name) {
-    return env->die(env, stack, "The name must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The name must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   const char* name = env->get_chars(env, stack, obj_name);
@@ -35,18 +35,18 @@ int32_t SPVM__Sys__Env__getenv(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "setenv is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "setenv is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_name = stack[0].oval;
   if (!obj_name) {
-    return env->die(env, stack, "The name must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The name must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* name = env->get_chars(env, stack, obj_name);
 
   void* obj_value = stack[1].oval;
   if (!obj_value) {
-    return env->die(env, stack, "The value must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The value must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* value = env->get_chars(env, stack, obj_value);
   
@@ -67,12 +67,12 @@ int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Env__unsetenv(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "unsetenv is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "unsetenv is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_name = stack[0].oval;
   if (!obj_name) {
-    return env->die(env, stack, "The name must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The name must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* name = env->get_chars(env, stack, obj_name);
 

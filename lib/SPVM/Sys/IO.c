@@ -143,7 +143,7 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_path = stack[0].oval;
   
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t flags = stack[1].ival;
@@ -172,19 +172,19 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_buf = stack[1].oval;
   if (!obj_buf) {
-    return env->die(env, stack, "$buf must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$buf must be defined.", __func__, FILE_NAME, __LINE__);
   }
   char* buf = (char*)env->get_chars(env, stack, obj_buf);
   int32_t buf_length = env->length(env, stack, obj_buf);
   
   int32_t count = stack[2].ival;
   if (!(count >= 0)) {
-    return env->die(env, stack, "$count must be more than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$count must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t buf_offset = stack[3].ival;
   if (!(count <= buf_length - buf_offset)) {
-    return env->die(env, stack, "$count must be less than the length of $buf - $buf_offset", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$count must be less than the length of $buf - $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
   errno = 0;
@@ -207,7 +207,7 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_buf = stack[1].oval;
   if (!obj_buf) {
-    return env->die(env, stack, "$buf must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$buf must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   char* buf = (char*)env->get_chars(env, stack, obj_buf);
@@ -218,7 +218,7 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t buf_offset = stack[3].ival;
   
   if (!(buf_offset >= 0)) {
-    return env->die(env, stack, "$buf_offse must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$buf_offse must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   if (count < 0) {
@@ -226,7 +226,7 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!(count <= buf_length - buf_offset)) {
-    return env->die(env, stack, "$count must be less than the length of $buf - $buf_offset", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$count must be less than the length of $buf - $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
   errno = 0;
@@ -248,7 +248,7 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   int64_t offset = stack[1].lval;
   
   if (!(offset >= 0)) {
-    return env->die(env, stack, "$offset must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$offset must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
 
   int32_t whence = stack[2].ival;
@@ -288,13 +288,13 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
 
   void* obj_mode = stack[1].oval;
   if (!obj_mode) {
-    return env->die(env, stack, "$mode must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$mode must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* mode = env->get_chars(env, stack, obj_mode);
   
@@ -327,7 +327,7 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_mode = stack[1].oval;
   
   if (!obj_mode) {
-    return env->die(env, stack, "$mode must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$mode must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   const char* mode = env->get_chars(env, stack, obj_mode);
@@ -352,7 +352,7 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -376,29 +376,29 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_ptr = stack[0].oval;
   
   if (!obj_ptr) {
-    return env->die(env, stack, "$ptr must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$ptr must be defined.", __func__, FILE_NAME, __LINE__);
   }
   char* ptr = (char*)env->get_chars(env, stack, obj_ptr);
   int32_t ptr_length = env->length(env, stack, obj_ptr);
   
   int32_t size = stack[1].ival;
   if (!(size >= 0)) {
-    return env->die(env, stack, "$size must be more than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$size must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t nmemb = stack[2].ival;
   if (!(nmemb >= 0)) {
-    return env->die(env, stack, "$nmemb must be more than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$nmemb must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   void* obj_stream = stack[3].oval;
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t ptr_offset = stack[4].ival;
   if (!(nmemb * size <= ((ptr_length - ptr_offset))  )) {
-    return env->die(env, stack, "$nmemb * $size must be less than or equal to the length of $ptr - $ptr_offset", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$nmemb * $size must be less than or equal to the length of $ptr - $ptr_offset.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -415,7 +415,7 @@ int32_t SPVM__Sys__IO__feof(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -432,7 +432,7 @@ int32_t SPVM__Sys__IO__ferror(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -449,7 +449,7 @@ int32_t SPVM__Sys__IO__clearerr(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -466,7 +466,7 @@ int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -484,25 +484,25 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_s = stack[0].oval;
   if (!obj_s) {
-    return env->die(env, stack, "$s must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$s must be defined.", __func__, FILE_NAME, __LINE__);
   }
   char* s = (char*)env->get_chars(env, stack, obj_s);
   int32_t s_length = env->length(env, stack, obj_s);
   
   int32_t size = stack[1].ival;
   if (!(size >= 0)) {
-    return env->die(env, stack, "$size must be more than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$size must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   void* obj_stream = stack[2].oval;
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t s_offset = stack[3].ival;
   
   if (!(size <= s_length - s_offset)) {
-    return env->die(env, stack, "$size must be less than the length of $s - $s_offset", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$size must be less than the length of $s - $s_offset.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -525,29 +525,29 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_ptr = stack[0].oval;
   if (!obj_ptr) {
-    return env->die(env, stack, "$ptr must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$ptr must be defined.", __func__, FILE_NAME, __LINE__);
   }
   char* ptr = (char*)env->get_chars(env, stack, obj_ptr);
   int32_t ptr_length = env->length(env, stack, obj_ptr);
   
   int32_t size = stack[1].ival;
   if (!(size >= 0)) {
-    return env->die(env, stack, "$size must be more than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$size must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t nmemb = stack[2].ival;
   if (!(nmemb >= 0)) {
-    return env->die(env, stack, "$nmemb must be more than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$nmemb must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   void* obj_stream = stack[3].oval;
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
 
   int32_t ptr_offset = stack[4].ival;
   if (!(nmemb * size <= ((ptr_length - ptr_offset))  )) {
-    return env->die(env, stack, "$nmemb * $size must be less than or equal to the length of $ptr - $ptr_offset", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$nmemb * $size must be less than or equal to the length of $ptr - $ptr_offset.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -566,7 +566,7 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -591,7 +591,7 @@ int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -599,7 +599,7 @@ int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   int64_t offset = stack[1].lval;
   
   if (!(offset >= 0)) {
-    return env->die(env, stack, "$offset must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$offset must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
 
   int32_t whence = stack[2].ival;
@@ -621,7 +621,7 @@ int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -643,7 +643,7 @@ int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
@@ -662,7 +662,7 @@ int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The flock method in the class Sys::IO is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The flock method in the class Sys::IO is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
@@ -688,7 +688,7 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_path = stack[0].oval;
   
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   const char* path = env->get_chars(env, stack, obj_path);
@@ -729,7 +729,7 @@ int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_path = stack[0].oval;
   
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   const char* path = env->get_chars(env, stack, obj_path);
@@ -751,7 +751,7 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_pathname = stack[0].oval;
 
   if (!obj_pathname) {
-    return env->die(env, stack, "$pathname must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$pathname must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   const char* pathname = env->get_chars(env, stack, obj_pathname);
@@ -775,7 +775,7 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_oldpath = stack[0].oval;
   
   if (!obj_oldpath) {
-    return env->die(env, stack, "$oldpath must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$oldpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   const char* oldpath = env->get_chars(env, stack, obj_oldpath);
@@ -783,7 +783,7 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_newpath = stack[1].oval;
   
   if (!obj_newpath) {
-    return env->die(env, stack, "$newpath must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$newpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   const char* newpath = env->get_chars(env, stack, obj_newpath);
@@ -809,7 +809,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t size = stack[1].ival;
 
   if (!(size >= 0)) {
-    return env->die(env, stack, "$size must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   char* ret_buf;
@@ -817,7 +817,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     char* buf = (char*)env->get_chars(env, stack, obj_buf);
     int32_t buf_length = env->length(env, stack, obj_buf);
     if (!(size <= buf_length)) {
-      return env->die(env, stack, "$size must be less than or equal to the lenght of $buf", __func__, FILE_NAME, __LINE__);
+      return env->die(env, stack, "$size must be less than or equal to the lenght of $buf.", __func__, FILE_NAME, __LINE__);
     }
     
     errno = 0;
@@ -844,7 +844,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
-  env->die(env, stack, "_getdcwd is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "_getdcwd is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t error_id = 0;
@@ -856,7 +856,7 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t maxlen = stack[2].ival;
 
   if (!(maxlen > 0)) {
-    return env->die(env, stack, "$maxlen must be greater than 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$maxlen must be greater than 0.", __func__, FILE_NAME, __LINE__);
   }
   
   char* ret_buffer;
@@ -864,7 +864,7 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
     int32_t buffer_length = env->length(env, stack, obj_buffer);
     if (!(maxlen <= buffer_length)) {
-      return env->die(env, stack, "$maxlen must be less than or equal to the lenght of $buffer", __func__, FILE_NAME, __LINE__);
+      return env->die(env, stack, "$maxlen must be less than or equal to the lenght of $buffer.", __func__, FILE_NAME, __LINE__);
     }
     
     errno = 0;
@@ -892,14 +892,14 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "realpath is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "realpath is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
   void* obj_path = stack[0].oval;
   
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
 
   const char* path = env->get_chars(env, stack, obj_path);
@@ -934,7 +934,7 @@ int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
-  env->die(env, stack, "_fullpath is not supported in this system(!defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "_fullpath is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_absPath = stack[0].oval;
@@ -942,7 +942,7 @@ int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_relPath = stack[1].oval;
 
   if (!obj_relPath) {
-    return env->die(env, stack, "$relPath must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$relPath must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   char* relPath = (char*)env->get_chars(env, stack, obj_relPath);
@@ -979,7 +979,7 @@ int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
@@ -999,7 +999,7 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
 
@@ -1020,12 +1020,12 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
-  env->die(env, stack, "chown is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "chown is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
 
@@ -1050,13 +1050,13 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
 
   int64_t length = stack[1].lval;
   if (!(length >= 0)) {
-    return env->die(env, stack, "$length must be less than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$length must be less than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
 
   errno = 0;
@@ -1073,20 +1073,20 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "symlink is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "symlink is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t error_id = 0;
   
   void* obj_oldpath = stack[0].oval;
   if (!obj_oldpath) {
-    return env->die(env, stack, "$oldpath must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$oldpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* oldpath = env->get_chars(env, stack, obj_oldpath);
 
   void* obj_newpath = stack[1].oval;
   if (!obj_newpath) {
-    return env->die(env, stack, "$newpath must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$newpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
@@ -1105,30 +1105,30 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "readlink is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "readlink is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
 
   void* obj_buf = stack[1].oval;
   if (!obj_buf) {
-    return env->die(env, stack, "$buf must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$buf must be defined.", __func__, FILE_NAME, __LINE__);
   }
   char* buf = (char*)env->get_chars(env, stack, obj_buf);
   int32_t buf_length = env->length(env, stack, obj_buf);
   
   int32_t bufsiz = stack[2].ival;
   if (!(bufsiz >= 0)) {
-    return env->die(env, stack, "$bufsiz must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$bufsiz must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   if (!(bufsiz <= buf_length)) {
-    return env->die(env, stack, "$bufsiz must be less than or equal to the length of $buf", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$bufsiz must be less than or equal to the length of $buf.", __func__, FILE_NAME, __LINE__);
   }
   
   errno = 0;
@@ -1150,7 +1150,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_dir = stack[0].oval;
   if (!obj_dir) {
-    return env->die(env, stack, "$dir must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$dir must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* dir = env->get_chars(env, stack, obj_dir);
 
@@ -1175,7 +1175,7 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
-    return env->die(env, stack, "$dirp object must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$dirp object must be defined.", __func__, FILE_NAME, __LINE__);
   }
   DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
@@ -1200,7 +1200,7 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
-    return env->die(env, stack, "$dirp must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
   }
   DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
@@ -1228,7 +1228,7 @@ int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_dirp = stack[0].oval;
   
   if (!obj_dirp) {
-    return env->die(env, stack, "$dirp must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   DIR* dirp = env->get_pointer(env, stack, obj_dirp);
@@ -1242,7 +1242,7 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
-    return env->die(env, stack, "$dirp must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
   }
   DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
@@ -1263,7 +1263,7 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_dirp = stack[0].oval;
   
   if (!obj_dirp) {
-    return env->die(env, stack, "$dirp must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   DIR* dirp = env->get_pointer(env, stack, obj_dirp);
@@ -1271,7 +1271,7 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   int64_t offset = stack[1].ival;
   
   if (!(offset >= 0)) {
-    return env->die(env, stack, "$offset must be less than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$offset must be less than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   seekdir(dirp, offset);
@@ -1285,7 +1285,7 @@ int32_t SPVM__Sys__IO__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_filename = stack[0].oval;
   if (!obj_filename) {
-    return env->die(env, stack, "$filename must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$filename must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* filename = env->get_chars(env, stack, obj_filename);
 
@@ -1315,7 +1315,7 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_pathname = stack[0].oval;
   
   if (!obj_pathname) {
-    return env->die(env, stack, "$pathname must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$pathname must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   const char* pathname = env->get_chars(env, stack, obj_pathname);
@@ -1338,13 +1338,13 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
-  return env->die(env, stack, "faccessat is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return env->die(env, stack, "faccessat is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
 #else
   int32_t dirfd = stack[0].ival;
   
   void* obj_pathname = stack[1].oval;
   if (!obj_pathname) {
-    return env->die(env, stack, "$pathname must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$pathname must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* pathname = env->get_chars(env, stack, obj_pathname);
   
@@ -1369,7 +1369,7 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  return env->die(env, stack, "fcntl is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return env->die(env, stack, "fcntl is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
 #else
   
   int32_t error_id = 0;
@@ -1403,7 +1403,7 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
       ret = fcntl(fd, command, command_arg);
     }
     else {
-      return env->die(env, stack, "$command_arg must be an Int object or the object that is a pointer class", __func__, FILE_NAME, __LINE__);
+      return env->die(env, stack, "$command_arg must be an Int object or the object that is a pointer class.", __func__, FILE_NAME, __LINE__);
     }
   }
   
@@ -1438,7 +1438,7 @@ int32_t SPVM__Sys__IO__ungetc(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   void* obj_stream = stack[1].oval;
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
@@ -1455,7 +1455,7 @@ int32_t SPVM__Sys__IO__ungetc(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  return env->die(env, stack, "fsync is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  return env->die(env, stack, "fsync is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
 #else
   int32_t fd = stack[0].ival;
   
@@ -1478,19 +1478,19 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
   void* obj_mode = stack[1].oval;
   if (!obj_mode) {
-    return env->die(env, stack, "$mode must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$mode must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* mode = env->get_chars(env, stack, obj_mode);
   
   void* obj_stream = stack[2].oval;
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
@@ -1511,7 +1511,7 @@ int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_stream = stack[0].oval;
   if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
   FILE* stream = env->get_pointer(env, stack, obj_stream);
 
@@ -1529,10 +1529,10 @@ int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (buf) {
     if (!(size >= 0)) {
-      return env->die(env, stack, "$size must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+      return env->die(env, stack, "$size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
     }
     if (!(size <= buf_length)) {
-      return env->die(env, stack, "$size must be less than or equal to the length of $buf", __func__, FILE_NAME, __LINE__);
+      return env->die(env, stack, "$size must be less than or equal to the length of $buf.", __func__, FILE_NAME, __LINE__);
     }
   }
   
@@ -1550,7 +1550,7 @@ int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "The ioctl method in the Sys::IO class is not supported in this system(defined(_WIN32))", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The ioctl method in the Sys::IO class is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t error_id = 0;
@@ -1603,7 +1603,7 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
       ret = ioctl(fd, request, request_arg_ref);
     }
     else {
-      return env->die(env, stack, "$request_arg_ref must be an byte[]/short[]/int[]/long[]/float[]/double[] type object or the object that is a pointer class", __func__, FILE_NAME, __LINE__);
+      return env->die(env, stack, "$request_arg_ref must be an byte[]/short[]/int[]/long[]/float[]/double[] type object or the object that is a pointer class.", __func__, FILE_NAME, __LINE__);
     }
   }
   

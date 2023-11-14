@@ -23,7 +23,7 @@ int32_t SPVM__Sys__Poll__PollfdArray__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t length = stack[0].ival;
   
   if (!(length >= 0)) {
-    return env->die(env, stack, "The length must be greater than or equal to 0", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The length must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   struct pollfd* fds = env->new_memory_block(env, stack, sizeof(struct pollfd) * length);
