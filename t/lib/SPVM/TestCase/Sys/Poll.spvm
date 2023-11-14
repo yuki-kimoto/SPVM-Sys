@@ -240,6 +240,10 @@ class TestCase::Sys::Poll {
           return 0;
         }
       }
+      
+      {
+        my $fds = Sys::Poll::PollfdArray->new(0);
+      }
     }
     
     return 1;

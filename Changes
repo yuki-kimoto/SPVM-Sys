@@ -18,7 +18,8 @@
   [New Features]
     * Add the Sys::Socket::Errno doc.
     * Add the say method to the Sys class.
-    
+  [Bug Fix]
+    * Fix the bug that the new method in the Sys::Poll::PollfdArray cannot receive 0.
 0.494 2023-11-12
   [Prerequirement Changes]
     * Require SPVM 0.989060.
