@@ -49,7 +49,7 @@ class Sys::Socket {
   
   native static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
   
-  native static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int);
+  native static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int, $buf_offset : int = 0);
   
   native static method getpeername : int ($sockfd : int, $addr : Sys::Socket::Sockaddr, $addrlen_ref : int*);
   

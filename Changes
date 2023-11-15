@@ -1,3 +1,9 @@
+0.496 2023-11-16
+  [New Features]
+    * Add $buf_offset argument to the sendto method in the Sys::Socket class.
+      
+      static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int, $buf_offset : int = 0);
+
 0.495001 2023-11-14
   [Bug Fix]
     * Fix a bug that the Sys::Socket::Errno class file is not added.
