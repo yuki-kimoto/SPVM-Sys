@@ -421,9 +421,11 @@ Calls the L<recv|SPVM::Sys::Socket/"recv"> method in the L<Sys::Socket|SPVM::Sys
 
 =head2 send
 
-C<static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);>
+C<static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> = undef, $buf_offset : int = 0)>
 
-Calls the L<send|SPVM::Sys::Socket/"send"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+If $addr is defined, calls the L<sendto|SPVM::Sys::Socket/"sendto"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+Otherwise calls the L<send|SPVM::Sys::Socket/"send"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
 =head2 shutdown
 
