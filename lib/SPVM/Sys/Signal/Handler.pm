@@ -1,12 +1,10 @@
 package SPVM::Sys::Signal::Handler;
 
-our $VERSION = '0.01';
-
 1;
 
 =head1 Name
 
-SPVM::Sys::Signal::Handler - Sys::Signal::Handler is a SPVM module
+SPVM::Sys::Signal::Handler - Signal Handler
 
 =head1 Usage
 
@@ -14,27 +12,21 @@ SPVM::Sys::Signal::Handler - Sys::Signal::Handler is a SPVM module
   
 =head1 Description
 
-C<Sys::Signal::Handler> is a L<SPVM> module.
-
-=head1 Fields
-
-
+The C<Sys::Signal::Handler> class has methods to manipulate signal handlers.
 
 =head1 Class Methods
 
+C<static method eq : int ($handler1 : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler>, $handler2 : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler>);>
 
+Checks if the $hander1 and $hander2 point to the same signal handler.
 
-=head1 Instance Methods
+If the check is ok, returns 1, otherwise returns 0.
 
+Exceptions:
 
+$handler1 must be defined. Otherwise an exception is thrown.
 
-=head1 Repository
-
-
-
-=head1 Author
-
-Yuki Kimoto C<kimoto.yuki@gmail.com>
+$handler2 must be defined. Otherwise an exception is thrown.
 
 =head1 Copyright & License
 

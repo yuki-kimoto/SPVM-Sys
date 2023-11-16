@@ -4,24 +4,19 @@
 class Sys::Signal {
   use Sys::Signal::Constant;
   use Sys::Signal::Handler;
-  use Sys::Signal::Handler::Default;
-  use Sys::Signal::Handler::Ignore;
-  
-  our $SIG_DFL : ro Sys::Signal::Handler::Default;
-  our $SIG_IGN : ro Sys::Signal::Handler::Ignore;
-  
-  INIT {
-    $SIG_DFL = &new_SIG_DFL();
-    $SIG_IGN = &new_SIG_IGN();
-  }
-  
-  private native static method new_SIG_DFL : Sys::Signal::Handler::Default ();
-  private native static method new_SIG_IGN : Sys::Signal::Handler::Ignore ();
   
   native static method raise : int ($sig : int);
+  
   native static method kill : int ($pid : int, $sig : int);
+  
   native static method alarm : int ($seconds : int);
+  
   native static method ualarm : int ($usecs : int, $interval : int);
   
-  native static method signal : void ($signum : int, $handler : Sys::Signal::Handler);
+  native static method signal : Sys::Signal::Handler ($signum : int, $handler : Sys::Signal::Handler);
+  
+  native static method SIG_DFL : Sys::Signal::Handler ();
+  
+  native static method SIG_IGN : Sys::Signal::Handler ();
+  
 }

@@ -1,3 +1,11 @@
+0.498 2023-11-16
+  [New Features and Incompatible Changes]
+    * Add the eq method to the Sys::Signal::Handler.
+    * The signal method returns the old signal handler.
+    * Remove the SIG_DFL and SIG_DFL class variables from the Sys::Signal class and add the SIG_DFL and SIG_DFL methods.
+    * Remove the Sys::Signal::Handler::Ignore class.
+    * Remove the Sys::Signal::Handler::Default class.
+    
 0.497 2023-11-16
   [New Features and Incompatible Changes]
     * Add $len argument to the send method in the Sys class and changes argument order.

@@ -108,10 +108,6 @@ lib/SPVM/Sys/Signal/Constant.pm
 lib/SPVM/Sys/Signal/Constant.spvm
 lib/SPVM/Sys/Signal/Handler.pm
 lib/SPVM/Sys/Signal/Handler.spvm
-lib/SPVM/Sys/Signal/Handler/Default.pm
-lib/SPVM/Sys/Signal/Handler/Default.spvm
-lib/SPVM/Sys/Signal/Handler/Ignore.pm
-lib/SPVM/Sys/Signal/Handler/Ignore.spvm
 lib/SPVM/Sys/Socket.c
 lib/SPVM/Sys/Socket.config
 lib/SPVM/Sys/Socket.pm

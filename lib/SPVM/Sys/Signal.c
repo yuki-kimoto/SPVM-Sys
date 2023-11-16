@@ -98,30 +98,26 @@ int32_t SPVM__Sys__Signal__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Signal__new_SIG_DFL(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Signal__SIG_DFL(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_signal_handler = env->new_object_by_name(env, stack, "Sys::Signal::Handler::Default", &error_id, __func__, __FILE__, __LINE__);
+  void* obj_handler = env->new_pointer_object_by_name(env, stack, "Sys::Signal::Handler", SIG_DFL, &error_id, __func__, __FILE__, __LINE__);
   if (error_id) { return error_id; }
   
-  env->set_pointer(env, stack, obj_signal_handler, SIG_DFL);
-  
-  stack[0].oval = obj_signal_handler;
+  stack[0].oval = obj_handler;
   
   return 0;
 }
 
-int32_t SPVM__Sys__Signal__new_SIG_IGN(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Signal__SIG_IGN(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_signal_handler = env->new_object_by_name(env, stack, "Sys::Signal::Handler::Ignore", &error_id, __func__, __FILE__, __LINE__);
+  void* obj_handler = env->new_pointer_object_by_name(env, stack, "Sys::Signal::Handler", SIG_IGN, &error_id, __func__, __FILE__, __LINE__);
   if (error_id) { return error_id; }
   
-  env->set_pointer(env, stack, obj_signal_handler, SIG_IGN);
-  
-  stack[0].oval = obj_signal_handler;
+  stack[0].oval = obj_handler;
   
   return 0;
 }
@@ -138,14 +134,6 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "$handler must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  int32_t is_valid_handler =
-    env->is_type_by_name(env, stack, obj_handler, "Sys::Signal::Handler::Default", 0)
-    || env->is_type_by_name(env, stack, obj_handler, "Sys::Signal::Handler::Ignore", 0);
-  
-  if (!is_valid_handler) {
-    return env->die(env, stack, "$handler must be a Sys::Signal::Handler::Default object or a Sys::Signal::Handler::Ignore object,.", __func__, FILE_NAME, __LINE__);
-  }
-  
   void* handler = env->get_pointer(env, stack, obj_handler);
   
   void* old_handler = signal(signum, handler);
@@ -154,6 +142,11 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]signal failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+  
+  void* obj_old_handler = env->new_pointer_object_by_name(env, stack, "Sys::Signal::Handler", old_handler, &error_id, __func__, __FILE__, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_old_handler;
   
   return 0;
 }
