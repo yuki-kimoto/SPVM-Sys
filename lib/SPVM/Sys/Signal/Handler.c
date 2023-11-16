@@ -37,6 +37,8 @@ int32_t SPVM__Sys__Signal__Handler__eq(SPVM_ENV* env, SPVM_VALUE* stack) {
     equals = 1;
   }
   
+  stack[0].ival = equals;
+  
   return 0;
 }
 

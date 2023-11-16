@@ -3,6 +3,7 @@ class TestCase::Sys::Signal {
   use Sys::Signal::Constant as SIGNAL;
   use Sys::Process;
   use Sys;
+  use Sys::Signal::Handler;
   
   static method kill : int () {
     
@@ -60,7 +61,15 @@ class TestCase::Sys::Signal {
     {
       Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_DFL);
       
-      Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_IGN);
+      my $old_signal_handler = Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_IGN);
+      
+      unless (Sys::Signal::Handler->eq($old_signal_handler, Sys::Signal->SIG_DFL)) {
+        return 0;
+      }
+      
+      if (Sys::Signal::Handler->eq($old_signal_handler, Sys::Signal->SIG_IGN)) {
+        return 0;
+      }
     }
     
     {
