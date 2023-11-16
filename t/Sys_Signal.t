@@ -65,6 +65,8 @@ else {
 
 ok(SPVM::TestCase::Sys::Signal->signal);
 
+ok(SPVM::TestCase::Sys::Signal->signal_io);
+
 SPVM::api->set_exception(undef);
 
 # All object is freed

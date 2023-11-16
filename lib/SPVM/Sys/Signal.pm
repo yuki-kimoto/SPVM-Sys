@@ -75,6 +75,14 @@ Exceptions:
 
 $handler must be defined. Otherwise an exception is thrown.
 
+=head2 signal_io
+
+C<static method signal_io : Sys::Signal::Handler ($signum : int, $fd : int);>
+
+signal() sets the disposition of the signal signum to L</"SIG_IO"> handler with a file descriptor a signal is written.
+
+Returns the old signal handler.
+
 =head2 SIG_DFL
 
   static method SIG_DFL : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ()
@@ -86,6 +94,12 @@ Creates a new signal handler that represents C<SIG_DFL>.
   static method SIG_IGN : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();
 
 Creates a new signal handler that represents C<SIG_IGN>.
+
+=head2 SIG_IO
+
+  static method SIG_IO : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();
+
+Creates a new signal handler that represents writing a signale to a file descriptor.
 
 =head1 Copyright & License
 

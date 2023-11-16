@@ -1039,7 +1039,7 @@ class Sys {
   
   static method STDERR : Sys::IO::FileStream () { return Sys::IO->spvm_stderr; }
   
-  static method signal : void ($signum : int, $handler_name : string) {
+  static method signal : Sys::Signal::Handler ($signum : int, $handler_name : string) {
     
     my $handler = (Sys::Signal::Handler)undef;
     
@@ -1053,7 +1053,9 @@ class Sys {
       die "\$handler_name \"$handler_name\" is not available.";
     }
     
-    Sys::Signal->signal($signum, $handler);
+    my $old_handler = Sys::Signal->signal($signum, $handler);
+    
+    return $old_handler;
   }
   
   static method kill : int ($sig : int, $pid : int) {

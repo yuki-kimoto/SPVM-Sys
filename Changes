@@ -5,6 +5,9 @@
     * Remove the SIG_DFL and SIG_DFL class variables from the Sys::Signal class and add the SIG_DFL and SIG_DFL methods.
     * Remove the Sys::Signal::Handler::Ignore class.
     * Remove the Sys::Signal::Handler::Default class.
+    * The signal method in the Sys class returns the old signal handler.
+    * Add the signal_io method to the Sys::Signal class.
+    * Add the SIG_IO method to the Sys::Signal class.
     
 0.497 2023-11-16
   [New Features and Incompatible Changes]

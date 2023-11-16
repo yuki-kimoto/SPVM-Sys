@@ -227,7 +227,7 @@ int32_t SPVM__Sys__Process__getpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   (void)env;
   (void)stack;
-
+  
   int32_t pid = stack[0].ival;
   
   int32_t process_group_id = getpgid(pid);

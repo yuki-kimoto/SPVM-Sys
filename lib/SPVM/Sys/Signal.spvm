@@ -15,8 +15,11 @@ class Sys::Signal {
   
   native static method signal : Sys::Signal::Handler ($signum : int, $handler : Sys::Signal::Handler);
   
+  native static method signal_io : Sys::Signal::Handler ($signum : int, $fd : int);
+  
   native static method SIG_DFL : Sys::Signal::Handler ();
   
   native static method SIG_IGN : Sys::Signal::Handler ();
   
+  native static method SIG_IO : Sys::Signal::Handler ();
 }
