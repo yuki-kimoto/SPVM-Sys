@@ -157,7 +157,7 @@ static int32_t signal_write_fds[64] = {0};
 static void signal_hander_io(int32_t signal) {
   int32_t signal_write_fd = signal_write_fds[signal];
   
-  int32_t write_length = write(signal_write_fd, &signal_write_fd, sizeof(int32_t));
+  int32_t write_length = write(signal_write_fd, &signal, sizeof(int32_t));
 }
 
 int32_t SPVM__Sys__Signal__SIG_IO(SPVM_ENV* env, SPVM_VALUE* stack) {

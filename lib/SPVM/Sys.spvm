@@ -526,6 +526,14 @@ class Sys {
     return $success;
   }
   
+  static method close : int ($stream : Sys::IO::FileStream) {
+    my $status = Sys::IO->fclose($stream);
+    
+    my $success = $status == 0;
+    
+    return $success;
+  }
+  
   static method unlink : int ($pathname : string) {
     my $status = 0;
     

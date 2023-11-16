@@ -80,13 +80,23 @@ class TestCase::Sys::Signal {
     
     return 1;
   }
-
-  static method signal_io : int () {
+  
+  static method signal_io : int ($tmp_dir : string) {
+    
+    my $signal_output_file = "$tmp_dir/signal_output.txt";
     
     {
       Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_DFL);
       
-      my $fd = 2;
+      my $stream_ref = [(Sys::IO::FileStream)undef];
+      Sys->open($stream_ref, ">", $signal_output_file);
+      
+      Fn->defer([$stream_ref : Sys::IO::FileStream[]] method : void () {
+        Sys->close($stream_ref->[0]);
+      });
+      
+      my $fd = Sys->fileno($stream_ref->[0]);
+      
       my $old_signal_handler = Sys::Signal->signal_io(SIGNAL->SIGTERM, $fd);
       
       unless (Sys::Signal::Handler->eq($old_signal_handler, Sys::Signal->SIG_DFL)) {
@@ -99,7 +109,29 @@ class TestCase::Sys::Signal {
         return 0;
       }
       
-      Sys->kill(SIGNAL->SIGTERM, Sys->process_id);
+      unless (Sys::OS->is_windows) {
+        Sys->kill(SIGNAL->SIGTERM, Sys->process_id);
+      }
+    }
+    
+    unless (Sys::OS->is_windows) {
+      my $stream_ref = [(Sys::IO::FileStream)undef];
+      Sys->open($stream_ref, "<", $signal_output_file);
+      
+      Fn->defer([$stream_ref : Sys::IO::FileStream[]] method : void () {
+        Sys->close($stream_ref->[0]);
+      });
+      
+      my $buffer = (mutable string)new_string_len 4;
+      Sys->read($stream_ref->[0], $buffer, 4);
+      
+      my $numbers = new int [1];
+      
+      Fn->memcpy($numbers, 0, $buffer, 0, 4);
+      
+      unless ($numbers->[0] == SIGNAL->SIGTERM) {
+        return 0;
+      }
     }
     
     return 1;

@@ -8,6 +8,9 @@
     * The signal method in the Sys class returns the old signal handler.
     * Add the signal_io method to the Sys::Signal class.
     * Add the SIG_IO method to the Sys::Signal class.
+    * Add the close method to the Sys class.
+    
+      static method close : int ($stream : Sys::IO::FileStream);
     
 0.497 2023-11-16
   [New Features and Incompatible Changes]

@@ -15,6 +15,8 @@ use SPVM 'Sys::Signal::Constant';
 
 use SPVM 'TestCase::Sys::Signal';
 
+use File::Temp;
+
 # Start objects count
 my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
@@ -65,7 +67,11 @@ else {
 
 ok(SPVM::TestCase::Sys::Signal->signal);
 
-ok(SPVM::TestCase::Sys::Signal->signal_io);
+{
+  my $tmp_dir = File::Temp->newdir;
+  
+  ok(SPVM::TestCase::Sys::Signal->signal_io("$tmp_dir"));
+}
 
 SPVM::api->set_exception(undef);
 

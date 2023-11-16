@@ -298,9 +298,17 @@ If succeed, returns 1.
 
 C<static method closedir : int ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Calls the L<opendir|SPVM::Sys::IO/"closedir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
 If succeed, returns 1.
+
+=head2 close
+
+C<static method close : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Calls the L<opendir|SPVM::Sys::IO/"fclose"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+If succedd, returns 1.
 
 =head2 unlink
 
