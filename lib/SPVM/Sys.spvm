@@ -674,14 +674,18 @@ class Sys {
     return $recv_length;
   }
   
-  static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : Sys::Socket::Sockaddr = undef, $buf_offset : int = 0) {
+  static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : Sys::Socket::Sockaddr = undef, $len : int = -1, $buf_offset : int = 0) {
     my $send_length = -1;
     
+    if ($len < 0) {
+      $len = length $buf;
+    }
+    
     if ($addr) {
-      $send_length = Sys::Socket->sendto($sockfd, $buf, length $buf, $flags, $addr, $addr->size, $buf_offset);
+      $send_length = Sys::Socket->sendto($sockfd, $buf, $len, $flags, $addr, $addr->size, $buf_offset);
     }
     else {
-      $send_length = Sys::Socket->send($sockfd, $buf, length $buf, $flags, $buf_offset);
+      $send_length = Sys::Socket->send($sockfd, $buf, $len, $flags, $buf_offset);
     }
     
     return $send_length;

@@ -1,3 +1,13 @@
+0.497 2023-11-16
+  [New Features and Incompatible Changes]
+    * Add $len argument to the send method in the Sys class and changes argument order.
+      
+      [Before]
+      static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int, $buf_offset : int = 0);
+      
+      [After]
+      static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : Sys::Socket::Sockaddr = undef, $len : int = -1, $buf_offset : int = 0);
+      
 0.496 2023-11-16
   [New Features]
     * Add $buf_offset argument to the sendto method in the Sys::Socket class.
@@ -7,6 +17,7 @@
     * Add $buf_offset argument to the send method in the Sys class.
       
       static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : Sys::Socket::Sockaddr, $addrlen : int, $buf_offset : int = 0);
+  
 0.495001 2023-11-14
   [Bug Fix]
     * Fix a bug that the Sys::Socket::Errno class file is not added.
