@@ -70,7 +70,7 @@ ok(SPVM::TestCase::Sys::Signal->signal);
 {
   my $tmp_dir = File::Temp->newdir;
   
-  ok(SPVM::TestCase::Sys::Signal->signal_io("$tmp_dir"));
+  ok(SPVM::TestCase::Sys::Signal->signal_go("$tmp_dir"));
 }
 
 SPVM::api->set_exception(undef);

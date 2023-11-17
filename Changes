@@ -1,3 +1,14 @@
+0.500 2023-11-17
+  [New Features and Incompatible Changes]
+    * Rename the SIG_IO method in the Sys::Signal class is renamed to SIG_GO.
+    * Change the signal_io method in the Sys::Signal class is renamed to signal_go.
+      [Before]
+      static method signal_io : Sys::Signal::Handler ($signum : int, $fd : int);
+      [After]
+      static method signal_go : Sys::Signal::Handler ($signum : int);
+      
+    * Add the SET_SIG_GO_WRITE_FD method to the Sys::Signal class.
+    
 0.499 2023-11-17
   [New Features and Incompatible Changes]
     * Add the eq method to the Sys::Signal::Handler.

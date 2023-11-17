@@ -4,6 +4,7 @@
 class Sys::Signal {
   use Sys::Signal::Constant;
   use Sys::Signal::Handler;
+  use Sys::OS;
   
   native static method raise : int ($sig : int);
   
@@ -15,11 +16,13 @@ class Sys::Signal {
   
   native static method signal : Sys::Signal::Handler ($signum : int, $handler : Sys::Signal::Handler);
   
-  native static method signal_io : Sys::Signal::Handler ($signum : int, $fd : int);
+  native static method signal_go : Sys::Signal::Handler ($signum : int);
   
   native static method SIG_DFL : Sys::Signal::Handler ();
   
   native static method SIG_IGN : Sys::Signal::Handler ();
   
-  native static method SIG_IO : Sys::Signal::Handler ();
+  native static method SET_SIG_GO_WRITE_FD : void ($fd : int);
+  
+  native static method SIG_GO : Sys::Signal::Handler ();
 }

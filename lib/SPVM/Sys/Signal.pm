@@ -75,11 +75,11 @@ Exceptions:
 
 $handler must be defined. Otherwise an exception is thrown.
 
-=head2 signal_io
+=head2 signal_go
 
-C<static method signal_io : Sys::Signal::Handler ($signum : int, $fd : int);>
+C<static method signal_go : Sys::Signal::Handler ($signum : int);>
 
-signal() sets the disposition of the signal signum to L</"SIG_IO"> handler with a file descriptor a signal is written.
+signal() sets the disposition of the signal signum to L</"SIG_GO"> handler. This must not be used except for L<Go::OS::Signal|SPVM::Go::OS::Signal>. 
 
 Returns the old signal handler.
 
@@ -95,11 +95,17 @@ Creates a new signal handler that represents C<SIG_DFL>.
 
 Creates a new signal handler that represents C<SIG_IGN>.
 
-=head2 SIG_IO
+=head2 SIG_GO
 
-  static method SIG_IO : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();
+  static method SIG_GO : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();
 
-Creates a new signal handler that represents writing a signale to a file descriptor.
+Creates a new signal handler that represents the signal handler for L<Go::OS::Signal|SPVM::Go::OS::Signal>.
+
+=head2 SET_SIG_GO_WRITE_FD
+
+  static method SET_SIG_GO_WRITE_FD : void ();
+
+Set a write file descriptor for L<Go::OS::Signal|SPVM::Go::OS::Signal>. This must not be used except for L<Go::OS::Signal|SPVM::Go::OS::Signal>. 
 
 =head1 Copyright & License
 

@@ -152,19 +152,25 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-static int32_t signal_write_fds[64] = {0};
+static int32_t SIG_GO_WRITE_FD = -1;
 
-static void signal_hander_io(int32_t signal) {
-  int32_t signal_write_fd = signal_write_fds[signal];
+static void signal_hander_go(int32_t signal) {
   
-  int32_t write_length = write(signal_write_fd, &signal, sizeof(int32_t));
+  int32_t write_length = write(SIG_GO_WRITE_FD, &signal, sizeof(int32_t));
 }
 
-int32_t SPVM__Sys__Signal__SIG_IO(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Signal__SET_SIG_GO_WRITE_FD(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  SIG_GO_WRITE_FD = stack[0].ival;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Signal__SIG_GO(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_handler = env->new_pointer_object_by_name(env, stack, "Sys::Signal::Handler", &signal_hander_io, &error_id, __func__, __FILE__, __LINE__);
+  void* obj_handler = env->new_pointer_object_by_name(env, stack, "Sys::Signal::Handler", &signal_hander_go, &error_id, __func__, __FILE__, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_handler;
@@ -172,7 +178,7 @@ int32_t SPVM__Sys__Signal__SIG_IO(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Signal__signal_io(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Signal__signal_go(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
@@ -182,11 +188,7 @@ int32_t SPVM__Sys__Signal__signal_io(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "$signum must be less than 64.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
   }
   
-  int32_t signal_write_fd = stack[1].ival;
-  
-  signal_write_fds[signum] = signal_write_fd;
-  
-  void* old_handler = signal(signum, &signal_hander_io);
+  void* old_handler = signal(signum, &signal_hander_go);
   
   if (old_handler == SIG_ERR) {
     env->die(env, stack, "[System Error]signal failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);

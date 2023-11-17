@@ -81,7 +81,7 @@ class TestCase::Sys::Signal {
     return 1;
   }
   
-  static method signal_io : int ($tmp_dir : string) {
+  static method signal_go : int ($tmp_dir : string) {
     
     my $signal_output_file = "$tmp_dir/signal_output.txt";
     
@@ -97,15 +97,17 @@ class TestCase::Sys::Signal {
       
       my $fd = Sys->fileno($stream_ref->[0]);
       
-      my $old_signal_handler = Sys::Signal->signal_io(SIGNAL->SIGTERM, $fd);
+      Sys::Signal->SET_SIG_GO_WRITE_FD($fd);
+      
+      my $old_signal_handler = Sys::Signal->signal_go(SIGNAL->SIGTERM);
       
       unless (Sys::Signal::Handler->eq($old_signal_handler, Sys::Signal->SIG_DFL)) {
         return 0;
       }
       
-      $old_signal_handler = Sys::Signal->signal_io(SIGNAL->SIGTERM, $fd);
+      $old_signal_handler = Sys::Signal->signal_go(SIGNAL->SIGTERM);
       
-      unless (Sys::Signal::Handler->eq($old_signal_handler, Sys::Signal->SIG_IO)) {
+      unless (Sys::Signal::Handler->eq($old_signal_handler, Sys::Signal->SIG_GO)) {
         return 0;
       }
       
