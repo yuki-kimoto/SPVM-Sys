@@ -918,6 +918,19 @@ C<static method _IOFBF : int ();>
 
 Gets the value of C<_IOFBF>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 O_BINARY
+
+C<static method O_BINARY : int ();>
+
+Gets the value of C<O_BINARY>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+=head2 O_TEXT
+
+C<static method O_TEXT : int ();>
+
+Gets the value of C<O_TEXT>. If the value is not defined in the system, an exception is thrown with the error code set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

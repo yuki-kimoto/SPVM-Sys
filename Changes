@@ -8,6 +8,10 @@
       static method signal_go : Sys::Signal::Handler ($signum : int);
       
     * Add the SET_SIG_GO_WRITE_FD method to the Sys::Signal class.
+  
+  [New Features]
+    * Add the O_BINARY method to the Sys::IO::Constant class.
+    * Add the O_TEXT method to the Sys::IO::Constant class.
     
 0.499 2023-11-17
   [New Features and Incompatible Changes]
