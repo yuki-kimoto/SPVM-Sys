@@ -221,16 +221,18 @@ class TestCase::Sys::Process {
         return 0;
       }
       
-      my $flag0 = Sys->fcntl($fds->[0], IO->F_GETFD);
-      
-      unless ($flag0 & IO->FD_CLOEXEC) {
-        return 0;
-      }
-      
-      my $flag1 = Sys->fcntl($fds->[1], IO->F_GETFD);
-      
-      unless ($flag1 & IO->FD_CLOEXEC) {
-        return 0;
+      unless (Sys::OS->is_windows) {
+        my $flag0 = Sys->fcntl($fds->[0], IO->F_GETFD);
+        
+        unless ($flag0 & IO->FD_CLOEXEC) {
+          return 0;
+        }
+        
+        my $flag1 = Sys->fcntl($fds->[1], IO->F_GETFD);
+        
+        unless ($flag1 & IO->FD_CLOEXEC) {
+          return 0;
+        }
       }
     }
     
