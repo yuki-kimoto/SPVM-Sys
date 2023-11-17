@@ -761,7 +761,17 @@ And calls the L<signal|SPVM::Sys::Signal/"signal"> method in the L<Sys::Signal|S
 
 C<static method kill : int ($sig : int, $pid : int);>
 
-Calls the L<kill|SPVM::Sys::IO/"kill"> method in the L<Sys::Signal|SPVM::Sys::Signal> class.
+Calls the L<kill|SPVM::Sys::Signal/"kill"> method in the L<Sys::Signal|SPVM::Sys::Signal> class.
+
+If succeed, returns 1.
+
+=head2 pipe
+
+C<static method pipe : int ($pipe_fds : int[]);>
+
+Calls the L<pipe|SPVM::Sys::Process/"pipe"> method in the L<Sys::Process|SPVM::Sys::Process> class.
+
+Set C<FD_CLOEXEC> flag to the opened filed descriptors.
 
 If succeed, returns 1.
 

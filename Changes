@@ -1,3 +1,6 @@
+0.499 2023-11-17
+  [New Features and Incompatible Changes]
+    * Add the eq method to the Sys::Signal::Handler.
 0.498 2023-11-16
   [New Features and Incompatible Changes]
     * Add the eq method to the Sys::Signal::Handler.
