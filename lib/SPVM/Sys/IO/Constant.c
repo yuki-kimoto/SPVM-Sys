@@ -1758,6 +1758,18 @@ int32_t SPVM__Sys__IO__Constant___IOLBF(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 }
 
+int32_t SPVM__Sys__IO__Constant___IOFBF(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _IOFBF
+  stack[0].ival = _IOFBF;
+  return 0;
+#else
+  env->die(env, stack, "_IOFBF is not defined in this system.", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#endif
+
+}
+
 int32_t SPVM__Sys__IO__Constant__O_BINARY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef O_BINARY
