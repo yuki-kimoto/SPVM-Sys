@@ -72,13 +72,7 @@ ok(SPVM::TestCase::Sys::Process->system);
   }
 }
 
-if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->pipe(undef) };
-  like($@, qr/not supported/);
-}
-else {
-  ok(SPVM::TestCase::Sys::Process->pipe);
-}
+ok(SPVM::TestCase::Sys::Process->pipe);
 
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Process->getpgid(0) };

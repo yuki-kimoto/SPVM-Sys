@@ -171,19 +171,37 @@ class TestCase::Sys::Process {
   static method pipe : int () {
     
     {
-      my $fds = new int [2];
-      my $status = Sys::Process->pipe($fds);
-      
-      unless ($status == 0) {
-        return 0;
-      }
-      
-      unless ($fds->[0] > 0) {
-        return 0;
-      }
-      
-      unless ($fds->[1] > 0) {
-        return 0;
+      if (Sys::OS->is_windows) {
+         my $fds = new int [2];
+        my $status = Sys::Process->_pipe($fds, 0, IO->O_BINARY);
+        
+        unless ($status == 0) {
+          return 0;
+        }
+        
+        unless ($fds->[0] > 0) {
+          return 0;
+        }
+        
+        unless ($fds->[1] > 0) {
+          return 0;
+        }
+     }
+      else {
+        my $fds = new int [2];
+        my $status = Sys::Process->pipe($fds);
+        
+        unless ($status == 0) {
+          return 0;
+        }
+        
+        unless ($fds->[0] > 0) {
+          return 0;
+        }
+        
+        unless ($fds->[1] > 0) {
+          return 0;
+        }
       }
     }
     

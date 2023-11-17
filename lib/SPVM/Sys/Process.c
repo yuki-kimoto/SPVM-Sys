@@ -184,12 +184,52 @@ int32_t SPVM__Sys__Process__pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   int32_t* pipefds = env->get_elems_int(env, stack, obj_pipefds);
-
+  
   int pipefds_int[2] = {pipefds[0], pipefds[1]};
   int32_t status = pipe(pipefds_int);
-
+  
   if (status == -1) {
     env->die(env, stack, "[System Error]pipe failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  pipefds[0] = pipefds_int[0];
+  pipefds[1] = pipefds_int[1];
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__Process___pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  env->die(env, stack, "pipe is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  
+  void* obj_pipefds = stack[0].oval;
+  
+  if (!obj_pipefds) {
+    return env->die(env, stack, "$pipefds must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t pipefds_length = env->length(env, stack, obj_pipefds);
+  if (!(pipefds_length == 2)) {
+    return env->die(env, stack, "The length of $pipefds must 2.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  unsigned int psize = (uint32_t)stack[1].ival;
+  
+  int32_t* pipefds = env->get_elems_int(env, stack, obj_pipefds);
+  
+  int textmode = stack[2].ival;
+  
+  int pipefds_int[2] = {pipefds[0], pipefds[1]};
+  int32_t status = _pipe(pipefds_int, psize, textmode);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]_pipe failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

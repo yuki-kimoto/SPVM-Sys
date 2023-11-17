@@ -1076,11 +1076,18 @@ class Sys {
   
   static method pipe : int ($pipe_fds : int[]) {
     
-    my $status = Sys::Process->pipe($pipe_fds);
+    my $status = -1;
     
-    Sys->fcntl($pipe_fds->[0], IO->F_SETFD, IO->FD_CLOEXEC);
-    
-    Sys->fcntl($pipe_fds->[1], IO->F_SETFD, IO->FD_CLOEXEC);
+    if (Sys::OS->is_windows) {
+      $status = Sys::Process->_pipe($pipe_fds, 0, IO->O_BINARY);
+    }
+    else {
+      $status = Sys::Process->pipe($pipe_fds);
+      
+      Sys->fcntl($pipe_fds->[0], IO->F_SETFD, IO->FD_CLOEXEC);
+      
+      Sys->fcntl($pipe_fds->[1], IO->F_SETFD, IO->FD_CLOEXEC);
+    }
     
     my $success = $status == 0;
     

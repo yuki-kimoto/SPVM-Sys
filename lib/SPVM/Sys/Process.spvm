@@ -24,6 +24,8 @@ class Sys::Process {
   
   native static method pipe : int ($pipe_fds : int[]);
   
+  native static method _pipe : int ($pipe_fds : int[], $psize : int, $textmode : int);
+  
   native static method getpgid : int ($pid : int);
   
   native static method setpgid : int ($pid : int, $pgid : int);

@@ -769,6 +769,14 @@ If succeed, returns 1.
 
 C<static method pipe : int ($pipe_fds : int[]);>
 
+Windows:
+
+Calls the L<_pipe|SPVM::Sys::Process/"_pipe"> method in the L<Sys::Process|SPVM::Sys::Process> class.
+
+If succeed, returns 1.
+
+Other OSs:
+
 Calls the L<pipe|SPVM::Sys::Process/"pipe"> method in the L<Sys::Process|SPVM::Sys::Process> class.
 
 Set C<FD_CLOEXEC> flag to the opened filed descriptors.

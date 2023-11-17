@@ -112,6 +112,12 @@ pipe() creates a pipe, a unidirectional data channel that can be used for interp
 
 See the detail of the L<pipe|https://linux.die.net/man/2/pipe> function in the case of Linux.
 
+=head2 _pipe
+
+  static method _pipe : int ($pipe_fds : int[], $psize : int, $textmode : int);
+
+See the detail of the L<_pipe|https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/pipe?view=msvc-170> function in Windows.
+
 =head2 getpgid
 
 C<static method getpgid : int ($pid : int);>

@@ -12,7 +12,8 @@
   [New Features]
     * Add the O_BINARY method to the Sys::IO::Constant class.
     * Add the O_TEXT method to the Sys::IO::Constant class.
-    
+    * Add the _pipe method to the Sys::Process class.
+    * The pipe method in the Sys class calls the _pipe method in the Sys::Process.
 0.499 2023-11-17
   [New Features and Incompatible Changes]
     * Add the eq method to the Sys::Signal::Handler.
