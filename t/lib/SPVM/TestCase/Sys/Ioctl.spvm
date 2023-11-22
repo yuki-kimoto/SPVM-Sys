@@ -24,11 +24,10 @@ class TestCase::Sys::Ioctl {
     });
     
     my $value_ref = [1];
-    my $status_ioctl = 0;
-    eval { $status_ioctl = Sys->ioctl($socket, IOCTL->FIONBIO, $value_ref); };
+    my $ioctl_ret = Sys->ioctl($socket, IOCTL->FIONBIO, $value_ref);
     
     if (Sys::OS->is_windows) {
-      unless ($status_ioctl == 0) {
+      unless ($ioctl_ret == 0) {
         return 0;
       }
     }
@@ -37,7 +36,7 @@ class TestCase::Sys::Ioctl {
         warn "[Test Output]$@";
       }
       else {
-        unless ($status_ioctl == 0) {
+        unless ($ioctl_ret == 0) {
           return 0;
         }
       }
