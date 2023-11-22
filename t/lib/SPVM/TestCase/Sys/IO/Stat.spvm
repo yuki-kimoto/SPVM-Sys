@@ -11,10 +11,7 @@ class TestCase::Sys::IO::Stat {
       my $file = "$test_dir/ftest/readline_long_lines.txt";
       
       my $stat = Sys::IO::Stat->new;
-      my $status = Sys::IO::Stat->stat($file, $stat);
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO::Stat->stat($file, $stat);
     }
     
     {
@@ -70,10 +67,7 @@ class TestCase::Sys::IO::Stat {
       my $file = "$test_dir/ftest/readline_long_lines.txt";
       
       my $stat = Sys::IO::Stat->new;
-      my $status = Sys::IO::Stat->lstat($file, $stat);
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO::Stat->lstat($file, $stat);
     }
 
     {
@@ -141,10 +135,7 @@ class TestCase::Sys::IO::Stat {
       my $stream = Sys::IO->fopen($file, "rb");
       
       my $stat = Sys::IO::Stat->new;
-      my $status = Sys::IO::Stat->fstat(Sys::IO->fileno($stream), $stat);
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO::Stat->fstat(Sys::IO->fileno($stream), $stat);
     }
     
     {
