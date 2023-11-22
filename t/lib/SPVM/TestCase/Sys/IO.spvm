@@ -326,11 +326,7 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      my $status = Sys::IO->close($fd);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO->close($fd);
     }
     
     return 1;
@@ -1386,11 +1382,7 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      my $status = Sys::IO->fclose($stream);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO->fclose($stream);
     }
     
     $@ = undef;
@@ -1404,17 +1396,9 @@ class TestCase::Sys::IO {
       my $file = "$test_dir/ftest/file_empty.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY, IO->O_TRUNC);
       
-      my $status_lock = Sys::IO->flock($fd, IO->LOCK_SH);
+      Sys::IO->flock($fd, IO->LOCK_SH);
       
-      unless ($status_lock == 0) {
-        return 0;
-      }
-
-      my $status_unlock = Sys::IO->flock($fd, IO->LOCK_UN);
-      
-      unless ($status_unlock == 0) {
-        return 0;
-      }
+      Sys::IO->flock($fd, IO->LOCK_UN);
       
       my $close_status = Sys::IO->close($fd);
       
@@ -1434,12 +1418,8 @@ class TestCase::Sys::IO {
       my $file = "$test_dir/ftest/file_empty.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY, IO->O_TRUNC);
       
-      my $status_lock = Sys::IO->flock($fd, IO->LOCK_SH);
+      Sys::IO->flock($fd, IO->LOCK_SH);
       
-      unless ($status_lock == 0) {
-        return 0;
-      }
-
       my $success_unlock = Sys->flock($fd, IO->LOCK_UN);
       
       unless ($success_unlock) {
@@ -1460,11 +1440,7 @@ class TestCase::Sys::IO {
   static method mkdir : int ($test_dir : string) {
     my $dir = "$test_dir/foo";
     
-    my $status = Sys::IO->mkdir($dir, 0755);
-    
-    unless ($status == 0) {
-      return 0;
-    }
+    Sys::IO->mkdir($dir, 0755);
     
     unless (Sys::FileTest->d($dir)) {
       return 0;
@@ -1517,11 +1493,7 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    my $status = Sys::IO->rmdir($dir);
-
-    unless ($status == 0) {
-      return 0;
-    }
+    Sys::IO->rmdir($dir);
     
     if (Sys::FileTest->e($dir)) {
       return 0;
@@ -1549,11 +1521,7 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    my $status = Sys::IO->unlink($file);
-    
-    unless ($status == 0) {
-      return 0;
-    }
+    Sys::IO->unlink($file);
     
     if (Sys::FileTest->e($file)) {
       return 0;
@@ -1582,11 +1550,7 @@ class TestCase::Sys::IO {
     }
     
     my $new_file = "$test_dir/foo_new.txt";
-    my $status = Sys::IO->rename($file, $new_file);
-    
-    unless ($status == 0) {
-      return 0;
-    }
+    Sys::IO->rename($file, $new_file);
     
     if (Sys::FileTest->e($file)) {
       return 0;
@@ -1754,11 +1718,7 @@ class TestCase::Sys::IO {
   static method chdir : int ($test_dir : string) {
     my $dir = "$test_dir/ftest/dir_empty";
     
-    my $status = Sys::IO->chdir($dir);
-    
-    unless ($status == 0) {
-      return 0;
-    }
+    Sys::IO->chdir($dir);
     
     my $cwd = Sys::IO->getcwd(undef, 0);
     unless (Fn->contains($cwd, "dir_empty")) {
@@ -1785,11 +1745,7 @@ class TestCase::Sys::IO {
     
     Sys::IO->fclose($stream);
     
-    my $status = Sys::IO->chmod($file, 0755);
-    
-    unless ($status == 0) {
-      return 0;
-    }
+    Sys::IO->chmod($file, 0755);
     
     {
       eval { Sys::IO->chmod("$file/not_found.txt", 0755); };
@@ -1812,11 +1768,7 @@ class TestCase::Sys::IO {
       
       Sys::IO->fclose($stream);
       
-      my $status = Sys::IO->chown($file, -1, -1);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO->chown($file, -1, -1);
       
       {
         eval { Sys::IO->chown("$file/not_found.txt", -1, -1); };
@@ -1866,11 +1818,7 @@ class TestCase::Sys::IO {
     
     my $file_symlink = "$test_dir/foo_link";
     {
-      my $status = Sys::IO->symlink($file, $file_symlink);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO->symlink($file, $file_symlink);
       
       my $exists_symlink_file = Sys::FileTest->l($file_symlink);
       unless ($exists_symlink_file) {
@@ -1905,11 +1853,7 @@ class TestCase::Sys::IO {
     
     my $file_symlink = "$test_dir/foo_link";
     {
-      my $status = Sys::IO->symlink($file, $file_symlink);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO->symlink($file, $file_symlink);
       
       my $exists_symlink_file = Sys::FileTest->l($file_symlink);
       unless ($exists_symlink_file) {
@@ -2191,10 +2135,7 @@ class TestCase::Sys::IO {
         
       {
         my $stream = Sys::IO->fopen($file, "wb");
-        my $status = Sys::IO->ftruncate(Sys::IO->fileno($stream), 0);
-        unless ($status == 0) {
-          return 0;
-        }
+        Sys::IO->ftruncate(Sys::IO->fileno($stream), 0);
       }
       
       warn "[Test Output]" . Sys::FileTest->s($file);
@@ -2303,10 +2244,7 @@ class TestCase::Sys::IO {
       my $buf = (mutable string)new_string_len IO->BUFSIZ;
       my $mode = Sys::IO::Constant->_IOFBF;
       
-      my $status = Sys::IO->setvbuf($stream, $buf, $mode, IO->BUFSIZ);
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO->setvbuf($stream, $buf, $mode, IO->BUFSIZ);
     }
 
     {
@@ -2315,10 +2253,7 @@ class TestCase::Sys::IO {
       
       my $mode = Sys::IO::Constant->_IOFBF;
       
-      my $status = Sys::IO->setvbuf($stream, undef, $mode, IO->BUFSIZ);
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::IO->setvbuf($stream, undef, $mode, IO->BUFSIZ);
     }
     
     # Constant values
@@ -2437,11 +2372,7 @@ class TestCase::Sys::IO {
     my $actime = $utimbuf->set_actime($time);
     my $modtime = $utimbuf->set_modtime($time);
     
-    my $status = Sys::IO->utime($file, $utimbuf);
-    
-    unless ($status == 0) {
-      return 0;
-    }
+    Sys::IO->utime($file, $utimbuf);
     
     return 1;
   }
