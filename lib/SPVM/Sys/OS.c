@@ -237,7 +237,7 @@ int32_t SPVM__Sys__OS__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
 #   endif
   }
   else {
-    return env->die(env, stack, "The macro name \"%s\" is not supported yet", macro_name, __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The macro name \"%s\" is not supported.", macro_name, __func__, FILE_NAME, __LINE__);
   }
   
   if (obj_value_ref) {
@@ -257,7 +257,7 @@ int32_t SPVM__Sys__OS__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
       *value_ref = dval;
     }
     else {
-      return env->die(env, stack, "$value_ref must be the int[], long[], or double[] type", macro_name, __func__, FILE_NAME, __LINE__);
+      return env->die(env, stack, "$value_ref must be the int[], long[], or double[] type.", macro_name, __func__, FILE_NAME, __LINE__);
     }
   }
   
