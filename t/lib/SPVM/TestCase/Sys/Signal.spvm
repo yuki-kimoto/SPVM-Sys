@@ -10,11 +10,7 @@ class TestCase::Sys::Signal {
     {
       my $process_id = Sys->process_id;
       
-      my $status = Sys::Signal->kill($process_id, 0);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::Signal->kill($process_id, 0);
     }
     
     {
@@ -32,11 +28,7 @@ class TestCase::Sys::Signal {
   
   static method raise : int () {
     
-    my $status = Sys::Signal->raise(0);
-    
-    unless ($status == 0) {
-      return 0;
-    }
+    Sys::Signal->raise(0);
     
     return 1;
   }
