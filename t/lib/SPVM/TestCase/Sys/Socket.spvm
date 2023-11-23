@@ -136,18 +136,18 @@ class TestCase::Sys::Socket {
     
     {
       my $in_addr = Sys::Socket::In_addr->new;
-      my $status = Sys::Socket->inet_aton("127.0.0.1", $in_addr);
+      my $inet_aton_ret = Sys::Socket->inet_aton("127.0.0.1", $in_addr);
       
-      unless ($status == 1) {
+      unless ($inet_aton_ret == 1) {
         return 0;
       }
     }
     
     {
       my $in_addr = Sys::Socket::In_addr->new;
-      my $status = Sys::Socket->inet_aton("0.0.0.0", $in_addr);
+      my $inet_aton_ret = Sys::Socket->inet_aton("0.0.0.0", $in_addr);
       
-      unless ($status == 1) {
+      unless ($inet_aton_ret == 1) {
         return 0;
       }
       
@@ -163,9 +163,9 @@ class TestCase::Sys::Socket {
     
     {
       my $in_addr = Sys::Socket::In_addr->new;
-      my $status = Sys::Socket->inet_aton("127.0.0.1", $in_addr);
+      my $inet_aton_ret = Sys::Socket->inet_aton("127.0.0.1", $in_addr);
       
-      unless ($status == 1) {
+      unless ($inet_aton_ret == 1) {
         return 0;
       }
       
@@ -192,9 +192,9 @@ class TestCase::Sys::Socket {
     
     {
       my $in_addr = Sys::Socket::In_addr->new;
-      my $status = Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
+      my $inet_pton_ret = Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
       
-      unless ($status == 1) {
+      unless ($inet_pton_ret == 1) {
         return 0;
       }
       if ($in_addr->s_addr == 0) {
@@ -205,9 +205,9 @@ class TestCase::Sys::Socket {
     {
       my $in_addr = Sys::Socket::In_addr->new;
       $in_addr->set_s_addr(1);
-      my $status = Sys::Socket->inet_pton(SOCKET->AF_INET, "0.0.0.0", $in_addr);
+      my $inet_pton_ret = Sys::Socket->inet_pton(SOCKET->AF_INET, "0.0.0.0", $in_addr);
       
-      unless ($status == 1) {
+      unless ($inet_pton_ret == 1) {
         return 0;
       }
       
@@ -218,9 +218,9 @@ class TestCase::Sys::Socket {
 
     {
       my $in6_addr = Sys::Socket::In6_addr->new;
-      my $status = Sys::Socket->inet_pton(SOCKET->AF_INET6, "ABCD:EF01:2345:6789:ABCD:EF01:2345:6789", $in6_addr);
+      my $inet_pton_ret = Sys::Socket->inet_pton(SOCKET->AF_INET6, "ABCD:EF01:2345:6789:ABCD:EF01:2345:6789", $in6_addr);
       
-      unless ($status == 1) {
+      unless ($inet_pton_ret == 1) {
         return 0;
       }
 
@@ -231,9 +231,9 @@ class TestCase::Sys::Socket {
 
     {
       my $in6_addr = Sys::Socket::In6_addr->new;
-      my $status = Sys::Socket->inet_pton(SOCKET->AF_INET6, "::1", $in6_addr);
+      my $inet_pton_ret = Sys::Socket->inet_pton(SOCKET->AF_INET6, "::1", $in6_addr);
       
-      unless ($status == 1) {
+      unless ($inet_pton_ret == 1) {
         return 0;
       }
 
@@ -244,9 +244,9 @@ class TestCase::Sys::Socket {
 
     {
       my $in6_addr = Sys::Socket::In6_addr->new;
-      my $status = Sys::Socket->inet_pton(SOCKET->AF_INET6, "::0", $in6_addr);
+      my $inet_pton_ret = Sys::Socket->inet_pton(SOCKET->AF_INET6, "::0", $in6_addr);
       
-      unless ($status == 1) {
+      unless ($inet_pton_ret == 1) {
         return 0;
       }
       
@@ -261,9 +261,9 @@ class TestCase::Sys::Socket {
   static method inet_ntop : int () {
     {
       my $in_addr = Sys::Socket::In_addr->new;
-      my $status = Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
+      my $inet_pton_ret = Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
       
-      unless ($status == 1) {
+      unless ($inet_pton_ret == 1) {
         return 0;
       }
 
@@ -284,12 +284,12 @@ class TestCase::Sys::Socket {
     
     {
       my $in6_addr = Sys::Socket::In6_addr->new;
-      my $status = Sys::Socket->inet_pton(SOCKET->AF_INET6, "abcd:ef01:2345:6789:abcd:ef01:2345:6789", $in6_addr);
+      my $inet_pton_ret = Sys::Socket->inet_pton(SOCKET->AF_INET6, "abcd:ef01:2345:6789:abcd:ef01:2345:6789", $in6_addr);
       
-      unless ($status == 1) {
+      unless ($inet_pton_ret == 1) {
         return 0;
       }
-
+      
       my $buffer = (mutable string)new_string_len SOCKET->INET6_ADDRSTRLEN;
       
       my $address = Sys::Socket->inet_ntop(SOCKET->AF_INET6, $in6_addr, $buffer, SOCKET->INET6_ADDRSTRLEN);
@@ -384,10 +384,10 @@ class TestCase::Sys::Socket {
       $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
       $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
       my $in_addr = $sockaddr->sin_addr;
-      my $status = Sys::Socket->inet_aton("127.0.0.1", $in_addr);
+      my $inet_aton_ret = Sys::Socket->inet_aton("127.0.0.1", $in_addr);
       $sockaddr->set_sin_addr($in_addr);
       
-      unless ($status == 1) {
+      unless ($inet_aton_ret == 1) {
         return 0;
       }
     }
@@ -399,9 +399,9 @@ class TestCase::Sys::Socket {
       $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
       $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
       my $in_addr = $sockaddr->sin_addr;
-      my $status = Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
+      my $inet_pton_ret = Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
       $sockaddr->set_sin_addr($in_addr);
-      unless ($status == 1) {
+      unless ($inet_pton_ret == 1) {
         return 0;
       }
     }
@@ -413,16 +413,16 @@ class TestCase::Sys::Socket {
       $sockaddr->set_sin6_family((byte)SOCKET->AF_INET6);
       $sockaddr->set_sin6_port(Sys::Socket->htons((short)$port));
       my $in6_addr = $sockaddr->sin6_addr;
-      my $status = Sys::Socket->inet_pton(SOCKET->AF_INET6, "::1", $in6_addr);
+      my $inet_pton_ret = Sys::Socket->inet_pton(SOCKET->AF_INET6, "::1", $in6_addr);
       $sockaddr->set_sin6_addr($in6_addr);
-      unless ($status == 1) {
+      unless ($inet_pton_ret == 1) {
         return 0;
       }
     }
     
     return 1;
   }
-
+  
   static method connect : int ($port : int) {
     # IPv4 address
     {
@@ -441,13 +441,9 @@ class TestCase::Sys::Socket {
         return 0;
       }
       
-      my $status_close = Sys::Socket->close($socket);
-      
-      unless ($status_close == 0) {
-        return 0;
-      }
+      Sys::Socket->close($socket);
     }
-
+    
     # Exception
     {
       # AF_INET6 is wrong setting
@@ -488,10 +484,7 @@ class TestCase::Sys::Socket {
       unless ($success_connect) {
         return 0;
       }
-      my $status_close = Sys::Socket->close($socket);
-      unless ($status_close == 0) {
-        return 0;
-      }
+      Sys::Socket->close($socket);
     }
 
 =cut
@@ -517,17 +510,9 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
     $sockaddr->set_sin_addr($in_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
+    Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
     
-    unless ($status_connect == 0) {
-      return 0;
-    }
-
-    my $status_close = Sys::Socket->close($socket);
-    
-    unless ($status_close == 0) {
-      return 0;
-    }
+    Sys::Socket->close($socket);
     
     return 1;
   }
@@ -548,31 +533,23 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
     $sockaddr->set_sin_addr($in_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
+    Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
     
-    unless ($status_connect == 0) {
-      return 0;
-    }
-
     my $success_shutdown = Sys->shutdown($socket, SOCKET->SHUT_WR);
     
     unless ($success_shutdown) {
       return 0;
     }
     
-    my $status_close = Sys::Socket->close($socket);
-    
-    unless ($status_close == 0) {
-      return 0;
-    }
+    Sys::Socket->close($socket);
     
     return 1;
   }
-
+  
   static method send_and_recv : int ($port : int) {
     # Socket
     my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
-
+    
     unless ($socket> 0) {
       return 0;
     }
@@ -589,12 +566,7 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
     $sockaddr->set_sin_addr($in_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
-    
-    unless ($status_connect == 0) {
-      Sys::Socket->close($socket);
-      return 0;
-    }
+    Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
     
     {
       my $send_buffer = "abcd";
@@ -616,11 +588,7 @@ class TestCase::Sys::Socket {
       }
     }
     
-    my $status_shutdown = Sys::Socket->shutdown($socket, SOCKET->SHUT_WR);
-    
-    unless ($status_shutdown == 0) {
-      return 0;
-    }
+    Sys::Socket->shutdown($socket, SOCKET->SHUT_WR);
     
     {
       my $recv_buffer = (mutable string)new_string_len 3;
@@ -721,12 +689,8 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    my $status_bind = Sys::Socket->bind($socket, $sockaddr, $sockaddr->size);
+    Sys::Socket->bind($socket, $sockaddr, $sockaddr->size);
     
-    unless ($status_bind == 0) {
-      return 0;
-    }
-
     my $success_listen = Sys->listen($socket, SOCKET->SOMAXCONN);
     
     unless ($success_listen) {
@@ -735,10 +699,10 @@ class TestCase::Sys::Socket {
     
     return 1;
   }
-
+  
   # accept
   static method run_echo_server : void ($port : int) {
-
+    
     # Socket
     my $server_socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
     
@@ -749,7 +713,7 @@ class TestCase::Sys::Socket {
     my $in_addr = $sockaddr->sin_addr;
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
     $sockaddr->set_sin_addr($in_addr);
-
+    
     Sys->setsockopt($server_socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
     
     Sys::Socket->bind($server_socket, $sockaddr, $sockaddr->size);
@@ -788,16 +752,13 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
     $sockaddr->set_sin_addr($in_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
+    Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
     
     {
       my $result_address = Sys::Socket::Sockaddr::In->new;
       
       my $result_address_size = $result_address->size;
-      my $status_getpeername = Sys::Socket->getpeername($socket, $result_address, \$result_address_size);
-      unless ($status_getpeername == 0) {
-        return 0;
-      }
+      Sys::Socket->getpeername($socket, $result_address, \$result_address_size);
       my $port_got = ((int)Sys::Socket->ntohs((short)$result_address->sin_port)) & 0xFFFF;
       
       unless ($port_got == $port) {
@@ -845,17 +806,13 @@ class TestCase::Sys::Socket {
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
     $sockaddr->set_sin_addr($in_addr);
     
-    my $status_connect = Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
+    Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
     
     {
       my $result_address = Sys::Socket::Sockaddr::In->new;
       
       my $result_address_size = $result_address->size;
-      my $status_getsockname = Sys::Socket->getsockname($socket, $result_address, \$result_address_size);
-
-      unless ($status_getsockname == 0) {
-        return 0;
-      }
+      Sys::Socket->getsockname($socket, $result_address, \$result_address_size);
       
       unless (Sys::Socket->ntohs((short)$result_address->sin_port) != 0) {
         return 0;
@@ -864,7 +821,7 @@ class TestCase::Sys::Socket {
       unless ($result_address->sin_addr->s_addr == $in_addr->s_addr) {
         return 0;
       }
-
+      
       unless ($result_address->size == $sockaddr->size) {
         return 0;
       }
@@ -893,11 +850,7 @@ class TestCase::Sys::Socket {
     
     {
       my $sockets = new int[2];
-      my $status = Sys::Socket->socketpair(SOCKET->AF_UNIX, SOCKET->SOCK_STREAM, 0, $sockets);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::Socket->socketpair(SOCKET->AF_UNIX, SOCKET->SOCK_STREAM, 0, $sockets);
       
       my $sockets0 = $sockets->[0];
       Fn->defer([$sockets0 : int] method :void () {
@@ -1085,12 +1038,8 @@ class TestCase::Sys::Socket {
       $hints->set_ai_socktype(SOCKET->SOCK_STREAM);
       $hints->set_ai_family(SOCKET->AF_INET);
       
-      my $status = Sys::Socket->getaddrinfo($servname, undef, $hints, $res);
+      Sys::Socket->getaddrinfo($servname, undef, $hints, $res);
       
-      unless ($status == 0) {
-        return 0;
-      }
-
       my $addrinfos = $res->[0]->to_array;
       
       {
@@ -1099,21 +1048,21 @@ class TestCase::Sys::Socket {
         my $ai_addr = $addrinfo->ai_addr;
         
         my $in_addr : Sys::Socket::In_addr = $ai_addr->(Sys::Socket::Sockaddr::In)->sin_addr;
-
+        
         my $addr_string = Sys::Socket->inet_ntoa($in_addr);
         
         unless ($addr_string eq "127.0.0.1") {
           return 0;
         }
       }
-
+      
       if (@$addrinfos >= 2 ){
         my $addrinfo = $addrinfos->[1];
         
         my $ai_addr = $addrinfo->ai_addr;
         
         my $in_addr : Sys::Socket::In_addr = $ai_addr->(Sys::Socket::Sockaddr::In)->sin_addr;
-
+        
         my $addr_string = Sys::Socket->inet_ntoa($in_addr);
         
         unless ($addr_string eq "127.0.0.1") {
@@ -1130,11 +1079,7 @@ class TestCase::Sys::Socket {
       $hints->set_ai_socktype(SOCKET->SOCK_STREAM);
       $hints->set_ai_family(SOCKET->AF_INET6);
       
-      my $status = Sys::Socket->getaddrinfo($servname, undef, $hints, $res);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::Socket->getaddrinfo($servname, undef, $hints, $res);
       
       my $addrinfos = $res->[0]->to_array;
       
@@ -1161,11 +1106,7 @@ class TestCase::Sys::Socket {
       $hints->set_ai_socktype(SOCKET->SOCK_STREAM);
       $hints->set_ai_family(SOCKET->AF_INET);
       
-      my $status = Sys::Socket->getaddrinfo(undef, $servname, $hints, $res);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::Socket->getaddrinfo(undef, $servname, $hints, $res);
       
       my $addrinfos = $res->[0]->to_array;
       
@@ -1196,11 +1137,7 @@ class TestCase::Sys::Socket {
       $sockaddr->set_sin_addr($in_addr);
       
       my $host = (mutable string)new_string_len SOCKET->NI_MAXHOST;
-      my $status = Sys::Socket->getnameinfo($sockaddr, $sockaddr->size, $host, length $host, undef, 0, 0);
-
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::Socket->getnameinfo($sockaddr, $sockaddr->size, $host, length $host, undef, 0, 0);
       
       Fn->shorten_null_char($host);
       
@@ -1209,7 +1146,7 @@ class TestCase::Sys::Socket {
         return 0;
       }
     }
-
+    
     # IPv6
     {
       my $sockaddr = Sys::Socket::Sockaddr::In6->new;
@@ -1219,11 +1156,7 @@ class TestCase::Sys::Socket {
       $sockaddr->set_sin6_addr($in_addr);
       
       my $host = (mutable string)new_string_len SOCKET->NI_MAXHOST;
-      my $status = Sys::Socket->getnameinfo($sockaddr, $sockaddr->size, $host, length $host, undef, 0, 0);
-
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::Socket->getnameinfo($sockaddr, $sockaddr->size, $host, length $host, undef, 0, 0);
       
       Fn->shorten_null_char($host);
       
@@ -1232,7 +1165,7 @@ class TestCase::Sys::Socket {
         return 0;
       }
     }
-
+    
     # Service
     {
       my $sockaddr = Sys::Socket::Sockaddr::In->new;
@@ -1240,11 +1173,7 @@ class TestCase::Sys::Socket {
       $sockaddr->set_sin_port(Sys::Socket->htons(80));
       
       my $service = (mutable string)new_string_len SOCKET->NI_MAXSERV;
-      my $status = Sys::Socket->getnameinfo($sockaddr, $sockaddr->size, undef, 0, $service, length $service, 0);
-
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys::Socket->getnameinfo($sockaddr, $sockaddr->size, undef, 0, $service, length $service, 0);
       
       Fn->shorten_null_char($service);
       
