@@ -8,7 +8,7 @@ class Sys::Signal {
   
   native static method raise : void ($sig : int);
   
-  native static method kill : int ($pid : int, $sig : int);
+  native static method kill : void ($pid : int, $sig : int);
   
   native static method alarm : int ($seconds : int);
   

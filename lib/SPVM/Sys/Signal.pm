@@ -35,7 +35,7 @@ Constant values specified in C<$sig> is defined in L<Sys::Signal::Constant|SPVM:
 
 =head2 kill
 
-C<static method kill : int ($pid : int, $sig : int)>
+C<static method kill : void ($pid : int, $sig : int)>
 
 The kill() system call can be used to send any signal to any process group or process.
 

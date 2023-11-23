@@ -1,6 +1,7 @@
 0.501 2023-11-17
   [Incompatible Changes]
     * The retrun type of the raise method in the Sys::Signal class become void.
+    * The retrun type of the kill method in the Sys::Signal class become void.
 
 0.500 2023-11-17
   [New Features and Incompatible Changes]
