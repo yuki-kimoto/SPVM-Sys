@@ -102,7 +102,7 @@ The C<$old_value> is a L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval> object
 
 =head2 getitimer
 
-C<static method getitimer : int ($which : int, $curr_value : L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval>);>
+C<static method getitimer : void ($which : int, $curr_value : L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval>);>
 
 The function getitimer() fills the structure pointed to by curr_value with the current setting for the timer specified by which (one of ITIMER_REAL, ITIMER_VIRTUAL, or ITIMER_PROF).
 

@@ -154,7 +154,7 @@ int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
-  env->die(env, stack, "getitimer is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "setitimer is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
@@ -210,8 +210,6 @@ int32_t SPVM__Sys__Time__getitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]getitimer failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
-  stack[0].ival = status;
   
   return 0;
 #endif

@@ -25,7 +25,7 @@ class Sys::Time {
   
   native static method setitimer : void ($which : int, $new_value : Sys::Time::Itimerval, $old_value : Sys::Time::Itimerval);
   
-  native static method getitimer : int ($which : int, $curr_value : Sys::Time::Itimerval);
+  native static method getitimer : void ($which : int, $curr_value : Sys::Time::Itimerval);
   
   native static method times : long ($buffer : Sys::Time::Tms);
   
