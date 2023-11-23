@@ -207,11 +207,7 @@ class TestCase::Sys::Process {
     
     {
       my $fds = new int [2];
-      my $success = Sys->pipe($fds);
-      
-      unless ($success == 1) {
-        return 0;
-      }
+      Sys->pipe($fds);
       
       unless ($fds->[0] > 0) {
         return 0;

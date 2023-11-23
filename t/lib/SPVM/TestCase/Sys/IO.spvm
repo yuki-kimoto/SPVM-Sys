@@ -51,11 +51,8 @@ class TestCase::Sys::IO {
     {
       my $file = "$test_dir/ftest/file_empty.txt";
       my $fd = -1;
-      my $success = Sys->sysopen(\$fd, $file, IO->O_RDONLY, 0644);
+      Sys->sysopen(\$fd, $file, IO->O_RDONLY, 0644);
       
-      unless ($success) {
-        return 0;
-      }
       Sys::IO->close($fd);
     }
     
@@ -402,11 +399,7 @@ class TestCase::Sys::IO {
     {
       my $file = "$test_dir/ftest/file_empty.txt";
       my $stream_ref = [(Sys::IO::FileStream)undef];
-      my $success = Sys->open($stream_ref, "<", $file);
-      
-      unless ($success) {
-        return 0;
-      }
+      Sys->open($stream_ref, "<", $file);
       
       unless ($stream_ref->[0]) {
         return 0;
@@ -452,11 +445,7 @@ class TestCase::Sys::IO {
       }
       
       my $stream_ref = [(Sys::IO::FileStream)undef];
-      my $success = Sys->fdopen($stream_ref, "<", $fd);
-      
-      unless ($success) {
-        return 0;
-      }
+      Sys->fdopen($stream_ref, "<", $fd);
       
       unless ($stream_ref->[0]) {
         return 0;
@@ -904,36 +893,21 @@ class TestCase::Sys::IO {
       my $buffer_zero = copy $buffer;
       my $size = length $buffer;
       
-      my $success = (string)undef;
-      
-      $success = Sys::IO->fgets($buffer, $size, $stream);
-      
-      unless ($success) {
-        return 0;
-      }
+      Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer eq "a\n\0\0") {
         return 0;
       }
       
-
       Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
-      $success = Sys::IO->fgets($buffer, $size, $stream);
-      
-      unless ($success) {
-        return 0;
-      }
+      Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer eq "xxx\0") {
         return 0;
       }
-
-      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
-      $success = Sys::IO->fgets($buffer, $size, $stream);
       
-      unless ($success) {
-        return 0;
-      }
+      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
+      Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer->[0] == '\n') {
         return 0;
@@ -943,38 +917,26 @@ class TestCase::Sys::IO {
       }
       
       Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
-      $success = Sys::IO->fgets($buffer, $size, $stream);
-      
-      unless ($success) {
-        return 0;
-      }
+      Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer eq "bc\n\0") {
         return 0;
       }
-
-      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
-      $success = Sys::IO->fgets($buffer, $size, $stream);
       
-      unless ($success) {
-        return 0;
-      }
+      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
+      Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer eq "d\0\0\0") {
         return 0;
       }
-
-      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
-      $success = Sys::IO->fgets($buffer, $size, $stream);
       
-      if ($success) {
-        return 0;
-      }
+      Fn->memcpy($buffer, 0, $buffer_zero, 0, $size);
+      Sys::IO->fgets($buffer, $size, $stream);
     }
     
     return 1;
   }
-
+  
   static method fwrite : int ($test_dir : string) {
     
     {
@@ -985,7 +947,7 @@ class TestCase::Sys::IO {
         unless ($stream) {
           return 0;
         }
-
+        
         my $write_length = 0;
         my $size = 1;
         my $length = 4;
@@ -1010,7 +972,7 @@ class TestCase::Sys::IO {
         unless ($stream) {
           return 0;
         }
-
+        
         my $buffer = (mutable string)new_string_len 4;
         my $size = 1;
         my $length = 4;
@@ -1036,7 +998,7 @@ class TestCase::Sys::IO {
         unless ($read_length == 4) {
           return 0;
         }
-
+        
         $read_length = Sys::IO->fread($buffer, $size, $length, $stream);
         
         unless ($read_length == 0) {
@@ -1053,70 +1015,13 @@ class TestCase::Sys::IO {
         unless ($stream) {
           return 0;
         }
-
-        my $success = 0;
+        
         my $size = 1;
         my $length = 4;
         
-        $success = Sys->print($stream, "abcd");
-        unless ($success) {
-          return 0;
-        }
+        Sys->print($stream, "abcd");
         
-        $success = Sys->print($stream, "efgh");
-        unless ($success) {
-          return 0;
-        }
-        
-        Sys::IO->fclose($stream);
-      }
-      
-      {
-        my $file = "$test_dir/foo.txt";
-        my $stream = Sys::IO->fopen($file, "wb");
-        
-        unless ($stream) {
-          return 0;
-        }
-
-        my $success = 0;
-        my $size = 1;
-        my $length = 4;
-        
-        $success = Sys->say($stream, "abcd");
-        unless ($success) {
-          return 0;
-        }
-        
-        $success = Sys->say($stream, "efgh");
-        unless ($success) {
-          return 0;
-        }
-        
-        Sys::IO->fclose($stream);
-      }
-      
-      {
-        my $file = "$test_dir/foo.txt";
-        my $stream = Sys::IO->fopen($file, "wb");
-        
-        unless ($stream) {
-          return 0;
-        }
-
-        my $success = 0;
-        my $size = 1;
-        my $length = 4;
-        
-        $success = Sys->say($stream, "abcd");
-        unless ($success) {
-          return 0;
-        }
-        
-        $success = Sys->say($stream, "efgh");
-        unless ($success) {
-          return 0;
-        }
+        Sys->print($stream, "efgh");
         
         Sys::IO->fclose($stream);
       }
@@ -1129,19 +1034,48 @@ class TestCase::Sys::IO {
           return 0;
         }
         
-        my $success = 0;
         my $size = 1;
         my $length = 4;
         
-        $success = Sys->printf($stream, "abc%s", ["d"]);
-        unless ($success) {
+        Sys->say($stream, "abcd");
+        
+        Sys->say($stream, "efgh");
+        
+        Sys::IO->fclose($stream);
+      }
+      
+      {
+        my $file = "$test_dir/foo.txt";
+        my $stream = Sys::IO->fopen($file, "wb");
+        
+        unless ($stream) {
           return 0;
         }
         
-        $success = Sys->printf($stream, "efg%s", ["h"]);
-        unless ($success) {
+        my $size = 1;
+        my $length = 4;
+        
+        Sys->say($stream, "abcd");
+        
+        Sys->say($stream, "efgh");
+        
+        Sys::IO->fclose($stream);
+      }
+      
+      {
+        my $file = "$test_dir/foo.txt";
+        my $stream = Sys::IO->fopen($file, "wb");
+        
+        unless ($stream) {
           return 0;
         }
+        
+        my $size = 1;
+        my $length = 4;
+        
+        Sys->printf($stream, "abc%s", ["d"]);
+        
+        Sys->printf($stream, "efg%s", ["h"]);
         
         Sys::IO->fclose($stream);
       }
@@ -1440,11 +1374,7 @@ class TestCase::Sys::IO {
         return 0;
       }
 
-      my $success_unlock = Sys->flock($fd, IO->LOCK_UN);
-      
-      unless ($success_unlock) {
-        return 0;
-      }
+      Sys->flock($fd, IO->LOCK_UN);
       
       my $close_status = Sys::IO->close($fd);
       
@@ -1836,11 +1766,7 @@ class TestCase::Sys::IO {
       
       Sys::IO->fclose($stream);
       
-      my $success = Sys->chown(-1, -1, $file);
-      
-      unless ($success) {
-        return 0;
-      }
+      Sys->chown(-1, -1, $file);
       
       {
         eval { Sys->chown(-1, -1, "$file/not_found.txt"); };
@@ -2224,10 +2150,7 @@ class TestCase::Sys::IO {
         
       {
         my $stream = Sys::IO->fopen($file, "wb");
-        my $success = Sys->truncate(Sys::IO->fileno($stream), 0);
-        unless ($success) {
-          return 0;
-        }
+        Sys->truncate(Sys::IO->fileno($stream), 0);
       }
       
       unless (Sys::FileTest->s($file) == 0) {
@@ -2463,13 +2386,9 @@ class TestCase::Sys::IO {
       
       my $dh_ref = [(Sys::IO::DirStream)undef];
       
-      my $success = Sys->opendir($dh_ref, $test_dir);
+      Sys->opendir($dh_ref, $test_dir);
       
       unless ($dh_ref->[0]) {
-        return 0;
-      }
-      
-      unless ($success) {
         return 0;
       }
       
