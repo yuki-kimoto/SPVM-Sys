@@ -478,19 +478,19 @@ class Sys {
   }
   
   static method chdir : int ($path : string) {
-    my $status = Sys::IO->chdir($path);
+    Sys::IO->chdir($path);
     my $success = 1;
     return $success;
   }
   
   static method chmod : int ($mode :int, $path : string) {
-    my $status = Sys::IO->chmod($path, $mode);
+    Sys::IO->chmod($path, $mode);
     my $success = 1;
     return $success;
   }
   
   static method mkdir : int ($path : string, $mode : int) {
-    my $status = Sys::IO->mkdir($path, $mode);
+    Sys::IO->mkdir($path, $mode);
     my $success = 1;
     return $success;
   }
@@ -502,7 +502,7 @@ class Sys {
   }
   
   static method rmdir : int ($path : string) {
-    my $status = Sys::IO->rmdir($path);
+    Sys::IO->rmdir($path);
     my $success = 1;
     return $success;
   }
@@ -519,7 +519,7 @@ class Sys {
   }
   
   static method closedir : int ($dirp : Sys::IO::DirStream) {
-    my $status = Sys::IO->closedir($dirp);
+    Sys::IO->closedir($dirp);
     
     my $success = 1;
     
@@ -527,7 +527,7 @@ class Sys {
   }
   
   static method close : int ($stream : Sys::IO::FileStream) {
-    my $status = Sys::IO->fclose($stream);
+    Sys::IO->fclose($stream);
     
     my $success = 1;
     
@@ -535,13 +535,12 @@ class Sys {
   }
   
   static method unlink : int ($pathname : string) {
-    my $status = 0;
     
     if (Sys::OS->is_windows) {
-      $status = Sys::IO::Windows->unlink($pathname);
+      Sys::IO::Windows->unlink($pathname);
     }
     else {
-      $status = Sys::IO->unlink($pathname);
+      Sys::IO->unlink($pathname);
     }
     
     my $success = 1;
@@ -550,12 +549,11 @@ class Sys {
   }
   
   static method rename : int ($oldpath : string, $newpath : string) {
-    my $status = 0;
     if (Sys::OS->is_windows) {
-      $status = Sys::IO::Windows->rename($oldpath, $newpath);
+      Sys::IO::Windows->rename($oldpath, $newpath);
     }
     else {
-      $status = Sys::IO->rename($oldpath, $newpath);
+      Sys::IO->rename($oldpath, $newpath);
     }
     
     my $success = 1;
@@ -579,12 +577,11 @@ class Sys {
   }
   
   static method symlink : int ($oldpath : string, $newpath : string) {
-    my $status = 0;
     if (Sys::OS->is_windows) {
-      $status = Sys::IO::Windows->symlink($oldpath, $newpath);
+      Sys::IO::Windows->symlink($oldpath, $newpath);
     }
     else {
-      $status = Sys::IO->symlink($oldpath, $newpath);
+      Sys::IO->symlink($oldpath, $newpath);
     }
     
     my $success = 1;
@@ -618,13 +615,13 @@ class Sys {
   
   static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
     my $addrlen = $addr->size;
-    my $status = Sys::Socket->bind($sockfd, $addr, $addrlen);
+    Sys::Socket->bind($sockfd, $addr, $addrlen);
     my $success = 1;
     return $success;
   }
   
   static method listen : int ($sockfd : int, $backlog : int) {
-    my $status = Sys::Socket->listen($sockfd, $backlog);
+    Sys::Socket->listen($sockfd, $backlog);
     my $success = 1;
     return $success;
   }
@@ -644,7 +641,7 @@ class Sys {
   static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
     my $addrlen = $addr->size;
     
-    my $status = Sys::Socket->connect($sockfd, $addr, $addrlen);
+    Sys::Socket->connect($sockfd, $addr, $addrlen);
     
     my $success = 1;
     
@@ -656,7 +653,7 @@ class Sys {
     
     my $addr = Sys::Socket::Sockaddr->new;
     
-    my $status = Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
+    Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
     
     my $addr_child = Sys::Socket->to_family_sockaddr($addr);
     
@@ -669,7 +666,7 @@ class Sys {
     
     my $addr = Sys::Socket::Sockaddr->new;
     
-    my $status = Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
+    Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
     
     my $addr_child = Sys::Socket->to_family_sockaddr($addr);
     
@@ -700,7 +697,7 @@ class Sys {
   }
   
   static method shutdown : int ($sockfd : int, $how : int) {
-    my $status = Sys::Socket->shutdown($sockfd, $how);
+    Sys::Socket->shutdown($sockfd, $how);
     
     my $success = 1;
     
@@ -714,7 +711,7 @@ class Sys {
   static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
     my $pair = new int[2];
     
-    my $status = Sys::Socket->socketpair($domain, $type, $protocol, $pair);
+    Sys::Socket->socketpair($domain, $type, $protocol, $pair);
     
     $$sock_fd1_ref = $pair->[0];
     
@@ -731,17 +728,16 @@ class Sys {
       die "\$optval must be defined.";
     }
     
-    my $status = -1;
     if ($optval is_type Int) {
       my $optval_ref = [$optval->(Int)->value];
       my $optval_string = new_string_len 4;
       Fn->memcpy($optval_string, 0, $optval_ref, 0, 4);
       
-      $status = Sys::Socket->setsockopt($sockfd, $level, $optname, $optval_string, 4);
+      Sys::Socket->setsockopt($sockfd, $level, $optname, $optval_string, 4);
     }
     elsif ($optval is_type string) {
       my $optval_string = (string)$optval;
-      $status = Sys::Socket->setsockopt($sockfd, $level, $optname, $optval_string, length $optval_string);
+      Sys::Socket->setsockopt($sockfd, $level, $optname, $optval_string, length $optval_string);
     }
     else {
       die "The type of \$optval must be Int or string.";
@@ -760,7 +756,7 @@ class Sys {
     
     my $optval = (mutable string)new_string_len $optlen;
     
-    my $status = Sys::Socket->getsockopt($sockfd, $level, $optname, $optval, \$optlen);
+    Sys::Socket->getsockopt($sockfd, $level, $optname, $optval, \$optlen);
     
     my $success = 1;
     
@@ -774,7 +770,7 @@ class Sys {
   
   static method truncate : int ($fd : int, $legnth : long) {
     
-    my $status = Sys::IO->ftruncate($fd, $legnth);
+    Sys::IO->ftruncate($fd, $legnth);
     
     my $success = 1;
     
@@ -862,7 +858,7 @@ class Sys {
   }
   
   static method flock : int ($fd : int, $operation : int) {
-    my $status = Sys::IO->flock($fd, $operation);
+    Sys::IO->flock($fd, $operation);
     my $success = 1;
     return $success;
   }
@@ -894,7 +890,7 @@ class Sys {
   }
   
   static method seek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int) {
-    my $status = Sys::IO->fseek($stream, $offset, $whence);
+    Sys::IO->fseek($stream, $offset, $whence);
     my $success = 1;
     return $success;
   }
@@ -933,13 +929,13 @@ class Sys {
       $utimbuf->set_modtime($mtime);
     }
     
-    my $status = Sys::IO->utime($filename, $utimbuf);
+    Sys::IO->utime($filename, $utimbuf);
     my $success = 1;
     return $success;
   }
   
   static method chown : int ($owner : int, $group : int, $path : string) {
-    my $status = Sys::IO->chown($path, $owner, $group);
+    Sys::IO->chown($path, $owner, $group);
     my $success = 1;
     return $success;
   }
@@ -1067,7 +1063,7 @@ class Sys {
   }
   
   static method kill : int ($sig : int, $pid : int) {
-    my $status = Sys::Signal->kill($pid, $sig);
+    Sys::Signal->kill($pid, $sig);
     
     my $success = 1;
     
@@ -1076,13 +1072,11 @@ class Sys {
   
   static method pipe : int ($pipe_fds : int[]) {
     
-    my $status = -1;
-    
     if (Sys::OS->is_windows) {
-      $status = Sys::Process->_pipe($pipe_fds, 0, IO->O_BINARY);
+      Sys::Process->_pipe($pipe_fds, 0, IO->O_BINARY);
     }
     else {
-      $status = Sys::Process->pipe($pipe_fds);
+      Sys::Process->pipe($pipe_fds);
       
       Sys->fcntl($pipe_fds->[0], IO->F_SETFD, IO->FD_CLOEXEC);
       
