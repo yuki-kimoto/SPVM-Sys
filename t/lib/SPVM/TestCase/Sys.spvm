@@ -528,11 +528,7 @@ class TestCase::Sys {
     
     my $file_symlink = "$test_dir${sep}foo_link";
     {
-      my $success = Sys->symlink($file, $file_symlink);
-      
-      unless ($success) {
-        return 0;
-      }
+      Sys->symlink($file, $file_symlink);
       
       my $exists_symlink_file = Sys->l($file_symlink);
       unless ($exists_symlink_file) {
@@ -554,11 +550,7 @@ class TestCase::Sys {
   static method mkdir : int ($test_dir : string) {
     my $dir = "$test_dir/foo";
     
-    my $success = Sys->mkdir($dir, 0755);
-    
-    unless ($success) {
-      return 0;
-    }
+    Sys->mkdir($dir, 0755);
     
     unless (Sys->d($dir)) {
       return 0;
@@ -601,11 +593,7 @@ class TestCase::Sys {
       return 0;
     }
     
-    my $success = Sys->rmdir($dir);
-
-    unless ($success) {
-      return 0;
-    }
+    Sys->rmdir($dir);
     
     if (Sys->e($dir)) {
       return 0;
@@ -624,11 +612,7 @@ class TestCase::Sys {
   static method chdir : int ($test_dir : string) {
     my $dir = "$test_dir/ftest/dir_empty";
     
-    my $success = Sys->chdir($dir);
-    
-    unless ($success) {
-      return 0;
-    }
+    Sys->chdir($dir);
     
     my $cwd = Sys::IO->getcwd(undef, 0);
     unless (Fn->contains($cwd, "dir_empty")) {
@@ -655,11 +639,7 @@ class TestCase::Sys {
     
     Sys::IO->fclose($stream);
     
-    my $success = Sys->chmod(0755, $file);
-    
-    unless ($success) {
-      return 0;
-    }
+    Sys->chmod(0755, $file);
     
     {
       eval { Sys->chmod(0755, "$file/not_found.txt"); };
@@ -714,16 +694,12 @@ class TestCase::Sys {
     }
     
     my $new_file = "$test_dir/foo_new.txt";
-    my $success = Sys::IO->rename($file, $new_file);
-    
-    unless ($success == 0) {
-      return 0;
-    }
+    Sys::IO->rename($file, $new_file);
     
     if (Sys->e($file)) {
       return 0;
     }
-
+    
     unless (Sys->e($new_file)) {
       return 0;
     }
