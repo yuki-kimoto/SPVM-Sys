@@ -38,6 +38,12 @@ C<static method env : string ($name : string);>
 
 Gets an environment variable. The same as getting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
 
+=head2 set_env
+
+static method set_env : void ($name : string, $value : string);
+
+Sets an environment variable.
+
 =head2 osname
 
 C<static method osname : string ()>

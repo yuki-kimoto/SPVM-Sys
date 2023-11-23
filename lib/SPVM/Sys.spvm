@@ -55,6 +55,17 @@ class Sys {
     return $env_value;
   }
   
+  static method set_env : void ($name : string, $value : string) {
+    
+    if (Sys::OS->is_windows) {
+      Sys::Env->_putenv_s($name, $value);
+    }
+    else {
+      my $overwrite = 1;
+      Sys::Env->setenv($name, $value, $overwrite);
+    }
+  }
+  
   static method A : double ($file : string) {
     
     unless ($file) {
