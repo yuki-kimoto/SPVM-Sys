@@ -479,19 +479,19 @@ class Sys {
   
   static method chdir : int ($path : string) {
     my $status = Sys::IO->chdir($path);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
   static method chmod : int ($mode :int, $path : string) {
     my $status = Sys::IO->chmod($path, $mode);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
   static method mkdir : int ($path : string, $mode : int) {
     my $status = Sys::IO->mkdir($path, $mode);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
@@ -503,7 +503,7 @@ class Sys {
   
   static method rmdir : int ($path : string) {
     my $status = Sys::IO->rmdir($path);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
@@ -521,7 +521,7 @@ class Sys {
   static method closedir : int ($dirp : Sys::IO::DirStream) {
     my $status = Sys::IO->closedir($dirp);
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -529,7 +529,7 @@ class Sys {
   static method close : int ($stream : Sys::IO::FileStream) {
     my $status = Sys::IO->fclose($stream);
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -544,7 +544,7 @@ class Sys {
       $status = Sys::IO->unlink($pathname);
     }
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -558,7 +558,7 @@ class Sys {
       $status = Sys::IO->rename($oldpath, $newpath);
     }
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -587,7 +587,7 @@ class Sys {
       $status = Sys::IO->symlink($oldpath, $newpath);
     }
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -619,13 +619,13 @@ class Sys {
   static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
     my $addrlen = $addr->size;
     my $status = Sys::Socket->bind($sockfd, $addr, $addrlen);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
   static method listen : int ($sockfd : int, $backlog : int) {
     my $status = Sys::Socket->listen($sockfd, $backlog);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
@@ -646,7 +646,7 @@ class Sys {
     
     my $status = Sys::Socket->connect($sockfd, $addr, $addrlen);
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -702,7 +702,7 @@ class Sys {
   static method shutdown : int ($sockfd : int, $how : int) {
     my $status = Sys::Socket->shutdown($sockfd, $how);
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -720,7 +720,7 @@ class Sys {
     
     $$sock_fd2_ref = $pair->[1];
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -747,7 +747,7 @@ class Sys {
       die "The type of \$optval must be Int or string.";
     }
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -762,7 +762,7 @@ class Sys {
     
     my $status = Sys::Socket->getsockopt($sockfd, $level, $optname, $optval, \$optlen);
     
-    my $success = $status == 0;
+    my $success = 1;
     
     if ($success) {
       return $optval;
@@ -776,7 +776,7 @@ class Sys {
     
     my $status = Sys::IO->ftruncate($fd, $legnth);
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -863,7 +863,7 @@ class Sys {
   
   static method flock : int ($fd : int, $operation : int) {
     my $status = Sys::IO->flock($fd, $operation);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
@@ -895,7 +895,7 @@ class Sys {
   
   static method seek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int) {
     my $status = Sys::IO->fseek($stream, $offset, $whence);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
@@ -934,13 +934,13 @@ class Sys {
     }
     
     my $status = Sys::IO->utime($filename, $utimbuf);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
   static method chown : int ($owner : int, $group : int, $path : string) {
     my $status = Sys::IO->chown($path, $owner, $group);
-    my $success = $status == 0;
+    my $success = 1;
     return $success;
   }
   
@@ -1069,7 +1069,7 @@ class Sys {
   static method kill : int ($sig : int, $pid : int) {
     my $status = Sys::Signal->kill($pid, $sig);
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
@@ -1089,7 +1089,7 @@ class Sys {
       Sys->fcntl($pipe_fds->[1], IO->F_SETFD, IO->FD_CLOEXEC);
     }
     
-    my $success = $status == 0;
+    my $success = 1;
     
     return $success;
   }
