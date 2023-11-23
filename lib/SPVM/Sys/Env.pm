@@ -42,6 +42,12 @@ The unsetenv() function deletes the variable name from the environment. If name 
 
 See the detail of the L<unsetenv|https://linux.die.net/man/3/unsetenv> function in the case of Linux.
 
+=head2 _putenv_s
+
+C<static method _putenv_s : int ($name : string, $value : string);>
+
+See the detail of the L<_putenv_s|https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/putenv-s-wputenv-s?view=msvc-170> function in Windows.
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto
