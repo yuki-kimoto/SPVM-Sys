@@ -477,22 +477,16 @@ class Sys {
     return $stat;
   }
   
-  static method chdir : int ($path : string) {
+  static method chdir : void ($path : string) {
     Sys::IO->chdir($path);
-    my $success = 1;
-    return $success;
   }
   
-  static method chmod : int ($mode :int, $path : string) {
+  static method chmod : void ($mode :int, $path : string) {
     Sys::IO->chmod($path, $mode);
-    my $success = 1;
-    return $success;
   }
   
-  static method mkdir : int ($path : string, $mode : int) {
+  static method mkdir : void ($path : string, $mode : int) {
     Sys::IO->mkdir($path, $mode);
-    my $success = 1;
-    return $success;
   }
   
   static method umask : int ($mode : int) {
@@ -501,40 +495,26 @@ class Sys {
     return $current_umask;
   }
   
-  static method rmdir : int ($path : string) {
+  static method rmdir : void ($path : string) {
     Sys::IO->rmdir($path);
-    my $success = 1;
-    return $success;
   }
   
-  static method opendir : int ($dh_ref : Sys::IO::DirStream[], $dir : string) {
+  static method opendir : void ($dh_ref : Sys::IO::DirStream[], $dir : string) {
     
     my $dh = Sys::IO->opendir($dir);
     
     $dh_ref->[0] = $dh;
-    
-    my $success = !($dh == undef);
-    
-    return $success;
   }
   
-  static method closedir : int ($dirp : Sys::IO::DirStream) {
+  static method closedir : void ($dirp : Sys::IO::DirStream) {
     Sys::IO->closedir($dirp);
-    
-    my $success = 1;
-    
-    return $success;
   }
   
-  static method close : int ($stream : Sys::IO::FileStream) {
+  static method close : void ($stream : Sys::IO::FileStream) {
     Sys::IO->fclose($stream);
-    
-    my $success = 1;
-    
-    return $success;
   }
   
-  static method unlink : int ($pathname : string) {
+  static method unlink : void ($pathname : string) {
     
     if (Sys::OS->is_windows) {
       Sys::IO::Windows->unlink($pathname);
@@ -542,23 +522,15 @@ class Sys {
     else {
       Sys::IO->unlink($pathname);
     }
-    
-    my $success = 1;
-    
-    return $success;
   }
   
-  static method rename : int ($oldpath : string, $newpath : string) {
+  static method rename : void ($oldpath : string, $newpath : string) {
     if (Sys::OS->is_windows) {
       Sys::IO::Windows->rename($oldpath, $newpath);
     }
     else {
       Sys::IO->rename($oldpath, $newpath);
     }
-    
-    my $success = 1;
-    
-    return $success;
   }
   
   static method readlink : string ($file : string) {
@@ -613,17 +585,13 @@ class Sys {
     return $fd_number;
   }
   
-  static method bind : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+  static method bind : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
     my $addrlen = $addr->size;
     Sys::Socket->bind($sockfd, $addr, $addrlen);
-    my $success = 1;
-    return $success;
   }
   
-  static method listen : int ($sockfd : int, $backlog : int) {
+  static method listen : void ($sockfd : int, $backlog : int) {
     Sys::Socket->listen($sockfd, $backlog);
-    my $success = 1;
-    return $success;
   }
   
   static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int) {
@@ -638,14 +606,10 @@ class Sys {
     return $addr_child;
   }
   
-  static method connect : int ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+  static method connect : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
     my $addrlen = $addr->size;
     
     Sys::Socket->connect($sockfd, $addr, $addrlen);
-    
-    my $success = 1;
-    
-    return $success;
   }
   
   static method getpeername : Sys::Socket::Sockaddr ($sockfd : int) {
@@ -696,19 +660,15 @@ class Sys {
     return $send_length;
   }
   
-  static method shutdown : int ($sockfd : int, $how : int) {
+  static method shutdown : void ($sockfd : int, $how : int) {
     Sys::Socket->shutdown($sockfd, $how);
-    
-    my $success = 1;
-    
-    return $success;
   }
   
   static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int) {
     $$sockfd_ref = Sys::Socket->socket($domain, $type, $protocol);
   }
   
-  static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
+  static method socketpair : void ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
     my $pair = new int[2];
     
     Sys::Socket->socketpair($domain, $type, $protocol, $pair);
@@ -716,13 +676,9 @@ class Sys {
     $$sock_fd1_ref = $pair->[0];
     
     $$sock_fd2_ref = $pair->[1];
-    
-    my $success = 1;
-    
-    return $success;
   }
   
-  static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int) {
+  static method setsockopt : void ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int) {
     
     unless ($optval) {
       die "\$optval must be defined.";
@@ -742,10 +698,6 @@ class Sys {
     else {
       die "The type of \$optval must be Int or string.";
     }
-    
-    my $success = 1;
-    
-    return $success;
   }
   
   static method getsockopt : string ($sockfd : int, $level : int, $optname : int, $optlen : int = -1) {
@@ -758,23 +710,12 @@ class Sys {
     
     Sys::Socket->getsockopt($sockfd, $level, $optname, $optval, \$optlen);
     
-    my $success = 1;
-    
-    if ($success) {
-      return $optval;
-    }
-    else {
-      return undef;
-    }
+    return $optval;
   }
   
-  static method truncate : int ($fd : int, $legnth : long) {
+  static method truncate : void ($fd : int, $legnth : long) {
     
     Sys::IO->ftruncate($fd, $legnth);
-    
-    my $success = 1;
-    
-    return $success;
   }
   
   static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0) {
@@ -857,22 +798,17 @@ class Sys {
     return $char;
   }
   
-  static method flock : int ($fd : int, $operation : int) {
+  static method flock : void ($fd : int, $operation : int) {
     Sys::IO->flock($fd, $operation);
-    my $success = 1;
-    return $success;
   }
   
-  static method print : int ($stream : Sys::IO::FileStream, $string : string) {
-    my $write_length = Sys::IO->fwrite($string, 1, length $string, $stream);
-    my $success = $write_length >= 0;
-    return $success;
+  static method print : void ($stream : Sys::IO::FileStream, $string : string) {
+    Sys::IO->fwrite($string, 1, length $string, $stream);
   }
   
-  static method printf : int ($stream : Sys::IO::FileStream, $format : string, $args : object[]) {
+  static method printf : void ($stream : Sys::IO::FileStream, $format : string, $args : object[]) {
     my $formated_string = Format->sprintf($format, $args);
-    my $success = &print($stream, $formated_string);
-    return $success;
+    &print($stream, $formated_string);
   }
   
   static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0) {
@@ -889,10 +825,8 @@ class Sys {
     return $next_dirp;
   }
   
-  static method seek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int) {
+  static method seek : void ($stream : Sys::IO::FileStream, $offset : long, $whence : int) {
     Sys::IO->fseek($stream, $offset, $whence);
-    my $success = 1;
-    return $success;
   }
   
   static method sysseek : long ($fd : int, $offset : long, $whence : int) {
@@ -916,7 +850,7 @@ class Sys {
     return $stat;
   }
   
-  static method utime : int ($atime : long, $mtime : long, $filename : string) {
+  static method utime : void ($atime : long, $mtime : long, $filename : string) {
     
     my $utimbuf = (Sys::IO::Utimbuf)undef;
     
@@ -930,14 +864,10 @@ class Sys {
     }
     
     Sys::IO->utime($filename, $utimbuf);
-    my $success = 1;
-    return $success;
   }
   
-  static method chown : int ($owner : int, $group : int, $path : string) {
+  static method chown : void ($owner : int, $group : int, $path : string) {
     Sys::IO->chown($path, $owner, $group);
-    my $success = 1;
-    return $success;
   }
   
   static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef) {
@@ -945,7 +875,7 @@ class Sys {
     return $fcntl_ret;
   }
   
-  static method open : int ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file_name : string) {
+  static method open : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file_name : string) {
     
     unless ($stream_ref) {
       die "\$stream_ref must be defined.";
@@ -977,13 +907,9 @@ class Sys {
     my $stream = Sys::IO->fopen($file_name, $open_mode);
     
     $stream_ref->[0] = $stream;
-    
-    my $success = $stream != undef;
-    
-    return $success;
   }
   
-  static method fdopen : int ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $fd : int) {
+  static method fdopen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $fd : int) {
     
     unless ($stream_ref) {
       die "\$stream_ref must be defined.";
@@ -1015,26 +941,17 @@ class Sys {
     my $stream = Sys::IO->fdopen($fd, $open_mode);
     
     $stream_ref->[0] = $stream;
-    
-    my $success = $stream != undef;
-    
-    return $success;
   }
   
-  static method sysopen : int ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0) {
+  static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0) {
     
     my $fd = Sys::IO->open($path, $flags, $mode);
     
     $$fd_ref = $fd;
-    
-    my $success = $fd >= 0;
-    
-    return $success;
   }
   
-  static method say : int ($stream : Sys::IO::FileStream, $string : string) {
-    my $success = &print($stream, "$string\n");
-    return $success;
+  static method say : void ($stream : Sys::IO::FileStream, $string : string) {
+    &print($stream, "$string\n");
   }
   
   static method STDIN : Sys::IO::FileStream () { return Sys::IO->spvm_stdin; }
@@ -1062,15 +979,11 @@ class Sys {
     return $old_handler;
   }
   
-  static method kill : int ($sig : int, $pid : int) {
+  static method kill : void ($sig : int, $pid : int) {
     Sys::Signal->kill($pid, $sig);
-    
-    my $success = 1;
-    
-    return $success;
   }
   
-  static method pipe : int ($pipe_fds : int[]) {
+  static method pipe : void ($pipe_fds : int[]) {
     
     if (Sys::OS->is_windows) {
       Sys::Process->_pipe($pipe_fds, 0, IO->O_BINARY);
@@ -1082,9 +995,5 @@ class Sys {
       
       Sys->fcntl($pipe_fds->[1], IO->F_SETFD, IO->FD_CLOEXEC);
     }
-    
-    my $success = 1;
-    
-    return $success;
   }
 }

@@ -117,7 +117,7 @@ if (SPVM::Sys::OS->is_windows) {
 eval { SPVM::Sys->unlink($tmpfile1); };
 ok($@, "we can't unlink the original directory");
 
-ok(SPVM::Sys->rmdir($tmpfile1), "we can rmdir it");
+SPVM::Sys->rmdir($tmpfile1);
 
 ok(open(my $fh, ">", $tmpfile1), "make a file");
 close $fh if $fh;

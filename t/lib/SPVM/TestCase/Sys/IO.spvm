@@ -1205,11 +1205,7 @@ class TestCase::Sys::IO {
       
       my $read_length = 0;
       
-      my $streameek_success = Sys->seek($stream, 4, IO->SEEK_SET);
-      
-      unless ($streameek_success) {
-        return 0;
-      }
+      Sys->seek($stream, 4, IO->SEEK_SET);
       
       $read_length = Sys::IO->fread($buffer, $size, $length, $stream);
       
@@ -2392,11 +2388,7 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      my $closedir_success = Sys->closedir($dh_ref->[0]);
-      
-      unless ($closedir_success) {
-        return 0;
-      }
+      Sys->closedir($dh_ref->[0]);
     }
     
     return 1;

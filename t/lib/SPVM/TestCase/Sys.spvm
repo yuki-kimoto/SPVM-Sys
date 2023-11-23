@@ -662,11 +662,7 @@ class TestCase::Sys {
       return 0;
     }
     
-    my $delete_count = Sys->unlink($file);
-    
-    unless ($delete_count == 1) {
-      return 0;
-    }
+    Sys->unlink($file);
     
     if (Sys->e($file)) {
       return 0;

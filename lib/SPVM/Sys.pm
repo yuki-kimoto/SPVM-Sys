@@ -248,7 +248,7 @@ And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 chdir
 
-C<static method chdir : int ($path : string);>
+C<static method chdir : void ($path : string);>
 
 Changes the working directory to $path. The same as the Perl L<chdir|https://perldoc.perl.org/functions/chdir> function.
 
@@ -256,7 +256,7 @@ If succeed, returns 1.
 
 =head2 chmod
 
-C<static method chmod : int ($mode :int, $path : string);>
+C<static method chmod : void ($mode :int, $path : string);>
 
 Changes the permissions of a file. The same as the Perl L<chmod|https://perldoc.perl.org/functions/chmod> function.
 
@@ -264,7 +264,7 @@ If succeed, returns 1.
 
 =head2 mkdir
 
-C<static method mkdir : int ($path : string, $mode : int);>
+C<static method mkdir : void ($path : string, $mode : int);>
 
 Creates the directory specified by $path and $mode. The same as the Perl L<mkdir|https://perldoc.perl.org/functions/mkdir> function.
 
@@ -278,7 +278,7 @@ Sets the umask for the process to $mode and returns the previous value. The same
 
 =head2 rmdir
 
-C<static method rmdir : int ($path : string);>
+C<static method rmdir : void ($path : string);>
 
 Deletes the directory specified by $path. The same as the Perl L<rmdir|https://perldoc.perl.org/functions/rmdir> function.
 
@@ -286,7 +286,7 @@ If succeed, returns 1.
 
 =head2 opendir
 
-C<static method opendir : int ($dh_ref : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>[], $dir : string);>
+C<static method opendir : void ($dh_ref : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>[], $dir : string);>
 
 Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
@@ -296,23 +296,23 @@ If succeed, returns 1.
 
 =head2 closedir
 
-C<static method closedir : int ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method closedir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Calls the L<opendir|SPVM::Sys::IO/"closedir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Calls the L<closedir|SPVM::Sys::IO/"closedir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
 If succeed, returns 1.
 
 =head2 close
 
-C<static method close : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+C<static method close : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-Calls the L<opendir|SPVM::Sys::IO/"fclose"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Calls the L<fclose|SPVM::Sys::IO/"fclose"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
 If succedd, returns 1.
 
 =head2 unlink
 
-C<static method unlink : int ($pathname : string);>
+C<static method unlink : void ($pathname : string);>
 
 Deletes a file. The same as the Perl L<unlink|https://perldoc.perl.org/functions/unlink> function.
 
@@ -320,7 +320,7 @@ If succeed, returns 1.
 
 =head2 rename
 
-C<static method rename : int ($oldpath : string, $newpath : string);>
+C<static method rename : void ($oldpath : string, $newpath : string);>
 
 Changes the name of a file. The same as the Perl L<rename|https://perldoc.perl.org/functions/rename> function.
 
@@ -362,7 +362,7 @@ Calls the L<select|SPVM::Sys::Select/"select"> method in the L<Sys::Select|SPVM:
 
 =head2 bind
 
-C<static method bind : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
+C<static method bind : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
 The next argument $addrlen is set to the size of $addr.
 
@@ -372,7 +372,7 @@ If succeed, returns 1.
 
 =head2 listen
 
-C<static method listen : int ($sockfd : int, $backlog : int);>
+C<static method listen : void ($sockfd : int, $backlog : int);>
 
 Calls the L<listen|SPVM::Sys::Socket/"listen"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
@@ -391,7 +391,7 @@ The original return value is set to $$new_sockfd_ref.
 
 =head2 connect
 
-C<static method connect : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
+C<static method connect : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
 The next argument $addrlen is set to the size of $addr.
 
@@ -439,7 +439,7 @@ If $len is less than 0, The length of $buffer is set to $len.
 
 =head2 shutdown
 
-C<static method shutdown : int ($sockfd : int, $how : int);>
+C<static method shutdown : void ($sockfd : int, $how : int);>
 
 Calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
@@ -454,7 +454,7 @@ and the return value is set to $$sockfd_ref.
 
 =head2 socketpair
 
-C<static method socketpair : int ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);>
+C<static method socketpair : void ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);>
 
 Creates a new int array with the length 2 for the next argument $pair.
 
@@ -465,7 +465,7 @@ If succeed, returns 1.
 
 =head2 setsockopt
 
-C<static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);>
+C<static method setsockopt : void ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);>
 
 If $optval is the L<Int|SPVM::Int> type, a string for the next argument $optval is created by the length 4.
 
@@ -495,7 +495,7 @@ with $optval and $optlen, and $optval set by this method is returnd.
 
 =head2 truncate
 
-C<static method truncate : int ($fd : int, $legnth : long);>
+C<static method truncate : void ($fd : int, $legnth : long);>
 
 Calls the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
@@ -539,7 +539,7 @@ Calls the L<getc|SPVM::Sys::IO/"getc"> method in the L<Sys::IO|SPVM::Sys::IO> cl
 
 =head2 flock
 
-C<static method flock : int ($fd : int, $operation : int);>
+C<static method flock : void ($fd : int, $operation : int);>
 
 Calls the L<flock|SPVM::Sys::IO/"flock"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
@@ -547,23 +547,15 @@ If succeed, returns 1.
 
 =head2 print
 
-C<static method print : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
+C<static method print : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
 
 Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO> class given the length of $string.
 
 If succeed, returns 1.
 
-=head2 say
-
-C<static method say : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
-
-Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO> class given the length of $string and C<\n>.
-
-If succeed, returns 1.
-
 =head2 printf
 
-C<static method printf : int ($stream, $format : string, $args : object[])>
+C<static method printf : void ($stream, $format : string, $args : object[])>
 
 Calls the L</"print"> method after creating formatted string given $stream and $args using the L<sprintf|SPVM::Format/"sprintf"> method in the L<Format|SPVM::Format> class.
 
@@ -587,7 +579,7 @@ Calls the L<readdir|SPVM::Sys::IO/"readdir"> method in the L<Sys::IO|SPVM::Sys::
 
 =head2 seek
 
-C<static method seek : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $offset : long, $whence : int);>
+C<static method seek : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $offset : long, $whence : int);>
 
 Calls the L<fseek|SPVM::Sys::IO/"fseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
@@ -623,7 +615,7 @@ And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 utime
 
-C<static method utime : int ($atime : long, $mtime : long, $filename : string);>
+C<static method utime : void ($atime : long, $mtime : long, $filename : string);>
 
 Unless $atime < 0 and $mtime < 0, creates a L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> object.
 
@@ -631,7 +623,7 @@ And calls the L<utime|SPVM::Sys::IO/"utime"> method in the L<Sys::IO|SPVM::Sys::
 
 =head2 chown
 
-C<static method chown : int ($owner : int, $group : int, $path : string);>
+C<static method chown : void ($owner : int, $group : int, $path : string);>
 
 Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
@@ -645,7 +637,7 @@ Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> 
 
 =head2 open
 
-C<static method open : int ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
+C<static method open : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
 
 $open_mode is replaced by the following logic.
 
@@ -682,7 +674,7 @@ The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
 
 =head2 fdopen
 
-C<static method fdopen : int ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $fd : int);>
+C<static method fdopen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $fd : int);>
 
 $open_mode is replaced by the following logic.
 
@@ -719,13 +711,13 @@ The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
 
 =head2 sysopen
 
-C<static method sysopen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0);>
+C<static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0);>
 
 Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 say
 
-C<static method say : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
+C<static method say : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
 
 Calls the L</"print"> method adding C<\n> to the end of $string.
 
@@ -759,7 +751,7 @@ And calls the L<signal|SPVM::Sys::Signal/"signal"> method in the L<Sys::Signal|S
 
 =head2 kill
 
-C<static method kill : int ($sig : int, $pid : int);>
+C<static method kill : void ($sig : int, $pid : int);>
 
 Calls the L<kill|SPVM::Sys::Signal/"kill"> method in the L<Sys::Signal|SPVM::Sys::Signal> class.
 
@@ -767,7 +759,7 @@ If succeed, returns 1.
 
 =head2 pipe
 
-C<static method pipe : int ($pipe_fds : int[]);>
+C<static method pipe : void ($pipe_fds : int[]);>
 
 Windows:
 
