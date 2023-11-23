@@ -80,7 +80,7 @@ The C<$tp> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
 
 =head2 clock_getres
 
-C<static method clock_getres : int ($clk_id : int, $res : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>);>
+C<static method clock_getres : void ($clk_id : int, $res : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>);>
 
 The functions clock_getres() retrieves the time of the specified clock clk_id.
 

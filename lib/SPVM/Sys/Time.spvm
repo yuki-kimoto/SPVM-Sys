@@ -21,7 +21,7 @@ class Sys::Time {
   
   native static method clock_gettime : void ($clk_id : int, $tp : Sys::Time::Timespec);
   
-  native static method clock_getres : int ($clk_id : int, $res : Sys::Time::Timespec);
+  native static method clock_getres : void ($clk_id : int, $res : Sys::Time::Timespec);
   
   native static method setitimer : int ($which : int, $new_value : Sys::Time::Itimerval, $old_value : Sys::Time::Itimerval);
   
