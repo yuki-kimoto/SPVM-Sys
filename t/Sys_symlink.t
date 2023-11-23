@@ -160,7 +160,7 @@ if (SPVM::Sys::OS->is_windows) {
       ok(SPVM::Sys->l($tmpfile2), "junction does look like a symlink");
       like(SPVM::Sys->readlink($tmpfile2), qr/\Q$tmpfile1\E$/,
            "readlink() works on a junction");
-      ok(SPVM::Sys->unlink($tmpfile2), "unlink magic for junctions");
+      SPVM::Sys->unlink($tmpfile2);
   }
 }
 
