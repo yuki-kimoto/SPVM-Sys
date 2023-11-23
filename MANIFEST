@@ -16,8 +16,6 @@ lib/SPVM/Sys/Env.c
 lib/SPVM/Sys/Env.config
 lib/SPVM/Sys/Env.pm
 lib/SPVM/Sys/Env.spvm
-lib/SPVM/Sys/FileTest.pm
-lib/SPVM/Sys/FileTest.spvm
 lib/SPVM/Sys/IO.c
 lib/SPVM/Sys/IO.config
 lib/SPVM/Sys/IO.pm
