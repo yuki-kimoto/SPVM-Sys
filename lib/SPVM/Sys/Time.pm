@@ -70,7 +70,7 @@ See L<clock(3) - Linux man page|https://linux.die.net/man/3/clock> in Linux.
 
 =head2 clock_gettime
 
-C<static method clock_gettime : int ($clk_id : int, $tp : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>);>
+C<static method clock_gettime : void ($clk_id : int, $tp : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>);>
 
 The functions clock_gettime() retrieves the time of the specified clock clk_id.
 

@@ -19,7 +19,7 @@ class Sys::Time {
   
   native static method clock : long ();
   
-  native static method clock_gettime : int ($clk_id : int, $tp : Sys::Time::Timespec);
+  native static method clock_gettime : void ($clk_id : int, $tp : Sys::Time::Timespec);
   
   native static method clock_getres : int ($clk_id : int, $res : Sys::Time::Timespec);
   
