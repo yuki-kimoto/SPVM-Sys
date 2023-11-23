@@ -747,4 +747,53 @@ class TestCase::Sys {
     
     return 1;
   }
+  
+  static method env : int () {
+    
+    {
+      Sys->set_env("NAME", "VALUE");
+      
+      my $value = Sys->env("NAME");
+      
+      unless ($value eq "VALUE") {
+        return 0;
+      }
+    }
+    
+    {
+      Sys->set_env("NAME", "");
+      
+      my $value = Sys->env("NAME");
+      
+      if ($value) {
+        return 0;
+      }
+    }
+    
+    {
+      Sys->set_env("NAME", undef);
+      
+      my $value = Sys->env("NAME");
+      
+      if ($value) {
+        return 0;
+      }
+    }
+    
+    # Excetpion
+    {
+      eval { Sys->set_env(undef, "VALUE"); }
+      
+      unless ($@) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method set_env : int () {
+    
+    return &env;
+  }
 }

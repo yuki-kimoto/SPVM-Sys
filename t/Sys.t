@@ -285,6 +285,10 @@ my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
 ok(SPVM::TestCase::Sys->ioctl);
 
+ok(SPVM::TestCase::Sys->env);
+
+ok(SPVM::TestCase::Sys->set_env);
+
 SPVM::api->set_exception(undef);
 
 # All object is freed

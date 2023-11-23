@@ -64,7 +64,7 @@ class Sys {
       Sys::Env->_putenv_s($name, $value);
     }
     else {
-      if ($value) {
+      if ($value && $value ne "") {
         my $overwrite = 1;
         Sys::Env->setenv($name, $value, $overwrite);
       }
