@@ -66,7 +66,10 @@ my $tmpfile2 = File::Spec->catfile($tmp_dir, 'file2');
 
 warn "[Test Output]$tmpfile1 $tmpfile2";
 
-my $ok = SPVM::Sys->symlink($tmpfile1, $tmpfile2);
+eval { SPVM::Sys->symlink($tmpfile1, $tmpfile2) };
+
+my $ok = !$@;
+
 plan skip_all => "no access to symlink as this user"
      if !$ok && $! == &Errno::EPERM;
 
