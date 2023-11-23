@@ -90,7 +90,7 @@ The C<$res> is a L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
 
 =head2 setitimer
 
-C<static method setitimer : int ($which : int, $new_value : L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval>, $old_value : L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval>)>
+C<static method setitimer : void ($which : int, $new_value : L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval>, $old_value : L<Sys::Time::Itimerval|SPVM::Sys::Time::Itimerval>)>
 
 The function setitimer() sets the specified timer to the value in new_value. If old_value is non-NULL, the old value of the timer is stored there.
 

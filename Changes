@@ -5,6 +5,7 @@
     * The retrun type of the gettimeofday method in the Sys::Time class become void.
     * The retrun type of the clock_gettime method in the Sys::Time class become void.
     * The retrun type of the clock_getres method in the Sys::Time class become void.
+    * The retrun type of the setitimer method in the Sys::Time class become void.
 
 0.500 2023-11-17
   [New Features and Incompatible Changes]

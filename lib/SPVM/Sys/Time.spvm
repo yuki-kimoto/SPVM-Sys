@@ -23,7 +23,7 @@ class Sys::Time {
   
   native static method clock_getres : void ($clk_id : int, $res : Sys::Time::Timespec);
   
-  native static method setitimer : int ($which : int, $new_value : Sys::Time::Itimerval, $old_value : Sys::Time::Itimerval);
+  native static method setitimer : void ($which : int, $new_value : Sys::Time::Itimerval, $old_value : Sys::Time::Itimerval);
   
   native static method getitimer : int ($which : int, $curr_value : Sys::Time::Itimerval);
   
