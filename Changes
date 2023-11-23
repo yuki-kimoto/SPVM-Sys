@@ -1,6 +1,7 @@
 0.502 2023-11-23
   [New Features]
     * Add the _putenv_s method to the Sys::Env class.
+    * Add the set_env method to the Sys class.
     
 0.501 2023-11-23
   [Incompatible Changes]

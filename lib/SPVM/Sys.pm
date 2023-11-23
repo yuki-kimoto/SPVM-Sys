@@ -36,13 +36,29 @@ Methods compatible with file IO, sockets, file paths, current directory, select,
 
 C<static method env : string ($name : string);>
 
-Gets an environment variable. The same as getting of the Perl L<$ENV{$name}|https://perldoc.perl.org/perlvar#%25ENV>.
+Gets an environment variable with the name $name.
 
 =head2 set_env
 
-static method set_env : void ($name : string, $value : string);
+C<static method set_env : void ($name : string, $value : string);>
 
-Sets an environment variable.
+Sets an environment variable with the name $name and the value $value.
+
+If $value is undef or "", the environment variable is removed.
+
+Exceptions:
+
+This method calls the following methods, so exceptions thrown by these methods could be thrown.
+
+=over 2
+
+=item * L<_putenv_s|SPVM::Sys::Env/"_putenv_s"> in Sys::Env
+
+=item * L<setenv|SPVM::Sys::Env/"setenv"> in Sys::Env
+
+=item * L<unsetenv|SPVM::Sys::Env/"unsetenv"> in Sys::Env
+
+=back
 
 =head2 osname
 
