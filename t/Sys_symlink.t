@@ -76,7 +76,7 @@ SPVM::Sys->unlink($tmpfile2);
 
 ok(mkdir($tmpfile1), "make a directory");
 ok(!SPVM::Sys->l($tmpfile1), "doesn't look like a symlink");
-ok(SPVM::Sys->symlink($tmpfile1, $tmpfile2), "and symlink to it");
+SPVM::Sys->symlink($tmpfile1, $tmpfile2);
 ok(SPVM::Sys->l($tmpfile2), "which does look like a symlink");
 # ok(!-d _, "-d on the lstat result is false");
 ok(SPVM::Sys::FileTest->d($tmpfile2), "normal -d sees it as a directory");
@@ -104,7 +104,7 @@ if (SPVM::Sys::OS->is_windows) {
          "..",
         );
     for my $path (@tests) {
-        ok(SPVM::Sys->symlink($path, $tmpfile2), "symlink $path");
+        SPVM::Sys->symlink($path, $tmpfile2);
         my $attr = GetFileAttributes($tmpfile2);
         ok($attr != INVALID_FILE_ATTRIBUTES() && ($attr & FILE_ATTRIBUTE_DIRECTORY()) != 0,
            "symlink $path: treated as a directory");
@@ -121,7 +121,7 @@ SPVM::Sys->rmdir($tmpfile1);
 
 ok(open(my $fh, ">", $tmpfile1), "make a file");
 close $fh if $fh;
-ok(SPVM::Sys->symlink($tmpfile1, $tmpfile2), "link to it");
+SPVM::Sys->symlink($tmpfile1, $tmpfile2);
 ok(SPVM::Sys->l($tmpfile2), "-l sees a link");
 # ok(!-f _, "-f on the lstat result is false");
 ok(SPVM::Sys::FileTest->f($tmpfile2), "normal -f sees it as a file");
@@ -138,7 +138,7 @@ SPVM::Sys->unlink($tmpfile2);
   
   chdir $tmpdir or die;
   unlike($tmpfile1, qr([\\/]), "temp filename has no path");
-  ok(SPVM::Sys->symlink("./$tmpfile1", $tmpfile2), "UNIX (/) relative link to the file");
+  SPVM::Sys->symlink("./$tmpfile1", $tmpfile2);
   ok(SPVM::Sys::FileTest->f($tmpfile2), "we can see it through the link");
   SPVM::Sys->unlink($tmpfile2);
   chdir $tmpdir or die;
@@ -167,8 +167,7 @@ rmdir($tmpfile1);
     # link to an absolute path to a directory
     # 20533
     my $cwd = getcwd();
-    ok(SPVM::Sys->symlink($cwd, $tmpfile1),
-       "symlink to an absolute path to cwd");
+    SPVM::Sys->symlink($cwd, $tmpfile1);
     ok(-d $tmpfile1, "the link looks like a directory");
     SPVM::Sys->unlink($tmpfile1);
 }

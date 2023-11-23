@@ -1,6 +1,35 @@
 0.501 2023-11-23
   [Incompatible Changes]
      * The return type of the following methods in the Sys become void.
+      chdir
+      chmod
+      mkdir
+      rmdir
+      opendir
+      closedir
+      close
+      unlink
+      rename
+      bind
+      listen
+      connect
+      shutdown
+      socketpair
+      setsockopt
+      truncate
+      flock
+      print
+      say
+      printf
+      seek
+      utime
+      chown
+      open
+      fdopen
+      sysopen
+      say
+      kill
+      pipe
        
 
 0.500 2023-11-17
