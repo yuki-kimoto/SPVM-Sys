@@ -25,7 +25,7 @@ C<Sys::Signal> provides the methods to call the system call for the signal.
 
 =head2 raise
 
-C<static method raise : int ($sig : int)>
+C<static method raise : void ($sig : int)>
 
 The raise() function sends a signal to the calling process or thread.
 

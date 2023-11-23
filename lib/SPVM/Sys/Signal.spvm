@@ -6,7 +6,7 @@ class Sys::Signal {
   use Sys::Signal::Handler;
   use Sys::OS;
   
-  native static method raise : int ($sig : int);
+  native static method raise : void ($sig : int);
   
   native static method kill : int ($pid : int, $sig : int);
   
