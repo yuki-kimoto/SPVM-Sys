@@ -137,7 +137,6 @@ class Sys {
     my $stat = Sys::IO::Stat->new;
     eval { Sys::IO::Stat->stat($file, $stat); }
     
-    # Character device
     my $ok = 0;
     unless ($@) {
       $ok = $stat->R;
@@ -166,7 +165,6 @@ class Sys {
     my $stat = Sys::IO::Stat->new;
     eval { Sys::IO::Stat->stat($file, $stat); }
     
-    # Character device
     my $ok = 0;
     unless ($@) {
       $ok = $stat->W;
@@ -183,7 +181,6 @@ class Sys {
     my $stat = Sys::IO::Stat->new;
     eval { Sys::IO::Stat->stat($file, $stat); }
     
-    # Character device
     my $ok = 0;
     unless ($@) {
       $ok = $stat->X;
@@ -201,7 +198,6 @@ class Sys {
     my $stat = Sys::IO::Stat->new;
     eval { Sys::IO::Stat->stat($file, $stat); }
     
-    # Block device
     my $ok = 0;
     unless ($@) {
       $ok = $stat->b;
@@ -392,9 +388,13 @@ class Sys {
       die "\$file must be defined.";
     }
     
-    my $stat = Sys->stat($file);
+    my $stat = Sys::IO::Stat->new;
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
-    my $size = $stat->s;
+    my $size = 0L;
+    unless ($@) {
+      $size = $stat->s;
+    }
     
     return $size;
   }
@@ -408,7 +408,6 @@ class Sys {
     my $stat = Sys::IO::Stat->new;
     eval { Sys::IO::Stat->stat($file, $stat); }
     
-    # Character device
     my $ok = 0;
     unless ($@) {
       $ok = $stat->u;
@@ -425,7 +424,6 @@ class Sys {
     my $stat = Sys::IO::Stat->new;
     eval { Sys::IO::Stat->stat($file, $stat); }
     
-    # Character device
     my $ok = 0;
     unless ($@) {
       $ok = $stat->w;
@@ -442,7 +440,6 @@ class Sys {
     my $stat = Sys::IO::Stat->new;
     eval { Sys::IO::Stat->stat($file, $stat); }
     
-    # Character device
     my $ok = 0;
     unless ($@) {
       $ok = $stat->x;
@@ -457,9 +454,13 @@ class Sys {
       die "\$file must be defined.";
     }
     
-    my $stat = Sys->stat($file);
+    my $stat = Sys::IO::Stat->new;
+    eval { Sys::IO::Stat->stat($file, $stat); }
     
-    my $ok = $stat->z;
+    my $ok = 0;
+    unless ($@) {
+      $ok = $stat->z;
+    }
     
     return $ok;
   }

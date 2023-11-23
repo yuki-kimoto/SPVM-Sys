@@ -6,7 +6,7 @@ our $VERSION = "0.501";
 
 =head1 Name
 
-SPVM::Sys - System Calls for File IO, User, Process, Signal, Socket
+SPVM::Sys - System Calls for File IO, Sockets, Time, Process, Signals, Users
 
 =head1 Description
 
@@ -90,145 +90,335 @@ If the OS name could not be determined, an exception is thrown.
 
 C<static method A : double ($file : string);>
 
-Script start time minus file access time, in days. The same as Perl L<-A|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Othersize returns script start time minus file access time of the file $file, in days.
+
+This method corresponds to Perl's  L<-A|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 C
 
 C<static method C : double ($file : string);>
 
-Script start time minus file inode change time, in days. The same as Perl L<-C|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Othersize returns script start time minus file inode change time of the file $file, in days.
+
+This method corresponds to Perl's  L<-C|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 M
 
 C<static method M : double ($file : string);>
 
-Script start time minus file modification time, in days. The same as Perl L<-M|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Othersize returns script start time minus file modification time of the file $file, in days.
+
+This method corresponds to Perl's  L<-M|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 O
 
 C<static method O : int ($file : string);>
 
-File is owned by real uid. The same as Perl L<-O|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Othersize if the file $file is owned by real uid, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-O|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 R
 
 C<static method R : int ($file : string);>
 
-File is readable by real uid/gid. The same as Perl L<-R|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Otherwise if the file $file is readable by real uid/gid, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-R|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 S
 
 C<static method S : int ($file : string);>
 
-File is a socket. The same as Perl L<-S|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Otherwise if the file $file is a socket, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-S|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 W
 
 C<static method W : int ($file : string);>
 
-File is writable by real uid/gid. The same as Perl L<-W|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Otherwise if the file $file is writable by real uid/gid, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-W|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 X
 
 C<static method X : int ($file : string);>
 
-File is executable by real uid/gid. The same as Perl L<-X|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Otherwise if the file $file is executable by real uid/gid, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-X|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 b
 
 C<static method b : int ($file : string);>
 
-File is a block special file. The same as Perl L<-b|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Otherwise if the file $file is a block special file, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-b|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 c
 
 C<static method c : int ($file : string);>
 
-File is a character special file. The same as Perl L<-c|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Otherwise if the file $file is a character special file, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-c|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 d
 
 C<static method d : int ($file : string);>
 
-File is a directory. The same as Perl L<-d|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+Otherwise if the file $file is a directory, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-d|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 e
 
 C<static method e : int ($file : string);>
 
-File exists. The same as Perl L<-e|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+
+This method corresponds to Perl's  L<-e|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 f
 
 C<static method f : int ($file : string);>
 
-File is a plain file. The same as Perl L<-f|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file is a plain file, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-f|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 g
 
 C<static method g : int ($file : string);>
 
-File has setgid bit set. The same as Perl L<-g|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file has setgid bit set, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-g|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 k
 
 C<static method k : int ($file : string);>
 
-File has sticky bit set. The same as Perl L<-k|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file has sticky bit set, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-k|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 l
 
 C<static method l : int ($file : string);>
 
-File is a symbolic link (false if symlinks aren't supported by the file system). The same as Perl L<-l|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file is a symbolic link (false if symlinks aren't supported by the file system), returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-l|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 o
 
 C<static method o : int ($file : string);>
 
-File is owned by effective uid. The same as Perl L<-l|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file is owned by effective uid, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-l|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 p
 
 C<static method p : int ($file : string);>
 
-File is a named pipe (FIFO), or Filehandle is a pipe. The same as Perl L<-p|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file is a named pipe (FIFO), or Filehandle is a pipe, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-p|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 r
 
 C<static method r : int ($file : string);>
 
-File is readable by effective uid/gid. The same as Perl L<-r|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file is readable by effective uid/gid, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-r|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 s
 
 C<static method s : long ($file : string);>
 
-File has nonzero size (returns size in bytes). The same as Perl L<-s|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file has nonzero size (returns size in bytes), returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-s|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 u
 
 C<static method u : int ($file : string);>
 
-File has setuid bit set. The same as Perl L<-u|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file has setuid bit set, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-u|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 w
 
 C<static method w : int ($file : string);>
 
-File is writable by effective uid/gid. The same as Perl L<-u|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file is writable by effective uid/gid, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-u|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 x
 
 C<static method x : int ($file : string);>
 
-File is executable by effective uid/gid. The same as Perl L<-x|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file is executable by effective uid/gid, returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-x|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 z
 
 C<static method z : int ($file : string);>
 
-File has zero size (is empty). The same as Perl L<-z|https://perldoc.perl.org/functions/-X>.
+If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+
+Otherwise if the file $file has zero size (is empty), returns 1, otherwise returns 0.
+
+This method corresponds to Perl's  L<-z|https://perldoc.perl.org/functions/-X>.
+
+Exceptions:
+
+$file must be defined. Otherwise an exception is thrown.
 
 =head2 time
 
