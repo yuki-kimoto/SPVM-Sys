@@ -54,7 +54,7 @@ This method is the same as C<gmtime> function of C<Linux>.
 
 =head2 gettimeofday
 
-C<static method gettimeofday : int ($tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>, $tz : L<Sys::Time::Timezone|SPVM::Sys::Time::Timezone>);>
+C<static method gettimeofday : void ($tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>, $tz : L<Sys::Time::Timezone|SPVM::Sys::Time::Timezone>);>
 
 The functions gettimeofday() can get the time as well as a timezone. The tv argument is a struct timeval (as specified in <sys/time.h>):
 

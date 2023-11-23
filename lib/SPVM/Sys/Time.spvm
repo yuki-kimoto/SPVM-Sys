@@ -15,7 +15,7 @@ class Sys::Time {
   
   native static method gmtime : Sys::Time::Tm ($time : long);
   
-  native static method gettimeofday : int ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
+  native static method gettimeofday : void ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
   
   native static method clock : long ();
   
