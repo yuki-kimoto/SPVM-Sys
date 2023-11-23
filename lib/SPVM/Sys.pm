@@ -64,9 +64,7 @@ This method calls the following methods, so exceptions thrown by these methods c
 
 C<static method osname : string ()>
 
-Gets OS name. The same as Perl L<$^O|https://perldoc.perl.org/perlvar#$%5EO>.
-
-Currently the following OS names are supported.
+Gets the OS name. This method corresponds to Perl's L<$^O|https://perldoc.perl.org/perlvar#$%5EO>.
 
 =over 2
 
@@ -83,6 +81,10 @@ Currently the following OS names are supported.
 =item * C<solaris>
 
 =back
+
+Excetpions:
+
+If the OS name could not be determined, an exception is thrown.
 
 =head2 A
 

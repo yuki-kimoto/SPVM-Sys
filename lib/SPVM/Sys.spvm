@@ -44,7 +44,7 @@ class Sys {
       $osname = "darwin";
     }
     else {
-      die "The OS name cannot be got.";
+      die "The OS name could not be determined.";
     }
     
     return $osname;
