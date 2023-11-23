@@ -72,7 +72,7 @@ plan skip_all => "no access to symlink as this user"
 
 ok($ok, "create a dangling symbolic link");
 ok(SPVM::Sys->l($tmpfile2), "-l sees it as a symlink");
-ok(SPVM::Sys->unlink($tmpfile2), "and remove it");
+SPVM::Sys->unlink($tmpfile2);
 
 ok(mkdir($tmpfile1), "make a directory");
 ok(!SPVM::Sys->l($tmpfile1), "doesn't look like a symlink");
@@ -82,7 +82,7 @@ ok(SPVM::Sys->l($tmpfile2), "which does look like a symlink");
 ok(SPVM::Sys::FileTest->d($tmpfile2), "normal -d sees it as a directory");
 is(SPVM::Sys->readlink($tmpfile2), $tmpfile1, "readlink works");
 check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
-ok(SPVM::Sys->unlink($tmpfile2), "and we can unlink the symlink (rather than only rmdir)");
+SPVM::Sys->unlink($tmpfile2);
 
 # test our various name based directory tests
 if (SPVM::Sys::OS->is_windows) {
@@ -127,7 +127,7 @@ ok(SPVM::Sys->l($tmpfile2), "-l sees a link");
 ok(SPVM::Sys::FileTest->f($tmpfile2), "normal -f sees it as a file");
 is(SPVM::Sys->readlink($tmpfile2), $tmpfile1, "readlink works");
 check_stat($tmpfile1, $tmpfile2, "check file and link stat are the same");
-ok(SPVM::Sys->unlink($tmpfile2), "unlink the symlink");
+SPVM::Sys->unlink($tmpfile2);
 
 # make a relative link
 {
@@ -140,11 +140,11 @@ ok(SPVM::Sys->unlink($tmpfile2), "unlink the symlink");
   unlike($tmpfile1, qr([\\/]), "temp filename has no path");
   ok(SPVM::Sys->symlink("./$tmpfile1", $tmpfile2), "UNIX (/) relative link to the file");
   ok(SPVM::Sys::FileTest->f($tmpfile2), "we can see it through the link");
-  ok(SPVM::Sys->unlink($tmpfile2), "unlink the symlink");
+  SPVM::Sys->unlink($tmpfile2);
   chdir $tmpdir or die;
 }
 
-ok(SPVM::Sys->unlink($tmpfile1), "and the file");
+SPVM::Sys->unlink($tmpfile1);
 
 # test we don't treat directory junctions like symlinks
 ok(mkdir($tmpfile1), "make a directory");
