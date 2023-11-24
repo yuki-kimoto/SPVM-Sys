@@ -6,6 +6,7 @@
     * The kill method in the Sys class can be used in Windows if $pid is equal to the current process id.
   [Incompatible Changes]
     * Remove the Sys::FileTest class.
+    * Remove argument check from the ualarm method in the Sys::Signal class.
   [Bug Fix with Incompatible Changes]
     * The S method in the Sys class returns 0 if the file do not exists.
 0.501 2023-11-23

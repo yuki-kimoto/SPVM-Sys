@@ -61,6 +61,12 @@ class TestCase::Sys::Signal {
   static method ualarm : int () {
     
     # TODO
+    {
+      my $rest_time = Sys::Signal->ualarm(100000, 0);
+      unless ($rest_time == 0) {
+        return 0;
+      }
+    }
     
     return 1;
   }

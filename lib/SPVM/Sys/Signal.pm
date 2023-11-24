@@ -4,7 +4,11 @@ package SPVM::Sys::Signal;
 
 =head1 Name
 
-SPVM::Sys::Signal - Signal System Call
+SPVM::Sys::Signal - Signals
+
+=head1 Description
+
+The Sys::Signal class has methods to manipulate signals.
 
 =head1 Usage
   
@@ -17,49 +21,55 @@ SPVM::Sys::Signal - Signal System Call
   
   my $old_signal_handler = Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_IGN);
 
-=head1 Description
-
-C<Sys::Signal> provides the methods to call the system call for the signal.
-
 =head1 Class Methods
 
 =head2 raise
 
-C<static method raise : int ($sig : int)>
+C<static method raise : int ($sig : int);>
 
-The raise() function sends a signal to the calling process or thread.
+Calls the L<raise|https://linux.die.net/man/3/raise> function and returns its return value.
 
-See L<raise(3) - Linux man page|https://linux.die.net/man/3/raise> in Linux.
+See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about constant values given to $sig.
 
-Constant values specified in C<$sig> is defined in L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant>.
+Exceptions:
+
+If the raise function failed, an exception is thrown and C<eval_error_id> is set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 kill
 
-C<static method kill : int ($pid : int, $sig : int)>
+C<static method kill : int ($pid : int, $sig : int);>
 
-The kill() system call can be used to send any signal to any process group or process.
+Calls the L<kill - Linux man page|https://linux.die.net/man/2/kill> function and returns its return value.
 
-See the L<kill(2) - Linux man page|https://linux.die.net/man/2/kill> in Linux.
+See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about constant values given to $sig.
 
-See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about the signal numbers specified by C<$sig> 
+Exceptions:
 
-Constant values specified in C<$sig> is defined in L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant>.
+If the kill function failed, an exception is thrown and C<eval_error_id> is set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+If the OS is Windows, the following exception is thrown. kill is not supported in this system(defined(_WIN32)).
 
 =head2 alarm
 
-C<static method alarm : int ($seconds : int)>
+C<static method alarm : int ($seconds : int);>
 
-alarm() arranges for a SIGALRM signal to be delivered to the calling process in seconds seconds.
+Calls the L<alarm|https://linux.die.net/man/2/alarm> function and returns its return value.
 
-See L<alarm(2) - Linux man page|https://linux.die.net/man/2/alarm> in Linux.
+Exceptions:
+
+If the alarm function failed, an exception is thrown and C<eval_error_id> is set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+If the OS is Windows, the following exception is thrown. alarm is not supported in this system(defined(_WIN32)).
 
 =head2 ualarm
 
-C<static method ualarm : int ($usecs : int, $interval : int)>
+C<static method ualarm : int ($usecs : int, $interval : int);>
 
-The ualarm() function causes the signal SIGALRM to be sent to the invoking process after (not less than) usecs microseconds. The delay may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
+Calls the L<ualarm|https://linux.die.net/man/3/ualarm> function and returns its return value.
 
-See L<ualarm(3) - Linux man page|https://linux.die.net/man/3/ualarm> in Linux.
+Exceptions:
+
+If the OS is Windows, the following exception is thrown. ualarm is not supported in this system(defined(_WIN32)).
 
 =head2 signal
 
