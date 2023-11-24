@@ -989,6 +989,12 @@ Set C<FD_CLOEXEC> flag to the opened filed descriptors.
 
 If succeed, returns 1.
 
+=head2 alarm
+
+C<static method alarm : int ($seconds : int);>
+
+Calls L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class and returns its return value.
+
 =head1 Modules
 
 =over 2
