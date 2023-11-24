@@ -389,12 +389,9 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    eval { Sys::IO::Stat->stat($file, $stat); }
+    Sys::IO::Stat->stat($file, $stat);
     
-    my $size = 0L;
-    unless ($@) {
-      $size = $stat->s;
-    }
+    my $size = $stat->s;
     
     return $size;
   }
@@ -455,12 +452,9 @@ class Sys {
     }
     
     my $stat = Sys::IO::Stat->new;
-    eval { Sys::IO::Stat->stat($file, $stat); }
+    Sys::IO::Stat->stat($file, $stat);
     
-    my $ok = 0;
-    unless ($@) {
-      $ok = $stat->z;
-    }
+    my $ok = $stat->z;
     
     return $ok;
   }
