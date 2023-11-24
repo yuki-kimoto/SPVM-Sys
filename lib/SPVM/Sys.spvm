@@ -997,7 +997,7 @@ class Sys {
   static method kill : void ($sig : int, $pid : int) {
     if (Sys::OS->is_windows) {
       if ($pid == Sys->process_id) {
-        Sys::Signal->raise($pid, $sig);
+        Sys::Signal->raise($sig);
       }
       else {
         die "\$pid must be equal to Sys->process_id in Windows.";
