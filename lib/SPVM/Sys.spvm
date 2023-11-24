@@ -6,7 +6,6 @@ class Sys {
   
   use Sys::OS;
   use Sys::Env;
-  use Sys::FileTest;
   use Sys::Ioctl;
   use Sys::User;
   use Sys::Time;

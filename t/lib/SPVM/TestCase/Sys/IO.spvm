@@ -1,7 +1,6 @@
 class TestCase::Sys::IO {
   use Sys::IO;
   use Sys::IO::Constant as IO;
-  use Sys::FileTest;
   use Fn;
   use Sys::IO::Stat;
   use Sys;
@@ -339,7 +338,7 @@ class TestCase::Sys::IO {
       my $file = "$test_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
       
-      unless (Sys::FileTest->f($file)) {
+      unless (Sys->f($file)) {
         return 0;
       }
       
@@ -354,7 +353,7 @@ class TestCase::Sys::IO {
       my $file = "$test_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
       
-      unless (Sys::FileTest->f($file)) {
+      unless (Sys->f($file)) {
         return 0;
       }
       
@@ -1392,7 +1391,7 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    unless (Sys::FileTest->d($dir)) {
+    unless (Sys->d($dir)) {
       return 0;
     }
     
@@ -1439,7 +1438,7 @@ class TestCase::Sys::IO {
     
     Sys::IO->mkdir($dir, 0755);
     
-    unless (Sys::FileTest->d($dir)) {
+    unless (Sys->d($dir)) {
       return 0;
     }
     
@@ -1449,7 +1448,7 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    if (Sys::FileTest->e($dir)) {
+    if (Sys->e($dir)) {
       return 0;
     }
     
@@ -1471,7 +1470,7 @@ class TestCase::Sys::IO {
       Sys::IO->fopen($file, "w");
     }
     
-    unless (Sys::FileTest->f($file)) {
+    unless (Sys->f($file)) {
       return 0;
     }
     
@@ -1481,7 +1480,7 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    if (Sys::FileTest->e($file)) {
+    if (Sys->e($file)) {
       return 0;
     }
     
@@ -1503,7 +1502,7 @@ class TestCase::Sys::IO {
       Sys::IO->fopen($file, "w");
     }
     
-    unless (Sys::FileTest->e($file)) {
+    unless (Sys->e($file)) {
       return 0;
     }
     
@@ -1514,11 +1513,11 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    if (Sys::FileTest->e($file)) {
+    if (Sys->e($file)) {
       return 0;
     }
 
-    unless (Sys::FileTest->e($new_file)) {
+    unless (Sys->e($new_file)) {
       return 0;
     }
     
@@ -1705,7 +1704,7 @@ class TestCase::Sys::IO {
     my $file = "$test_dir/foo.txt";
     my $stream = Sys::IO->fopen($file, "w");
     
-    unless (Sys::FileTest->f($file)) {
+    unless (Sys->f($file)) {
       return 0;
     }
     
@@ -1732,7 +1731,7 @@ class TestCase::Sys::IO {
       my $file = "$test_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
       
-      unless (Sys::FileTest->f($file)) {
+      unless (Sys->f($file)) {
         return 0;
       }
       
@@ -1756,7 +1755,7 @@ class TestCase::Sys::IO {
       my $file = "$test_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
       
-      unless (Sys::FileTest->f($file)) {
+      unless (Sys->f($file)) {
         return 0;
       }
       
@@ -1794,7 +1793,7 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      my $exists_symlink_file = Sys::FileTest->l($file_symlink);
+      my $exists_symlink_file = Sys->l($file_symlink);
       unless ($exists_symlink_file) {
         return 0;
       }
@@ -1833,7 +1832,7 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      my $exists_symlink_file = Sys::FileTest->l($file_symlink);
+      my $exists_symlink_file = Sys->l($file_symlink);
       unless ($exists_symlink_file) {
         return 0;
       }
@@ -2068,15 +2067,15 @@ class TestCase::Sys::IO {
       }
     }
     
-    warn "[Test Output]" . Sys::FileTest->s($file);
-    unless (Sys::FileTest->s($file) > 0) {
+    warn "[Test Output]" . Sys->s($file);
+    unless (Sys->s($file) > 0) {
       return 0;
     }
     
     Sys::IO->truncate($file, 0);
     
-    warn "[Test Output]" . Sys::FileTest->s($file);
-    unless (Sys::FileTest->s($file) == 0) {
+    warn "[Test Output]" . Sys->s($file);
+    unless (Sys->s($file) == 0) {
       return 0;
     }
     
@@ -2106,8 +2105,8 @@ class TestCase::Sys::IO {
         }
       }
       
-      warn "[Test Output]" . Sys::FileTest->s($file);
-      unless (Sys::FileTest->s($file) > 0) {
+      warn "[Test Output]" . Sys->s($file);
+      unless (Sys->s($file) > 0) {
         return 0;
       }
         
@@ -2119,8 +2118,8 @@ class TestCase::Sys::IO {
         }
       }
       
-      warn "[Test Output]" . Sys::FileTest->s($file);
-      unless (Sys::FileTest->s($file) == 0) {
+      warn "[Test Output]" . Sys->s($file);
+      unless (Sys->s($file) == 0) {
         return 0;
       }
     }
@@ -2140,7 +2139,7 @@ class TestCase::Sys::IO {
         }
       }
       
-      unless (Sys::FileTest->s($file) > 0) {
+      unless (Sys->s($file) > 0) {
         return 0;
       }
         
@@ -2149,7 +2148,7 @@ class TestCase::Sys::IO {
         Sys->truncate(Sys::IO->fileno($stream), 0);
       }
       
-      unless (Sys::FileTest->s($file) == 0) {
+      unless (Sys->s($file) == 0) {
         return 0;
       }
     }
