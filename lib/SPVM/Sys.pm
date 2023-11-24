@@ -90,9 +90,7 @@ If the OS name could not be determined, an exception is thrown.
 
 C<static method A : double ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
-
-Othersize returns script start time minus file access time of the file $file, in days.
+Returns script start time minus file access time of the file $file, in days.
 
 This method corresponds to Perl's  L<-A|https://perldoc.perl.org/functions/-X>.
 
@@ -100,13 +98,13 @@ Exceptions:
 
 $file must be defined. Otherwise an exception is thrown.
 
+The exceptions thrown by he L</"stat"> method could be thrown.
+
 =head2 C
 
 C<static method C : double ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
-
-Othersize returns script start time minus file inode change time of the file $file, in days.
+Returns script start time minus file inode change time of the file $file, in days.
 
 This method corresponds to Perl's  L<-C|https://perldoc.perl.org/functions/-X>.
 
@@ -114,19 +112,21 @@ Exceptions:
 
 $file must be defined. Otherwise an exception is thrown.
 
+The exceptions thrown by he L</"stat"> method could be thrown.
+
 =head2 M
 
 C<static method M : double ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
-
-Othersize returns script start time minus file modification time of the file $file, in days.
+Returns script start time minus file modification time of the file $file, in days.
 
 This method corresponds to Perl's  L<-M|https://perldoc.perl.org/functions/-X>.
 
 Exceptions:
 
 $file must be defined. Otherwise an exception is thrown.
+
+The exceptions thrown by he L</"stat"> method could be thrown.
 
 =head2 O
 
@@ -354,15 +354,15 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method s : long ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
-
-Otherwise if the file $file has nonzero size (returns size in bytes), returns 1, otherwise returns 0.
+If the file $file has nonzero size, returns its size in bytes, otherwise returns 0.
 
 This method corresponds to Perl's  L<-s|https://perldoc.perl.org/functions/-X>.
 
 Exceptions:
 
 $file must be defined. Otherwise an exception is thrown.
+
+The exceptions thrown by he L</"stat"> method could be thrown.
 
 =head2 u
 
@@ -410,15 +410,15 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method z : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
-
-Otherwise if the file $file has zero size (is empty), returns 1, otherwise returns 0.
+If the file $file has zero size (is empty), returns 1, otherwise returns 0.
 
 This method corresponds to Perl's  L<-z|https://perldoc.perl.org/functions/-X>.
 
 Exceptions:
 
 $file must be defined. Otherwise an exception is thrown.
+
+The exceptions thrown by he L</"stat"> method could be thrown.
 
 =head2 time
 
