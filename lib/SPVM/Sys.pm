@@ -132,7 +132,7 @@ The exceptions thrown by he L</"stat"> method could be thrown.
 
 C<static method O : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 Othersize if the file $file is owned by real uid, returns 1, otherwise returns 0.
 
@@ -146,7 +146,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method R : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 Otherwise if the file $file is readable by real uid/gid, returns 1, otherwise returns 0.
 
@@ -160,7 +160,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method S : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 Otherwise if the file $file is a socket, returns 1, otherwise returns 0.
 
@@ -174,7 +174,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method W : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 Otherwise if the file $file is writable by real uid/gid, returns 1, otherwise returns 0.
 
@@ -188,7 +188,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method X : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 Otherwise if the file $file is executable by real uid/gid, returns 1, otherwise returns 0.
 
@@ -202,7 +202,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method b : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 Otherwise if the file $file is a block special file, returns 1, otherwise returns 0.
 
@@ -216,7 +216,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method c : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 Otherwise if the file $file is a character special file, returns 1, otherwise returns 0.
 
@@ -230,7 +230,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method d : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 Otherwise if the file $file is a directory, returns 1, otherwise returns 0.
 
@@ -244,7 +244,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method e : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 This method corresponds to Perl's  L<-e|https://perldoc.perl.org/functions/-X>.
 
@@ -256,7 +256,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method f : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file is a plain file, returns 1, otherwise returns 0.
 
@@ -270,7 +270,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method g : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file has setgid bit set, returns 1, otherwise returns 0.
 
@@ -284,7 +284,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method k : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file has sticky bit set, returns 1, otherwise returns 0.
 
@@ -298,7 +298,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method l : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"lstat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file is a symbolic link (false if symlinks aren't supported by the file system), returns 1, otherwise returns 0.
 
@@ -312,7 +312,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method o : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file is owned by effective uid, returns 1, otherwise returns 0.
 
@@ -326,7 +326,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method p : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file is a named pipe (FIFO), or Filehandle is a pipe, returns 1, otherwise returns 0.
 
@@ -340,7 +340,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method r : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file is readable by effective uid/gid, returns 1, otherwise returns 0.
 
@@ -368,7 +368,7 @@ The exceptions thrown by he L</"stat"> method could be thrown.
 
 C<static method u : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file has setuid bit set, returns 1, otherwise returns 0.
 
@@ -382,7 +382,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method w : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file is writable by effective uid/gid, returns 1, otherwise returns 0.
 
@@ -396,7 +396,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method x : int ($file : string);>
 
-If the file doesn't exist or can't be examined, returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by the L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file is executable by effective uid/gid, returns 1, otherwise returns 0.
 
