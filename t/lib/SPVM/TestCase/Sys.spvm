@@ -6,11 +6,11 @@ class TestCase::Sys {
   use Sys::Ioctl::Constant as IOCTL;
   use Sys::Socket::Constant as SOCKET;
   use Fn;
-
+  use Errno;
+  
   static method A : int () {
     
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $atime = Sys->A($file);
@@ -38,7 +38,6 @@ class TestCase::Sys {
   static method C : int () {
     
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ctime = Sys->C($file);
@@ -62,11 +61,10 @@ class TestCase::Sys {
     
     return 1;
   }
-
+  
   static method M : int () {
     
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $mtime = Sys->M($file);
@@ -90,28 +88,46 @@ class TestCase::Sys {
     
     return 1;
   }
-
+  
   static method O : int () {
-
+    
     {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->O($file);
+        my $ok = Sys->O($file);
+        warn("[Test Output]Sys->O:$ok");
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->O($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method R : int () {
-
+    
     {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->R($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->R($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -121,8 +137,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/not_exists.txt";
-        my $file_test_ok = Sys->R($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->R($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -137,7 +153,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->S($file);
+        my $ok = Sys->S($file);
       }
     }
 
@@ -150,8 +166,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->W($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->W($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -161,8 +177,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/not_exists.txt";
-        my $file_test_ok = Sys->W($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->W($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -176,8 +192,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/myexe.exe";
-        my $file_test_ok = Sys->X($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->X($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -187,8 +203,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/myexe.bat";
-        my $file_test_ok = Sys->X($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->X($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -199,8 +215,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->X($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->X($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -210,8 +226,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/not_exists.txt";
-        my $file_test_ok = Sys->X($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->X($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -226,7 +242,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->b($file);
+        my $ok = Sys->b($file);
       }
     }
 
@@ -240,8 +256,8 @@ class TestCase::Sys {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        my $file_test_ok = Sys->d($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->d($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -249,8 +265,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->d($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->d($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -258,8 +274,8 @@ class TestCase::Sys {
       # Directory
       {
         my $file = "t/ftest/dir_empty";
-        my $file_test_ok = Sys->d($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->d($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -276,8 +292,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->e($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->e($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -285,8 +301,8 @@ class TestCase::Sys {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        my $file_test_ok = Sys->e($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->e($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -294,8 +310,8 @@ class TestCase::Sys {
       # Directory
       {
         my $file = "t/ftest/dir_empty";
-        my $file_test_ok = Sys->e($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->e($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -309,8 +325,8 @@ class TestCase::Sys {
       # Not exists
       {
         my $file = "t/ftest/not_found_file";
-        my $file_test_ok = Sys->f($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->f($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -318,8 +334,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->f($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->f($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -327,8 +343,8 @@ class TestCase::Sys {
       # Directory
       {
         my $file = "t/ftest/dir_empty";
-        my $file_test_ok = Sys->f($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->f($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -345,7 +361,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->g($file);
+        my $ok = Sys->g($file);
       }
     }
 
@@ -358,7 +374,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->k($file);
+        my $ok = Sys->k($file);
       }
     }
 
@@ -371,7 +387,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->l($file);
+        my $ok = Sys->l($file);
       }
     }
 
@@ -384,7 +400,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->o($file);
+        my $ok = Sys->o($file);
       }
     }
 
@@ -397,7 +413,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->p($file);
+        my $ok = Sys->p($file);
       }
     }
 
@@ -409,8 +425,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->r($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->r($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -420,8 +436,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/not_exists.txt";
-        my $file_test_ok = Sys->r($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->r($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -452,7 +468,7 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->u($file);
+        my $ok = Sys->u($file);
       }
     }
 
@@ -465,8 +481,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->w($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->w($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -476,8 +492,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/not_exists.txt";
-        my $file_test_ok = Sys->w($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->w($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -492,8 +508,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/myexe.exe";
-        my $file_test_ok = Sys->x($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->x($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -503,8 +519,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/myexe.bat";
-        my $file_test_ok = Sys->x($file);
-        unless ($file_test_ok == 1) {
+        my $ok = Sys->x($file);
+        unless ($ok == 1) {
           return 0;
         }
       }
@@ -514,8 +530,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->x($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->x($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
@@ -525,8 +541,8 @@ class TestCase::Sys {
       # File
       {
         my $file = "t/ftest/not_exists.txt";
-        my $file_test_ok = Sys->x($file);
-        unless ($file_test_ok == 0) {
+        my $ok = Sys->x($file);
+        unless ($ok == 0) {
           return 0;
         }
       }
