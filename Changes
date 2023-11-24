@@ -3,6 +3,7 @@
     * Add the _putenv_s method to the Sys::Env class.
     * Add the set_env method to the Sys class.
     * Add the alarm method to the Sys class.
+    * The kill method in the Sys class can be used in Windows if $pid is equal to the current process id.
   [Incompatible Changes]
     * Remove the Sys::FileTest class.
   [Bug Fix with Incompatible Changes]

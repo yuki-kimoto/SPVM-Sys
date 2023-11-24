@@ -995,7 +995,17 @@ class Sys {
   }
   
   static method kill : void ($sig : int, $pid : int) {
-    Sys::Signal->kill($pid, $sig);
+    if (Sys::OS->is_windows) {
+      if ($pid == Sys->process_id) {
+        Sys::Signal->raise($pid, $sig);
+      }
+      else {
+        die "\$pid must be equal to Sys->process_id in Windows.";
+      }
+    }
+    else {
+      Sys::Signal->kill($pid, $sig);
+    }
   }
   
   static method pipe : void ($pipe_fds : int[]) {
