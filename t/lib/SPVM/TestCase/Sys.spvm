@@ -92,7 +92,6 @@ class TestCase::Sys {
   static method O : int () {
     
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->O($file);
@@ -123,7 +122,6 @@ class TestCase::Sys {
   static method R : int () {
     
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->R($file);
@@ -132,38 +130,60 @@ class TestCase::Sys {
         }
       }
     }
-
+    
     {
-      # File
       {
-        my $file = "t/ftest/not_exists.txt";
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
         my $ok = Sys->R($file);
+        
         unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
           return 0;
         }
       }
     }
-
+    
     return 1;
   }
-
+  
   static method S : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->S($file);
+        warn "[Test Output]Sys->S:$ok";
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->S($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method W : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->W($file);
@@ -172,24 +192,29 @@ class TestCase::Sys {
         }
       }
     }
-
+    
     {
-      # File
       {
-        my $file = "t/ftest/not_exists.txt";
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
         my $ok = Sys->W($file);
+        
         unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
           return 0;
         }
       }
     }
-
+    
     return 1;
   }
-
+  
   static method X : int () {
     {
-      # File
       {
         my $file = "t/ftest/myexe.exe";
         my $ok = Sys->X($file);
@@ -198,9 +223,8 @@ class TestCase::Sys {
         }
       }
     }
-
+    
     {
-      # File
       {
         my $file = "t/ftest/myexe.bat";
         my $ok = Sys->X($file);
@@ -209,10 +233,8 @@ class TestCase::Sys {
         }
       }
     }
-
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->X($file);
@@ -221,48 +243,59 @@ class TestCase::Sys {
         }
       }
     }
-
+    
     {
-      # File
       {
-        my $file = "t/ftest/not_exists.txt";
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
         my $ok = Sys->X($file);
+        
         unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
           return 0;
         }
       }
     }
-
+    
     return 1;
   }
-
+  
   static method b : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->b($file);
       }
     }
-
-    return 1;
-  }
-
-
-  static method d : int () {
-
+    
     {
-      # Not exists
       {
-        my $file = "t/ftest/not_found_file";
-        my $ok = Sys->d($file);
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->b($file);
+        
         unless ($ok == 0) {
           return 0;
         }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
       }
-
-      # File
+    }
+    
+    return 1;
+  }
+  
+  static method d : int () {
+    
+    {
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->d($file);
@@ -270,8 +303,7 @@ class TestCase::Sys {
           return 0;
         }
       }
-
-      # Directory
+      
       {
         my $file = "t/ftest/dir_empty";
         my $ok = Sys->d($file);
@@ -280,16 +312,32 @@ class TestCase::Sys {
         }
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->d($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     $@ = undef;
-
+    
     return 1;
   }
 
   static method e : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->e($file);
@@ -297,17 +345,7 @@ class TestCase::Sys {
           return 0;
         }
       }
-
-      # Not exists
-      {
-        my $file = "t/ftest/not_found_file";
-        my $ok = Sys->e($file);
-        unless ($ok == 0) {
-          return 0;
-        }
-      }
-
-      # Directory
+      
       {
         my $file = "t/ftest/dir_empty";
         my $ok = Sys->e($file);
@@ -316,13 +354,30 @@ class TestCase::Sys {
         }
       }
     }
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->e($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method f : int () {
-
+    
     {
-      # Not exists
       {
         my $file = "t/ftest/not_found_file";
         my $ok = Sys->f($file);
@@ -330,8 +385,7 @@ class TestCase::Sys {
           return 0;
         }
       }
-
-      # File
+      
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->f($file);
@@ -339,8 +393,7 @@ class TestCase::Sys {
           return 0;
         }
       }
-
-      # Directory
+      
       {
         my $file = "t/ftest/dir_empty";
         my $ok = Sys->f($file);
@@ -349,40 +402,89 @@ class TestCase::Sys {
         }
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->f($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     $@ = undef;
-
+    
     return 1;
   }
-
+  
   static method g : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->g($file);
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->g($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method k : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->k($file);
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->k($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method l : int () {
-
+    
     {
       # File
       {
@@ -390,12 +492,29 @@ class TestCase::Sys {
         my $ok = Sys->l($file);
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->l($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method o : int () {
-
+    
     {
       # File
       {
@@ -403,26 +522,58 @@ class TestCase::Sys {
         my $ok = Sys->o($file);
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->o($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method p : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->p($file);
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->p($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
   static method r : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->r($file);
@@ -431,25 +582,30 @@ class TestCase::Sys {
         }
       }
     }
-
+    
     {
-      # File
       {
-        my $file = "t/ftest/not_exists.txt";
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
         my $ok = Sys->r($file);
+        
         unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
           return 0;
         }
       }
     }
-
+    
     return 1;
   }
-
+  
   static method s : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $size = Sys->s($file);
@@ -458,12 +614,23 @@ class TestCase::Sys {
         }
       }
     }
-
+    
+    # Excetpions
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        eval { Sys->s($file); }
+        unless ($@) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method u : int () {
-
+    
     {
       # File
       {
@@ -471,14 +638,30 @@ class TestCase::Sys {
         my $ok = Sys->u($file);
       }
     }
-
+    
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
+        my $ok = Sys->u($file);
+        
+        unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method w : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->w($file);
@@ -487,25 +670,30 @@ class TestCase::Sys {
         }
       }
     }
-
+    
     {
-      # File
       {
-        my $file = "t/ftest/not_exists.txt";
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
         my $ok = Sys->w($file);
+        
         unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
           return 0;
         }
       }
     }
-
+    
     return 1;
   }
-
+  
   static method x : int () {
-
+    
     {
-      # File
       {
         my $file = "t/ftest/myexe.exe";
         my $ok = Sys->x($file);
@@ -514,9 +702,8 @@ class TestCase::Sys {
         }
       }
     }
-
+    
     {
-      # File
       {
         my $file = "t/ftest/myexe.bat";
         my $ok = Sys->x($file);
@@ -525,9 +712,8 @@ class TestCase::Sys {
         }
       }
     }
-
+    
     {
-      # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->x($file);
@@ -536,29 +722,46 @@ class TestCase::Sys {
         }
       }
     }
-
+    
     {
-      # File
       {
-        my $file = "t/ftest/not_exists.txt";
+        my $file = "t/ftest/file_not_exists.txt";
+        
+        Errno->set_errno(0);
         my $ok = Sys->x($file);
+        
         unless ($ok == 0) {
+          return 0;
+        }
+        
+        unless (Errno->errno > 0) {
           return 0;
         }
       }
     }
-
+    
     return 1;
   }
-
+  
   static method z : int () {
-
+    
     {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
         my $non_zero = Sys->z($file);
         unless ($non_zero) {
+          return 0;
+        }
+      }
+    }
+    
+    # Excetpions
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        eval { Sys->z($file); }
+        unless ($@) {
           return 0;
         }
       }

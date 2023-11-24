@@ -4,6 +4,8 @@
     * Add the set_env method to the Sys class.
   [Incompatible Changes]
     * Remove the Sys::FileTest class.
+  [Bug Fix with Incompatible Changes]
+    * The S method in the Sys class returns 0 if the file do not exists.
 0.501 2023-11-23
   [Incompatible Changes]
      * The return type of the following methods in the Sys become void.

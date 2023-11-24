@@ -149,9 +149,13 @@ class Sys {
       die "\$file must be defined.";
     }
     
-    my $stat = Sys->stat($file);
+    my $stat = (Sys::IO::Stat)undef;
+    eval { $stat = Sys->stat($file); }
     
-    my $ok = $stat->S;
+    my $ok = 0;
+    unless ($@) {
+      $ok = $stat->S;
+    }
     
     return $ok;
   }
