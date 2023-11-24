@@ -8,41 +8,86 @@ class TestCase::Sys {
   use Fn;
 
   static method A : int () {
-
+    
     {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->A($file);
+        my $atime = Sys->A($file);
+        warn "[Test Output]Sys->A:$atime";
+        unless ($atime > 0) {
+          return 0;
+        }
       }
     }
-
+    
+    # Excetpions
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        eval { Sys->A($file); }
+        unless ($@) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
-
+  
   static method C : int () {
-
+    
     {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->C($file);
+        my $ctime = Sys->C($file);
+        warn "[Test Output]Sys->C:$ctime";
+        unless ($ctime > 0) {
+          return 0;
+        }
       }
     }
-
+    
+    # Excetpions
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        eval { Sys->C($file); }
+        unless ($@) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
 
   static method M : int () {
-
+    
     {
       # File
       {
         my $file = "t/ftest/file_empty.txt";
-        my $file_test_ok = Sys->M($file);
+        my $mtime = Sys->M($file);
+        warn "[Test Output]Sys->M:$mtime";
+        unless ($mtime > 0) {
+          return 0;
+        }
       }
     }
-
+    
+    # Excetpions
+    {
+      {
+        my $file = "t/ftest/file_not_exists.txt";
+        eval { Sys->M($file); }
+        unless ($@) {
+          return 0;
+        }
+      }
+    }
+    
     return 1;
   }
 
