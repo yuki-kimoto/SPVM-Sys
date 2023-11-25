@@ -4,22 +4,20 @@ package SPVM::Sys::Signal;
 
 =head1 Name
 
-SPVM::Sys::Signal - Signal System Call
+SPVM::Sys::Signal - Signals
+
+=head1 Description
+
+The Sys::Signal class of L<SPVM> has methods to manipulate signals.
 
 =head1 Usage
   
   use Sys::Signal;
   use Sys::Signal::Constant as SIGNAL;
   
-  Sys::Signal->raise(SIGNAL->SIGTERM);
-  
   Sys::Signal->kill($process_id, SIGNAL->SIGINT);
   
   my $old_signal_handler = Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_IGN);
-
-=head1 Description
-
-C<Sys::Signal> provides the methods to call the system call for the signal.
 
 =head1 Class Methods
 

@@ -6,14 +6,14 @@ package SPVM::Sys::Signal::Handler;
 
 SPVM::Sys::Signal::Handler - Signal Handler
 
-=head1 Usage
-
-  use Sys::Signal::Handler;
-  
 =head1 Description
 
 The C<Sys::Signal::Handler> class has methods to manipulate signal handlers.
 
+=head1 Usage
+
+  use Sys::Signal::Handler;
+  
 =head1 Class Methods
 
 C<static method eq : int ($handler1 : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler>, $handler2 : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler>);>
