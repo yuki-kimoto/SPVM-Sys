@@ -957,19 +957,49 @@ Calls the L<stderr|SPVM::Sys::IO/"spvm_stderr"> method in the L<Sys::IO|SPVM::Sy
 
 C<static method signal : void ($signum : int, $handler_name : string);>
 
-If $handler_name is "DEFAULT", $handler is set to the return value of the L<"SIG_DFL"|SPVM::Sys::Signal/"SIG_DFL"> method.
+Sets a signal handler with its name $handler_name for the given signal number $signum.
 
-If $handler_name is "IGNORE", $handler is set to the return value of the L<"SIG_IGN"|SPVM::Sys::Signal/"SIG_IGN"> method.
+If $handler_name is "DEFAULT", the signal handler is L<"SIG_DFL"|SPVM::Sys::Signal/"SIG_DFL">.
 
-And calls the L<signal|SPVM::Sys::Signal/"signal"> method in the L<Sys::Signal|SPVM::Sys::Signal> class.
+If $handler_name is "IGNORE", the signal handler is L<"SIG_IGN"|SPVM::Sys::Signal/"SIG_IGN">.
+
+See the L<signal|SPVM::Sys::Signal/"signal"> method in the Sys::Signal class in detail.
+
+Exceptions:
+
+If $handler_name is not available, an exception is thrown.
+
+The exceptions thrown by the L<signal|SPVM::Sys::Signal/"signal"> method in the Sys::Signal class could be thrown.
 
 =head2 kill
 
 C<static method kill : void ($sig : int, $pid : int);>
 
-Calls the L<kill|SPVM::Sys::Signal/"kill"> method in the L<Sys::Signal|SPVM::Sys::Signal> class.
+Send a signal $sig to the process whose process ID is $pid.
 
-If succeed, returns 1.
+See the L<kill|SPVM::Sys::Signal/"kill"> method in the Sys::Signal class in detail.
+
+In Windows, see the L<raise|SPVM::Sys::Signal/"raise"> method in the Sys::Signal class in detail.
+
+Exceptions:
+
+The exceptions thrown by the L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class could be thrown.
+
+The exceptions thrown by the L<raise|SPVM::Sys::Signal/"raise"> method in the Sys::Signal class could be thrown.
+
+$pid must be equal to Sys->process_id in Windows. Otherwise an exception is thrown.
+
+=head2 alarm
+
+C<static method alarm : int ($seconds : int);>
+
+Sets a alarm signal sent after seconds $seconds.
+
+See L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class in detail.
+
+Exceptions:
+
+The exceptions thrown by the L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class could be thrown.
 
 =head2 pipe
 
@@ -988,12 +1018,6 @@ Calls the L<pipe|SPVM::Sys::Process/"pipe"> method in the L<Sys::Process|SPVM::S
 Set C<FD_CLOEXEC> flag to the opened filed descriptors.
 
 If succeed, returns 1.
-
-=head2 alarm
-
-C<static method alarm : int ($seconds : int);>
-
-Calls L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class and returns its return value.
 
 =head1 Modules
 

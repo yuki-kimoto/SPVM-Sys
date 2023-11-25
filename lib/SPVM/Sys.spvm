@@ -1008,6 +1008,10 @@ class Sys {
     }
   }
   
+  static method alarm : int ($seconds : int) {
+    Sys::Signal->alarm($seconds);
+  }
+  
   static method pipe : void ($pipe_fds : int[]) {
     
     if (Sys::OS->is_windows) {
@@ -1022,7 +1026,4 @@ class Sys {
     }
   }
   
-  static method alarm : int ($seconds : int) {
-    Sys::Signal->alarm($seconds);
-  }
 }
