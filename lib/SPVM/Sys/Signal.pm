@@ -25,31 +25,39 @@ The Sys::Signal class of L<SPVM> has methods to manipulate signals.
 
 C<static method raise : int ($sig : int)>
 
-The raise() function sends a signal to the calling process or thread.
+Calls the L<raise|https://linux.die.net/man/3/raise> function and returns its return value.
 
-See L<raise(3) - Linux man page|https://linux.die.net/man/3/raise> in Linux.
+See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about constant values given to $sig.
 
-Constant values specified in C<$sig> is defined in L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant>.
+Exceptions:
+
+If the raise function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 kill
 
 C<static method kill : int ($pid : int, $sig : int)>
 
-The kill() system call can be used to send any signal to any process group or process.
+Calls the L<kill|https://linux.die.net/man/2/kill> function and returns its return value.
 
-See the L<kill(2) - Linux man page|https://linux.die.net/man/2/kill> in Linux.
+See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about constant values given to $sig.
 
-See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about the signal numbers specified by C<$sig> 
+Exceptions:
 
-Constant values specified in C<$sig> is defined in L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant>.
+If the kill function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+In Windows the following excetpion is thrown. kill is not supported in this system(defined(_WIN32)).
 
 =head2 alarm
 
 C<static method alarm : int ($seconds : int)>
 
-alarm() arranges for a SIGALRM signal to be delivered to the calling process in seconds seconds.
+Calls the L<alarm|https://linux.die.net/man/2/alarm> function and returns its return value.
 
-See L<alarm(2) - Linux man page|https://linux.die.net/man/2/alarm> in Linux.
+Exceptions:
+
+If the alarm function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+In Windows the following excetpion is thrown. alarm is not supported in this system(defined(_WIN32)).
 
 =head2 ualarm
 
@@ -59,13 +67,15 @@ The ualarm() function causes the signal SIGALRM to be sent to the invoking proce
 
 See L<ualarm(3) - Linux man page|https://linux.die.net/man/3/ualarm> in Linux.
 
+Exceptions:
+
+In Windows the following excetpion is thrown. ualarm is not supported in this system(defined(_WIN32)).
+
 =head2 signal
 
 C<static method signal : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ($signum : int, $handler : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler>);>
 
-signal() sets the disposition of the signal signum to handler.
-
-See L<signal(2) - Linux man page|https://linux.die.net/man/2/signal> in Linux.
+Calls L<signal|https://linux.die.net/man/2/signal> function and creates a signal handler object with its pointer set to the function's return value, and returns it.
 
 Constant values specified in C<$signum> is defined in L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant>.
 
@@ -73,13 +83,7 @@ Exceptions:
 
 $handler must be defined. Otherwise an exception is thrown.
 
-=head2 signal_go
-
-C<static method signal_go : Sys::Signal::Handler ($signum : int);>
-
-signal() sets the disposition of the signal signum to L</"SIG_GO"> handler. This must not be used except for L<Go::OS::Signal|SPVM::Go::OS::Signal>. 
-
-Returns the old signal handler.
+If the signal function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 SIG_DFL
 

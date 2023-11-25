@@ -162,27 +162,3 @@ int32_t SPVM__Sys__Signal__SIG_GO(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Signal__signal_go(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  int32_t signum = stack[0].ival;
-  
-  if (!(signum < 64)) {
-    return env->die(env, stack, "$signum must be less than 64.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-  }
-  
-  void* old_handler = signal(signum, &signal_hander_go);
-  
-  if (old_handler == SIG_ERR) {
-    env->die(env, stack, "[System Error]signal failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  void* obj_old_handler = env->new_pointer_object_by_name(env, stack, "Sys::Signal::Handler", old_handler, &error_id, __func__, __FILE__, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_old_handler;
-  
-  return 0;
-}

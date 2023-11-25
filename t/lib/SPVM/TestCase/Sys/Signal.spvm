@@ -114,13 +114,13 @@ class TestCase::Sys::Signal {
       
       Sys::Signal->SET_SIG_GO_WRITE_FD($fd);
       
-      my $old_signal_handler = Sys::Signal->signal_go(SIGNAL->SIGTERM);
+      my $old_signal_handler = Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_GO);
       
       unless (Sys::Signal::Handler->eq($old_signal_handler, Sys::Signal->SIG_DFL)) {
         return 0;
       }
       
-      $old_signal_handler = Sys::Signal->signal_go(SIGNAL->SIGTERM);
+      $old_signal_handler = Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_GO);
       
       unless (Sys::Signal::Handler->eq($old_signal_handler, Sys::Signal->SIG_GO)) {
         return 0;

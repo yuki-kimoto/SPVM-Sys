@@ -16,8 +16,6 @@ class Sys::Signal {
   
   native static method signal : Sys::Signal::Handler ($signum : int, $handler : Sys::Signal::Handler);
   
-  native static method signal_go : Sys::Signal::Handler ($signum : int);
-  
   native static method SIG_DFL : Sys::Signal::Handler ();
   
   native static method SIG_IGN : Sys::Signal::Handler ();
