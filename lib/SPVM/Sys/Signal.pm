@@ -17,7 +17,7 @@ The Sys::Signal class of L<SPVM> has methods to manipulate signals.
   
   Sys::Signal->kill($process_id, SIGNAL->SIGINT);
   
-  my $old_signal_handler = Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_IGN);
+  Sys::Signal->signal(SIGNAL->SIGTERM, Sys::Signal->SIG_IGN);
 
 =head1 Class Methods
 
@@ -63,9 +63,7 @@ In Windows the following excetpion is thrown. alarm is not supported in this sys
 
 C<static method ualarm : int ($usecs : int, $interval : int)>
 
-The ualarm() function causes the signal SIGALRM to be sent to the invoking process after (not less than) usecs microseconds. The delay may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
-
-See L<ualarm(3) - Linux man page|https://linux.die.net/man/3/ualarm> in Linux.
+Calls the L<ualarm|https://linux.die.net/man/3/ualarm> function and returns its return value.
 
 Exceptions:
 
@@ -77,7 +75,9 @@ C<static method signal : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ($si
 
 Calls L<signal|https://linux.die.net/man/2/signal> function and creates a signal handler object with its pointer set to the function's return value, and returns it.
 
-Constant values specified in C<$signum> is defined in L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant>.
+$handler can be L</"SIG_DFL"> and L</"SIG_IGN">.
+
+See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about constant values given to $sig.
 
 Exceptions:
 
@@ -87,27 +87,39 @@ If the signal function failed, an exception is thrown with C<eval_error_id> set 
 
 =head2 SIG_DFL
 
-  static method SIG_DFL : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ()
+C<static method SIG_DFL : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();>
 
 Creates a new signal handler that represents C<SIG_DFL>.
 
 =head2 SIG_IGN
 
-  static method SIG_IGN : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();
+C<static method SIG_IGN : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();>
 
 Creates a new signal handler that represents C<SIG_IGN>.
 
 =head2 SIG_GO
 
-  static method SIG_GO : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();
+C<static method SIG_GO : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();>
 
 Creates a new signal handler that represents the signal handler for L<Go::OS::Signal|SPVM::Go::OS::Signal>.
 
+Do not use this signal handler because this signal handler is prepared to implement the  L<Go::OS::Signal|SPVM::Go::OS::Signal> class.
+
 =head2 SET_SIG_GO_WRITE_FD
 
-  static method SET_SIG_GO_WRITE_FD : void ();
+C<static method SET_SIG_GO_WRITE_FD : void ($fd : int);>
 
-Set a write file descriptor for L<Go::OS::Signal|SPVM::Go::OS::Signal>. This must not be used except for L<Go::OS::Signal|SPVM::Go::OS::Signal>. 
+Set a write file descriptor for L<Go::OS::Signal|SPVM::Go::OS::Signal>.
+
+Do not use this method because this method is prepared to implement the L<Go::OS::Signal|SPVM::Go::OS::Signal> class.
+
+=head1 See Also
+
+=over 2
+
+L<Go::OS::Signal|SPVM::Go::OS::Signal>
+
+=back
 
 =head1 Copyright & License
 
