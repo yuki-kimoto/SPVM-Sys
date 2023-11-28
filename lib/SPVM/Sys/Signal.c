@@ -77,6 +77,11 @@ int32_t SPVM__Sys__Signal__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t rest_usecs = ualarm(usecs, interval);
   
+  if (rest_usecs == -1) {
+    env->die(env, stack, "[System Error]ualarm failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
   stack[0].ival = rest_usecs;
   
   return 0;
