@@ -9,8 +9,15 @@ SPVM::Sys::IO::Dirent - struct dirent in the C language
 =head1 Usage
   
   use Sys;
+  use Sys::IO::DirStream;
   
-  my $dirent = Sys->readdir($dir);
+  my $dh_ref = [(Sys::IO::DirStream)undef];
+  
+  Sys->opendir($dh_ref, $test_dir);
+  
+  my $dh = $dh_ref->[0];
+  
+  my $dirent = Sys->readdir($dh);
   
   my $d_ino = $dirent->d_ino;
   
@@ -63,6 +70,10 @@ Gets C<d_type>.
 =item * L<readdir|SPVM::Sys/"readdir"> in Sys.
 
 =item * L<readdir|SPVM::Sys::IO/"readdir"> in Sys::IO.
+
+=item * L<opendir|SPVM::Sys/"opendir"> in Sys.
+
+=item * L<opendir|SPVM::Sys::IO/"opendir"> in Sys::IO.
 
 =back
 
