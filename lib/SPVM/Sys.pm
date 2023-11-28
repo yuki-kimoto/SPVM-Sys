@@ -498,12 +498,6 @@ Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::S
 
 The return value is set to $dh_ref->[0].
 
-=head2 opendir_v2
-
-C<static method opendir : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> $dir : string);>
-
-Open a directory stream given $dir.
-
 =head2 closedir
 
 C<static method closedir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
