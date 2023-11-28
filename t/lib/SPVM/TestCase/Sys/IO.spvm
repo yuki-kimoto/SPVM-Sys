@@ -2498,7 +2498,9 @@ class TestCase::Sys::IO {
       # d_off
       my $d_off_not_supported = Sys::OS->defined("_WIN32") || Sys::OS->defined("__CYGWIN__") || Sys::OS->defined("__APPLE__");
       if ($d_off_not_supported) {
+        warn;
         eval { $dirent->d_off; }
+        warn $@;
         if ($@ && eval_error_id is_error Error::NotSupported) {
           return 0;
         }
