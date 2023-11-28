@@ -466,23 +466,17 @@ C<static method chdir : void ($path : string);>
 
 Changes the working directory to $path. The same as the Perl L<chdir|https://perldoc.perl.org/functions/chdir> function.
 
-If succeed, returns 1.
-
 =head2 chmod
 
 C<static method chmod : void ($mode :int, $path : string);>
 
 Changes the permissions of a file. The same as the Perl L<chmod|https://perldoc.perl.org/functions/chmod> function.
 
-If succeed, returns 1.
-
 =head2 mkdir
 
 C<static method mkdir : void ($path : string, $mode : int);>
 
 Creates the directory specified by $path and $mode. The same as the Perl L<mkdir|https://perldoc.perl.org/functions/mkdir> function.
-
-If succeed, returns 1.
 
 =head2 umask
 
@@ -496,8 +490,6 @@ C<static method rmdir : void ($path : string);>
 
 Deletes the directory specified by $path. The same as the Perl L<rmdir|https://perldoc.perl.org/functions/rmdir> function.
 
-If succeed, returns 1.
-
 =head2 opendir
 
 C<static method opendir : void ($dh_ref : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>[], $dir : string);>
@@ -506,15 +498,11 @@ Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::S
 
 The return value is set to $dh_ref->[0].
 
-If succeed, returns 1.
-
 =head2 closedir
 
 C<static method closedir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
 Calls the L<closedir|SPVM::Sys::IO/"closedir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
-
-If succeed, returns 1.
 
 =head2 close
 
@@ -530,15 +518,11 @@ C<static method unlink : void ($pathname : string);>
 
 Deletes a file. The same as the Perl L<unlink|https://perldoc.perl.org/functions/unlink> function.
 
-If succeed, returns 1.
-
 =head2 rename
 
 C<static method rename : void ($oldpath : string, $newpath : string);>
 
 Changes the name of a file. The same as the Perl L<rename|https://perldoc.perl.org/functions/rename> function.
-
-If succeed, returns 1.
 
 =head2 readlink
 
@@ -551,8 +535,6 @@ Returns the value of a symbolic link. The same as the Perl L<readlink|https://pe
 C<static method symlink : int ($oldpath : string, $newpath : string);>
 
 Creates a $newpath symbolically linked to $oldpath. The same as the Perl L<symlink|https://perldoc.perl.org/functions/symlink> function.
-
-If succeed, returns 1.
 
 =head2 sleep
 
@@ -582,15 +564,11 @@ The next argument $addrlen is set to the size of $addr.
 
 Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen.
 
-If succeed, returns 1.
-
 =head2 listen
 
 C<static method listen : void ($sockfd : int, $backlog : int);>
 
 Calls the L<listen|SPVM::Sys::Socket/"listen"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
-
-If succeed, returns 1.
 
 =head2 accept
 
@@ -610,8 +588,6 @@ C<static method connect : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|S
 The next argument $addrlen is set to the size of $addr.
 
 Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen.
-
-If succeed, returns 1.
 
 =head2 getpeername
 
@@ -657,8 +633,6 @@ C<static method shutdown : void ($sockfd : int, $how : int);>
 
 Calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
-If succeed, returns 1.
-
 =head2 socket
 
 C<static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);>
@@ -675,8 +649,6 @@ Creates a new int array with the length 2 for the next argument $pair.
 Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $pair,
 and the $$sock_fd1_ref is set the first element of $pair, and the $$sock_fd2_ref is set the second element of $pair, nad 
 
-If succeed, returns 1.
-
 =head2 setsockopt
 
 C<static method setsockopt : void ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);>
@@ -687,8 +659,6 @@ If $optval is the string type, a string that for the next argument $optval is cr
 
 Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
 with $optval and $optlen.
-
-If succeed, returns 1.
 
 Exceptions:
 
@@ -712,8 +682,6 @@ with $optval and $optlen, and $optval set by this method is returnd.
 C<static method truncate : void ($fd : int, $legnth : long);>
 
 Calls the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-If succeed, returns 1.
 
 =head2 sysread
 
@@ -757,15 +725,11 @@ C<static method flock : void ($fd : int, $operation : int);>
 
 Calls the L<flock|SPVM::Sys::IO/"flock"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
-If succeed, returns 1.
-
 =head2 print
 
 C<static method print : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
 
 Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO> class given the length of $string.
-
-If succeed, returns 1.
 
 =head2 printf
 
@@ -797,15 +761,11 @@ C<static method seek : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::File
 
 Calls the L<fseek|SPVM::Sys::IO/"fseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
-If succeed, returns 1.
-
 =head2 sysseek
 
 C<static method sysseek : long ($fd : int, $offset : long, $whence : int);>
 
 Calls the L<lseek|SPVM::Sys::IO/"lseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-If succeed, returns 1.
 
 =head2 tell
 
@@ -840,8 +800,6 @@ And calls the L<utime|SPVM::Sys::IO/"utime"> method in the L<Sys::IO|SPVM::Sys::
 C<static method chown : void ($owner : int, $group : int, $path : string);>
 
 Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-If succeed, returns 1.
 
 =head2 fcntl
 
@@ -878,8 +836,6 @@ Calls the L<fopen|SPVM::Sys::IO/"fopen"> method in the L<Sys::IO|SPVM::Sys::IO> 
 
 The return values is set to $stream_ref->[0].
 
-If succeed, returns 1.
-
 Exceptions:
 
 $stream_ref must be defined. Otherwise an exception is thrown.
@@ -914,8 +870,6 @@ $open_mode is replaced by the following logic.
 Calls the L<fdopen|SPVM::Sys::IO/"fdopen"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 The return values is set to $stream_ref->[0].
-
-If succeed, returns 1.
 
 Exceptions:
 
@@ -1009,15 +963,11 @@ Windows:
 
 Calls the L<_pipe|SPVM::Sys::Process/"_pipe"> method in the L<Sys::Process|SPVM::Sys::Process> class.
 
-If succeed, returns 1.
-
 Other OSs:
 
 Calls the L<pipe|SPVM::Sys::Process/"pipe"> method in the L<Sys::Process|SPVM::Sys::Process> class.
 
 Set C<FD_CLOEXEC> flag to the opened filed descriptors.
-
-If succeed, returns 1.
 
 =head1 Modules
 
