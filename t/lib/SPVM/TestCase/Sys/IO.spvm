@@ -2422,12 +2422,7 @@ class TestCase::Sys::IO {
     
     my $check_file_count = 0;
     while (my $dirent = Sys::IO->readdir($stream)) {
-      my $d_ino = $dirent->d_ino;
       my $d_name = $dirent->d_name;
-      
-      unless ($d_ino > 0) {
-        return 0;
-      }
       
       if ($d_name eq "foo.txt") {
         $check_file_count++;
@@ -2439,6 +2434,71 @@ class TestCase::Sys::IO {
     
     unless ($check_file_count == 2) {
       return 0;
+    }
+    
+    {
+      my $dir = "$test_dir/ftest";
+      
+      my $stream = Sys::IO->opendir($dir);
+      
+      my $dirent = Sys::IO->readdir($stream);
+      
+      my $d_ino = $dirent->d_ino;
+      
+      unless ($d_ino > 0) {
+        return 0;
+      }
+      
+      # d_reclen
+      if (Sys::OS->defined("__CYGWIN__")) {
+        eval { $dirent->d_reclen; }
+        if ($@ && eval_error_id is_error Error::NotSupported) {
+          return 0;
+        }
+      }
+      else {
+        my $d_reclen = $dirent->d_reclen;
+        warn "[Test Output]Sys::IO::Dirent:d_reclen:$d_reclen";
+        unless ($d_reclen > 0) {
+          return 0;
+        }
+      }
+      
+      # d_type
+      if (Sys::OS->defined("_WIN32")) {
+        eval { $dirent->d_type; }
+        if ($@ && eval_error_id is_error Error::NotSupported) {
+          return 0;
+        }
+      }
+      else {
+        my $d_type = $dirent->d_type;
+        warn "[Test Output]Sys::IO::Dirent:d_type:$d_type";
+        unless ($d_type > 0) {
+          return 0;
+        }
+      }
+      
+      # d_off
+      if (Sys::OS->defined("_WIN32")) {
+        eval { $dirent->d_off; }
+        if ($@ && eval_error_id is_error Error::NotSupported) {
+          return 0;
+        }
+      }
+      elsif (Sys::OS->defined("__APPLE__")) {
+        eval { $dirent->d_off; };
+        if ($@ && eval_error_id is_error Error::NotSupported) {
+          return 0;
+        }
+      }
+      else {
+        my $d_off = $dirent->d_off;
+        warn "[Test Output]Sys::IO::Dirent:d_off:$d_off";
+        unless ($d_off > 0) {
+          return 0;
+        }
+      }
     }
     
     return 1;
