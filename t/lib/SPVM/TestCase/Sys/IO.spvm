@@ -2455,7 +2455,6 @@ class TestCase::Sys::IO {
       
       my $d_ino = $dirent->d_ino;
       
-      warn "[Test Output]Sys::IO::Dirent:d_ino:$d_ino";
       unless ($d_ino > 0) {
         return 0;
       }
@@ -2476,7 +2475,13 @@ class TestCase::Sys::IO {
       }
       
       # d_type
-      {
+      if (Sys::OS->defined("_WIN32")) {
+        eval { $dirent->d_type; }
+        if ($@ && eval_error_id is_error Error::NotSupported) {
+          return 0;
+        }
+      }
+      else {
         my $d_type = $dirent->d_type;
         warn "[Test Output]Sys::IO::Dirent:d_type:$d_type";
         unless ($d_type > 0) {
