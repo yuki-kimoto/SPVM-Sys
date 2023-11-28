@@ -35,10 +35,13 @@ int32_t SPVM__Sys__IO__Dirent__d_name(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__Dirent__d_reclen(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(__CYGWIN__)
+#if defined(_WIN32)
+  env->die(env, stack, "d_reclen is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#elif defined(__CYGWIN__)
   env->die(env, stack, "d_reclen is not supported in this system(defined(__CYGWIN__)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
+#endif
   
   void* obj_dirent = stack[0].oval;
   
@@ -54,7 +57,11 @@ int32_t SPVM__Sys__IO__Dirent__d_type(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   env->die(env, stack, "d_type is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
+#elif defined(__CYGWIN__)
+  env->die(env, stack, "d_type is not supported in this system(defined(__CYGWIN__)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#endif
+  
   void* obj_dirent = stack[0].oval;
   
   struct dirent* st_dirent = env->get_pointer(env, stack, obj_dirent);
@@ -62,12 +69,14 @@ int32_t SPVM__Sys__IO__Dirent__d_type(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = st_dirent->d_type;
   
   return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__Dirent__d_off(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   env->die(env, stack, "d_off is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#elif defined(__CYGWIN__)
+  env->die(env, stack, "d_off is not supported in this system(defined(__CYGWIN__)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #elif defined(__APPLE__)
   env->die(env, stack, "d_off is not supported in this system(defined(__APPLE__)).", __func__, FILE_NAME, __LINE__);
