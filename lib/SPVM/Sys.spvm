@@ -521,6 +521,13 @@ class Sys {
     $dh_ref->[0] = $dh;
   }
   
+  static method opendir_v2 : Sys::IO::DirStream ($dir : string) {
+    
+    my $dir_stream = Sys::IO->opendir($dir);
+    
+    return $dir_stream;
+  }
+  
   static method closedir : void ($dirp : Sys::IO::DirStream) {
     Sys::IO->closedir($dirp);
   }

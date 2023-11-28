@@ -2390,6 +2390,18 @@ class TestCase::Sys::IO {
       Sys->closedir($dh_ref->[0]);
     }
     
+    {
+      my $file = "$test_dir/ftest";
+      
+      my $dh = Sys->opendir_v2($test_dir);
+      
+      unless ($dh) {
+        return 0;
+      }
+      
+      Sys->closedir($dh);
+    }
+    
     return 1;
   }
 
