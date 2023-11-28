@@ -2464,7 +2464,7 @@ class TestCase::Sys::IO {
       }
       
       # d_reclen
-      my $d_reclen_not_supported = Sys::OS->defined("_WIN32") || Sys::OS->defined("__CYGWIN__");
+      my $d_reclen_not_supported = Sys::OS->defined("__CYGWIN__");
       if ($d_reclen_not_supported) {
         eval { $dirent->d_reclen; }
         unless ($@ && eval_error_id is_error Error::NotSupported) {
