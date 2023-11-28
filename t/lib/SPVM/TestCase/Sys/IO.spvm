@@ -2455,6 +2455,7 @@ class TestCase::Sys::IO {
       
       my $d_ino = $dirent->d_ino;
       
+      warn "[Test Output]Sys::IO::Dirent:d_ino:$d_ino";
       unless ($d_ino > 0) {
         return 0;
       }
