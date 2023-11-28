@@ -35,7 +35,7 @@ int32_t SPVM__Sys__IO__Dirent__d_name(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__Dirent__d_reclen(SPVM_ENV* env, SPVM_VALUE* stack) {
-if defined(__CYGWIN__)
+#if defined(__CYGWIN__)
   env->die(env, stack, "d_reclen is not supported in this system(defined(__CYGWIN__)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
