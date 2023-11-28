@@ -2474,8 +2474,10 @@ class TestCase::Sys::IO {
       else {
         my $d_reclen = $dirent->d_reclen;
         warn "[Test Output]Sys::IO::Dirent:d_reclen:$d_reclen";
-        unless ($d_reclen > 0) {
-          return 0;
+        if (Sys::OS->defined("__linux__")) {
+          unless ($d_reclen > 0) {
+            return 0;
+          }
         }
       }
       
