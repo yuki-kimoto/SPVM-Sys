@@ -287,9 +287,15 @@ class Sys::IO::Stat : pointer {
   }
   
   private static method _ingroup : int ($gid : int, $effective : int) {
-
+    
     my $egid = Sys::User->getegid;
-    my $supp = Sys::User->getgroups;
+    
+    my $supp_length = Sys::User->getgroups(0, undef);
+    
+    my $supp = new int[$supp_length];
+    
+    Sys::User->getgroups($supp_length, $supp);
+    
     my $rgid = Sys::User->getgid;
     
     my $ingroup = 0;

@@ -108,13 +108,20 @@ else {
   ok(SPVM::TestCase::Sys::User->endgrent);
 }
 
+if ($^O eq 'MSWin32') {
+  eval { SPVM::TestCase::Sys::User->getgroups };
+  ok($@);
+}
+else {
+  my @groups_expected = split(/\s+/, "$)");
+  shift @groups_expected;
+  ok(SPVM::TestCase::Sys::User->getgroups(\@groups_expected));
+}
+
 # TODO
 # This test failed. Maybe permission problems
 =pod
 {
-  my @groups_expected = split(/\s+/, "$)");
-  shift @groups_expected;
-  is_deeply(SPVM::TestCase::Sys::User->getgroups_value->to_elems, \@groups_expected);
   ok(SPVM::TestCase::Sys::User->setgroups);
 }
 =cut

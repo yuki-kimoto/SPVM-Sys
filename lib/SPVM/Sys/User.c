@@ -17,8 +17,6 @@
 const char* FILE_NAME = "Sys/User.c";
 
 int32_t SPVM__Sys__User__getuid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getuid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -33,8 +31,6 @@ int32_t SPVM__Sys__User__getuid(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__geteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "geteuid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -49,8 +45,6 @@ int32_t SPVM__Sys__User__geteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__getgid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getgid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -59,14 +53,12 @@ int32_t SPVM__Sys__User__getgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t gid = getgid();
   
   stack[0].ival = gid;
-
+  
   return 0;
 #endif
 }
 
 int32_t SPVM__Sys__User__getegid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getegid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -81,8 +73,6 @@ int32_t SPVM__Sys__User__getegid(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__setuid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "setuid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -103,8 +93,6 @@ int32_t SPVM__Sys__User__setuid(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__seteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "seteuid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -125,8 +113,6 @@ int32_t SPVM__Sys__User__seteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__setgid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "setgid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -147,8 +133,6 @@ int32_t SPVM__Sys__User__setgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "setegid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -169,24 +153,20 @@ int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__setpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
 
 #if defined(_WIN32)
   env->die(env, stack, "setpwent is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   setpwent();
-
+  
   return 0;
 #endif
 }
 
 
 int32_t SPVM__Sys__User__endpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
+
 #if defined(_WIN32)
   env->die(env, stack, "endpwent is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
@@ -198,8 +178,6 @@ int32_t SPVM__Sys__User__endpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getpwent is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -209,7 +187,7 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   errno = 0;
   struct passwd* pwent = getpwent();
-
+  
   if (errno != 0) {
     env->die(env, stack, "[System Error]getpwent failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -229,8 +207,6 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "setgrent is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -243,8 +219,6 @@ int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "endgrent is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -257,8 +231,6 @@ int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getgrent is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -288,40 +260,44 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getgroups is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  int32_t groups_length = getgroups(0, NULL);
-  if (groups_length == -1) {
-    env->die(env, stack, "[System Error]getgroups failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  int32_t size = stack[0].ival;
+  
+  if (!(size >= 0)) {
+    return env->die(env, stack, "$size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  void* obj_groups = env->new_int_array(env, stack, groups_length);
-  int32_t* groups = env->get_elems_int(env, stack, obj_groups);
+  void* obj_list = stack[1].oval;
+  
+  if (obj_list) {
+    int32_t list_length = env->length(env, stack, obj_list);
+    if (!(size == list_length)) {
+      return env->die(env, stack, "If $list is defined, $size must the length of $list.", __func__, FILE_NAME, __LINE__);
+    }
+  }
+  
+  int32_t* list = env->get_elems_int(env, stack, obj_list);
   
   assert(sizeof(gid_t) == sizeof(int32_t));
   
-  int32_t status = getgroups(groups_length, (gid_t*)groups);
-  if (status == -1) {
+  int32_t list_length = getgroups(size, (gid_t*)list);
+  if (list_length == -1) {
     env->die(env, stack, "[System Error]getgroups failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  stack[0].oval = obj_groups;
+  stack[0].ival = list_length;
   
   return 0;
 #endif
 }
 
 int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "setgroups is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -332,12 +308,12 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_groups = stack[0].oval;
   if (!obj_groups) {
-    return env->die(env, stack, "Groups must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$groups must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t* groups = env->get_elems_int(env, stack, obj_groups);
   int32_t groups_length = env->length(env, stack, obj_groups);
-
+  
   assert(sizeof(gid_t) == sizeof(int32_t));
   
   int32_t status = setgroups(groups_length, (gid_t*)groups);
@@ -351,8 +327,6 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getpwuid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -383,8 +357,6 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getpwnam is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -421,8 +393,6 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getgrgid is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -454,8 +424,6 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
 #if defined(_WIN32)
   env->die(env, stack, "getgrnam is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
