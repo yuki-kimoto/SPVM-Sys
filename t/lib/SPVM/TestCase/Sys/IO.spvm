@@ -2480,7 +2480,7 @@ class TestCase::Sys::IO {
       }
       
       # d_type
-      my $d_type_not_supported = Sys::OS->defined("_WIN32") || Sys::OS->defined("__CYGWIN__");
+      my $d_type_not_supported = Sys::OS->defined("_WIN32");
       if ($d_type_not_supported) {
         eval { $dirent->d_type; }
         unless ($@ && eval_error_id is_error Error::NotSupported) {
