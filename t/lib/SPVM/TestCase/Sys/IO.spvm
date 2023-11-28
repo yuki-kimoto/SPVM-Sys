@@ -2392,54 +2392,64 @@ class TestCase::Sys::IO {
     
     return 1;
   }
-
+  
   static method readdir : int ($test_dir : string) {
     
-    my $dir = "$test_dir/ftest";
-    
-    my $stream = Sys::IO->opendir($dir);
-    
-    unless ($stream) {
-      return 0;
-    }
-    
-    Sys::IO->rewinddir($stream);
-    Sys->rewinddir($stream);
-    
     {
-      my $current_offset = Sys::IO->telldir($stream);
-      unless ($current_offset == 0) {
-        return 0;
-      }
-    }
-    
-    {
-      my $current_offset = Sys->telldir($stream);
-      unless ($current_offset == 0) {
-        return 0;
-      }
-    }
-    
-    my $check_file_count = 0;
-    while (my $dirent = Sys::IO->readdir($stream)) {
-      my $d_name = $dirent->d_name;
+      my $dir = "$test_dir/ftest";
       
-      if ($d_name eq "foo.txt") {
-        $check_file_count++;
+      my $stream = Sys::IO->opendir($dir);
+      
+      Fn->defer([$stream : Sys::IO::DirStream] method : void () {
+        Sys::IO->closedir($stream);
+      });
+      
+      unless ($stream) {
+        return 0;
       }
-      elsif ($d_name eq "bar.txt") {
-        $check_file_count++;
+      
+      Sys::IO->rewinddir($stream);
+      Sys->rewinddir($stream);
+      
+      {
+        my $current_offset = Sys::IO->telldir($stream);
+        unless ($current_offset == 0) {
+          return 0;
+        }
       }
-    }
-    
-    unless ($check_file_count == 2) {
-      return 0;
+      
+      {
+        my $current_offset = Sys->telldir($stream);
+        unless ($current_offset == 0) {
+          return 0;
+        }
+      }
+      
+      my $check_file_count = 0;
+      while (my $dirent = Sys::IO->readdir($stream)) {
+        my $d_name = $dirent->d_name;
+        
+        if ($d_name eq "foo.txt") {
+          $check_file_count++;
+        }
+        elsif ($d_name eq "bar.txt") {
+          $check_file_count++;
+        }
+      }
+      
+      unless ($check_file_count == 2) {
+        return 0;
+      }
     }
     
     {
       my $dir = "$test_dir/ftest";
       
       my $stream = Sys::IO->opendir($dir);
+      
+      Fn->defer([$stream : Sys::IO::DirStream] method : void () {
+        Sys::IO->closedir($stream);
+      });
       
       my $dirent = Sys::IO->readdir($stream);
       
