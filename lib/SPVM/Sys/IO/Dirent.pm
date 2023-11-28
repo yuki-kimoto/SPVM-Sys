@@ -4,15 +4,21 @@ package SPVM::Sys::IO::Dirent;
 
 =head1 Name
 
-SPVM::Sys::IO::Dirent - struct dirent in C language
+SPVM::Sys::IO::Dirent - struct dirent in the C language
 
 =head1 Usage
   
-  use Sys::IO::Dirent;
+  use Sys;
+  
+  my $dirent = Sys->readdir($dir);
+  
+  my $d_ino = $dirent->d_ino;
+  
+  my $d_name = $dirent->d_name;
 
 =head1 Description
 
-C<Sys::IO::Dirent> is the class for C<struct dirent> in C<C language>.
+The Sys::IO::Dirent class of L<SPVM> represents C<struct dirent > in the C language.
 
 =head1 Pointer Class
 
@@ -36,7 +42,29 @@ Gets C<d_reclen>.
 
 C<method d_name : string ();>
 
-Gets C<d_name>. This value is copied.
+Gets and copies C<d_name> and returns it.
+
+=head2 d_off
+
+C<method d_off : long;>
+
+Gets C<d_off>.
+
+=head2 d_type
+
+C<method d_type : int ();>
+
+Gets C<d_type>.
+
+=head1 See Also
+
+=over 2
+
+=item * L<readdir|SPVM::Sys/"readdir"> in Sys.
+
+=item * L<readdir|SPVM::Sys::IO/"readdir"> in Sys::IO.
+
+=back
 
 =head1 Copyright & License
 

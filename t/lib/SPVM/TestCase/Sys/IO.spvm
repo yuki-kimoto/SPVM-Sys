@@ -2423,8 +2423,11 @@ class TestCase::Sys::IO {
     my $check_file_count = 0;
     while (my $dirent = Sys::IO->readdir($stream)) {
       my $d_ino = $dirent->d_ino;
-      my $d_reclen = $dirent->d_reclen;
       my $d_name = $dirent->d_name;
+      
+      unless ($d_ino > 0) {
+        return 0;
+      }
       
       if ($d_name eq "foo.txt") {
         $check_file_count++;
@@ -2440,7 +2443,7 @@ class TestCase::Sys::IO {
     
     return 1;
   }
-
+  
   static method fcntl : int ($test_dir : string) {
     
     if (Sys::OS->is_windows) {

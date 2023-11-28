@@ -1,3 +1,10 @@
+0.503 2023-11-28
+  [Bug Fix]
+    * Fix a bug that the compilation of the Sys::IO::Dirent failed becuase cygwin do not have d_reclen in struct dirent.
+  [New Features]
+    * Add the d_off method to the Sys::IO::Dirent class.
+    * Add the d_type method to the Sys::IO::Dirent class.
+    
 0.502 2023-11-23
   [New Features]
     * Add the _putenv_s method to the Sys::Env class.

@@ -265,7 +265,7 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   
   int32_t clockid = stack[0].ival;
-
+  
   int32_t flags = stack[1].ival;
   
   void* obj_request = stack[2].oval;
