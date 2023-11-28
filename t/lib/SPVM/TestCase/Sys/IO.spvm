@@ -2461,7 +2461,8 @@ class TestCase::Sys::IO {
       }
       
       # d_reclen
-      if (Sys::OS->defined("__CYGWIN__")) {
+      my $d_reclen_not_supported = Sys::OS->defined("_WIN32") || Sys::OS->defined("__CYGWIN__");
+      if ($d_reclen_not_supported) {
         eval { $dirent->d_reclen; }
         if ($@ && eval_error_id is_error Error::NotSupported) {
           return 0;
@@ -2476,7 +2477,8 @@ class TestCase::Sys::IO {
       }
       
       # d_type
-      if (Sys::OS->defined("_WIN32")) {
+      my $d_type_not_supported = Sys::OS->defined("_WIN32") || Sys::OS->defined("__CYGWIN__");
+      if ($d_type_not_supported) {
         eval { $dirent->d_type; }
         if ($@ && eval_error_id is_error Error::NotSupported) {
           return 0;
@@ -2491,14 +2493,9 @@ class TestCase::Sys::IO {
       }
       
       # d_off
-      if (Sys::OS->defined("_WIN32")) {
+      my $d_off_not_supported = Sys::OS->defined("_WIN32") || Sys::OS->defined("__CYGWIN__") || Sys::OS->defined("__APPLE__");
+      if ($d_off_not_supported) {
         eval { $dirent->d_off; }
-        if ($@ && eval_error_id is_error Error::NotSupported) {
-          return 0;
-        }
-      }
-      elsif (Sys::OS->defined("__APPLE__")) {
-        eval { $dirent->d_off; };
         if ($@ && eval_error_id is_error Error::NotSupported) {
           return 0;
         }

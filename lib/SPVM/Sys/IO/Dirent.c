@@ -41,7 +41,7 @@ int32_t SPVM__Sys__IO__Dirent__d_reclen(SPVM_ENV* env, SPVM_VALUE* stack) {
 #elif defined(__CYGWIN__)
   env->die(env, stack, "d_reclen is not supported in this system(defined(__CYGWIN__)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#endif
+#else
   
   void* obj_dirent = stack[0].oval;
   
@@ -60,7 +60,7 @@ int32_t SPVM__Sys__IO__Dirent__d_type(SPVM_ENV* env, SPVM_VALUE* stack) {
 #elif defined(__CYGWIN__)
   env->die(env, stack, "d_type is not supported in this system(defined(__CYGWIN__)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#endif
+#else
   
   void* obj_dirent = stack[0].oval;
   
@@ -69,6 +69,7 @@ int32_t SPVM__Sys__IO__Dirent__d_type(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = st_dirent->d_type;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__Dirent__d_off(SPVM_ENV* env, SPVM_VALUE* stack) {
