@@ -19,8 +19,6 @@ SPVM::Sys::IO::Dirent - struct dirent in the C language
   
   my $dirent = Sys->readdir($dh);
   
-  my $d_ino = $dirent->d_ino;
-  
   my $d_name = $dirent->d_name;
 
 =head1 Description
