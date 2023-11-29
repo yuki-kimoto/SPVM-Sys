@@ -216,4 +216,5 @@ class Sys::IO {
     }
   }
   
+  native static method utimes : int ($filename : string, $times : Sys::Time::Timeval[]);
 }

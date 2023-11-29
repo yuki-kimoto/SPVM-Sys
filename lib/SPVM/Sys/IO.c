@@ -13,6 +13,7 @@
 #include <sys/file.h>
 #include <dirent.h>
 #include <utime.h>
+#include <sys/time.h>
 
 #if defined(_WIN32)
   #include <direct.h>
@@ -1618,3 +1619,46 @@ int32_t SPVM__Sys__IO__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
 }
+
+int32_t SPVM__Sys__IO__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  void* obj_filename = stack[0].oval;
+  if (!obj_filename) {
+    return env->die(env, stack, "$filename must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* filename = env->get_chars(env, stack, obj_filename);
+  
+  void* obj_times = stack[1].oval;
+  
+  if (!obj_times) {
+    return env->die(env, stack, "$times must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t times_length = env->length(env, stack, obj_times);
+  
+  if (!(times_length == 2)) {
+    return env->die(env, stack, "The length of $times must be 2.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  void* obj_times0 = env->get_elem_object(env, stack, obj_times, 0);
+  struct timeval* times0 = env->get_pointer(env, stack, obj_times0);
+  
+  void* obj_times1 = env->get_elem_object(env, stack, obj_times, 1);
+  struct timeval* times1 = env->get_pointer(env, stack, obj_times1);
+  
+  const struct timeval times[2] = {*times0, *times1};
+  
+  int32_t status = utimes(filename, times);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]utimes failed:%s.", env->strerror(env, stack, errno, 0), filename, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+

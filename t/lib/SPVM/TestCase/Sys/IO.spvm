@@ -2343,7 +2343,7 @@ class TestCase::Sys::IO {
     
     return 1;
   }
-
+  
   static method utime : int ($test_dir : string) {
     
     my $file = "$test_dir/ftest/file_empty.txt";
@@ -2363,7 +2363,28 @@ class TestCase::Sys::IO {
     
     return 1;
   }
-
+  
+  static method utimes : int ($test_dir : string) {
+    
+    my $file = "$test_dir/ftest/file_empty.txt";
+    
+    my $times0 = Sys::Time::Timeval->new;
+    Sys::Time->gettimeofday($times0, undef);
+    
+    my $times1 = Sys::Time::Timeval->new;
+    Sys::Time->gettimeofday($times1, undef);
+    
+    my $times = [$times0, $times1];
+    
+    my $status = Sys::IO->utimes($file, $times);
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
   static method opendir : int ($test_dir : string) {
     
     {
