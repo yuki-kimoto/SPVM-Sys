@@ -2421,55 +2421,131 @@ class TestCase::Sys::IO {
     
     return 1;
   }
-
+  
   static method readdir : int ($test_dir : string) {
     
-    my $dir = "$test_dir/ftest";
-    
-    my $stream = Sys::IO->opendir($dir);
-    
-    unless ($stream) {
-      return 0;
-    }
-    
-    Sys::IO->rewinddir($stream);
-    Sys->rewinddir($stream);
-    
     {
-      my $current_offset = Sys::IO->telldir($stream);
-      unless ($current_offset == 0) {
-        return 0;
-      }
-    }
-    
-    {
-      my $current_offset = Sys->telldir($stream);
-      unless ($current_offset == 0) {
-        return 0;
-      }
-    }
-    
-    my $check_file_count = 0;
-    while (my $dirent = Sys::IO->readdir($stream)) {
-      my $d_ino = $dirent->d_ino;
-      my $d_reclen = $dirent->d_reclen;
-      my $d_name = $dirent->d_name;
+      my $dir = "$test_dir/ftest";
       
-      if ($d_name eq "foo.txt") {
-        $check_file_count++;
+      my $stream = Sys::IO->opendir($dir);
+      
+      Fn->defer([$stream : Sys::IO::DirStream] method : void () {
+        Sys::IO->closedir($stream);
+      });
+      
+      unless ($stream) {
+        return 0;
       }
-      elsif ($d_name eq "bar.txt") {
-        $check_file_count++;
+      
+      Sys::IO->rewinddir($stream);
+      Sys->rewinddir($stream);
+      
+      {
+        my $current_offset = Sys::IO->telldir($stream);
+        unless ($current_offset == 0) {
+          return 0;
+        }
+      }
+      
+      {
+        my $current_offset = Sys->telldir($stream);
+        unless ($current_offset == 0) {
+          return 0;
+        }
+      }
+      
+      my $check_file_count = 0;
+      while (my $dirent = Sys::IO->readdir($stream)) {
+        my $d_name = $dirent->d_name;
+        
+        if ($d_name eq "foo.txt") {
+          $check_file_count++;
+        }
+        elsif ($d_name eq "bar.txt") {
+          $check_file_count++;
+        }
+      }
+      
+      unless ($check_file_count == 2) {
+        return 0;
       }
     }
     
-    unless ($check_file_count == 2) {
-      return 0;
+    {
+      my $dir = "$test_dir/ftest";
+      
+      my $stream = Sys::IO->opendir($dir);
+      
+      Fn->defer([$stream : Sys::IO::DirStream] method : void () {
+        Sys::IO->closedir($stream);
+      });
+      
+      my $dirent = Sys::IO->readdir($stream);
+      
+      my $d_ino = $dirent->d_ino;
+      
+      warn "[Test Output]Sys::IO::Dirent:d_ino:$d_ino";
+      
+      if (Sys::OS->defined("__linux__")) {
+        unless ($d_ino > 0) {
+          return 0;
+        }
+      }
+      
+      # d_reclen
+      my $d_reclen_not_supported = Sys::OS->defined("__CYGWIN__");
+      if ($d_reclen_not_supported) {
+        eval { $dirent->d_reclen; }
+        unless ($@ && eval_error_id is_error Error::NotSupported) {
+          return 0;
+        }
+      }
+      else {
+        my $d_reclen = $dirent->d_reclen;
+        warn "[Test Output]Sys::IO::Dirent:d_reclen:$d_reclen";
+        if (Sys::OS->defined("__linux__")) {
+          unless ($d_reclen > 0) {
+            return 0;
+          }
+        }
+      }
+      
+      # d_type
+      my $d_type_not_supported = Sys::OS->defined("_WIN32");
+      if ($d_type_not_supported) {
+        eval { $dirent->d_type; }
+        unless ($@ && eval_error_id is_error Error::NotSupported) {
+          return 0;
+        }
+      }
+      else {
+        my $d_type = $dirent->d_type;
+        warn "[Test Output]Sys::IO::Dirent:d_type:$d_type";
+        unless ($d_type > 0) {
+          return 0;
+        }
+      }
+      
+      # d_off
+      my $d_off_not_supported = Sys::OS->defined("_WIN32") || Sys::OS->defined("__CYGWIN__") || Sys::OS->defined("__APPLE__");
+      if ($d_off_not_supported) {
+        eval { $dirent->d_off; }
+        unless ($@ && eval_error_id is_error Error::NotSupported) {
+          return 0;
+        }
+      }
+      else {
+        my $d_off = $dirent->d_off;
+        warn "[Test Output]Sys::IO::Dirent:d_off:$d_off";
+        unless ($d_off > 0) {
+          return 0;
+        }
+      }
     }
     
     return 1;
   }
-
+  
   static method fcntl : int ($test_dir : string) {
     
     if (Sys::OS->is_windows) {
