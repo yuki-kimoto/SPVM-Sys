@@ -2368,7 +2368,9 @@ class TestCase::Sys::IO {
     
     if (Sys::OS->is_windows) {
       eval { Sys::IO->utimes(undef, undef); }
-      unless ($@ && eval_error_id is_error Error::NotSupported);
+      unless ($@ && eval_error_id is_error Error::NotSupported) {
+        return 0;
+      }
     }
     else {
       my $file = "$test_dir/ftest/file_empty.txt";
