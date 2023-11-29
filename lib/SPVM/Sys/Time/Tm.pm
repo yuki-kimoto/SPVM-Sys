@@ -6,6 +6,10 @@ package SPVM::Sys::Time::Tm;
 
 SPVM::Sys::Time::Tm - struct tm in the C language
 
+=head1 Description
+
+The Sys::Time::Tm class represents L<struct tm|https://linux.die.net/man/3/ctime> in the C language.
+
 =head1 Usage
   
   use Sys::Time::Tm;
@@ -20,30 +24,24 @@ SPVM::Sys::Time::Tm - struct tm in the C language
   
   my $hour = $tm->tm_hour;
   $tm->set_tm_hour(12);
-
+  
   my $mday = $tm->tm_mday;
   $tm->set_tm_mday(4);
-
+  
   my $mon = $tm->tm_mon;
   $tm->set_tm_mon(3);
-
+  
   my $year = $tm->tm_year;
   $tm->set_tm_year(1);
-
+  
   my $wday = $tm->tm_wday;
   $tm->set_tm_wday(12);
-
+  
   my $yday = $tm->tm_yday;
   $tm->set_tm_yday(234);
-
+  
   my $isdst = $tm->tm_isdst;
   $tm->set_tm_isdst(1);
-
-=head1 Description
-
-The Sys::Time::Tm class represents C<struct tm> of the C language.
-
-See L<ctime(3) - Linux man page|https://linux.die.net/man/3/ctime> about C<struct tm> in Linux.
 
 =head1 Class Methods
 
@@ -63,15 +61,11 @@ C<method tm_sec : int ();>
 
 Gets C<tm_sec>.
 
-  my $tm_sec = $tm->tm_sec;
-
 =head2 set_tm_sec
 
 C<method set_tm_sec : void ($tm_sec : int);>
 
 Sets C<tm_sec>.
-
-  $tm->set_tm_sec(12);
 
 =head2 tm_min
   
@@ -79,15 +73,11 @@ C<method tm_min : int ();>
 
 Gets C<tm_min>.
 
-  my $tm_min = $tm->tm_min;
-
 =head2 set_tm_min
 
 C<method set_tm_min : void ($tm_min : int);>
 
 Sets C<tm_min>.
-
-  $tm->set_tm_min(34);
 
 =head2 tm_hour
 
@@ -95,15 +85,11 @@ C<method tm_hour : int ();>
 
 Gets C<tm_hour>.
 
-  my $tm_hour = $tm->tm_hour;
-
 =head2 set_tm_hour
 
 C<method set_tm_hour : void ($tm_hour : int);>
 
 Sets C<tm_hour>.
-
-  $tm->set_tm_hour(12);
 
 =head2 tm_mday
 
@@ -111,15 +97,11 @@ C<method tm_mday : int ();>
 
 Gets C<tm_mday>.
 
-  my $tm_mday = $tm->tm_mday;
-
 =head2 set_tm_mday
 
 C<method set_tm_mday : void ($tm_mday : int);>
 
 Sets C<tm_mday>.
-
-  $tm->set_tm_mday(4);
 
 =head2 tm_mon
 
@@ -127,15 +109,11 @@ C<method tm_mon : int ();>
 
 Gets C<tm_mon>.
 
-  my $tm_mon = $tm->tm_mon;
-
 =head2 set_tm_mon
 
 C<method set_tm_mon : void ($tm_mon : int);>
 
 Sets C<tm_mon>.
-
-  $tm->set_tm_mon(3);
 
 =head2 tm_year
 
@@ -143,15 +121,11 @@ C<method tm_year : int ();>
 
 Gets C<tm_year>.
 
-  my $tm_year = $tm->tm_year;
-
 =head2 set_tm_year
 
 C<method set_tm_year : void ($tm_year : int);>
 
 Sets C<tm_year>.
-
-  $tm->set_tm_year(1);
 
 =head2 tm_wday
 
@@ -159,15 +133,11 @@ C<method tm_wday : int ();>
 
 Gets C<tm_wday>.
 
-  my $tm_wday = $tm->tm_wday;
-
 =head2 set_tm_wday
 
 C<method set_tm_wday : void ($tm_wday : int);>
 
 Sets C<tm_wday>.
-
-  $tm->set_tm_wday(12);
 
 =head2 tm_yday
 
@@ -175,15 +145,11 @@ C<method tm_yday : int ();>
 
 Gets C<tm_yday>.
 
-  my $yday = $tm->tm_yday;
-
 =head2 set_tm_yday
 
 C<method set_tm_yday : void ($tm_yday : int);>
 
 Sets C<tm_yday>.
-
-  $tm->set_tm_yday(234);
 
 =head2 tm_isdst
 
@@ -191,15 +157,11 @@ C<method tm_isdst : int ();>
 
 Gets C<tm_isdst>.
 
-  my $isdst = $tm->tm_isdst;
-
 =head2 set_tm_isdst
 
 C<method set_tm_isdst : void ($tm_isdst : int);>
 
 Sets C<tm_isdst>.
-
-  $tm->set_tm_isdst(1);
 
 =head1 Copyright & License
 
