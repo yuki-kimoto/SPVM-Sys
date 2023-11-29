@@ -4,20 +4,10 @@
   [New Features]
     * Add the d_off method to the Sys::IO::Dirent class.
     * Add the d_type method to the Sys::IO::Dirent class.
-    
-0.502 2023-11-23
-  [New Features]
-    * Add the _putenv_s method to the Sys::Env class.
-    * Add the set_env method to the Sys class.
-    * Add the alarm method to the Sys class.
-    * The kill method in the Sys class can be used in Windows if $pid is equal to the current process id.
     * Add the utimes method to the Sys::IO class.
     * Add the optional $tv_sec and $tv_usec arguments to the new method in the Sys::Time::Timeval.
     * Add the optional $tv_sec and $tv_nsec arguments to the new method in the Sys::Time::Timespec.
   [Incompatible Changes]
-    * Remove the Sys::FileTest class.
-    * Remove throwing exceptions in the ualarm method in the Sys::Signal class.
-    * Remove the signal_go method in the Sys::Signal class.
     * The getgroups method in the Sys::User class is changed.
       [Before]
       static method getgroups : int[] ();
@@ -37,6 +27,16 @@
       [After]
       static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : double = 0);
       
+0.502 2023-11-23
+  [New Features]
+    * Add the _putenv_s method to the Sys::Env class.
+    * Add the set_env method to the Sys class.
+    * Add the alarm method to the Sys class.
+    * The kill method in the Sys class can be used in Windows if $pid is equal to the current process id.
+  [Incompatible Changes]
+    * Remove the Sys::FileTest class.
+    * Remove throwing exceptions in the ualarm method in the Sys::Signal class.
+    * Remove the signal_go method in the Sys::Signal class.
   [Bug Fix with Incompatible Changes]
     * The S method in the Sys class returns 0 if the file do not exists.
 0.501 2023-11-23
