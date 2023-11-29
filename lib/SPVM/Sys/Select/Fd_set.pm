@@ -36,12 +36,6 @@ C<method DESTROY : void ();>
 
 The destructor.
 
-=head2 set
-
-C<method set : void ($set : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>);>
-
-Sets the value of this object by copying the C<$set>.
-
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

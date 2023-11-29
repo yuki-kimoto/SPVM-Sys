@@ -21,11 +21,9 @@
 static const char* FILE_NAME = "Sys/Select/Fd_set.c";
 
 int32_t SPVM__Sys__Select__Fd_set__new(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-
+  
   int32_t error_id = 0;
-
+  
   fd_set* type_fd_set = env->new_memory_block(env, stack, sizeof(fd_set));
   
   void* obj_fd_set = env->new_pointer_object_by_name(env, stack, "Sys::Select::Fd_set", type_fd_set, &error_id, __func__, FILE_NAME, __LINE__);
@@ -37,8 +35,6 @@ int32_t SPVM__Sys__Select__Fd_set__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Select__Fd_set__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   // File handle
   void* obj_fd_set = stack[0].oval;
@@ -54,8 +50,6 @@ int32_t SPVM__Sys__Select__Fd_set__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Select__Fd_set__set(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   void* obj_fd_set = stack[0].oval;
   fd_set* type_fd_set = env->get_pointer(env, stack, obj_fd_set);
