@@ -16,6 +16,14 @@ The Sys::Select::Fd_set class of L<SPVM> represents L<fd_set|https://linux.die.n
   
   my $fd_set = Sys::Select::Fd_set->new;
 
+=head1 Interfaces
+
+=over 2
+
+=item * L<Cloneable|SPVM::Cloneable>
+
+=back
+
 =head1 Class Methods
 
 =head2 new
@@ -28,9 +36,15 @@ Create a new L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set> object.
 
 =head2 DESTROY
 
-C<method DESTROY : void ();>
+  method DESTROY : void ();
 
 The destructor.
+
+=head2 clone
+
+  method clone : Sys::Select::Fd_set ();
+
+Clones this object and returns it.
 
 =head1 Copyright & License
 

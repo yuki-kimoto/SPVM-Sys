@@ -3,6 +3,7 @@
     * Remove the set method in the Sys::Select::Fd_set class.
   [New Features]
     * Add Sys::Time::Util class.
+    * Add the clone method to the Sys::Select::Fd_set class.
 0.503 2023-11-28
   [Bug Fix]
     * Fix a bug that the compilation of the Sys::IO::Dirent failed becuase cygwin do not have d_reclen in struct dirent.

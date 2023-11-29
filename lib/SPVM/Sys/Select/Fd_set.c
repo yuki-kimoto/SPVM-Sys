@@ -48,3 +48,22 @@ int32_t SPVM__Sys__Select__Fd_set__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__Select__Fd_set__clone(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  void* obj_fd_set = stack[0].oval;
+  fd_set* type_fd_set = env->get_pointer(env, stack, obj_fd_set);
+  
+  fd_set* type_fd_set_clone = env->new_memory_block(env, stack, sizeof(fd_set));
+  
+  void* obj_fd_set_clone = env->new_pointer_object_by_name(env, stack, "Sys::Select::Fd_set", type_fd_set_clone, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  memcpy(type_fd_set_clone, type_fd_set, sizeof(fd_set));
+  
+  stack[0].oval = obj_fd_set_clone;
+  
+  return 0;
+}
