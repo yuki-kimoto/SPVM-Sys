@@ -208,4 +208,141 @@ class TestCase::Sys::Time::Util {
     return 1;
   }
   
+  static method add_timespec : int () {
+    
+    {
+      my $ts = Sys::Time::Timespec->new(1, 999_999_998);
+      
+      my $ts_diff = Sys::Time::Timespec->new(2, 1);
+      
+      my $ts_add = Sys::Time::Util->add_timespec($ts, $ts_diff);
+      
+      unless ($ts_add->tv_sec == 3) {
+        return 0;
+      }
+      
+      unless ($ts_add->tv_nsec == 999_999_999) {
+        return 0;
+      }
+    }
+    
+    {
+      my $ts = Sys::Time::Timespec->new(1, 999_999_999);
+      
+      my $ts_diff = Sys::Time::Timespec->new(2, 1);
+      
+      my $ts_add = Sys::Time::Util->add_timespec($ts, $ts_diff);
+      
+      unless ($ts_add->tv_sec == 4) {
+        return 0;
+      }
+      
+      unless ($ts_add->tv_nsec == 0) {
+        return 0;
+      }
+    }
+    
+    {
+      my $ts = Sys::Time::Timespec->new(2, 0);
+      
+      my $ts_diff = Sys::Time::Timespec->new(-2, -1);
+      
+      my $ts_add = Sys::Time::Util->add_timespec($ts, $ts_diff);
+      
+      unless ($ts_add->tv_sec == -1) {
+        return 0;
+      }
+      
+      unless ($ts_add->tv_nsec == 999_999_999) {
+        return 0;
+      }
+    }
+    
+    {
+      my $ts = Sys::Time::Timespec->new(2, 1);
+      
+      my $ts_diff = Sys::Time::Timespec->new(-2, -1);
+      
+      my $ts_add = Sys::Time::Util->add_timespec($ts, $ts_diff);
+      
+      unless ($ts_add->tv_sec == 0) {
+        return 0;
+      }
+      
+      unless ($ts_add->tv_nsec == 0) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method add_timeval : int () {
+    
+    {
+      my $tv = Sys::Time::Timeval->new(1, 999_998);
+      
+      my $tv_diff = Sys::Time::Timeval->new(2, 1);
+      
+      my $tv_add = Sys::Time::Util->add_timeval($tv, $tv_diff);
+      
+      unless ($tv_add->tv_sec == 3) {
+        return 0;
+      }
+      
+      unless ($tv_add->tv_usec == 999_999) {
+        return 0;
+      }
+    }
+    
+    {
+      my $tv = Sys::Time::Timeval->new(1, 999_999);
+      
+      my $tv_diff = Sys::Time::Timeval->new(2, 1);
+      
+      my $tv_add = Sys::Time::Util->add_timeval($tv, $tv_diff);
+      
+      unless ($tv_add->tv_sec == 4) {
+        return 0;
+      }
+      
+      unless ($tv_add->tv_usec == 0) {
+        return 0;
+      }
+    }
+    
+    {
+      my $tv = Sys::Time::Timeval->new(2, 0);
+      
+      my $tv_diff = Sys::Time::Timeval->new(-2, -1);
+      
+      my $tv_add = Sys::Time::Util->add_timeval($tv, $tv_diff);
+      
+      unless ($tv_add->tv_sec == -1) {
+        return 0;
+      }
+      
+      unless ($tv_add->tv_usec == 999_999) {
+        return 0;
+      }
+    }
+    
+    {
+      my $tv = Sys::Time::Timeval->new(2, 1);
+      
+      my $tv_diff = Sys::Time::Timeval->new(-2, -1);
+      
+      my $tv_add = Sys::Time::Util->add_timeval($tv, $tv_diff);
+      
+      unless ($tv_add->tv_sec == 0) {
+        return 0;
+      }
+      
+      unless ($tv_add->tv_usec == 0) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }

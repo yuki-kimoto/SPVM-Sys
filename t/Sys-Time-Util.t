@@ -36,4 +36,8 @@ ok(SPVM::TestCase::Sys::Time::Util->timeval_interval);
   
 ok(SPVM::TestCase::Sys::Time::Util->timespec_interval);
 
+ok(SPVM::TestCase::Sys::Time::Util->add_timespec);
+
+ok(SPVM::TestCase::Sys::Time::Util->add_timeval);
+
 done_testing;

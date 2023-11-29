@@ -38,6 +38,8 @@ This method could cause overflow.
 
 Exceptions:
 
+$ts must be defined. Otherwise an exception is thrown.
+
 $ts->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
 
 $ts->tv_nsec must be greater than or equal to 0. Otherwise an exception is thrown.
@@ -61,6 +63,8 @@ Converts the L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object $tv to micros
 This method could cause overflow.
 
 Exceptions:
+
+$tv must be defined. Otherwise an exception is thrown.
 
 $tv->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
 
@@ -88,6 +92,8 @@ This method may result in a loss of precision.
 
 Exceptions:
 
+$ts must be defined. Otherwise an exception is thrown.
+
 $ts->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
 
 $ts->tv_nsec must be greater than or equal to 0. Otherwise an exception is thrown.
@@ -113,6 +119,8 @@ Converts the L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object $tv to floati
 This method may result in a loss of precision.
 
 Exceptions:
+
+$tv must be defined. Otherwise an exception is thrown.
 
 $tv->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
 
@@ -176,6 +184,10 @@ This method may result in a loss of precision.
 
 Excetpions:
 
+$tv_a must be defined. Otherwise an exception is thrown.
+
+$tv_b must be defined. Otherwise an exception is thrown.
+
 $tv_a->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
 
 $tv_a->tv_usec must be greater than or equal to 0. Otherwise an exception is thrown.
@@ -194,6 +206,10 @@ This method may result in a loss of precision.
 
 Excetpions:
 
+$ts_a must be defined. Otherwise an exception is thrown.
+
+$ts_b must be defined. Otherwise an exception is thrown.
+
 $ts_a->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
 
 $ts_a->tv_nsec must be greater than or equal to 0. Otherwise an exception is thrown.
@@ -201,6 +217,30 @@ $ts_a->tv_nsec must be greater than or equal to 0. Otherwise an exception is thr
 $ts_b->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
 
 $ts_b->tv_nsec must be greater than or equal to 0. Otherwise an exception is thrown.
+
+=head2 add_timespec
+
+C<static method add_timespec : Sys::Time::Timespec ($ts : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>, $diff_ts : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>);>
+
+Returns $ts plus $diff_ts.
+
+Excetpions:
+
+$ts must be defined. Otherwise an exception is thrown.
+
+$diff_ts must be defined. Otherwise an exception is thrown.
+
+=head2 add_timeval
+
+C<static method add_timeval : Sys::Time::Timeval ($tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>, $diff_tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>);>
+
+Returns $tv plus $diff_tv.
+
+Excetpions:
+
+$tv must be defined. Otherwise an exception is thrown.
+
+$diff_tv must be defined. Otherwise an exception is thrown.
 
 =head1 Copyright & License
 
