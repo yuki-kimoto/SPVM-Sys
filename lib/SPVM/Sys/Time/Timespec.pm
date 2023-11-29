@@ -4,7 +4,7 @@ package SPVM::Sys::Time::Timespec;
 
 =head1 Name
 
-SPVM::Sys::Time::Timespec - struct timespec in C language
+SPVM::Sys::Time::Timespec - struct timespec in the C language
 
 =head1 Usage
   

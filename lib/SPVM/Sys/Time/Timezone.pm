@@ -4,7 +4,7 @@ package SPVM::Sys::Time::Timezone;
 
 =head1 Name
 
-SPVM::Sys::Time::Timezone - struct timezone in C language
+SPVM::Sys::Time::Timezone - struct timezone in the C language
 
 =head1 Usage
   

@@ -4,7 +4,7 @@ package SPVM::Sys::Socket::Ipv6_mreq;
 
 =head1 Name
 
-SPVM::Sys::Socket::Ipv6_mreq - struct ipv6_mreq in C language
+SPVM::Sys::Socket::Ipv6_mreq - struct ipv6_mreq in the C language
 
 =head1 Usage
 

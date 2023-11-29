@@ -4,7 +4,7 @@ package SPVM::Sys::Socket::Sockaddr::Un;
 
 =head1 Name
 
-SPVM::Sys::Socket::Sockaddr::Un - struct sockaddr_un in C language
+SPVM::Sys::Socket::Sockaddr::Un - struct sockaddr_un in the C language
 
 =head1 Usage
 

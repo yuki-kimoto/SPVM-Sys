@@ -4,7 +4,7 @@ package SPVM::Sys::Socket::Sockaddr::Storage;
 
 =head1 Name
 
-SPVM::Sys::Socket::Sockaddr::Storage - struct sockaddr_storage in C language
+SPVM::Sys::Socket::Sockaddr::Storage - struct sockaddr_storage in the C language
 
 =head1 Usage
 

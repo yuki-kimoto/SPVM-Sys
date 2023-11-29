@@ -4,7 +4,7 @@ package SPVM::Sys::Time::Itimerval;
 
 =head1 Name
 
-SPVM::Sys::Time::Itimerval - struct timeval in C language
+SPVM::Sys::Time::Itimerval - struct timeval in the C language
 
 =head1 Usage
   

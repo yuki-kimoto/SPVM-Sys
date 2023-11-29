@@ -4,7 +4,7 @@ package SPVM::Sys::Socket::Sockaddr::In;
 
 =head1 Name
 
-SPVM::Sys::Socket::Sockaddr::In - struct sockaddr_in in C language
+SPVM::Sys::Socket::Sockaddr::In - struct sockaddr_in in the C language
 
 =head1 Usage
 

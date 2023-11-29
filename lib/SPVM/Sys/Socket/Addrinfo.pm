@@ -4,7 +4,7 @@ package SPVM::Sys::Socket::Addrinfo;
 
 =head1 Name
 
-SPVM::Sys::Socket::Addrinfo - struct addrinfo in C language
+SPVM::Sys::Socket::Addrinfo - struct addrinfo in the C language
 
 =head1 Usage
 

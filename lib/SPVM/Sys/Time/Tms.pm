@@ -4,7 +4,7 @@ package SPVM::Sys::Time::Tms;
 
 =head1 Name
 
-SPVM::Sys::Time::Tms - struct tms in C language
+SPVM::Sys::Time::Tms - struct tms in the C language
 
 =head1 Usage
   

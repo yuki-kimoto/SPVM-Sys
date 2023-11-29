@@ -4,7 +4,7 @@ package SPVM::Sys::IO::Stat;
 
 =head1 Name
 
-SPVM::Sys::IO::Stat - The stat Functions and The struct stat in C language
+SPVM::Sys::IO::Stat - The stat Functions and The struct stat in the C language
 
 =head1 Usage
   

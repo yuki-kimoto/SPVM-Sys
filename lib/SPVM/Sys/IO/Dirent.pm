@@ -4,7 +4,7 @@ package SPVM::Sys::IO::Dirent;
 
 =head1 Name
 
-SPVM::Sys::IO::Dirent - struct dirent in C language
+SPVM::Sys::IO::Dirent - struct dirent in the C language
 
 =head1 Usage
   

@@ -4,7 +4,7 @@ package SPVM::Sys::IO::Utimbuf;
 
 =head1 Name
 
-SPVM::Sys::IO::Utimbuf - struct utimbuf in C language
+SPVM::Sys::IO::Utimbuf - struct utimbuf in the C language
 
 =head1 Usage
 

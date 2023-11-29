@@ -4,7 +4,7 @@ package SPVM::Sys::Socket::Ip_mreq_source;
 
 =head1 Name
 
-SPVM::Sys::Socket::Ip_mreq_source - struct ip_mreq_source in C language
+SPVM::Sys::Socket::Ip_mreq_source - struct ip_mreq_source in the C language
 
 =head1 Usage
 

@@ -4,7 +4,7 @@ package SPVM::Sys::Socket::In_addr;
 
 =head1 Name
 
-SPVM::Sys::Socket::In_addr - struct in_addr in C language
+SPVM::Sys::Socket::In_addr - struct in_addr in the C language
 
 =head1 Usage
 

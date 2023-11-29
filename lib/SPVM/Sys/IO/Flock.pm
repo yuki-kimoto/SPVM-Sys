@@ -4,7 +4,7 @@ package SPVM::Sys::IO::Flock;
 
 =head1 Name
 
-SPVM::Sys::IO::Flock - struct flock in C language
+SPVM::Sys::IO::Flock - struct flock in the C language
 
 =head1 Usage
 
