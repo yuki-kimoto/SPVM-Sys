@@ -48,21 +48,3 @@ int32_t SPVM__Sys__Select__Fd_set__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
-
-int32_t SPVM__Sys__Select__Fd_set__set(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_fd_set = stack[0].oval;
-  fd_set* type_fd_set = env->get_pointer(env, stack, obj_fd_set);
-  
-  void* obj_fd_set_arg = stack[1].oval;
-  if (!obj_fd_set_arg) {
-    return env->die(env, stack, "$set must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  fd_set* type_fd_set_arg = env->get_pointer(env, stack, obj_fd_set_arg);
-  
-  assert(type_fd_set);
-  
-  memcpy(type_fd_set, type_fd_set_arg, sizeof(fd_set));
-  
-  return 0;
-}
