@@ -80,8 +80,7 @@ class TestCase::Sys::Select {
           $socket_max = $no1_socket;
         }
         
-        my $timeout = Sys::Time::Timeval->new;
-        $timeout->set_tv_sec(10);
+        my $timeout = 10;
         
         my $ready_count_out = Sys->select(undef, $writefds, undef, $timeout);
         
@@ -166,8 +165,7 @@ class TestCase::Sys::Select {
           $socket_max = $no1_socket;
         }
         
-        my $timeout = Sys::Time::Timeval->new;
-        $timeout->set_tv_sec(10);
+        my $timeout = 10;
         
         my $ready_count_out = Sys->select($readfds, undef, undef, $timeout);
         

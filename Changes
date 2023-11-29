@@ -23,6 +23,13 @@
       [After]
       static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*);
       
+    * The definition of the select method in the Sys is changed.
+      [Before]
+      static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : Sys::Time::Timeval);
+      
+      [After]
+      static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : double = 0);
+      
   [Bug Fix with Incompatible Changes]
     * The S method in the Sys class returns 0 if the file do not exists.
 0.501 2023-11-23
