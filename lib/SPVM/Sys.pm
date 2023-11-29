@@ -424,7 +424,7 @@ The exceptions thrown by he L</"stat"> method could be thrown.
 
 C<static method time : long ();>
 
-Returns the number of non-leap seconds since whatever time the system considers to be the epoch, suitable for feeding to gmtime and localtime. The same as the Perl L<time|https://perldoc.perl.org/functions/time>. 
+Returns the current epoch time.
 
 =head2 localtime
 
