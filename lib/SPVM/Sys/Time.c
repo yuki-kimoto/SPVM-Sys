@@ -14,8 +14,6 @@
 static const char* FILE_NAME = "Sys/Time.c";
 
 int32_t SPVM__Sys__Time__time(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   int64_t epoch = (int64_t)time(NULL);
   
@@ -67,8 +65,6 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   void* obj_tv = stack[0].oval;
   
@@ -97,8 +93,6 @@ int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Time__clock(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   int64_t cpu_time = clock();
   
@@ -113,8 +107,6 @@ int32_t SPVM__Sys__Time__clock(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   int32_t clk_id = stack[0].ival;
   
@@ -141,8 +133,6 @@ int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   int32_t clk_id = stack[0].ival;
   
@@ -173,8 +163,6 @@ int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "getitimer is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  (void)env;
-  (void)stack;
   
   int32_t which = stack[0].ival;
   
@@ -186,7 +174,7 @@ int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     return env->die(env, stack, "$new_value must be defined.", __func__, FILE_NAME, __LINE__);
   }
-
+  
   void* obj_old_value = stack[1].oval;
   struct itimerval* st_old_value = NULL;
   if (obj_old_value) {
@@ -211,8 +199,6 @@ int32_t SPVM__Sys__Time__getitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "getitimer is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  (void)env;
-  (void)stack;
   
   int32_t which = stack[0].ival;
   
@@ -277,11 +263,9 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "clock_nanosleep is not supported in this system(__OpenBSD__).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  (void)env;
-  (void)stack;
   
   int32_t clockid = stack[0].ival;
-
+  
   int32_t flags = stack[1].ival;
   
   void* obj_request = stack[2].oval;
@@ -302,7 +286,7 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   int32_t ret_errno = clock_nanosleep(clockid, flags, st_request, st_remain);
-
+  
   if (ret_errno != 0) {
     env->die(env, stack, "[System Error]clock_nanosleep failed:%s.", env->strerror(env, stack, ret_errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -315,8 +299,6 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   void* obj_rqtp = stack[0].oval;
   
@@ -336,12 +318,12 @@ int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   int32_t status = nanosleep(st_rqtp, st_rmtp);
-
+  
   if (status == -1) {
     env->die(env, stack, "[System Error]nanosleep failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-
+  
   stack[0].ival = status;
   
   return 0;
