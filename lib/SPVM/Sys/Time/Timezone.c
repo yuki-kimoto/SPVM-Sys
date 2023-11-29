@@ -16,7 +16,7 @@ int32_t SPVM__Sys__Time__Timezone__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tz = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timezone", st_tz, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
-
+  
   stack[0].oval = obj_tz;
   
   return 0;
