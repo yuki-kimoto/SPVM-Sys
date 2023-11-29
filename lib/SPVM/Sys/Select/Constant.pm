@@ -4,17 +4,15 @@ package SPVM::Sys::Select::Constant;
 
 =head1 Name
 
-SPVM::Sys::Select::Constant - Constant values for Select.
-
-=head1 Usage
-
-  use Sys::Select::Constant as Select;
-  
-  my $o_trunc = Select->O_TRUNC;
+SPVM::Sys::Select::Constant - Constant Values for Select.
 
 =head1 Description
 
-C<Sys::Select::Constant> is the class for the constant values for the select function.
+The Sys::Select::Constant class of L<SPVM> has methods to get constant values for the select system call.
+
+=head1 Usage
+
+  use Sys::Select::Constant;
 
 =head1 Class Methods
 
