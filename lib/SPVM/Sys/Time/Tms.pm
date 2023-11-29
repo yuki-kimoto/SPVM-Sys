@@ -20,7 +20,7 @@ The Sys::Time::Tms class of L<SPVM> represents L<struct tms|https://linux.die.ne
 
 =head2 new
 
-C<static method new : L<Sys::Time::Tms|SPVM::Sys::Time::Tms> ()>
+C<static method new : L<Sys::Time::Tms|SPVM::Sys::Time::Tms> ();>
 
 Creates a new L<Sys::Time::Tms|SPVM::Sys::Time::Tms> object.
 
@@ -36,49 +36,49 @@ The destructor.
 
 =head2 tms_utime
 
-C<method tms_utime : long ()>
+C<method tms_utime : long ();>
 
 Gets C<tms_utime>.
 
 =head2 set_tms_utime
 
-C<method set_tms_utime : void ($tms_utime : long)>
+C<method set_tms_utime : void ($tms_utime : long);>
 
 Sets C<tms_utime>.
 
 =head2 tms_stime
 
-C<method tms_stime : long ()>
+C<method tms_stime : long ();>
 
 Gets C<tms_stime>.
 
 =head2 set_tms_stime
 
-C<method set_tms_stime : void ($tms_stime : long)>
+C<method set_tms_stime : void ($tms_stime : long);>
 
 Sets C<tms_stime>.
 
 =head2 tms_cutime
 
-C<method tms_cutime : long ()>
+C<method tms_cutime : long ();>
 
 Gets C<tms_cutime>.
 
 =head2 set_tms_cutime
 
-C<method set_tms_cutime : void ($tms_cutime : long)>
+C<method set_tms_cutime : void ($tms_cutime : long);>
 
 Sets C<tms_cutime>.
 
 =head2 tms_cstime
 
-C<method tms_cstime : long ()>
+C<method tms_cstime : long ();>
 
 Gets C<tms_cstime>.
 
 =head2 set_tms_cstime
 
-C<method set_tms_cstime : void ($tms_cstime : long)>
+C<method set_tms_cstime : void ($tms_cstime : long);>
 
 Sets C<tms_cstime>.
 

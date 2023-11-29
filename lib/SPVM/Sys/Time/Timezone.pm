@@ -26,7 +26,7 @@ The Sys::Time::Timezone class of L<SPVM> represents L<struct timezone|https://li
 
 =head2 new
 
-C<static method new : L<Sys::Time::Timezone|SPVM::Sys::Time::Timezone> ()>
+C<static method new : L<Sys::Time::Timezone|SPVM::Sys::Time::Timezone> ();>
 
 Creates a new L<Sys::Time::Timezone|SPVM::Sys::Time::Timezone> object.
 
@@ -34,25 +34,25 @@ Creates a new L<Sys::Time::Timezone|SPVM::Sys::Time::Timezone> object.
 
 =head2 tz_minuteswest
 
-C<method tz_minuteswest : int ()>
+C<method tz_minuteswest : int ();>
 
 Gets C<tz_minuteswest>.
 
 =head2 set_tz_minuteswest
 
-C<method set_tz_minuteswest : void ($tz_minuteswest : int)>
+C<method set_tz_minuteswest : void ($tz_minuteswest : int);>
 
 Sets C<tz_minuteswest>.
 
 =head2 tz_dsttime
   
-C<method tz_dsttime : int ()>
+C<method tz_dsttime : int ();>
 
 Gets C<tz_dsttime>.
 
 =head2 set_tz_dsttime
 
-C<method set_tz_dsttime : void ($tz_dsttime : int)>
+C<method set_tz_dsttime : void ($tz_dsttime : int);>
 
 Sets C<tz_dsttime>.
 

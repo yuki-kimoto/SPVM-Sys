@@ -207,9 +207,7 @@ class TestCase::Sys::Time {
     
     my $start = Sys::Time->time;
     
-    my $ts = Sys::Time::Timespec->new;
-    $ts->set_tv_sec(1);
-    $ts->set_tv_nsec(100_000_000);
+    my $ts = Sys::Time::Timespec->new(1, 100_000_000);
     
     my $status = Sys::Time->nanosleep($ts, undef);
     
