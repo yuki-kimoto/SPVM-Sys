@@ -4,7 +4,7 @@ package SPVM::Sys::IO::DirStream;
 
 =head1 Name
 
-SPVM::Sys::IO::DirStream - the class for the C<DIR> type in C<C language>.
+SPVM::Sys::IO::DirStream - the class for the C<DIR> type in the C language.
 
 =head1 Usage
   
@@ -18,7 +18,7 @@ SPVM::Sys::IO::DirStream - the class for the C<DIR> type in C<C language>.
 
 =head1 Description
 
-C<Sys::IO::DirStream> is the class for the C<DIR> type in C<C language>.
+C<Sys::IO::DirStream> is the class for the C<DIR> type in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

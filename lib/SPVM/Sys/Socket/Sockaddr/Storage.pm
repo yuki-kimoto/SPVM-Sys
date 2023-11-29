@@ -12,7 +12,7 @@ SPVM::Sys::Socket::Sockaddr::Storage - struct sockaddr_storage in the C language
 
 =head1 Description
 
-C<Sys::Socket::Sockaddr::Storage> is the class for the C<struct sockaddr_storage> in C<C language>.
+C<Sys::Socket::Sockaddr::Storage> is the class for the C<struct sockaddr_storage> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

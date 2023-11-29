@@ -12,7 +12,7 @@ SPVM::Sys::IO::Dirent - struct dirent in the C language
 
 =head1 Description
 
-C<Sys::IO::Dirent> is the class for C<struct dirent> in C<C language>.
+C<Sys::IO::Dirent> is the class for C<struct dirent> in the C language.
 
 =head1 Pointer Class
 

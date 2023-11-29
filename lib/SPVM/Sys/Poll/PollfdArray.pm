@@ -4,7 +4,7 @@ package SPVM::Sys::Poll::PollfdArray;
 
 =head1 Name
 
-SPVM::Sys::Poll::PollfdArray - Array of C<struct pollfd> in C<C language>
+SPVM::Sys::Poll::PollfdArray - Array of C<struct pollfd> in the C language
 
 =head1 Usage
 
@@ -14,7 +14,7 @@ SPVM::Sys::Poll::PollfdArray - Array of C<struct pollfd> in C<C language>
 
 =head1 Description
 
-C<Sys::Poll::PollfdArray> is the class for the array of C<struct pollfd> in C<C language>.
+C<Sys::Poll::PollfdArray> is the class for the array of C<struct pollfd> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

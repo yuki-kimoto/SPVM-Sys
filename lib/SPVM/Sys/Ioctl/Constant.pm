@@ -12,7 +12,7 @@ SPVM::Sys::Ioctl::Constant - Constant values for ioctl.
   
 =head1 Description
 
-C<Sys::Ioctl::Constant> is the class for the constant values for the C<ioctl> function in C<C language>.
+C<Sys::Ioctl::Constant> is the class for the constant values for the C<ioctl> function in the C language.
 
 =head1 Class Methods
 

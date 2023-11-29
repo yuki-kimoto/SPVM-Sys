@@ -20,7 +20,7 @@ SPVM::Sys::Time::Timespec - struct timespec in the C language
 
 =head1 Description
 
-C<Sys::Time::Timespec> represents C<struct timespec> in C<C language>.
+C<Sys::Time::Timespec> represents C<struct timespec> in the C language.
 
 See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday> about C<struct timespec> in Linux.
 

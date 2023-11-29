@@ -20,7 +20,7 @@ SPVM::Sys::IO::Utimbuf - struct utimbuf in the C language
 
 =head1 Description
 
-C<Sys::IO::Utimbuf> is the class for the C<struct utimbuf> in C<C language>.
+C<Sys::IO::Utimbuf> is the class for the C<struct utimbuf> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

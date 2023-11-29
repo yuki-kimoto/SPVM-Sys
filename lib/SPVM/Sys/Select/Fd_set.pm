@@ -14,7 +14,7 @@ SPVM::Sys::Select::Fd_set - fd_set Type in C Language
 
 =head1 Description
 
-C<Sys::Select::Fd_set> is the class for the C<fd_set> type in C<C language>.
+C<Sys::Select::Fd_set> is the class for the C<fd_set> type in the C language.
 
 See L<select(2) - Linux man page|https://linux.die.net/man/2/select> in Linux.
 

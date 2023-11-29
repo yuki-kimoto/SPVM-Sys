@@ -12,7 +12,7 @@ SPVM::Sys::Socket::Sockaddr::Un - struct sockaddr_un in the C language
 
 =head1 Description
 
-C<Sys::Socket::Sockaddr::Un> is the class for the C<struct sockaddr_un> in C<C language>.
+C<Sys::Socket::Sockaddr::Un> is the class for the C<struct sockaddr_un> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

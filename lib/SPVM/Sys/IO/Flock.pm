@@ -13,7 +13,7 @@ SPVM::Sys::IO::Flock - struct flock in the C language
 
 =head1 Description
 
-C<Sys::IO::Flock> is the class for C<struct flock> in C<C language>.
+C<Sys::IO::Flock> is the class for C<struct flock> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

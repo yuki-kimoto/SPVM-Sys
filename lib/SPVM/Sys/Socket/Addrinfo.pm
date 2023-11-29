@@ -12,7 +12,7 @@ SPVM::Sys::Socket::Addrinfo - struct addrinfo in the C language
 
 =head1 Description
 
-C<Sys::Socket::Addrinfo> is the class for the C<struct addrinfo> in C<C language>.
+C<Sys::Socket::Addrinfo> is the class for the C<struct addrinfo> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

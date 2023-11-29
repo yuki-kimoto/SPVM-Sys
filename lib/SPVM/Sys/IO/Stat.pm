@@ -23,7 +23,7 @@ SPVM::Sys::IO::Stat - The stat Functions and The struct stat in the C language
 
 =head1 Description
 
-C<Sys::IO::Stat> is the class for the C<struct stat> in C<C language>.
+C<Sys::IO::Stat> is the class for the C<struct stat> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

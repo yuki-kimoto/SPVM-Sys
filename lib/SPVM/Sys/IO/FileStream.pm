@@ -4,7 +4,7 @@ package SPVM::Sys::IO::FileStream;
 
 =head1 Name
 
-SPVM::Sys::IO::FileStream - the class for the C<FILE> type in C<C language>.
+SPVM::Sys::IO::FileStream - the class for the C<FILE> type in the C language.
 
 =head1 Usage
   
@@ -18,7 +18,7 @@ SPVM::Sys::IO::FileStream - the class for the C<FILE> type in C<C language>.
 
 =head1 Description
 
-C<Sys::IO::FileStream> is the class for the C<FILE> type in C<C language>.
+C<Sys::IO::FileStream> is the class for the C<FILE> type in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

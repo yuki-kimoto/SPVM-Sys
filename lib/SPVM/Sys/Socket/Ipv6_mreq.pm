@@ -12,7 +12,7 @@ SPVM::Sys::Socket::Ipv6_mreq - struct ipv6_mreq in the C language
 
 =head1 Description
 
-C<Sys::Socket::Ipv6_mreq> is the class for the C<struct ipv6_mreq> in C<C language>.
+C<Sys::Socket::Ipv6_mreq> is the class for the C<struct ipv6_mreq> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

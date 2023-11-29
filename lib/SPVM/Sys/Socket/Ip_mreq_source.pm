@@ -12,7 +12,7 @@ SPVM::Sys::Socket::Ip_mreq_source - struct ip_mreq_source in the C language
 
 =head1 Description
 
-C<Sys::Socket::In_addr> is the class for the C<struct ip_mreq_source> in C<C language>.
+C<Sys::Socket::In_addr> is the class for the C<struct ip_mreq_source> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

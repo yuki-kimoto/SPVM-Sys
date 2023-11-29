@@ -12,7 +12,7 @@ SPVM::Sys::Socket::Sockaddr::In6 - struct sockaddr_in6 in the C language
 
 =head1 Description
 
-C<Sys::Socket::Sockaddr::In6> is the class for the C<struct sockaddr_in6> in C<C language>.
+C<Sys::Socket::Sockaddr::In6> is the class for the C<struct sockaddr_in6> in the C language.
 
 This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 

@@ -20,7 +20,7 @@ SPVM::Sys::Time::Itimerval - struct timeval in the C language
 
 =head1 Description
 
-C<Sys::Time::Itimerval> represents C<struct timeval> in C<C language>.
+C<Sys::Time::Itimerval> represents C<struct timeval> in the C language.
 
 See L<gettimeofday(2) - Linux man page|https://linux.die.net/man/2/gettimeofday> about C<struct timeval> in Linux.
 

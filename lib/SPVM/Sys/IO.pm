@@ -590,7 +590,7 @@ The same as the following code using L</"setvbuf">.
 
 C<static method stdin : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stdin> in C<C language> returns.
+Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stdin> in the C language returns.
 
 See L<stdin(3) - Linux man page|https://linux.die.net/man/3/stdin> in Linux.
 
@@ -598,7 +598,7 @@ See L<stdin(3) - Linux man page|https://linux.die.net/man/3/stdin> in Linux.
 
 C<static method stdout : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stdout> in C<C language> returns.
+Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stdout> in the C language returns.
 
 See L<stdout(3) - Linux man page|https://linux.die.net/man/3/stdout> in Linux.
 
@@ -606,7 +606,7 @@ See L<stdout(3) - Linux man page|https://linux.die.net/man/3/stdout> in Linux.
 
 C<static method stderr : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stderr> in C<C language> returns.
+Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stderr> in the C language returns.
 
 See L<stderr(3) - Linux man page|https://linux.die.net/man/3/stderr> in Linux.
 
