@@ -103,12 +103,11 @@ class TestCase::Sys::Time {
 
   static method setitimer : int () {
     
-    my $new_tv = Sys::Time::Timeval->new;
-    $new_tv->set_tv_sec(1);
+    my $new_tv = Sys::Time::Timeval->new(1, 1);
     
     my $new_value = Sys::Time::Itimerval->new;
     $new_value->set_it_interval($new_tv);
-
+    
     my $old_value = Sys::Time::Itimerval->new;
     
     my $status = Sys::Time->setitimer(TIME->ITIMER_REAL, $new_value, $old_value);
