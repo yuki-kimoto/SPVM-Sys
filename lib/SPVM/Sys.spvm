@@ -17,6 +17,7 @@ class Sys {
   use Format;
   use Sys::IO::Constant as IO;
   use Sys::Signal;
+  use Sys::Time::Util;
   
   static method osname : string () {
     my $osname : string;
@@ -599,7 +600,7 @@ class Sys {
     
     my $timeout_tv = (Sys::Time::Timeval)undef;
     if ($timeout >= 0) {
-      $timeout_tv = &float_seconds_to_timeval($timeout);
+      $timeout_tv = Sys::Time::Util->float_seconds_to_timeval($timeout);
     }
     else {
       $timeout_tv = undef;
@@ -608,25 +609,6 @@ class Sys {
     my $fd_number = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout_tv);
     
     return $fd_number;
-  }
-  
-  private static method float_seconds_to_timeval : Sys::Time::Timeval ($float_seconds : double) {
-    
-    unless ($float_seconds >= 0) {
-      die "\$float_seconds must be greater than or equal to 0.";
-    }
-    
-    my $sec = (long)$float_seconds;
-    
-    my $usec = (long)(($float_seconds - $sec) * 1_000_000);
-    
-    my $tv = Sys::Time::Timeval->new;
-    
-    $tv->set_tv_sec($sec);
-    
-    $tv->set_tv_usec($usec);
-    
-    return $tv;
   }
   
   static method bind : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
