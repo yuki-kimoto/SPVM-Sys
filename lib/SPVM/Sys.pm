@@ -430,13 +430,13 @@ Returns the current epoch time.
 
 C<static method localtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
 
-Converts a time as returned by the time function to a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object with the time analyzed for the local time zone. The same as the Perl L<localtime|https://perldoc.perl.org/functions/localtime>.
+Converts a time to a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object, and returns it.
 
 =head2 gmtime
 
 C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
 
-Works just like localtime, but the returned values are localized for the standard Greenwich time zone. The same as the Perl L<gmtime|https://perldoc.perl.org/functions/gmtime>.
+Works just like L</"localtime">, but the returned values are localized for the standard Greenwich time zone.
 
 =head2 process_id
 
