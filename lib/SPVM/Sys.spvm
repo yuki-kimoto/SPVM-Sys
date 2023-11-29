@@ -1012,7 +1012,9 @@ class Sys {
     Sys::Signal->alarm($seconds);
   }
   
-  static method pipe : void ($pipe_fds : int[]) {
+  static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*) {
+    
+    my $pipe_fds = new int[2];
     
     if (Sys::OS->is_windows) {
       Sys::Process->_pipe($pipe_fds, 0, IO->O_BINARY);
@@ -1024,6 +1026,10 @@ class Sys {
       
       Sys->fcntl($pipe_fds->[1], IO->F_SETFD, IO->FD_CLOEXEC);
     }
+    
+    $$read_fd_ref = $pipe_fds->[0];
+    
+    $$write_fd_ref = $pipe_fds->[1];
   }
   
 }

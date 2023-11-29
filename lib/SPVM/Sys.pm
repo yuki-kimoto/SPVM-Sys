@@ -957,17 +957,11 @@ The exceptions thrown by the L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sy
 
 =head2 pipe
 
-C<static method pipe : void ($pipe_fds : int[]);>
+C<static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*);>
 
-Windows:
+Opens a pair of pipes.
 
-Calls the L<_pipe|SPVM::Sys::Process/"_pipe"> method in the L<Sys::Process|SPVM::Sys::Process> class.
-
-Other OSs:
-
-Calls the L<pipe|SPVM::Sys::Process/"pipe"> method in the L<Sys::Process|SPVM::Sys::Process> class.
-
-Set C<FD_CLOEXEC> flag to the opened filed descriptors.
+If the system supports C<FD_CLOEXEC>, this flag is set to $read_fd_ref and $write_fd_ref using L</"fcntl">.
 
 =head1 Modules
 

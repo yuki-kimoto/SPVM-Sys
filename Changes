@@ -13,6 +13,12 @@
       static method getgroups : int[] ();
       [After]
       static method getgroups : int ($size : int, $list : int[]);
+    * The definition of the pipe method in the Sys is changed.
+      [Before]
+      static method pipe : void ($pipe_fds : int[]);
+      
+      [After]
+      static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*);
       
   [Bug Fix with Incompatible Changes]
     * The S method in the Sys class returns 0 if the file do not exists.

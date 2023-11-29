@@ -65,7 +65,7 @@ class TestCase::Sys::Time {
     
     return 1;
   }
-
+  
   static method clock_gettime : int () {
     
     my $tp = Sys::Time::Timespec->new;
@@ -82,7 +82,7 @@ class TestCase::Sys::Time {
     
     return 1;
   }
-
+  
   static method clock_getres : int () {
     
     my $tp = Sys::Time::Timespec->new;

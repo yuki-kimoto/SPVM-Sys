@@ -206,25 +206,26 @@ class TestCase::Sys::Process {
     }
     
     {
-      my $fds = new int [2];
-      Sys->pipe($fds);
+      my $write_fd = -1;
+      my $read_fd = -1;
+      Sys->pipe(\$write_fd, \$read_fd);
       
-      unless ($fds->[0] > 0) {
+      unless ($write_fd > 0) {
         return 0;
       }
       
-      unless ($fds->[1] > 0) {
+      unless ($read_fd > 0) {
         return 0;
       }
       
       unless (Sys::OS->is_windows) {
-        my $flag0 = Sys->fcntl($fds->[0], IO->F_GETFD);
+        my $flag0 = Sys->fcntl($write_fd, IO->F_GETFD);
         
         unless ($flag0 & IO->FD_CLOEXEC) {
           return 0;
         }
         
-        my $flag1 = Sys->fcntl($fds->[1], IO->F_GETFD);
+        my $flag1 = Sys->fcntl($read_fd, IO->F_GETFD);
         
         unless ($flag1 & IO->FD_CLOEXEC) {
           return 0;
