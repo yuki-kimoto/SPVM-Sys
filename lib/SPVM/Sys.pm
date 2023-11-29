@@ -1073,6 +1073,8 @@ If the system supports C<FD_CLOEXEC>, this flag is set to $read_fd_ref and $writ
 
 =item * L<Sys::Time::Tms|SPVM::Sys::Time::Tms>
 
+=item * L<Sys::Time::Util|SPVM::Sys::Time::Util>
+
 =item * L<Sys::User|SPVM::Sys::User>
 
 =item * L<Sys::User::Group|SPVM::Sys::User::Group>

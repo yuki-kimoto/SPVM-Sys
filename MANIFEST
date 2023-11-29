@@ -205,6 +205,8 @@ lib/SPVM/Sys/Time/Tms.c
 lib/SPVM/Sys/Time/Tms.config
 lib/SPVM/Sys/Time/Tms.pm
 lib/SPVM/Sys/Time/Tms.spvm
+lib/SPVM/Sys/Time/Util.pm
+lib/SPVM/Sys/Time/Util.spvm
 lib/SPVM/Sys/User.c
 lib/SPVM/Sys/User.config
 lib/SPVM/Sys/User.pm
@@ -248,9 +250,11 @@ t/lib/SPVM/TestCase/Sys/Select.spvm
 t/lib/SPVM/TestCase/Sys/Signal.spvm
 t/lib/SPVM/TestCase/Sys/Socket.spvm
 t/lib/SPVM/TestCase/Sys/Time.spvm
+t/lib/SPVM/TestCase/Sys/Time/Util.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
 t/lib/TestUtil/ServerRunner.pm
 t/print_hello.pl
+t/Sys-Time-Util.t
 t/Sys.t
 t/Sys_IO.t
 t/Sys_IO_Stat.t
