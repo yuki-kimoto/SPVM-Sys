@@ -57,7 +57,6 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
   
-  errno = 0;
   int32_t status = stat(path, stat_buf);
   
   if (status == -1) {
@@ -92,7 +91,6 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_lstat);
   
-  errno = 0;
   int32_t status = lstat(path, stat_buf);
   
   if (status == -1) {
