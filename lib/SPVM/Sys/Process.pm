@@ -4,7 +4,11 @@ package SPVM::Sys::Process;
 
 =head1 Name
 
-SPVM::Sys::Process - Process System Call
+SPVM::Sys::Process - System Calls for Process Manipulation
+
+=head1 Description
+
+The Sys::Process class has methods to call system calls for process manipulation.
 
 =head1 Usage
   
@@ -24,19 +28,19 @@ SPVM::Sys::Process - Process System Call
   # sleep
   Sys::Process->sleep(5);
 
-=head1 Description
-
-C<Sys::Process> provides the methods to call the system call for the process manipulation.
-
 =head1 Class Methods
 
 =head2 fork
 
 C<static method fork : int ();>
 
-fork() creates a new process by duplicating the calling process. The new process, referred to as the child, is an exact duplicate of the calling process, referred to as the parent, except for the following points:
+Calls the L<fork|https://linux.die.net/man/2/fork> function and returns its return value.
 
-See the detail of the L<fork|https://linux.die.net/man/2/fork> function in the case of Linux.
+Exceptions:
+
+If the fork function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. fork is not supported in this system(defined(_WIN32)).
 
 =head2 getpriority
 
