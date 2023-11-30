@@ -932,6 +932,10 @@ class Sys {
     
     my $stream = Sys::IO->fopen($file_name, $open_mode);
     
+    unless (Sys::OS->is_windows) {
+      Sys->fcntl(Sys->fileno($stream), IO->F_SETFD, IO->FD_CLOEXEC);
+    }
+    
     $stream_ref->[0] = $stream;
   }
   
