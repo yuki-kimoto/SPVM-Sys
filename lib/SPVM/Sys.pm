@@ -967,6 +967,14 @@ Opens a pair of pipes.
 
 If the system supports C<FD_CLOEXEC>, this flag is set to $read_fd_ref and $write_fd_ref using L</"fcntl">.
 
+=head2 popen
+
+C<static method popen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $command : string);>
+
+=head2 pclose
+
+C<static method pclose : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
 =head1 Modules
 
 =over 2

@@ -221,4 +221,8 @@ class Sys::IO {
   native static method popen : Sys::IO::FileStream ($command : string, $type : string);
   
   native static method _popen : Sys::IO::FileStream ($command : string, $mode : string);
+  
+  native static method pclose : int ($stream : Sys::IO::FileStream);
+  
+  native static method _pclose : int ($stream : Sys::IO::FileStream);
 }

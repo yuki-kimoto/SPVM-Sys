@@ -1071,4 +1071,14 @@ class Sys {
     
     $stream_ref->[0] = $stream;
   }
+  
+  static method pclose : void ($stream : Sys::IO::FileStream) {
+    
+    if (Sys::OS->is_windows) {
+      Sys::IO->_pclose($stream);
+    }
+    else {
+      Sys::IO->pclose($stream);
+    }
+  }
 }
