@@ -2098,6 +2098,40 @@ C<static method popen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO:
 
 C<static method pclose : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
+=head2 fork
+
+C<static method fork : int ();>
+
+Forks the process by calling the L<fork|SPVM::Sys::Process/"fork"> method in the Sys::Process method.
+
+It returns the child process ID to the parent process, or returns 0 to the child process.
+
+Excetpions:
+
+Exceptions thrown by the L<fork|SPVM::Sys::Process/"fork"> method in the Sys::Process method could be thrown.
+
+=head2 getpriority
+
+C<static method getpriority : int ($which : int, $who : int);>
+
+Return the scheduling priority of the process, process group, or user, as indicated by $which and $who is obtained.
+
+Excetpions:
+
+Exceptions thrown by the L<getpriority|SPVM::Sys::Process/"getpriority"> method in the Sys::Process method could be thrown.
+
+=head2 setpriority
+
+C<static method setpriority : void ($which : int, $who : int, $prio : int)>
+
+Sets the scheduling priority of the process, process group, or user, as indicated by $which and $who is obtained.
+
+Excetpions:
+
+Exceptions thrown by the L<setpriority|SPVM::Sys::Process/"setpriority"> method in the Sys::Process method could be thrown.
+
+
+
 =head1 Modules
 
 =over 2

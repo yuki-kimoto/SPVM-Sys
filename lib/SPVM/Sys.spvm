@@ -1081,4 +1081,20 @@ class Sys {
       Sys::IO->pclose($stream);
     }
   }
+  
+  static method fork : int () {
+    my $child_process_id = Sys::Process->fork;
+    
+    return $child_process_id;
+  }
+  
+  static method getpriority : int ($which : int, $who : int) {
+    my $priority = Sys::Process->getpriority($which, $who);
+    
+    return $priority;
+  }
+  
+  static method setpriority : void ($which : int, $who : int, $prio : int) {
+    Sys::Process->setpriority($which, $who, $prio);
+  }
 }
