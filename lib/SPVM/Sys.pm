@@ -1659,12 +1659,6 @@ C<static method symlink : int ($oldpath : string, $newpath : string);>
 
 Creates a $newpath symbolically linked to $oldpath. The same as the Perl L<symlink|https://perldoc.perl.org/functions/symlink> function.
 
-=head2 sleep
-
-C<static method sleep : int ($seconds : int);>
-
-Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
-
 =head2 ioctl
 
 C<static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);>
@@ -2130,7 +2124,11 @@ Excetpions:
 
 Exceptions thrown by the L<setpriority|SPVM::Sys::Process/"setpriority"> method in the Sys::Process method could be thrown.
 
+=head2 sleep
 
+C<static method sleep : int ($seconds : int);>
+
+Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
 
 =head1 Modules
 

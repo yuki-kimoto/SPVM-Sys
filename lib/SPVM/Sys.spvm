@@ -577,11 +577,6 @@ class Sys {
     return $success;
   }
   
-  static method sleep : int ($seconds : int) {
-    my $slept_number = Sys::Process->sleep($seconds);
-    return $slept_number;
-  }
-  
   static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef) {
     my $ioctl_ret = -1;
     
@@ -1097,4 +1092,10 @@ class Sys {
   static method setpriority : void ($which : int, $who : int, $prio : int) {
     Sys::Process->setpriority($which, $who, $prio);
   }
+  
+  static method sleep : int ($seconds : int) {
+    my $slept_number = Sys::Process->sleep($seconds);
+    return $slept_number;
+  }
+  
 }
