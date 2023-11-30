@@ -233,11 +233,22 @@ class TestCase::Sys::Process {
 
   static method system : int () {
     
-    my $cmd = "perl -e \"warn qq(\\n[Test Output]system);\"";
-    my $status = Sys::Process->system($cmd);
+    {
+      my $cmd = "perl -e \"warn qq(\\n[Test Output]system);\"";
+      my $status = Sys::Process->system($cmd);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+    }
     
-    unless ($status == 0) {
-      return 0;
+    {
+      my $cmd = "perl -e \"warn qq(\\n[Test Output]system);\"";
+      my $status = Sys->system($cmd);
+      
+      unless ($status == 0) {
+        return 0;
+      }
     }
     
     return 1;

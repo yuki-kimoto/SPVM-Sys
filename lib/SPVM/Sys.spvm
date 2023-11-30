@@ -1078,12 +1078,14 @@ class Sys {
   }
   
   static method fork : int () {
+    
     my $child_process_id = Sys::Process->fork;
     
     return $child_process_id;
   }
   
   static method getpriority : int ($which : int, $who : int) {
+    
     my $priority = Sys::Process->getpriority($which, $who);
     
     return $priority;
@@ -1094,7 +1096,9 @@ class Sys {
   }
   
   static method sleep : int ($seconds : int) {
+    
     my $slept_number = Sys::Process->sleep($seconds);
+    
     return $slept_number;
   }
   
@@ -1112,4 +1116,10 @@ class Sys {
     return $process_id;
   }
   
+  static method system : int ($command : string) {
+    
+    my $wstatus = Sys::Process->system($command);
+    
+    return $wstatus;
+  }
 }

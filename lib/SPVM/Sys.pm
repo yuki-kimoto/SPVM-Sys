@@ -1055,6 +1055,12 @@ Excetpions:
 
 Exceptions thrown by the L<waitpid|SPVM::Sys::Process/"waitpid"> method in the Sys::Process method could be thrown.
 
+=head2 system
+
+C<static method system : int ($command : string);>
+
+Executes a command specified in command using shell and return the L</"wait"> status.
+
 =head1 Modules
 
 =over 2
