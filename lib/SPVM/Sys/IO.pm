@@ -630,7 +630,7 @@ Returns the stdin opened by the SPVM language.
 
 =head2 popen
 
-C<static method popen : Sys::IO::FileStream ($command : string, $type : string);>
+C<static method popen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($command : string, $type : string);>
 
 Calls the L<popen|https://linux.die.net/man/3/popen> function and returns its return value.
 
@@ -644,7 +644,7 @@ If the popen function failed, an exception is thrown with C<eval_error_id> set t
 
 =head2 _popen
 
-C<static method _popen : Sys::IO::FileStream ($command : string, $type : string);>
+C<static method _popen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($command : string, $type : string);>
 
 Calls the L<_popen|https://learn.microsoft.com/ja-jp/cpp/c-runtime-library/reference/popen-wpopen?view=msvc-170> function and returns its return value.
 
@@ -655,6 +655,30 @@ $command must be defined. Otherwise an exception is thrown.
 $type must be defined. Otherwise an exception is thrown.
 
 If the _popen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 pclose
+
+C<static method pclose : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Calls the L<pclose|https://linux.die.net/man/3/pclose> function and returns its return value.
+
+Exceptions:
+
+$stream must be defined. Otherwise an exception is thrown.
+
+If the pclose function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 _pclose
+
+C<static method _pclose : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Calls the L<_pclose|https://learn.microsoft.com/ja-jp/cpp/c-runtime-library/reference/pclose?view=msvc-170> function and returns its return value.
+
+Exceptions:
+
+$stream must be defined. Otherwise an exception is thrown.
+
+If the _pclose function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head1 Copyright & License
 

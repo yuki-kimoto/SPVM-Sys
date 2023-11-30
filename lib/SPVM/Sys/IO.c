@@ -1717,14 +1717,14 @@ int32_t SPVM__Sys__IO___popen(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* command = env->get_chars(env, stack, obj_command);
   
-  void* obj_mode = stack[1].oval;
+  void* obj_type = stack[1].oval;
   
-  if (!obj_mode) {
-    return env->die(env, stack, "$mode must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!obj_type) {
+    return env->die(env, stack, "$type must be defined.", __func__, FILE_NAME, __LINE__);
   }
-  const char* mode = env->get_chars(env, stack, obj_mode);
+  const char* type = env->get_chars(env, stack, obj_type);
   
-  FILE* stream = _popen(command, mode);
+  FILE* stream = _popen(command, type);
   
   if (!stream) {
     env->die(env, stack, "[System Error]_popen failed:%s.", env->strerror(env, stack, errno, 0), command, __func__, FILE_NAME, __LINE__);
@@ -1743,3 +1743,54 @@ int32_t SPVM__Sys__IO___popen(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
+int32_t SPVM__Sys__IO__pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if defined(_WIN32)
+  env->die(env, stack, "pclose is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  int32_t error_id = 0;
+  
+  void* obj_stream = stack[0].oval;
+  if (!obj_stream) {
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t status = pclose(stream);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]pclose failed:%s.", env->strerror(env, stack, errno, 0), stream, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__IO___pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  env->die(env, stack, "_pclose is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  int32_t error_id = 0;
+  
+  void* obj_stream = stack[0].oval;
+  if (!obj_stream) {
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t status = _pclose(stream);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]_pclose failed:%s.", env->strerror(env, stack, errno, 0), stream, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
