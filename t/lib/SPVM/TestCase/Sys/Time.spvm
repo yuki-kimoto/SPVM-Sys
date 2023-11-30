@@ -21,19 +21,19 @@ class TestCase::Sys::Time {
     
     return $time;
   }
-
+  
   static method localtime : Sys::Time::Tm ($time : long) {
-    my $time_info = Sys::Time->localtime($time);
+    my $time_info = Sys::Time->localtime(\$time);
     
     return $time_info;
   }
-
+  
   static method gmtime : Sys::Time::Tm ($time : long) {
-    my $time_info = Sys::Time->gmtime($time);
+    my $time_info = Sys::Time->gmtime(\$time);
     
     return $time_info;
   }
-
+  
   static method gettimeofday : int () {
     
     my $tv = Sys::Time::Timeval->new;

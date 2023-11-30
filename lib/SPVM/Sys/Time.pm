@@ -30,13 +30,13 @@ Calls the L<time|https://linux.die.net/man/2/time> function and returns its retu
 
 =head2 localtime
 
-C<static method localtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
+C<static method localtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time_ref : long*);>
 
 Calls the L<localtime|https://linux.die.net/man/3/localtime> function and creates a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object given its return value, and returns it.
 
 =head2 gmtime
 
-C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
+C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time_ref : long*);>
 
 Calls the L<gmtime|https://linux.die.net/man/3/gmtime> function and creates a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object given its return value, and returns it.
 

@@ -11,9 +11,9 @@ class Sys::Time {
   
   native static method time : long ();
   
-  native static method localtime : Sys::Time::Tm ($time : long);
+  native static method localtime : Sys::Time::Tm ($time_ref : long*);
   
-  native static method gmtime : Sys::Time::Tm ($time : long);
+  native static method gmtime : Sys::Time::Tm ($time_ref : long*);
   
   native static method gettimeofday : int ($tv : Sys::Time::Timeval, $tz : Sys::Time::Timezone);
   

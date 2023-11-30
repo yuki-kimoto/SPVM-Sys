@@ -467,12 +467,12 @@ class Sys {
   }
   
   static method localtime : Sys::Time::Tm ($time : long) {
-    my $tm = Sys::Time->localtime($time);
+    my $tm = Sys::Time->localtime(\$time);
     return $tm;
   }
   
   static method gmtime : Sys::Time::Tm ($time : long) {
-    my $tm = Sys::Time->gmtime($time);
+    my $tm = Sys::Time->gmtime(\$time);
     return $tm;
   }
   

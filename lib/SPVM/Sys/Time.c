@@ -26,7 +26,10 @@ int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  time_t time = (time_t)stack[0].lval;
+  int64_t* time_ref = stack[0].lref;
+  
+  time_t time = *time_ref;
+  
   struct tm* st_tm = env->new_memory_block(env, stack, sizeof(struct tm));
   
 #ifdef _WIN32
@@ -47,7 +50,10 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  time_t time = (time_t)stack[0].lval;
+  int64_t* time_ref = stack[0].lref;
+  
+  time_t time = *time_ref;
+  
   struct tm* st_tm = env->new_memory_block(env, stack, sizeof(struct tm));
   
 #ifdef _WIN32
