@@ -178,7 +178,7 @@ $float_seconds must be greater than or equal to 0. Otherwise an exception is thr
 
 C<static method timeval_interval : double ($tv_a : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>, $tv_b : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>);>
 
-Calculates $tv_b - $tv_a and returns it as floating seconds.
+Calculates $tv_b minus $tv_a and returns it as floating seconds.
 
 This method may result in a loss of precision.
 
@@ -188,19 +188,11 @@ $tv_a must be defined. Otherwise an exception is thrown.
 
 $tv_b must be defined. Otherwise an exception is thrown.
 
-$tv_a->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
-
-$tv_a->tv_usec must be greater than or equal to 0. Otherwise an exception is thrown.
-
-$tv_b->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
-
-$tv_b->tv_usec must be greater than or equal to 0. Otherwise an exception is thrown.
-
 =head2 timespec_interval
 
 C<static method timespec_interval : double ($ts_a : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>, $ts_b : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>);>
 
-Calculates $ts_b - $ts_a and returns it as floating seconds.
+Calculates $ts_b minus $ts_a and returns it as floating seconds.
 
 This method may result in a loss of precision.
 
@@ -209,14 +201,6 @@ Excetpions:
 $ts_a must be defined. Otherwise an exception is thrown.
 
 $ts_b must be defined. Otherwise an exception is thrown.
-
-$ts_a->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
-
-$ts_a->tv_nsec must be greater than or equal to 0. Otherwise an exception is thrown.
-
-$ts_b->tv_sec must be greater than or equal to 0. Otherwise an exception is thrown.
-
-$ts_b->tv_nsec must be greater than or equal to 0. Otherwise an exception is thrown.
 
 =head2 add_timespec
 
@@ -235,6 +219,30 @@ $diff_ts must be defined. Otherwise an exception is thrown.
 C<static method add_timeval : Sys::Time::Timeval ($tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>, $diff_tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>);>
 
 Returns $tv plus $diff_tv.
+
+Excetpions:
+
+$tv must be defined. Otherwise an exception is thrown.
+
+$diff_tv must be defined. Otherwise an exception is thrown.
+
+=head2 subtract_timespec
+
+C<static method subtract_timespec : Sys::Time::Timespec ($ts : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>, $diff_ts : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec>);>
+
+Returns $ts minus $diff_ts.
+
+Excetpions:
+
+$ts must be defined. Otherwise an exception is thrown.
+
+$diff_ts must be defined. Otherwise an exception is thrown.
+
+=head2 subtract_timeval
+
+C<static method subtract_timeval : Sys::Time::Timeval ($tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>, $diff_tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>);>
+
+Returns $tv minus $diff_tv.
 
 Excetpions:
 

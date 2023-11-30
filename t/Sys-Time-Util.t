@@ -40,4 +40,8 @@ ok(SPVM::TestCase::Sys::Time::Util->add_timespec);
 
 ok(SPVM::TestCase::Sys::Time::Util->add_timeval);
 
+ok(SPVM::TestCase::Sys::Time::Util->subtract_timespec);
+
+ok(SPVM::TestCase::Sys::Time::Util->subtract_timeval);
+
 done_testing;

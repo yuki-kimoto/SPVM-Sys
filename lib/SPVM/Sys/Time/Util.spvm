@@ -227,31 +227,9 @@ class Sys::Time::Util {
       die "\$tv_b must be defined.";
     }
     
-    my $tv_a_sec = $tv_a->tv_sec;
+    my $diff_tv = &subtract_timeval($tv_b, $tv_a);
     
-    unless ($tv_a_sec >= 0) {
-      die "\$tv_a->tv_sec must be greater than or equal to 0.";
-    }
-    
-    my $tv_a_usec = $tv_a->tv_usec;
-    
-    unless ($tv_a_usec >= 0) {
-      die "\$tv_a->tv_usec must be greater than or equal to 0.";
-    }
-    
-    my $tv_b_sec = $tv_b->tv_sec;
-    
-    unless ($tv_b_sec >= 0) {
-      die "\$tv_b->tv_sec must be greater than or equal to 0.";
-    }
-    
-    my $tv_b_usec = $tv_b->tv_usec;
-    
-    unless ($tv_b_usec >= 0) {
-      die "\$tv_b->tv_usec must be greater than or equal to 0.";
-    }
-    
-    my $tv_interval = ($tv_b_sec - $tv_a_sec) + (double)($tv_b_usec - $tv_a_usec) / 1_000_000;
+    my $tv_interval = &timeval_to_float_seconds($diff_tv);
     
     return $tv_interval;
   }
@@ -266,33 +244,11 @@ class Sys::Time::Util {
       die "\$ts_b must be defined.";
     }
     
-    my $ts_a_sec = $ts_a->tv_sec;
+    my $diff_ts = &subtract_timespec($ts_b, $ts_a);
     
-    unless ($ts_a_sec >= 0) {
-      die "\$ts_a->tv_sec must be greater than or equal to 0.";
-    }
+    my $ts_interval = &timespec_to_float_seconds($diff_ts);
     
-    my $ts_a_nsec = $ts_a->tv_nsec;
-    
-    unless ($ts_a_nsec >= 0) {
-      die "\$ts_a->tv_nsec must be greater than or equal to 0.";
-    }
-    
-    my $ts_b_sec = $ts_b->tv_sec;
-    
-    unless ($ts_b_sec >= 0) {
-      die "\$ts_b->tv_sec must be greater than or equal to 0.";
-    }
-    
-    my $ts_b_nsec = $ts_b->tv_nsec;
-    
-    unless ($ts_b_nsec >= 0) {
-      die "\$ts_b->tv_nsec must be greater than or equal to 0.";
-    }
-    
-    my $ts_interspec = ($ts_b_sec - $ts_a_sec) + (double)($ts_b_nsec - $ts_a_nsec) / 1_000_000_000;
-    
-    return $ts_interspec;
+    return $ts_interval;
   }
   
   static method add_timespec : Sys::Time::Timespec ($ts : Sys::Time::Timespec, $diff_ts : Sys::Time::Timespec) {
@@ -344,6 +300,70 @@ class Sys::Time::Util {
     my $result_sec = $tv_sec + $diff_tv->tv_sec;
     
     my $result_usec = $tv_usec + $diff_tv->tv_usec;
+    
+    if ($result_usec >= 1_000_000) {
+      $result_sec += 1;
+      $result_usec -= 1_000_000;
+    }
+    elsif ($result_usec < 0) {
+      $result_sec -= 1;
+      $result_usec = 1_000_000 + $result_usec;
+    }
+    
+    my $result = Sys::Time::Timeval->new($result_sec, $result_usec);
+    
+    return $result;
+  }
+  
+  static method subtract_timespec : Sys::Time::Timespec ($ts : Sys::Time::Timespec, $diff_ts : Sys::Time::Timespec) {
+    
+    unless ($ts) {
+      die "\$ts must be defined.";
+    }
+    
+    unless ($diff_ts ) {
+      die "\$diff_ts  must be defined.";
+    }
+    
+    my $ts_sec = $ts->tv_sec;
+    
+    my $ts_nsec = $ts->tv_nsec;
+    
+    my $result_sec = $ts_sec - $diff_ts->tv_sec;
+    
+    my $result_nsec = $ts_nsec - $diff_ts->tv_nsec;
+    
+    if ($result_nsec >= 1_000_000_000) {
+      $result_sec += 1;
+      $result_nsec -= 1_000_000_000;
+    }
+    elsif ($result_nsec < 0) {
+      $result_sec -= 1;
+      $result_nsec = 1_000_000_000 + $result_nsec;
+    }
+    
+    my $result = Sys::Time::Timespec->new($result_sec, $result_nsec);
+    
+    return $result;
+  }
+  
+  static method subtract_timeval : Sys::Time::Timeval ($tv : Sys::Time::Timeval, $diff_tv : Sys::Time::Timeval) {
+    
+    unless ($tv) {
+      die "\$ts must be defined.";
+    }
+    
+    unless ($diff_tv ) {
+      die "\$diff_tv  must be defined.";
+    }
+    
+    my $tv_sec = $tv->tv_sec;
+    
+    my $tv_usec = $tv->tv_usec;
+    
+    my $result_sec = $tv_sec - $diff_tv->tv_sec;
+    
+    my $result_usec = $tv_usec - $diff_tv->tv_usec;
     
     if ($result_usec >= 1_000_000) {
       $result_sec += 1;
