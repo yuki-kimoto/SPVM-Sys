@@ -4,17 +4,15 @@ package SPVM::Sys::Process::Constant;
 
 =head1 Name
 
-SPVM::Sys::Process::Constant - Constant Values for Process
+SPVM::Sys::Process::Constant - Constant Values for Process Manipulation
+
+=head1 Description
+
+The Sys::Process::Constant class of L<SPVM> has methods to get constant values for process manipulation.
 
 =head1 Usage
 
-  use Sys::Process::Constant as Proc;
-  
-  my $value = Proc->EXIT_FAILURE;
-  
-=head1 Description
-
-C<Sys::Process::Constant> provides the methods for the constant values for the process manipulation.
+  use Sys::Process::Constant;
 
 =head1 Class Methods
 
