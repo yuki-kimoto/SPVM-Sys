@@ -628,6 +628,20 @@ C<static method spvm_stderr : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> (
 
 Returns the stdin opened by the SPVM language.
 
+=head2 popen
+
+C<static method popen : Sys::IO::FileStream ($command : string, $type : string);>
+
+Calls the L<popen|https://linux.die.net/man/3/popen> function and returns its return value.
+
+Exceptions:
+
+$command must be defined. Otherwise an exception is thrown.
+
+$type must be defined. Otherwise an exception is thrown.
+
+If the popen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

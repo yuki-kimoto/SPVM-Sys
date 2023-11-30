@@ -217,4 +217,6 @@ class Sys::IO {
   }
   
   native static method utimes : int ($filename : string, $times : Sys::Time::Timeval[]);
+  
+  native static method popen : Sys::IO::FileStream ($command : string, $type : string);
 }
