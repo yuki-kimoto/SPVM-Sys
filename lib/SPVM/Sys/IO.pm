@@ -642,6 +642,20 @@ $type must be defined. Otherwise an exception is thrown.
 
 If the popen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+=head2 _popen
+
+C<static method _popen : Sys::IO::FileStream ($command : string, $type : string);>
+
+Calls the L<_popen|https://learn.microsoft.com/ja-jp/cpp/c-runtime-library/reference/popen-wpopen?view=msvc-170> function and returns its return value.
+
+Exceptions:
+
+$command must be defined. Otherwise an exception is thrown.
+
+$type must be defined. Otherwise an exception is thrown.
+
+If the _popen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

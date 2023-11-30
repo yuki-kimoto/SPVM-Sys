@@ -1704,3 +1704,42 @@ int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
+int32_t SPVM__Sys__IO___popen(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  env->die(env, stack, "_popen is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  int32_t error_id = 0;
+  
+  void* obj_command = stack[0].oval;
+  if (!obj_command) {
+    return env->die(env, stack, "$command must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* command = env->get_chars(env, stack, obj_command);
+  
+  void* obj_mode = stack[1].oval;
+  
+  if (!obj_mode) {
+    return env->die(env, stack, "$mode must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* mode = env->get_chars(env, stack, obj_mode);
+  
+  FILE* stream = _popen(command, mode);
+  
+  if (!stream) {
+    env->die(env, stack, "[System Error]_popen failed:%s.", env->strerror(env, stack, errno, 0), command, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_close", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+#endif
+}
+
