@@ -38,12 +38,20 @@ class TestCase::Sys::Process {
 
   static method getpriority : int () {
     
-    my $start = Sys::Time->time;
+    {
+      my $nice = Sys::Process->getpriority(PROCESS->PRIO_PROCESS, 0);
+      
+      unless ($nice >= -20 && $nice <= 19) {
+        return 0;
+      }
+    }
     
-    my $nice = Sys::Process->getpriority(PROCESS->PRIO_PROCESS, 0);
-    
-    unless ($nice >= -20 && $nice <= 19) {
-      return 0;
+    {
+      my $nice = Sys->getpriority(PROCESS->PRIO_PROCESS, 0);
+      
+      unless ($nice >= -20 && $nice <= 19) {
+        return 0;
+      }
     }
     
     # The constant values
@@ -58,20 +66,27 @@ class TestCase::Sys::Process {
 
   static method setpriority : int () {
     
-    my $start = Sys::Time->time;
-    
-    my $status = -1;
-    eval { $status = Sys::Process->setpriority(PROCESS->PRIO_PROCESS, 0, 0); };
-    
-    if ($@ && eval_error_id == basic_type_id Error::System) {
-      warn "\n[Test Output]setpriority:setpriority failed on this environment";
-    }
-    else {
-      unless ($status == 0) {
-        return 0;
+    {
+      my $status = -1;
+      eval { $status = Sys::Process->setpriority(PROCESS->PRIO_PROCESS, 0, 0); };
+      
+      if ($@ && eval_error_id == basic_type_id Error::System) {
+        warn "\n[Test Output]setpriority:setpriority failed on this environment";
+      }
+      else {
+        unless ($status == 0) {
+          return 0;
+        }
       }
     }
     
+    {
+      Sys->setpriority(PROCESS->PRIO_PROCESS, 0, 0);
+      
+      if ($@ && eval_error_id == basic_type_id Error::System) {
+        warn "\n[Test Output]setpriority:setpriority failed on this environment";
+      }
+    }
     return 1;
   }
   
