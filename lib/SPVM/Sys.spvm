@@ -1098,4 +1098,18 @@ class Sys {
     return $slept_number;
   }
   
+  static method wait : int ($wstatus_ref : int*) {
+    
+    my $process_id = Sys::Process->wait($wstatus_ref);
+    
+    return $process_id;
+  }
+  
+  static method waitpid : int ($pid : int, $options : int, $wstatus_ref : int*) {
+    
+    my $process_id = Sys::Process->waitpid($pid, $wstatus_ref, $options);
+    
+    return $process_id;
+  }
+  
 }

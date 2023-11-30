@@ -2128,7 +2128,55 @@ Exceptions thrown by the L<setpriority|SPVM::Sys::Process/"setpriority"> method 
 
 C<static method sleep : int ($seconds : int);>
 
-Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
+Sleeps for the seconds $seconds.
+
+=head2 wait
+
+C<static method wait : int ($wstatus_ref : int*);>
+
+Waits for state changes in a child of the calling process, and returns a process ID whose state is changed.
+
+The status about the child whose state has changed is set to $wstatus_ref.
+
+The following method in the Sys::Process class checks the value of $wstatus_ref.
+
+=over 2
+
+=item * L<WIFEXITED|SPVM::Sys::Process/"WIFEXITED">
+
+=item * L<WEXITSTATUS|SPVM::Sys::Process/"WEXITSTATUS">
+
+=item * L<WIFSIGNALED|SPVM::Sys::Process/"WIFSIGNALED">
+
+=item * L<WTERMSIG|SPVM::Sys::Process/"WTERMSIG">
+
+=item * L<WCOREDUMP|SPVM::Sys::Process/"WCOREDUMP">
+
+=item * L<WIFEXITED|SPVM::Sys::Process/"WIFEXITED">
+
+=item * L<WIFSTOPPED|SPVM::Sys::Process/"WIFSTOPPED">
+
+=item * L<WSTOPSIG|SPVM::Sys::Process/"WSTOPSIG">
+
+=item * L<WIFCONTINUED|SPVM::Sys::Process/"WIFCONTINUED">
+
+=back
+
+Excetpions:
+
+Exceptions thrown by the L<wait|SPVM::Sys::Process/"wait"> method in the Sys::Process method could be thrown.
+
+=head2 waitpid
+
+C<static method waitpid : int ($pid : in, $options : int, $wstatus_ref : int*);>
+
+Same as the L</"wait"> method, but can give the process ID $pid and the options $options.
+
+See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> about constant values given to $options.
+
+Excetpions:
+
+Exceptions thrown by the L<waitpid|SPVM::Sys::Process/"waitpid"> method in the Sys::Process method could be thrown.
 
 =head1 Modules
 
