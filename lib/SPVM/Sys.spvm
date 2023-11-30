@@ -1043,4 +1043,28 @@ class Sys {
     $$write_fd_ref = $pipe_fds->[1];
   }
   
+  static method popen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $command : string) {
+    
+    my $type = (string)undef;
+    if ($open_mode eq "|-") {
+      $type = "wb";
+    }
+    elsif ($open_mode eq "-|") {
+      $type = "rb";
+    }
+    else {
+      die "The open mode \"$open_mode\" is not available.";
+    }
+    
+    my $stream = (Sys::IO::FileStream)undef;
+    if (Sys::OS->is_windows) {
+      $stream = Sys::IO->_popen($command, $type);
+    }
+    else {
+      $stream = Sys::IO->popen($command, $type);
+      Sys->fcntl(Sys->fileno($stream), IO->F_SETFD, IO->FD_CLOEXEC);
+    }
+    
+    $stream_ref->[0] = $stream;
+  }
 }

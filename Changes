@@ -12,7 +12,9 @@
       [After]
       static method gmtime : Sys::Time::Tm ($time_ref : long*);
   [New Features]
-    * Add the popen method to the Sys::IO.
+    * Add the popen method to the Sys::IO class.
+    * Add the _popen method to the Sys::IO class.
+    * Add the popen method to the Sys class
 0.505 2023-11-30
   [Incompatible Changes]
     * The timeval_interval method in the Sys::Time::Util do not throw an exception if tv_sec and tv_usec is a negative value.
