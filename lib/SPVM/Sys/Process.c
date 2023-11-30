@@ -93,6 +93,22 @@ int32_t SPVM__Sys__Process__sleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int64_t usec = stack[0].lval;
+  
+  int32_t status = usleep(usec);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]usleep failed.", __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Process__wait(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   env->die(env, stack, "wait is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -318,6 +334,10 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* path = env->get_chars(env, stack, obj_path);
   
   void* obj_args = stack[1].oval;
+  if (!obj_args) {
+    return env->die(env, stack, "$args must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
   char** argv;
   int32_t args_length = 0;
   if (obj_args) {
@@ -329,9 +349,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
       argv[i] = arg;
     }
   }
-  else {
-    argv = env->new_memory_block(env, stack, sizeof(char*) * 1);
-  }
+  
   assert(argv[args_length] == NULL);
   
   int32_t status = execv(path, argv);
@@ -442,21 +460,5 @@ int32_t SPVM__Sys__Process__WIFCONTINUED(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #endif
 
-}
-
-int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int64_t usec = stack[0].lval;
-  
-  int32_t status = usleep(usec);
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]usleep failed.", __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-
-  stack[0].ival = status;
-  
-  return 0;
 }
 
