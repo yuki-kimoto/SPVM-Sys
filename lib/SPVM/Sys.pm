@@ -432,12 +432,6 @@ C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
 
 Works just like L</"localtime">, but the returned values are localized for the standard Greenwich time zone.
 
-=head2 process_id
-
-C<static method process_id : int ();>
-
-Gets the process number of the running this program. The same as the Perl L<$$|https://perldoc.perl.org/perlvar#$PROCESS_ID>.
-
 =head2 stat
 
 C<static method stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
@@ -1066,6 +1060,12 @@ C<static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*);>
 Opens a pair of pipes.
 
 If the system supports C<FD_CLOEXEC>, this flag is set to $read_fd_ref and $write_fd_ref using L</"fcntl">.
+
+=head2 process_id
+
+C<static method process_id : int ();>
+
+Gets the process number of the running this program. The same as the Perl L<$$|https://perldoc.perl.org/perlvar#$PROCESS_ID>.
 
 =head1 Modules
 

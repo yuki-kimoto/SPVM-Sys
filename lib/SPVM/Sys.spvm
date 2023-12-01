@@ -476,11 +476,6 @@ class Sys {
     return $tm;
   }
   
-  static method process_id : int () {
-    my $process_id = Sys::Process->getpid();
-    return $process_id;
-  }
-  
   static method stat : Sys::IO::Stat ($path : string) {
     my $stat = Sys::IO::Stat->new;
     Sys::IO::Stat->stat($path, $stat);
@@ -1126,6 +1121,11 @@ class Sys {
     $$read_fd_ref = $pipe_fds->[0];
     
     $$write_fd_ref = $pipe_fds->[1];
+  }
+  
+  static method process_id : int () {
+    my $process_id = Sys::Process->getpid();
+    return $process_id;
   }
   
 }
