@@ -1095,6 +1095,86 @@ Examples:
 
   Sys->exec("/bin/echo", ["-n", "Hello"]);
 
+=head2 real_user_id
+
+C<static method real_user_id : int ();>
+
+=head2 effective_user_id
+
+C<static method effective_user_id : int ();>
+
+=head2 real_group_id
+
+C<static method real_group_id : int ();>
+
+=head2 effective_group_id
+
+C<static method effective_group_id : int ();>
+
+=head2 set_real_user_id
+
+C<static method set_real_user_id : int ($uid : int);>
+
+=head2 set_effective_user_id
+
+C<static method set_effective_user_id : int ($euid : int);>
+
+=head2 set_real_group_id
+
+C<static method set_real_group_id : int ($gid : int);>
+
+=head2 set_effective_group_id
+
+C<static method set_effective_group_id : int ($egid : int);>
+
+=head2 setpwent
+
+C<static method setpwent : void ();>
+
+=head2 endpwent
+
+C<static method endpwent : void ();>
+
+=head2 getpwent
+
+C<static method getpwent : Sys::User::Passwd ();>
+
+=head2 setgrent
+
+C<static method setgrent : void ();>
+
+=head2 endgrent
+
+C<static method endgrent : void ();>
+
+=head2 getgrent
+
+C<static method getgrent : Sys::User::Group ();>
+
+=head2 getgroups
+
+C<static method getgroups : int[] ();>
+
+=head2 setgroups
+
+C<static method setgroups : void ($groups : int[]);>
+
+=head2 getpwuid
+
+C<static method getpwuid : Sys::User::Passwd ($id : int);>
+
+=head2 getpwnam
+
+C<static method getpwnam : Sys::User::Passwd ($name : string);>
+
+=head2 getgrgid
+
+C<static method getgrgid : Sys::User::Group ($id : int);>
+
+=head2 getgrnam
+
+C<static method getgrnam : Sys::User::Group ($name : string);>
+
 =head1 Modules
 
 =over 2

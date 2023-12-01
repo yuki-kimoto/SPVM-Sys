@@ -1167,4 +1167,121 @@ class Sys {
     
     Sys::Process->execv($program, $execv_args);
   }
+  
+  static method real_user_id : int () {
+    
+    my $real_user_id = Sys::User->getuid;
+    
+    return $real_user_id;
+  }
+  
+  static method effective_user_id : int () {
+    
+    my $effective_user_id = Sys::User->geteuid;
+    
+    return $effective_user_id;
+  }
+  
+  static method real_group_id : int () {
+    
+    my $real_group_id = Sys::User->getgid;
+    
+    return $real_group_id;
+  }
+  
+  static method effective_group_id : int () {
+    
+    my $effective_group_id = Sys::User->getegid();
+    
+    return $effective_group_id;
+  }
+  
+  static method set_real_user_id : int ($uid : int) {
+    Sys::User->setuid($uid);
+  }
+  
+  static method set_effective_user_id : int ($euid : int) {
+    Sys::User->seteuid($euid);
+  }
+  
+  static method set_real_group_id : int ($gid : int) {
+    Sys::User->setgid($gid);
+  }
+  
+  static method set_effective_group_id : int ($egid : int) {
+    Sys::User->setegid($egid);
+  }
+  
+  static method setpwent : void () {
+    Sys::User->setpwent;
+  }
+  
+  static method endpwent : void () {
+    Sys::User->endpwent;
+  }
+  
+  static method getpwent : Sys::User::Passwd () {
+    
+    my $pwent = Sys::User->getpwent;
+    
+    return $pwent;
+  }
+  
+  static method setgrent : void () {
+    Sys::User->setgrent;
+  }
+  
+  static method endgrent : void () {
+    Sys::User->endgrent;
+  }
+  
+  static method getgrent : Sys::User::Group () {
+    
+    my $grent = Sys::User->getgrent;
+    
+    return $grent;
+  }
+  
+  static method getgroups : int[] () {
+    
+    my $groups_length = Sys::User->getgroups(0, undef);
+    
+    my $groups = new int [$groups_length];
+    
+    Sys::User->getgroups($groups_length, $groups);
+    
+    return $groups;
+  }
+  
+  static method setgroups : void ($groups : int[]) {
+    Sys::User->setgroups($groups);
+  }
+  
+  static method getpwuid : Sys::User::Passwd ($id : int) {
+    
+    my $pwent = Sys::User->getpwuid($id);
+    
+    return $pwent;
+  }
+  
+  static method getpwnam : Sys::User::Passwd ($name : string) {
+    
+    my $pwent = Sys::User->getpwnam($name);
+    
+    return $pwent;
+  }
+  
+  static method getgrgid : Sys::User::Group ($id : int) {
+    
+    my $grent = Sys::User->getgrgid($id);
+    
+    return $grent;
+  }
+  
+  static method getgrnam : Sys::User::Group ($name : string) {
+    
+    my $grent = Sys::User->getgrnam($name);
+    
+    return $grent;
+  }
 }

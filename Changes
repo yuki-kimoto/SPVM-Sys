@@ -1,3 +1,49 @@
+0.507 2023-12-01
+
+  [New Features]
+    * Add the following user/group methods to the Sys class.
+    
+      real_user_id
+
+      effective_user_id
+
+      real_group_id
+
+      effective_group_id
+
+      set_real_user_id
+
+      set_effective_user_id
+
+      set_real_group_id
+
+      set_effective_group_id
+
+      setpwent
+
+      endpwent
+
+      getpwent
+
+      setgrent
+
+      endgrent
+
+      getgrent
+
+      getgroups
+
+      setgroups
+
+      getpwuid
+
+      getpwnam
+
+      getgrgid
+
+      getgrnam
+
+
 0.506 2023-12-01
   [Incompatible Changes]
     * The definition of the localtime method in the Sys::Time is changed.
