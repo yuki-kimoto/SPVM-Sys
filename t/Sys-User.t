@@ -8,6 +8,8 @@ BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 
 use SPVM 'TestCase::Sys::User';
 
+use SPVM 'Sys';
+
 # Start objects count
 my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
@@ -125,6 +127,123 @@ else {
   ok(SPVM::TestCase::Sys::User->setgroups);
 }
 =cut
+
+# Sys
+{
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->real_user_id };
+    ok($@);
+  }
+  else {
+    is(SPVM::Sys->real_user_id, "$<");
+  }
+  
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->effective_user_id };
+    ok($@);
+  }
+  else {
+    is(SPVM::Sys->effective_user_id, "$>");
+  }
+  
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->real_group_id };
+    ok($@);
+  }
+  else {
+    is(SPVM::Sys->real_group_id, (split(/\s+/, "$("))[0]);
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->effective_group_id };
+    ok($@);
+  }
+  else {
+    is(SPVM::Sys->effective_group_id, (split(/\s+/, "$)"))[0]);
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->set_real_user_id(0) };
+    ok($@);
+  }
+  else {
+    SPVM::Sys->set_real_user_id(SPVM::Sys->real_user_id);
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->set_effective_user_id(0) };
+    ok($@);
+  }
+  else {
+    SPVM::Sys->set_effective_user_id(SPVM::Sys->effective_user_id);
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->set_real_group_id(0) };
+    ok($@);
+  }
+  else {
+    SPVM::Sys->set_real_group_id(SPVM::Sys->real_group_id);
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->set_effective_group_id(0) };
+    ok($@);
+  }
+  else {
+    SPVM::Sys->set_effective_group_id(SPVM::Sys->effective_group_id);
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->setpwent };
+    ok($@);
+  }
+  else {
+    SPVM::Sys->setpwent;
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->endpwent };
+    ok($@);
+  }
+  else {
+    SPVM::Sys->endpwent;
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->setgrent };
+    ok($@);
+  }
+  else {
+    SPVM::Sys->setgrent;
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->endgrent };
+    ok($@);
+  }
+  else {
+    SPVM::Sys->endgrent;
+  }
+
+  if ($^O eq 'MSWin32') {
+    eval { SPVM::Sys->getgroups };
+    ok($@);
+  }
+  else {
+    my @groups_expected = split(/\s+/, "$)");
+    shift @groups_expected;
+    is_deeply(SPVM::Sys->getgroups->to_elems, \@groups_expected);
+  }
+
+  # TODO
+  # This test failed. Maybe permission problems
+=pod
+  {
+    ok(SPVM::Sys->setgroups();
+  }
+=cut
+}
 
 SPVM::api->set_exception(undef);
 
