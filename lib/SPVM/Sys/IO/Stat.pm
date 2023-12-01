@@ -11,7 +11,7 @@ SPVM::Sys::IO::Stat - The stat Functions and The struct stat in the C language
   use Sys::IO::Stat;
   
   my $file = "foo.txt";
-  my $stat = Sys::IO::Stat->new($file);
+  my $stat = Sys::IO::Stat->new;
   
   my $st_mode = $stat->st_mode;
   my $st_size = $stat->st_size;
@@ -31,11 +31,9 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 =head2 new
 
-C<static method new : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string = undef, $options : object[] = undef);>
+C<static method new : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ();>
 
 Creates a new C<Sys::IO::Stat> object.
-
-If $path is specified, L</"stat"> is called.
 
 =head2 stat
 

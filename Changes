@@ -1,3 +1,7 @@
+0.508 2023-12-01
+  [Document Fix]
+    * Fix the document of the new method in the Sys::Stat class. This method do not have arguments.
+    
 0.507 2023-12-01
 
   [New Features]
