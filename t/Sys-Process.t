@@ -65,10 +65,17 @@ ok(SPVM::TestCase::Sys::Process->system);
     my $status = system($exit_success_program);
     ok($status >> 8 == POSIX::EXIT_SUCCESS);
   }
+  
   {
     my $exit_failure_program = "$^X -Mblib $FindBin::Bin/exit_failure.pl";
     my $status = system($exit_failure_program);
     ok($status >> 8 == POSIX::EXIT_FAILURE);
+  }
+  
+  {
+    my $exit_failure_program = "$^X -Mblib $FindBin::Bin/sys_exit.pl";
+    my $status = system($exit_failure_program);
+    ok($status >> 8 == POSIX::EXIT_SUCCESS);
   }
 }
 

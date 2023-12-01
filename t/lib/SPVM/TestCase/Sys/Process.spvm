@@ -253,17 +253,22 @@ class TestCase::Sys::Process {
     
     return 1;
   }
-
+  
   static method exit_success : void () {
     
     Sys::Process->exit(PROCESS->EXIT_SUCCESS);
   }
-
+  
   static method exit_failure : void () {
     
     Sys::Process->exit(PROCESS->EXIT_FAILURE);
   }
-
+  
+  static method sys_exit_success : void () {
+    
+    Sys->exit(PROCESS->EXIT_SUCCESS);
+  }
+  
   static method pipe : int () {
     
     {

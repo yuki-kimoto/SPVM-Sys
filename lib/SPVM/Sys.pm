@@ -1061,6 +1061,12 @@ C<static method system : int ($command : string);>
 
 Executes a command specified in command using shell and return the L</"wait"> status.
 
+=head2 exit
+
+C<static method exit : void ($status : int);>
+
+Terminates the calling process immediately with the status $status.
+
 =head1 Modules
 
 =over 2

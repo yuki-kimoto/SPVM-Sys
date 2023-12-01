@@ -228,6 +228,7 @@ t/00_TestUtil_ServerRunner.t
 t/execv_success.pl
 t/exit_failure.pl
 t/exit_success.pl
+t/exit_sys_success.pl
 t/ftest/bar.txt
 t/ftest/dir_empty/.gitkeep
 t/ftest/file_bytes8.txt
@@ -270,4 +271,5 @@ t/Sys-Time-Util.t
 t/Sys-Time.t
 t/Sys-User.t
 t/Sys.t
+t/sys_exit.pl
 t/Sys_symlink.t

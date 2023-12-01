@@ -1122,4 +1122,9 @@ class Sys {
     
     return $wstatus;
   }
+  
+  static method exit : void ($status : int) {
+    
+    Sys::Process->exit($status);
+  }
 }
