@@ -25,9 +25,9 @@ The Sys::IO::Dirent class of L<SPVM> represents L<struct dirent|https://linux.di
   
   my $d_name = $dirent->d_name;
 
-=head1 Pointer Class
+=head1 Details
 
-This class is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+This class is a pointer class. The pointer of the instance is set to a C<struct dirent> object.
 
 =head1 Class Methods
 
