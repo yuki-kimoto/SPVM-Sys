@@ -4,28 +4,29 @@ package SPVM::Sys::IO::Stat;
 
 =head1 Name
 
-SPVM::Sys::IO::Stat - The stat Functions and The struct stat in the C language
+SPVM::Sys::IO::Stat - struct stat in the C language
+
+=head1 Description
+
+The Sys::IO::Stat class represents C<struct stat> in the C language, and has utility methods for the structure.
 
 =head1 Usage
-  
+
   use Sys::IO::Stat;
   
   my $file = "foo.txt";
   my $stat = Sys::IO::Stat->new;
   
+  Sys::IO::Stat->stat($file, $stat);
+  
+  Sys::IO::Stat->lstat($file, $stat);
+  
   my $st_mode = $stat->st_mode;
   my $st_size = $stat->st_size;
-  
-  # More native
-  my $stat = Sys::IO::Stat->new;
-  Sys::IO::Stat->stat($file, $stat);
-  Sys::IO::Stat->lstat($file, $stat);
 
-=head1 Description
+=head1 Details
 
-C<Sys::IO::Stat> is the class for the C<struct stat> in the C language.
-
-This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+This class is a pointer class. The pointer of the instance is set to a C<struct stat> object.
 
 =head1 Class Methods
 
@@ -33,41 +34,49 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 C<static method new : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ();>
 
-Creates a new C<Sys::IO::Stat> object.
+Creates a new L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 =head2 stat
 
 C<static method stat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
 
-These functions return information about a file. No permissions are required on the file itself, but-in the case of stat() and lstat() - execute (search) permission is required on all of the directories in path that lead to the file.
+Calls the L<stat|https://linux.die.net/man/2/stat> function and returns its return value.
 
-stat() stats the file pointed to by path and fills in buf.
+Exceptions:
 
-See the L<stat|https://linux.die.net/man/2/stat> function in Linux.
+$path must be defined. Otherwise an exception is thrown.
 
-The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+$stat must be defined. Otherwise an exception is thrown.
+
+If the stat function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 lstat
 
 C<static method lstat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
 
-These functions return information about a file. No permissions are required on the file itself, but-in the case of stat() and lstat() - execute (search) permission is required on all of the directories in path that lead to the file.
+Calls the L<lstat|https://linux.die.net/man/2/lstat> function and returns its return value.
 
-lstat() is identical to stat(), except that if path is a symbolic link, then the link itself is stat-ed, not the file that it refers to.
+Exceptions:
 
-See the L<lstat|https://linux.die.net/man/2/lstat> function in Linux.
+$path must be defined. Otherwise an exception is thrown.
 
-The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+$stat must be defined. Otherwise an exception is thrown.
+
+If the lstat function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 fstat
 
 C<static method fstat : int ($fd : int, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
 
-fstat() is identical to stat(), except that the file to be stat-ed is specified by the file descriptor fd.
+Calls the L<fstat|https://linux.die.net/man/2/fstat> function and returns its return value.
 
-See L<fstat(2) - Linux man page|https://linux.die.net/man/2/fsync> in Linux.
+Exceptions:
 
 The C<$stat> is a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+
+$stat must be defined. Otherwise an exception is thrown.
+
+If the stat function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head1 Instance Methods
 
