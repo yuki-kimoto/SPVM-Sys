@@ -6,6 +6,10 @@ package SPVM::Sys::IO::Utimbuf;
 
 SPVM::Sys::IO::Utimbuf - struct utimbuf in the C language
 
+=head1 Description
+
+The Sys::IO::Utimbuf represents the C<struct utimbuf> in the C language.
+
 =head1 Usage
 
   use Sys::IO::Utimbuf;
@@ -14,15 +18,13 @@ SPVM::Sys::IO::Utimbuf - struct utimbuf in the C language
   
   my $actime = $utimbuf->actime;
   my $modtime = $utimbuf->modtime;
-
+  
   $utimbuf->set_actime($actime);
   $utimbuf->set_modtime($modtime);
 
-=head1 Description
+=head1 Details
 
-C<Sys::IO::Utimbuf> is the class for the C<struct utimbuf> in the C language.
-
-This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+This is a pointer class. The pointer of the instance is set to a C<struct utimbuf> object.
 
 =head1 Class Methods
 
@@ -30,7 +32,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 C<static method new : L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> ();>
 
-Create a new C<Sys::IO::Utimbuf> object.
+Create a new L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> object.
 
 =head1 Instance Methods
 
