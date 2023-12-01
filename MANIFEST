@@ -270,5 +270,6 @@ t/Sys-Time-Util.t
 t/Sys-Time.t
 t/Sys-User.t
 t/Sys.t
+t/sys_exec.pl
 t/sys_exit.pl
 t/Sys_symlink.t

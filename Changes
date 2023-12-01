@@ -1,4 +1,4 @@
-0.506 2023-11-30
+0.506 2023-12-01
   [Incompatible Changes]
     * The definition of the localtime method in the Sys::Time is changed.
       [Before]
