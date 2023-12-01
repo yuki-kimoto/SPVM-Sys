@@ -4,17 +4,15 @@ package SPVM::Sys::IO::Constant;
 
 =head1 Name
 
-SPVM::Sys::IO::Constant - Constant values for IO.
-
-=head1 Usage
-
-  use Sys::IO::Constant as IO;
-  
-  my $o_trunc = IO->O_TRUNC;
+SPVM::Sys::IO::Constant - Constant values for File IO.
 
 =head1 Description
 
-C<Sys::IO::Constant> is the class for the constant values for IO.
+The Sys::IO::Constant class has method to get constant values for File IO.
+
+=head1 Usage
+
+  use Sys::IO::Constant;
 
 =head1 Class Methods
 
