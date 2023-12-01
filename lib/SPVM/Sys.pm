@@ -452,31 +452,31 @@ And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
 C<static method chdir : void ($path : string);>
 
-Changes the working directory to $path. The same as the Perl L<chdir|https://perldoc.perl.org/functions/chdir> function.
+Changes the working directory to $path.
 
 =head2 chmod
 
 C<static method chmod : void ($mode :int, $path : string);>
 
-Changes the permissions of a file. The same as the Perl L<chmod|https://perldoc.perl.org/functions/chmod> function.
+Changes the permissions of a file.
 
 =head2 mkdir
 
 C<static method mkdir : void ($path : string, $mode : int);>
 
-Creates the directory specified by $path and $mode. The same as the Perl L<mkdir|https://perldoc.perl.org/functions/mkdir> function.
+Creates the directory specified by $path and $mode.
 
 =head2 umask
 
 C<static method umask : int ($mode : int);>
 
-Sets the umask for the process to $mode and returns the previous value. The same as the Perl L<umask|https://perldoc.perl.org/functions/umask> function.
+Sets the umask for the process to $mode and returns the previous value.
 
 =head2 rmdir
 
 C<static method rmdir : void ($path : string);>
 
-Deletes the directory specified by $path. The same as the Perl L<rmdir|https://perldoc.perl.org/functions/rmdir> function.
+Deletes the directory specified by $path.
 
 =head2 opendir
 
@@ -504,31 +504,31 @@ If succedd, returns 1.
 
 C<static method unlink : void ($pathname : string);>
 
-Deletes a file. The same as the Perl L<unlink|https://perldoc.perl.org/functions/unlink> function.
+Deletes a file.
 
 =head2 rename
 
 C<static method rename : void ($oldpath : string, $newpath : string);>
 
-Changes the name of a file. The same as the Perl L<rename|https://perldoc.perl.org/functions/rename> function.
+Changes the name of a file.
 
 =head2 readlink
 
 C<static method readlink : int ($file : string);>
 
-Returns the value of a symbolic link. The same as the Perl L<readlink|https://perldoc.perl.org/functions/readlink> function.
+Returns the value of a symbolic link.
 
 =head2 symlink
 
 C<static method symlink : int ($oldpath : string, $newpath : string);>
 
-Creates a $newpath symbolically linked to $oldpath. The same as the Perl L<symlink|https://perldoc.perl.org/functions/symlink> function.
+Creates a $newpath symbolically linked to $oldpath.
 
 =head2 sleep
 
 C<static method sleep : int ($seconds : int);>
 
-Causes the program to sleep for $seconds seconds. The same as the Perl L<sleep|https://perldoc.perl.org/functions/sleep>.
+Causes the program to sleep for $seconds seconds.
 
 =head2 ioctl
 
