@@ -1099,81 +1099,121 @@ Examples:
 
 C<static method real_user_id : int ();>
 
+Gets the real user ID of this process.
+
 =head2 effective_user_id
 
 C<static method effective_user_id : int ();>
+
+Gets the effective user ID of this process.
 
 =head2 real_group_id
 
 C<static method real_group_id : int ();>
 
+Gets the real group ID of this process.
+
 =head2 effective_group_id
 
 C<static method effective_group_id : int ();>
+
+Gets the effective group ID of this process.
 
 =head2 set_real_user_id
 
 C<static method set_real_user_id : int ($uid : int);>
 
+Sets the real user ID of this process.
+
 =head2 set_effective_user_id
 
 C<static method set_effective_user_id : int ($euid : int);>
+
+Sets the effective user ID of this process.
 
 =head2 set_real_group_id
 
 C<static method set_real_group_id : int ($gid : int);>
 
+Sets the real group ID of this process.
+
 =head2 set_effective_group_id
 
 C<static method set_effective_group_id : int ($egid : int);>
+
+Sets the effective group ID of this process.
 
 =head2 setpwent
 
 C<static method setpwent : void ();>
 
+Rewinds to the beginning of the password database.
+
 =head2 endpwent
 
 C<static method endpwent : void ();>
 
+Closes the password database after all processing has been performed.
+
 =head2 getpwent
 
-C<static method getpwent : Sys::User::Passwd ();>
+C<static method getpwent : L<Sys::User::Passwd|SPVM::Sys::User::Passwd> ();>
+
+Gets a next password entry.
 
 =head2 setgrent
 
 C<static method setgrent : void ();>
 
+Rewinds to the beginning of the group database.
+
 =head2 endgrent
 
 C<static method endgrent : void ();>
 
+Closes the group database after all processing has been performed.
+
 =head2 getgrent
 
-C<static method getgrent : Sys::User::Group ();>
+C<static method getgrent : L<Sys::User::Group|SPVM::Sys::User::Group> ();>
+
+Gets a next group entry.
 
 =head2 getgroups
 
 C<static method getgroups : int[] ();>
 
+Returns the supplementary group IDs of the calling process.
+
 =head2 setgroups
 
 C<static method setgroups : void ($groups : int[]);>
 
+Sets the supplementary group IDs for the calling process.
+
 =head2 getpwuid
 
-C<static method getpwuid : Sys::User::Passwd ($id : int);>
+C<static method getpwuid : L<Sys::User::Passwd|SPVM::Sys::User::Passwd> ($id : int);>
+
+Searches a password entry given The user ID $id. If found, returns the password entry, otherwise return undef.
 
 =head2 getpwnam
 
-C<static method getpwnam : Sys::User::Passwd ($name : string);>
+C<static method getpwnam : L<Sys::User::Passwd|SPVM::Sys::User::Passwd> ($name : string);>
+
+Searches a password entry given The user name $name. If found, returns the password entry, otherwise return undef.
 
 =head2 getgrgid
 
-C<static method getgrgid : Sys::User::Group ($id : int);>
+C<static method getgrgid : L<Sys::User::Group|SPVM::Sys::User::Group> ($id : int);>
+
+Searches a group entry given The group ID $id. If found, returns the group entry, otherwise return undef.
 
 =head2 getgrnam
 
-C<static method getgrnam : Sys::User::Group ($name : string);>
+C<static method getgrnam : L<Sys::User::Group|SPVM::Sys::User::Group> ($name : string);>
+
+Searches a group entry given The group name $name. If found, returns the group entry, otherwise return undef.
 
 =head1 Modules
 
