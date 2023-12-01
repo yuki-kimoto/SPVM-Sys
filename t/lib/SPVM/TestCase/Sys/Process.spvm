@@ -369,17 +369,12 @@ class TestCase::Sys::Process {
     }
     
     {
-      my $status = Sys->setpgrp(0, 0);
-      
-      unless ($status == 0) {
-        return 0;
-      }
+      Sys->setpgrp(0, 0);
     }
     
     return 1;
   }
-
-
+  
   static method getpid : int () {
     
     my $process_id = Sys::Process->getpid;
@@ -390,23 +385,33 @@ class TestCase::Sys::Process {
     
     return 1;
   }
-
+  
   static method getppid : int () {
     
-    my $process_id = Sys::Process->getppid;
+    {
+      my $process_id = Sys::Process->getppid;
+      
+      unless ($process_id >= 0) {
+        return 0;
+      }
+    }
     
-    unless ($process_id >= 0) {
-      return 0;
+    {
+      my $process_id = Sys->getppid;
+      
+      unless ($process_id >= 0) {
+        return 0;
+      }
     }
     
     return 1;
   }
-
+  
   static method execv_success : int ($perl_path : string, $program_file : string) {
     my $args = [$perl_path, $program_file, "abc"];
     Sys::Process->execv($perl_path, $args);
   }
-
+  
   static method usleep : int () {
     
     my $start = Sys::Time->time;

@@ -1079,6 +1079,12 @@ C<static method process_id : int ();>
 
 Gets the process number of the running this program.
 
+=head2 getppid
+
+C<static method getppid : int ();>
+
+Returns the process ID of the parent of the calling process.
+
 =head1 Modules
 
 =over 2

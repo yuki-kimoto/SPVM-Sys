@@ -1142,4 +1142,10 @@ class Sys {
     return $process_id;
   }
   
+  static method getppid : int () {
+    
+    my $parent_process_id = Sys::Process->getppid();
+    
+    return $parent_process_id;
+  }
 }
