@@ -8,7 +8,7 @@ SPVM::Sys::IO::Constant - Constant values for File IO.
 
 =head1 Description
 
-The Sys::IO::Constant class has method to get constant values for File IO.
+The Sys::IO::Constant class of L<SPVM> has method to get constant values for File IO.
 
 =head1 Usage
 

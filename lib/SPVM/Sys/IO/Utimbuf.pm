@@ -8,7 +8,7 @@ SPVM::Sys::IO::Utimbuf - struct utimbuf in the C language
 
 =head1 Description
 
-The Sys::IO::Utimbuf represents the C<struct utimbuf> in the C language.
+The Sys::IO::Utimbuf of L<SPVM> represents the C<struct utimbuf> in the C language.
 
 =head1 Usage
 
