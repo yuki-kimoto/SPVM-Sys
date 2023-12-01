@@ -10,23 +10,22 @@
 const char* FILE_NAME = "Sys/IO/FileStream.c";
 
 int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+  
   int32_t error_id = 0;
   
-  // File handle
   void* obj_self = stack[0].oval;
   
-  int32_t closed = env->get_field_byte_by_name(env, stack, obj_self, "closed", &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  FILE* fh = (FILE*)env->get_pointer(env, stack, obj_self);
-  
-  assert(fh);
-
   int32_t no_destroy = env->get_field_byte_by_name(env, stack, obj_self, "no_destroy", &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   if (!no_destroy) {
+    int32_t closed = env->get_field_byte_by_name(env, stack, obj_self, "closed", &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) { return error_id; }
+    
+    FILE* fh = (FILE*)env->get_pointer(env, stack, obj_self);
+    
+    assert(fh);
+    
     if (!closed) {
       int32_t status = fclose(fh);
       if (status == EOF) {
