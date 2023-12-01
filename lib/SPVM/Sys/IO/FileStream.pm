@@ -30,9 +30,9 @@ C<has closed : ro byte;>
 
 The file stream is closed.
 
-=head2 no_close
+=head2 no_destroy
 
-C<has no_close : ro byte;>
+C<has no_destroy : ro byte;>
 
 If this field is set to a true value, the file stream must not be closed.
 

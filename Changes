@@ -3,7 +3,7 @@
     * Fix the document of the new method in the Sys::Stat class. This method do not have arguments.
   [Incompatible Changes]
     * The cando method in the Sys::Stat class becomes private. 
-    
+    * The no_close field in the Sys::IO::FileStream is renamed to no_destroy.
 0.507 2023-12-01
 
   [New Features]
