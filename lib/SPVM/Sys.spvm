@@ -1022,26 +1022,6 @@ class Sys {
     Sys::Signal->alarm($seconds);
   }
   
-  static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*) {
-    
-    my $pipe_fds = new int[2];
-    
-    if (Sys::OS->is_windows) {
-      Sys::Process->_pipe($pipe_fds, 0, IO->O_BINARY);
-    }
-    else {
-      Sys::Process->pipe($pipe_fds);
-      
-      Sys->fcntl($pipe_fds->[0], IO->F_SETFD, IO->FD_CLOEXEC);
-      
-      Sys->fcntl($pipe_fds->[1], IO->F_SETFD, IO->FD_CLOEXEC);
-    }
-    
-    $$read_fd_ref = $pipe_fds->[0];
-    
-    $$write_fd_ref = $pipe_fds->[1];
-  }
-  
   static method popen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $command : string) {
     
     my $type = (string)undef;
@@ -1127,4 +1107,25 @@ class Sys {
     
     Sys::Process->exit($status);
   }
+  
+  static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*) {
+    
+    my $pipe_fds = new int[2];
+    
+    if (Sys::OS->is_windows) {
+      Sys::Process->_pipe($pipe_fds, 0, IO->O_BINARY);
+    }
+    else {
+      Sys::Process->pipe($pipe_fds);
+      
+      Sys->fcntl($pipe_fds->[0], IO->F_SETFD, IO->FD_CLOEXEC);
+      
+      Sys->fcntl($pipe_fds->[1], IO->F_SETFD, IO->FD_CLOEXEC);
+    }
+    
+    $$read_fd_ref = $pipe_fds->[0];
+    
+    $$write_fd_ref = $pipe_fds->[1];
+  }
+  
 }

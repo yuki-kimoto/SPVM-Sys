@@ -953,14 +953,6 @@ Exceptions:
 
 The exceptions thrown by the L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class could be thrown.
 
-=head2 pipe
-
-C<static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*);>
-
-Opens a pair of pipes.
-
-If the system supports C<FD_CLOEXEC>, this flag is set to $read_fd_ref and $write_fd_ref using L</"fcntl">.
-
 =head2 popen
 
 C<static method popen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $command : string);>
@@ -1066,6 +1058,14 @@ Executes a command specified in command using shell and return the L</"wait"> st
 C<static method exit : void ($status : int);>
 
 Terminates the calling process immediately with the status $status.
+
+=head2 pipe
+
+C<static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*);>
+
+Opens a pair of pipes.
+
+If the system supports C<FD_CLOEXEC>, this flag is set to $read_fd_ref and $write_fd_ref using L</"fcntl">.
 
 =head1 Modules
 
