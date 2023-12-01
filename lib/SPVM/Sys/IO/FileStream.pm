@@ -4,23 +4,19 @@ package SPVM::Sys::IO::FileStream;
 
 =head1 Name
 
-SPVM::Sys::IO::FileStream - the class for the C<FILE> type in the C language.
+SPVM::Sys::IO::FileStream - C<FILE> structure in the C language.
+
+=head1 Description
+
+The Sys::IO::FileStream of L<SPVM> represetns the L<FILE|https://linux.die.net/man/3/fopen> structure in the C language.
 
 =head1 Usage
   
   use Sys::IO::FileStream;
-  use Sys::IO;
-  
-  my $file = "foo.txt";
-  
-  # Sys::IO::FileStream
-  my $file_stream = Sys::IO->fopen($file, "rb");
 
-=head1 Description
+=head1 Details
 
-C<Sys::IO::FileStream> is the class for the C<FILE> type in the C language.
-
-This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+This is a pointer class. The pointer of the instance is set to a C<FILE> object.
 
 =head1 Fields
 
@@ -34,7 +30,7 @@ The file stream is closed.
 
 C<has no_destroy : ro byte;>
 
-If this field is set to a true value, the file stream must not be closed.
+Do not call the L</"DESTROY"> method.
 
 =head1 Instance Methods
 
