@@ -1061,12 +1061,6 @@ Opens a pair of pipes.
 
 If the system supports C<FD_CLOEXEC>, this flag is set to $read_fd_ref and $write_fd_ref using L</"fcntl">.
 
-=head2 process_id
-
-C<static method process_id : int ();>
-
-Gets the process number of the running this program.
-
 =head2 getpgrp
 
 C<static method getpgrp : int ($pid : int);>
@@ -1078,6 +1072,12 @@ Gets the process group number given the process ID $pid of the running this prog
 C<static method setpgrp : void ($pid : int, $pgid : int);>
 
 Sets the process group number $pgid given the process ID $pid of the running this program.
+
+=head2 process_id
+
+C<static method process_id : int ();>
+
+Gets the process number of the running this program.
 
 =head1 Modules
 

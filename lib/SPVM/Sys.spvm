@@ -1123,13 +1123,6 @@ class Sys {
     $$write_fd_ref = $pipe_fds->[1];
   }
   
-  static method process_id : int () {
-    
-    my $process_id = Sys::Process->getpid();
-    
-    return $process_id;
-  }
-  
   static method getpgrp : int ($pid : int) {
     
     my $process_group_id = Sys::Process->getpgid($pid);
@@ -1140,6 +1133,13 @@ class Sys {
   static method setpgrp : void ($pid : int, $pgid : int) {
     
     Sys::Process->setpgid($pid, $pgid);
+  }
+  
+  static method process_id : int () {
+    
+    my $process_id = Sys::Process->getpid();
+    
+    return $process_id;
   }
   
 }
