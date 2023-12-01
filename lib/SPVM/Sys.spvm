@@ -1124,8 +1124,16 @@ class Sys {
   }
   
   static method process_id : int () {
+    
     my $process_id = Sys::Process->getpid();
+    
     return $process_id;
   }
   
+  static method getpgrp : int ($pid : int) {
+    
+    my $process_group_id = Sys::Process->getpgid($pid);
+    
+    return $process_group_id;
+  }
 }

@@ -1065,7 +1065,13 @@ If the system supports C<FD_CLOEXEC>, this flag is set to $read_fd_ref and $writ
 
 C<static method process_id : int ();>
 
-Gets the process number of the running this program. The same as the Perl L<$$|https://perldoc.perl.org/perlvar#$PROCESS_ID>.
+Gets the process number of the running this program.
+
+=head2 getpgrp
+
+C<static method getpgrp : int ($pid : int);>
+
+Gets the process group number of the running this program.
 
 =head1 Modules
 

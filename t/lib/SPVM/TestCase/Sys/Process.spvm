@@ -339,10 +339,20 @@ class TestCase::Sys::Process {
   
   static method getpgid : int () {
     
-    my $process_group = Sys::Process->getpgid(0);
+    {
+      my $process_group = Sys::Process->getpgid(0);
+      
+      unless ($process_group >= 0) {
+        return 0;
+      }
+    }
     
-    unless ($process_group >= 0) {
-      return 0;
+    {
+      my $process_group = Sys->getpgrp(0);
+      
+      unless ($process_group >= 0) {
+        return 0;
+      }
     }
     
     return 1;
