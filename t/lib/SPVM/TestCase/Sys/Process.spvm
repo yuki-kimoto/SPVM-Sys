@@ -360,10 +360,20 @@ class TestCase::Sys::Process {
 
   static method setpgid : int () {
     
-    my $status = Sys::Process->setpgid(0, 0);
+    {
+      my $status = Sys::Process->setpgid(0, 0);
+      
+      unless ($status == 0) {
+        return 0;
+      }
+    }
     
-    unless ($status == 0) {
-      return 0;
+    {
+      my $status = Sys->setpgrp(0, 0);
+      
+      unless ($status == 0) {
+        return 0;
+      }
     }
     
     return 1;

@@ -1136,4 +1136,10 @@ class Sys {
     
     return $process_group_id;
   }
+  
+  static method setpgrp : void ($pid : int, $pgid : int) {
+    
+    Sys::Process->setpgid($pid, $pgid);
+  }
+  
 }

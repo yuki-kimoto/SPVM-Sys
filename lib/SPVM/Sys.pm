@@ -1071,7 +1071,13 @@ Gets the process number of the running this program.
 
 C<static method getpgrp : int ($pid : int);>
 
-Gets the process group number of the running this program.
+Gets the process group number given the process ID $pid of the running this program.
+
+=head2 setpgrp
+
+C<static method setpgrp : void ($pid : int, $pgid : int);>
+
+Sets the process group number $pgid given the process ID $pid of the running this program.
 
 =head1 Modules
 

@@ -29,6 +29,7 @@
     * Add the system method to the Sys class.
     * Add the exit method to the Sys class.
     * Add the getpgrp method to the Sys class.
+    * Add the setpgrp method to the Sys class.
 0.505 2023-11-30
   [Incompatible Changes]
     * The timeval_interval method in the Sys::Time::Util do not throw an exception if tv_sec and tv_usec is a negative value.
