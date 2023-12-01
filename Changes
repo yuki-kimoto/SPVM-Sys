@@ -14,6 +14,7 @@
     *  close-on-exec flag is set to the file stream opened by the open method in the Sys class.
   [Changes]
     * The system method in the Sys::Process class throwns an exception if the system system call fail.
+    * The execv method in the Sys::Process class throwns an exception if the argument contains undef.
   [New Features]
     * Add the popen method to the Sys::IO class.
     * Add the _popen method to the Sys::IO class.
@@ -31,6 +32,7 @@
     * Add the getpgrp method to the Sys class.
     * Add the setpgrp method to the Sys class.
     * Add the getppid method to the Sys class.
+    * Add the exec method to the Sys class.
 0.505 2023-11-30
   [Incompatible Changes]
     * The timeval_interval method in the Sys::Time::Util do not throw an exception if tv_sec and tv_usec is a negative value.

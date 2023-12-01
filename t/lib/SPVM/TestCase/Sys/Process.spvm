@@ -412,6 +412,11 @@ class TestCase::Sys::Process {
     Sys::Process->execv($perl_path, $args);
   }
   
+  static method exec_sys : int ($perl_path : string, $program_file : string) {
+    my $args = [$program_file, "abc"];
+    Sys->exec($perl_path, $args);
+  }
+  
   static method usleep : int () {
     
     my $start = Sys::Time->time;

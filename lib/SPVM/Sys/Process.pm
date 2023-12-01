@@ -208,6 +208,8 @@ $path must be defined. Otherwise an exception is thrown.
 
 $args must be defined. Otherwise an exception is thrown.
 
+All element of $args must be defined. Otherwise an exception is thrown.
+
 If the execv function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 WIFEXITED

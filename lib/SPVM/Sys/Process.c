@@ -350,6 +350,11 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
     argv = env->new_memory_block(env, stack, sizeof(char*) * (args_length + 1));
     for (int32_t i = 0; i < args_length; i++) {
       void* obj_arg = env->get_elem_object(env, stack, obj_args, i);
+      
+      if (!obj_arg) {
+        return env->die(env, stack, "The %dth element of $args must be defined.", i, __func__, FILE_NAME, __LINE__);
+      }
+      
       char* arg = (char*)env->get_chars(env, stack, obj_arg);
       argv[i] = arg;
     }

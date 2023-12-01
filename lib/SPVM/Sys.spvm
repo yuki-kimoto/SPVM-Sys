@@ -1148,4 +1148,23 @@ class Sys {
     
     return $parent_process_id;
   }
+  
+  static method exec : void ($program : string, $args : string[] = undef) {
+    
+    my $exec_args_list = StringList->new;
+    
+    $exec_args_list->push($program);
+    
+    if ($args) {
+      for (my $i = 0; $i < @$args; $i++) {
+        my $arg = $args->[$i];
+        
+        $exec_args_list->push($arg);
+      }
+    }
+    
+    my $execv_args = $exec_args_list->to_array;
+    
+    Sys::Process->execv($program, $execv_args);
+  }
 }

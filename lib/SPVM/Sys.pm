@@ -1085,6 +1085,12 @@ C<static method getppid : int ();>
 
 Returns the process ID of the parent of the calling process.
 
+=head2 exec
+
+C<static method exec : void ($program : string, $args : string[] = undef);>
+
+Executes the program $program with the arguments $args without using shell and never returns.
+
 =head1 Modules
 
 =over 2
