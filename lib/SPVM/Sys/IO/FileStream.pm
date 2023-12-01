@@ -16,7 +16,7 @@ The Sys::IO::FileStream of L<SPVM> represetns the L<FILE|https://linux.die.net/m
 
 =head1 Details
 
-This is a pointer class. The pointer of the instance is set to a C<FILE> object.
+This class is a pointer class. The pointer of the instance is set to a C<FILE> object.
 
 =head1 Fields
 

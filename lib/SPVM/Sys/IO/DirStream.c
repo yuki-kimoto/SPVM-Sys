@@ -14,7 +14,6 @@ int32_t SPVM__Sys__IO__DirStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  // File handle
   void* obj_self = stack[0].oval;
   
   int32_t closed = env->get_field_byte_by_name(env, stack, obj_self, "closed", &error_id, __func__, FILE_NAME, __LINE__);
