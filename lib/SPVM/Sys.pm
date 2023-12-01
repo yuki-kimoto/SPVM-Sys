@@ -1091,6 +1091,10 @@ C<static method exec : void ($program : string, $args : string[] = undef);>
 
 Executes the program $program with the arguments $args without using shell and never returns.
 
+Examples:
+
+  Sys->exec("/bin/echo", ["-n", "Hello"]);
+
 =head1 Modules
 
 =over 2
