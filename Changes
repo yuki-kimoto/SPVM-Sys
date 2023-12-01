@@ -1,6 +1,8 @@
 0.508 2023-12-01
   [Document Fix]
     * Fix the document of the new method in the Sys::Stat class. This method do not have arguments.
+  [Incompatible Changes]
+    * The cando method in the Sys::Stat class becomes private. 
     
 0.507 2023-12-01
 

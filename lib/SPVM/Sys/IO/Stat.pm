@@ -290,12 +290,6 @@ C<method z : int ();>
 
 The implementation of the L<z|SPVM::Sys/"z"> method in the Sys class.
 
-=head2 cando
-
-C<method cando : int ($mode : int, $effective : int);>
-
-The implementation of the L<|SPVM::Sys/""> method in the Sys class.
-
 =head2 r
 
 C<method r : int ();>
