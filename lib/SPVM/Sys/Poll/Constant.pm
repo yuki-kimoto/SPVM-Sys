@@ -4,17 +4,15 @@ package SPVM::Sys::Poll::Constant;
 
 =head1 Name
 
-SPVM::Sys::Poll::Constant - Constant values for Poll.
-
-=head1 Usage
-
-  use Sys::Poll::Constant as Poll;
-  
-  my $o_trunc = Poll->O_TRUNC;
+SPVM::Sys::Poll::Constant - Constant Values for The poll System Call
 
 =head1 Description
 
-C<Sys::Poll::Constant> is the class for the constant values for the poll function.
+The Sys::Poll::Constant class of L<SPVM> has methods to get constant values for the poll system call.
+
+=head1 Usage
+
+  use Sys::Poll::Constant;
 
 =head1 Class Methods
 
