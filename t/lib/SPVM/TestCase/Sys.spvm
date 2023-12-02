@@ -991,7 +991,7 @@ class TestCase::Sys {
     unless ($socket> 0) {
       return 0;
     }
-
+    
     Fn->defer([$socket : int] method :void () {
       Sys::Socket->close($socket);
     });
