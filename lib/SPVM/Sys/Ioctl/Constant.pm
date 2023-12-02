@@ -4,15 +4,15 @@ package SPVM::Sys::Ioctl::Constant;
 
 =head1 Name
 
-SPVM::Sys::Ioctl::Constant - Constant values for ioctl.
+SPVM::Sys::Ioctl::Constant - Constant Values for The ioctl Function.
+
+=head1 Description
+
+The Sys::Ioctl::Constant class has methods to get constant values for the L<ioctl|https://linux.die.net/man/2/ioctl> function.
 
 =head1 Usage
 
-  use Sys::Ioctl::Constant as Ioctl;
-  
-=head1 Description
-
-C<Sys::Ioctl::Constant> is the class for the constant values for the C<ioctl> function in the C language.
+  use Sys::Ioctl::Constant;
 
 =head1 Class Methods
 
