@@ -60,9 +60,9 @@ See the detail of the L<inet_aton|https://linux.die.net/man/3/inet_aton> functio
 
 The input address(inp) is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
-The input address(cp) must be defined. Otherwise an exception will be thrown.
+The input address(cp) must be defined. Otherwise an exception is thrown.
 
-The output address(inp) must be defined. Otherwise an exception will be thrown.
+The output address(inp) must be defined. Otherwise an exception is thrown.
 
 =head2 inet_ntoa
 
@@ -74,7 +74,7 @@ See the detail of the L<inet_ntoa|https://linux.die.net/man/3/inet_ntoa> functio
 
 The input address(in) is a L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
-The input address must be defined. Otherwise an exception will be thrown.
+The input address must be defined. Otherwise an exception is thrown.
 
 =head2 inet_pton
 
@@ -86,9 +86,9 @@ See the detail of the L<inet_pton|https://linux.die.net/man/3/inet_pton> functio
 
 The output address(dst) is assumed to be L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> or L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> corresponding to the address family(af).
 
-The input address(src) must be defined. Otherwise an exception will be thrown.
+The input address(src) must be defined. Otherwise an exception is thrown.
 
-The output address(dst) must be defined. Otherwise an exception will be thrown.
+The output address(dst) must be defined. Otherwise an exception is thrown.
 
 =head2 inet_ntop
 
@@ -100,9 +100,9 @@ See the detail of the L<inet_ntop|https://linux.die.net/man/3/inet_ntop> functio
 
 The input address(src) is assumed to be L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> or L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> corresponding to the address family(af).
 
-The input address(src) must be defined. Otherwise an exception will be thrown.
+The input address(src) must be defined. Otherwise an exception is thrown.
 
-The output address(dst) must be defined. Otherwise an exception will be thrown.
+The output address(dst) must be defined. Otherwise an exception is thrown.
 
 =head2 socket
 
@@ -113,7 +113,7 @@ The domain argument specifies a communication domain; this selects the protocol 
 
 See the detail of the L<socket|https://linux.die.net/man/2/socket> function in the case of Linux.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 connect
 
@@ -125,7 +125,7 @@ See the detail of the L<connect|https://linux.die.net/man/2/connect> function in
 
 The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 bind
 
@@ -137,9 +137,9 @@ See the detail of the L<bind|https://linux.die.net/man/2/bind> function in the c
 
 The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
-The address must be defined. Otherwise an exception will be thrown.
+The address must be defined. Otherwise an exception is thrown.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 accept
 
@@ -151,9 +151,9 @@ See the detail of the L<accept|https://linux.die.net/man/2/accept> function in t
 
 The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
-The address must be defined. Otherwise an exception will be thrown.
+The address must be defined. Otherwise an exception is thrown.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 listen
 
@@ -163,7 +163,7 @@ listen() marks the socket referred to by sockfd as a passive socket, that is, as
 
 See the detail of the L<listen|https://linux.die.net/man/2/listen> function in the case of Linux.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 shutdown
 
@@ -173,7 +173,7 @@ The shutdown() call causes all or part of a full-duplex connection on the socket
 
 See the detail of the L<shutdown|https://linux.die.net/man/2/shutdown> function in the case of Linux.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 recv
 
@@ -183,9 +183,9 @@ The recv() call is normally used only on a connected socket (see connect(2)) and
 
 See the detail of the L<recv|https://linux.die.net/man/2/recv> function in the case of Linux.
 
-The buffer(C<$buf> must be defined. Otherwise an exception will be thrown.
+The buffer(C<$buf> must be defined. Otherwise an exception is thrown.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 send
 
@@ -193,7 +193,7 @@ C<static method send : int ($sockfd : int, $buf : string, $len : int, $flags : i
 
 The send() call may be used only when the socket is in a connected state (so that the intended recipient is known). The only difference between send() and write(2) is the presence of flags. With a zero flags argument, send() is equivalent to write(2). Also, the following call
 
-The buffer(C<$buf> must be defined. Otherwise an exception will be thrown.
+The buffer(C<$buf> must be defined. Otherwise an exception is thrown.
 
 See the detail of the L<send|https://linux.die.net/man/2/send> function in the case of Linux.
 
@@ -211,9 +211,9 @@ See the detail of the L<getpeername|https://linux.die.net/man/2/getpeername> fun
 
 The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
-The address must be defined. Otherwise an exception will be thrown.
+The address must be defined. Otherwise an exception is thrown.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 getsockname
 
@@ -225,9 +225,9 @@ See the detail of the L<getsockname|https://linux.die.net/man/2/getsockname> fun
 
 The address(C<$addr>) is a L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
 
-The address must be defined. Otherwise an exception will be thrown.
+The address must be defined. Otherwise an exception is thrown.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 socketpair
 
@@ -237,11 +237,11 @@ The socketpair() call creates an unnamed pair of connected sockets in the specif
 
 See the detail of the L<socketpair|https://linux.die.net/man/2/socketpair> function in the case of Linux.
 
-The output of the socket pair(sv) must be defined. Otherwise an exception will be thrown.
+The output of the socket pair(sv) must be defined. Otherwise an exception is thrown.
 
-The length of the output of the socket pair(sv) must be greater than or equal to 2. Otherwise an exception will be thrown.
+The length of the output of the socket pair(sv) must be greater than or equal to 2. Otherwise an exception is thrown.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 setsockopt
 
@@ -251,13 +251,13 @@ getsockopt() and setsockopt() manipulate options for the socket referred to by t
 
 See the detail of the L<setsockopt|https://linux.die.net/man/2/setsockopt> function in the case of Linux.
 
-The option value must be defined. Otherwise an exception will be thrown.
+The option value must be defined. Otherwise an exception is thrown.
 
-The option length must be greater than or equal to 0. Otherwise an exception will be thrown.
+The option length must be greater than or equal to 0. Otherwise an exception is thrown.
 
-The length of the option value must be less than or equal to the option length. Otherwise an exception will be thrown.
+The length of the option value must be less than or equal to the option length. Otherwise an exception is thrown.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 getsockopt
 
@@ -267,13 +267,13 @@ getsockopt() and setsockopt() manipulate options for the socket referred to by t
 
 See the detail of the L<getsockopt|https://linux.die.net/man/2/getsockopt> function in the case of Linux.
 
-The option value must be defined. Otherwise an exception will be thrown.
+The option value must be defined. Otherwise an exception is thrown.
 
-The option length must be greater than or equal to 0. Otherwise an exception will be thrown.
+The option length must be greater than or equal to 0. Otherwise an exception is thrown.
 
-The length of the option value must be less than or equal to the option length. Otherwise an exception will be thrown.
+The length of the option value must be less than or equal to the option length. Otherwise an exception is thrown.
 
-If the system call failed, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 $optval is a string. The following is an example to get an int value.
 
@@ -295,11 +295,11 @@ The hints is a L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo> object.
 
 The response(res) is an array of the L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>.
 
-The response must be defined. Otherwise an exception will be thrown.
+The response must be defined. Otherwise an exception is thrown.
 
-The length of the array of the response must be greater than or equal to 1. Otherwise an exception will be thrown.
+The length of the array of the response must be greater than or equal to 1. Otherwise an exception is thrown.
 
-If a system error occur, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If a system error occur, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 getnameinfo
 
@@ -313,7 +313,7 @@ See the detail of the L<getnameinfo|https://linux.die.net/man/3/getaddrinfo> fun
 
 The socket address(sa) is a L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo> object.
 
-If a system error occur, an exception will be thrown with the error code set to the class id of the L<Error::System> class.
+If a system error occur, an exception is thrown with the error code set to the class id of the L<Error::System> class.
 
 =head2 gai_strerror
 

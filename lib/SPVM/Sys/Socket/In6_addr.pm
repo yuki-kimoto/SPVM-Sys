@@ -40,9 +40,9 @@ C<method set_s6_addr : void ($address : string);>
 
 Sets C<s6_addr>.
 
-The address must be defined. Otherwise an exception will be thrown.
+The address must be defined. Otherwise an exception is thrown.
 
-The length of the address must be less than or equal to 16. Otherwise an exception will be thrown.
+The length of the address must be less than or equal to 16. Otherwise an exception is thrown.
 
 =head1 Copyright & License
 

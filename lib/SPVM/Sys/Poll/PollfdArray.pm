@@ -58,9 +58,9 @@ Returns C<fd> of the element at index $index.
 
 Excetpions:
 
-$index must be greater than or equal to 0. Otherwise an exception will be thrown.
+$index must be greater than or equal to 0. Otherwise an exception is thrown.
 
-$index must be less than the length of the file descripters. Otherwise an exception will be thrown.
+$index must be less than the length of the file descripters. Otherwise an exception is thrown.
 
 =head2 set_fd
 
@@ -70,9 +70,9 @@ Sets C<fd> of the element at index $index.
 
 Excetpions:
 
-$index must be greater than or equal to 0. Otherwise an exception will be thrown.
+$index must be greater than or equal to 0. Otherwise an exception is thrown.
 
-$index must be less than the length of the file descripters. Otherwise an exception will be thrown.
+$index must be less than the length of the file descripters. Otherwise an exception is thrown.
 
 =head2 events
 
@@ -82,9 +82,9 @@ Returns C<events> of the element at index $index.
 
 Excetpions:
 
-$index must be greater than or equal to 0. Otherwise an exception will be thrown.
+$index must be greater than or equal to 0. Otherwise an exception is thrown.
 
-$index must be less than the length of the file descripters. Otherwise an exception will be thrown.
+$index must be less than the length of the file descripters. Otherwise an exception is thrown.
 
 =head2 set_events
 
@@ -94,9 +94,9 @@ Sets C<events> of the element at index $index.
 
 Excetpions:
 
-$index must be greater than or equal to 0. Otherwise an exception will be thrown.
+$index must be greater than or equal to 0. Otherwise an exception is thrown.
 
-$index must be less than the length of the file descripters. Otherwise an exception will be thrown.
+$index must be less than the length of the file descripters. Otherwise an exception is thrown.
 
 See L<Sys::Poll::Constant|SPVM::Sys::Poll::Constant> about constant values given to $revents.
 
@@ -108,9 +108,9 @@ Returns C<revents> of the element at index $index.
 
 Excetpions:
 
-$index must be greater than or equal to 0. Otherwise an exception will be thrown.
+$index must be greater than or equal to 0. Otherwise an exception is thrown.
 
-$index must be less than the length of the file descripters. Otherwise an exception will be thrown.
+$index must be less than the length of the file descripters. Otherwise an exception is thrown.
 
 =head2 set_revents
 
@@ -120,9 +120,9 @@ Sets C<revents> of the element at index $index.
 
 Excetpions:
 
-$index must be greater than or equal to 0. Otherwise an exception will be thrown.
+$index must be greater than or equal to 0. Otherwise an exception is thrown.
 
-$index must be less than the length of the file descripters. Otherwise an exception will be thrown.
+$index must be less than the length of the file descripters. Otherwise an exception is thrown.
 
 See L<Sys::Poll::Constant|SPVM::Sys::Poll::Constant> about constant values given to $revents.
 
