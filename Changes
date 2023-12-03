@@ -4,6 +4,10 @@
   [Incompatible Changes]
     * The cando method in the Sys::Stat class becomes private. 
     * The no_close field in the Sys::IO::FileStream is renamed to no_destroy.
+  [Bug Fix]
+    * Fix the bug that the spvm_stdin, spvm_stdout, spvm_stderr in the Sys::IO class do not return correct values.
+    * Fix the bug that the STDIN, STDOUT, STDERR in the Sys class do not return correct values.
+    
 0.507 2023-12-01
 
   [New Features]

@@ -2637,28 +2637,12 @@ class TestCase::Sys::IO {
       }
     }
     
-    {
-      my $stdin = Sys->STDIN;
-      
-      unless (Sys->fileno($stdin) == IO->STDIN_FILENO) {
-        return 0;
-      }
-    }
-    
     return 1;
   }
   
   static method stdout : int () {
     {
       my $stdout = Sys::IO->stdout;
-      
-      unless (Sys->fileno($stdout) == IO->STDOUT_FILENO) {
-        return 0;
-      }
-    }
-    
-    {
-      my $stdout = Sys->STDOUT;
       
       unless (Sys->fileno($stdout) == IO->STDOUT_FILENO) {
         return 0;
@@ -2677,10 +2661,15 @@ class TestCase::Sys::IO {
       }
     }
     
+    return 1;
+  }
+  
+  static method spvm_stdin : int () {
+  
     {
-      my $stderr = Sys->STDERR;
+      my $spvm_stdin = Sys::IO->spvm_stdin;
       
-      unless (Sys->fileno($stderr) == IO->STDERR_FILENO) {
+      unless (Sys->fileno($spvm_stdin) > 2) {
         return 0;
       }
     }
@@ -2688,17 +2677,16 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method spvm_stdin : int () {
-    {
-      my $spvm_stdin = Sys::IO->spvm_stdin;
-    }
-    
-    return 1;
-  }
-  
   static method spvm_stdout : int () {
+    
     {
       my $spvm_stdout = Sys::IO->spvm_stdout;
+      
+      my $spvm_stdin = Sys::IO->spvm_stdin;
+      
+      unless (Sys->fileno($spvm_stdout) > Sys->fileno($spvm_stdin)) {
+        return 0;
+      }
     }
     
     return 1;
@@ -2707,6 +2695,12 @@ class TestCase::Sys::IO {
   static method spvm_stderr : int () {
     {
       my $spvm_stderr = Sys::IO->spvm_stderr;
+      
+      my $spvm_stdout = Sys::IO->spvm_stdout;
+      
+      unless (Sys->fileno($spvm_stderr) > Sys->fileno($spvm_stdout)) {
+        return 0;
+      }
     }
     
     return 1;

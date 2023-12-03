@@ -25,9 +25,9 @@ class Sys::IO {
     $STDOUT = &INIT_STDOUT();
     $STDERR = &INIT_STDERR();
     
-    $SPVM_STDIN = &INIT_STDIN();
-    $SPVM_STDOUT = &INIT_STDOUT();
-    $SPVM_STDERR = &INIT_STDERR();
+    $SPVM_STDIN = &INIT_SPVM_STDIN();
+    $SPVM_STDOUT = &INIT_SPVM_STDOUT();
+    $SPVM_STDERR = &INIT_SPVM_STDERR();
   }
   
   native private static method INIT_STDIN : Sys::IO::FileStream ();
