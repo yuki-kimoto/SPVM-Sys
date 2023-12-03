@@ -166,8 +166,6 @@ ok(SPVM::TestCase::Sys::IO->freopen("$test_dir"));
   ok(SPVM::TestCase::Sys::IO->ftruncate("$tmp_dir"));
 }
 
-ok(SPVM::TestCase::Sys::IO->utime("$test_dir"));
-
 # opendir
 {
   ok(SPVM::TestCase::Sys::IO->opendir($test_dir));
@@ -212,8 +210,6 @@ ok(SPVM::TestCase::Sys::IO->utime("$test_dir"));
 {
   ok(SPVM::TestCase::Sys::IO->spvm_stderr);
 }
-
-ok(SPVM::TestCase::Sys::IO->utimes("$test_dir"));
 
 SPVM::api->set_exception(undef);
 

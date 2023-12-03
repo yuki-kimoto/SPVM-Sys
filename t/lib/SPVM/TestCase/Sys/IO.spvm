@@ -4,7 +4,6 @@ class TestCase::Sys::IO {
   use Fn;
   use Sys::IO::Stat;
   use Sys;
-  use Sys::IO::Utimbuf;
   use Sys::Time;
   use Sys::IO::Flock;
   
@@ -2339,55 +2338,6 @@ class TestCase::Sys::IO {
       }
       
       Sys::IO->fclose($stream);
-    }
-    
-    return 1;
-  }
-  
-  static method utime : int ($test_dir : string) {
-    
-    my $file = "$test_dir/ftest/file_empty.txt";
-    
-    my $utimbuf = Sys::IO::Utimbuf->new;
-    
-    my $time = Sys::Time->time;
-    
-    my $actime = $utimbuf->set_actime($time);
-    my $modtime = $utimbuf->set_modtime($time);
-    
-    my $status = Sys::IO->utime($file, $utimbuf);
-    
-    unless ($status == 0) {
-      return 0;
-    }
-    
-    return 1;
-  }
-  
-  static method utimes : int ($test_dir : string) {
-    
-    if (Sys::OS->is_windows) {
-      eval { Sys::IO->utimes(undef, undef); }
-      unless ($@ && eval_error_id is_error Error::NotSupported) {
-        return 0;
-      }
-    }
-    else {
-      my $file = "$test_dir/ftest/file_empty.txt";
-      
-      my $times0 = Sys::Time::Timeval->new;
-      Sys::Time->gettimeofday($times0, undef);
-      
-      my $times1 = Sys::Time::Timeval->new;
-      Sys::Time->gettimeofday($times1, undef);
-      
-      my $times = [$times0, $times1];
-      
-      my $status = Sys::IO->utimes($file, $times);
-      
-      unless ($status == 0) {
-        return 0;
-      }
     }
     
     return 1;

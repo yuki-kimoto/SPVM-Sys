@@ -1,10 +1,10 @@
 # Copyright (c) 2023 Yuki Kimoto
 # MIT License
 
-class Sys::IO::Utimbuf : pointer {
+class Sys::Time::Utimbuf : pointer {
   
   # Class methods
-  native static method new : Sys::IO::Utimbuf ();
+  native static method new : Sys::Time::Utimbuf ();
   
   # Instance methods
   native method DESTROY : void ();

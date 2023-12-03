@@ -44,10 +44,6 @@ lib/SPVM/Sys/IO/Stat.c
 lib/SPVM/Sys/IO/Stat.config
 lib/SPVM/Sys/IO/Stat.pm
 lib/SPVM/Sys/IO/Stat.spvm
-lib/SPVM/Sys/IO/Utimbuf.c
-lib/SPVM/Sys/IO/Utimbuf.config
-lib/SPVM/Sys/IO/Utimbuf.pm
-lib/SPVM/Sys/IO/Utimbuf.spvm
 lib/SPVM/Sys/IO/Windows.c
 lib/SPVM/Sys/IO/Windows.config
 lib/SPVM/Sys/IO/Windows.pm
@@ -207,6 +203,10 @@ lib/SPVM/Sys/Time/Tms.pm
 lib/SPVM/Sys/Time/Tms.spvm
 lib/SPVM/Sys/Time/Util.pm
 lib/SPVM/Sys/Time/Util.spvm
+lib/SPVM/Sys/Time/Utimbuf.c
+lib/SPVM/Sys/Time/Utimbuf.config
+lib/SPVM/Sys/Time/Utimbuf.pm
+lib/SPVM/Sys/Time/Utimbuf.spvm
 lib/SPVM/Sys/User.c
 lib/SPVM/Sys/User.config
 lib/SPVM/Sys/User.pm
@@ -240,6 +240,7 @@ t/ftest/myexe.exe
 t/ftest/readline_basic.txt
 t/ftest/readline_eof.txt
 t/ftest/readline_long_lines.txt
+t/ftest/utime.txt
 t/lib/SPVM/TestCase/Sys.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/IO/Stat.spvm

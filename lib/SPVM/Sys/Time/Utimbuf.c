@@ -6,15 +6,15 @@
 #include <assert.h>
 #include <utime.h>
 
-static const char* FILE_NAME = "Sys/IO/Utimbuf.c";
+static const char* FILE_NAME = "Sys/Time/Utimbuf.c";
 
-int32_t SPVM__Sys__IO__Utimbuf__new(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Time__Utimbuf__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
   struct utimbuf* st_utimbuf = env->new_memory_block(env, stack, sizeof(struct utimbuf));
   
-  void* obj_utimbuf = env->new_pointer_object_by_name(env, stack, "Sys::IO::Utimbuf", st_utimbuf, &error_id, __func__, FILE_NAME, __LINE__);
+  void* obj_utimbuf = env->new_pointer_object_by_name(env, stack, "Sys::Time::Utimbuf", st_utimbuf, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_utimbuf;
@@ -22,7 +22,7 @@ int32_t SPVM__Sys__IO__Utimbuf__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__Utimbuf__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Time__Utimbuf__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   // File handle
   void* obj_utimbuf = stack[0].oval;
@@ -37,7 +37,7 @@ int32_t SPVM__Sys__IO__Utimbuf__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__Utimbuf__actime(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Time__Utimbuf__actime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_utimbuf = stack[0].oval;
   
@@ -48,7 +48,7 @@ int32_t SPVM__Sys__IO__Utimbuf__actime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__Utimbuf__set_actime(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Time__Utimbuf__set_actime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_utimbuf = stack[0].oval;
   
@@ -61,7 +61,7 @@ int32_t SPVM__Sys__IO__Utimbuf__set_actime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__Utimbuf__modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Time__Utimbuf__modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_utimbuf = stack[0].oval;
   
@@ -72,7 +72,7 @@ int32_t SPVM__Sys__IO__Utimbuf__modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__Utimbuf__set_modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Time__Utimbuf__set_modtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_utimbuf = stack[0].oval;
   

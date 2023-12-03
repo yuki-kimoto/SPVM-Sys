@@ -7,7 +7,6 @@ class Sys::IO {
   use Sys::IO::Stat;
   use Sys::IO::DirStream;
   use Sys::IO::Dirent;
-  use Sys::IO::Utimbuf;
   use Sys::IO::Flock;
   use Sys::IO::Constant as IO;
   use Sys::IO::Windows;
@@ -146,8 +145,6 @@ class Sys::IO {
   
   native static method seekdir : void ($dirp : Sys::IO::DirStream, $offset : long);
   
-  native static method utime : int ($filename : string, $times : Sys::IO::Utimbuf);
-  
   native static method access : int ($pathname : string, $mode : int);
   
   native static method faccessat : int ($dirfd : int, $pathname : string, $mode : int, $flags : int);
@@ -215,8 +212,6 @@ class Sys::IO {
       return $buffer;
     }
   }
-  
-  native static method utimes : int ($filename : string, $times : Sys::Time::Timeval[]);
   
   native static method popen : Sys::IO::FileStream ($command : string, $type : string);
   

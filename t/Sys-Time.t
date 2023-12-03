@@ -13,6 +13,8 @@ use SPVM 'Int';
 
 use SPVM 'TestCase::Sys::Time';
 
+my $test_dir = "$FindBin::Bin";
+
 my $api = SPVM::api();
 
 # Start objects count
@@ -133,6 +135,10 @@ else {
 }
 
 ok(SPVM::TestCase::Sys::Time->nanosleep);
+
+ok(SPVM::TestCase::Sys::Time->utime("$test_dir"));
+
+ok(SPVM::TestCase::Sys::Time->utimes("$test_dir"));
 
 $api->set_exception(undef);
 

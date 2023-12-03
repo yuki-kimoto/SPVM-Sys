@@ -1,20 +1,20 @@
-package SPVM::Sys::IO::Utimbuf;
+package SPVM::Sys::Time::Utimbuf;
 
 1;
 
 =head1 Name
 
-SPVM::Sys::IO::Utimbuf - struct utimbuf in the C language
+SPVM::Sys::Time::Utimbuf - struct utimbuf in the C language
 
 =head1 Description
 
-The Sys::IO::Utimbuf of L<SPVM> represents the C<struct utimbuf> in the C language.
+The Sys::Time::Utimbuf of L<SPVM> represents the C<struct utimbuf> in the C language.
 
 =head1 Usage
 
-  use Sys::IO::Utimbuf;
+  use Sys::Time::Utimbuf;
   
-  my $utimbuf = Sys::IO::Utimbuf->new;
+  my $utimbuf = Sys::Time::Utimbuf->new;
   
   my $actime = $utimbuf->actime;
   my $modtime = $utimbuf->modtime;
@@ -30,9 +30,9 @@ This is a pointer class. The pointer of the instance is set to a C<struct utimbu
 
 =head2 new
 
-C<static method new : L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> ();>
+C<static method new : L<Sys::Time::Utimbuf|SPVM::Sys::Time::Utimbuf> ();>
 
-Create a new L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> object.
+Create a new L<Sys::Time::Utimbuf|SPVM::Sys::Time::Utimbuf> object.
 
 =head1 Instance Methods
 

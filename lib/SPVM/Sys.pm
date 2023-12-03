@@ -432,6 +432,18 @@ C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
 
 Works just like L</"localtime">, but the returned values are localized for the standard Greenwich time zone.
 
+=head2 utime
+
+C<static method utime : void ($atime : long, $mtime : long, $filename : string);>
+
+Changes the access time and the modification time of the inode specified by the file $filename given the access time $atime and the modification time $mtime.
+
+If $atime < 0 and $mtime < 0, changes the access time and the modification time to the current time..
+
+Exceptions:
+
+Exceptions thrown by the L<utime|SPVM::Sys::Time/"utime"> method in the Sys::Time class could be thrown.
+
 =head2 stat
 
 C<static method stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
@@ -786,14 +798,6 @@ C<static method lstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
 Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
 
 And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
-
-=head2 utime
-
-C<static method utime : void ($atime : long, $mtime : long, $filename : string);>
-
-Unless $atime < 0 and $mtime < 0, creates a L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> object.
-
-And calls the L<utime|SPVM::Sys::IO/"utime"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 chown
 
@@ -1247,8 +1251,6 @@ Searches a group entry given The group name $name. If found, returns the group e
 
 =item * L<Sys::IO::Stat|SPVM::Sys::IO::Stat>
 
-=item * L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf>
-
 =item * L<Sys::IO::Windows|SPVM::Sys::IO::Windows>
 
 =item * L<Sys::OS|SPVM::Sys::OS>
@@ -1330,6 +1332,8 @@ Searches a group entry given The group name $name. If found, returns the group e
 =item * L<Sys::Time::Tms|SPVM::Sys::Time::Tms>
 
 =item * L<Sys::Time::Util|SPVM::Sys::Time::Util>
+
+=item * L<Sys::Time::Utimbuf|SPVM::Sys::Time::Utimbuf>
 
 =item * L<Sys::User|SPVM::Sys::User>
 

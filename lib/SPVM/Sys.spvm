@@ -18,6 +18,7 @@ class Sys {
   use Sys::IO::Constant as IO;
   use Sys::Signal;
   use Sys::Time::Util;
+  use Sys::Time::Utimbuf;
   
   static method osname : string () {
     my $osname : string;
@@ -476,6 +477,22 @@ class Sys {
     return $tm;
   }
   
+  static method utime : void ($atime : long, $mtime : long, $filename : string) {
+    
+    my $utimbuf = (Sys::Time::Utimbuf)undef;
+    
+    if ($atime < 0 && $mtime < 0) {
+      # Set current time
+    }
+    else {
+      $utimbuf = Sys::Time::Utimbuf->new;
+      $utimbuf->set_actime($atime);
+      $utimbuf->set_modtime($mtime);
+    }
+    
+    Sys::Time->utime($filename, $utimbuf);
+  }
+  
   static method stat : Sys::IO::Stat ($path : string) {
     my $stat = Sys::IO::Stat->new;
     Sys::IO::Stat->stat($path, $stat);
@@ -864,22 +881,6 @@ class Sys {
     my $stat = Sys::IO::Stat->new;
     Sys::IO::Stat->lstat($path, $stat);
     return $stat;
-  }
-  
-  static method utime : void ($atime : long, $mtime : long, $filename : string) {
-    
-    my $utimbuf = (Sys::IO::Utimbuf)undef;
-    
-    if ($atime < 0 && $mtime < 0) {
-      # Do nothing
-    }
-    else {
-      $utimbuf = Sys::IO::Utimbuf->new;
-      $utimbuf->set_actime($atime);
-      $utimbuf->set_modtime($mtime);
-    }
-    
-    Sys::IO->utime($filename, $utimbuf);
   }
   
   static method chown : void ($owner : int, $group : int, $path : string) {

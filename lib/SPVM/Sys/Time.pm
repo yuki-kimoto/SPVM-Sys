@@ -160,6 +160,20 @@ $rqtp must be defined. Otherwise an exception is thrown.
 
 If the nanosleep function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System>.
 
+=head2 utime
+
+C<static method utime : int ($filename : string, $times : L<Sys::Time::Utimbuf|SPVM::Sys::Time::Utimbuf>);>
+
+Calls the L<utime|https://linux.die.net/man/2/utime> function, and returns its return value.
+
+=head2 utimes
+
+C<static method utimes : int ($filename : string, $times : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>[]);>
+
+Calls the L<utimes|https://linux.die.net/man/2/utimes> function, and returns its return value.
+
+The utime() system call changes the access and modification times of the inode specified by filename to the actime and modtime fields of times respectively.
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

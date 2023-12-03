@@ -401,16 +401,6 @@ See the L<seekdir|https://linux.die.net/man/3/seekdir> function in Linux.
 
 The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
 
-=head2 utime
-
-C<static method utime : int ($filename : string, $times : L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf>);>
-
-The utime() system call changes the access and modification times of the inode specified by filename to the actime and modtime fields of times respectively.
-
-See the L<utime|https://linux.die.net/man/2/utime> function in Linux.
-
-The buf is a L<Sys::IO::Utimbuf|SPVM::Sys::IO::Utimbuf> object.
-
 =head2 access
 
 C<static method access : int ($pathname : string, $mode : int);>
