@@ -404,7 +404,7 @@ If the fsync function failed, an exception is thrown with C<eval_error_id> set t
 
 C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock = undef);>
 
-Calls the L<lstat|https://linux.die.net/man/2/fcntl> function and returns its return value.
+Calls the L<fcntl|https://linux.die.net/man/2/fcntl> function and returns its return value.
 
 Exceptions:
 
@@ -432,57 +432,119 @@ Exceptions:
 
 If the flock function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+=head2 access
+
+C<static method access : int ($pathname : string, $mode : int);>
+
+Calls the L<access|https://linux.die.net/man/2/access> function and returns its return value.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the mode $mode.
+
+Exceptions:
+
+$pathname must be defined. Otherwise an exception is thrown.
+
+If the access function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 faccessat
+
+  static method faccessat : int ($dirfd : int, $pathname : string, $mode : int, $flags : int);
+
+Calls the L<faccessat|https://linux.die.net/man/2/faccessat> function and returns its return value.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the mode $mode and the flag $flag.
+
+Exceptions:
+
+$pathname must be defined. Otherwise an exception is thrown.
+
+If the faccessat function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 eaccess
+
+C<static method eaccess : int ($pathname : string, $mode : int);>
+
+Calls L</eaccess() checks whether the calling process can eaccess the file pathname. If pathname is a symbolic link, it is dereferenced.
+
+Calls the L</"faccessat"> method given the following $dirfd and $flag.
+
+$dirfd is C<AT_FDCWD>.
+
+$flag is C<AT_EACCESS>.
+
+=head2 truncate
+
+C<static method truncate : int ($path : string, $length : long);>
+
+Calls the L<truncate|https://linux.die.net/man/2/truncate> function and returns its return value.
+
+Exceptions:
+
+$path must be defined.
+
+$length must be less than or equal to 0.
+
+If the truncate function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 mkdir
 
 C<static method mkdir : int ($path : string, $mode : int);>
 
-mkdir() attempts to create a directory named pathname.
+Windows:
 
-See the L<mkdir|https://linux.die.net/man/2/mkdir> function in Linux.
+Calls the L<_mkdir|https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/mkdir-wmkdir?view=msvc-170> function and return its return value.
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the mode.
+OS other than Windows:
+
+Calls the L<mkdir|https://linux.die.net/man/2/mkdir> function and return its return value.
 
 Exceptions:
+
+If the mkdir(or _mkdir) function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 umask
 
 C<static method umask : int ($mode : int);>
 
-umask() sets the calling process's file mode creation mask (umask) to mask & 0777 (i.e., only the file permission bits of mask are used), and returns the previous value of the mask.
-
-See the L<umask|https://linux.die.net/man/2/umask> function in Linux.
-
-Exceptions:
+Calls the L<umask|https://linux.die.net/man/2/umask> function and return its return value.
 
 =head2 rmdir
 
 C<static method rmdir : int ($path : string);>
 
-rmdir() deletes a directory, which must be empty.
-
-See the L<rmdir|https://linux.die.net/man/2/rmdir> function in Linux.
+Calls the L<rmdir|https://linux.die.net/man/2/rmdir> function and return its return value.
 
 Exceptions:
+
+$path must be defined.
+
+If the rmdir function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 unlink
 
 C<static method unlink : int ($pathname : string);>
 
-unlink() deletes a name from the file system. If that name was the last link to a file and no processes have the file open the file is deleted and the space it was using is made available for reuse.
-
-See the L<unlink|https://linux.die.net/man/2/unlink> function in Linux.
+Calls the L<unlink|https://linux.die.net/man/2/unlink> function and return its return value.
 
 Exceptions:
+
+$pathname must be defined.
+
+If the unlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 rename
 
 C<static method rename : int ($oldpath : string, $newpath : string);>
 
-rename() renames a file, moving it between directories if required. Any other hard links to the file (as created using link(2)) are unaffected. Open file descriptors for oldpath are also unaffected.
-
-See the L<rename|https://linux.die.net/man/2/rename> function in Linux.
+Calls the L<rename|https://linux.die.net/man/2/rename> function and return its return value.
 
 Exceptions:
+
+$oldpath must be defined.
+
+$newpath must be defined.
+
+If the rename function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 getcwd
 
@@ -553,16 +615,6 @@ C<static method chown : int ($path : string, $owner : int, $group : int);>
 chown() changes the ownership of the file specified by path, which is dereferenced if it is a symbolic link.
 
 See the L<chown|https://linux.die.net/man/2/chown> function in Linux.
-
-Exceptions:
-
-=head2 truncate
-
-C<static method truncate : int ($path : string, $length : long);>
-
-The truncate() and ftruncate() functions cause the regular file named by path or referenced by fd to be truncated to a size of precisely length bytes.
-
-See the L<truncate|https://linux.die.net/man/2/truncate> function in Linux.
 
 Exceptions:
 
@@ -664,42 +716,6 @@ The seekdir() function sets the location in the directory stream from which the 
 See the L<seekdir|https://linux.die.net/man/3/seekdir> function in Linux.
 
 The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
-
-Exceptions:
-
-=head2 access
-
-C<static method access : int ($pathname : string, $mode : int);>
-
-access() checks whether the calling process can access the file pathname. If pathname is a symbolic link, it is dereferenced.
-
-See the L<access|https://linux.die.net/man/2/access> function in Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the mode.
-
-Exceptions:
-
-=head2 eaccess
-
-C<static method eaccess : int ($pathname : string, $mode : int);>
-
-eaccess() checks whether the calling process can eaccess the file pathname. If pathname is a symbolic link, it is dereferenced.
-
-See the L<eaccess|https://linux.die.net/man/3/eaccess> function in Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the $mode.
-
-Exceptions:
-
-=head2 faccessat
-
-  static method faccessat : int ($dirfd : int, $pathname : string, $mode : int, $flags : int);
-
-check user's permissions of a file relative to a directory file descriptor.
-
-See the L<faccessat|https://linux.die.net/man/2/faccessat> function in Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the $mode and $flag.
 
 Exceptions:
 

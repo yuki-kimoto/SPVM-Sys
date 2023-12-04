@@ -820,7 +820,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = truncate(path, length);
   if (status == -1) {
-    env->die(env, stack, "[System Error]truncate failed:%s. The \"%s\" file can't be truncated", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]truncate failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -848,7 +848,7 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]mkdir failed:%s. The \"%s\" directory can't be created", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]mkdir failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -880,7 +880,7 @@ int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = rmdir(path);
   if (status == -1) {
-    env->die(env, stack, "[System Error]rmdir failed:%s. The \"%s\" directory can't be removed", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]rmdir failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -901,7 +901,7 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = unlink(pathname);
   if (status == -1) {
-    env->die(env, stack, "[System Error]unlink failed:%s. The \"%s\" file can't be removed", env->strerror(env, stack, errno, 0), pathname, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]unlink failed:%s. $pathname is \"%s\".", env->strerror(env, stack, errno, 0), pathname, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -932,7 +932,7 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = rename(oldpath, newpath);
   if (status == -1) {
-    env->die(env, stack, "[System Error]rename failed:%s. The \"%s\" file can't be renamed to the \"%s\" file", env->strerror(env, stack, errno, 0), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]rename failed:%s. $oldpath is \"%s\". $newpath is \"%s\".", env->strerror(env, stack, errno, 0), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
