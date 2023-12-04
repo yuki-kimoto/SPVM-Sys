@@ -56,99 +56,119 @@ Returns the stderr opened by the SPVM language.
 
 C<static method fopen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($path : string, $mode : string);>
 
-The fopen() function opens the file whose name is the string pointed to by path and associates a stream with it.
+Calls the L<fopen|https://linux.die.net/man/3/fopen> function and returns its return value.
 
-See the L<fopen|https://linux.die.net/man/3/fopen> function in Linux.
+Exceptions:
 
-The return value is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+$path must be defined. Otherwise an exception is thrown.
+
+$mode must be defined. Otherwise an exception is thrown.
+
+If the fopen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 fdopen
 
 C<static method fdopen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($fd : int, $mode : string);>
 
-The fdopen() function associates a stream with the existing file descriptor, fd. The mode of the stream (one of the values "r", "r+", "w", "w+", "a", "a+") must be compatible with the mode of the file descriptor. The file position indicator of the new stream is set to that belonging to fd, and the error and end-of-file indicators are cleared. Modes "w" or "w+" do not cause truncation of the file. The file descriptor is not dup'ed, and will be closed when the stream created by fdopen() is closed. The result of applying fdopen() to a shared memory object is undefined.
-
-See the L<fdopen|https://linux.die.net/man/3/fdopen> function in Linux.
-
-The return value is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+Calls the L<fdopen|https://linux.die.net/man/3/fdopen> function and returns its return value.
 
 Exceptions:
 
 $fd must be greater than or equal to 0. Otherwise an exception is thrown.
 
+$mode must be defined. Otherwise an exception is thrown.
+
+If the fdopen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 fileno
 
 C<static method fileno : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-The function fileno() examines the argument stream and returns its integer descriptor.
+Calls the L<fileno|https://linux.die.net/man/3/fileno> function and returns its return value.
 
-See the L<fileno|https://linux.die.net/man/3/fileno> function in Linux.
+Exceptions:
 
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+$stream must be defined. Otherwise an exception is thrown.
+
+If the fileno function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 fread
 
 C<static method fread : int ($ptr : mutable string, $size : int, $nmemb : int, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $ptr_offset : int = 0);>
 
-The function fread() reads nmemb elements of data, each size bytes long, from the stream pointed to by stream, storing them at the location given by ptr + ptr_offset.
+Calls the L<fread|https://linux.die.net/man/3/fread> function and returns its return value.
 
-See the L<fread|https://linux.die.net/man/3/fread> function in Linux.
+Exceptions:
+
+$ptr must be defined. Otherwise an exception is thrown.
+
+$size must be more than or equal to 0. Otherwise an exception is thrown.
+
+$nmemb must be more than or equal to 0. Otherwise an exception is thrown.
+
+$stream must be defined. Otherwise an exception is thrown.
+
+$nmemb * $size must be less than or equal to the length of $ptr - $ptr_offset. Otherwise an exception is thrown.
 
 =head2 feof
 
 C<static method feof : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-The function feof() tests the end-of-file indicator for the stream pointed to by stream, returning nonzero if it is set. The end-of-file indicator can only be cleared by the function clearerr().
+Calls the L<feof|https://linux.die.net/man/3/feof> function and returns its return value.
 
-See the L<feof|https://linux.die.net/man/3/feof> function in Linux.
+Exceptions:
 
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+$stream must be defined. Otherwise an exception is thrown.
 
 =head2 ferror
 
 C<static method ferror : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-The function ferror() tests the error indicator for the stream pointed to by stream, returning nonzero if it is set. The error indicator can only be reset by the clearerr() function.
+Calls the L<ferror|https://linux.die.net/man/3/ferror> function and returns its return value.
 
-See the L<ferror|https://linux.die.net/man/3/ferror> function in Linux.
+Exceptions:
 
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+$stream must be defined. Otherwise an exception is thrown.
 
 =head2 clearerr
 
 C<static method clearerr : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-The function clearerr() clears the end-of-file and error indicators for the stream pointed to by stream.
+Calls the L<clearerr|https://linux.die.net/man/3/clearerr> function and returns its return value.
 
-See the L<clearerr|https://linux.die.net/man/3/clearerr> function in Linux.
+Exceptions:
 
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+$stream must be defined. Otherwise an exception is thrown.
 
 =head2 getc
 
 C<static method getc : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-getc() is equivalent to fgetc() except that it may be implemented as a macro which evaluates stream more than once.
+Calls the L<getc|https://linux.die.net/man/3/getc> function and returns its return value.
 
-See the L<getc|https://linux.die.net/man/3/getc> function in Linux.
+Exceptions:
 
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+$stream must be defined. Otherwise an exception is thrown.
 
 =head2 ungetc
 
 C<static method ungetc : int ($c : int, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-ungetc() pushes c back to stream, cast to unsigned char, where it is available for subsequent read operations. Pushed-back characters will be returned in reverse order; only one pushback is guaranteed.
+Calls the L<ungetc|https://linux.die.net/man/3/ungetc> function and returns its return value.
 
-See L<ungetc(3) - Linux man page|https://linux.die.net/man/3/ungetc> in Linux.
+Exceptions:
+
+$stream must be defined. Otherwise an exception is thrown.
+
+If the ungetc function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 fgets
 
 C<static method fgets : mutable string ($s : mutable string, $size : int, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $s_offset : int = 0);>
 
-fgets() reads in at most one less than size characters from stream and stores them into the buf pointed to by s + s_offset. Reading stops after an EOF or a newline. If a newline is read, it is stored into the buf. A terminating null byte (aq\0aq) is stored after the last character in the buf.
+Calls the L<fgets|https://linux.die.net/man/3/fgets> function and returns its return value.
 
-See the L<fgets|https://linux.die.net/man/3/fgets> function in Linux.
+Exceptions:
 
 =head2 fwrite
 
@@ -159,6 +179,8 @@ The function fwrite() writes nmemb elements of data, each size bytes long, to th
 See the L<fread|https://linux.die.net/man/3/fwrite> function in Linux.
 
 The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
+Exceptions:
 
 =head2 fseek
 
@@ -172,6 +194,8 @@ The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
 
+Exceptions:
+
 =head2 ftell
 
 C<static method ftell : long ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
@@ -181,6 +205,8 @@ The ftell() function obtains the current value of the file position indicator fo
 See the L<ftell|https://linux.die.net/man/3/ftell> function in Linux.
 
 The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+
+Exceptions:
 
 =head2 fclose
 
@@ -192,6 +218,8 @@ See the L<fclose|https://linux.die.net/man/3/fclose> function in Linux.
 
 The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
+Exceptions:
+
 =head2 fflush
 
 C<static method fflush : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
@@ -200,6 +228,8 @@ For output streams, fflush() forces a write of all user-space bufed data for the
 
 See the L<fflush|https://linux.die.net/man/3/fflush> function in Linux.
 
+Exceptions:
+
 =head2 fsync
 
 C<static method fsync : int ($fd : int);>
@@ -207,6 +237,8 @@ C<static method fsync : int ($fd : int);>
 fsync() transfers ("flushes") all modified in-core data of (i.e., modified buffer cache pages for) the file referred to by the file descriptor fd to the disk device (or other permanent storage device) so that all changed information can be retrieved even after the system crashed or was rebooted.
 
 See L<fsync(2) - Linux man page|https://linux.die.net/man/2/fsync> in Linux.
+
+Exceptions:
 
 =head2 flock
 
@@ -218,6 +250,8 @@ See the L<flock|https://linux.die.net/man/2/flock> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the operation.
 
+Exceptions:
+
 =head2 mkdir
 
 C<static method mkdir : int ($path : string, $mode : int);>
@@ -228,6 +262,8 @@ See the L<mkdir|https://linux.die.net/man/2/mkdir> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
 
+Exceptions:
+
 =head2 umask
 
 C<static method umask : int ($mode : int);>
@@ -235,6 +271,8 @@ C<static method umask : int ($mode : int);>
 umask() sets the calling process's file mode creation mask (umask) to mask & 0777 (i.e., only the file permission bits of mask are used), and returns the previous value of the mask.
 
 See the L<umask|https://linux.die.net/man/2/umask> function in Linux.
+
+Exceptions:
 
 =head2 rmdir
 
@@ -244,6 +282,8 @@ rmdir() deletes a directory, which must be empty.
 
 See the L<rmdir|https://linux.die.net/man/2/rmdir> function in Linux.
 
+Exceptions:
+
 =head2 unlink
 
 C<static method unlink : int ($pathname : string);>
@@ -251,6 +291,8 @@ C<static method unlink : int ($pathname : string);>
 unlink() deletes a name from the file system. If that name was the last link to a file and no processes have the file open the file is deleted and the space it was using is made available for reuse.
 
 See the L<unlink|https://linux.die.net/man/2/unlink> function in Linux.
+
+Exceptions:
 
 =head2 rename
 
@@ -260,6 +302,8 @@ rename() renames a file, moving it between directories if required. Any other ha
 
 See the L<rename|https://linux.die.net/man/2/rename> function in Linux.
 
+Exceptions:
+
 =head2 getcwd
 
 C<static method getcwd : mutable string ($buf : mutable string, $size : int);>
@@ -267,6 +311,8 @@ C<static method getcwd : mutable string ($buf : mutable string, $size : int);>
 The getcwd() function copies an absolute pathname of the current working directory to the array pointed to by buf, which is of length size.
 
 See the L<getcwd|https://linux.die.net/man/2/getcwd> function in Linux.
+
+Exceptions:
 
 =head2 _getdcwd
 
@@ -276,6 +322,8 @@ Gets the full path of the current working directory on the specified drive.
 
 See the L<_getdcwd|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/getdcwd-wgetdcwd?view=msvc-170> function in the case of Windows.
 
+Exceptions:
+
 =head2 realpath
 
 C<static method realpath : mutable string ($path : string, $resolved_path : mutable string);>
@@ -283,6 +331,8 @@ C<static method realpath : mutable string ($path : string, $resolved_path : muta
 realpath() expands all symbolic links and resolves references to /./, /../ and extra '/' characters in the null-terminated string named by path to produce a canonicalized absolute pathname. The resulting pathname is stored as a null-terminated string, up to a maximum of PATH_MAX bytes, in the buf pointed to by resolved_path. The resulting path will have no symbolic link, /./ or /../ components.
 
 See the L<realpath|https://linux.die.net/man/3/realpath> function in Linux.
+
+Exceptions:
 
 =head2 _fullpath
 
@@ -292,6 +342,8 @@ Creates an absolute or full path name for the specified relative path name.
 
 See the L<_fullpath|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/fullpath-wfullpath?view=msvc-170> function in the case of Windows.
 
+Exceptions:
+
 =head2 chdir
 
 C<static method chdir : int ($path : string);>
@@ -299,6 +351,8 @@ C<static method chdir : int ($path : string);>
 chdir() changes the current working directory of the calling process to the directory specified in path.
 
 See the L<chdir|https://linux.die.net/man/2/chdir> function in Linux.
+
+Exceptions:
 
 =head2 chmod
 
@@ -310,6 +364,8 @@ See the L<chmod|https://linux.die.net/man/2/chmod> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
 
+Exceptions:
+
 =head2 chown
 
 C<static method chown : int ($path : string, $owner : int, $group : int);>
@@ -317,6 +373,8 @@ C<static method chown : int ($path : string, $owner : int, $group : int);>
 chown() changes the ownership of the file specified by path, which is dereferenced if it is a symbolic link.
 
 See the L<chown|https://linux.die.net/man/2/chown> function in Linux.
+
+Exceptions:
 
 =head2 truncate
 
@@ -326,6 +384,8 @@ The truncate() and ftruncate() functions cause the regular file named by path or
 
 See the L<truncate|https://linux.die.net/man/2/truncate> function in Linux.
 
+Exceptions:
+
 =head2 symlink
 
 C<static method symlink : int ($oldpath : string, $newpath : string);>
@@ -333,6 +393,8 @@ C<static method symlink : int ($oldpath : string, $newpath : string);>
 symlink() creates a symbolic link named newpath which contains the string oldpath.
 
 See the L<symlink|https://linux.die.net/man/2/symlink> function in Linux.
+
+Exceptions:
 
 =head2 readlink
 
@@ -342,11 +404,15 @@ readlink() places the contents of the symbolic link path in the buf buf, which h
 
 See the L<readlink|https://linux.die.net/man/2/readlink> function in Linux.
 
+Exceptions:
+
 =head2 get_readlink_buffer_size
 
 C<native static method get_readlink_buffer_size : int ($path : string);>
 
 Gets the L</"readlink"> needed buffer size.
+
+Exceptions:
 
 =head2 opendir
 
@@ -358,6 +424,8 @@ See the L<opendir|https://linux.die.net/man/3/opendir> function in Linux.
 
 The return value is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
 
+Exceptions:
+
 =head2 closedir
 
 C<static method closedir : int ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
@@ -367,6 +435,8 @@ The closedir() function closes the directory stream associated with dirp. A succ
 See the L<closedir|https://linux.die.net/man/3/closedir> function in Linux.
 
 The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+
+Exceptions:
 
 =head2 readdir
 
@@ -380,6 +450,8 @@ The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
 
 The return value is a L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> object.
 
+Exceptions:
+
 =head2 rewinddir
 
 C<static method rewinddir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
@@ -389,6 +461,8 @@ The rewinddir() function resets the position of the directory stream dirp to the
 See the L<rewinddir|https://linux.die.net/man/3/rewinddir> function in Linux.
 
 The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+
+Exceptions:
 
 =head2 telldir
 
@@ -400,6 +474,8 @@ See the L<telldir|https://linux.die.net/man/3/telldir> function in Linux.
 
 The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
 
+Exceptions:
+
 =head2 seekdir
 
 C<static method seekdir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>, $offset : long);>
@@ -408,6 +484,8 @@ The seekdir() function sets the location in the directory stream from which the 
 See the L<seekdir|https://linux.die.net/man/3/seekdir> function in Linux.
 
 The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+
+Exceptions:
 
 =head2 access
 
@@ -419,6 +497,8 @@ See the L<access|https://linux.die.net/man/2/access> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
 
+Exceptions:
+
 =head2 eaccess
 
 C<static method eaccess : int ($pathname : string, $mode : int);>
@@ -428,6 +508,8 @@ eaccess() checks whether the calling process can eaccess the file pathname. If p
 See the L<eaccess|https://linux.die.net/man/3/eaccess> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the $mode.
+
+Exceptions:
 
 =head2 faccessat
 
@@ -439,41 +521,7 @@ See the L<faccessat|https://linux.die.net/man/2/faccessat> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the $mode and $flag.
 
-=head2 stat_raw
-
-C<static method stat_raw : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
-
-The same as L</"stat">, but even if the return value is C<-1>, an exception will not be thrown.
-
-=head2 stat
-
-C<static method stat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
-
-These functions return information about a file. No permissions are required on the file itself, but-in the case of stat() and lstat() - execute (search) permission is required on all of the directories in path that lead to the file.
-
-stat() stats the file pointed to by path and fills in buf.
-
-See the L<stat|https://linux.die.net/man/2/stat> function in Linux.
-
-The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
-
-=head2 lstat_raw
-
-C<static method lstat_raw : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
-
-The same as L</"lstat">, but even if the return value is C<-1>, an exception will not be thrown.
-
-=head2 lstat
-
-C<static method lstat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
-
-These functions return information about a file. No permissions are required on the file itself, but-in the case of stat() and lstat() - execute (search) permission is required on all of the directories in path that lead to the file.
-
-lstat() is identical to stat(), except that if path is a symbolic link, then the link itself is stat-ed, not the file that it refers to.
-
-See the L<lstat|https://linux.die.net/man/2/lstat> function in Linux.
-
-The stat is L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+Exceptions:
 
 =head2 fcntl
 
@@ -485,6 +533,8 @@ See the L<lstat|https://linux.die.net/man/2/fcntl> function in Linux.
 
 The command argument can receive a L<Sys::IO::Flock|SPVM::Sys::IO::Flock> object.
 
+Exceptions:
+
 =head2 ftruncate
 
 C<static method ftruncate : int ($fd : int, $length : long);>
@@ -493,21 +543,7 @@ The ftruncate() functions cause the regular file named by referenced by fd to be
 
 See L<ftruncate(2) - Linux man page|https://linux.die.net/man/2/ftruncate> in Linux.
 
-=head2 fstat_raw
-
-C<static method fstat_raw : int ($fd : int, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
-
-The same as L</"fstat">, but even if the return value is C<-1>, an exception will not be thrown.
-
-=head2 fstat
-
-C<static method fstat : int ($fd : int, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
-
-fstat() is identical to stat(), except that the file to be stat-ed is specified by the file descriptor fd.
-
-See L<fstat(2) - Linux man page|https://linux.die.net/man/2/fsync> in Linux.
-
-The C<$stat> is a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+Exceptions:
 
 =head2 freopen
 
@@ -516,6 +552,8 @@ C<static method freopen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($pat
 The freopen() function opens the file whose name is the string pointed to by path and associates the stream pointed to by stream with it.
 
 See L<freopen(3) - Linux man page|https://linux.die.net/man/3/freopen> in Linux.
+
+Exceptions:
 
 =head2 setvbuf
 
@@ -526,6 +564,8 @@ The setvbuf() function may be used on any open stream to change its buffer.
 See L<setvbuf(3) - Linux man page|https://linux.die.net/man/3/setvbuf> in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the C<$mode>.
+
+Exceptions:
 
 =head2 setbuf
 
@@ -543,6 +583,8 @@ The same as the following code using L</"setvbuf">.
     
     &setvbuf($stream, $buf, $mode, IO->BUFSIZ);
 
+Exceptions:
+
 =head2 setbuffer
 
 C<static method setbuffer : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $size : int);>
@@ -559,6 +601,8 @@ The same as the following code using L</"setvbuf">.
   
   &setvbuf($stream, $buf, $mode, $size);
 
+Exceptions:
+
 =head2 setlinebuf
 
 C<static method setlinebuf : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
@@ -567,6 +611,8 @@ The same as the following code using L</"setvbuf">.
 
   my $mode = IO->_IOLBF;
   &setvbuf($stream, undef, $mode, IO->BUFSIZ);
+
+Exceptions:
 
 =head2 open
 
@@ -578,6 +624,8 @@ See the L<open|https://linux.die.net/man/2/open> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the flags and the mode.
 
+Exceptions:
+
 =head2 read
 
 C<static method read : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
@@ -586,6 +634,8 @@ read() attempts to read up to count bytes from file descriptor fd into the buf s
 
 See the L<read|https://linux.die.net/man/2/read> function in Linux.
 
+Exceptions:
+
 =head2 write
 
 C<static method write : int ($fd : int, $buf : string, $count : int, $buf_offset : int = 0);>
@@ -593,6 +643,8 @@ C<static method write : int ($fd : int, $buf : string, $count : int, $buf_offset
 write() writes up to count bytes from the buf pointed buf + buf_offset to the file referred to by the file descriptor fd.
 
 See the L<write|https://linux.die.net/man/2/write> function in Linux.
+
+Exceptions:
 
 =head2 lseek
 
@@ -604,6 +656,8 @@ See the L<lseek|https://linux.die.net/man/2/lseek> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
 
+Exceptions:
+
 =head2 close
 
 C<static method close : int ($fd : int);>
@@ -611,6 +665,8 @@ C<static method close : int ($fd : int);>
 close() closes a file descriptor, so that it no longer refers to any file and may be reused. Any record locks (see fcntl(2)) held on the file it was associated with, and owned by the process, are removed (regardless of the file descriptor that was used to obtain the lock).
 
 See the L<close|https://linux.die.net/man/2/close> function in Linux.
+
+Exceptions:
 
 =head2 popen
 
@@ -626,6 +682,8 @@ $type must be defined. Otherwise an exception is thrown.
 
 If the popen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+Exceptions:
+
 =head2 _popen
 
 C<static method _popen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($command : string, $type : string);>
@@ -640,6 +698,8 @@ $type must be defined. Otherwise an exception is thrown.
 
 If the _popen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+Exceptions:
+
 =head2 pclose
 
 C<static method pclose : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
@@ -651,6 +711,8 @@ Exceptions:
 $stream must be defined. Otherwise an exception is thrown.
 
 If the pclose function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+Exceptions:
 
 =head2 _pclose
 

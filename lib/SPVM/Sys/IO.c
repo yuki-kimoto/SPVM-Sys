@@ -23,260 +23,6 @@
 
 const char* FILE_NAME = "Sys/IO.c";
 
-int32_t SPVM__Sys__IO__INIT_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  FILE* stream = stdin;
-  
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__INIT_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  FILE* stream = stdout;
-  
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__INIT_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  FILE* stream = stderr;
-  
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__INIT_SPVM_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  void* runtime = env->runtime;
-  
-  FILE* spvm_stdin = env->api->runtime->get_spvm_stdin(runtime);
-  
-  FILE* stream = spvm_stdin;
-  
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__INIT_SPVM_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  void* runtime = env->runtime;
-  
-  FILE* spvm_stdout = env->api->runtime->get_spvm_stdout(runtime);
-  
-  FILE* stream = spvm_stdout;
-  
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__INIT_SPVM_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  void* runtime = env->runtime;
-  
-  FILE* spvm_stderr = env->api->runtime->get_spvm_stderr(runtime);
-  
-  FILE* stream = spvm_stderr;
-  
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  
-  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t flags = stack[1].ival;
-  
-  int32_t mode = stack[2].ival;
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  int32_t fd = open(path, flags, mode);
-  if (fd == -1) {
-    env->die(env, stack, "[System Error]open failed:%s. The \"%s\" file can't be opend", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = fd;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  void* obj_buf = stack[1].oval;
-  if (!obj_buf) {
-    return env->die(env, stack, "$buf must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  char* buf = (char*)env->get_chars(env, stack, obj_buf);
-  int32_t buf_length = env->length(env, stack, obj_buf);
-  
-  int32_t count = stack[2].ival;
-  if (!(count >= 0)) {
-    return env->die(env, stack, "$count must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t buf_offset = stack[3].ival;
-  if (!(count <= buf_length - buf_offset)) {
-    return env->die(env, stack, "$count must be less than the length of $buf - $buf_offset.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t read_length = read(fd, buf + buf_offset, count);
-  if (read_length == -1) {
-    env->die(env, stack, "[System Error]read failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = read_length;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  void* obj_buf = stack[1].oval;
-  if (!obj_buf) {
-    return env->die(env, stack, "$buf must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  char* buf = (char*)env->get_chars(env, stack, obj_buf);
-  int32_t buf_length = env->length(env, stack, obj_buf);
-  
-  int32_t count = stack[2].ival;
-  
-  int32_t buf_offset = stack[3].ival;
-  
-  if (!(buf_offset >= 0)) {
-    return env->die(env, stack, "$buf_offse must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  if (count < 0) {
-    count = buf_length - buf_offset;
-  }
-  
-  if (!(count <= buf_length - buf_offset)) {
-    return env->die(env, stack, "$count must be less than the length of $buf - $buf_offset.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t write_length = write(fd, buf + buf_offset, count);
-  if (write_length == -1) {
-    env->die(env, stack, "[System Error]write failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = write_length;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t fd = stack[0].ival;
-  
-  int64_t offset = stack[1].lval;
-  
-  if (!(offset >= 0)) {
-    return env->die(env, stack, "$offset must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-
-  int32_t whence = stack[2].ival;
-
-  int64_t cur_offset = lseek(fd, offset, whence);
-  if (cur_offset == -1) {
-    env->die(env, stack, "[System Error]lseek failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  
-  stack[0].lval = cur_offset;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t fd = stack[0].ival;
-
-  int32_t status = close(fd);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]close failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
@@ -286,7 +32,7 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
-
+  
   void* obj_mode = stack[1].oval;
   if (!obj_mode) {
     return env->die(env, stack, "$mode must be defined.", __func__, FILE_NAME, __LINE__);
@@ -296,7 +42,7 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* stream = fopen(path, mode);
   
   if (!stream) {
-    env->die(env, stack, "[System Error]fopen failed:%s. The \"%s\" file can't be opend", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fopen failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -685,6 +431,145 @@ int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
+}
+
+int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t flags = stack[1].ival;
+  
+  int32_t mode = stack[2].ival;
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t fd = open(path, flags, mode);
+  if (fd == -1) {
+    env->die(env, stack, "[System Error]open failed:%s. The \"%s\" file can't be opend", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = fd;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  void* obj_buf = stack[1].oval;
+  if (!obj_buf) {
+    return env->die(env, stack, "$buf must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  char* buf = (char*)env->get_chars(env, stack, obj_buf);
+  int32_t buf_length = env->length(env, stack, obj_buf);
+  
+  int32_t count = stack[2].ival;
+  if (!(count >= 0)) {
+    return env->die(env, stack, "$count must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t buf_offset = stack[3].ival;
+  if (!(count <= buf_length - buf_offset)) {
+    return env->die(env, stack, "$count must be less than the length of $buf - $buf_offset.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t read_length = read(fd, buf + buf_offset, count);
+  if (read_length == -1) {
+    env->die(env, stack, "[System Error]read failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = read_length;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  void* obj_buf = stack[1].oval;
+  if (!obj_buf) {
+    return env->die(env, stack, "$buf must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  char* buf = (char*)env->get_chars(env, stack, obj_buf);
+  int32_t buf_length = env->length(env, stack, obj_buf);
+  
+  int32_t count = stack[2].ival;
+  
+  int32_t buf_offset = stack[3].ival;
+  
+  if (!(buf_offset >= 0)) {
+    return env->die(env, stack, "$buf_offse must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  if (count < 0) {
+    count = buf_length - buf_offset;
+  }
+  
+  if (!(count <= buf_length - buf_offset)) {
+    return env->die(env, stack, "$count must be less than the length of $buf - $buf_offset.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t write_length = write(fd, buf + buf_offset, count);
+  if (write_length == -1) {
+    env->die(env, stack, "[System Error]write failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = write_length;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t fd = stack[0].ival;
+  
+  int64_t offset = stack[1].lval;
+  
+  if (!(offset >= 0)) {
+    return env->die(env, stack, "$offset must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+
+  int32_t whence = stack[2].ival;
+
+  int64_t cur_offset = lseek(fd, offset, whence);
+  if (cur_offset == -1) {
+    env->die(env, stack, "[System Error]lseek failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  
+  stack[0].lval = cur_offset;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t fd = stack[0].ival;
+
+  int32_t status = close(fd);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]close failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -1605,4 +1490,119 @@ int32_t SPVM__Sys__IO___pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
+}
+
+int32_t SPVM__Sys__IO__INIT_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  FILE* stream = stdin;
+  
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__INIT_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  FILE* stream = stdout;
+  
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__INIT_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  FILE* stream = stderr;
+  
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__INIT_SPVM_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  void* runtime = env->runtime;
+  
+  FILE* spvm_stdin = env->api->runtime->get_spvm_stdin(runtime);
+  
+  FILE* stream = spvm_stdin;
+  
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__INIT_SPVM_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  void* runtime = env->runtime;
+  
+  FILE* spvm_stdout = env->api->runtime->get_spvm_stdout(runtime);
+  
+  FILE* stream = spvm_stdout;
+  
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__INIT_SPVM_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  void* runtime = env->runtime;
+  
+  FILE* spvm_stderr = env->api->runtime->get_spvm_stderr(runtime);
+  
+  FILE* stream = spvm_stderr;
+  
+  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  
+  env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
 }
