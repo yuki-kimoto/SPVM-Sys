@@ -414,23 +414,23 @@ $command_arg must be an instance of the Int class or Sys::IO::Flock class.
 
 C<static method ftruncate : int ($fd : int, $length : long);>
 
-The ftruncate() functions cause the regular file named by referenced by fd to be truncated to a size of precisely length bytes.
-
-See L<ftruncate(2) - Linux man page|https://linux.die.net/man/2/ftruncate> in Linux.
+Calls the L<ftruncate|https://linux.die.net/man/2/ftruncate> function and returns its return value.
 
 Exceptions:
+
+If the ftruncate function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 flock
 
 C<static method flock : int ($fd : int, $operation : int);>
 
-Apply or remove an advisory lock on the open file specified by fd. The argument operation is one of the following:
+Calls the L<flock|https://linux.die.net/man/2/flock> function and returns its return value.
 
-See the L<flock|https://linux.die.net/man/2/flock> function in Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the operation.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the operation $operation.
 
 Exceptions:
+
+If the flock function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 mkdir
 
