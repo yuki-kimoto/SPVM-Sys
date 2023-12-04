@@ -1151,138 +1151,6 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  void* obj_dir = stack[0].oval;
-  if (!obj_dir) {
-    return env->die(env, stack, "$dir must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* dir = env->get_chars(env, stack, obj_dir);
-  
-  DIR* dir_stream = opendir(dir);
-  if (!dir_stream) {
-    env->die(env, stack, "[System Error]opendir failed:%s. The \"%s\" directory can't be opened", env->strerror(env, stack, errno, 0), dir, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  void* obj_dir_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::DirStream", dir_stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_dir_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  void* obj_dirp = stack[0].oval;
-  if (!obj_dirp) {
-    return env->die(env, stack, "$dirp object must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
-  
-  int32_t status = closedir(dirp);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]closedir failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  env->set_field_byte_by_name(env, stack, obj_dirp, "closed", 1, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  void* obj_dirp = stack[0].oval;
-  if (!obj_dirp) {
-    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
-  
-  errno = 0;
-  struct dirent* dirent = readdir(dirp);
-  if (errno != 0) {
-    env->die(env, stack, "[System Error]readdir failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  if (dirent) {
-    void* obj_dirent = env->new_pointer_object_by_name(env, stack, "Sys::IO::Dirent", dirent, &error_id, __func__, FILE_NAME, __LINE__);
-    if (error_id) { return error_id; }
-    stack[0].oval = obj_dirent;
-  }
-  else {
-    stack[0].oval = NULL;
-  }
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_dirp = stack[0].oval;
-  
-  if (!obj_dirp) {
-    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
-  
-  rewinddir(dirp);
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_dirp = stack[0].oval;
-  if (!obj_dirp) {
-    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
-  
-  int64_t offset = telldir(dirp);
-  if (offset == -1) {
-    env->die(env, stack, "[System Error]telldir failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].lval = offset;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_dirp = stack[0].oval;
-  
-  if (!obj_dirp) {
-    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
-
-  int64_t offset = stack[1].ival;
-  
-  if (!(offset >= 0)) {
-    return env->die(env, stack, "$offset must be less than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  seekdir(dirp, offset);
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   void* obj_pathname = stack[0].oval;
@@ -1473,6 +1341,138 @@ int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  void* obj_dir = stack[0].oval;
+  if (!obj_dir) {
+    return env->die(env, stack, "$dir must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* dir = env->get_chars(env, stack, obj_dir);
+  
+  DIR* dir_stream = opendir(dir);
+  if (!dir_stream) {
+    env->die(env, stack, "[System Error]opendir failed:%s. The \"%s\" directory can't be opened", env->strerror(env, stack, errno, 0), dir, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  void* obj_dir_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::DirStream", dir_stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_dir_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  void* obj_dirp = stack[0].oval;
+  if (!obj_dirp) {
+    return env->die(env, stack, "$dirp object must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
+  
+  int32_t status = closedir(dirp);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]closedir failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  env->set_field_byte_by_name(env, stack, obj_dirp, "closed", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  void* obj_dirp = stack[0].oval;
+  if (!obj_dirp) {
+    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
+  
+  errno = 0;
+  struct dirent* dirent = readdir(dirp);
+  if (errno != 0) {
+    env->die(env, stack, "[System Error]readdir failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  if (dirent) {
+    void* obj_dirent = env->new_pointer_object_by_name(env, stack, "Sys::IO::Dirent", dirent, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) { return error_id; }
+    stack[0].oval = obj_dirent;
+  }
+  else {
+    stack[0].oval = NULL;
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_dirp = stack[0].oval;
+  
+  if (!obj_dirp) {
+    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
+  
+  rewinddir(dirp);
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_dirp = stack[0].oval;
+  if (!obj_dirp) {
+    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
+  
+  int64_t offset = telldir(dirp);
+  if (offset == -1) {
+    env->die(env, stack, "[System Error]telldir failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].lval = offset;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_dirp = stack[0].oval;
+  
+  if (!obj_dirp) {
+    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  DIR* dirp = env->get_pointer(env, stack, obj_dirp);
+
+  int64_t offset = stack[1].ival;
+  
+  if (!(offset >= 0)) {
+    return env->die(env, stack, "$offset must be less than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  seekdir(dirp, offset);
   
   return 0;
 }

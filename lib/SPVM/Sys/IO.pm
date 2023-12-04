@@ -16,49 +16,41 @@ C<Sys::IO> is the class for the file IO.
 
 =head1 Class Methods
 
-=head2 open
+=head2 stdin
 
-C<static method open : int ($path : string, $flags : int, $mode : int = 0);>
+C<static method stdin : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Given a pathname for a file, open() returns a file descriptor, a small, nonnegative integer for use in subsequent system calls (read(2), write(2), lseek(2), fcntl(2), etc.). The file descriptor returned by a successful call will be the lowest-numbered file descriptor not currently open for the process.
+Returns L<stdin|https://linux.die.net/man/3/stdin>.
 
-See the L<open|https://linux.die.net/man/2/open> function in Linux.
+=head2 stdout
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the flags and the mode.
+C<static method stdout : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-=head2 read
+Returns L<stdout|https://linux.die.net/man/3/stdout>.
 
-C<static method read : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
+=head2 stderr
 
-read() attempts to read up to count bytes from file descriptor fd into the buf starting at buf + buf_offset.
+C<static method stderr : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-See the L<read|https://linux.die.net/man/2/read> function in Linux.
+Returns L<stderr|https://linux.die.net/man/3/stderr>.
 
-=head2 write
+=head2 spvm_stdin
 
-C<static method write : int ($fd : int, $buf : string, $count : int, $buf_offset : int = 0);>
+C<static method spvm_stdin : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-write() writes up to count bytes from the buf pointed buf + buf_offset to the file referred to by the file descriptor fd.
+Returns the stdin opened by the SPVM language.
 
-See the L<write|https://linux.die.net/man/2/write> function in Linux.
+=head2 spvm_stdout
 
-=head2 lseek
+C<static method spvm_stdout : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-C<static method lseek : long ($fd : int, $offset : long, $whence : int);>
+Returns the stdout opened by the SPVM language.
 
-The lseek() function repositions the offset of the open file associated with the file descriptor fd to the argument offset according to the directive whence as follows:
+=head2 spvm_stderr
 
-See the L<lseek|https://linux.die.net/man/2/lseek> function in Linux.
+C<static method spvm_stderr : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
-
-=head2 close
-
-C<static method close : int ($fd : int);>
-
-close() closes a file descriptor, so that it no longer refers to any file and may be reused. Any record locks (see fcntl(2)) held on the file it was associated with, and owned by the process, are removed (regardless of the file descriptor that was used to obtain the lock).
-
-See the L<close|https://linux.die.net/man/2/close> function in Linux.
+Returns the stderr opened by the SPVM language.
 
 =head2 fopen
 
@@ -576,47 +568,49 @@ The same as the following code using L</"setvbuf">.
   my $mode = IO->_IOLBF;
   &setvbuf($stream, undef, $mode, IO->BUFSIZ);
 
-=head2 stdin
+=head2 open
 
-C<static method stdin : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+C<static method open : int ($path : string, $flags : int, $mode : int = 0);>
 
-Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stdin> in the C language returns.
+Given a pathname for a file, open() returns a file descriptor, a small, nonnegative integer for use in subsequent system calls (read(2), write(2), lseek(2), fcntl(2), etc.). The file descriptor returned by a successful call will be the lowest-numbered file descriptor not currently open for the process.
 
-See L<stdin(3) - Linux man page|https://linux.die.net/man/3/stdin> in Linux.
+See the L<open|https://linux.die.net/man/2/open> function in Linux.
 
-=head2 stdout
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the flags and the mode.
 
-C<static method stdout : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+=head2 read
 
-Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stdout> in the C language returns.
+C<static method read : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
 
-See L<stdout(3) - Linux man page|https://linux.die.net/man/3/stdout> in Linux.
+read() attempts to read up to count bytes from file descriptor fd into the buf starting at buf + buf_offset.
 
-=head2 stderr
+See the L<read|https://linux.die.net/man/2/read> function in Linux.
 
-C<static method stderr : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+=head2 write
 
-Returns a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object that has the pointer to the stream that C<stderr> in the C language returns.
+C<static method write : int ($fd : int, $buf : string, $count : int, $buf_offset : int = 0);>
 
-See L<stderr(3) - Linux man page|https://linux.die.net/man/3/stderr> in Linux.
+write() writes up to count bytes from the buf pointed buf + buf_offset to the file referred to by the file descriptor fd.
 
-=head2 spvm_stdin
+See the L<write|https://linux.die.net/man/2/write> function in Linux.
 
-C<static method spvm_stdin : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+=head2 lseek
 
-Returns the stdin opened by the SPVM language.
+C<static method lseek : long ($fd : int, $offset : long, $whence : int);>
 
-=head2 spvm_stdout
+The lseek() function repositions the offset of the open file associated with the file descriptor fd to the argument offset according to the directive whence as follows:
 
-C<static method spvm_stdout : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+See the L<lseek|https://linux.die.net/man/2/lseek> function in Linux.
 
-Returns the stdin opened by the SPVM language.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
 
-=head2 spvm_stderr
+=head2 close
 
-C<static method spvm_stderr : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+C<static method close : int ($fd : int);>
 
-Returns the stdin opened by the SPVM language.
+close() closes a file descriptor, so that it no longer refers to any file and may be reused. Any record locks (see fcntl(2)) held on the file it was associated with, and owned by the process, are removed (regardless of the file descriptor that was used to obtain the lock).
+
+See the L<close|https://linux.die.net/man/2/close> function in Linux.
 
 =head2 popen
 
