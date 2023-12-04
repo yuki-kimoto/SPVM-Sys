@@ -42,7 +42,7 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* stream = fopen(path, mode);
   
   if (!stream) {
-    env->die(env, stack, "[System Error]fopen failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fopen failed:%s. $path is \"%s\". $mode is \"%s\"", env->strerror(env, stack, errno, 0), path, mode, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

@@ -16,13 +16,16 @@ The Sys class of L<SPVM> has methods to call system calls for file IO, sockets, 
 
   use Sys;
   
+  my $fd_ref = [(Sys::IO::FileStream)undef];
+  Sys->open($fd_ref, "<", $path);
+  
   Sys->mkdir("foo");
   
   Sys->rmdir("foo");
   
   my $path = Sys->env("PATH");
   
-  my $process_id = Sys->getpid;
+  my $process_id = Sys->process_id;
 
 =head1 Class Methods
 
@@ -30,36 +33,29 @@ The Sys class of L<SPVM> has methods to call system calls for file IO, sockets, 
 
 C<static method open : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
 
-$open_mode is replaced by the following logic.
+Opens a file given the 1-length array of the file stream $stream_ref, the open mode $open_mode and the file name $file_name. 
 
-  if ($open_mode eq "<") {
-    $open_mode = "rb";
-  }
-  elsif ($open_mode eq ">") {
-    $open_mode = "wb";
-  }
-  elsif ($open_mode eq ">>") {
-    $open_mode = "wa";
-  }
-  elsif ($open_mode eq "+<") {
-    $open_mode = "r+b";
-  }
-  elsif ($open_mode eq "+>") {
-    $open_mode = "w+b";
-  }
-  elsif ($open_mode eq "+>>") {
-    $open_mode = "a+b";
-  }
+The opened file stream is set to $stream_ref at index 0.
 
-Calls the L<fopen|SPVM::Sys::IO/"fopen"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+The open mode $open_mode is replaced to a representation of the L<fopen|https://linux.die.net/man/3/fopen> function before calling the L<fopen|https://linux.die.net/man/3/fopen> function.
 
-The return values is set to $stream_ref->[0].
+  [$open_mode]   [The mode of the fopen function]
+  <              rb
+  >              wb
+  >>             wa
+  +<             r+b
+  +>             w+b
+  +>>            a+b
+
+If available, C<FD_CLOEXEC> is set to the file descriptor of the opened file stream.
 
 Exceptions:
 
 $stream_ref must be defined. Otherwise an exception is thrown.
 
-The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
+The length of $stream_ref must be equal to 1. Otherwise an exception is thrown.
+
+Exceptions thrown by the L<fopen|Sys::IO/"fopen"> method in the Sys::IO class could be thrown.
 
 =head2 fdopen
 
@@ -94,7 +90,7 @@ Exceptions:
 
 $stream_ref must be defined. Otherwise an exception is thrown.
 
-The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
+The length of $stream_ref must be equal to 1. Otherwise an exception is thrown.
 
 =head2 sysopen
 
