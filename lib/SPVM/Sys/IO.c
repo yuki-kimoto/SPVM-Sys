@@ -461,7 +461,7 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* reopened_stream = freopen(path, mode, stream);
   
   if (!reopened_stream) {
-    env->die(env, stack, "[System Error]freopen failed:%s. The \"%s\" file can't be reopend", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]freopen failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -526,7 +526,7 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = open(path, flags, mode);
   if (fd == -1) {
-    env->die(env, stack, "[System Error]open failed:%s. $path is \"%s\"", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]open failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1057,7 +1057,7 @@ int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!ret_resolved_path) {
-    env->die(env, stack, "[System Error]realpath failed:%s. The \"%s\" file can't be resolved", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]realpath failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1098,7 +1098,7 @@ int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!ret_absPath) {
-    env->die(env, stack, "[System Error]_fullpath failed:%s. The \"%s\" file can't be resolved", env->strerror(env, stack, errno, 0), relPath, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]_fullpath failed:%s. $relPath is \"%s\".", env->strerror(env, stack, errno, 0), relPath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1118,7 +1118,7 @@ int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = chdir(path);
   if (status == -1) {
-    env->die(env, stack, "[System Error]chdir failed:%s. The current directory can't be changed to the \"%s\" directory", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]chdir failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1139,7 +1139,7 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = chmod(path, mode);
   if (status == -1) {
-    env->die(env, stack, "[System Error]chmod failed:%s. The permission of the \"%s\" file can't be changed", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]chmod failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1166,7 +1166,7 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = chown(path, owner, group);
   if (status == -1) {
-    env->die(env, stack, "[System Error]chown failed:%s. The owner/group of the \"%s\" file can't be changed", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]chown failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1197,7 +1197,7 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = symlink(oldpath, newpath);
   if (status == -1) {
-    env->die(env, stack, "[System Error]symlink failed:%s. The symbolic link from \"%s\" to \"%s\" can't be created", env->strerror(env, stack, errno, 0), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]symlink failed:%s. $oldpath is \"%s\". $newpath is \"%s\"", env->strerror(env, stack, errno, 0), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1237,7 +1237,7 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t placed_length = readlink(path, buf, bufsiz);
   if (placed_length == -1) {
-    env->die(env, stack, "[System Error]readlink failed:%s. The reading of the symbolic link of the \"%s\" file failed", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]readlink failed:%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1259,7 +1259,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   DIR* dir_stream = opendir(dir);
   if (!dir_stream) {
-    env->die(env, stack, "[System Error]opendir failed:%s. The \"%s\" directory can't be opened", env->strerror(env, stack, errno, 0), dir, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]opendir failed:%s. $dir is \"%s\".", env->strerror(env, stack, errno, 0), dir, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
