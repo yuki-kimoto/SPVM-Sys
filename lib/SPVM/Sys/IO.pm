@@ -464,8 +464,6 @@ If the faccessat function failed, an exception is thrown with C<eval_error_id> s
 
 C<static method eaccess : int ($pathname : string, $mode : int);>
 
-Calls L</eaccess() checks whether the calling process can eaccess the file pathname. If pathname is a symbolic link, it is dereferenced.
-
 Calls the L</"faccessat"> method given the following $dirfd and $flag.
 
 $dirfd is C<AT_FDCWD>.
@@ -672,74 +670,71 @@ If the readlink function failed, an exception is thrown with C<eval_error_id> se
 
 C<static method opendir : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> ($dir : string);>
 
-The opendir() function opens a directory stream corresponding to the directory name, and returns a pointer to the directory stream. The stream is positioned at the first entry in the directory.
-
-See the L<opendir|https://linux.die.net/man/3/opendir> function in Linux.
-
-The return value is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+Calls the L<opendir|https://linux.die.net/man/3/opendir> function and return its return value.
 
 Exceptions:
+
+$dir must be defined. Otherwise an exception is thrown.
+
+If the opendir function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 closedir
 
 C<static method closedir : int ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-The closedir() function closes the directory stream associated with dirp. A successful call to closedir() also closes the underlying file descriptor associated with dirp. The directory stream descriptor dirp is not available after this call.
-
-See the L<closedir|https://linux.die.net/man/3/closedir> function in Linux.
-
-The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+Calls the L<closedir|https://linux.die.net/man/3/closedir> function and return its return value.
 
 Exceptions:
+
+$dirp must be defined. Otherwise an exception is thrown.
+
+If the closedir function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 readdir
 
-C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>); # Non-thead safe>
+C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-The readdir() function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory stream or if an error occurred.
-
-See the L<readdir|https://linux.die.net/man/3/readdir> function in Linux.
-
-The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
-
-The return value is a L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> object.
+Calls the L<readdir|https://linux.die.net/man/3/readdir> function and return its return value.
 
 Exceptions:
+
+$dirp must be defined. Otherwise an exception is thrown.
+
+If the readdir function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 rewinddir
 
 C<static method rewinddir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-The rewinddir() function resets the position of the directory stream dirp to the beginning of the directory.
-
-See the L<rewinddir|https://linux.die.net/man/3/rewinddir> function in Linux.
-
-The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+Calls the L<rewinddir|https://linux.die.net/man/3/rewinddir> function.
 
 Exceptions:
+
+$dirp must be defined. Otherwise an exception is thrown.
 
 =head2 telldir
 
 C<static method telldir : long ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-The telldir() function returns the current location associated with the directory stream dirp.
-
-See the L<telldir|https://linux.die.net/man/3/telldir> function in Linux.
-
-The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+Calls the L<telldir|https://linux.die.net/man/3/telldir> function and return its return value.
 
 Exceptions:
+
+$dirp must be defined. Otherwise an exception is thrown.
+
+If the telldir function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 seekdir
 
 C<static method seekdir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>, $offset : long);>
 
-The seekdir() function sets the location in the directory stream from which the next readdir(2) call will start. seekdir() should be used with an offset returned by telldir(3).
-See the L<seekdir|https://linux.die.net/man/3/seekdir> function in Linux.
-
-The directory stream is a L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream> object.
+Calls the L<seekdir|https://linux.die.net/man/3/seekdir> function and return its return value.
 
 Exceptions:
+
+$dirp must be defined. Otherwise an exception is thrown.
+
+$offset must be less than or equal to 0.
 
 =head2 popen
 

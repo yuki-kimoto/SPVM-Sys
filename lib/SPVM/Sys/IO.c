@@ -1277,7 +1277,7 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
-    return env->die(env, stack, "$dirp object must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "$dirp must be defined.", __func__, FILE_NAME, __LINE__);
   }
   DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
