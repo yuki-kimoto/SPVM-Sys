@@ -480,7 +480,7 @@ Calls the L<truncate|https://linux.die.net/man/2/truncate> function and returns 
 
 Exceptions:
 
-$path must be defined.
+$path must be defined. Otherwise an exception is thrown.
 
 $length must be less than or equal to 0.
 
@@ -516,7 +516,7 @@ Calls the L<rmdir|https://linux.die.net/man/2/rmdir> function and return its ret
 
 Exceptions:
 
-$path must be defined.
+$path must be defined. Otherwise an exception is thrown.
 
 If the rmdir function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
@@ -528,7 +528,7 @@ Calls the L<unlink|https://linux.die.net/man/2/unlink> function and return its r
 
 Exceptions:
 
-$pathname must be defined.
+$pathname must be defined. Otherwise an exception is thrown.
 
 If the unlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
@@ -540,9 +540,9 @@ Calls the L<rename|https://linux.die.net/man/2/rename> function and return its r
 
 Exceptions:
 
-$oldpath must be defined.
+$oldpath must be defined. Otherwise an exception is thrown.
 
-$newpath must be defined.
+$newpath must be defined. Otherwise an exception is thrown.
 
 If the rename function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
@@ -550,101 +550,123 @@ If the rename function failed, an exception is thrown with C<eval_error_id> set 
 
 C<static method getcwd : mutable string ($buf : mutable string, $size : int);>
 
-The getcwd() function copies an absolute pathname of the current working directory to the array pointed to by buf, which is of length size.
-
-See the L<getcwd|https://linux.die.net/man/2/getcwd> function in Linux.
+Calls the L<getcwd|https://linux.die.net/man/2/getcwd> function and return its return value.
 
 Exceptions:
+
+$size must be greater than or equal to 0. Otherwise an exception is thrown.
+
+If $buf is defined, $size must be greater than or equal to 0. Otherwise an exception is thrown.
+
+If the getcwd function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 _getdcwd
 
 C<static method _getdcwd : mutable string ($drive : int, $buffer : mutable string, $maxlen : int);>
 
-Gets the full path of the current working directory on the specified drive.
-
-See the L<_getdcwd|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/getdcwd-wgetdcwd?view=msvc-170> function in the case of Windows.
+Calls the L<_getdcwd|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/getdcwd-wgetdcwd?view=msvc-170> function and return its return value.
 
 Exceptions:
+
+$maxlen must be greater than 0. Otherwise an exception is thrown.
+
+$maxlen must be less than or equal to the lenght of $buffer. Otherwise an exception is thrown.
+
+If the _getdcwd function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 realpath
 
 C<static method realpath : mutable string ($path : string, $resolved_path : mutable string);>
 
-realpath() expands all symbolic links and resolves references to /./, /../ and extra '/' characters in the null-terminated string named by path to produce a canonicalized absolute pathname. The resulting pathname is stored as a null-terminated string, up to a maximum of PATH_MAX bytes, in the buf pointed to by resolved_path. The resulting path will have no symbolic link, /./ or /../ components.
-
-See the L<realpath|https://linux.die.net/man/3/realpath> function in Linux.
+Calls the L<realpath|https://linux.die.net/man/3/realpath> function and return its return value.
 
 Exceptions:
+
+$path must be defined. Otherwise an exception is thrown.
+
+If the realpath function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 _fullpath
 
 C<native static method _fullpath : mutable string ($absPath : mutable string, $relPath : string, $maxLength : int);>
 
-Creates an absolute or full path name for the specified relative path name.
-
-See the L<_fullpath|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/fullpath-wfullpath?view=msvc-170> function in the case of Windows.
+Calls the L<_fullpath|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/fullpath-wfullpath?view=msvc-170> function and return its return value.
 
 Exceptions:
+
+$relPath must be defined. Otherwise an exception is thrown.
+
+If the _fullpath function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 chdir
 
 C<static method chdir : int ($path : string);>
 
-chdir() changes the current working directory of the calling process to the directory specified in path.
-
-See the L<chdir|https://linux.die.net/man/2/chdir> function in Linux.
+Calls the L<chdir|https://linux.die.net/man/2/chdir> function and return its return value.
 
 Exceptions:
+
+$path must be defined. Otherwise an exception is thrown.
+
+If the chdir function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 chmod
 
 C<static method chmod : int ($path : string, $mode :int);>
 
-chmod() changes the permissions of the file specified whose pathname is given in path, which is dereferenced if it is a symbolic link.
+Calls the L<chmod|https://linux.die.net/man/2/chmod> function and return its return value.
 
-See the L<chmod|https://linux.die.net/man/2/chmod> function in Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the mode.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the mode $mode.
 
 Exceptions:
+
+$path must be defined. Otherwise an exception is thrown.
+
+If the chmod function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 chown
 
 C<static method chown : int ($path : string, $owner : int, $group : int);>
 
-chown() changes the ownership of the file specified by path, which is dereferenced if it is a symbolic link.
-
-See the L<chown|https://linux.die.net/man/2/chown> function in Linux.
+Calls the L<chown|https://linux.die.net/man/2/chown> and return its return value.
 
 Exceptions:
+
+$path must be defined. Otherwise an exception is thrown.
+
+If the chown function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 symlink
 
 C<static method symlink : int ($oldpath : string, $newpath : string);>
 
-symlink() creates a symbolic link named newpath which contains the string oldpath.
-
-See the L<symlink|https://linux.die.net/man/2/symlink> function in Linux.
+Calls the L<symlink|https://linux.die.net/man/2/symlink> function and return its return value.
 
 Exceptions:
+
+$oldpath must be defined. Otherwise an exception is thrown.
+
+$newpath must be defined. Otherwise an exception is thrown.
+
+If the symlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 readlink
 
 C<static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);>
 
-readlink() places the contents of the symbolic link path in the buf buf, which has size bufsiz. readlink() does not append a null byte to buf. It will truncate the contents (to a length of bufsiz characters), in case the buf is too small to hold all of the contents.
-
-See the L<readlink|https://linux.die.net/man/2/readlink> function in Linux.
+Calls the L<readlink|https://linux.die.net/man/2/readlink> function and return its return value.
 
 Exceptions:
 
-=head2 get_readlink_buffer_size
+$path must be defined. Otherwise an exception is thrown.
 
-C<native static method get_readlink_buffer_size : int ($path : string);>
+$buf must be defined. Otherwise an exception is thrown.
 
-Gets the L</"readlink"> needed buffer size.
+$bufsiz must be greater than or equal to 0. Otherwise an exception is thrown.
 
-Exceptions:
+$bufsiz must be less than or equal to the length of $buf. Otherwise an exception is thrown.
+
+If the readlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 opendir
 

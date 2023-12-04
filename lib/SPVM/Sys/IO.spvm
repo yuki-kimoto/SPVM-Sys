@@ -2,7 +2,8 @@
 # MIT License
 
 class Sys::IO {
-
+  allow Sys;
+  
   use Sys::IO::FileStream;
   use Sys::IO::Stat;
   use Sys::IO::DirStream;
@@ -159,35 +160,9 @@ class Sys::IO {
   
   native static method chown : int ($path : string, $owner : int, $group : int);
   
-  # Temporary
-  static method readlinkp : string ($file : string) {
-    if (Sys::OS->is_windows) {
-      my $buffer_size = Sys::IO::Windows->get_readlink_buffer_size($file);
-      my $buffer = (mutable string)new_string_len $buffer_size;
-      Sys::IO::Windows->readlink($file, $buffer, $buffer_size);
-      return $buffer;
-    }
-    else {
-      my $buffer_size = Sys::IO->get_readlink_buffer_size($file);
-      my $buffer = (mutable string)new_string_len $buffer_size;
-      Sys::IO->readlink($file, $buffer, $buffer_size);
-      return $buffer;
-    }
-  }
-  
   native static method symlink : int ($oldpath : string, $newpath : string);
   
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
-  
-  static method get_readlink_buffer_size : int ($path : string) {
-    my $stat = Sys::IO::Stat->new;
-    
-    Sys::IO::Stat->lstat($path, $stat);
-    
-    my $readlink_buffer_size = (int)$stat->st_size;
-    
-    return $readlink_buffer_size;
-  }
   
   native static method opendir : Sys::IO::DirStream ($dir : string);
   

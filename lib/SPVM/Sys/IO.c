@@ -946,9 +946,9 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
   void* obj_buf = stack[0].oval;
-
+  
   int32_t size = stack[1].ival;
-
+  
   if (!(size >= 0)) {
     return env->die(env, stack, "$size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
@@ -991,9 +991,9 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t drive = stack[0].ival;
   
   void* obj_buffer = stack[1].oval;
-
+  
   int32_t maxlen = stack[2].ival;
-
+  
   if (!(maxlen > 0)) {
     return env->die(env, stack, "$maxlen must be greater than 0.", __func__, FILE_NAME, __LINE__);
   }

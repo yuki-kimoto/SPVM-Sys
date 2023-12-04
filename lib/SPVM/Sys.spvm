@@ -569,9 +569,14 @@ class Sys {
       return $buffer;
     }
     else {
-      my $buffer_size = Sys::IO->get_readlink_buffer_size($file);
-      my $buffer = (mutable string)new_string_len $buffer_size;
-      Sys::IO->readlink($file, $buffer, $buffer_size);
+      my $stat = Sys->lstat($file);
+      
+      my $readlink_buffer_size = (int)$stat->st_size;
+      
+      my $buffer = (mutable string)new_string_len $readlink_buffer_size;
+      
+      Sys::IO->readlink($file, $buffer, $readlink_buffer_size);
+      
       return $buffer;
     }
   }
@@ -1285,4 +1290,5 @@ class Sys {
     
     return $grent;
   }
+  
 }
