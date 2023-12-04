@@ -811,6 +811,24 @@ C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of
 
 Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+=head2 STDIN
+
+C<static method STDIN : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+
+Returns the stdin opened by the SPVM language.
+
+=head2 STDOUT
+
+C<static method STDOUT : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+
+Returns the stdout opened by the SPVM language.
+
+=head2 STDERR
+
+C<static method STDERR : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+
+Returns the stderr opened by the SPVM language.
+
 =head2 open
 
 C<static method open : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
@@ -892,24 +910,6 @@ Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> cl
 C<static method say : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
 
 Calls the L</"print"> method adding C<\n> to the end of $string.
-
-=head2 STDIN
-
-C<static method STDIN : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
-
-Calls the L<stdin|SPVM::Sys::IO/"spvm_stdin"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 STDOUT
-
-C<static method STDOUT : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
-
-Calls the L<stdout|SPVM::Sys::IO/"spvm_stdout"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 STDERR
-
-C<static method STDERR : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
-
-Calls the L<stderr|SPVM::Sys::IO/"spvm_stderr"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 signal
 
