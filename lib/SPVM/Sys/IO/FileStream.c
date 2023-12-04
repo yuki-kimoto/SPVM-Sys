@@ -27,11 +27,24 @@ int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
     assert(fh);
     
     if (!closed) {
-      int32_t status = fclose(fh);
-      if (status == EOF) {
-        env->die(env, stack, "[System Error]fclose failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-        return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      int32_t is_pipe = env->get_field_byte_by_name(env, stack, obj_self, "is_pipe", &error_id, __func__, FILE_NAME, __LINE__);
+      if (error_id) { return error_id; }
+      
+      if (is_pipe) {
+        int32_t status = pclose(fh);
+        if (status == -1) {
+          env->die(env, stack, "[System Error]pclose failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+          return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+        }
       }
+      else {
+        int32_t status = fclose(fh);
+        if (status == EOF) {
+          env->die(env, stack, "[System Error]fclose failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+          return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+        }
+      }
+      
       env->set_pointer(env, stack, obj_self, NULL);
     }
   }

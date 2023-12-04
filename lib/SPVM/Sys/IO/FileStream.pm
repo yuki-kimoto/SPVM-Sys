@@ -26,6 +26,12 @@ C<has closed : ro byte;>
 
 The file stream is closed.
 
+=head2 is_pipe
+
+C<has is_pipe : ro byte;>
+
+The file stream is opend as a pipe stream.
+
 =head2 no_destroy
 
 C<has no_destroy : ro byte;>
@@ -34,9 +40,17 @@ Do not call the L</"DESTROY"> method.
 
 =head1 Instance Methods
 
+=head2 DESTROY
+
 C<method DESTROY : void ();>
 
 The destructor.
+
+If the L<"no_destroy"> field is a true value, nothing is done.
+
+If the L<"closed"> field is a false value, the file is closed.
+
+If the the L</"is_pipe"> field is a true value, the file is closed by the C<pclose> function, otherwise closed by the C<fclose> function.
 
 =head1 Copyright & License
 
