@@ -4,21 +4,22 @@
 class Sys {
   version "0.508";
   
+  use Format;
+  use Sys::IO;
+  use Sys::IO::FileStream;
+  use Sys::IO::Stat;
+  use Sys::IO::Constant as IO;
+  use Sys::Ioctl;
+  use Sys::Select;
+  use Sys::Socket;
   use Sys::OS;
   use Sys::Env;
-  use Sys::Ioctl;
-  use Sys::User;
   use Sys::Time;
-  use Sys::Process;
-  use Sys::IO::Stat;
-  use Sys::Socket;
-  use Sys::Select;
-  use Sys::IO::FileStream;
-  use Format;
-  use Sys::IO::Constant as IO;
-  use Sys::Signal;
   use Sys::Time::Util;
   use Sys::Time::Utimbuf;
+  use Sys::Process;
+  use Sys::Signal;
+  use Sys::User;
   
   static method open : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file_name : string) {
     
