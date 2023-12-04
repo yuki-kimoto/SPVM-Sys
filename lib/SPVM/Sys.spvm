@@ -246,48 +246,6 @@ class Sys {
     Sys::IO->rmdir($path);
   }
   
-  static method opendir : void ($dh_ref : Sys::IO::DirStream[], $dir : string) {
-    
-    my $dh = Sys::IO->opendir($dir);
-    
-    $dh_ref->[0] = $dh;
-  }
-  
-  static method closedir : void ($dirp : Sys::IO::DirStream) {
-    Sys::IO->closedir($dirp);
-  }
-  
-  static method unlink : void ($pathname : string) {
-    
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->unlink($pathname);
-    }
-    else {
-      Sys::IO->unlink($pathname);
-    }
-  }
-  
-  static method rename : void ($oldpath : string, $newpath : string) {
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->rename($oldpath, $newpath);
-    }
-    else {
-      Sys::IO->rename($oldpath, $newpath);
-    }
-  }
-  
-  static method chdir : void ($path : string) {
-    Sys::IO->chdir($path);
-  }
-  
-  static method chmod : void ($mode :int, $path : string) {
-    Sys::IO->chmod($path, $mode);
-  }
-  
-  static method chown : void ($owner : int, $group : int, $path : string) {
-    Sys::IO->chown($path, $owner, $group);
-  }
-  
   static method symlink : int ($oldpath : string, $newpath : string) {
     if (Sys::OS->is_windows) {
       Sys::IO::Windows->symlink($oldpath, $newpath);
@@ -321,33 +279,60 @@ class Sys {
     }
   }
   
-  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef) {
-    my $ioctl_ret = -1;
+  static method unlink : void ($pathname : string) {
     
     if (Sys::OS->is_windows) {
-      $ioctl_ret = Sys::Ioctl->ioctlsocket($fd, $request, (int[])$request_arg_ref);
+      Sys::IO::Windows->unlink($pathname);
     }
     else {
-      $ioctl_ret = Sys::Ioctl->ioctl($fd, $request, $request_arg_ref);
+      Sys::IO->unlink($pathname);
     }
-    
-    return $ioctl_ret;
   }
   
-  static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : double = 0) {
-    my $nfds = 1024;
-    
-    my $timeout_tv = (Sys::Time::Timeval)undef;
-    if ($timeout >= 0) {
-      $timeout_tv = Sys::Time::Util->float_seconds_to_timeval($timeout);
+  static method rename : void ($oldpath : string, $newpath : string) {
+    if (Sys::OS->is_windows) {
+      Sys::IO::Windows->rename($oldpath, $newpath);
     }
     else {
-      $timeout_tv = undef;
+      Sys::IO->rename($oldpath, $newpath);
     }
+  }
+  
+  static method chdir : void ($path : string) {
+    Sys::IO->chdir($path);
+  }
+  
+  static method chmod : void ($mode :int, $path : string) {
+    Sys::IO->chmod($path, $mode);
+  }
+  
+  static method chown : void ($owner : int, $group : int, $path : string) {
+    Sys::IO->chown($path, $owner, $group);
+  }
+  
+  static method opendir : void ($dh_ref : Sys::IO::DirStream[], $dir : string) {
     
-    my $fd_number = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout_tv);
+    my $dh = Sys::IO->opendir($dir);
     
-    return $fd_number;
+    $dh_ref->[0] = $dh;
+  }
+  
+  static method closedir : void ($dirp : Sys::IO::DirStream) {
+    Sys::IO->closedir($dirp);
+  }
+  
+  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
+    my $next_dirp = Sys::IO->readdir($dirp);
+    return $next_dirp;
+  }
+  
+  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
+    Sys::IO->rewinddir($dirp);
+  }
+  
+  static method telldir : long ($dirp : Sys::IO::DirStream) {
+    my $current_position = Sys::IO->telldir($dirp);
+    return $current_position;
   }
   
   static method popen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $command : string) {
@@ -385,29 +370,44 @@ class Sys {
     }
   }
   
-  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
-    Sys::IO->rewinddir($dirp);
+  static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : double = 0) {
+    my $nfds = 1024;
+    
+    my $timeout_tv = (Sys::Time::Timeval)undef;
+    if ($timeout >= 0) {
+      $timeout_tv = Sys::Time::Util->float_seconds_to_timeval($timeout);
+    }
+    else {
+      $timeout_tv = undef;
+    }
+    
+    my $fd_number = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout_tv);
+    
+    return $fd_number;
   }
   
-  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
-    my $next_dirp = Sys::IO->readdir($dirp);
-    return $next_dirp;
-  }
-  
-  static method telldir : long ($dirp : Sys::IO::DirStream) {
-    my $current_position = Sys::IO->telldir($dirp);
-    return $current_position;
-  }
-  
-  static method lstat : Sys::IO::Stat ($path : string) {
-    my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->lstat($path, $stat);
-    return $stat;
+  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef) {
+    my $ioctl_ret = -1;
+    
+    if (Sys::OS->is_windows) {
+      $ioctl_ret = Sys::Ioctl->ioctlsocket($fd, $request, (int[])$request_arg_ref);
+    }
+    else {
+      $ioctl_ret = Sys::Ioctl->ioctl($fd, $request, $request_arg_ref);
+    }
+    
+    return $ioctl_ret;
   }
   
   static method stat : Sys::IO::Stat ($path : string) {
     my $stat = Sys::IO::Stat->new;
     Sys::IO::Stat->stat($path, $stat);
+    return $stat;
+  }
+  
+  static method lstat : Sys::IO::Stat ($path : string) {
+    my $stat = Sys::IO::Stat->new;
+    Sys::IO::Stat->lstat($path, $stat);
     return $stat;
   }
   
