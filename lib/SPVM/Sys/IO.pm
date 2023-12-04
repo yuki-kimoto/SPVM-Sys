@@ -384,19 +384,39 @@ If the lseek function failed, an exception is thrown with C<eval_error_id> set t
 
 C<static method close : int ($fd : int);>
 
-close() closes a file descriptor, so that it no longer refers to any file and may be reused. Any record locks (see fcntl(2)) held on the file it was associated with, and owned by the process, are removed (regardless of the file descriptor that was used to obtain the lock).
-
-See the L<close|https://linux.die.net/man/2/close> function in Linux.
+Calls the L<close|https://linux.die.net/man/2/close> function and returns its return value.
 
 Exceptions:
+
+If the close function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 fsync
 
 C<static method fsync : int ($fd : int);>
 
-fsync() transfers ("flushes") all modified in-core data of (i.e., modified buffer cache pages for) the file referred to by the file descriptor fd to the disk device (or other permanent storage device) so that all changed information can be retrieved even after the system crashed or was rebooted.
+Calls the L<fsync|https://linux.die.net/man/2/fsync> function and returns its return value.
 
-See L<fsync(2) - Linux man page|https://linux.die.net/man/2/fsync> in Linux.
+Exceptions:
+
+If the fsync function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 fcntl
+
+C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock = undef);>
+
+Calls the L<lstat|https://linux.die.net/man/2/fcntl> function and returns its return value.
+
+Exceptions:
+
+$command_arg must be an instance of the Int class or Sys::IO::Flock class.
+
+=head2 ftruncate
+
+C<static method ftruncate : int ($fd : int, $length : long);>
+
+The ftruncate() functions cause the regular file named by referenced by fd to be truncated to a size of precisely length bytes.
+
+See L<ftruncate(2) - Linux man page|https://linux.die.net/man/2/ftruncate> in Linux.
 
 Exceptions:
 
@@ -680,28 +700,6 @@ check user's permissions of a file relative to a directory file descriptor.
 See the L<faccessat|https://linux.die.net/man/2/faccessat> function in Linux.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the $mode and $flag.
-
-Exceptions:
-
-=head2 fcntl
-
-C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef);>
-
-fcntl() performs one of the operations described below on the open file descriptor fd. The operation is determined by cmd.
-
-See the L<lstat|https://linux.die.net/man/2/fcntl> function in Linux.
-
-The command argument can receive a L<Sys::IO::Flock|SPVM::Sys::IO::Flock> object.
-
-Exceptions:
-
-=head2 ftruncate
-
-C<static method ftruncate : int ($fd : int, $length : long);>
-
-The ftruncate() functions cause the regular file named by referenced by fd to be truncated to a size of precisely length bytes.
-
-See L<ftruncate(2) - Linux man page|https://linux.die.net/man/2/ftruncate> in Linux.
 
 Exceptions:
 
