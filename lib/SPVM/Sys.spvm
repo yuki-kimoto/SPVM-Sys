@@ -232,6 +232,124 @@ class Sys {
     Sys::IO->flock($fd, $operation);
   }
   
+  static method mkdir : void ($path : string, $mode : int) {
+    Sys::IO->mkdir($path, $mode);
+  }
+  
+  static method umask : int ($mode : int) {
+    my $current_umask = Sys::IO->umask($mode);
+    
+    return $current_umask;
+  }
+  
+  static method rmdir : void ($path : string) {
+    Sys::IO->rmdir($path);
+  }
+  
+  static method opendir : void ($dh_ref : Sys::IO::DirStream[], $dir : string) {
+    
+    my $dh = Sys::IO->opendir($dir);
+    
+    $dh_ref->[0] = $dh;
+  }
+  
+  static method closedir : void ($dirp : Sys::IO::DirStream) {
+    Sys::IO->closedir($dirp);
+  }
+  
+  static method unlink : void ($pathname : string) {
+    
+    if (Sys::OS->is_windows) {
+      Sys::IO::Windows->unlink($pathname);
+    }
+    else {
+      Sys::IO->unlink($pathname);
+    }
+  }
+  
+  static method rename : void ($oldpath : string, $newpath : string) {
+    if (Sys::OS->is_windows) {
+      Sys::IO::Windows->rename($oldpath, $newpath);
+    }
+    else {
+      Sys::IO->rename($oldpath, $newpath);
+    }
+  }
+  
+  static method chdir : void ($path : string) {
+    Sys::IO->chdir($path);
+  }
+  
+  static method chmod : void ($mode :int, $path : string) {
+    Sys::IO->chmod($path, $mode);
+  }
+  
+  static method chown : void ($owner : int, $group : int, $path : string) {
+    Sys::IO->chown($path, $owner, $group);
+  }
+  
+  static method symlink : int ($oldpath : string, $newpath : string) {
+    if (Sys::OS->is_windows) {
+      Sys::IO::Windows->symlink($oldpath, $newpath);
+    }
+    else {
+      Sys::IO->symlink($oldpath, $newpath);
+    }
+    
+    my $success = 1;
+    
+    return $success;
+  }
+  
+  static method readlink : string ($file : string) {
+    if (Sys::OS->is_windows) {
+      my $buffer_size = Sys::IO::Windows->get_readlink_buffer_size($file);
+      my $buffer = (mutable string)new_string_len $buffer_size;
+      Sys::IO::Windows->readlink($file, $buffer, $buffer_size);
+      return $buffer;
+    }
+    else {
+      my $stat = Sys->lstat($file);
+      
+      my $readlink_buffer_size = (int)$stat->st_size;
+      
+      my $buffer = (mutable string)new_string_len $readlink_buffer_size;
+      
+      Sys::IO->readlink($file, $buffer, $readlink_buffer_size);
+      
+      return $buffer;
+    }
+  }
+  
+  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef) {
+    my $ioctl_ret = -1;
+    
+    if (Sys::OS->is_windows) {
+      $ioctl_ret = Sys::Ioctl->ioctlsocket($fd, $request, (int[])$request_arg_ref);
+    }
+    else {
+      $ioctl_ret = Sys::Ioctl->ioctl($fd, $request, $request_arg_ref);
+    }
+    
+    return $ioctl_ret;
+  }
+  
+  static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : double = 0) {
+    my $nfds = 1024;
+    
+    my $timeout_tv = (Sys::Time::Timeval)undef;
+    if ($timeout >= 0) {
+      $timeout_tv = Sys::Time::Util->float_seconds_to_timeval($timeout);
+    }
+    else {
+      $timeout_tv = undef;
+    }
+    
+    my $fd_number = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout_tv);
+    
+    return $fd_number;
+  }
+  
   static method popen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $command : string) {
     
     my $type = (string)undef;
@@ -285,124 +403,6 @@ class Sys {
     my $stat = Sys::IO::Stat->new;
     Sys::IO::Stat->lstat($path, $stat);
     return $stat;
-  }
-  
-  static method chown : void ($owner : int, $group : int, $path : string) {
-    Sys::IO->chown($path, $owner, $group);
-  }
-  
-  static method chdir : void ($path : string) {
-    Sys::IO->chdir($path);
-  }
-  
-  static method chmod : void ($mode :int, $path : string) {
-    Sys::IO->chmod($path, $mode);
-  }
-  
-  static method mkdir : void ($path : string, $mode : int) {
-    Sys::IO->mkdir($path, $mode);
-  }
-  
-  static method umask : int ($mode : int) {
-    my $current_umask = Sys::IO->umask($mode);
-    
-    return $current_umask;
-  }
-  
-  static method rmdir : void ($path : string) {
-    Sys::IO->rmdir($path);
-  }
-  
-  static method opendir : void ($dh_ref : Sys::IO::DirStream[], $dir : string) {
-    
-    my $dh = Sys::IO->opendir($dir);
-    
-    $dh_ref->[0] = $dh;
-  }
-  
-  static method closedir : void ($dirp : Sys::IO::DirStream) {
-    Sys::IO->closedir($dirp);
-  }
-  
-  static method unlink : void ($pathname : string) {
-    
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->unlink($pathname);
-    }
-    else {
-      Sys::IO->unlink($pathname);
-    }
-  }
-  
-  static method rename : void ($oldpath : string, $newpath : string) {
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->rename($oldpath, $newpath);
-    }
-    else {
-      Sys::IO->rename($oldpath, $newpath);
-    }
-  }
-  
-  static method readlink : string ($file : string) {
-    if (Sys::OS->is_windows) {
-      my $buffer_size = Sys::IO::Windows->get_readlink_buffer_size($file);
-      my $buffer = (mutable string)new_string_len $buffer_size;
-      Sys::IO::Windows->readlink($file, $buffer, $buffer_size);
-      return $buffer;
-    }
-    else {
-      my $stat = Sys->lstat($file);
-      
-      my $readlink_buffer_size = (int)$stat->st_size;
-      
-      my $buffer = (mutable string)new_string_len $readlink_buffer_size;
-      
-      Sys::IO->readlink($file, $buffer, $readlink_buffer_size);
-      
-      return $buffer;
-    }
-  }
-  
-  static method symlink : int ($oldpath : string, $newpath : string) {
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->symlink($oldpath, $newpath);
-    }
-    else {
-      Sys::IO->symlink($oldpath, $newpath);
-    }
-    
-    my $success = 1;
-    
-    return $success;
-  }
-  
-  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef) {
-    my $ioctl_ret = -1;
-    
-    if (Sys::OS->is_windows) {
-      $ioctl_ret = Sys::Ioctl->ioctlsocket($fd, $request, (int[])$request_arg_ref);
-    }
-    else {
-      $ioctl_ret = Sys::Ioctl->ioctl($fd, $request, $request_arg_ref);
-    }
-    
-    return $ioctl_ret;
-  }
-  
-  static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : double = 0) {
-    my $nfds = 1024;
-    
-    my $timeout_tv = (Sys::Time::Timeval)undef;
-    if ($timeout >= 0) {
-      $timeout_tv = Sys::Time::Util->float_seconds_to_timeval($timeout);
-    }
-    else {
-      $timeout_tv = undef;
-    }
-    
-    my $fd_number = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout_tv);
-    
-    return $fd_number;
   }
   
   static method stat : Sys::IO::Stat ($path : string) {

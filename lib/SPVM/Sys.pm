@@ -171,6 +171,164 @@ C<static method flock : void ($fd : int, $operation : int);>
 
 Calls the L<flock|SPVM::Sys::IO/"flock"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+=head2 mkdir
+
+C<static method mkdir : void ($path : string, $mode : int);>
+
+Creates the directory specified by $path and $mode.
+
+=head2 umask
+
+C<static method umask : int ($mode : int);>
+
+Sets the umask for the process to $mode and returns the previous value.
+
+=head2 chdir
+
+C<static method chdir : void ($path : string);>
+
+Changes the working directory to $path.
+
+=head2 chmod
+
+C<static method chmod : void ($mode :int, $path : string);>
+
+Changes the permissions of a file.
+
+=head2 rmdir
+
+C<static method rmdir : void ($path : string);>
+
+Deletes the directory specified by $path.
+
+=head2 opendir
+
+C<static method opendir : void ($dh_ref : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>[], $dir : string);>
+
+Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+The return value is set to $dh_ref->[0].
+
+=head2 closedir
+
+C<static method closedir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+
+Calls the L<closedir|SPVM::Sys::IO/"closedir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 unlink
+
+C<static method unlink : void ($pathname : string);>
+
+Deletes a file.
+
+=head2 rename
+
+C<static method rename : void ($oldpath : string, $newpath : string);>
+
+Changes the name of a file.
+
+=head2 readlink
+
+C<static method readlink : int ($file : string);>
+
+Returns the value of a symbolic link.
+
+=head2 symlink
+
+C<static method symlink : int ($oldpath : string, $newpath : string);>
+
+Creates a $newpath symbolically linked to $oldpath.
+
+=head2 ioctl
+
+C<static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);>
+
+Windows:
+
+Calls the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class and returns its return value.
+
+OSs other than Windows:
+
+Calls the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class and returns its return value.
+
+Excetpions:
+
+Excetpions thrown by the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method or the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class could be thrown.
+
+=head2 select
+
+C<static method select : int ($readfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $writefds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $exceptfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $timeout : double = 0);>
+
+Calls the L<select|SPVM::Sys::Select/"select"> method in the Sys::Select class and returns its return value.
+
+If $timeout is greter than or equal to 0, it is converted to a L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object. Otherwise it becomes undef.
+
+$nfds is set to 1024.
+
+=head2 truncate
+
+C<static method truncate : void ($fd : int, $legnth : long);>
+
+Calls the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 readline
+
+C<static method readline : mutable string ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Calls the L<readline|SPVM::Sys::IO/"readline"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 rewinddir
+
+C<static method rewinddir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+
+Calls the L<rewinddir|SPVM::Sys::IO/"rewinddir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 readdir
+
+C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+
+Calls the L<readdir|SPVM::Sys::IO/"readdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 read
+
+C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $count : int, $buf_offset : int = 0);>
+
+Calls the L<fread|SPVM::Sys::IO/"fread"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 sysseek
+
+C<static method sysseek : long ($fd : int, $offset : long, $whence : int);>
+
+Calls the L<lseek|SPVM::Sys::IO/"lseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 telldir
+
+C<static method telldir : long ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+
+Calls the L<telldir|SPVM::Sys::IO/"telldir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 lstat
+
+C<static method lstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
+
+Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
+
+And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+
+=head2 chown
+
+C<static method chown : void ($owner : int, $group : int, $path : string);>
+
+Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 popen
+
+C<static method popen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $command : string);>
+
+=head2 pclose
+
+C<static method pclose : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
 =head2 env
 
 C<static method env : string ($name : string);>
@@ -605,105 +763,11 @@ Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<fstat||SPV
 
 And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 
-=head2 chdir
-
-C<static method chdir : void ($path : string);>
-
-Changes the working directory to $path.
-
-=head2 chmod
-
-C<static method chmod : void ($mode :int, $path : string);>
-
-Changes the permissions of a file.
-
-=head2 mkdir
-
-C<static method mkdir : void ($path : string, $mode : int);>
-
-Creates the directory specified by $path and $mode.
-
-=head2 umask
-
-C<static method umask : int ($mode : int);>
-
-Sets the umask for the process to $mode and returns the previous value.
-
-=head2 rmdir
-
-C<static method rmdir : void ($path : string);>
-
-Deletes the directory specified by $path.
-
-=head2 opendir
-
-C<static method opendir : void ($dh_ref : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>[], $dir : string);>
-
-Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
-
-The return value is set to $dh_ref->[0].
-
-=head2 closedir
-
-C<static method closedir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
-
-Calls the L<closedir|SPVM::Sys::IO/"closedir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
-
-=head2 unlink
-
-C<static method unlink : void ($pathname : string);>
-
-Deletes a file.
-
-=head2 rename
-
-C<static method rename : void ($oldpath : string, $newpath : string);>
-
-Changes the name of a file.
-
-=head2 readlink
-
-C<static method readlink : int ($file : string);>
-
-Returns the value of a symbolic link.
-
-=head2 symlink
-
-C<static method symlink : int ($oldpath : string, $newpath : string);>
-
-Creates a $newpath symbolically linked to $oldpath.
-
 =head2 sleep
 
 C<static method sleep : int ($seconds : int);>
 
 Causes the program to sleep for $seconds seconds.
-
-=head2 ioctl
-
-C<static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);>
-
-Windows:
-
-Calls the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class and returns its return value.
-
-OSs other than Windows:
-
-Calls the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class and returns its return value.
-
-Excetpions:
-
-Excetpions thrown by the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method or the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class could be thrown.
-
-=head2 select
-
-C<static method select : int ($readfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $writefds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $exceptfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $timeout : double = 0);>
-
-Calls the L<select|SPVM::Sys::Select/"select"> method in the Sys::Select class and returns its return value.
-
-If $timeout is greter than or equal to 0, it is converted to a L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object. Otherwise it becomes undef.
-
-$nfds is set to 1024.
 
 =head2 bind
 
@@ -826,62 +890,6 @@ A string for the next argument $optval is created by the length $optlen.
 Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
 with $optval and $optlen, and $optval set by this method is returnd.
 
-=head2 truncate
-
-C<static method truncate : void ($fd : int, $legnth : long);>
-
-Calls the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 readline
-
-C<static method readline : mutable string ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
-
-Calls the L<readline|SPVM::Sys::IO/"readline"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 rewinddir
-
-C<static method rewinddir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
-
-Calls the L<rewinddir|SPVM::Sys::IO/"rewinddir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 readdir
-
-C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
-
-Calls the L<readdir|SPVM::Sys::IO/"readdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 read
-
-C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $count : int, $buf_offset : int = 0);>
-
-Calls the L<fread|SPVM::Sys::IO/"fread"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 sysseek
-
-C<static method sysseek : long ($fd : int, $offset : long, $whence : int);>
-
-Calls the L<lseek|SPVM::Sys::IO/"lseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 telldir
-
-C<static method telldir : long ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
-
-Calls the L<telldir|SPVM::Sys::IO/"telldir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 lstat
-
-C<static method lstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
-
-Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
-
-And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
-
-=head2 chown
-
-C<static method chown : void ($owner : int, $group : int, $path : string);>
-
-Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
 =head2 signal
 
 C<static method signal : void ($signum : int, $handler_name : string);>
@@ -929,14 +937,6 @@ See L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class in detail
 Exceptions:
 
 The exceptions thrown by the L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class could be thrown.
-
-=head2 popen
-
-C<static method popen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $command : string);>
-
-=head2 pclose
-
-C<static method pclose : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
 =head2 fork
 
