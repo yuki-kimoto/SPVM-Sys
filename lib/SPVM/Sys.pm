@@ -26,6 +26,88 @@ The Sys class of L<SPVM> has methods to call system calls for file IO, sockets, 
 
 =head1 Class Methods
 
+=head2 open
+
+C<static method open : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
+
+$open_mode is replaced by the following logic.
+
+  if ($open_mode eq "<") {
+    $open_mode = "rb";
+  }
+  elsif ($open_mode eq ">") {
+    $open_mode = "wb";
+  }
+  elsif ($open_mode eq ">>") {
+    $open_mode = "wa";
+  }
+  elsif ($open_mode eq "+<") {
+    $open_mode = "r+b";
+  }
+  elsif ($open_mode eq "+>") {
+    $open_mode = "w+b";
+  }
+  elsif ($open_mode eq "+>>") {
+    $open_mode = "a+b";
+  }
+
+Calls the L<fopen|SPVM::Sys::IO/"fopen"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+The return values is set to $stream_ref->[0].
+
+Exceptions:
+
+$stream_ref must be defined. Otherwise an exception is thrown.
+
+The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
+
+=head2 fdopen
+
+C<static method fdopen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $fd : int);>
+
+$open_mode is replaced by the following logic.
+
+  if ($open_mode eq "<") {
+    $open_mode = "rb";
+  }
+  elsif ($open_mode eq ">") {
+    $open_mode = "wb";
+  }
+  elsif ($open_mode eq ">>") {
+    $open_mode = "wa";
+  }
+  elsif ($open_mode eq "+<") {
+    $open_mode = "r+b";
+  }
+  elsif ($open_mode eq "+>") {
+    $open_mode = "w+b";
+  }
+  elsif ($open_mode eq "+>>") {
+    $open_mode = "a+b";
+  }
+
+Calls the L<fdopen|SPVM::Sys::IO/"fdopen"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+The return values is set to $stream_ref->[0].
+
+Exceptions:
+
+$stream_ref must be defined. Otherwise an exception is thrown.
+
+The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
+
+=head2 sysopen
+
+C<static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0);>
+
+Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 say
+
+C<static method say : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
+
+Calls the L</"print"> method adding C<\n> to the end of $string.
+
 =head2 env
 
 C<static method env : string ($name : string);>
@@ -828,88 +910,6 @@ Returns the stdout opened by the SPVM language.
 C<static method STDERR : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
 Returns the stderr opened by the SPVM language.
-
-=head2 open
-
-C<static method open : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
-
-$open_mode is replaced by the following logic.
-
-  if ($open_mode eq "<") {
-    $open_mode = "rb";
-  }
-  elsif ($open_mode eq ">") {
-    $open_mode = "wb";
-  }
-  elsif ($open_mode eq ">>") {
-    $open_mode = "wa";
-  }
-  elsif ($open_mode eq "+<") {
-    $open_mode = "r+b";
-  }
-  elsif ($open_mode eq "+>") {
-    $open_mode = "w+b";
-  }
-  elsif ($open_mode eq "+>>") {
-    $open_mode = "a+b";
-  }
-
-Calls the L<fopen|SPVM::Sys::IO/"fopen"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-The return values is set to $stream_ref->[0].
-
-Exceptions:
-
-$stream_ref must be defined. Otherwise an exception is thrown.
-
-The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
-
-=head2 fdopen
-
-C<static method fdopen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $fd : int);>
-
-$open_mode is replaced by the following logic.
-
-  if ($open_mode eq "<") {
-    $open_mode = "rb";
-  }
-  elsif ($open_mode eq ">") {
-    $open_mode = "wb";
-  }
-  elsif ($open_mode eq ">>") {
-    $open_mode = "wa";
-  }
-  elsif ($open_mode eq "+<") {
-    $open_mode = "r+b";
-  }
-  elsif ($open_mode eq "+>") {
-    $open_mode = "w+b";
-  }
-  elsif ($open_mode eq "+>>") {
-    $open_mode = "a+b";
-  }
-
-Calls the L<fdopen|SPVM::Sys::IO/"fdopen"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-The return values is set to $stream_ref->[0].
-
-Exceptions:
-
-$stream_ref must be defined. Otherwise an exception is thrown.
-
-The length of \$stream_ref must be equal to 1. Otherwise an exception is thrown.
-
-=head2 sysopen
-
-C<static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0);>
-
-Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 say
-
-C<static method say : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
-
-Calls the L</"print"> method adding C<\n> to the end of $string.
 
 =head2 signal
 
