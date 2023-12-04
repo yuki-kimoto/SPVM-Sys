@@ -29,6 +29,24 @@ The Sys class of L<SPVM> has methods to call system calls for file IO, sockets, 
 
 =head1 Class Methods
 
+=head2 STDIN
+
+C<static method STDIN : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+
+Returns the L<stdin|SPVM::Document::NativeAPI/"spvm_stdin"> opened by the SPVM language.
+
+=head2 STDOUT
+
+C<static method STDOUT : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+
+Returns the L<stdout|SPVM::Document::NativeAPI/"spvm_stdout"> opened by the SPVM language.
+
+=head2 STDERR
+
+C<static method STDERR : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
+
+Returns the L<stderr|SPVM::Document::NativeAPI/"spvm_stderr"> opened by the SPVM language.
+
 =head2 open
 
 C<static method open : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
@@ -61,36 +79,61 @@ Exceptions thrown by the L<fopen|Sys::IO/"fopen"> method in the Sys::IO class co
 
 C<static method fdopen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $fd : int);>
 
-$open_mode is replaced by the following logic.
+Same as L</"open"> method except that this method takes the file descriptor $fd instead of the file name .
 
-  if ($open_mode eq "<") {
-    $open_mode = "rb";
-  }
-  elsif ($open_mode eq ">") {
-    $open_mode = "wb";
-  }
-  elsif ($open_mode eq ">>") {
-    $open_mode = "wa";
-  }
-  elsif ($open_mode eq "+<") {
-    $open_mode = "r+b";
-  }
-  elsif ($open_mode eq "+>") {
-    $open_mode = "w+b";
-  }
-  elsif ($open_mode eq "+>>") {
-    $open_mode = "a+b";
-  }
+=head2 fileno
 
-Calls the L<fdopen|SPVM::Sys::IO/"fdopen"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+C<static method fileno : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
 
-The return values is set to $stream_ref->[0].
+Calls the L<fileno|SPVM::Sys::IO/"fileno"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
-Exceptions:
+=head2 eof
 
-$stream_ref must be defined. Otherwise an exception is thrown.
+C<static method eof : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
 
-The length of $stream_ref must be equal to 1. Otherwise an exception is thrown.
+Calls the L<feof|SPVM::Sys::IO/"feof"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 getc
+
+C<static method getc : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Calls the L<getc|SPVM::Sys::IO/"getc"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 print
+
+C<static method print : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
+
+Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO> class given the length of $string.
+
+=head2 printf
+
+C<static method printf : void ($stream, $format : string, $args : object[])>
+
+Calls the L</"print"> method after creating formatted string given $stream and $args using the L<sprintf|SPVM::Format/"sprintf"> method in the L<Format|SPVM::Format> class.
+
+=head2 say
+
+C<static method say : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
+
+Calls the L</"print"> method adding C<\n> to the end of $string.
+
+=head2 close
+
+C<static method close : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Calls the L<fclose|SPVM::Sys::IO/"fclose"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+=head2 seek
+
+C<static method seek : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $offset : long, $whence : int);>
+
+Calls the L<fseek|SPVM::Sys::IO/"fseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 tell
+
+C<static method tell : long ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Calls the L<ftell|SPVM::Sys::IO/"ftell"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 sysopen
 
@@ -98,11 +141,35 @@ C<static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $m
 
 Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
-=head2 say
+Its return value is set to the 1-length array of the file descriptor $fd_ref at index 0.
 
-C<static method say : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
+Exceptions:
 
-Calls the L</"print"> method adding C<\n> to the end of $string.
+Exceptions thrown by the L<open|Sys::IO/"open"> method in the Sys::IO class could be thrown.
+
+=head2 sysread
+
+C<static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
+
+Calls the L<read|SPVM::Sys::IO/"read"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 syswrite
+
+C<static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0);>
+
+Calls the L<write|SPVM::Sys::IO/"write"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 fcntl
+
+C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef);>
+
+Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+=head2 flock
+
+C<static method flock : void ($fd : int, $operation : int);>
+
+Calls the L<flock|SPVM::Sys::IO/"flock"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 env
 
@@ -582,14 +649,6 @@ C<static method closedir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::Dir
 
 Calls the L<closedir|SPVM::Sys::IO/"closedir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
-=head2 close
-
-C<static method close : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
-
-Calls the L<fclose|SPVM::Sys::IO/"fclose"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
-
-If succedd, returns 1.
-
 =head2 unlink
 
 C<static method unlink : void ($pathname : string);>
@@ -773,65 +832,11 @@ C<static method truncate : void ($fd : int, $legnth : long);>
 
 Calls the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
-=head2 sysread
-
-C<static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
-
-Calls the L<read|SPVM::Sys::IO/"read"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 syswrite
-
-C<static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0);>
-
-Calls the L<write|SPVM::Sys::IO/"write"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 eof
-
-C<static method eof : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
-
-Calls the L<feof|SPVM::Sys::IO/"feof"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 fileno
-
-C<static method fileno : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
-
-Calls the L<fileno|SPVM::Sys::IO/"fileno"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
 =head2 readline
 
 C<static method readline : mutable string ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
 Calls the L<readline|SPVM::Sys::IO/"readline"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 getc
-
-C<static method getc : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
-
-Calls the L<getc|SPVM::Sys::IO/"getc"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 flock
-
-C<static method flock : void ($fd : int, $operation : int);>
-
-Calls the L<flock|SPVM::Sys::IO/"flock"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 print
-
-C<static method print : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
-
-Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO> class given the length of $string.
-
-=head2 printf
-
-C<static method printf : void ($stream, $format : string, $args : object[])>
-
-Calls the L</"print"> method after creating formatted string given $stream and $args using the L<sprintf|SPVM::Format/"sprintf"> method in the L<Format|SPVM::Format> class.
-
-=head2 read
-
-C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $count : int, $buf_offset : int = 0);>
-
-Calls the L<fread|SPVM::Sys::IO/"fread"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 rewinddir
 
@@ -845,23 +850,17 @@ C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dirp : L<Sy
 
 Calls the L<readdir|SPVM::Sys::IO/"readdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
-=head2 seek
+=head2 read
 
-C<static method seek : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $offset : long, $whence : int);>
+C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $count : int, $buf_offset : int = 0);>
 
-Calls the L<fseek|SPVM::Sys::IO/"fseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Calls the L<fread|SPVM::Sys::IO/"fread"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 sysseek
 
 C<static method sysseek : long ($fd : int, $offset : long, $whence : int);>
 
 Calls the L<lseek|SPVM::Sys::IO/"lseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 tell
-
-C<static method tell : long ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
-
-Calls the L<ftell|SPVM::Sys::IO/"ftell"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
 =head2 telldir
 
@@ -882,30 +881,6 @@ And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
 C<static method chown : void ($owner : int, $group : int, $path : string);>
 
 Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 fcntl
-
-C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef);>
-
-Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 STDIN
-
-C<static method STDIN : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
-
-Returns the stdin opened by the SPVM language.
-
-=head2 STDOUT
-
-C<static method STDOUT : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
-
-Returns the stdout opened by the SPVM language.
-
-=head2 STDERR
-
-C<static method STDERR : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
-
-Returns the stderr opened by the SPVM language.
 
 =head2 signal
 
