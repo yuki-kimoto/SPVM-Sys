@@ -842,7 +842,7 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t mode = stack[1].ival;
   
 #if defined(_WIN32)
-  int32_t status = mkdir(path);
+  int32_t status = _mkdir(path);
 #else
   int32_t status = mkdir(path, mode);
 #endif
