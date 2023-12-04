@@ -489,24 +489,6 @@ int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  return env->die(env, stack, "fsync is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-#else
-  int32_t fd = stack[0].ival;
-  
-  int32_t status = fsync(fd);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]fsync failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
 int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
@@ -523,7 +505,7 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = open(path, flags, mode);
   if (fd == -1) {
-    env->die(env, stack, "[System Error]open failed:%s. The \"%s\" file can't be opend", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]open failed:%s. $path is \"%s\"", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -616,9 +598,9 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!(offset >= 0)) {
     return env->die(env, stack, "$offset must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
-
+  
   int32_t whence = stack[2].ival;
-
+  
   int64_t cur_offset = lseek(fd, offset, whence);
   if (cur_offset == -1) {
     env->die(env, stack, "[System Error]lseek failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
@@ -634,10 +616,92 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
-
+  
   int32_t status = close(fd);
   if (status == -1) {
     env->die(env, stack, "[System Error]close failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if defined(_WIN32)
+  return env->die(env, stack, "fsync is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+#else
+  int32_t fd = stack[0].ival;
+  
+  int32_t status = fsync(fd);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]fsync failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if defined(_WIN32)
+  return env->die(env, stack, "fcntl is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+#else
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t command = stack[1].ival;
+  
+  int32_t ret = -1;
+  
+  void* obj_command_arg = stack[2].oval;
+    
+  if (!obj_command_arg) {
+    ret = fcntl(fd, command, NULL);
+  }
+  else {
+    int32_t command_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_command_arg);
+    int32_t command_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_command_arg);
+    
+    // Int
+    if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && command_arg_type_dimension == 0) {
+      int32_t command_arg_int32 = env->get_field_int_by_name(env, stack, obj_command_arg, "value", &error_id, __func__, FILE_NAME, __LINE__);
+      
+      if (error_id) { return error_id; }
+      
+      ret = fcntl(fd, command, command_arg_int32);
+    }
+    // A pointer class
+    else if (env->is_pointer_class(env, stack, obj_command_arg)) {
+      void* command_arg = env->get_pointer(env, stack, obj_command_arg);
+      ret = fcntl(fd, command, command_arg);
+    }
+    else {
+      return env->die(env, stack, "$command_arg must be an Int object or the object that is a pointer class.", __func__, FILE_NAME, __LINE__);
+    }
+  }
+  
+  stack[0].ival = ret;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__IO__ftruncate(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t fd = stack[0].ival;
+  
+  int64_t length = stack[1].lval;
+  
+  int32_t status = ftruncate(fd, length);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]ftruncate failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -666,6 +730,86 @@ int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
+}
+
+int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  void* obj_pathname = stack[0].oval;
+  
+  if (!obj_pathname) {
+    return env->die(env, stack, "$pathname must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* pathname = env->get_chars(env, stack, obj_pathname);
+  
+  int32_t mode = stack[1].ival;
+  
+  int32_t status = access(pathname, mode);
+  
+  if (status == -1) {
+    const char* pathname = env->get_chars(env, stack, obj_pathname);
+    env->die(env, stack, "[System Error]access failed:%s", env->strerror(env, stack, errno, 0), pathname, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+#if defined(_WIN32)
+  return env->die(env, stack, "faccessat is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+#else
+  int32_t dirfd = stack[0].ival;
+  
+  void* obj_pathname = stack[1].oval;
+  if (!obj_pathname) {
+    return env->die(env, stack, "$pathname must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* pathname = env->get_chars(env, stack, obj_pathname);
+  
+  int32_t mode = stack[2].ival;
+  
+  int32_t flags = stack[3].ival;
+  
+  int32_t status = faccessat(dirfd, pathname, mode, flags);
+  
+  if (status == -1) {
+    const char* pathname = env->get_chars(env, stack, obj_pathname);
+    env->die(env, stack, "[System Error]faccessat failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int64_t length = stack[1].lval;
+  if (!(length >= 0)) {
+    return env->die(env, stack, "$length must be less than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t status = truncate(path, length);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]truncate failed:%s. The \"%s\" file can't be truncated", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -1015,30 +1159,6 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_path = stack[0].oval;
-  if (!obj_path) {
-    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  int64_t length = stack[1].lval;
-  if (!(length >= 0)) {
-    return env->die(env, stack, "$length must be less than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t status = truncate(path, length);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]truncate failed:%s. The \"%s\" file can't be truncated", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   env->die(env, stack, "symlink is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -1108,126 +1228,6 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
-}
-
-int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-  void* obj_pathname = stack[0].oval;
-  
-  if (!obj_pathname) {
-    return env->die(env, stack, "$pathname must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  const char* pathname = env->get_chars(env, stack, obj_pathname);
-  
-  int32_t mode = stack[1].ival;
-  
-  int32_t status = access(pathname, mode);
-  
-  if (status == -1) {
-    const char* pathname = env->get_chars(env, stack, obj_pathname);
-    env->die(env, stack, "[System Error]access failed:%s", env->strerror(env, stack, errno, 0), pathname, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-#if defined(_WIN32)
-  return env->die(env, stack, "faccessat is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-#else
-  int32_t dirfd = stack[0].ival;
-  
-  void* obj_pathname = stack[1].oval;
-  if (!obj_pathname) {
-    return env->die(env, stack, "$pathname must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* pathname = env->get_chars(env, stack, obj_pathname);
-  
-  int32_t mode = stack[2].ival;
-  
-  int32_t flags = stack[3].ival;
-  
-  int32_t status = faccessat(dirfd, pathname, mode, flags);
-  
-  if (status == -1) {
-    const char* pathname = env->get_chars(env, stack, obj_pathname);
-    env->die(env, stack, "[System Error]faccessat failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  return env->die(env, stack, "fcntl is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-#else
-  
-  int32_t error_id = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  int32_t command = stack[1].ival;
-  
-  int32_t ret = -1;
-  
-  void* obj_command_arg = stack[2].oval;
-    
-  if (!obj_command_arg) {
-    ret = fcntl(fd, command, NULL);
-  }
-  else {
-    int32_t command_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_command_arg);
-    int32_t command_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_command_arg);
-    
-    // Int
-    if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && command_arg_type_dimension == 0) {
-      int32_t command_arg_int32 = env->get_field_int_by_name(env, stack, obj_command_arg, "value", &error_id, __func__, FILE_NAME, __LINE__);
-      
-      if (error_id) { return error_id; }
-      
-      ret = fcntl(fd, command, command_arg_int32);
-    }
-    // A pointer class
-    else if (env->is_pointer_class(env, stack, obj_command_arg)) {
-      void* command_arg = env->get_pointer(env, stack, obj_command_arg);
-      ret = fcntl(fd, command, command_arg);
-    }
-    else {
-      return env->die(env, stack, "$command_arg must be an Int object or the object that is a pointer class.", __func__, FILE_NAME, __LINE__);
-    }
-  }
-  
-  stack[0].ival = ret;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__IO__ftruncate(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t fd = stack[0].ival;
-  
-  int64_t length = stack[1].lval;
-  
-  int32_t status = ftruncate(fd, length);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]ftruncate failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
 }
 
 int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {

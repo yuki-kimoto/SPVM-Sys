@@ -314,6 +314,76 @@ $mode is C<_IOLBF>.
 
 $size is C<BUFSIZ>.
 
+=head2 open
+
+C<static method open : int ($path : string, $flags : int, $mode : int = 0);>
+
+Calls the L<open|https://linux.die.net/man/2/open> function and returns its return value.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the flags $flags and the mode $mode.
+
+Exceptions:
+
+$path must be defined. Otherwise an exception is thrown.
+
+If the open function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 read
+
+C<static method read : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
+
+Calls the L<read|https://linux.die.net/man/2/read> function and returns its return value.
+
+Exceptions:
+
+$buf must be defined. Otherwise an exception is thrown.
+
+$count must be more than or equal to 0. Otherwise an exception is thrown.
+
+$count must be less than the length of $buf - $buf_offset. Otherwise an exception is thrown.
+
+If the read function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 write
+
+C<static method write : int ($fd : int, $buf : string, $count : int, $buf_offset : int = 0);>
+
+Calls the L<write|https://linux.die.net/man/2/write> function and returns its return value.
+
+Exceptions:
+
+$buf must be defined. Otherwise an exception is thrown.
+
+$buf_offse must be greater than or equal to 0. Otherwise an exception is thrown.
+
+$count must be less than the length of $buf - $buf_offset. Otherwise an exception is thrown.
+
+If the write function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 lseek
+
+C<static method lseek : long ($fd : int, $offset : long, $whence : int);>
+
+Calls the L<lseek|https://linux.die.net/man/2/lseek> function and returns its return value.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to $whence.
+
+Exceptions:
+
+$offset must be greater than or equal to 0. Otherwise an exception is thrown.
+
+If the lseek function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 close
+
+C<static method close : int ($fd : int);>
+
+close() closes a file descriptor, so that it no longer refers to any file and may be reused. Any record locks (see fcntl(2)) held on the file it was associated with, and owned by the process, are removed (regardless of the file descriptor that was used to obtain the lock).
+
+See the L<close|https://linux.die.net/man/2/close> function in Linux.
+
+Exceptions:
+
 =head2 fsync
 
 C<static method fsync : int ($fd : int);>
@@ -332,7 +402,7 @@ Apply or remove an advisory lock on the open file specified by fd. The argument 
 
 See the L<flock|https://linux.die.net/man/2/flock> function in Linux.
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the operation.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the operation.
 
 Exceptions:
 
@@ -344,7 +414,7 @@ mkdir() attempts to create a directory named pathname.
 
 See the L<mkdir|https://linux.die.net/man/2/mkdir> function in Linux.
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the mode.
 
 Exceptions:
 
@@ -446,7 +516,7 @@ chmod() changes the permissions of the file specified whose pathname is given in
 
 See the L<chmod|https://linux.die.net/man/2/chmod> function in Linux.
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the mode.
 
 Exceptions:
 
@@ -579,7 +649,7 @@ access() checks whether the calling process can access the file pathname. If pat
 
 See the L<access|https://linux.die.net/man/2/access> function in Linux.
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the mode.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the mode.
 
 Exceptions:
 
@@ -591,7 +661,7 @@ eaccess() checks whether the calling process can eaccess the file pathname. If p
 
 See the L<eaccess|https://linux.die.net/man/3/eaccess> function in Linux.
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the $mode.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the $mode.
 
 Exceptions:
 
@@ -603,7 +673,7 @@ check user's permissions of a file relative to a directory file descriptor.
 
 See the L<faccessat|https://linux.die.net/man/2/faccessat> function in Linux.
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the $mode and $flag.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the $mode and $flag.
 
 Exceptions:
 
@@ -626,60 +696,6 @@ C<static method ftruncate : int ($fd : int, $length : long);>
 The ftruncate() functions cause the regular file named by referenced by fd to be truncated to a size of precisely length bytes.
 
 See L<ftruncate(2) - Linux man page|https://linux.die.net/man/2/ftruncate> in Linux.
-
-Exceptions:
-
-=head2 open
-
-C<static method open : int ($path : string, $flags : int, $mode : int = 0);>
-
-Given a pathname for a file, open() returns a file descriptor, a small, nonnegative integer for use in subsequent system calls (read(2), write(2), lseek(2), fcntl(2), etc.). The file descriptor returned by a successful call will be the lowest-numbered file descriptor not currently open for the process.
-
-See the L<open|https://linux.die.net/man/2/open> function in Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the flags and the mode.
-
-Exceptions:
-
-=head2 read
-
-C<static method read : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
-
-read() attempts to read up to count bytes from file descriptor fd into the buf starting at buf + buf_offset.
-
-See the L<read|https://linux.die.net/man/2/read> function in Linux.
-
-Exceptions:
-
-=head2 write
-
-C<static method write : int ($fd : int, $buf : string, $count : int, $buf_offset : int = 0);>
-
-write() writes up to count bytes from the buf pointed buf + buf_offset to the file referred to by the file descriptor fd.
-
-See the L<write|https://linux.die.net/man/2/write> function in Linux.
-
-Exceptions:
-
-=head2 lseek
-
-C<static method lseek : long ($fd : int, $offset : long, $whence : int);>
-
-The lseek() function repositions the offset of the open file associated with the file descriptor fd to the argument offset according to the directive whence as follows:
-
-See the L<lseek|https://linux.die.net/man/2/lseek> function in Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
-
-Exceptions:
-
-=head2 close
-
-C<static method close : int ($fd : int);>
-
-close() closes a file descriptor, so that it no longer refers to any file and may be reused. Any record locks (see fcntl(2)) held on the file it was associated with, and owned by the process, are removed (regardless of the file descriptor that was used to obtain the lock).
-
-See the L<close|https://linux.die.net/man/2/close> function in Linux.
 
 Exceptions:
 
