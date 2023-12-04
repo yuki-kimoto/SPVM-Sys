@@ -143,6 +143,13 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t read_length = fread(ptr + ptr_offset, size, nmemb, stream);
   
+  if (read_length < nmemb) {
+    if (ferror(stream)) {
+      env->die(env, stack, "[System Error]fread failed.", __func__, FILE_NAME, __LINE__);
+      return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    }
+  }
+  
   stack[0].ival = read_length;
   
   return 0;
@@ -210,6 +217,13 @@ int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
   int32_t ch = getc(stream);
+  
+  if (ch == EOF) {
+    if (ferror(stream)) {
+      env->die(env, stack, "[System Error]getc failed.", __func__, FILE_NAME, __LINE__);
+      return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    }
+  }
   
   stack[0].ival = ch;
   
@@ -311,9 +325,16 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  int32_t fwrite_length = fwrite(ptr + ptr_offset, size, nmemb, stream);
+  int32_t write_length = fwrite(ptr + ptr_offset, size, nmemb, stream);
   
-  stack[0].ival = fwrite_length;
+  if (write_length < nmemb) {
+    if (ferror(stream)) {
+      env->die(env, stack, "[System Error]fwrite failed.", __func__, FILE_NAME, __LINE__);
+      return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    }
+  }
+  
+  stack[0].ival = write_length;
   
   return 0;
 }

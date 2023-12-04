@@ -1,3 +1,9 @@
+0.509 2023-12-04
+  [Incompatible Changes]
+    * The getc method in the Sys::IO throw an exception if the return value is C<EOF> and C<ferror(stream)> is non-zero.
+    * The fread method in the Sys::IO throw an exception if the return value is less than $nmemb and C<ferror(stream)> is non-zero.
+    * The fwrite method in the Sys::IO throw an exception if the return value is less than $nmemb and C<ferror(stream)> is non-zero.
+    
 0.508 2023-12-04
   [Document Fix]
     * Fix the document of the new method in the Sys::Stat class. This method do not have arguments.

@@ -110,6 +110,8 @@ $stream must be defined. Otherwise an exception is thrown.
 
 $nmemb * $size must be less than or equal to the length of $ptr - $ptr_offset. Otherwise an exception is thrown.
 
+If the return value is less than $nmemb and C<ferror(stream)> is non-zero, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 feof
 
 C<static method feof : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
@@ -150,6 +152,8 @@ Exceptions:
 
 $stream must be defined. Otherwise an exception is thrown.
 
+If the return value is C<EOF> and C<ferror(stream)> is non-zero, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 ungetc
 
 C<static method ungetc : int ($c : int, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
@@ -160,7 +164,7 @@ Exceptions:
 
 $stream must be defined. Otherwise an exception is thrown.
 
-If the ungetc function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+If the return value is C<EOF> and C<ferror(stream)> is non-zero, an exception is thrown.
 
 =head2 fgets
 
@@ -195,6 +199,8 @@ $nmemb must be more than or equal to 0. Otherwise an exception is thrown.
 $stream must be defined. Otherwise an exception is thrown.
 
 $nmemb * $size must be less than or equal to the length of $ptr - $ptr_offset. Otherwise an exception is thrown.
+
+If the return value is less than $nmemb and C<ferror(stream)> is non-zero, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 fclose
 
