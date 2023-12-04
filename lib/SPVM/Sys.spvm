@@ -20,59 +20,404 @@ class Sys {
   use Sys::Time::Util;
   use Sys::Time::Utimbuf;
   
-  static method osname : string () {
-    my $osname : string;
+  static method open : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file_name : string) {
     
-    if (Sys::OS->defined("__linux__")) {
-      $osname = "linux";
+    unless ($stream_ref) {
+      die "\$stream_ref must be defined.";
     }
-    elsif (Sys::OS->defined("_WIN32")) {
-      $osname = "MSWin32";
+    
+    unless (@$stream_ref == 1) {
+      die "The length of \$stream_ref must be equal to 1.";
     }
-    elsif (Sys::OS->defined("__FreeBSD__")) {
-      $osname = "freebsd";
+    
+    if ($open_mode eq "<") {
+      $open_mode = "rb";
     }
-    elsif (Sys::OS->defined("__OpenBSD__")) {
-      $osname = "openbsd";
+    elsif ($open_mode eq ">") {
+      $open_mode = "wb";
     }
-    elsif (Sys::OS->defined("__solaris")) {
-      $osname = "solaris";
+    elsif ($open_mode eq ">>") {
+      $open_mode = "wa";
     }
-    elsif (Sys::OS->defined("__sun")) {
-      $osname = "solaris";
+    elsif ($open_mode eq "+<") {
+      $open_mode = "r+b";
     }
-    elsif (Sys::OS->defined("__APPLE__")) {
-      $osname = "darwin";
+    elsif ($open_mode eq "+>") {
+      $open_mode = "w+b";
+    }
+    elsif ($open_mode eq "+>>") {
+      $open_mode = "a+b";
+    }
+    
+    my $stream = Sys::IO->fopen($file_name, $open_mode);
+    
+    unless (Sys::OS->is_windows) {
+      Sys->fcntl(Sys->fileno($stream), IO->F_SETFD, IO->FD_CLOEXEC);
+    }
+    
+    $stream_ref->[0] = $stream;
+  }
+  
+  static method fdopen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $fd : int) {
+    
+    unless ($stream_ref) {
+      die "\$stream_ref must be defined.";
+    }
+    
+    unless (@$stream_ref == 1) {
+      die "The length of \$stream_ref must be equal to 1.";
+    }
+    
+    if ($open_mode eq "<") {
+      $open_mode = "rb";
+    }
+    elsif ($open_mode eq ">") {
+      $open_mode = "wb";
+    }
+    elsif ($open_mode eq ">>") {
+      $open_mode = "wa";
+    }
+    elsif ($open_mode eq "+<") {
+      $open_mode = "r+b";
+    }
+    elsif ($open_mode eq "+>") {
+      $open_mode = "w+b";
+    }
+    elsif ($open_mode eq "+>>") {
+      $open_mode = "a+b";
+    }
+    
+    my $stream = Sys::IO->fdopen($fd, $open_mode);
+    
+    $stream_ref->[0] = $stream;
+  }
+  
+  static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0) {
+    
+    my $fd = Sys::IO->open($path, $flags, $mode);
+    
+    $$fd_ref = $fd;
+  }
+  
+  static method say : void ($stream : Sys::IO::FileStream, $string : string) {
+    &print($stream, "$string\n");
+  }
+  
+  static method STDIN : Sys::IO::FileStream () { return Sys::IO->spvm_stdin; }
+  
+  static method STDOUT : Sys::IO::FileStream () { return Sys::IO->spvm_stdout; }
+  
+  static method STDERR : Sys::IO::FileStream () { return Sys::IO->spvm_stderr; }
+  
+  static method popen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $command : string) {
+    
+    my $type = (string)undef;
+    if ($open_mode eq "|-") {
+      $type = "wb";
+    }
+    elsif ($open_mode eq "-|") {
+      $type = "rb";
     }
     else {
-      die "The OS name could not be determined.";
+      die "The open mode \"$open_mode\" is not available.";
     }
     
-    return $osname;
+    my $stream = (Sys::IO::FileStream)undef;
+    if (Sys::OS->is_windows) {
+      $stream = Sys::IO->_popen($command, $type);
+    }
+    else {
+      $stream = Sys::IO->popen($command, $type);
+      Sys->fcntl(Sys->fileno($stream), IO->F_SETFD, IO->FD_CLOEXEC);
+    }
+    
+    $stream_ref->[0] = $stream;
   }
   
-  static method env : string ($name : string) {
-    my $env_value = Sys::Env->getenv($name);
-    return $env_value;
-  }
-  
-  static method set_env : void ($name : string, $value : string) {
+  static method pclose : void ($stream : Sys::IO::FileStream) {
     
     if (Sys::OS->is_windows) {
-      unless ($value) {
-        $value = "";
-      }
-      Sys::Env->_putenv_s($name, $value);
+      Sys::IO->_pclose($stream);
     }
     else {
-      if ($value && $value ne "") {
-        my $overwrite = 1;
-        Sys::Env->setenv($name, $value, $overwrite);
+      Sys::IO->pclose($stream);
+    }
+  }
+  
+  static method getc : int ($stream : Sys::IO::FileStream) {
+    my $char = Sys::IO->getc($stream);
+    return $char;
+  }
+  
+  static method flock : void ($fd : int, $operation : int) {
+    Sys::IO->flock($fd, $operation);
+  }
+  
+  static method print : void ($stream : Sys::IO::FileStream, $string : string) {
+    Sys::IO->fwrite($string, 1, length $string, $stream);
+  }
+  
+  static method printf : void ($stream : Sys::IO::FileStream, $format : string, $args : object[]) {
+    my $formated_string = Format->sprintf($format, $args);
+    &print($stream, $formated_string);
+  }
+  
+  static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0) {
+    my $read_length = Sys::IO->fread($buf, 1, $count, $stream);
+    return $read_length;
+  }
+  
+  precompile static method readline : mutable string ($stream : Sys::IO::FileStream) {
+    
+    unless ($stream) {
+      die("\$stream must be defined.");
+    }
+    
+    my $capacity = 80;
+    my $buf = (mutable string)new_string_len $capacity;
+    
+    my $pos = 0;
+    my $end_is_eof = 0;
+    my $eof = IO->EOF;
+    while (1) {
+      my $ch = Sys->getc($stream);
+      if ($ch == $eof) {
+        $end_is_eof = 1;
+        last;
       }
       else {
-        Sys::Env->unsetenv($name);
+        if ($pos >= $capacity) {
+          my $new_capacity = $capacity * 2;
+          my $new_buf = (mutable string)new_string_len $new_capacity;
+          
+          Fn->memcpy($new_buf, 0, $buf, 0, $capacity);
+          
+          $capacity = $new_capacity;
+          $buf = $new_buf;
+        }
+        
+        if ($ch == '\n') {
+          $buf->[$pos] = (byte)$ch;
+          $pos++;
+          last;
+        }
+        else {
+          $buf->[$pos] = (byte)$ch;
+          $pos++;
+        }
       }
     }
+    
+    my $line = (mutable string)undef;
+    if ($pos > 0 || !$end_is_eof) {
+      if ($pos == 0) {
+        $line = (mutable string)new_string_len 0;
+      }
+      else {
+        $line = (mutable string)new_string_len $pos;
+        Fn->memcpy($line, 0, $buf, 0, $pos);
+      }
+    }
+    
+    return $line;
+  }
+  
+  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
+    Sys::IO->rewinddir($dirp);
+  }
+  
+  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
+    my $next_dirp = Sys::IO->readdir($dirp);
+    return $next_dirp;
+  }
+  
+  static method seek : void ($stream : Sys::IO::FileStream, $offset : long, $whence : int) {
+    Sys::IO->fseek($stream, $offset, $whence);
+  }
+  
+  static method sysseek : long ($fd : int, $offset : long, $whence : int) {
+    my $result_offset = Sys::IO->lseek($fd, $offset, $whence);
+    return $result_offset;
+  }
+  
+  static method tell : long ($stream : Sys::IO::FileStream) {
+    my $current_position = Sys::IO->ftell($stream);
+    return $current_position;
+  }
+  
+  static method telldir : long ($dirp : Sys::IO::DirStream) {
+    my $current_position = Sys::IO->telldir($dirp);
+    return $current_position;
+  }
+  
+  static method lstat : Sys::IO::Stat ($path : string) {
+    my $stat = Sys::IO::Stat->new;
+    Sys::IO::Stat->lstat($path, $stat);
+    return $stat;
+  }
+  
+  static method chown : void ($owner : int, $group : int, $path : string) {
+    Sys::IO->chown($path, $owner, $group);
+  }
+  
+  static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef) {
+    my $fcntl_ret = Sys::IO->fcntl($fd, $command, $command_arg);
+    return $fcntl_ret;
+  }
+  
+  static method close : void ($stream : Sys::IO::FileStream) {
+    Sys::IO->fclose($stream);
+  }
+  
+  static method truncate : void ($fd : int, $legnth : long) {
+    
+    Sys::IO->ftruncate($fd, $legnth);
+  }
+  
+  static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0) {
+    my $read_length = Sys::IO->read($fd, $buf, $count, $buf_offset);
+    return $read_length;
+  }
+  
+  static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0) {
+    my $write_length = Sys::IO->write($fd, $buf, $count, $buf_offset);
+    return $write_length;
+  }
+  
+  static method eof : int ($stream : Sys::IO::FileStream) {
+    my $eof = Sys::IO->feof($stream);
+    return $eof;
+  }
+  
+  static method fileno : int ($stream : Sys::IO::FileStream) {
+    my $fd = Sys::IO->fileno($stream);
+    return $fd;
+  }
+  
+  static method chdir : void ($path : string) {
+    Sys::IO->chdir($path);
+  }
+  
+  static method chmod : void ($mode :int, $path : string) {
+    Sys::IO->chmod($path, $mode);
+  }
+  
+  static method mkdir : void ($path : string, $mode : int) {
+    Sys::IO->mkdir($path, $mode);
+  }
+  
+  static method umask : int ($mode : int) {
+    my $current_umask = Sys::IO->umask($mode);
+    
+    return $current_umask;
+  }
+  
+  static method rmdir : void ($path : string) {
+    Sys::IO->rmdir($path);
+  }
+  
+  static method opendir : void ($dh_ref : Sys::IO::DirStream[], $dir : string) {
+    
+    my $dh = Sys::IO->opendir($dir);
+    
+    $dh_ref->[0] = $dh;
+  }
+  
+  static method closedir : void ($dirp : Sys::IO::DirStream) {
+    Sys::IO->closedir($dirp);
+  }
+  
+  static method unlink : void ($pathname : string) {
+    
+    if (Sys::OS->is_windows) {
+      Sys::IO::Windows->unlink($pathname);
+    }
+    else {
+      Sys::IO->unlink($pathname);
+    }
+  }
+  
+  static method rename : void ($oldpath : string, $newpath : string) {
+    if (Sys::OS->is_windows) {
+      Sys::IO::Windows->rename($oldpath, $newpath);
+    }
+    else {
+      Sys::IO->rename($oldpath, $newpath);
+    }
+  }
+  
+  static method readlink : string ($file : string) {
+    if (Sys::OS->is_windows) {
+      my $buffer_size = Sys::IO::Windows->get_readlink_buffer_size($file);
+      my $buffer = (mutable string)new_string_len $buffer_size;
+      Sys::IO::Windows->readlink($file, $buffer, $buffer_size);
+      return $buffer;
+    }
+    else {
+      my $stat = Sys->lstat($file);
+      
+      my $readlink_buffer_size = (int)$stat->st_size;
+      
+      my $buffer = (mutable string)new_string_len $readlink_buffer_size;
+      
+      Sys::IO->readlink($file, $buffer, $readlink_buffer_size);
+      
+      return $buffer;
+    }
+  }
+  
+  static method symlink : int ($oldpath : string, $newpath : string) {
+    if (Sys::OS->is_windows) {
+      Sys::IO::Windows->symlink($oldpath, $newpath);
+    }
+    else {
+      Sys::IO->symlink($oldpath, $newpath);
+    }
+    
+    my $success = 1;
+    
+    return $success;
+  }
+  
+  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef) {
+    my $ioctl_ret = -1;
+    
+    if (Sys::OS->is_windows) {
+      $ioctl_ret = Sys::Ioctl->ioctlsocket($fd, $request, (int[])$request_arg_ref);
+    }
+    else {
+      $ioctl_ret = Sys::Ioctl->ioctl($fd, $request, $request_arg_ref);
+    }
+    
+    return $ioctl_ret;
+  }
+  
+  static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : double = 0) {
+    my $nfds = 1024;
+    
+    my $timeout_tv = (Sys::Time::Timeval)undef;
+    if ($timeout >= 0) {
+      $timeout_tv = Sys::Time::Util->float_seconds_to_timeval($timeout);
+    }
+    else {
+      $timeout_tv = undef;
+    }
+    
+    my $fd_number = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout_tv);
+    
+    return $fd_number;
+  }
+  
+  static method stat : Sys::IO::Stat ($path : string) {
+    my $stat = Sys::IO::Stat->new;
+    Sys::IO::Stat->stat($path, $stat);
+    return $stat;
+  }
+  
+  static method fstat : Sys::IO::Stat ($fd : int) {
+    my $stat = Sys::IO::Stat->new;
+    Sys::IO::Stat->fstat($fd, $stat);
+    return $stat;
   }
   
   static method A : double ($file : string) {
@@ -462,167 +807,6 @@ class Sys {
     return $ok;
   }
   
-  static method time : long () {
-    my $time = Sys::Time->time();
-    return $time;
-  }
-  
-  static method localtime : Sys::Time::Tm ($time : long) {
-    my $tm = Sys::Time->localtime(\$time);
-    return $tm;
-  }
-  
-  static method gmtime : Sys::Time::Tm ($time : long) {
-    my $tm = Sys::Time->gmtime(\$time);
-    return $tm;
-  }
-  
-  static method utime : void ($atime : long, $mtime : long, $filename : string) {
-    
-    my $utimbuf = (Sys::Time::Utimbuf)undef;
-    
-    if ($atime < 0 && $mtime < 0) {
-      # Set current time
-    }
-    else {
-      $utimbuf = Sys::Time::Utimbuf->new;
-      $utimbuf->set_actime($atime);
-      $utimbuf->set_modtime($mtime);
-    }
-    
-    Sys::Time->utime($filename, $utimbuf);
-  }
-  
-  static method stat : Sys::IO::Stat ($path : string) {
-    my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->stat($path, $stat);
-    return $stat;
-  }
-  
-  static method fstat : Sys::IO::Stat ($fd : int) {
-    my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->fstat($fd, $stat);
-    return $stat;
-  }
-  
-  static method chdir : void ($path : string) {
-    Sys::IO->chdir($path);
-  }
-  
-  static method chmod : void ($mode :int, $path : string) {
-    Sys::IO->chmod($path, $mode);
-  }
-  
-  static method mkdir : void ($path : string, $mode : int) {
-    Sys::IO->mkdir($path, $mode);
-  }
-  
-  static method umask : int ($mode : int) {
-    my $current_umask = Sys::IO->umask($mode);
-    
-    return $current_umask;
-  }
-  
-  static method rmdir : void ($path : string) {
-    Sys::IO->rmdir($path);
-  }
-  
-  static method opendir : void ($dh_ref : Sys::IO::DirStream[], $dir : string) {
-    
-    my $dh = Sys::IO->opendir($dir);
-    
-    $dh_ref->[0] = $dh;
-  }
-  
-  static method closedir : void ($dirp : Sys::IO::DirStream) {
-    Sys::IO->closedir($dirp);
-  }
-  
-  static method close : void ($stream : Sys::IO::FileStream) {
-    Sys::IO->fclose($stream);
-  }
-  
-  static method unlink : void ($pathname : string) {
-    
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->unlink($pathname);
-    }
-    else {
-      Sys::IO->unlink($pathname);
-    }
-  }
-  
-  static method rename : void ($oldpath : string, $newpath : string) {
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->rename($oldpath, $newpath);
-    }
-    else {
-      Sys::IO->rename($oldpath, $newpath);
-    }
-  }
-  
-  static method readlink : string ($file : string) {
-    if (Sys::OS->is_windows) {
-      my $buffer_size = Sys::IO::Windows->get_readlink_buffer_size($file);
-      my $buffer = (mutable string)new_string_len $buffer_size;
-      Sys::IO::Windows->readlink($file, $buffer, $buffer_size);
-      return $buffer;
-    }
-    else {
-      my $stat = Sys->lstat($file);
-      
-      my $readlink_buffer_size = (int)$stat->st_size;
-      
-      my $buffer = (mutable string)new_string_len $readlink_buffer_size;
-      
-      Sys::IO->readlink($file, $buffer, $readlink_buffer_size);
-      
-      return $buffer;
-    }
-  }
-  
-  static method symlink : int ($oldpath : string, $newpath : string) {
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->symlink($oldpath, $newpath);
-    }
-    else {
-      Sys::IO->symlink($oldpath, $newpath);
-    }
-    
-    my $success = 1;
-    
-    return $success;
-  }
-  
-  static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef) {
-    my $ioctl_ret = -1;
-    
-    if (Sys::OS->is_windows) {
-      $ioctl_ret = Sys::Ioctl->ioctlsocket($fd, $request, (int[])$request_arg_ref);
-    }
-    else {
-      $ioctl_ret = Sys::Ioctl->ioctl($fd, $request, $request_arg_ref);
-    }
-    
-    return $ioctl_ret;
-  }
-  
-  static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : double = 0) {
-    my $nfds = 1024;
-    
-    my $timeout_tv = (Sys::Time::Timeval)undef;
-    if ($timeout >= 0) {
-      $timeout_tv = Sys::Time::Util->float_seconds_to_timeval($timeout);
-    }
-    else {
-      $timeout_tv = undef;
-    }
-    
-    my $fd_number = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout_tv);
-    
-    return $fd_number;
-  }
-  
   static method bind : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
     my $addrlen = $addr->size;
     Sys::Socket->bind($sockfd, $addr, $addrlen);
@@ -751,240 +935,91 @@ class Sys {
     return $optval;
   }
   
-  static method truncate : void ($fd : int, $legnth : long) {
+  static method osname : string () {
+    my $osname : string;
     
-    Sys::IO->ftruncate($fd, $legnth);
-  }
-  
-  static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0) {
-    my $read_length = Sys::IO->read($fd, $buf, $count, $buf_offset);
-    return $read_length;
-  }
-  
-  static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0) {
-    my $write_length = Sys::IO->write($fd, $buf, $count, $buf_offset);
-    return $write_length;
-  }
-  
-  static method eof : int ($stream : Sys::IO::FileStream) {
-    my $eof = Sys::IO->feof($stream);
-    return $eof;
-  }
-  
-  static method fileno : int ($stream : Sys::IO::FileStream) {
-    my $fd = Sys::IO->fileno($stream);
-    return $fd;
-  }
-  
-  precompile static method readline : mutable string ($stream : Sys::IO::FileStream) {
-    
-    unless ($stream) {
-      die("\$stream must be defined.");
+    if (Sys::OS->defined("__linux__")) {
+      $osname = "linux";
+    }
+    elsif (Sys::OS->defined("_WIN32")) {
+      $osname = "MSWin32";
+    }
+    elsif (Sys::OS->defined("__FreeBSD__")) {
+      $osname = "freebsd";
+    }
+    elsif (Sys::OS->defined("__OpenBSD__")) {
+      $osname = "openbsd";
+    }
+    elsif (Sys::OS->defined("__solaris")) {
+      $osname = "solaris";
+    }
+    elsif (Sys::OS->defined("__sun")) {
+      $osname = "solaris";
+    }
+    elsif (Sys::OS->defined("__APPLE__")) {
+      $osname = "darwin";
+    }
+    else {
+      die "The OS name could not be determined.";
     }
     
-    my $capacity = 80;
-    my $buf = (mutable string)new_string_len $capacity;
+    return $osname;
+  }
+  
+  static method env : string ($name : string) {
+    my $env_value = Sys::Env->getenv($name);
+    return $env_value;
+  }
+  
+  static method set_env : void ($name : string, $value : string) {
     
-    my $pos = 0;
-    my $end_is_eof = 0;
-    my $eof = IO->EOF;
-    while (1) {
-      my $ch = Sys->getc($stream);
-      if ($ch == $eof) {
-        $end_is_eof = 1;
-        last;
+    if (Sys::OS->is_windows) {
+      unless ($value) {
+        $value = "";
+      }
+      Sys::Env->_putenv_s($name, $value);
+    }
+    else {
+      if ($value && $value ne "") {
+        my $overwrite = 1;
+        Sys::Env->setenv($name, $value, $overwrite);
       }
       else {
-        if ($pos >= $capacity) {
-          my $new_capacity = $capacity * 2;
-          my $new_buf = (mutable string)new_string_len $new_capacity;
-          
-          Fn->memcpy($new_buf, 0, $buf, 0, $capacity);
-          
-          $capacity = $new_capacity;
-          $buf = $new_buf;
-        }
-        
-        if ($ch == '\n') {
-          $buf->[$pos] = (byte)$ch;
-          $pos++;
-          last;
-        }
-        else {
-          $buf->[$pos] = (byte)$ch;
-          $pos++;
-        }
+        Sys::Env->unsetenv($name);
       }
     }
+  }
+  
+  static method time : long () {
+    my $time = Sys::Time->time();
+    return $time;
+  }
+  
+  static method localtime : Sys::Time::Tm ($time : long) {
+    my $tm = Sys::Time->localtime(\$time);
+    return $tm;
+  }
+  
+  static method gmtime : Sys::Time::Tm ($time : long) {
+    my $tm = Sys::Time->gmtime(\$time);
+    return $tm;
+  }
+  
+  static method utime : void ($atime : long, $mtime : long, $filename : string) {
     
-    my $line = (mutable string)undef;
-    if ($pos > 0 || !$end_is_eof) {
-      if ($pos == 0) {
-        $line = (mutable string)new_string_len 0;
-      }
-      else {
-        $line = (mutable string)new_string_len $pos;
-        Fn->memcpy($line, 0, $buf, 0, $pos);
-      }
+    my $utimbuf = (Sys::Time::Utimbuf)undef;
+    
+    if ($atime < 0 && $mtime < 0) {
+      # Set current time
     }
-    
-    return $line;
-  }
-  
-  static method getc : int ($stream : Sys::IO::FileStream) {
-    my $char = Sys::IO->getc($stream);
-    return $char;
-  }
-  
-  static method flock : void ($fd : int, $operation : int) {
-    Sys::IO->flock($fd, $operation);
-  }
-  
-  static method print : void ($stream : Sys::IO::FileStream, $string : string) {
-    Sys::IO->fwrite($string, 1, length $string, $stream);
-  }
-  
-  static method printf : void ($stream : Sys::IO::FileStream, $format : string, $args : object[]) {
-    my $formated_string = Format->sprintf($format, $args);
-    &print($stream, $formated_string);
-  }
-  
-  static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $count : int, $buf_offset : int = 0) {
-    my $read_length = Sys::IO->fread($buf, 1, $count, $stream);
-    return $read_length;
-  }
-  
-  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
-    Sys::IO->rewinddir($dirp);
-  }
-  
-  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
-    my $next_dirp = Sys::IO->readdir($dirp);
-    return $next_dirp;
-  }
-  
-  static method seek : void ($stream : Sys::IO::FileStream, $offset : long, $whence : int) {
-    Sys::IO->fseek($stream, $offset, $whence);
-  }
-  
-  static method sysseek : long ($fd : int, $offset : long, $whence : int) {
-    my $result_offset = Sys::IO->lseek($fd, $offset, $whence);
-    return $result_offset;
-  }
-  
-  static method tell : long ($stream : Sys::IO::FileStream) {
-    my $current_position = Sys::IO->ftell($stream);
-    return $current_position;
-  }
-  
-  static method telldir : long ($dirp : Sys::IO::DirStream) {
-    my $current_position = Sys::IO->telldir($dirp);
-    return $current_position;
-  }
-  
-  static method lstat : Sys::IO::Stat ($path : string) {
-    my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->lstat($path, $stat);
-    return $stat;
-  }
-  
-  static method chown : void ($owner : int, $group : int, $path : string) {
-    Sys::IO->chown($path, $owner, $group);
-  }
-  
-  static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef) {
-    my $fcntl_ret = Sys::IO->fcntl($fd, $command, $command_arg);
-    return $fcntl_ret;
-  }
-  
-  static method open : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file_name : string) {
-    
-    unless ($stream_ref) {
-      die "\$stream_ref must be defined.";
+    else {
+      $utimbuf = Sys::Time::Utimbuf->new;
+      $utimbuf->set_actime($atime);
+      $utimbuf->set_modtime($mtime);
     }
     
-    unless (@$stream_ref == 1) {
-      die "The length of \$stream_ref must be equal to 1.";
-    }
-    
-    if ($open_mode eq "<") {
-      $open_mode = "rb";
-    }
-    elsif ($open_mode eq ">") {
-      $open_mode = "wb";
-    }
-    elsif ($open_mode eq ">>") {
-      $open_mode = "wa";
-    }
-    elsif ($open_mode eq "+<") {
-      $open_mode = "r+b";
-    }
-    elsif ($open_mode eq "+>") {
-      $open_mode = "w+b";
-    }
-    elsif ($open_mode eq "+>>") {
-      $open_mode = "a+b";
-    }
-    
-    my $stream = Sys::IO->fopen($file_name, $open_mode);
-    
-    unless (Sys::OS->is_windows) {
-      Sys->fcntl(Sys->fileno($stream), IO->F_SETFD, IO->FD_CLOEXEC);
-    }
-    
-    $stream_ref->[0] = $stream;
+    Sys::Time->utime($filename, $utimbuf);
   }
-  
-  static method fdopen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $fd : int) {
-    
-    unless ($stream_ref) {
-      die "\$stream_ref must be defined.";
-    }
-    
-    unless (@$stream_ref == 1) {
-      die "The length of \$stream_ref must be equal to 1.";
-    }
-    
-    if ($open_mode eq "<") {
-      $open_mode = "rb";
-    }
-    elsif ($open_mode eq ">") {
-      $open_mode = "wb";
-    }
-    elsif ($open_mode eq ">>") {
-      $open_mode = "wa";
-    }
-    elsif ($open_mode eq "+<") {
-      $open_mode = "r+b";
-    }
-    elsif ($open_mode eq "+>") {
-      $open_mode = "w+b";
-    }
-    elsif ($open_mode eq "+>>") {
-      $open_mode = "a+b";
-    }
-    
-    my $stream = Sys::IO->fdopen($fd, $open_mode);
-    
-    $stream_ref->[0] = $stream;
-  }
-  
-  static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0) {
-    
-    my $fd = Sys::IO->open($path, $flags, $mode);
-    
-    $$fd_ref = $fd;
-  }
-  
-  static method say : void ($stream : Sys::IO::FileStream, $string : string) {
-    &print($stream, "$string\n");
-  }
-  
-  static method STDIN : Sys::IO::FileStream () { return Sys::IO->spvm_stdin; }
-  
-  static method STDOUT : Sys::IO::FileStream () { return Sys::IO->spvm_stdout; }
-  
-  static method STDERR : Sys::IO::FileStream () { return Sys::IO->spvm_stderr; }
   
   static method signal : Sys::Signal::Handler ($signum : int, $handler_name : string) {
     
@@ -1021,41 +1056,6 @@ class Sys {
   
   static method alarm : int ($seconds : int) {
     Sys::Signal->alarm($seconds);
-  }
-  
-  static method popen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $command : string) {
-    
-    my $type = (string)undef;
-    if ($open_mode eq "|-") {
-      $type = "wb";
-    }
-    elsif ($open_mode eq "-|") {
-      $type = "rb";
-    }
-    else {
-      die "The open mode \"$open_mode\" is not available.";
-    }
-    
-    my $stream = (Sys::IO::FileStream)undef;
-    if (Sys::OS->is_windows) {
-      $stream = Sys::IO->_popen($command, $type);
-    }
-    else {
-      $stream = Sys::IO->popen($command, $type);
-      Sys->fcntl(Sys->fileno($stream), IO->F_SETFD, IO->FD_CLOEXEC);
-    }
-    
-    $stream_ref->[0] = $stream;
-  }
-  
-  static method pclose : void ($stream : Sys::IO::FileStream) {
-    
-    if (Sys::OS->is_windows) {
-      Sys::IO->_pclose($stream);
-    }
-    else {
-      Sys::IO->pclose($stream);
-    }
   }
   
   static method fork : int () {
