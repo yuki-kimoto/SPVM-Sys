@@ -74,7 +74,7 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = fdopen(fd, mode);
   if (!stream) {
-    env->die(env, stack, "[System Error]fdopen failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fdopen failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -98,7 +98,7 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = fileno(stream);
   if (fd == -1) {
-    env->die(env, stack, "[System Error]fileno failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fileno failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -242,7 +242,7 @@ int32_t SPVM__Sys__IO__ungetc(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = ungetc(c, stream);
   if (status == EOF) {
-    env->die(env, stack, "[System Error]ungetc failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]ungetc failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -353,7 +353,7 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = fclose(stream);
   if (status == EOF) {
-    env->die(env, stack, "[System Error]fclose failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fclose failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -385,7 +385,7 @@ int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = fseek(stream, offset, whence);
   if (status == -1) {
-    env->die(env, stack, "[System Error]fseek failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fseek failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -406,7 +406,7 @@ int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int64_t offset = ftell(stream);
   if (offset == -1) {
-    env->die(env, stack, "[System Error]ftell failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]ftell failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -427,7 +427,7 @@ int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = fflush(stream);
   if (status == EOF) {
-    env->die(env, stack, "[System Error]fflush failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fflush failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -501,7 +501,7 @@ int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = setvbuf(stream, buf, mode, size);
   if (!(status == 0)) {
-    env->die(env, stack, "[System Error]setvbuf failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setvbuf failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -560,7 +560,7 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t read_length = read(fd, buf + buf_offset, count);
   if (read_length == -1) {
-    env->die(env, stack, "[System Error]read failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]read failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -601,7 +601,7 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t write_length = write(fd, buf + buf_offset, count);
   if (write_length == -1) {
-    env->die(env, stack, "[System Error]write failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]write failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -624,7 +624,7 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int64_t cur_offset = lseek(fd, offset, whence);
   if (cur_offset == -1) {
-    env->die(env, stack, "[System Error]lseek failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]lseek failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -640,7 +640,7 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = close(fd);
   if (status == -1) {
-    env->die(env, stack, "[System Error]close failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]close failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -657,7 +657,7 @@ int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = fsync(fd);
   if (status == -1) {
-    env->die(env, stack, "[System Error]fsync failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fsync failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -718,7 +718,7 @@ int32_t SPVM__Sys__IO__ftruncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = ftruncate(fd, length);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]ftruncate failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]ftruncate failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -739,7 +739,7 @@ int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = flock(fd, operation);
   if (status == -1) {
-    env->die(env, stack, "[System Error]flock failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]flock failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -765,7 +765,7 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == -1) {
     const char* pathname = env->get_chars(env, stack, obj_pathname);
-    env->die(env, stack, "[System Error]access failed:%s", env->strerror(env, stack, errno, 0), pathname, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]access failed:%s.", env->strerror(env, stack, errno, 0), pathname, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -795,7 +795,7 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == -1) {
     const char* pathname = env->get_chars(env, stack, obj_pathname);
-    env->die(env, stack, "[System Error]faccessat failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]faccessat failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -972,7 +972,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!ret_buf) {
-    env->die(env, stack, "[System Error]getcwd failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getcwd failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1017,7 +1017,7 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!ret_buffer) {
-    env->die(env, stack, "[System Error]_getdcwd failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]_getdcwd failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1283,7 +1283,7 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = closedir(dirp);
   if (status == -1) {
-    env->die(env, stack, "[System Error]closedir failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]closedir failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1308,7 +1308,7 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   errno = 0;
   struct dirent* dirent = readdir(dirp);
   if (errno != 0) {
-    env->die(env, stack, "[System Error]readdir failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]readdir failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1349,7 +1349,7 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int64_t offset = telldir(dirp);
   if (offset == -1) {
-    env->die(env, stack, "[System Error]telldir failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]telldir failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
