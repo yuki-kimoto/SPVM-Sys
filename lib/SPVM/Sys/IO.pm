@@ -38,19 +38,19 @@ Returns L<stderr|https://linux.die.net/man/3/stderr>.
 
 C<static method spvm_stdin : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Returns the stdin opened by the SPVM language.
+Returns the L<stdin|SPVM::Document::NativeAPI/"spvm_stdin"> opened by the SPVM language.
 
 =head2 spvm_stdout
 
 C<static method spvm_stdout : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Returns the stdout opened by the SPVM language.
+Returns the L<stdout|SPVM::Document::NativeAPI/"spvm_stdout"> opened by the SPVM language.
 
 =head2 spvm_stderr
 
 C<static method spvm_stderr : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Returns the stderr opened by the SPVM language.
+Returns the L<stderr|SPVM::Document::NativeAPI/"spvm_stderr"> opened by the SPVM language.
 
 =head2 fopen
 
@@ -202,7 +202,7 @@ C<static method fclose : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::Fil
 
 Calls the L<fclose|https://linux.die.net/man/3/fclose> function and returns its return value.
 
-If successful, the L<closed|SPVM::IO::FileStream/"closed"> field is set to 1.
+If successful, the L<closed|SPVM::Sys::IO::FileStream/"closed"> field is set to 1.
 
 Exceptions:
 
@@ -254,11 +254,17 @@ If the fflush function failed, an exception is thrown with C<eval_error_id> set 
 
 C<static method freopen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($path : string, $mode : string, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-The freopen() function opens the file whose name is the string pointed to by path and associates the stream pointed to by stream with it.
-
-See L<freopen(3) - Linux man page|https://linux.die.net/man/3/freopen> in Linux.
+Calls the L<freopen|https://linux.die.net/man/3/freopen> function and returns its return value.
 
 Exceptions:
+
+$path must be defined. Otherwise an exception is thrown.
+
+$mode must be defined. Otherwise an exception is thrown.
+
+$stream must be defined. Otherwise an exception is thrown.
+
+If the freopen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 setvbuf
 
