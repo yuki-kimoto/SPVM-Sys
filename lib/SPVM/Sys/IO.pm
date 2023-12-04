@@ -134,7 +134,7 @@ $stream must be defined. Otherwise an exception is thrown.
 
 C<static method clearerr : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-Calls the L<clearerr|https://linux.die.net/man/3/clearerr> function and returns its return value.
+Calls the L<clearerr|https://linux.die.net/man/3/clearerr> function.
 
 Exceptions:
 
@@ -170,65 +170,143 @@ Calls the L<fgets|https://linux.die.net/man/3/fgets> function and returns its re
 
 Exceptions:
 
+$s must be defined. Otherwise an exception is thrown.
+
+$size must be more than or equal to 0. Otherwise an exception is thrown.
+
+$stream must be defined. Otherwise an exception is thrown.
+
+$size must be less than the length of $s - $s_offset. Otherwise an exception is thrown.
+
 =head2 fwrite
 
 C<static method fwrite : int ($ptr : string, $size : int, $nmemb : int, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $ptr_offset : int = 0);>
 
-The function fwrite() writes nmemb elements of data, each size bytes long, to the stream pointed to by stream, obtaining them from the location given by ptr + ptr_offset.
-
-See the L<fread|https://linux.die.net/man/3/fwrite> function in Linux.
-
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+Calls the L<fwrite|https://linux.die.net/man/3/fwrite> function and returns its return value.
 
 Exceptions:
 
-=head2 fseek
+$ptr must be defined. Otherwise an exception is thrown.
 
-C<static method fseek : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $offset : long, $whence : int);>
+$size must be more than or equal to 0. Otherwise an exception is thrown.
 
-The fseek() function sets the file position indicator for the stream pointed to by stream. The new position, measured in bytes, is obtained by adding offset bytes to the position specified by whence. If whence is set to SEEK_SET, SEEK_CUR, or SEEK_END, the offset is relative to the start of the file, the current position indicator, or end-of-file, respectively. A successful call to the fseek() function clears the end-of-file indicator for the stream and undoes any effects of the ungetc(3) function on the same stream.
+$nmemb must be more than or equal to 0. Otherwise an exception is thrown.
 
-See the L<fseek|https://linux.die.net/man/3/fseek> function in Linux.
+$stream must be defined. Otherwise an exception is thrown.
 
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the whence.
-
-Exceptions:
-
-=head2 ftell
-
-C<static method ftell : long ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
-
-The ftell() function obtains the current value of the file position indicator for the stream pointed to by stream.
-
-See the L<ftell|https://linux.die.net/man/3/ftell> function in Linux.
-
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
-
-Exceptions:
+$nmemb * $size must be less than or equal to the length of $ptr - $ptr_offset. Otherwise an exception is thrown.
 
 =head2 fclose
 
 C<static method fclose : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-The fclose() function flushes the stream pointed to by fp (writing any bufed output data using fflush(3)) and closes the underlying file descriptor.
+Calls the L<fclose|https://linux.die.net/man/3/fclose> function and returns its return value.
 
-See the L<fclose|https://linux.die.net/man/3/fclose> function in Linux.
-
-The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
+If successful, the L<closed|SPVM::IO::FileStream/"closed"> field is set to 1.
 
 Exceptions:
+
+$stream must be defined
+
+If the fclose function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 fseek
+
+C<static method fseek : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $offset : long, $whence : int);>
+
+Calls the L<fseek|https://linux.die.net/man/3/fseek> function and returns its return value.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to $whence.
+
+Exceptions:
+
+$stream must be defined. Otherwise an exception is thrown.
+
+$offset must be greater than or equal to 0. Otherwise an exception is thrown.
+
+If the fseek function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 ftell
+
+C<static method ftell : long ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Calls the L<ftell|https://linux.die.net/man/3/ftell> function and returns its return value.
+
+Exceptions:
+
+$stream must be defined. Otherwise an exception is thrown.
+
+If the ftell function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 fflush
 
 C<static method fflush : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-For output streams, fflush() forces a write of all user-space bufed data for the given output or update stream via the stream's underlying write function. For input streams, fflush() discards any bufed data that has been fetched from the underlying file, but has not been consumed by the application. The open status of the stream is unaffected.
-
-See the L<fflush|https://linux.die.net/man/3/fflush> function in Linux.
+Calls the L<fflush|https://linux.die.net/man/3/fflush> function and returns its return value.
 
 Exceptions:
+
+$stream must be defined. Otherwise an exception is thrown.
+
+If the fflush function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 freopen
+
+C<static method freopen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($path : string, $mode : string, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+The freopen() function opens the file whose name is the string pointed to by path and associates the stream pointed to by stream with it.
+
+See L<freopen(3) - Linux man page|https://linux.die.net/man/3/freopen> in Linux.
+
+Exceptions:
+
+=head2 setvbuf
+
+C<static method setvbuf : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $mode : int, $size : int);>
+
+Calls the L<setvbuf|https://linux.die.net/man/3/setvbuf> function and returns its return value.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to $mode.
+
+Exceptions:
+
+$stream must be defined. Otherwise an exception is thrown.
+
+If $buf is defined, $size must be greater than or equal to 0. Otherwise an exception is thrown.
+
+If $buf is defined, $size must be less than or equal to the length of $buf. Otherwise an exception is thrown.
+
+If the setvbuf function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 setbuf
+
+C<static method setbuf : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string);>
+
+Calls the L</"setvbuf"> method given the following mode $mode and size $size.
+
+If $buf is defined, $mode is set to C<_IOFBF>, otherwise C<_IONBF>.
+
+$size is C<BUFSIZ>.
+
+=head2 setbuffer
+
+C<static method setbuffer : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $size : int);>
+
+Calls the L</"setvbuf"> method given the following mode $mode.
+
+If $buf is defined, $mode is set to C<_IOFBF>, otherwise C<_IONBF>.
+
+=head2 setlinebuf
+
+C<static method setlinebuf : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Calls the L</"setvbuf"> method given the following buffer $buf and mode $mode.
+
+$buf is undef.
+
+$mode is C<_IOLBF>.
+
+$size is C<BUFSIZ>.
 
 =head2 fsync
 
@@ -542,75 +620,6 @@ C<static method ftruncate : int ($fd : int, $length : long);>
 The ftruncate() functions cause the regular file named by referenced by fd to be truncated to a size of precisely length bytes.
 
 See L<ftruncate(2) - Linux man page|https://linux.die.net/man/2/ftruncate> in Linux.
-
-Exceptions:
-
-=head2 freopen
-
-C<static method freopen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($path : string, $mode : string, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
-
-The freopen() function opens the file whose name is the string pointed to by path and associates the stream pointed to by stream with it.
-
-See L<freopen(3) - Linux man page|https://linux.die.net/man/3/freopen> in Linux.
-
-Exceptions:
-
-=head2 setvbuf
-
-C<static method setvbuf : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $mode : int, $size : int);>
-
-The setvbuf() function may be used on any open stream to change its buffer.
-
-See L<setvbuf(3) - Linux man page|https://linux.die.net/man/3/setvbuf> in Linux.
-
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about the constant value for the C<$mode>.
-
-Exceptions:
-
-=head2 setbuf
-
-C<static method setbuf : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string);>
-
-The same as the following code using L</"setvbuf">.
-
-    my $mode : int;
-    if ($buf) {
-      $mode = IO->_IOFBF;
-    }
-    else {
-      $mode = IO->_IONBF;
-    }
-    
-    &setvbuf($stream, $buf, $mode, IO->BUFSIZ);
-
-Exceptions:
-
-=head2 setbuffer
-
-C<static method setbuffer : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $size : int);>
-
-The same as the following code using L</"setvbuf">.
-
-  my $mode : int;
-  if ($buf) {
-    $mode = IO->_IOFBF;
-  }
-  else {
-    $mode = IO->_IONBF;
-  }
-  
-  &setvbuf($stream, $buf, $mode, $size);
-
-Exceptions:
-
-=head2 setlinebuf
-
-C<static method setlinebuf : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
-
-The same as the following code using L</"setvbuf">.
-
-  my $mode = IO->_IOLBF;
-  &setvbuf($stream, undef, $mode, IO->BUFSIZ);
 
 Exceptions:
 

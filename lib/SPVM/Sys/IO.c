@@ -279,7 +279,7 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+  
   int32_t error_id = 0;
   
   void* obj_ptr = stack[0].oval;
@@ -303,7 +303,7 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!obj_stream) {
     return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
-
+  
   int32_t ptr_offset = stack[4].ival;
   if (!(nmemb * size <= ((ptr_length - ptr_offset))  )) {
     return env->die(env, stack, "$nmemb * $size must be less than or equal to the length of $ptr - $ptr_offset.", __func__, FILE_NAME, __LINE__);
@@ -359,7 +359,7 @@ int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!(offset >= 0)) {
     return env->die(env, stack, "$offset must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
-
+  
   int32_t whence = stack[2].ival;
   
   int32_t status = fseek(stream, offset, whence);
@@ -367,7 +367,7 @@ int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->die(env, stack, "[System Error]fseek failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-
+  
   stack[0].ival = status;
   
   return 0;
@@ -407,6 +407,80 @@ int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = fflush(stream);
   if (status == EOF) {
     env->die(env, stack, "[System Error]fflush failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  void* obj_mode = stack[1].oval;
+  if (!obj_mode) {
+    return env->die(env, stack, "$mode must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* mode = env->get_chars(env, stack, obj_mode);
+  
+  void* obj_stream = stack[2].oval;
+  if (!obj_stream) {
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  FILE* reopened_stream = freopen(path, mode, stream);
+  
+  if (!reopened_stream) {
+    env->die(env, stack, "[System Error]freopen failed:%s. The \"%s\" file can't be reopend", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  void* obj_stream = stack[0].oval;
+  if (!obj_stream) {
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  void* obj_buf = stack[1].oval;
+  char* buf = NULL;
+  int32_t buf_length = -1;
+  if (obj_buf) {
+    buf = (char*)env->get_chars(env, stack, obj_buf);
+    buf_length = env->length(env, stack, obj_buf);
+  }
+  
+  int32_t mode = stack[2].ival;
+  
+  int32_t size = stack[3].ival;
+  
+  if (buf) {
+    if (!(size >= 0)) {
+      return env->die(env, stack, "$size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    }
+    if (!(size <= buf_length)) {
+      return env->die(env, stack, "$size must be less than or equal to the length of $buf.", __func__, FILE_NAME, __LINE__);
+    }
+  }
+  
+  int32_t status = setvbuf(stream, buf, mode, size);
+  if (!(status == 0)) {
+    env->die(env, stack, "[System Error]setvbuf failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1148,80 +1222,6 @@ int32_t SPVM__Sys__IO__ftruncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == -1) {
     env->die(env, stack, "[System Error]ftruncate failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  void* obj_path = stack[0].oval;
-  if (!obj_path) {
-    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  void* obj_mode = stack[1].oval;
-  if (!obj_mode) {
-    return env->die(env, stack, "$mode must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* mode = env->get_chars(env, stack, obj_mode);
-  
-  void* obj_stream = stack[2].oval;
-  if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  FILE* reopened_stream = freopen(path, mode, stream);
-  
-  if (!reopened_stream) {
-    env->die(env, stack, "[System Error]freopen failed:%s. The \"%s\" file can't be reopend", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  void* obj_stream = stack[0].oval;
-  if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-
-  void* obj_buf = stack[1].oval;
-  char* buf = NULL;
-  int32_t buf_length = -1;
-  if (obj_buf) {
-    buf = (char*)env->get_chars(env, stack, obj_buf);
-    buf_length = env->length(env, stack, obj_buf);
-  }
-  
-  int32_t mode = stack[2].ival;
-  
-  int32_t size = stack[3].ival;
-  
-  if (buf) {
-    if (!(size >= 0)) {
-      return env->die(env, stack, "$size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
-    }
-    if (!(size <= buf_length)) {
-      return env->die(env, stack, "$size must be less than or equal to the length of $buf.", __func__, FILE_NAME, __LINE__);
-    }
-  }
-  
-  int32_t status = setvbuf(stream, buf, mode, size);
-  if (!(status == 0)) {
-    env->die(env, stack, "[System Error]setvbuf failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

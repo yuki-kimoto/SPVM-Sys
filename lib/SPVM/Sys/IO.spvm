@@ -63,11 +63,11 @@ class Sys::IO {
   
   native static method fwrite : int ($ptr : string, $size : int, $nmemb : int, $stream : Sys::IO::FileStream, $ptr_offset : int = 0);
   
+  native static method fclose : int ($stream : Sys::IO::FileStream);
+  
   native static method fseek : int ($stream : Sys::IO::FileStream, $offset : long, $whence : int);
   
   native static method ftell : long ($stream : Sys::IO::FileStream);
-  
-  native static method fclose : int ($stream : Sys::IO::FileStream);
   
   native static method fflush : int ($stream : Sys::IO::FileStream);
   
