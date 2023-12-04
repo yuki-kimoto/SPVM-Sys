@@ -142,6 +142,14 @@ See the L<getc|https://linux.die.net/man/3/getc> function in Linux.
 
 The file stream is a L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> object.
 
+=head2 ungetc
+
+C<static method ungetc : int ($c : int, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+ungetc() pushes c back to stream, cast to unsigned char, where it is available for subsequent read operations. Pushed-back characters will be returned in reverse order; only one pushback is guaranteed.
+
+See L<ungetc(3) - Linux man page|https://linux.die.net/man/3/ungetc> in Linux.
+
 =head2 fgets
 
 C<static method fgets : mutable string ($s : mutable string, $size : int, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $s_offset : int = 0);>
@@ -199,6 +207,14 @@ C<static method fflush : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::Fil
 For output streams, fflush() forces a write of all user-space bufed data for the given output or update stream via the stream's underlying write function. For input streams, fflush() discards any bufed data that has been fetched from the underlying file, but has not been consumed by the application. The open status of the stream is unaffected.
 
 See the L<fflush|https://linux.die.net/man/3/fflush> function in Linux.
+
+=head2 fsync
+
+C<static method fsync : int ($fd : int);>
+
+fsync() transfers ("flushes") all modified in-core data of (i.e., modified buffer cache pages for) the file referred to by the file descriptor fd to the disk device (or other permanent storage device) so that all changed information can be retrieved even after the system crashed or was rebooted.
+
+See L<fsync(2) - Linux man page|https://linux.die.net/man/2/fsync> in Linux.
 
 =head2 flock
 
@@ -484,22 +500,6 @@ C<static method ftruncate : int ($fd : int, $length : long);>
 The ftruncate() functions cause the regular file named by referenced by fd to be truncated to a size of precisely length bytes.
 
 See L<ftruncate(2) - Linux man page|https://linux.die.net/man/2/ftruncate> in Linux.
-
-=head2 ungetc
-
-C<static method ungetc : int ($c : int, $stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
-
-ungetc() pushes c back to stream, cast to unsigned char, where it is available for subsequent read operations. Pushed-back characters will be returned in reverse order; only one pushback is guaranteed.
-
-See L<ungetc(3) - Linux man page|https://linux.die.net/man/3/ungetc> in Linux.
-
-=head2 fsync
-
-C<static method fsync : int ($fd : int);>
-
-fsync() transfers ("flushes") all modified in-core data of (i.e., modified buffer cache pages for) the file referred to by the file descriptor fd to the disk device (or other permanent storage device) so that all changed information can be retrieved even after the system crashed or was rebooted.
-
-See L<fsync(2) - Linux man page|https://linux.die.net/man/2/fsync> in Linux.
 
 =head2 fstat_raw
 

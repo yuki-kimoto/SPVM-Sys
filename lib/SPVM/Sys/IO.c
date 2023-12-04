@@ -3,8 +3,10 @@
 
 #include "spvm_native.h"
 
+// File IO
 #include <stdio.h>
 
+// Files and directories
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -15,6 +17,7 @@
   #include <direct.h>
 #endif
 
+// Utilities
 #include <errno.h>
 #include <stdlib.h>
 
@@ -449,7 +452,7 @@ int32_t SPVM__Sys__IO__clearerr(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+  
   int32_t error_id = 0;
   
   void* obj_stream = stack[0].oval;
@@ -467,8 +470,29 @@ int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__ungetc(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t c = stack[0].ival;
+  
+  void* obj_stream = stack[1].oval;
+  if (!obj_stream) {
+    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  int32_t status = ungetc(c, stream);
+  if (status == EOF) {
+    env->die(env, stack, "[System Error]ungetc failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
 
+int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
   int32_t error_id = 0;
   
   void* obj_s = stack[0].oval;
@@ -643,6 +667,24 @@ int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
+}
+
+int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if defined(_WIN32)
+  return env->die(env, stack, "fsync is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+#else
+  int32_t fd = stack[0].ival;
+  
+  int32_t status = fsync(fd);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]fsync failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
 }
 
 int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -1359,45 +1401,6 @@ int32_t SPVM__Sys__IO__ftruncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
-}
-
-int32_t SPVM__Sys__IO__ungetc(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t c = stack[0].ival;
-
-  void* obj_stream = stack[1].oval;
-  if (!obj_stream) {
-    return env->die(env, stack, "$stream must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  int32_t status = ungetc(c, stream);
-  if (status == EOF) {
-    env->die(env, stack, "[System Error]ungetc failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  return env->die(env, stack, "fsync is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-#else
-  int32_t fd = stack[0].ival;
-  
-  int32_t status = fsync(fd);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]fsync failed:%s", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
