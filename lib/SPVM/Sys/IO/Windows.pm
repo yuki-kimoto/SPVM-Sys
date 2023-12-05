@@ -66,18 +66,6 @@ C<native static method readlink : int ($path : string, $buf : mutable string, $b
 
 The same as Perl L<readlink|https://perldoc.perl.org/functions/readlink> on Windows.
 
-=head2 get_readlink_buffer_size
-
-C<native static method get_readlink_buffer_size : int ($path : string);>
-
-Gets the L</"readlink"> needed buffer size.
-
-=head2 is_symlink
-
-C<native static method is_symlink : int ($path : string);>
-
-If the file $path is symlinks or directory junctions, returns 1, othwerwise returns 0.
-
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto
