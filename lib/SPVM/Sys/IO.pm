@@ -402,7 +402,7 @@ If the fsync function failed, an exception is thrown with C<eval_error_id> set t
 
 =head2 fcntl
 
-C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock = undef);>
+C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|SPVM::Sys::IO::Flock = undef);>
 
 Calls the L<fcntl|https://linux.die.net/man/2/fcntl> function and returns its return value.
 

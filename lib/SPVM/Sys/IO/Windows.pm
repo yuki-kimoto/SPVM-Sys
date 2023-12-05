@@ -18,17 +18,25 @@ C<SPVM::Sys::IO::Windows> is the C<Sys::IO::Windows> class in L<SPVM> language.
 
 =head1 Class Methods
 
-=head2 is_symlink
-
-C<native static method is_symlink : int ($path : string);>
-
-The same as Perl L<-l|https://perldoc.perl.org/functions/-X> on Windows.
-
 =head2 unlink
 
 C<native static method unlink : int ($pathname : string);>
 
-The same as Perl L<rename|https://perldoc.perl.org/functions/unlink> on Windows.
+Delete a file.
+
+Note:
+
+If the file given by the path name $pathname does not exist, returns -1 and C<errno> is set to C<ENOENT>.
+
+If the file given by the path name $pathname is read-only, the flag is disabled before the file deletion. If the file deletion failed, the flag is restored.
+
+This method can delete both symlinks and directory junctions.
+
+Exceptions:
+
+$pathname must be defined. Otherwise an exception is thrown.
+
+If the unlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 rename
 
@@ -47,6 +55,12 @@ The same as Perl L<readlink|https://perldoc.perl.org/functions/readlink> on Wind
 C<native static method get_readlink_buffer_size : int ($path : string);>
 
 Gets the L</"readlink"> needed buffer size.
+
+=head2 is_symlink
+
+C<native static method is_symlink : int ($path : string);>
+
+If the file $path is symlinks or directory junctions, returns 1, othwerwise returns 0.
 
 =head1 Copyright & License
 

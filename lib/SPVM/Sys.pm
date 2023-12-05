@@ -73,7 +73,7 @@ $stream_ref must be defined. Otherwise an exception is thrown.
 
 The length of $stream_ref must be equal to 1. Otherwise an exception is thrown.
 
-Exceptions thrown by the L<fopen|Sys::IO/"fopen"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<fopen|SPVM::Sys::IO/"fopen"> method in the Sys::IO class could be thrown.
 
 =head2 fdopen
 
@@ -83,13 +83,13 @@ Same as L</"open"> method except that this method takes the file descriptor $fd 
 
 =head2 fileno
 
-C<static method fileno : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
+C<static method fileno : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
 Return the file descriptor of the file stream $stream.
 
 Exceptions:
 
-Exceptions thrown by the L<fileno|Sys::IO/"fileno"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<fileno|SPVM::Sys::IO/"fileno"> method in the Sys::IO class could be thrown.
 
 =head2 read
 
@@ -99,11 +99,11 @@ Reads data from the file stream $stream by the $length, and saves it to the buff
 
 Exceptions:
 
-Exceptions thrown by the L<fread|Sys::IO/"fread"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<fread|SPVM::Sys::IO/"fread"> method in the Sys::IO class could be thrown.
 
 =head2 eof
 
-C<static method eof : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
+C<static method eof : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
 Checks if the file stream $stream reasches the end of the file.
 
@@ -111,7 +111,7 @@ If it does, returns 1, otherwise returns 0.
 
 Exceptions:
 
-Exceptions thrown by the L<feof|Sys::IO/"feof"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<feof|SPVM::Sys::IO/"feof"> method in the Sys::IO class could be thrown.
 
 =head2 readline
 
@@ -133,7 +133,7 @@ Gets a charactor from the file stream $stream and returns it.
 
 Exceptions:
 
-Exceptions thrown by the L<getc|Sys::IO/"getc"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<getc|SPVM::Sys::IO/"getc"> method in the Sys::IO class could be thrown.
 
 =head2 print
 
@@ -143,7 +143,7 @@ Prints the string $string to the file stream $stream.
 
 Exceptions:
 
-Exceptions thrown by the L<fwrite|Sys::IO/"fwrite"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the Sys::IO class could be thrown.
 
 =head2 printf
 
@@ -171,7 +171,7 @@ Closes the file stream $stream.
 
 Exceptions:
 
-Exceptions thrown by the L<fclose|Sys::IO/"fclose"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<fclose|SPVM::Sys::IO/"fclose"> method in the Sys::IO class could be thrown.
 
 =head2 seek
 
@@ -183,7 +183,7 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-Exceptions thrown by the L<fseek|Sys::IO/"fseek"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<fseek|SPVM::Sys::IO/"fseek"> method in the Sys::IO class could be thrown.
 
 =head2 tell
 
@@ -193,7 +193,7 @@ Returns the read/write position pointed to by the file stream $stream.
 
 Exceptions:
 
-Exceptions thrown by the L<ftell|Sys::IO/"ftell"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<ftell|SPVM::Sys::IO/"ftell"> method in the Sys::IO class could be thrown.
 
 =head2 sysopen
 
@@ -207,7 +207,7 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-Exceptions thrown by the L<open|Sys::IO/"open"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<open|SPVM::Sys::IO/"open"> method in the Sys::IO class could be thrown.
 
 =head2 sysread
 
@@ -217,7 +217,7 @@ Reads data from the file stream $stream by the $length, and saves it to the buff
 
 Exceptions:
 
-Exceptions thrown by the L<read|Sys::IO/"read"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<read|SPVM::Sys::IO/"read"> method in the Sys::IO class could be thrown.
 
 =head2 syswrite
 
@@ -227,7 +227,7 @@ Writes data to the file stream $stream by the $length from the buffer $buf at of
 
 Exceptions:
 
-Exceptions thrown by the L<write|Sys::IO/"write"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<write|SPVM::Sys::IO/"write"> method in the Sys::IO class could be thrown.
 
 =head2 sysseek
 
@@ -239,17 +239,17 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-Exceptions thrown by the L<lseek|Sys::IO/"lseek"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<lseek|SPVM::Sys::IO/"lseek"> method in the Sys::IO class could be thrown.
 
 =head2 fcntl
 
-C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef);>
+C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|SPVM::Sys::IO::Flock|object = undef);>
 
-Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> class and its return value.
+Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the Sys::IO class and its return value.
 
 Exceptions:
 
-Exceptions thrown by the L<fcntl|Sys::IO/"fcntl"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the Sys::IO class could be thrown.
 
 =head2 flock
 
@@ -261,7 +261,7 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-Exceptions thrown by the L<flock|Sys::IO/"flock"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<flock|SPVM::Sys::IO/"flock"> method in the Sys::IO class could be thrown.
 
 =head2 mkdir
 
@@ -275,7 +275,7 @@ In Windows, the mode $mode is ignored.
 
 Exceptions:
 
-Exceptions thrown by the L<mkdir|Sys::IO/"mkdir"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<mkdir|SPVM::Sys::IO/"mkdir"> method in the Sys::IO class could be thrown.
 
 =head2 umask
 
@@ -285,7 +285,7 @@ Sets the umask for the process to the mode $mode and returns the previous value.
 
 Exceptions:
 
-Exceptions thrown by the L<umask|Sys::IO/"umask"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<umask|SPVM::Sys::IO/"umask"> method in the Sys::IO class could be thrown.
 
 =head2 unlink
 
@@ -293,7 +293,11 @@ C<static method unlink : void ($pathname : string);>
 
 Deletes a file.
 
+In Windows, this method calls the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method in the Sys::IO::Windows, otherwise calls the L<unlink|SPVM::Sys::IO/"unlink"> method in the Sys::IO class.
+
 Exceptions:
+
+Exceptions thrown by the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method or the L<unlink|SPVM::Sys::IO/"unlink"> method in the Sys::IO class method in the Sys::IO class could be thrown.
 
 =head2 rename
 
