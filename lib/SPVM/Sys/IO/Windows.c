@@ -3,6 +3,8 @@
 
 #include "spvm_native.h"
 
+#include <sys/stat.h>
+
 static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #if defined(_WIN32)
@@ -467,6 +469,67 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
     return 0;
 }
 
+/*
+int _open_osfhandle (
+   intptr_t osfhandle,
+   int flags
+);
+_O_RDONLY
+*/
+
+DllExport int
+win32_lstat(const char *path, Stat_t *sbuf)
+{
+  HANDLE f;
+  int result;
+  DWORD attr = GetFileAttributes(path); /* doesn't follow symlinks */
+  
+  if (attr == INVALID_FILE_ATTRIBUTES) {
+    translate_to_errno();
+    return -1;
+  }
+  
+  if (!(attr & FILE_ATTRIBUTE_REPARSE_POINT)) {
+    return stat(path, sbuf);
+  }
+  
+  f = CreateFileA(path, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                         FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+  
+  if (f == INVALID_HANDLE_VALUE) {
+    translate_to_errno();
+    return -1;
+  }
+  
+  bool is_symlink;
+  
+  int size = do_readlink_handle(f, NULL, 0, &is_symlink);
+  
+  if (!is_symlink) {
+    /* it isn't a symlink, fallback to normal stat */
+    CloseHandle(f);
+    return stat(path, sbuf);
+  }
+  else if (size < 0) {
+    /* some other error, errno already set */
+    CloseHandle(f);
+    return -1;
+  }
+  
+  int32_t fd = _open_osfhandle(f, _O_RDONLY);
+  
+  result = fstat(fd, sbuf);
+  
+  if (result != -1){
+    sbuf->st_mode = (sbuf->st_mode & ~_S_IFMT) | _S_IFLNK;
+    sbuf->st_size = size;
+  }
+  
+  _close(fd);
+  
+  return result;
+}
+
 #endif // _WIN32
 
 int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -639,5 +702,41 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
+}
+
+int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  return env->die(env, stack, "lstat is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+#else
+
+  int32_t error_id = 0;
+  
+  void* obj_path = stack[0].oval;
+  if (!obj_path) {
+    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  void* obj_lstat = stack[1].oval;
+  if (!obj_lstat) {
+    return env->die(env, stack, "$lstat must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  struct stat* stat_buf = env->get_pointer(env, stack, obj_lstat);
+  
+  int32_t status = win32_lstat(path, stat_buf);
+  
+  if (status == -1) {
+    const char* path = env->get_chars(env, stack, obj_path);
+    env->die(env, stack, "[System Error]lstat failed:%s. $path is \"%s\".", path, env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+
+  return 0;
 }
 

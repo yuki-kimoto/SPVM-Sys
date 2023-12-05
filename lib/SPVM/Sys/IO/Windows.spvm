@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::IO::Windows {
+  use Sys::IO::Stat;
   
   # Class Methods
   native static method unlink : int ($pathname : string);
@@ -15,4 +16,6 @@ class Sys::IO::Windows {
   native static method get_readlink_buffer_size : int ($path : string);
   
   native static method is_symlink : int ($path : string);
+  
+  native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
 }
