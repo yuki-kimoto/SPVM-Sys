@@ -297,7 +297,7 @@ In Windows, this method calls the L<unlink|SPVM::Sys::IO::Windows/"unlink"> meth
 
 Exceptions:
 
-Exceptions thrown by the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method or the L<unlink|SPVM::Sys::IO/"unlink"> method in the Sys::IO class method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method or the L<unlink|SPVM::Sys::IO/"unlink"> method in the Sys::IO class could be thrown.
 
 =head2 rename
 
@@ -309,39 +309,47 @@ In Windows, this method calls the L<rename|SPVM::Sys::IO::Windows/"rename"> meth
 
 Exceptions:
 
-Exceptions thrown by the L<rename|SPVM::Sys::IO::Windows/"rename"> method or the L<rename|SPVM::Sys::IO/"rename"> method in the Sys::IO class method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<rename|SPVM::Sys::IO::Windows/"rename"> method or the L<rename|SPVM::Sys::IO/"rename"> method in the Sys::IO class could be thrown.
 
 =head2 rmdir
 
 C<static method rmdir : void ($path : string);>
 
-Deletes the directory specified by $path.
+Deletes the directory given the path $path.
 
 Exceptions:
+
+Exceptions thrown by the L<rmdir|SPVM::Sys::IO/"rmdir"> method in the Sys::IO class could be thrown.
 
 =head2 chdir
 
 C<static method chdir : void ($path : string);>
 
-Changes the working directory to $path.
+Changes the working directory to the path $path.
 
 Exceptions:
+
+Exceptions thrown by the L<chdir|SPVM::Sys::IO/"chdir"> method in the Sys::IO class could be thrown.
 
 =head2 chmod
 
 C<static method chmod : void ($mode :int, $path : string);>
 
-Changes the permissions of a file.
+Changes the permissions of the file $path to the permission $mode.
 
 Exceptions:
+
+Exceptions thrown by the L<chmod|SPVM::Sys::IO/"chmod"> method in the Sys::IO class could be thrown.
 
 =head2 chown
 
 C<static method chown : void ($owner : int, $group : int, $path : string);>
 
-Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Changes the owner and the group of the file $path to $owner and $group.
 
 Exceptions:
+
+Exceptions thrown by the L<chown|SPVM::Sys::IO/"chown"> method in the Sys::IO class could be thrown.
 
 =head2 readlink
 
@@ -359,25 +367,15 @@ Creates a $newpath symbolically linked to $oldpath.
 
 Exceptions:
 
-=head2 select
-
-C<static method select : int ($readfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $writefds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $exceptfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $timeout : double = 0);>
-
-Calls the L<select|SPVM::Sys::Select/"select"> method in the Sys::Select class and returns its return value.
-
-If $timeout is greter than or equal to 0, it is converted to a L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object. Otherwise it becomes undef.
-
-$nfds is set to 1024.
-
-Exceptions:
-
 =head2 truncate
 
 C<static method truncate : void ($fd : int, $legnth : long);>
 
-Calls the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Truncates the file referenced by the file descriptor $fd to a size of precisely length bytes $legnth.
 
 Exceptions:
+
+Exceptions thrown by the L<select|SPVM::Sys::Select/"select"> method in the Sys::Select class method could be thrown.
 
 =head2 opendir
 
@@ -432,6 +430,20 @@ Exceptions:
 C<static method pclose : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
 Exceptions:
+
+=head2 select
+
+C<static method select : int ($readfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $writefds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $exceptfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $timeout : double = 0);>
+
+Calls the L<select|SPVM::Sys::Select/"select"> method in the Sys::Select class and returns its return value.
+
+If $timeout is greter than or equal to 0, it is converted to a L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object. Otherwise is converted to undef.
+
+$nfds is set to 1024.
+
+Exceptions:
+
+Exceptions thrown by the L<select|SPVM::Sys::Select/"select"> method in the Sys::Select class method could be thrown.
 
 =head2 ioctl
 
