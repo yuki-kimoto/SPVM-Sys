@@ -10,7 +10,7 @@ SPVM::Sys::IO::Windows - IO System Call on Windows
 
 =head1 Description
 
-C<SPVM::Sys::IO::Windows> is the C<Sys::IO::Windows> class in L<SPVM> language.
+The SPVM::Sys::IO::Windows class of L<SPVM> has methods to manipulate IO system calls in Windows.
 
 =head1 Usage
 
@@ -20,17 +20,19 @@ C<SPVM::Sys::IO::Windows> is the C<Sys::IO::Windows> class in L<SPVM> language.
 
 =head2 unlink
 
-C<native static method unlink : int ($pathname : string);>
+C<static method unlink : int ($pathname : string);>
 
 Delete a file.
 
 Note:
 
-If the file given by the path name $pathname does not exist, returns -1 and C<errno> is set to C<ENOENT>.
+This method is implemented so that the beheivior is the same as the L<readlink|SPVM::Sys::IO/"readlink"> in the Sys::IO class as possible.
 
 If the file given by the path name $pathname is read-only, the flag is disabled before the file deletion. If the file deletion failed, the flag is restored.
 
 This method can delete both symlinks and directory junctions.
+
+Error numbers in Windows are replaced with the ones in POSIX.
 
 Exceptions:
 
@@ -46,9 +48,7 @@ Raname the file name from the old name $oldpath to the new name $newpath.
 
 Note:
 
-This method uses the L<MoveFileExA|https://learn.microsoft.com/ja-jp/windows/win32/api/winbase/nf-winbase-movefileexa> function.
-
-If $oldpath and $newpath is differnt ignoring the case, C<MOVEFILE_REPLACE_EXISTING> is set.
+This method is implemented so that the beheivior is the same as the L<readlink|SPVM::Sys::IO/"readlink"> in the Sys::IO class as possible.
 
 Error numbers in Windows are replaced with the ones in POSIX.
 
@@ -60,11 +60,53 @@ $newpath must be defined. Otherwise an exception is thrown.
 
 If the rename function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+=head2 symlink
+
+C<static method symlink : int ($oldpath : string, $newpath : string);>
+
+Creates a path $newpath symbolically linked to the path $oldpath.
+
+Note:
+
+This method is implemented so that the beheivior is the same as the L<symlink|SPVM::Sys::IO/"symlink"> in the Sys::IO class as possible.
+
+Error numbers in Windows are replaced with the ones in POSIX.
+
 =head2 readlink
 
-C<native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);>
+C<static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);>
 
-The same as Perl L<readlink|https://perldoc.perl.org/functions/readlink> on Windows.
+Calls the C<readlink> function implemented for Windows.
+
+Note:
+
+This method is implemented so that the beheivior is the same as the L<readlink|SPVM::Sys::IO/"readlink"> in the Sys::IO class as possible.
+
+Symbolic links and directory junctions in Windows are manipulated as symbolic links.
+
+Error numbers in Windows are replaced with the ones in POSIX.
+
+=head2 lstat
+
+C<static method lstat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
+
+Calls the C<lstat> function implemented for Windows.
+
+Note:
+
+This method is implemented so that the beheivior is the same as the L<lstat|SPVM::Sys::IO::Stat/"lstat"> in the Sys::IO class as possible..
+
+Symbolic links and directory junctions in Windows are manipulated as symbolic links.
+
+Error numbers in Windows are replaced with the ones in POSIX.
+
+Exceptions:
+
+$path must be defined. Otherwise an exception is thrown.
+
+$stat must be defined. Otherwise an exception is thrown.
+
+If the lstat function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head1 Copyright & License
 

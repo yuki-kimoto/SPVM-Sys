@@ -355,17 +355,25 @@ Exceptions thrown by the L<chown|SPVM::Sys::IO/"chown"> method in the Sys::IO cl
 
 C<static method readlink : int ($file : string);>
 
-Returns the value of a symbolic link.
+Returns the content of the symbolic link file $file.
+
+In Windows thie method calls the L<readlink|SPVM::Sys::IO::Windows/"readlink"> method in the Sys::IO::Windows, otherwise calls the L<readlink|SPVM::Sys::IO/"readlink"> method in the Sys::IO.
 
 Exceptions:
+
+Exceptions thrown by the L<readlink|SPVM::Sys::IO/"readlink"> method in the Sys::IO or the L<readlink|SPVM::Sys::IO::Windows/"readlink"> method in the Sys::IO::Windows class could be thrown.
 
 =head2 symlink
 
 C<static method symlink : int ($oldpath : string, $newpath : string);>
 
-Creates a $newpath symbolically linked to $oldpath.
+Creates a path $newpath symbolically linked to the path $oldpath.
+
+In Windows thie method calls the L<symlink|SPVM::Sys::IO::Windows/"symlink"> method in the Sys::IO::Windows, otherwise calls the L<symlink|SPVM::Sys::IO/"symlink"> method in the Sys::IO.
 
 Exceptions:
+
+Exceptions thrown by the L<symlink|SPVM::Sys::IO/"symlink"> method in the Sys::IO or the L<symlink|SPVM::Sys::IO::Windows/"symlink"> method in the Sys::IO::Windows class could be thrown.
 
 =head2 truncate
 
@@ -865,7 +873,7 @@ Exceptions thrown by the L<stat|SPVM::Sys::IO::Stat/"stat"> method in the Sys::I
 
 C<static method lstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
 
-Identical to L</"stat">, except that if path $path is a symbolic link, then the link itself is stat-ed, not the file that it refers to.
+Identical to L</"stat">, except that if path $path is a symbolic link(or directory junction only in Windows), then the link itself is stat-ed, not the file that it refers to.
 
 In Windows, this method calls the L<lstat|SPVM::Sys::IO::Windows/"lstat"> method, otherwise calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method.
 
