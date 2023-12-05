@@ -704,7 +704,7 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__Windows__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   return env->die(env, stack, "lstat is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
 #else
