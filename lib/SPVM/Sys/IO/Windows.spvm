@@ -13,9 +13,5 @@ class Sys::IO::Windows {
   
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
   
-  native static method get_readlink_buffer_size : int ($path : string);
-  
-  native static method is_symlink : int ($path : string);
-  
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
 }

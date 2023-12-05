@@ -855,25 +855,33 @@ Exceptions thrown by the L<utime|SPVM::Sys::Time/"utime"> method in the Sys::Tim
 
 C<static method stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
 
-Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<stat||SPVM::Sys::IO::Stat/"stat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
+Returns information about a file $path.
 
-And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+Exceptions:
+
+Exceptions thrown by the L<stat|SPVM::Sys::IO::Stat/"stat"> method in the Sys::IO::Stat class could be thrown.
 
 =head2 lstat
 
 C<static method lstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
 
-Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
+Identical to L</"stat">, except that if path $path is a symbolic link, then the link itself is stat-ed, not the file that it refers to.
 
-And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+In Windows, this method calls the L<lstat|SPVM::Sys::IO::Windows/"lstat"> method, otherwise calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method.
+
+Exceptions:
+
+Exceptions thrown by the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method in the Sys::IO::Stat class or the L<lstat|SPVM::Sys::IO::Windows/"lstat"> method in the Sys::IO::Windows class could be thrown.
 
 =head2 fstat
 
 C<static method fstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($fd : int);>
 
-Creates a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object and calls the L<fstat||SPVM::Sys::IO::Stat/"fstat"> method in the L<Sys::IO::Stat|SPVM::Sys::IO::Stat> class.
+Identical to L</"stat">, except that the file to be stat-ed is specified by the file descriptor $fd.
 
-And returns the a L<Sys::IO::Stat|SPVM::Sys::IO::Stat> object.
+Exceptions:
+
+Exceptions thrown by the L<fstat|SPVM::Sys::IO::Stat/"fstat"> method in the Sys::IO::Stat class could be thrown.
 
 =head2 env
 

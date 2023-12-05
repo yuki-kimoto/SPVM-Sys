@@ -6,6 +6,8 @@
     * The fcntl method can not recieve object type $command_arg. Only Int or Sys::IO::Flock.
     * The get_readlink_buffer_size method in the Sys::IO is removed.
     * The FILE stream open by the popen or _popen is closed automatically.
+    * Remove the is_symlink method in the Sys::IO::Windows.
+    * Remove the _get_readlink_buffer_size method in the Sys::IO::Windows.
   [New Features]
     * Add the lstat method to the Sys::IO::Windows class.
   [Bug Fix]
