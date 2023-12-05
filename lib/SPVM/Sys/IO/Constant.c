@@ -17,6 +17,12 @@
   #include <sys/ioctl.h>
 #endif
 
+#if defined(_WIN32)
+#  ifndef S_IFLNK
+#    define S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
+#  endif
+#endif
+
 static const char* FILE_NAME = "Sys/IO/Constant.c";
 
 int32_t SPVM__Sys__IO__Constant__AT_EMPTY_PATH(SPVM_ENV* env, SPVM_VALUE* stack) {

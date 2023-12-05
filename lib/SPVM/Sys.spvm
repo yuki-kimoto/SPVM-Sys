@@ -279,23 +279,21 @@ class Sys {
   }
   
   static method readlink : string ($file : string) {
+    
+    my $stat = Sys->lstat($file);
+    
+    my $readlink_buffer_size = (int)$stat->st_size;
+    
+    my $buffer = (mutable string)new_string_len $readlink_buffer_size;
+    
     if (Sys::OS->is_windows) {
-      my $buffer_size = Sys::IO::Windows->get_readlink_buffer_size($file);
-      my $buffer = (mutable string)new_string_len $buffer_size;
-      Sys::IO::Windows->readlink($file, $buffer, $buffer_size);
-      return $buffer;
+      Sys::IO::Windows->readlink($file, $buffer, $readlink_buffer_size);
     }
     else {
-      my $stat = Sys->lstat($file);
-      
-      my $readlink_buffer_size = (int)$stat->st_size;
-      
-      my $buffer = (mutable string)new_string_len $readlink_buffer_size;
-      
       Sys::IO->readlink($file, $buffer, $readlink_buffer_size);
-      
-      return $buffer;
     }
+    
+    return $buffer;
   }
   
   static method chdir : void ($path : string) {
@@ -406,8 +404,16 @@ class Sys {
   }
   
   static method lstat : Sys::IO::Stat ($path : string) {
+    
     my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->lstat($path, $stat);
+    
+    if (Sys::OS->is_windows) {
+      Sys::IO::Windows->lstat($path, $stat);
+    }
+    else {
+      Sys::IO::Stat->lstat($path, $stat);
+    }
+    
     return $stat;
   }
   
@@ -664,16 +670,11 @@ class Sys {
       die "\$file must be defined.";
     }
     
-    if (Sys::OS->is_windows) {
-      $ok = Sys::IO::Windows->is_symlink($file);
-    }
-    else {
-      my $stat = (Sys::IO::Stat)undef;
-      eval { $stat = Sys->lstat($file); }
-      
-      unless ($@) {
-        $ok = $stat->l;
-      }
+    my $stat = (Sys::IO::Stat)undef;
+    eval { $stat = Sys->lstat($file); }
+    
+    unless ($@) {
+      $ok = $stat->l;
     }
     
     return $ok;
