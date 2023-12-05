@@ -375,61 +375,87 @@ Truncates the file referenced by the file descriptor $fd to a size of precisely 
 
 Exceptions:
 
-Exceptions thrown by the L<select|SPVM::Sys::Select/"select"> method in the Sys::Select class method could be thrown.
+Exceptions thrown by the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the Sys::IO class could be thrown.
 
 =head2 opendir
 
 C<static method opendir : void ($dh_ref : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>[], $dir : string);>
 
-Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Opens the directory stream given the directory $dir.
 
-The return value is set to $dh_ref->[0].
+The opened directory stream is set to $dh_ref at index 0.
 
 Exceptions:
+
+Exceptions thrown by the L<opendir|SPVM::Sys::IO/"opendir"> method in the Sys::IO class could be thrown.
 
 =head2 closedir
 
-C<static method closedir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method closedir : void ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Calls the L<closedir|SPVM::Sys::IO/"closedir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Closes the directory stream given the directory $dstream.
 
 Exceptions:
+
+Exceptions thrown by the L<closedir|SPVM::Sys::IO/"closedir"> method in the Sys::IO class could be thrown.
 
 =head2 readdir
 
-C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Calls the L<readdir|SPVM::Sys::IO/"readdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Reads a directory entry from the dirctory stream $dstream.
 
 Exceptions:
+
+Exceptions thrown by the L<readdir|SPVM::Sys::IO/"readdir"> method in the Sys::IO class could be thrown.
 
 =head2 rewinddir
 
-C<static method rewinddir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method rewinddir : void ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Calls the L<rewinddir|SPVM::Sys::IO/"rewinddir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Resets the position of the directory stream $dstream to the beginning of the directory.
 
 Exceptions:
+
+Exceptions thrown by the L<rewinddir|SPVM::Sys::IO/"rewinddir"> method in the Sys::IO class could be thrown.
 
 =head2 telldir
 
-C<static method telldir : long ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method telldir : long ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Calls the L<telldir|SPVM::Sys::IO/"telldir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Returns the current location associated with the directory stream $dstream.
 
 Exceptions:
+
+Exceptions thrown by the L<telldir|SPVM::Sys::IO/"telldir"> method in the Sys::IO class could be thrown.
 
 =head2 popen
 
 C<static method popen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $command : string);>
 
+Opens a file stream that joins a process by creating a pipe given the command $command and the open mode $open_mode.
+
+The opened file stream is set to $stream_ref at index 0.
+
+The open mode $open_mode is replaced to a representation of the L<fopen|https://linux.die.net/man/3/fopen> function before calling the L<fopen|https://linux.die.net/man/3/fopen> function.
+
+  [$open_mode]   [The mode of the fopen function]
+  |-             wb
+  -|             rb
+
 Exceptions:
+
+Exceptions thrown by the L<popen|SPVM::Sys::IO/"popen"> method in the Sys::IO or the L<_popen|SPVM::Sys::IO/"_popen"> method in the Sys::IO class could be thrown.
 
 =head2 pclose
 
 C<static method pclose : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
+Closes the file stream $stream created by the L</"popen"> method.
+
 Exceptions:
+
+Exceptions thrown by the L<pclose|SPVM::Sys::IO/"pclose"> method in the Sys::IO or the L<_pclose|SPVM::Sys::IO/"_pclose"> method in the Sys::IO class could be thrown.
 
 =head2 select
 

@@ -317,21 +317,21 @@ class Sys {
     $dh_ref->[0] = $dh;
   }
   
-  static method closedir : void ($dirp : Sys::IO::DirStream) {
-    Sys::IO->closedir($dirp);
+  static method closedir : void ($dstream : Sys::IO::DirStream) {
+    Sys::IO->closedir($dstream);
   }
   
-  static method readdir : Sys::IO::Dirent ($dirp : Sys::IO::DirStream) {
-    my $next_dirp = Sys::IO->readdir($dirp);
+  static method readdir : Sys::IO::Dirent ($dstream : Sys::IO::DirStream) {
+    my $next_dirp = Sys::IO->readdir($dstream);
     return $next_dirp;
   }
   
-  static method rewinddir : void ($dirp : Sys::IO::DirStream) {
-    Sys::IO->rewinddir($dirp);
+  static method rewinddir : void ($dstream : Sys::IO::DirStream) {
+    Sys::IO->rewinddir($dstream);
   }
   
-  static method telldir : long ($dirp : Sys::IO::DirStream) {
-    my $current_position = Sys::IO->telldir($dirp);
+  static method telldir : long ($dstream : Sys::IO::DirStream) {
+    my $current_position = Sys::IO->telldir($dstream);
     return $current_position;
   }
   
