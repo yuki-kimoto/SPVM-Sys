@@ -9,12 +9,15 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #if defined(_WIN32)
 
+#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
+
 // These implementations are originally copied form Perl win32/win32.c and win32/win32.h
 
 #include <unistd.h>
 #include <windows.h>
 #include <errno.h>
 #include <winbase.h>
+#include <fcntl.h>
 
 #ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
 #  define EDQUOT		WSAEDQUOT
@@ -469,16 +472,7 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
     return 0;
 }
 
-/*
-int _open_osfhandle (
-   intptr_t osfhandle,
-   int flags
-);
-_O_RDONLY
-*/
-
-DllExport int
-win32_lstat(const char *path, Stat_t *sbuf)
+int win32_lstat(const char* path, struct stat* sbuf)
 {
   HANDLE f;
   int result;
@@ -516,7 +510,7 @@ win32_lstat(const char *path, Stat_t *sbuf)
     return -1;
   }
   
-  int32_t fd = _open_osfhandle(f, _O_RDONLY);
+  int32_t fd = _open_osfhandle((intptr_t)f, _O_RDONLY);
   
   result = fstat(fd, sbuf);
   
