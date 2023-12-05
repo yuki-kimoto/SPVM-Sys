@@ -51,7 +51,7 @@ Returns the L<stderr|SPVM::Document::NativeAPI/"spvm_stderr"> opened by the SPVM
 
 C<static method open : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
 
-Opens a file given the 1-length array of the file stream $stream_ref, the open mode $open_mode and the file name $file_name. 
+Opens a file given the open mode $open_mode and the file name $file_name. 
 
 The opened file stream is set to $stream_ref at index 0.
 
@@ -85,63 +85,125 @@ Same as L</"open"> method except that this method takes the file descriptor $fd 
 
 C<static method fileno : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
 
-Calls the L<fileno|SPVM::Sys::IO/"fileno"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Return the file descriptor of the file stream $stream.
+
+Exceptions:
+
+Exceptions thrown by the L<fileno|Sys::IO/"fileno"> method in the Sys::IO class could be thrown.
+
+=head2 read
+
+C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $length : int, $buf_offset : int = 0);>
+
+Reads data from the file stream $stream by the $length, and saves it to the buffer $buf at offset $buf_offset.
+
+Exceptions:
+
+Exceptions thrown by the L<fread|Sys::IO/"fread"> method in the Sys::IO class could be thrown.
 
 =head2 eof
 
 C<static method eof : int ($stream : L<Sys::IO::Stream|SPVM::Sys::IO::Stream>);>
 
-Calls the L<feof|SPVM::Sys::IO/"feof"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Checks if the file stream $stream reasches the end of the file.
+
+If it does, returns 1, otherwise returns 0.
+
+Exceptions:
+
+Exceptions thrown by the L<feof|Sys::IO/"feof"> method in the Sys::IO class could be thrown.
+
+=head2 readline
+
+C<static method readline : mutable string ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Reads a line from th file stream $stream and returns it.
+
+Exceptions:
+
+$stream must be defined.
+
+Exceptions thrown by the L</"getc"> method could be thrown.
 
 =head2 getc
 
 C<static method getc : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-Calls the L<getc|SPVM::Sys::IO/"getc"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Gets a charactor from the file stream $stream and returns it.
+
+Exceptions:
+
+Exceptions thrown by the L<getc|Sys::IO/"getc"> method in the Sys::IO class could be thrown.
 
 =head2 print
 
 C<static method print : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
 
-Calls the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the L<Sys::IO|SPVM::Sys::IO> class given the length of $string.
+Prints the string $string to the file stream $stream.
+
+Exceptions:
+
+Exceptions thrown by the L<fwrite|Sys::IO/"fwrite"> method in the Sys::IO class could be thrown.
 
 =head2 printf
 
 C<static method printf : void ($stream, $format : string, $args : object[])>
 
-Calls the L</"print"> method after creating formatted string given $stream and $args using the L<sprintf|SPVM::Format/"sprintf"> method in the L<Format|SPVM::Format> class.
+Prints the format string $string given the arguments $args to the file stream $stream.
+
+Exceptions thrown by the L<"print"> method class could be thrown.
 
 =head2 say
 
 C<static method say : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $string : string);>
 
-Calls the L</"print"> method adding C<\n> to the end of $string.
+Prints the string $string and "\n" to the file stream $stream.
+
+Exceptions:
+
+Exceptions thrown by the L<"print"> method class could be thrown.
 
 =head2 close
 
 C<static method close : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-Calls the L<fclose|SPVM::Sys::IO/"fclose"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Closes the file stream $stream.
+
+Exceptions:
+
+Exceptions thrown by the L<fclose|Sys::IO/"fclose"> method in the Sys::IO class could be thrown.
 
 =head2 seek
 
 C<static method seek : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $offset : long, $whence : int);>
 
-Calls the L<fseek|SPVM::Sys::IO/"fseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Moves the read/write position pointed to by the file stream $stream to the offset $offset given $whence.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to $whence.
+
+Exceptions:
+
+Exceptions thrown by the L<fseek|Sys::IO/"fseek"> method in the Sys::IO class could be thrown.
 
 =head2 tell
 
 C<static method tell : long ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-Calls the L<ftell|SPVM::Sys::IO/"ftell"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Returns the read/write position pointed to by the file stream $stream.
+
+Exceptions:
+
+Exceptions thrown by the L<ftell|Sys::IO/"ftell"> method in the Sys::IO class could be thrown.
 
 =head2 sysopen
 
 C<static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0);>
 
-Calls the L<open|SPVM::Sys::IO/"open"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Opens a file given, the file path $path, the mode $flags and the mode $mode.
 
-Its return value is set to the 1-length array of the file descriptor $fd_ref at index 0.
+The file descriptor of the opened file is set to the value reffered by $fd_ref.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the flags $flags and the mode $mode.
 
 Exceptions:
 
@@ -149,39 +211,81 @@ Exceptions thrown by the L<open|Sys::IO/"open"> method in the Sys::IO class coul
 
 =head2 sysread
 
-C<static method sysread : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
+C<static method sysread : int ($fd : int, $buf : mutable string, $length : int, $buf_offset : int = 0);>
 
-Calls the L<read|SPVM::Sys::IO/"read"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Reads data from the file stream $stream by the $length, and saves it to the buffer $buf from the offset $buf_offset.
+
+Exceptions:
+
+Exceptions thrown by the L<read|Sys::IO/"read"> method in the Sys::IO class could be thrown.
 
 =head2 syswrite
 
-C<static method syswrite : int ($fd : int, $buf : string, $count : int = -1, $buf_offset : int = 0);>
+C<static method syswrite : int ($fd : int, $buf : string, $length : int = -1, $buf_offset : int = 0);>
 
-Calls the L<write|SPVM::Sys::IO/"write"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Writes data to the file stream $stream by the $length from the buffer $buf at offset $buf_offset.
+
+Exceptions:
+
+Exceptions thrown by the L<write|Sys::IO/"write"> method in the Sys::IO class could be thrown.
+
+=head2 sysseek
+
+C<static method sysseek : long ($fd : int, $offset : long, $whence : int);>
+
+Moves the read/write position pointed to by the file descriptor $fd to the offset $offset given $whence.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to $whence.
+
+Exceptions:
+
+Exceptions thrown by the L<lseek|Sys::IO/"lseek"> method in the Sys::IO class could be thrown.
 
 =head2 fcntl
 
 C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|Sys::IO::Flock|object = undef);>
 
-Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the L<Sys::IO|SPVM::Sys::IO> class and its return value.
+
+Exceptions:
+
+Exceptions thrown by the L<fcntl|Sys::IO/"fcntl"> method in the Sys::IO class could be thrown.
 
 =head2 flock
 
 C<static method flock : void ($fd : int, $operation : int);>
 
-Calls the L<flock|SPVM::Sys::IO/"flock"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Locks the file specified by the file descriptor $fd given the operation $operation.
+
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the operation $operation.
+
+Exceptions:
+
+Exceptions thrown by the L<flock|Sys::IO/"flock"> method in the Sys::IO class could be thrown.
 
 =head2 mkdir
 
 C<static method mkdir : void ($path : string, $mode : int);>
 
-Creates the directory specified by $path and $mode.
+Creates the directory given the path $path and the mode $mode.
+
+The permissions of the created directory are ($mode & ~L<umask|/"umask"> & 0777).
+
+In Windows, the mode $mode is ignored.
+
+Exceptions:
+
+Exceptions thrown by the L<mkdir|Sys::IO/"mkdir"> method in the Sys::IO class could be thrown.
 
 =head2 umask
 
 C<static method umask : int ($mode : int);>
 
-Sets the umask for the process to $mode and returns the previous value.
+Sets the umask for the process to the mode $mode and returns the previous value.
+
+Exceptions:
+
+Exceptions thrown by the L<umask|Sys::IO/"umask"> method in the Sys::IO class could be thrown.
 
 =head2 unlink
 
@@ -189,11 +293,15 @@ C<static method unlink : void ($pathname : string);>
 
 Deletes a file.
 
+Exceptions:
+
 =head2 rename
 
 C<static method rename : void ($oldpath : string, $newpath : string);>
 
 Changes the name of a file.
+
+Exceptions:
 
 =head2 rmdir
 
@@ -201,11 +309,15 @@ C<static method rmdir : void ($path : string);>
 
 Deletes the directory specified by $path.
 
+Exceptions:
+
 =head2 chdir
 
 C<static method chdir : void ($path : string);>
 
 Changes the working directory to $path.
+
+Exceptions:
 
 =head2 chmod
 
@@ -213,11 +325,15 @@ C<static method chmod : void ($mode :int, $path : string);>
 
 Changes the permissions of a file.
 
+Exceptions:
+
 =head2 chown
 
 C<static method chown : void ($owner : int, $group : int, $path : string);>
 
 Calls the L<chown|SPVM::Sys::IO/"chown"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+Exceptions:
 
 =head2 readlink
 
@@ -225,11 +341,15 @@ C<static method readlink : int ($file : string);>
 
 Returns the value of a symbolic link.
 
+Exceptions:
+
 =head2 symlink
 
 C<static method symlink : int ($oldpath : string, $newpath : string);>
 
 Creates a $newpath symbolically linked to $oldpath.
+
+Exceptions:
 
 =head2 select
 
@@ -241,29 +361,15 @@ If $timeout is greter than or equal to 0, it is converted to a L<Sys::Time::Time
 
 $nfds is set to 1024.
 
+Exceptions:
+
 =head2 truncate
 
 C<static method truncate : void ($fd : int, $legnth : long);>
 
 Calls the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
-=head2 readline
-
-C<static method readline : mutable string ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
-
-Calls the L<readline|SPVM::Sys::IO/"readline"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 read
-
-C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $count : int, $buf_offset : int = 0);>
-
-Calls the L<fread|SPVM::Sys::IO/"fread"> method in the L<Sys::IO|SPVM::Sys::IO> class.
-
-=head2 sysseek
-
-C<static method sysseek : long ($fd : int, $offset : long, $whence : int);>
-
-Calls the L<lseek|SPVM::Sys::IO/"lseek"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+Exceptions:
 
 =head2 opendir
 
@@ -273,11 +379,15 @@ Calls the L<opendir|SPVM::Sys::IO/"opendir"> method in the L<Sys::Socket|SPVM::S
 
 The return value is set to $dh_ref->[0].
 
+Exceptions:
+
 =head2 closedir
 
 C<static method closedir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
 Calls the L<closedir|SPVM::Sys::IO/"closedir"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+Exceptions:
 
 =head2 readdir
 
@@ -285,11 +395,15 @@ C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dirp : L<Sy
 
 Calls the L<readdir|SPVM::Sys::IO/"readdir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+Exceptions:
+
 =head2 rewinddir
 
 C<static method rewinddir : void ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
 Calls the L<rewinddir|SPVM::Sys::IO/"rewinddir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
+
+Exceptions:
 
 =head2 telldir
 
@@ -297,13 +411,19 @@ C<static method telldir : long ($dirp : L<Sys::IO::DirStream|SPVM::Sys::IO::DirS
 
 Calls the L<telldir|SPVM::Sys::IO/"telldir"> method in the L<Sys::IO|SPVM::Sys::IO> class.
 
+Exceptions:
+
 =head2 popen
 
 C<static method popen : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $command : string);>
 
+Exceptions:
+
 =head2 pclose
 
 C<static method pclose : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
+
+Exceptions:
 
 =head2 ioctl
 
