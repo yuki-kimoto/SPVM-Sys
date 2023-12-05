@@ -303,9 +303,13 @@ Exceptions thrown by the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method or the
 
 C<static method rename : void ($oldpath : string, $newpath : string);>
 
-Changes the name of a file.
+Raname the file name from the old name $oldpath to the new name $newpath.
+
+In Windows, this method calls the L<rename|SPVM::Sys::IO::Windows/"rename"> method in the Sys::IO::Windows, otherwise calls the L<rename|SPVM::Sys::IO/"rename"> method in the Sys::IO class.
 
 Exceptions:
+
+Exceptions thrown by the L<rename|SPVM::Sys::IO::Windows/"rename"> method or the L<rename|SPVM::Sys::IO/"rename"> method in the Sys::IO class method in the Sys::IO class could be thrown.
 
 =head2 rmdir
 

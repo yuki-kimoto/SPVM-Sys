@@ -143,11 +143,11 @@ win32_rename(const char *oname, const char *newname)
     BOOL bResult;
     DWORD dwFlags = MOVEFILE_COPY_ALLOWED;
     dTHX;
-
+    
     if (stricmp(newname, oname))
         dwFlags |= MOVEFILE_REPLACE_EXISTING;
     strcpy(szOldName, oname);
-
+    
     bResult = MoveFileExA(szOldName,newname, dwFlags);
     if (!bResult) {
         DWORD err = GetLastError();

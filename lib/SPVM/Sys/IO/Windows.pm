@@ -42,7 +42,23 @@ If the unlink function failed, an exception is thrown with C<eval_error_id> set 
 
 C<static method rename : int ($oldpath : string, $newpath : string);>
 
-The same as Perl L<rename|https://perldoc.perl.org/functions/rename> on Windows.
+Raname the file name from the old name $oldpath to the new name $newpath.
+
+Note:
+
+This method uses the L<MoveFileExA|https://learn.microsoft.com/ja-jp/windows/win32/api/winbase/nf-winbase-movefileexa> function.
+
+If $oldpath and $newpath is differnt ignoring the case, C<MOVEFILE_REPLACE_EXISTING> is set.
+
+Error numbers in Windows are replaced with the ones in POSIX.
+
+Exceptions:
+
+$oldpath must be defined. Otherwise an exception is thrown.
+
+$newpath must be defined. Otherwise an exception is thrown.
+
+If the rename function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 readlink
 
