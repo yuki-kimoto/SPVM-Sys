@@ -504,16 +504,9 @@ class TestCase::Sys {
           return 0;
         }
         
-        # TODO in Windows
-
-=pod
-
         unless (Errno->errno > 0) {
           return 0;
         }
-
-=cut
-
       }
     }
     
