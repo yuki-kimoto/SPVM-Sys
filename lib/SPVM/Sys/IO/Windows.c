@@ -18,7 +18,6 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #  define EDQUOT		WSAEDQUOT
 #endif
 
-#define PerlDir_mapA(file) file
 #define dTHX 
 #define bool BOOL
 #define strEQ(string1, string2) (strcmp(string1, string2) == 0)
@@ -113,7 +112,6 @@ win32_unlink(const char *filename)
   int ret;
   DWORD attrs;
   
-  filename = PerlDir_mapA(filename);
   attrs = GetFileAttributesA(filename);
   if (attrs == 0xFFFFFFFF) {
     errno = ENOENT;
@@ -148,9 +146,9 @@ win32_rename(const char *oname, const char *newname)
 
     if (stricmp(newname, oname))
         dwFlags |= MOVEFILE_REPLACE_EXISTING;
-    strcpy(szOldName, PerlDir_mapA(oname));
+    strcpy(szOldName, oname);
 
-    bResult = MoveFileExA(szOldName,PerlDir_mapA(newname), dwFlags);
+    bResult = MoveFileExA(szOldName,newname, dwFlags);
     if (!bResult) {
         DWORD err = GetLastError();
         switch (err) {
@@ -383,11 +381,6 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
         errno = ENOSYS;
         return -1;
     }
-
-    /* oldfile might be relative and we don't want to change that,
-       so don't map that.
-    */
-    newfile = PerlDir_mapA(newfile);
 
     if (strchr(oldfile, '/')) {
         /* Win32 (or perhaps NTFS) won't follow symlinks containing
