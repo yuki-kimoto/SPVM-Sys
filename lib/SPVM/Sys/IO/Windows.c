@@ -109,31 +109,33 @@ is_symlink_name(const char *name) {
 static int
 win32_unlink(const char *filename)
 {
-    dTHX;
-    int ret;
-    DWORD attrs;
-
-    filename = PerlDir_mapA(filename);
-    attrs = GetFileAttributesA(filename);
-    if (attrs == 0xFFFFFFFF) {
-        errno = ENOENT;
-        return -1;
-    }
-    if (attrs & FILE_ATTRIBUTE_READONLY) {
-        (void)SetFileAttributesA(filename, attrs & ~FILE_ATTRIBUTE_READONLY);
-        ret = unlink(filename);
-        if (ret == -1)
-            (void)SetFileAttributesA(filename, attrs);
-    }
-    else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
-        == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
-             && is_symlink_name(filename)) {
-        ret = rmdir(filename);
-    }
-    else {
-        ret = unlink(filename);
-    }
-    return ret;
+  dTHX;
+  int ret;
+  DWORD attrs;
+  
+  filename = PerlDir_mapA(filename);
+  attrs = GetFileAttributesA(filename);
+  if (attrs == 0xFFFFFFFF) {
+    errno = ENOENT;
+    return -1;
+  }
+  
+  if (attrs & FILE_ATTRIBUTE_READONLY) {
+    (void)SetFileAttributesA(filename, attrs & ~FILE_ATTRIBUTE_READONLY);
+    ret = unlink(filename);
+    if (ret == -1)
+        (void)SetFileAttributesA(filename, attrs);
+  }
+  else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
+    == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
+         && is_symlink_name(filename)) {
+    ret = rmdir(filename);
+  }
+  else {
+    ret = unlink(filename);
+  }
+  
+  return ret;
 }
 
 static int
@@ -475,8 +477,10 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
 #endif // _WIN32
 
 int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-#if defined(_WIN32)
+#if !defined(_WIN32)
+  env->die(env, stack, "The \"is_symlink\" method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#elif 
   void* obj_path = stack[0].oval;
   if (!obj_path) {
     return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -489,18 +493,14 @@ int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = success;
   
   return 0;
-
-#else
-
-  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-
 #endif
-
 }
 
 int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-#if defined(_WIN32)
+#if !defined(_WIN32)
+  env->die(env, stack, "The \"unlink\" method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#elif 
   void* obj_pathname = stack[0].oval;
   if (!obj_pathname) {
     return env->die(env, stack, "$pathname must be defined.", __func__, FILE_NAME, __LINE__);
@@ -517,18 +517,14 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
-
-#else
-
-  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-
 #endif
-
 }
 
 int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#if defined(_WIN32)
+#if !defined(_WIN32)
+  env->die(env, stack, "The \"rename\" method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#elif 
   void* obj_oldpath = stack[0].oval;
   if (!obj_oldpath) {
     return env->die(env, stack, "$oldpath must be defined.", __func__, FILE_NAME, __LINE__);
@@ -550,18 +546,14 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
-
-#else
-
-  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-
 #endif
-
 }
 
 int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#if defined(_WIN32)
+#if !defined(_WIN32)
+  env->die(env, stack, "The \"readlink\" method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#elif 
   int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
@@ -595,18 +587,14 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = placed_length;
   
   return 0;
-
-#else
-
-  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-
 #endif
-
 }
 
 int32_t SPVM__Sys__IO__Windows__get_readlink_buffer_size(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#if defined(_WIN32)
+#if !defined(_WIN32)
+  env->die(env, stack, "The \"get_readlink_buffer_size\" method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#elif 
   int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
@@ -625,20 +613,14 @@ int32_t SPVM__Sys__IO__Windows__get_readlink_buffer_size(SPVM_ENV* env, SPVM_VAL
   stack[0].ival = placed_length;
   
   return 0;
-
-#else
-
-  return env->die(env, stack, "This method is not supported on this os(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-
 #endif
-
 }
 
 int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
-  env->die(env, stack, "win32_symlink is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "The \"symlink\" method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
+#elif 
   int32_t error_id = 0;
   
   void* obj_oldpath = stack[0].oval;
@@ -646,7 +628,7 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "$oldpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* oldpath = env->get_chars(env, stack, obj_oldpath);
-
+  
   void* obj_newpath = stack[1].oval;
   if (!obj_newpath) {
     return env->die(env, stack, "$newpath must be defined.", __func__, FILE_NAME, __LINE__);
