@@ -4,18 +4,15 @@ package SPVM::Sys::Socket::Constant;
 
 =head1 Name
 
-SPVM::Sys::Socket::Constant - Socket Constant Values
+SPVM::Sys::Socket::Constant - Sockets Constant Values
+
+=head1 Description
+
+The Sys::Socket::Constant class of L<SPVM> has methods to get constant values for sockets.
 
 =head1 Usage
 
-  use Sys::Socket::Constant as Sock;
-  
-  Sock->AF_INET;
-  Sock->SOL_SOCKET;
-  
-=head1 Description
-
-C<Sys::Socket::Constant> is a class to provide the socket constant values.
+  use Sys::Socket::Constant;
 
 =head1 Class Methods
 
