@@ -4,18 +4,21 @@
 #include "spvm_native.h"
 #include "spvm_socket_util.h"
 
+#if defined(_WIN32)
+#else
+  #include <sys/un.h>
+#endif
+
 #include <assert.h>
 
 static const char* FILE_NAME = "Sys/Socket/Addrinfo.c";
 
 int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   int32_t error_id = 0;
   
   struct addrinfo* addrinfo = env->new_memory_block(env, stack, sizeof(struct addrinfo));
-
+  
   void* obj_addrinfo = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Addrinfo", addrinfo, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
@@ -33,7 +36,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   assert(st_addrinfo);
   
   env->free_memory_block(env, stack, st_addrinfo);
-
+  
   env->set_pointer(env, stack, obj_addrinfo, NULL);
   
   return 0;
@@ -177,8 +180,16 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
         memcpy(tmp_ai_addr, ai_addr, sizeof(struct sockaddr_in6));
         break;
       }
+#if !defined(_WIN32)
+      case AF_UNIX: {
+        sockaddr_class_name = "Sys::Socket::Sockaddr::Un";
+        tmp_ai_addr = env->new_memory_block(env, stack, sizeof(struct sockaddr_un));
+        memcpy(tmp_ai_addr, ai_addr, sizeof(struct sockaddr_un));
+        break;
+      }
+#endif
       default : {
-        assert(0);
+        return env->die(env, stack, "ai_addr->sa_family is an unknown address family.", __func__, FILE_NAME, __LINE__);
       }
     }
     

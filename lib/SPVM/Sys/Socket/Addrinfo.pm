@@ -6,15 +6,17 @@ package SPVM::Sys::Socket::Addrinfo;
 
 SPVM::Sys::Socket::Addrinfo - struct addrinfo in the C language
 
+=head1 Description
+
+The Sys::Socket::Addrinfo class of L<SPVM> represents L<struct addrinfo|https://linux.die.net/man/3/getaddrinfo> in the C language.
+
 =head1 Usage
 
   use Sys::Socket::Addrinfo;
 
-=head1 Description
+=head1 Details
 
-C<Sys::Socket::Addrinfo> is the class for the C<struct addrinfo> in the C language.
-
-This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+This class is a pointer class. The pointer of the instance is set to a L<struct addrinfo|https://linux.die.net/man/3/getaddrinfo> object.
 
 =head1 Class Methods
 
@@ -22,7 +24,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 C<method new : L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo> ();>
 
-Create a new Sys::Socket::Addrinfo object.
+Create a new L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo> object.
 
 =head1 Instance Methods
 
@@ -36,7 +38,7 @@ The destructor.
 
 C<method ai_flags : int ();>
 
-Gets C<ai_flags>.
+Returns C<ai_flags>.
 
 =head2 set_ai_flags
 
@@ -48,7 +50,7 @@ Sets C<ai_flags>.
 
 C<method ai_family : int ();>
 
-Gets C<ai_family>.
+Returns C<ai_family>.
 
 =head2 set_ai_family
 
@@ -60,7 +62,7 @@ Sets C<ai_family>.
 
 C<method ai_socktype : int ();>
 
-Gets C<ai_socktype>.
+Returns C<ai_socktype>.
 
 =head2 set_ai_socktype
 
@@ -72,7 +74,7 @@ Sets C<ai_socktype>.
 
 C<method ai_protocol : int ();>
 
-Gets C<ai_protocol>.
+Returns C<ai_protocol>.
 
 =head2 set_ai_protocol
 
@@ -84,13 +86,13 @@ Sets C<ai_protocol>.
 
 C<method ai_addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ();>
 
-Copies C<ai_addr>.
+Copies C<ai_addr> and returns it.
 
 =head2 ai_canonname
 
 C<method ai_canonname : string ();>
 
-Copies C<ai_canonname>.
+Copies C<ai_canonname> and returns it.
 
 =head1 Copyright & License
 
