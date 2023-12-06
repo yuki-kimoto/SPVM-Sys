@@ -21,7 +21,7 @@
 static const char* FILE_NAME = "Sys/Socket/AddrinfoLinkedList.c";
 
 int32_t SPVM__Sys__Socket__AddrinfoLinkedList__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+  
   void* obj_addrinfo = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_addrinfo);
@@ -36,8 +36,6 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__DESTROY(SPVM_ENV* env, SPVM_VALUE
 }
 
 int32_t SPVM__Sys__Socket__AddrinfoLinkedList__to_array(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
   
   int32_t error_id = 0;
   
