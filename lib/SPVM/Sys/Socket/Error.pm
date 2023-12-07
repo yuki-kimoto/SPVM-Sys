@@ -10,7 +10,7 @@ SPVM::Sys::Socket::Error - Socket Errors
 
 =head1 Description
 
-The Sys::Socket::Error class of L<SPVM> represents socket errors.
+The Sys::Socket::Error class in L<SPVM> represents socket errors.
 
 =head1 Usage
 

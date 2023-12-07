@@ -8,7 +8,7 @@ SPVM::Sys::Time::Utimbuf - struct utimbuf in the C language
 
 =head1 Description
 
-The Sys::Time::Utimbuf of L<SPVM> represents the C<struct utimbuf> in the C language.
+The Sys::Time::Utimbuf in L<SPVM> represents the C<struct utimbuf> in the C language.
 
 =head1 Usage
 

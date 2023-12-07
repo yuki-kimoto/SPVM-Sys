@@ -10,7 +10,7 @@ SPVM::Sys::IO::Windows - IO System Call on Windows
 
 =head1 Description
 
-The SPVM::Sys::IO::Windows class of L<SPVM> has methods to manipulate IO system calls in Windows.
+The SPVM::Sys::IO::Windows class in L<SPVM> has methods to manipulate IO system calls in Windows.
 
 =head1 Usage
 

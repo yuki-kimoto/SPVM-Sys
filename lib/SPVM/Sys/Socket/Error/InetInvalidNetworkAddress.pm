@@ -8,7 +8,7 @@ Sys::Socket::Error::InetInvalidNetworkAddress - Invalid Network address Socket E
 
 =head1 Description
 
-The Sys::Socket::Error class of L<SPVM> represents a socket error "The got address is not a valid network address".
+The Sys::Socket::Error class in L<SPVM> represents a socket error "The got address is not a valid network address".
 
 =head1 Usage
 

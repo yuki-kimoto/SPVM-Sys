@@ -8,7 +8,7 @@ SPVM::Sys::Signal::Constant - Signal Constant Values
 
 =head1 Description
 
-The Sys::Signal::Constant of L<SPVM> has methods to get constant values for signals.
+The Sys::Signal::Constant in L<SPVM> has methods to get constant values for signals.
 
 =head1 Usage
 

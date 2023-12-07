@@ -8,7 +8,7 @@ SPVM::Sys::IO::Stat - struct stat in the C language
 
 =head1 Description
 
-The Sys::IO::Stat class of L<SPVM> represents C<struct stat> in the C language, and has utility methods for the structure.
+The Sys::IO::Stat class in L<SPVM> represents C<struct stat> in the C language, and has utility methods for the structure.
 
 =head1 Usage
 

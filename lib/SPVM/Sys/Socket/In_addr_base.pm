@@ -10,7 +10,7 @@ SPVM::Sys::Socket::In_addr_base - Short Description
 
 =head1 Description
 
-The Sys::Socket::In_addr_base class of L<SPVM> has methods for someting.
+The Sys::Socket::In_addr_base class in L<SPVM> has methods for someting.
 
 =head1 Usage
 

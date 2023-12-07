@@ -8,7 +8,7 @@ SPVM::Sys::IO::FileStream - C<FILE> structure in the C language.
 
 =head1 Description
 
-The Sys::IO::FileStream of L<SPVM> represetns the L<FILE|https://linux.die.net/man/3/fopen> structure in the C language.
+The Sys::IO::FileStream in L<SPVM> represetns the L<FILE|https://linux.die.net/man/3/fopen> structure in the C language.
 
 =head1 Usage
   

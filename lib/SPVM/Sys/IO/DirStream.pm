@@ -8,7 +8,7 @@ SPVM::Sys::IO::DirStream - C<DIR> structure in the C language.
 
 =head1 Description
 
-The Sys::IO::DirStream class of L<SPVM> represents the L<DIR|https://linux.die.net/man/3/opendir> structure in the C language.
+The Sys::IO::DirStream class in L<SPVM> represents the L<DIR|https://linux.die.net/man/3/opendir> structure in the C language.
 
 =head1 Usage
   

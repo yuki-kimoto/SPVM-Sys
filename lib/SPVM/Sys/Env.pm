@@ -8,7 +8,7 @@ SPVM::Sys::Env - Environemnt Variables
 
 =head1 Description
 
-The C<Sys::Env> class of L<SPVM> has methods to manipulate environemnt variables.
+The C<Sys::Env> class in L<SPVM> has methods to manipulate environemnt variables.
 
 =head1 Usage
 

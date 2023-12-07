@@ -10,7 +10,7 @@ SPVM::Sys::Socket::Errno - Socket Error Numbers
 
 =head1 Description
 
-The Sys::Socket::Errno class of L<SPVM> has methods to get socket error numbers.
+The Sys::Socket::Errno class in L<SPVM> has methods to get socket error numbers.
 
 =head1 Usage
 
