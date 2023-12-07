@@ -5,6 +5,14 @@
 #include "spvm_socket_util.h"
 
 #if defined(_WIN32)
+
+#define UNIX_PATH_MAX 108
+
+typedef struct sockaddr_un {
+  ADDRESS_FAMILY sun_family;
+  char sun_path[UNIX_PATH_MAX];
+};
+
 #else
   #include <sys/un.h>
 #endif
@@ -180,14 +188,12 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
         memcpy(tmp_ai_addr, ai_addr, sizeof(struct sockaddr_in6));
         break;
       }
-#if !defined(_WIN32)
       case AF_UNIX: {
         sockaddr_class_name = "Sys::Socket::Sockaddr::Un";
         tmp_ai_addr = env->new_memory_block(env, stack, sizeof(struct sockaddr_un));
         memcpy(tmp_ai_addr, ai_addr, sizeof(struct sockaddr_un));
         break;
       }
-#endif
       default : {
         return env->die(env, stack, "ai_addr->sa_family is an unknown address family.", __func__, FILE_NAME, __LINE__);
       }
