@@ -1,8 +1,9 @@
+0.511 2023-12-07
+  [New Features]
+    * The Sys::Socket::Sockaddr::Un class work well in Windows.
+    * The Sys::Socket::Addrinfo supports Sys::Socket::Sockaddr::Un in Windows.
 0.510 2023-12-07
   [New Features]
-    * The ai_addr method in the Sys::Socket::Addrinfo supports AF_UNIX.
-    * Sys::Socket::Error extends Error::System.
-    * Sys::Socket::Error::InetInvalidNetworkAddress extends Sys::Socket::Error.
     * The Sys::Socket::Sockaddr::Un class work well in Windows.
     * The Sys::Socket::Addrinfo supports Sys::Socket::Sockaddr::Un in Windows.
   [Deprecations and New Features]
