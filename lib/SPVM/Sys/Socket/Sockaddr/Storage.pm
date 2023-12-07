@@ -6,19 +6,21 @@ package SPVM::Sys::Socket::Sockaddr::Storage;
 
 SPVM::Sys::Socket::Sockaddr::Storage - struct sockaddr_storage in the C language
 
+=head1 Description
+
+The Sys::Socket::Sockaddr::Storage class in L<SPVM> represents L<struct sockaddr_storage|https://linux.die.net/man/7/socket> in the C language.
+
 =head1 Usage
 
   use Sys::Socket::Sockaddr::Storage;
 
-=head1 Description
+=head1 Details
 
-C<Sys::Socket::Sockaddr::Storage> is the class for the C<struct sockaddr_storage> in the C language.
-
-This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+This class is a pointer class. The pointer the instance has is set to a L<struct sockaddr_storage|https://linux.die.net/man/7/socket> object.
 
 =head1 Inheritance
 
-This class inherits L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>.
+L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>
 
 =head1 Class Methods
 
@@ -26,7 +28,7 @@ This class inherits L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>.
 
 C<static method new : L<Sys::Socket::Sockaddr::Storage|SPVM::Sys::Socket::Sockaddr::Storage> ();>
 
-Create a new C<Sys::Socket::Sockaddr::Storage> object.
+Create a new L<Sys::Socket::Sockaddr::Storage|SPVM::Sys::Socket::Sockaddr::Storage> object.
 
 =head1 Instance Methods
 
@@ -40,7 +42,7 @@ The destructor.
 
 C<method sa_family : int ()>
 
-Returns C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
+Returns C<sa_family>.
 
 =head2 ss_family
 
@@ -58,7 +60,13 @@ Sets C<ss_family>.
 
 C<method size : int ()>
 
-The size of C<struct sockaddr_storage>.
+Returns the size of C<struct sockaddr_storage>.
+
+=head2 clone
+
+C<method clone : L<Sys::Socket::Sockaddr::Storage|SPVM::Sys::Socket::Sockaddr::Storage> ();>
+
+Clones this instance and returns it.
 
 =head1 Copyright & License
 
