@@ -3,6 +3,7 @@
     * The ai_addr method in the Sys::Socket::Addrinfo supports AF_UNIX.
     * Sys::Socket::Error extends Error::System.
     * Sys::Socket::Error::InetInvalidNetworkAddress extends Sys::Socket::Error.
+    * The Sys::Socket::Sockaddr::Un class work well in Windows.
   [Deprecations and New Features]
     * Deprecates the spvm_socket_errno from the Sys::Socket class and add the errno method to the Sys::Socket::Errno.
     * Deprecates the spvm_socket_strerror from the Sys::Socket class and add the strerror method to the Sys::Socket::Errno.
