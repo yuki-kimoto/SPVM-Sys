@@ -13,7 +13,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
   struct sockaddr_in* socket_address = env->new_memory_block(env, stack, sizeof(struct sockaddr_in));
-
+  
   void* obj_socket_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr::In", socket_address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
@@ -67,10 +67,10 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__sin_addr(SPVM_ENV* env, SPVM_VALUE* sta
   struct sockaddr_in* socket_address = env->get_pointer(env, stack, obj_self);
   
   struct in_addr address = socket_address->sin_addr;
-
+  
   struct in_addr* address_ret = env->new_memory_block(env, stack, sizeof(struct in_addr));
   *address_ret = address;
-
+  
   void* obj_address_ret = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In_addr", address_ret, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
@@ -92,7 +92,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In__set_sin_addr(SPVM_ENV* env, SPVM_VALUE*
   }
   
   struct in_addr* address = env->get_pointer(env, stack, obj_address);
-
+  
   socket_address->sin_addr = *address;
   
   return 0;
