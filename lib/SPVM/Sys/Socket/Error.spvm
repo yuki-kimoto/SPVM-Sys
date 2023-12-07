@@ -1,4 +1,4 @@
 # Copyright (c) 2023 Yuki Kimoto
 # MIT License
 
-class Sys::Socket::Error;
+class Sys::Socket::Error extends Error::System;

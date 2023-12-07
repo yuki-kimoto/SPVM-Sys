@@ -122,6 +122,7 @@ lib/SPVM/Sys/Socket/Constant.pm
 lib/SPVM/Sys/Socket/Constant.spvm
 lib/SPVM/Sys/Socket/Errno.pm
 lib/SPVM/Sys/Socket/Errno.spvm
+lib/SPVM/Sys/Socket/Error.pm
 lib/SPVM/Sys/Socket/Error.spvm
 lib/SPVM/Sys/Socket/Error/InetInvalidNetworkAddress.pm
 lib/SPVM/Sys/Socket/Error/InetInvalidNetworkAddress.spvm
