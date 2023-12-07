@@ -8,8 +8,8 @@ class Sys::Socket::In6_addr extends Sys::Socket::In_addr_base : pointer {
   
   # Instance Methods
   native method DESTROY : void ();
-
+  
   native method s6_addr : string ();
-
+  
   native method set_s6_addr : void ($address : string);
 }
