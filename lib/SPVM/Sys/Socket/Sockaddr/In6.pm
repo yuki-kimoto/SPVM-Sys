@@ -12,13 +12,15 @@ SPVM::Sys::Socket::Sockaddr::In6 - struct sockaddr_in6 in the C language
 
 =head1 Description
 
-C<Sys::Socket::Sockaddr::In6> is the class for the C<struct sockaddr_in6> in the C language.
+The Sys::Socket::Sockaddr::In6 class in L<SPVM> represents L<struct sockaddr_in6|https://linux.die.net/man/7/ipv6> in the C language.
 
-This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+=head1 Details
+
+This class is a pointer class. The pointer the instance has is set to a L<struct sockaddr_in6|https://linux.die.net/man/7/ipv6> object.
 
 =head1 Inheritance
 
-This class inherits L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>.
+L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>
 
 =head1 Class Methods
 
@@ -26,7 +28,7 @@ This class inherits L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>.
 
 C<static method new : L<Sys::Socket::Sockaddr::In6|SPVM::Sys::Socket::Sockaddr::In6> ();>
 
-Create a new C<Sys::Socket::Sockaddr::In6> object.
+Create a new L<Sys::Socket::Sockaddr::In6|SPVM::Sys::Socket::Sockaddr::In6> object.
 
 =head1 Instance Methods
 
@@ -40,7 +42,7 @@ The destructor.
 
 C<method sa_family : int ()>
 
-Returns C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
+Returns C<sa_family>.
 
 =head2 sin6_family
 
@@ -82,13 +84,17 @@ Sets C<sin6_scope_id>.
 
 C<method sin6_addr : L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> ();>
 
-Copies C<sin6_addr>. This is a L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> object.
+Copies C<sin6_addr> and returns it.
 
 =head2 set_sin6_addr
 
 C<method set_sin6_addr : void ($address : L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr>);>
 
-Sets C<sin6_addr>. This is a L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> object.
+Sets C<sin6_addr>.
+
+Exceptions:
+
+The address must be defined. Otherwise an exception is thrown.
 
 =head2 sin6_port
 
@@ -106,13 +112,13 @@ Sets C<sin6_port>.
 
 C<method size : int ()>
 
-The size of C<struct sockaddr_in6>.
+Returns the size of C<struct sockaddr_in6>.
 
 =head2 clone
 
 C<method clone : L<Sys::Socket::Sockaddr::In6|SPVM::Sys::Socket::Sockaddr::In6> ();>
 
-Clones this object.
+Clones this instance and returns it.
 
 =head1 Copyright & License
 
