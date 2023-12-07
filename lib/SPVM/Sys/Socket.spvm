@@ -2,6 +2,8 @@
 # MIT License
 
 class Sys::Socket {
+  allow Sys::Socket::Errno;
+  
   use Fn;
   use Sys;
   use Sys::IO;
@@ -14,6 +16,7 @@ class Sys::Socket {
   use Sys::Socket::Sockaddr::Un;
   use Sys::Socket::In_addr;
   use Sys::Socket::In6_addr;
+  use Sys::Socket::Errno;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
   
@@ -82,10 +85,11 @@ class Sys::Socket {
   
   native static method closesocket : int ($fd : int);
   
-  native static method socket_errno : int ();
-  native static method socket_strerror : string ($errno : int, $length : int);
-  
   native static method sockatmark : int ($sockfd : int);
   
   native static method to_family_sockaddr : Sys::Socket::Sockaddr ($addr : Sys::Socket::Sockaddr);
+  
+  native private static method socket_errno : int ();
+  
+  native private static method socket_strerror : string ($errno : int, $length : int = 0);
 }

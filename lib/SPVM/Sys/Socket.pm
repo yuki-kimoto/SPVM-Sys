@@ -333,11 +333,15 @@ Calls the L<close|Sys::IO/"closesocket"> method in the the L<Sys::Socket|SPVM::S
 
 =head2 socket_errno
 
+Deprecated.
+
 C<static method socket_errno : int ();>
 
 Portalbe C<errno> related to the errors of the socket.
 
 =head2 socket_strerror
+
+Deprecated.
 
 C<static method socket_strerror : string ($errno : int, $length : int);>
 

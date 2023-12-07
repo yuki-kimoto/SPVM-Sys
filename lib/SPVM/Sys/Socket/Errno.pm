@@ -10,13 +10,32 @@ SPVM::Sys::Socket::Errno - Socket Error Numbers
 
 =head1 Description
 
-Sys::Socket::Errno class of L<SPVM> has methods to get socket error numbers.
+The Sys::Socket::Errno class of L<SPVM> has methods to get socket error numbers.
 
 =head1 Usage
 
   use Sys::Socket::Errno;
+  
+  my $errno = Sys::Socket::Errno->errno;
+  
+  my $strerror = Sys::Socket::Errno->strerror($errno);
+  
 
 =head1 Class Methods
+
+=head2 errno
+
+C<static method errno : int ();>
+
+Returns C<errno> related to sockets in a portable way.
+
+=head2 strerror
+
+C<static method strerror : string ($errno : int, $length : int = 0);>
+
+Returns C<strerror> related to sockets in a portable way given enough length $max_length to hold the error message..
+
+If $length is 0, an appropriate default value is set.
 
 =head2 EINTR
 

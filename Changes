@@ -1,6 +1,10 @@
 0.510 2023-12-04
   [New Features]
     * The ai_addr method in the Sys::Socket::Addrinfo supports AF_UNIX.
+  [Deprecations and New Features]
+    * Remove the spvm_socket_errno from the Sys::Socket class and add the errno method to the Sys::Socket::Errno.
+    * Remove the spvm_socket_strerror from the Sys::Socket class and add the strerror method to the Sys::Socket::Errno.
+    
 0.509 2023-12-04
   [Incompatible Changes]
     * The getc method in the Sys::IO throw an exception if the return value is C<EOF> and C<ferror(stream)> is non-zero.
