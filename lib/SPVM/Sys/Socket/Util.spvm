@@ -2,22 +2,18 @@
 # MIT License
 
 class Sys::Socket::Util {
-  use Sys;
   use Sys::Socket;
   use Sys::Socket::Constant as SOCKET;
   use Sys::Socket::In_addr;
+  use Sys::Socket::In6_addr;
   use Sys::Socket::Sockaddr;
   use Sys::Socket::Sockaddr::In;
   use Sys::Socket::Sockaddr::In6;
-  use Sys::Socket::Addrinfo;
-  use Sys::Socket::AddrinfoLinkedList;
   use Sys::Socket::Sockaddr::Storage;
   use Sys::Socket::Sockaddr::Un;
-  use Sys::Process;
-  use Sys::IO::Constant as IO;
-  use Sys::Ioctl::Constant as IOCTL;
   
   static method inet_aton : Sys::Socket::In_addr ($address : string) {
+    
     my $in_addr = Sys::Socket::In_addr->new;
     
     Sys::Socket->inet_aton($address, $in_addr);
@@ -26,6 +22,7 @@ class Sys::Socket::Util {
   }
   
   static method inet_ntoa : string ($in_addr : Sys::Socket::In_addr) {
+    
     my $address = Sys::Socket->inet_ntoa($in_addr);
     
     return $address;
