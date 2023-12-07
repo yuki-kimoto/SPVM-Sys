@@ -6,15 +6,17 @@ package SPVM::Sys::Socket::In6_addr;
 
 SPVM::Sys::Socket::In6_addr - struct in6_addr in the C language
 
+=head1 Description
+
+The Sys::Socket::In6_addr class in L<SPVM> represents L<struct in6_addr|https://linux.die.net/man/7/ipv6> in the C language.
+
 =head1 Usage
 
   use Sys::Socket::In6_addr;
 
-=head1 Description
+=head1 Details
 
-C<Sys::Socket::In6_addr> is the class for the C<struct in6_addr> in the C language.
-
-This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+This class is a pointer class. The pointer of the instance is set to a L<struct in6_addr|https://linux.die.net/man/7/ipv6> object.
 
 =head1 Class Methods
 
@@ -22,23 +24,29 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 C<static method new : L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> ();>
 
+Creates a new L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr> object.
+
 =head1 Instance Methods
 
 =head2 DESTROY
 
 C<method DESTROY : void ();>
 
+The destructor.
+
 =head2 s6_addr
 
 C<method s6_addr : string ();>
 
-Returns C<s6_addr>. Its value is copied and a new string is created.
+Copies C<s6_addr> and returns it.
 
 =head2 set_s6_addr
 
 C<method set_s6_addr : void ($address : string);>
 
 Sets C<s6_addr>.
+
+Exceptions.
 
 The address must be defined. Otherwise an exception is thrown.
 
