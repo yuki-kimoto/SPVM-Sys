@@ -26,7 +26,9 @@ int32_t SPVM__Sys__Socket__socket_errno(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__socket_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
   int32_t error_number = stack[0].ival;
+  
   int32_t length = stack[1].ival;
   
   void* obj_socket_strerror = spvm_socket_strerror_string(env, stack, error_number, length);
@@ -81,7 +83,7 @@ int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+  
   int32_t error_id = 0;
   
   int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &error_id, __func__, FILE_NAME, __LINE__);
@@ -134,7 +136,7 @@ int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct in_addr* in = env->get_pointer(env, stack, obj_in);
   
   char* output_address = inet_ntoa(*in);
-
+  
   if (!output_address) {
     env->die(env, stack, "[System Error]inet_ntoa failed: %s", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -159,13 +161,13 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
-
+  
   int32_t In_addr = env->get_basic_type_id(env, stack, "Sys::Socket::In_addr");
   if (error_id) { return error_id; }
-
+  
   int32_t In6_addr = env->get_basic_type_id(env, stack, "Sys::Socket::In6_addr");
   if (error_id) { return error_id; }
-
+  
   int32_t af = stack[0].ival;
   
   if (!(af == AF_INET || af == AF_INET6)) {
@@ -219,10 +221,10 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+  
   // The address family
   int32_t af = stack[0].ival;
-
+  
   if (!(af == AF_INET || af == AF_INET6)) {
     return env->die(env, stack, "$af must be AF_INET or AF_INET6.", __func__, FILE_NAME, __LINE__);
   }
@@ -380,7 +382,7 @@ int32_t SPVM__Sys__Socket__listen(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t sockfd = stack[0].ival;
-
+  
   void* obj_buf = stack[1].oval;
   
   if (!obj_buf) {
@@ -556,11 +558,11 @@ int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   
   int32_t domain = stack[0].ival;
-
+  
   int32_t type = stack[1].ival;
-
+  
   int32_t protocol = stack[2].ival;
-
+  
   void* obj_sv = stack[3].oval;
   
   if (!obj_sv) {
@@ -594,11 +596,11 @@ int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
-
+  
   int32_t level = stack[1].ival;
-
+  
   int32_t optname = stack[2].ival;
-
+  
   void* obj_optval = stack[3].oval;
   char* optval = NULL;
   if (!obj_optval) {
@@ -606,7 +608,7 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   optval = (char*)env->get_chars(env, stack, obj_optval);
   int32_t optval_length = env->length(env, stack, obj_optval);
-
+  
   socklen_t optlen = stack[4].ival;
   if (!(optlen >= 0)) {
     env->die(env, stack, "$optlen must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
@@ -638,7 +640,7 @@ int32_t SPVM__Sys__Socket__setsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
   memcpy(optval, &int_optval, sizeof(int));
   
   stack[3].oval = obj_optval;
-
+  
   stack[4].ival = sizeof(int);
   
   return SPVM__Sys__Socket__setsockopt(env, stack);
@@ -647,9 +649,9 @@ int32_t SPVM__Sys__Socket__setsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
-
+  
   int32_t level = stack[1].ival;
-
+  
   int32_t optname = stack[2].ival;
   
   void* obj_optval = stack[3].oval;
@@ -659,7 +661,7 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   optval = (char*)env->get_chars(env, stack, obj_optval);
   int32_t optval_length = env->length(env, stack, obj_optval);
-
+  
   int32_t* optlen_ref = stack[4].iref;
   if (!(*optlen_ref >= 0)) {
     env->die(env, stack, "The referred value of $optlen_ref must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
@@ -834,7 +836,7 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   const struct sockaddr* sa = env->get_pointer(env, stack, obj_sa);
-
+  
   int32_t salen = stack[1].ival;
   
   void* obj_host = stack[2].oval;
@@ -852,7 +854,7 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   int32_t servlen = stack[5].ival;
-
+  
   int32_t flags = stack[6].ival;
   
   int32_t status = getnameinfo(sa, salen, host, hostlen, serv, servlen, flags);

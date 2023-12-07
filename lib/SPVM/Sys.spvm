@@ -20,6 +20,7 @@ class Sys {
   use Sys::Process;
   use Sys::Signal;
   use Sys::User;
+  use Sys::Socket::Constant as SOCKET;
   
   static method STDIN : Sys::IO::FileStream () { return Sys::IO->spvm_stdin; }
   
@@ -812,6 +813,19 @@ class Sys {
   
   static method listen : void ($sockfd : int, $backlog : int) {
     Sys::Socket->listen($sockfd, $backlog);
+  }
+  
+  private static method get_socket_domain : int ($sockfd : int) {
+    my $family = -1;
+    
+    my $sizeof_native_int = Fn->sizeof_native_int;
+    my $family_bytes = (mutable string)new_string_len $sizeof_native_int;
+    Sys::Socket->getsockopt($sockfd, SOCKET->SOL_SOCKET, SOCKET->SO_DOMAIN, $family_bytes, \$sizeof_native_int);
+    my $family_ref = new int [1];
+    Fn->memcpy($family_ref, 0, $family_bytes, 0, $sizeof_native_int);
+    $family = $family_ref->[0];
+    
+    return $family;
   }
   
   static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int) {
