@@ -4,8 +4,8 @@
     * Sys::Socket::Error extends Error::System.
     * Sys::Socket::Error::InetInvalidNetworkAddress extends Sys::Socket::Error.
   [Deprecations and New Features]
-    * Remove the spvm_socket_errno from the Sys::Socket class and add the errno method to the Sys::Socket::Errno.
-    * Remove the spvm_socket_strerror from the Sys::Socket class and add the strerror method to the Sys::Socket::Errno.
+    * Deprecates the spvm_socket_errno from the Sys::Socket class and add the errno method to the Sys::Socket::Errno.
+    * Deprecates the spvm_socket_strerror from the Sys::Socket class and add the strerror method to the Sys::Socket::Errno.
   [Document Fix]
     * Add the doc of the Sys::Socket::Error class.
 0.509 2023-12-04
