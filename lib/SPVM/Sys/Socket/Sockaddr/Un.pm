@@ -38,13 +38,13 @@ The destructor.
 
 C<method sa_family : int ()>
 
-Gets C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
+Returns C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
 
 =head2 sun_family
 
 C<method sun_family : int ();>
 
-Gets C<sun_family>.
+Returns C<sun_family>.
 
 =head2 set_sun_family
 

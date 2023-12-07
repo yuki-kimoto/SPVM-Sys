@@ -32,7 +32,7 @@ C<method DESTROY : void ();>
 
 C<method s6_addr : string ();>
 
-Gets C<s6_addr>. Its value is copied and a new string is created.
+Returns C<s6_addr>. Its value is copied and a new string is created.
 
 =head2 set_s6_addr
 

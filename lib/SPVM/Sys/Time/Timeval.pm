@@ -38,7 +38,7 @@ Creates a new C<Sys::Time::Timeval> object.
 
 C<method tv_sec : long ();>
 
-Gets C<tv_sec>.
+Returns C<tv_sec>.
 
 =head2 set_tv_sec
 
@@ -50,7 +50,7 @@ Sets C<tv_sec>.
   
 C<method tv_usec : long ();>
 
-Gets C<tv_usec>.
+Returns C<tv_usec>.
 
 =head2 set_tv_usec
 

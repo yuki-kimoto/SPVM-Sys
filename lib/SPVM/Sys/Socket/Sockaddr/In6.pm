@@ -40,13 +40,13 @@ The destructor.
 
 C<method sa_family : int ()>
 
-Gets C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
+Returns C<sa_family>. This is the overriden method of the L<sa_family|SPVM::Sys::Socket::Sockaddr/"sa_family"> method in the Sys::Socket::Sockaddr class.
 
 =head2 sin6_family
 
 C<method sin6_family : int ();>
 
-Gets C<sin6_family>.
+Returns C<sin6_family>.
 
 =head2 set_sin6_family
 
@@ -58,7 +58,7 @@ Sets C<sin6_family>.
 
 C<method sin6_flowinfo : int ()>
 
-Gets C<sin6_flowinfo>.
+Returns C<sin6_flowinfo>.
 
 =head2 set_sin6_flowinfo
 
@@ -70,7 +70,7 @@ Sets C<sin6_flowinfo>.
 
 C<method sin6_scope_id : int ();>
 
-Gets C<sin6_scope_id>.
+Returns C<sin6_scope_id>.
 
 =head2 set_sin6_scope_id
 
@@ -94,7 +94,7 @@ Sets C<sin6_addr>. This is a L<Sys::Socket::In6_addr|SPVM::Sys::Socket::In6_addr
 
 C<method sin6_port : int ();>
 
-Gets C<sin6_port>.
+Returns C<sin6_port>.
 
 =head2 set_sin6_port
 

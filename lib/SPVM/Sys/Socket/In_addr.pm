@@ -36,7 +36,7 @@ The destructor.
 
 C<method s_addr : int ();>
 
-Gets C<s_addr>.
+Returns C<s_addr>.
 
 =head2 set_s_addr
 

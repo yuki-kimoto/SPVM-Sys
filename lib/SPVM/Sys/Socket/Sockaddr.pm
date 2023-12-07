@@ -44,7 +44,7 @@ The destructor.
 
 C<method sa_family : int ()>
 
-Gets C<sa_family>.
+Returns C<sa_family>.
 
 =head2 set_sa_family
 

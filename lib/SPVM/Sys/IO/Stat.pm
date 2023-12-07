@@ -90,97 +90,97 @@ The destructor.
 
 C<method st_dev : int ();>
 
-Gets C<st_dev>.
+Returns C<st_dev>.
 
 =head2 st_ino
 
 C<method st_ino : int ();>
 
-Gets C<st_ino>.
+Returns C<st_ino>.
 
 =head2 st_mode
 
 C<method st_mode : int ();>
 
-Gets C<st_mode>.
+Returns C<st_mode>.
 
 =head2 st_nlink
 
 C<method st_nlink : int ();>
 
-Gets C<st_nlink>.
+Returns C<st_nlink>.
 
 =head2 st_uid
 
 C<method st_uid : int ();>
 
-Gets C<st_uid>.
+Returns C<st_uid>.
 
 =head2 st_gid
 
 C<method st_gid : int ();>
 
-Gets C<st_gid>.
+Returns C<st_gid>.
 
 =head2 st_rdev
 
 C<method st_rdev : int ();>
 
-Gets C<st_rdev>.
+Returns C<st_rdev>.
 
 =head2 st_size
 
 C<method st_size : long ();>
 
-Gets C<st_size>.
+Returns C<st_size>.
 
 =head2 st_blksize
 
 C<method st_blksize : long ();>
 
-Gets C<st_blksize>.
+Returns C<st_blksize>.
 
 =head2 st_blocks
 
 C<method st_blocks : long ();>
 
-Gets C<st_blocks>.
+Returns C<st_blocks>.
 
 =head2 st_mtime
 
 C<method st_mtime : long ();>
 
-Gets C<st_mtime>.
+Returns C<st_mtime>.
 
 =head2 st_atime
 
 C<method st_atime : long ();>
 
-Gets C<st_atime>.
+Returns C<st_atime>.
 
 =head2 st_ctime
 
 C<method st_ctime : long ();>
 
-Gets C<st_ctime>.
+Returns C<st_ctime>.
 
 =head2 st_mtim_tv_nsec
 
 C<method st_mtim_tv_nsec : long ();>
 
-Gets C<st_mtim.tv_nsec>.
+Returns C<st_mtim.tv_nsec>.
 
 =head2 st_atim_tv_nsec
 
 C<method st_atim_tv_nsec : long ();>
 
-Gets C<st_atim.tv_nsec>.
+Returns C<st_atim.tv_nsec>.
 
 =head2 st_ctim_tv_nsec
 
 C<method st_ctim_tv_nsec : long ();>
 
-Gets C<st_ctim.tv_nsec>.
+Returns C<st_ctim.tv_nsec>.
 
 =head2 A
 

@@ -38,7 +38,7 @@ The destructor.
 
 C<method tms_utime : long ();>
 
-Gets C<tms_utime>.
+Returns C<tms_utime>.
 
 =head2 set_tms_utime
 
@@ -50,7 +50,7 @@ Sets C<tms_utime>.
 
 C<method tms_stime : long ();>
 
-Gets C<tms_stime>.
+Returns C<tms_stime>.
 
 =head2 set_tms_stime
 
@@ -62,7 +62,7 @@ Sets C<tms_stime>.
 
 C<method tms_cutime : long ();>
 
-Gets C<tms_cutime>.
+Returns C<tms_cutime>.
 
 =head2 set_tms_cutime
 
@@ -74,7 +74,7 @@ Sets C<tms_cutime>.
 
 C<method tms_cstime : long ();>
 
-Gets C<tms_cstime>.
+Returns C<tms_cstime>.
 
 =head2 set_tms_cstime
 

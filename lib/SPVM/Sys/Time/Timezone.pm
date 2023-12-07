@@ -36,7 +36,7 @@ Creates a new L<Sys::Time::Timezone|SPVM::Sys::Time::Timezone> object.
 
 C<method tz_minuteswest : int ();>
 
-Gets C<tz_minuteswest>.
+Returns C<tz_minuteswest>.
 
 =head2 set_tz_minuteswest
 
@@ -48,7 +48,7 @@ Sets C<tz_minuteswest>.
   
 C<method tz_dsttime : int ();>
 
-Gets C<tz_dsttime>.
+Returns C<tz_dsttime>.
 
 =head2 set_tz_dsttime
 

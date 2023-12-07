@@ -59,7 +59,7 @@ Creates a new L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object.
 
 C<method tm_sec : int ();>
 
-Gets C<tm_sec>.
+Returns C<tm_sec>.
 
 =head2 set_tm_sec
 
@@ -71,7 +71,7 @@ Sets C<tm_sec>.
   
 C<method tm_min : int ();>
 
-Gets C<tm_min>.
+Returns C<tm_min>.
 
 =head2 set_tm_min
 
@@ -83,7 +83,7 @@ Sets C<tm_min>.
 
 C<method tm_hour : int ();>
 
-Gets C<tm_hour>.
+Returns C<tm_hour>.
 
 =head2 set_tm_hour
 
@@ -95,7 +95,7 @@ Sets C<tm_hour>.
 
 C<method tm_mday : int ();>
 
-Gets C<tm_mday>.
+Returns C<tm_mday>.
 
 =head2 set_tm_mday
 
@@ -107,7 +107,7 @@ Sets C<tm_mday>.
 
 C<method tm_mon : int ();>
 
-Gets C<tm_mon>.
+Returns C<tm_mon>.
 
 =head2 set_tm_mon
 
@@ -119,7 +119,7 @@ Sets C<tm_mon>.
 
 C<method tm_year : int ();>
 
-Gets C<tm_year>.
+Returns C<tm_year>.
 
 =head2 set_tm_year
 
@@ -131,7 +131,7 @@ Sets C<tm_year>.
 
 C<method tm_wday : int ();>
 
-Gets C<tm_wday>.
+Returns C<tm_wday>.
 
 =head2 set_tm_wday
 
@@ -143,7 +143,7 @@ Sets C<tm_wday>.
 
 C<method tm_yday : int ();>
 
-Gets C<tm_yday>.
+Returns C<tm_yday>.
 
 =head2 set_tm_yday
 
@@ -155,7 +155,7 @@ Sets C<tm_yday>.
 
 C<method tm_isdst : int ();>
 
-Gets C<tm_isdst>.
+Returns C<tm_isdst>.
 
 =head2 set_tm_isdst
 

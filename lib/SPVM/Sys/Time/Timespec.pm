@@ -44,7 +44,7 @@ The destructor.
 
 C<method tv_sec : long ()>
 
-Gets C<tv_sec>.
+Returns C<tv_sec>.
 
 =head2 set_tv_sec
 
@@ -56,7 +56,7 @@ Sets C<tv_sec>.
   
 C<method tv_nsec : long ()>
 
-Gets C<tv_nsec>.
+Returns C<tv_nsec>.
 
 =head2 set_tv_nsec
 

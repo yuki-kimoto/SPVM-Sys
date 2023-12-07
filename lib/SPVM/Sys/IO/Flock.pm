@@ -39,7 +39,7 @@ The destructor.
 
 C<native method l_type : int ();>
 
-Gets C<l_type>.
+Returns C<l_type>.
 
 =head2 set_l_type
 
@@ -51,7 +51,7 @@ Sets C<l_type>.
 
 C<native method l_whence : int ();>
 
-Gets C<l_whence>.
+Returns C<l_whence>.
 
 =head2 set_l_whence
 
@@ -63,7 +63,7 @@ Sets C<l_whence>.
 
 C<native method l_start : long ();>
 
-Gets C<l_start>.
+Returns C<l_start>.
 
 =head2 set_l_start
 
@@ -75,7 +75,7 @@ Sets C<l_start>.
 
 C<native method l_len : long ();>
 
-Gets C<l_len>.
+Returns C<l_len>.
 
 =head2 set_l_len
 
@@ -87,7 +87,7 @@ Sets C<l_len>.
 
 C<native method l_pid : int ();>
 
-Gets C<l_pid>.
+Returns C<l_pid>.
 
 =head2 set_l_pid
 

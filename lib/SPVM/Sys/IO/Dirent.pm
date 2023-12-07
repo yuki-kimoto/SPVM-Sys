@@ -35,13 +35,13 @@ This class is a pointer class. The pointer of the instance is set to a C<struct 
 
 C<method d_ino : int ();>
 
-Gets C<d_ino>.
+Returns C<d_ino>.
 
 =head2 d_reclen
 
 C<method d_reclen : int ();>
 
-Gets C<d_reclen>.
+Returns C<d_reclen>.
 
 =head2 d_name
 
@@ -53,13 +53,13 @@ Gets and copies C<d_name> and returns it.
 
 C<method d_off : long;>
 
-Gets C<d_off>.
+Returns C<d_off>.
 
 =head2 d_type
 
 C<method d_type : int ();>
 
-Gets C<d_type>.
+Returns C<d_type>.
 
 =head1 See Also
 
