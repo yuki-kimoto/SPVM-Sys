@@ -137,7 +137,7 @@ unless ($^O eq 'MSWin32') {
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      SPVM::TestCase::Sys::Socket->run_echo_server($port);
     },
   );
   
