@@ -22,7 +22,7 @@ The Sys::IO::DirStream class in L<SPVM> represents the L<DIR|https://linux.die.n
 
 =head1 Details
 
-This class is a pointer class. The pointer of the instance is set to a C<DIR> object.
+This class is a pointer class. The pointer the instance has is set to a C<DIR> object.
 
 =head1 Fields
 

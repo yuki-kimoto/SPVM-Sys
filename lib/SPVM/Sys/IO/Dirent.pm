@@ -27,7 +27,7 @@ The Sys::IO::Dirent class in L<SPVM> represents L<struct dirent|https://linux.di
 
 =head1 Details
 
-This class is a pointer class. The pointer of the instance is set to a C<struct dirent> object.
+This class is a pointer class. The pointer the instance has is set to a C<struct dirent> object.
 
 =head1 Class Methods
 

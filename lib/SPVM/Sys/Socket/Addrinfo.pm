@@ -16,7 +16,7 @@ The Sys::Socket::Addrinfo class in L<SPVM> represents L<struct addrinfo|https://
 
 =head1 Details
 
-This class is a pointer class. The pointer of the instance is set to a L<struct addrinfo|https://linux.die.net/man/3/getaddrinfo> object.
+This class is a pointer class. The pointer the instance has is set to a L<struct addrinfo|https://linux.die.net/man/3/getaddrinfo> object.
 
 =head1 Class Methods
 

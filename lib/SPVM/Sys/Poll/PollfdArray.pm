@@ -18,7 +18,7 @@ The Sys::Poll::PollfdArray class in L<SPVM> represents the array of C<struct pol
 
 =head1 Details
 
-This class is a pointer class. The pointer of the instance is set to an C<struct pollfd> array.
+This class is a pointer class. The pointer the instance has is set to an C<struct pollfd> array.
 
 =head1 Fields
 

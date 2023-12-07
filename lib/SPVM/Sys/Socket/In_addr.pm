@@ -16,7 +16,7 @@ The Sys::Socket::In_addr class in L<SPVM> represents L<struct in_addr|https://li
 
 =head1 Details
 
-This class is a pointer class. The pointer of the instance is set to a L<struct in_addr|https://linux.die.net/man/3/inet_network> object.
+This class is a pointer class. The pointer the instance has is set to a L<struct in_addr|https://linux.die.net/man/3/inet_network> object.
 
 =head1 Inheritance
 

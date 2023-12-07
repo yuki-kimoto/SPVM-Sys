@@ -26,7 +26,7 @@ The Sys::IO::Stat class in L<SPVM> represents C<struct stat> in the C language, 
 
 =head1 Details
 
-This class is a pointer class. The pointer of the instance is set to a C<struct stat> object.
+This class is a pointer class. The pointer the instance has is set to a C<struct stat> object.
 
 =head1 Class Methods
 
