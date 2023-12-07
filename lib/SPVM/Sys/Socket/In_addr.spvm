@@ -9,7 +9,6 @@ class Sys::Socket::In_addr extends Sys::Socket::In_addr_base : pointer {
   # Instance Methods
   native method DESTROY : void ();
   
-  # Instance Methods
   native method s_addr : int ();
   
   native method set_s_addr : void ($s_addr : int);

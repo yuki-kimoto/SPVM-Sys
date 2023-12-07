@@ -6,15 +6,17 @@ package SPVM::Sys::Socket::In_addr;
 
 SPVM::Sys::Socket::In_addr - struct in_addr in the C language
 
+=head1 Description
+
+The Sys::Socket::In_addr class of L<SPVM> represents L<struct in_addr|https://linux.die.net/man/3/inet_network> in the C language.
+
 =head1 Usage
 
   use Sys::Socket::In_addr;
 
-=head1 Description
+=head1 Details
 
-C<Sys::Socket::In_addr> is the class for the C<struct in_addr> in the C language.
-
-This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
+This class is a pointer class. The pointer of the instance is set to a L<struct in_addr|https://linux.die.net/man/3/inet_network> object.
 
 =head1 Class Methods
 
@@ -22,7 +24,7 @@ This is a L<pointer class|SPVM::Document::Language/"Pointer Class">.
 
 C<static method new : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> ();>
 
-Creates a new C<Sys::Socket::In_addr> object.
+Creates a new L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr> object.
 
 =head1 Instance Methods
 
@@ -40,7 +42,7 @@ Returns C<s_addr>.
 
 =head2 set_s_addr
 
-C<method set_s_addr : void ();>
+C<method set_s_addr : void ($s_addr : int)>
 
 Sets C<s_addr>.
 
