@@ -822,9 +822,9 @@ class Sys {
     
     $$new_sockfd_ref = Sys::Socket->accept($sockfd, $addr, \$addrlen);
     
-    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    $addr = Sys::Socket->to_family_sockaddr($addr);
     
-    return $addr_child;
+    return $addr;
   }
   
   static method connect : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
@@ -840,9 +840,9 @@ class Sys {
     
     Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
     
-    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    $addr = Sys::Socket->to_family_sockaddr($addr);
     
-    return $addr_child;
+    return $addr;
   }
   
   static method getsockname : Sys::Socket::Sockaddr ($sockfd : int) {
@@ -853,9 +853,9 @@ class Sys {
     
     Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
     
-    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    $addr = Sys::Socket->to_family_sockaddr($addr);
     
-    return $addr_child;
+    return $addr;
   }
   
   static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0) {
