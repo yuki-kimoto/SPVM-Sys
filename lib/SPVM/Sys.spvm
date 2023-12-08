@@ -822,7 +822,7 @@ class Sys {
     
     $$new_sockfd_ref = Sys::Socket->accept($sockfd, $addr, \$addrlen);
     
-    $addr = Sys::Socket->to_family_sockaddr($addr);
+    $addr = $addr->upgrade;
     
     return $addr;
   }
@@ -840,7 +840,7 @@ class Sys {
     
     Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
     
-    $addr = Sys::Socket->to_family_sockaddr($addr);
+    $addr = $addr->upgrade;
     
     return $addr;
   }
@@ -853,7 +853,7 @@ class Sys {
     
     Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
     
-    $addr = Sys::Socket->to_family_sockaddr($addr);
+    $addr = $addr->upgrade;
     
     return $addr;
   }
