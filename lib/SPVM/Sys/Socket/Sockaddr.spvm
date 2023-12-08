@@ -2,6 +2,11 @@
 # MIT License
 
 class Sys::Socket::Sockaddr : pointer {
+  use Sys::Socket::Constant as SOCKET;
+  use Sys::Socket::Sockaddr::In;
+  use Sys::Socket::Sockaddr::In6;
+  use Sys::Socket::Sockaddr::Un;
+  
   interface Cloneable;
   
   # Class methods
@@ -9,6 +14,22 @@ class Sys::Socket::Sockaddr : pointer {
   
   static method new_with_family : Sys::Socket::Sockaddr ($family : int) {
     
+    my $addr = (Sys::Socket::Sockaddr)undef;
+    
+    if ($family == SOCKET->AF_INET) {
+      $addr = Sys::Socket::Sockaddr::In->new;
+    }
+    elsif ($family == SOCKET->AF_INET6) {
+      $addr = Sys::Socket::Sockaddr::In6->new;
+    }
+    elsif ($family == SOCKET->AF_UNIX) {
+      $addr = Sys::Socket::Sockaddr::Un->new;
+    }
+    else {
+      die "The address family $family is not available.";
+    }
+    
+    return $addr;
   }
   
   # Instance methods

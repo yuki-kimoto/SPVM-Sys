@@ -1,3 +1,6 @@
+0.512 2023-12-08
+  [New Features]
+    * Add the new_with_family method class to the Sys::Socket::Sockaddr class.
 0.511 2023-12-07
   [New Features]
     * The Sys::Socket::Sockaddr::Un class work well in Windows.

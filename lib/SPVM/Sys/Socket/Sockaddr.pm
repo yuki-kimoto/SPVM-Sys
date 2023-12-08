@@ -32,7 +32,20 @@ This class is a pointer class. The pointer the instance has is set to a L<struct
 
 C<static method new : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ();>
 
-Create a new L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+Creates a new L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object.
+
+=head2 new_with_family
+
+C<static method new_with_family : Sys::Socket::Sockaddr ($family : int);>
+
+Creates a new L<Sys::Socket::Sockaddr::In|SPVM::Sys::Socket::Sockaddr::In> object 
+or a new L<Sys::Socket::Sockaddr::In6|SPVM::Sys::Socket::Sockaddr::In6> object 
+or a new L<Sys::Socket::Sockaddr::In|SPVM::Sys::Socket::Sockaddr::In> object according to the socket family $family,
+and returns it.
+
+Excetpions:
+
+If the address famil is not available, an exception is thrown.
 
 =head1 Instance Methods
 
