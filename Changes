@@ -1,6 +1,7 @@
 0.512 2023-12-08
   [New Features]
     * Add the new_with_family method class to the Sys::Socket::Sockaddr class.
+    * Add the upgrade method to the Sys::Socket::Sockaddr class.
   [Incompatible Changes]
     * Remove the to_family_sockaddr method from the Sys::Socket class.
     * Remove deprecated the spvm_socket_errno method and the spvm_socket_strerror method from the Sys::Socket class.

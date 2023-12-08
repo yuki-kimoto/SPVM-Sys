@@ -7,6 +7,7 @@ class Sys::Socket::Sockaddr : pointer {
   use Sys::Socket::Sockaddr::In6;
   use Sys::Socket::Sockaddr::Un;
   
+  # Interfaces
   interface Cloneable;
   
   # Class methods
@@ -42,4 +43,7 @@ class Sys::Socket::Sockaddr : pointer {
   method size : int () { die "Not implemented."; }
   
   method clone : Sys::Socket::Sockaddr () { die "Not implemented."; }
+  
+  native method upgrade : Sys::Socket::Sockaddr ();
+  
 }

@@ -836,10 +836,6 @@ int32_t SPVM__Sys__Socket__to_family_sockaddr(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   void* obj_addr = stack[0].oval;
   
-  if (!obj_addr) {
-    return env->die(env, stack, "$addr must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
   const struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
   
   int32_t sa_family = addr->sa_family;

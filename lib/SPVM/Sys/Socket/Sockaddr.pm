@@ -87,6 +87,19 @@ Exception:
 
 Not implemented.
 
+=head2 upgrade
+
+C<method upgrade : Sys::Socket::Sockaddr ();>
+
+Returns a new L<Sys::Socket::Sockaddr::In|SPVM::Sys::Socket::Sockaddr::In> object,
+or a new L<Sys::Socket::Sockaddr::In6|SPVM::Sys::Socket::Sockaddr::In6> object,
+or a new L<Sys::Socket::Sockaddr::Un|SPVM::Sys::Socket::Sockaddr::Un> object
+according to L</"sa_family">.
+
+Exceptions:
+
+If the address family is not available, an exception is thrown.
+
 =head1 Well Known Child Classes
 
 =over 2
