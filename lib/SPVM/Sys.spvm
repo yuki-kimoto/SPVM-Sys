@@ -815,38 +815,16 @@ class Sys {
     Sys::Socket->listen($sockfd, $backlog);
   }
   
-  private static method getsockopt_int : int ($sockfd : int, $level : int, $optname : int, $optval_ref : int*) {
-    my $optval = $$optval_ref;
-    
-    my $sizeof_native_int = Fn->sizeof_native_int;
-    
-    my $optval_array = new int [1];
-    
-    $optval_array->[0] = $optval;
-    
-    my $optval_bytes = (mutable string)new_string_len $sizeof_native_int;
-    
-    Fn->memcpy($optval_bytes, 0, $optval_array, 0, $sizeof_native_int);
-    
-    Sys::Socket->getsockopt($sockfd, $level, $optname, $optval_bytes, \$sizeof_native_int);
-    
-    Fn->memcpy($optval_array, 0, $optval_bytes, 0, $sizeof_native_int);
-    
-    $$optval_ref = $optval_array->[0];
-  }
-  
   static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int) {
+    my $addrlen = 128;
     
-    my $family = -1;
-    &getsockopt_int($sockfd, SOCKET->SOL_SOCKET, SOCKET->SO_DOMAIN, \$family);
-    
-    my $addr = Sys::Socket::Sockaddr->new_with_family($family);
-    
-    my $addrlen = $addr->size;
+    my $addr = Sys::Socket::Sockaddr->new;
     
     $$new_sockfd_ref = Sys::Socket->accept($sockfd, $addr, \$addrlen);
     
-    return $addr;
+    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    
+    return $addr_child;
   }
   
   static method connect : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
