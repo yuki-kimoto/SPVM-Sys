@@ -65,7 +65,7 @@ The open mode $open_mode is replaced to a representation of the L<fopen|https://
   +>             w+b
   +>>            a+b
 
-If available, C<FD_CLOEXEC> is set to the file descriptor of the opened file stream.
+If the system supports C<FD_CLOEXEC>, this flag is set to the opened file's file descriptor using L</"fcntl">.
 
 Exceptions:
 
@@ -1095,6 +1095,8 @@ The opened writing file descripor is set to the value referenced by $sock_fd2_re
 
 This method calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the Sys::Socket.
 
+If available, C<FD_CLOEXEC> is set to the file descriptor of the value referenced by $sock_fd1_ref and the value referenced by $sock_fd2_ref.
+
 Exceptions:
 
 Exceptions thrown by the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the Sys::Socket could be thrown.
@@ -1288,7 +1290,7 @@ C<static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*);>
 
 Opens a pair of pipes.
 
-If the system supports C<FD_CLOEXEC>, this flag is set to $read_fd_ref and $write_fd_ref using L</"fcntl">.
+If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $read_fd_ref and the value referenced by $write_fd_ref using L</"fcntl">.
 
 =head2 getpgrp
 

@@ -6,6 +6,9 @@
     * Remove the to_family_sockaddr method from the Sys::Socket class.
     * Remove deprecated the spvm_socket_errno method and the spvm_socket_strerror method from the Sys::Socket class.
     * The socket method in the Sys class set FD_CLOEXEC to the created socket file descriptor.
+    * The socketpair method in the Sys class set FD_CLOEXEC to the created socket file descriptor.
+    * The accept method in the Sys class set FD_CLOEXEC to the created socket file descriptor.
+    * The connect method in the Sys class set FD_CLOEXEC to the created socket file descriptor.
   [Document Fix]
     * Fix many Sys::Socket documents.
   [Incompatible Changes]
