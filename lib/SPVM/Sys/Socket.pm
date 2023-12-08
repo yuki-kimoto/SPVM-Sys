@@ -49,27 +49,69 @@ C<static method inet_aton : int ($cp : string, $inp : L<Sys::Socket::In_addr|SPV
 
 Calls the L<inet_aton|https://linux.die.net/man/3/inet_aton> function and returns its return value.
 
+Excetpions:
+
+$cp must be defined. Otherwise an excetpion is thrown.
+
+$inp must be defined. Otherwise an excetpion is thrown.
+
+If the got address is not a valid network, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Sys::Socket::Error::InetInvalidNetworkAddress> class.
+
+If the inet_aton function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 inet_ntoa
 
 C<static method inet_ntoa : string ($in : L<Sys::Socket::In_addr|SPVM::Sys::Socket::In_addr>);>
 
 Calls the L<inet_ntoa|https://linux.die.net/man/3/inet_ntoa> function and returns its return value.
 
+Excetpions:
+
+$in address must be defined. Otherwise an excetpion is thrown.
+
+If the inet_ntoa function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Sys::Socket::Error::InetInvalidNetworkAddress> class.
+
 =head2 inet_pton
 
-C<static method inet_pton : int ($af : int, $src : string, $dst : object of Sys::Socket::In_addr|Sys::Socket::In6_addr);>
+C<static method inet_pton : int ($af : int, $src : string, $dst : L<Sys::Socket::In_addr_base|SPVM::Sys::Socket::In_addr_base>);>
 
 Calls the L<inet_pton|https://linux.die.net/man/3/inet_pton> function and returns its return value.
 
 See L<Sys::Socket::Constant|SPVM::Sys::Socket::Constant> about constant values given to $af.
 
+Exceptions:
+
+$af must be AF_INET or AF_INET6. Otherwise an excetpion is thrown.
+
+$dst must be defined. Otherwise an excetpion is thrown.
+
+If $af must be AF_INET, $dst must be the Sys::Socket::In_addr class. Otherwise an excetpion is thrown.
+
+If $af must be AF_INET6, $dst must be the Sys::Socket::In6_addr class. Otherwise an excetpion is thrown.
+
+If the type of $dst is invalid, otherwise an excetpion is thrown.
+
+If the got address is not a valid network, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Sys::Socket::Error::InetInvalidNetworkAddress> class.
+
+If the inet_pton function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 inet_ntop
 
-C<static method inet_ntop : mutable string ($af : int, $src : object of Sys::Socket::In_addr|Sys::Socket::In6_addr, $dst : mutable string, $size : int);>
+C<static method inet_ntop : mutable string ($af : int, $src : L<Sys::Socket::In_addr_base|SPVM::Sys::Socket::In_addr_base>, $dst : mutable string, $size : int);>
 
 Calls the L<inet_ntop|https://linux.die.net/man/3/inet_ntop> function and returns its return value.
 
 See L<Sys::Socket::Constant|SPVM::Sys::Socket::Constant> about constant values given to $af.
+
+Excetpions:
+
+$af must be AF_INET or AF_INET6.
+
+$src must be defined.
+
+$dst must be defined.
+
+If the inet_ntop function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 socket
 
@@ -79,17 +121,29 @@ Calls the L<socket|https://linux.die.net/man/2/socket> function and returns its 
 
 See L<Sys::Socket::Constant|SPVM::Sys::Socket::Constant> about constant values given to $domain, $type, and $protocal.
 
+Excetpions:
+
+If the socket function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 connect
 
 C<static method connect : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen : int);>
 
 Calls the L<connect|https://linux.die.net/man/2/connect> function and returns its return value.
 
+Excetpions:
+
+$addr must be defined.
+
+If the connect function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 bind
 
 C<static method bind : int ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen : int);>
 
 Calls the L<bind|https://linux.die.net/man/2/bind> function and returns its return value.
+
+Excetpions:
 
 =head2 accept
 
@@ -103,6 +157,8 @@ C<static method listen : int ($sockfd : int, $backlog : int);>
 
 Calls the L<listen|https://linux.die.net/man/2/listen> function and returns its return value.
 
+Excetpions:
+
 =head2 shutdown
 
 C<static method shutdown : int ($sockfd : int, $how : int);>
@@ -111,11 +167,15 @@ Calls the L<shutdown|https://linux.die.net/man/2/shutdown> function and returns 
 
 See L<Sys::Socket::Constant|SPVM::Sys::Socket::Constant> about constant values given to $how.
 
+Excetpions:
+
 =head2 recv
 
 C<static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);>
 
 Calls the L<recv|https://linux.die.net/man/2/recv> function and returns its return value.
+
+Excetpions:
 
 =head2 send
 
@@ -123,11 +183,15 @@ C<static method send : int ($sockfd : int, $buf : string, $len : int, $flags : i
 
 Calls the L<send|https://linux.die.net/man/2/send> function and returns its return value.
 
+Excetpions:
+
 =head2 sendto
 
 C<static method sendto : int ($sockfd : int, $buf : string, $len : int, $flags : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $addrlen : int, $buf_offset : int = 0);>
 
 Calls the L<sendto|https://linux.die.net/man/2/sendto> function and returns its return value.
+
+Excetpions:
 
 =head2 getpeername
 
@@ -139,7 +203,9 @@ Exceptions:
 
 The address must be defined. Otherwise an exception is thrown.
 
-If the system call failed, an exception is thrown with C<eval_error_id> set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+Excetpions:
 
 =head2 getsockname
 
@@ -151,7 +217,9 @@ Excetpions:
 
 The address must be defined. Otherwise an exception is thrown.
 
-If the getsockname function failed, an exception is thrown with C<eval_error_id> set to the class id of the L<Error::System> class.
+If the getsockname function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+Excetpions:
 
 =head2 socketpair
 
@@ -167,7 +235,7 @@ The output of the socket pair(sv) must be defined. Otherwise an exception is thr
 
 The length of the output of the socket pair(sv) must be greater than or equal to 2. Otherwise an exception is thrown.
 
-If the system call failed, an exception is thrown with C<eval_error_id> set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 setsockopt
 
@@ -183,7 +251,7 @@ The option length must be greater than or equal to 0. Otherwise an exception is 
 
 The length of the option value must be less than or equal to the option length. Otherwise an exception is thrown.
 
-If the system call failed, an exception is thrown with C<eval_error_id> set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 getsockopt
 
@@ -199,7 +267,7 @@ The option length must be greater than or equal to 0. Otherwise an exception is 
 
 The length of the option value must be less than or equal to the option length. Otherwise an exception is thrown.
 
-If the system call failed, an exception is thrown with C<eval_error_id> set to the class id of the L<Error::System> class.
+If the system call failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 Excamples:
 
@@ -223,7 +291,7 @@ The response must be defined. Otherwise an exception is thrown.
 
 The length of the array of the response must be greater than or equal to 1. Otherwise an exception is thrown.
 
-If a system error occur, an exception is thrown with C<eval_error_id> set to the class id of the L<Error::System> class.
+If a system error occur, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 getnameinfo
 
@@ -235,7 +303,7 @@ Calls the L<getnameinfo|https://linux.die.net/man/3/getaddrinfo> function and re
 
 Excetpions:
 
-If a system error occur, an exception is thrown with C<eval_error_id> set to the class id of the L<Error::System> class.
+If a system error occur, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 gai_strerror
 

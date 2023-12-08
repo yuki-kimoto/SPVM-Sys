@@ -4,6 +4,8 @@
   [Incompatible Changes]
     * Remove the to_family_sockaddr method from the Sys::Socket class.
     * Remove deprecated the spvm_socket_errno method and the spvm_socket_strerror method from the Sys::Socket class.
+  [Document Fix]
+    * Fix many Sys::Socket documents.
 0.511 2023-12-07
   [New Features]
     * The Sys::Socket::Sockaddr::Un class work well in Windows.

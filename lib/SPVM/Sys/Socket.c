@@ -257,7 +257,6 @@ int32_t SPVM__Sys__Socket__socket(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-
 int32_t SPVM__Sys__Socket__connect(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
