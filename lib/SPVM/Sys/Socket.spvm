@@ -48,6 +48,17 @@ class Sys::Socket {
   
   native static method shutdown : int ($sockfd : int, $how : int);
   
+  native static method closesocket : int ($fd : int);
+  
+  static method close : int ($fd : int) {
+    if (Sys::OS->is_windows) {
+      return Sys::Socket->closesocket($fd);
+    }
+    else {
+      return Sys::IO->close($fd);
+    }
+  }
+  
   native static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);
   
   native static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);
@@ -60,9 +71,9 @@ class Sys::Socket {
   
   native static method socketpair : int ($domain : int, $type : int, $protocol : int, $pair : int[]);
   
-  native static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : string, $optlen : int);
-  
   native static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : mutable string, $optlen_ref : int*);
+  
+  native static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : string, $optlen : int);
   
   native static method getaddrinfo : int ($node : string, $service : string,
                 $hints : Sys::Socket::Addrinfo,
@@ -73,17 +84,6 @@ class Sys::Socket {
                 $serv : mutable string, $servlen : int, $flags : int);
   
   native static method gai_strerror : string ($errcode : int);
-  
-  static method close : int ($fd : int) {
-    if (Sys::OS->is_windows) {
-      return Sys::Socket->closesocket($fd);
-    }
-    else {
-      return Sys::IO->close($fd);
-    }
-  }
-  
-  native static method closesocket : int ($fd : int);
   
   native static method sockatmark : int ($sockfd : int);
   

@@ -9,6 +9,7 @@
   [Incompatible Changes]
     * Remove the Sys::Socket::Error class.
     * Sys::Socket::Error::InetInvalidNetworkAddress inherits the Error class.
+    * The gai_strerror method in the Sys::Socket class throws an exception in the system call failed.
 0.511 2023-12-07
   [New Features]
     * The Sys::Socket::Sockaddr::Un class work well in Windows.

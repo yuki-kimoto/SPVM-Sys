@@ -357,8 +357,46 @@ int32_t SPVM__Sys__Socket__listen(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t sockfd = stack[0].ival;
+  
+  int32_t how = stack[1].ival;
+  
+  int32_t status = shutdown(sockfd, how);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]shutdown failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
 
+int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  env->die(env, stack, "[Not Supported]closesocket is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  int32_t s = stack[0].ival;
+  
+  int32_t status = closesocket(s);
+  
+  if (!(status == 0)) {
+    env->die(env, stack, "[System Error]close failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
   int32_t sockfd = stack[0].ival;
   
   void* obj_buf = stack[1].oval;
@@ -529,101 +567,6 @@ int32_t SPVM__Sys__Socket__getsockname(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  env->die(env, stack, "socketpair is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  
-  int32_t domain = stack[0].ival;
-  
-  int32_t type = stack[1].ival;
-  
-  int32_t protocol = stack[2].ival;
-  
-  void* obj_sv = stack[3].oval;
-  
-  if (!obj_sv) {
-    return env->die(env, stack, "$sv must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t* sv = env->get_elems_int(env, stack, obj_sv);
-  int32_t sv_length = env->length(env, stack, obj_sv);
-  
-  if (!(sv_length >= 2)) {
-    return env->die(env, stack, "The length of $sv must be greater than or equal to 2.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int int_sv[2];
-  int32_t status = socketpair(domain, type, protocol, int_sv);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]socketpair failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  sv[0] = int_sv[0];
-  sv[1] = int_sv[1];
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t sockfd = stack[0].ival;
-  
-  int32_t level = stack[1].ival;
-  
-  int32_t optname = stack[2].ival;
-  
-  void* obj_optval = stack[3].oval;
-  char* optval = NULL;
-  if (!obj_optval) {
-    return env->die(env, stack, "$optval must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  optval = (char*)env->get_chars(env, stack, obj_optval);
-  int32_t optval_length = env->length(env, stack, obj_optval);
-  
-  socklen_t optlen = stack[4].ival;
-  if (!(optlen >= 0)) {
-    env->die(env, stack, "$optlen must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-  if (!(optlen <= optval_length)) {
-    env->die(env, stack, "$optlen must be less than or equal to the length of $optval.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t status = setsockopt(sockfd, level, optname, optval, optlen);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]setsockopt failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__setsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t int32_optval = stack[3].ival;
-  
-  int int_optval = int32_optval;
-  
-  void* obj_optval = env->new_string(env, stack, NULL, sizeof(int));
-  char* optval = (char*)env->get_chars(env, stack, obj_optval);
-  memcpy(optval, &int_optval, sizeof(int));
-  
-  stack[3].oval = obj_optval;
-  
-  stack[4].ival = sizeof(int);
-  
-  return SPVM__Sys__Socket__setsockopt(env, stack);
-}
-
 int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
@@ -663,41 +606,34 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-
-int32_t SPVM__Sys__Socket__getsockopt_int(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t* int32_optval_ref = stack[3].iref;
-  
-  int32_t int32_optval = *int32_optval_ref;
-  
-  int int_optval = int32_optval;
-  
-  void* obj_optval = env->new_string(env, stack, NULL, sizeof(int));
-  char* optval = (char*)env->get_chars(env, stack, obj_optval);
-  memcpy(optval, &int_optval, sizeof(int));
-  
-  stack[3].oval = obj_optval;
-  
-  int32_t optlen = sizeof(int);
-  stack[4].iref = &optlen;
-  
-  int32_t status = SPVM__Sys__Socket__getsockopt(env, stack);
-  
-  *int32_optval_ref = *(int*)optval;
-  
-  return status;
-}
-
-int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  int32_t how = stack[1].ival;
+  int32_t level = stack[1].ival;
   
-  int32_t status = shutdown(sockfd, how);
+  int32_t optname = stack[2].ival;
+  
+  void* obj_optval = stack[3].oval;
+  char* optval = NULL;
+  if (!obj_optval) {
+    return env->die(env, stack, "$optval must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  optval = (char*)env->get_chars(env, stack, obj_optval);
+  int32_t optval_length = env->length(env, stack, obj_optval);
+  
+  socklen_t optlen = stack[4].ival;
+  if (!(optlen >= 0)) {
+    env->die(env, stack, "$optlen must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+  if (!(optlen <= optval_length)) {
+    env->die(env, stack, "$optlen must be less than or equal to the length of $optval.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t status = setsockopt(sockfd, level, optname, optval, optlen);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]shutdown failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setsockopt failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -706,19 +642,41 @@ int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "[Not Supported]closesocket is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if defined(_WIN32)
+  env->die(env, stack, "socketpair is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t s = stack[0].ival;
   
-  int32_t status = closesocket(s);
+  int32_t domain = stack[0].ival;
   
-  if (!(status == 0)) {
-    env->die(env, stack, "[System Error]close failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+  int32_t type = stack[1].ival;
+  
+  int32_t protocol = stack[2].ival;
+  
+  void* obj_sv = stack[3].oval;
+  
+  if (!obj_sv) {
+    return env->die(env, stack, "$sv must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t* sv = env->get_elems_int(env, stack, obj_sv);
+  int32_t sv_length = env->length(env, stack, obj_sv);
+  
+  if (!(sv_length == 2)) {
+    return env->die(env, stack, "The length of $sv must be equal to 2.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int int_sv[2];
+  int32_t status = socketpair(domain, type, protocol, int_sv);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]socketpair failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+  
+  sv[0] = int_sv[0];
+  sv[1] = int_sv[1];
   
   stack[0].ival = status;
   
@@ -726,25 +684,7 @@ int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
-  (void)env;
-  (void)stack;
-  
-  int32_t errcode = stack[0].ival;
-  
-  const char* error_string = gai_strerror(errcode);
-  
-  if (error_string) {
-    int32_t error_string_length = strlen(error_string);
-    void* obj_error_string = env->new_string(env, stack, error_string, error_string_length);
-    stack[0].oval = obj_error_string;
-  }
-  else {
-    stack[0].oval = NULL;
-  }
-  
-  return 0;
-}
+int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack);
 
 int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
@@ -775,8 +715,8 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "$res_array must be defined.", __func__, FILE_NAME, __LINE__);
   }
   int32_t res_array_length = env->length(env, stack, obj_res_array);
-  if (!(res_array_length >= 1)) {
-    return env->die(env, stack, "The length of $res_array must be greater than or equal to 1.", __func__, FILE_NAME, __LINE__);
+  if (!(res_array_length == 1)) {
+    return env->die(env, stack, "The length of $res_array must be equal to 1.", __func__, FILE_NAME, __LINE__);
   }
   
   struct addrinfo *res = NULL;
@@ -851,6 +791,25 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t errcode = stack[0].ival;
+  
+  const char* error_string = gai_strerror(errcode);
+  
+  if (error_string) {
+    int32_t error_string_length = strlen(error_string);
+    void* obj_error_string = env->new_string(env, stack, error_string, error_string_length);
+    stack[0].oval = obj_error_string;
+  }
+  else {
+    env->die(env, stack, "[System Error]gai_strerror failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
     env->die(env, stack, "[Not Supported]sockatmark is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -862,7 +821,7 @@ int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = sockatmark(sockfd);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]shutdown failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]sockatmark failed: %s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
