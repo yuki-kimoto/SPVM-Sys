@@ -87,4 +87,5 @@ class Sys::Socket {
   
   native static method sockatmark : int ($sockfd : int);
   
+  native static method to_family_sockaddr : Sys::Socket::Sockaddr ($addr : Sys::Socket::Sockaddr);
 }
