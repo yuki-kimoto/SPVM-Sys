@@ -75,13 +75,9 @@ class Sys::Socket {
   
   native static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : string, $optlen : int);
   
-  native static method getaddrinfo : int ($node : string, $service : string,
-                $hints : Sys::Socket::Addrinfo,
-                $res : Sys::Socket::AddrinfoLinkedList[]);
+  native static method getaddrinfo : int ($node : string, $service : string, $hints : Sys::Socket::Addrinfo, $res_ref : Sys::Socket::AddrinfoLinkedList[]);
   
-  native static method getnameinfo : int ($sa : Sys::Socket::Sockaddr, $salen : int,
-                $host : mutable string, $hostlen : int,
-                $serv : mutable string, $servlen : int, $flags : int);
+  native static method getnameinfo : int ($sa : Sys::Socket::Sockaddr, $salen : int, $host : mutable string, $hostlen : int, $serv : mutable string, $servlen : int, $flags : int);
   
   native static method gai_strerror : string ($errcode : int);
   

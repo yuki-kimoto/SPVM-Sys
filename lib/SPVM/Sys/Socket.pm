@@ -333,7 +333,7 @@ If the socketpair function failed, an exception is thrown with C<eval_error_id> 
 
 =head2 getaddrinfo
 
-C<static method getaddrinfo : int ($node : string, $service : string, $hints : L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>, $res : L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>[]);>
+C<static method getaddrinfo : int ($node : string, $service : string, $hints : L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>, $res_ref : L<Sys::Socket::AddrinfoLinkedList|SPVM::Sys::Socket::AddrinfoLinkedList>[]);>
 
 Calls the L<getaddrinfo|https://linux.die.net/man/3/getaddrinfo> function and returns its return value.
 
