@@ -986,9 +986,6 @@ The next argument $addrlen is set to 128.
 
 Calls the L<getpeername|SPVM::Sys::Socket/"getpeername"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
-The return valus is convert to a child L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object
-using L<to_family_sockaddr|SPVM::Sys::Socket/"to_family_sockaddr"> method in the L<Sys:Socket|SPVM::Sys::Socket> class.
-
 =head2 getsockname
 
 C<static method getsockname : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int)>
@@ -996,9 +993,6 @@ C<static method getsockname : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockadd
 The next argument $addrlen is set to 128.
 
 Calls the L<getsockname|SPVM::Sys::Socket/"getsockname"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
-
-The return valus is convert to a child L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object
-using L<to_family_sockaddr|SPVM::Sys::Socket/"to_family_sockaddr"> method in the L<Sys:Socket|SPVM::Sys::Socket> class.
 
 =head2 recv
 
