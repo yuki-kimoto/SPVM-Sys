@@ -120,6 +120,8 @@ lib/SPVM/Sys/Socket/Constant.c
 lib/SPVM/Sys/Socket/Constant.config
 lib/SPVM/Sys/Socket/Constant.pm
 lib/SPVM/Sys/Socket/Constant.spvm
+lib/SPVM/Sys/Socket/Errno.c
+lib/SPVM/Sys/Socket/Errno.config
 lib/SPVM/Sys/Socket/Errno.pm
 lib/SPVM/Sys/Socket/Errno.spvm
 lib/SPVM/Sys/Socket/Error.pm
