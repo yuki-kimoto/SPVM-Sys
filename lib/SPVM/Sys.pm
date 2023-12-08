@@ -491,9 +491,9 @@ OSs other than Windows:
 
 Calls the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class and returns its return value.
 
-Excetpions:
+Exceptions:
 
-Excetpions thrown by the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method or the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class could be thrown.
+Exceptions thrown by the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method or the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class could be thrown.
 
 =head2 A
 
@@ -941,7 +941,7 @@ Gets the OS name. This method corresponds to Perl's L<$^O|https://perldoc.perl.o
 
 =back
 
-Excetpions:
+Exceptions:
 
 If the OS name could not be determined, an exception is thrown.
 
@@ -957,126 +957,163 @@ This method calls the L<socket|SPVM::Sys::Socket/"socket"> method in the Sys::So
 
 If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $sockfd_ref using L</"fcntl">.
 
-Excetpions:
+Exceptions:
 
 Exceptions thrown by the L<socket|SPVM::Sys::Socket/"socket"> method in the Sys::Socket class could be thrown.
-
-=head2 bind
-
-C<static method bind : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
-
-The next argument $addrlen is set to the size of $addr.
-
-Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen.
-
-Excetpions:
-
-=head2 listen
-
-C<static method listen : void ($sockfd : int, $backlog : int);>
-
-Calls the L<listen|SPVM::Sys::Socket/"listen"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
-
-Excetpions:
-
-=head2 accept
-
-C<static method accept : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($new_sockfd_ref : int*, $sockfd : int);>
-
-The next argument $addrlen is set to 128.
-
-Calls the L<accept|SPVM::Sys::Socket/"accept"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen,
-and returns $addr.
-
-The original return value is set to $$new_sockfd_ref.
-
-Excetpions:
 
 =head2 connect
 
 C<static method connect : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
-The next argument $addrlen is set to the size of $addr.
+Attempts to connect to a remote socket, just like the C<connect> system call.
 
-Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen.
+This method calls the L<connect|SPVM::Sys::Socket/"connect"> method in the Sys::Socket class.
 
-Excetpions:
+Exceptions:
 
-=head2 getpeername
+Exceptions thrown by the L<connect|SPVM::Sys::Socket/"connect"> method in the Sys::Socket class could be thrown.
 
-C<static method getpeername : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int);>
+=head2 bind
 
-The next argument $addrlen is set to 128.
+C<static method bind : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
-Calls the L<getpeername|SPVM::Sys::Socket/"getpeername"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Binds a network address $addr to the socket $sockfd.
 
-Excetpions:
+This method calls the L<bind|SPVM::Sys::Socket/"bind"> method in the Sys::Socket class.
 
-=head2 getsockname
+Exceptions:
 
-C<static method getsockname : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int)>
+Exceptions thrown by the L<bind|SPVM::Sys::Socket/"bind"> method in the Sys::Socket could be thrown.
 
-The next argument $addrlen is set to 128.
+=head2 listen
 
-Calls the L<getsockname|SPVM::Sys::Socket/"getsockname"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+C<static method listen : void ($sockfd : int, $backlog : int);>
 
-Excetpions:
+Does the same thing that the C<listen> system call does.
+
+This method calls the L<listen|SPVM::Sys::Socket/"listen"> method in the Sys::Socket class.
+
+Exceptions:
+
+Exceptions thrown by the L<listen|SPVM::Sys::Socket/"listen"> method in the Sys::Socket could be thrown.
+
+=head2 accept
+
+C<static method accept : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($new_sockfd_ref : int*, $sockfd : int);>
+
+Accepts an incoming socket connect, just as the C<accept> system call does. Returns the packed address.
+
+A new connected socket file descriptor is set to the value referenced by $new_sockfd_ref.
+
+Thie methods calls the L<accept|SPVM::Sys::Socket/"accept"> method in the Sys::Socket class.
+
+The returned packed address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
+
+If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $new_sockfd_ref using L</"fcntl">.
+
+Exceptions:
+
+Exceptions thrown by the L<accept|SPVM::Sys::Socket/"accept"> method in the Sys::Socket could be thrown.
 
 =head2 recv
 
 C<static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);>
 
-Calls the L<recv|SPVM::Sys::Socket/"recv"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Receives a message on a socket.
 
-Excetpions:
+This method calls the L<recv|SPVM::Sys::Socket/"recv"> method in the Sys::Socket class.
+
+Exceptions:
+
+Exceptions thrown by the L<recv|SPVM::Sys::Socket/"recv"> method in the Sys::Socket could be thrown.
 
 =head2 send
 
 C<static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> = undef, $len : int = -1, $buf_offset : int = 0)>
 
-If $addr is defined, calls the L<sendto|SPVM::Sys::Socket/"sendto"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
-
-Otherwise calls the L<send|SPVM::Sys::Socket/"send"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Sends a message on a socket.
 
 If $len is less than 0, The length of $buffer is set to $len.
 
-Excetpions:
+If $addr is undef, This method calls the L<send|SPVM::Sys::Socket/"send"> method in the Sys::Socket class, otherwise calls the L<sendto|SPVM::Sys::Socket/"sendto"> method in the Sys::Socket class.
+
+Exceptions:
+
+Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or the L<sendto|SPVM::Sys::Socket/"sendto"> method in the Sys::Socket could be thrown.
 
 =head2 shutdown
 
 C<static method shutdown : void ($sockfd : int, $how : int);>
 
-Calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+Shuts down a socket  connection $sockfd in the manner indicated by $how.
 
-Excetpions:
+This method calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the Sys::Socket class.
+
+Exceptions:
+
+Exceptions thrown by the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the Sys::Socket could be thrown.
+
+=head2 getpeername
+
+C<static method getpeername : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int);>
+
+Returns the packed sockaddr address of the other end of the socket connection $sockfd.
+
+This method calls the L<getpeername|SPVM::Sys::Socket/"getpeername"> method in the Sys::Socket class.
+
+The returned packed sockaddr address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
+
+Exceptions:
+
+Exceptions thrown by the L<getpeername|SPVM::Sys::Socket/"getpeername"> method in the Sys::Socket could be thrown.
+
+=head2 getsockname
+
+C<static method getsockname : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int)>
+
+Returns the packed sockaddr address of this end of the socket connection $sockfd.
+            
+Thie method calls the L<getsockname|SPVM::Sys::Socket/"getsockname"> method in the Sys::Socket class.
+
+The returned packed sockaddr address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
+
+Exceptions:
+
+Exceptions thrown by the L<getsockname|SPVM::Sys::Socket/"getsockname"> method in the Sys::Socket could be thrown.
 
 =head2 socketpair
 
 C<static method socketpair : void ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);>
 
-Creates a new int array with the length 2 for the next argument $pair.
+Creates an unnamed pair of sockets in the specified domain, of
+the specified type. The domain $domain, the type $type, the protocal $protocol are specified the
+same as for the syscall of the same name.
 
-Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $pair,
-and the $$sock_fd1_ref is set the first element of $pair, and the $$sock_fd2_ref is set the second element of $pair, nad 
+The opened reading file descripor is set to the value referenced by $sock_fd1_ref.
 
-Excetpions:
+The opened writing file descripor is set to the value referenced by $sock_fd2_ref.
+
+This method calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the Sys::Socket.
+
+Exceptions:
+
+Exceptions thrown by the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the Sys::Socket could be thrown.
 
 =head2 setsockopt
 
 C<static method setsockopt : void ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);>
 
-If $optval is the L<Int|SPVM::Int> type, a string for the next argument $optval is created by the length 4.
+Sets the socket option requested.
 
-If $optval is the string type, a string that for the next argument $optval is created by the length of $optval.
-
-Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
-with $optval and $optlen.
+This method calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the Sys::Socket class.
 
 Exceptions:
 
 $optval must be defined. Otherwise an exception is thrown.
 
-The type of $optval must be Int or string. Otherwise an exception is thrown.
+The type of \$optval must be the Int or string type.
+
+Exceptions thrown by the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the Sys::Socket could be thrown.
 
 =head2 getsockopt
 
@@ -1084,12 +1121,20 @@ C<static method getsockopt : string ($sockfd : int, $level : int, $optname : int
 
 If $optlen is less than 0, it is set to 4.
 
-A string for the next argument $optval is created by the length $optlen.
+This method calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the Sys::Socket class.
 
-Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
-with $optval and $optlen, and $optval set by this method is returnd.
+Examples:
 
-Excetpions:
+Getting an int value:
+
+  my $reuseaddr_packed = Sys->getsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR);
+  my $reuseaddr_ref = [0];
+  Fn->memcpy($reuseaddr_ref, 0, $reuseaddr_packed, 0, 4);
+  my $reuseaddr = $reuseaddr_ref->[0];
+
+Exceptions:
+
+Exceptions thrown by the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the Sys::Socket could be thrown.
 
 =head2 signal
 
@@ -1147,7 +1192,7 @@ Forks the process by calling the L<fork|SPVM::Sys::Process/"fork"> method in the
 
 It returns the child process ID to the parent process, or returns 0 to the child process.
 
-Excetpions:
+Exceptions:
 
 Exceptions thrown by the L<fork|SPVM::Sys::Process/"fork"> method in the Sys::Process method could be thrown.
 
@@ -1157,7 +1202,7 @@ C<static method getpriority : int ($which : int, $who : int);>
 
 Return the scheduling priority of the process, process group, or user, as indicated by $which and $who is obtained.
 
-Excetpions:
+Exceptions:
 
 Exceptions thrown by the L<getpriority|SPVM::Sys::Process/"getpriority"> method in the Sys::Process method could be thrown.
 
@@ -1167,7 +1212,7 @@ C<static method setpriority : void ($which : int, $who : int, $prio : int)>
 
 Sets the scheduling priority of the process, process group, or user, as indicated by $which and $who is obtained.
 
-Excetpions:
+Exceptions:
 
 Exceptions thrown by the L<setpriority|SPVM::Sys::Process/"setpriority"> method in the Sys::Process method could be thrown.
 
@@ -1209,7 +1254,7 @@ The following method in the Sys::Process class checks the value of $wstatus_ref.
 
 =back
 
-Excetpions:
+Exceptions:
 
 Exceptions thrown by the L<wait|SPVM::Sys::Process/"wait"> method in the Sys::Process method could be thrown.
 
@@ -1221,7 +1266,7 @@ Same as the L</"wait"> method, but can give the process ID $pid and the options 
 
 See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> about constant values given to $options.
 
-Excetpions:
+Exceptions:
 
 Exceptions thrown by the L<waitpid|SPVM::Sys::Process/"waitpid"> method in the Sys::Process method could be thrown.
 

@@ -289,14 +289,6 @@ The referred value of $optlen_ref must be less than or equal to the length of $o
 
 If the getsockopt function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-Excamples:
-
-$optval is a string. The following is an example to get an int value.
-
-  my $optval_int_ref = [0];
-  Fn->memcpy($result_ref, 0, $optval, 0, 4);
-  my $optval_int = $optval_int_ref->[0];
-
 =head2 setsockopt
 
 C<static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : string, $optlen : int);>

@@ -815,6 +815,12 @@ class Sys {
     }
   }
   
+  static method connect : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+    my $addrlen = $addr->size;
+    
+    Sys::Socket->connect($sockfd, $addr, $addrlen);
+  }
+  
   static method bind : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
     my $addrlen = $addr->size;
     Sys::Socket->bind($sockfd, $addr, $addrlen);
@@ -831,36 +837,9 @@ class Sys {
     
     $$new_sockfd_ref = Sys::Socket->accept($sockfd, $addr, \$addrlen);
     
-    $addr = $addr->upgrade;
-    
-    return $addr;
-  }
-  
-  static method connect : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
-    my $addrlen = $addr->size;
-    
-    Sys::Socket->connect($sockfd, $addr, $addrlen);
-  }
-  
-  static method getpeername : Sys::Socket::Sockaddr ($sockfd : int) {
-    my $addrlen = 128;
-    
-    my $addr = Sys::Socket::Sockaddr->new;
-    
-    Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
-    
-    $addr = $addr->upgrade;
-    
-    return $addr;
-  }
-  
-  static method getsockname : Sys::Socket::Sockaddr ($sockfd : int) {
-    
-    my $addrlen = 128;
-    
-    my $addr = Sys::Socket::Sockaddr->new;
-    
-    Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
+    unless (Sys::OS->is_windows) {
+      Sys->fcntl($$new_sockfd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+    }
     
     $addr = $addr->upgrade;
     
@@ -894,6 +873,31 @@ class Sys {
     Sys::Socket->shutdown($sockfd, $how);
   }
   
+  static method getpeername : Sys::Socket::Sockaddr ($sockfd : int) {
+    my $addrlen = 128;
+    
+    my $addr = Sys::Socket::Sockaddr->new;
+    
+    Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
+    
+    $addr = $addr->upgrade;
+    
+    return $addr;
+  }
+  
+  static method getsockname : Sys::Socket::Sockaddr ($sockfd : int) {
+    
+    my $addrlen = 128;
+    
+    my $addr = Sys::Socket::Sockaddr->new;
+    
+    Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
+    
+    $addr = $addr->upgrade;
+    
+    return $addr;
+  }
+  
   static method socketpair : void ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
     my $pair = new int[2];
     
@@ -922,7 +926,7 @@ class Sys {
       Sys::Socket->setsockopt($sockfd, $level, $optname, $optval_string, length $optval_string);
     }
     else {
-      die "The type of \$optval must be Int or string.";
+      die "The type of \$optval must be the Int or string type.";
     }
   }
   
