@@ -831,13 +831,26 @@ class Sys {
   static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int) {
     my $addrlen = 128;
     
-    my $addr = Sys::Socket::Sockaddr->new;
+    my $addr = (Sys::Socket::Sockaddr)undef;
+    
+    my $domain = &get_socket_domain($sockfd);
+    
+    if ($domain == SOCKET->AF_INET) {
+      $addr = Sys::Socket::Sockaddr::In->new;
+    }
+    elsif ($domain == SOCKET->AF_INET6) {
+      $addr = Sys::Socket::Sockaddr::In6->new;
+    }
+    elsif ($domain == SOCKET->AF_UNIX) {
+      $addr = Sys::Socket::Sockaddr::Un->new;
+    }
+    else {
+      die "The address family $domain is not available.";
+    }
     
     $$new_sockfd_ref = Sys::Socket->accept($sockfd, $addr, \$addrlen);
     
-    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
-    
-    return $addr_child;
+    return $addr;
   }
   
   static method connect : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
