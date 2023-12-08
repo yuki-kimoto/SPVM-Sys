@@ -96,6 +96,7 @@ sub MY::postamble {
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User::Passwd');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User::Group');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket');
+    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Errno');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Constant');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Addrinfo');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::AddrinfoLinkedList');

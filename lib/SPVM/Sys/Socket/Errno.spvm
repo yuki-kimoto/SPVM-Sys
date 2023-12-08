@@ -6,19 +6,9 @@ class Sys::Socket::Errno {
   use Errno;
   use Sys::Socket;
   
-  static method errno : int () {
-    
-    my $errno = Sys::Socket->socket_errno;
-    
-    return $errno;
-  }
+  native static method errno : int ();
   
-  static method strerror : string ($errno : int, $length : int = 0) {
-    
-    my $strerror = Sys::Socket->socket_strerror($errno, $length);
-    
-    return $strerror;
-  }
+  native static method strerror : string ($errno : int, $length : int = 0);
   
   static method EINTR : int () {
     if (Sys::OS->is_windows) {

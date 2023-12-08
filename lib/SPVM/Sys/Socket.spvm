@@ -87,7 +87,4 @@ class Sys::Socket {
   
   native static method sockatmark : int ($sockfd : int);
   
-  native private static method socket_errno : int ();
-  
-  native private static method socket_strerror : string ($errno : int, $length : int = 0);
 }
