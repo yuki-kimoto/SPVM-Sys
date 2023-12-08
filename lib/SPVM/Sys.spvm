@@ -848,28 +848,29 @@ class Sys {
   }
   
   static method getpeername : Sys::Socket::Sockaddr ($sockfd : int) {
-    my $addrlen = 128;
     
-    my $addr = Sys::Socket::Sockaddr->new;
+    my $family = &get_socket_family($sockfd);
+    
+    my $addr = Sys::Socket::Sockaddr->new_with_family($family);
+    
+    my $addrlen = $addr->size;
     
     Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
     
-    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
-    
-    return $addr_child;
+    return $addr;
   }
   
   static method getsockname : Sys::Socket::Sockaddr ($sockfd : int) {
     
-    my $addrlen = 128;
+    my $family = &get_socket_family($sockfd);
     
-    my $addr = Sys::Socket::Sockaddr->new;
+    my $addr = Sys::Socket::Sockaddr->new_with_family($family);
+    
+    my $addrlen = $addr->size;
     
     Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
     
-    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
-    
-    return $addr_child;
+    return $addr;
   }
   
   static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0) {
