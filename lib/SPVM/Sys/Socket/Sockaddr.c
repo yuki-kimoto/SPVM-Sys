@@ -13,7 +13,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
   struct sockaddr* socket_address = env->new_memory_block(env, stack, sizeof(struct sockaddr));
-
+  
   void* obj_socket_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr", socket_address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   

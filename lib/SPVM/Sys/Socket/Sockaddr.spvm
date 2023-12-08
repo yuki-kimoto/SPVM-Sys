@@ -7,6 +7,10 @@ class Sys::Socket::Sockaddr : pointer {
   # Class methods
   native static method new : Sys::Socket::Sockaddr ();
   
+  static method new_with_family : Sys::Socket::Sockaddr ($family : int) {
+    
+  }
+  
   # Instance methods
   native method DESTROY : void ();
   

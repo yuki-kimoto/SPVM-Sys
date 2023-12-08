@@ -829,7 +829,6 @@ class Sys {
   }
   
   static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int) {
-    my $addrlen = 128;
     
     my $addr = (Sys::Socket::Sockaddr)undef;
     
@@ -847,6 +846,8 @@ class Sys {
     else {
       die "The address family $domain is not available.";
     }
+    
+    my $addrlen = $addr->size;
     
     $$new_sockfd_ref = Sys::Socket->accept($sockfd, $addr, \$addrlen);
     
