@@ -124,8 +124,6 @@ lib/SPVM/Sys/Socket/Errno.c
 lib/SPVM/Sys/Socket/Errno.config
 lib/SPVM/Sys/Socket/Errno.pm
 lib/SPVM/Sys/Socket/Errno.spvm
-lib/SPVM/Sys/Socket/Error.pm
-lib/SPVM/Sys/Socket/Error.spvm
 lib/SPVM/Sys/Socket/Error/InetInvalidNetworkAddress.pm
 lib/SPVM/Sys/Socket/Error/InetInvalidNetworkAddress.spvm
 lib/SPVM/Sys/Socket/In6_addr.c

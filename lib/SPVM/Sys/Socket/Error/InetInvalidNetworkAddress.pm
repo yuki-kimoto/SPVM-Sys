@@ -16,7 +16,7 @@ The Sys::Socket::Error class in L<SPVM> represents a socket error "The got addre
 
 =head1 Inheritance
 
-L<Sys::Socket::Error|SPVM::Sys::Socket::Error>
+L<Error|SPVM::Error>
 
 =head1 Copyright & License
 

@@ -6,6 +6,9 @@
     * Remove deprecated the spvm_socket_errno method and the spvm_socket_strerror method from the Sys::Socket class.
   [Document Fix]
     * Fix many Sys::Socket documents.
+  [Incompatible Changes]
+    * Remove the Sys::Socket::Error class.
+    * Sys::Socket::Error::InetInvalidNetworkAddress inherits the Error class.
 0.511 2023-12-07
   [New Features]
     * The Sys::Socket::Sockaddr::Un class work well in Windows.
