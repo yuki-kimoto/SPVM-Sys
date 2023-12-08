@@ -197,7 +197,7 @@ C<static method close : int ($fd : int);>
 
 Calls the L</"closesocket"> method in Windows.
 
-Calls the L<close|Sys::IO/"close"> method in the the L<Sys::IO|SPVM::Sys::IO> class in other OSs.
+Calls the L<close|Sys::IO/"close"> method in the the Sys::IO class in other OSs.
 
 =head2 recv
 
@@ -277,6 +277,8 @@ C<static method getsockopt : int ($sockfd : int, $level : int, $optname : int, $
 
 Calls the L<getsockopt|https://linux.die.net/man/2/getsockopt> function and returns its return value.
 
+See L<Sys::Socket::Constant|SPVM::Sys::Socket::Constant> about constant values given to $level and $optname.
+
 Exceptions:
 
 $optval must be defined. Otherwise an exception is thrown.
@@ -300,6 +302,8 @@ $optval is a string. The following is an example to get an int value.
 C<static method setsockopt : int ($sockfd : int, $level : int, $optname : int, $optval : string, $optlen : int);>
 
 Calls the L<setsockopt|https://linux.die.net/man/2/setsockopt> function and returns its return value.
+
+See L<Sys::Socket::Constant|SPVM::Sys::Socket::Constant> about constant values given to $level and $optname.
 
 Exceptions:
 
@@ -329,9 +333,7 @@ If the socketpair function failed, an exception is thrown with C<eval_error_id> 
 
 =head2 getaddrinfo
 
-C<static method getaddrinfo : int ($node : string, $service : string,>
-                $hints : Sys::Socket::Addrinfo,
-                $res : Sys::Socket::Addrinfo[]);
+C<static method getaddrinfo : int ($node : string, $service : string, $hints : L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>, $res : L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>[]);>
 
 Calls the L<getaddrinfo|https://linux.die.net/man/3/getaddrinfo> function and returns its return value.
 
@@ -345,9 +347,7 @@ If the getnameinfo function failed, an exception is thrown with C<eval_error_id>
 
 =head2 getnameinfo
 
-C<static method getnameinfo : int ($sa : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $salen : int,>
-                $host : mutable string, $hostlen : int,
-                $serv : mutable string, $servlen : int, $flags : int);
+C<static method getnameinfo : int ($sa : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $salen : int, $host : mutable string, $hostlen : int, $serv : mutable string, $servlen : int, $flags : int);>
 
 Calls the L<getnameinfo|https://linux.die.net/man/3/getaddrinfo> function and returns its return value.
 
@@ -361,7 +361,11 @@ If the getnameinfo function failed, an exception is thrown with C<eval_error_id>
 
 C<static method gai_strerror : string($errcode : int);>
 
-Calls the L<getnameinfo|https://linux.die.net/man/3/gai_strerror> function and returns its return value.
+Calls the L<gai_strerror|https://linux.die.net/man/3/gai_strerror> function and returns its return value.
+
+Excepsions:
+
+If the gai_strerror function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 sockatmark
 
@@ -369,13 +373,9 @@ C<static method sockatmark : int ($sockfd : int);>
 
 Calls the L<sockatmark|https://linux.die.net/man/3/sockatmark> function and returns its return value.
 
-=head2 ioctlsocket
+Excepsions:
 
-C<static method ioctlsocket : int ($fd : int, $request : int, $request_arg_ref : int[] = undef);>
-
-Calls the L<ioctlsocket|https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-ioctlsocket> function and returns its return value.
-
-See the L<ioctlsocket|https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-ioctlsocket> function in Windows.
+If the sockatmark function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head1 Copyright & License
 
