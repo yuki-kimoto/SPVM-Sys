@@ -856,31 +856,28 @@ class Sys {
   }
   
   static method getpeername : Sys::Socket::Sockaddr ($sockfd : int) {
+    my $addrlen = 128;
     
-    my $family = -1;
-    &getsockopt_int($sockfd, SOCKET->SOL_SOCKET, SOCKET->SO_DOMAIN, \$family);
-    
-    my $addr = Sys::Socket::Sockaddr->new_with_family($family);
-    
-    my $addrlen = $addr->size;
+    my $addr = Sys::Socket::Sockaddr->new;
     
     Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
     
-    return $addr;
+    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    
+    return $addr_child;
   }
   
   static method getsockname : Sys::Socket::Sockaddr ($sockfd : int) {
     
-    my $family = -1;
-    &getsockopt_int($sockfd, SOCKET->SOL_SOCKET, SOCKET->SO_DOMAIN, \$family);
+    my $addrlen = 128;
     
-    my $addr = Sys::Socket::Sockaddr->new_with_family($family);
-    
-    my $addrlen = $addr->size;
+    my $addr = Sys::Socket::Sockaddr->new;
     
     Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
     
-    return $addr;
+    my $addr_child = Sys::Socket->to_family_sockaddr($addr);
+    
+    return $addr_child;
   }
   
   static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0) {
