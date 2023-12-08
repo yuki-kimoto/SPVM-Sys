@@ -359,24 +359,6 @@ See the L<ioctlsocket|https://learn.microsoft.com/en-us/windows/win32/api/winsoc
 
 static method to_child_sockaddr : int ($addr : Sys::Socket::Sockaddr);
 
-=head2 to_family_sockaddr
-
-C<static method to_family_sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
-
-Copies $addr and creates a new L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> object corresponding to the address family, and returns it.
-
-If address family is AF_INET, returns a L<Sys::Socket::Sockaddr::In|SPVM::Sys::Socket::Sockaddr::In> object.
-
-If address family is AF_INET6, returns a L<Sys::Socket::Sockaddr::In6|SPVM::Sys::Socket::Sockaddr::In6> object.
-
-If address family is AF_UNIX, returns a L<Sys::Socket::Sockaddr::Un|SPVM::Sys::Socket::Sockaddr::Un> object.
-
-Exceptions:
-
-$addr must be defined. Otherwise an exception is thrown.
-
-If the address family is not available, an exception is thrown.
-
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto
