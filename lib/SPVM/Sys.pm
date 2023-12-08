@@ -945,6 +945,22 @@ Excetpions:
 
 If the OS name could not be determined, an exception is thrown.
 
+=head2 socket
+
+C<static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);>
+
+Opens a socket given the domain $domain, the type $type, and the protocal $protocol.
+
+The created socket file descriptor is set to the value referenced by $sockfd_ref.
+
+This method calls the L<socket|SPVM::Sys::Socket/"socket"> method in the Sys::Socket class.
+
+If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $sockfd_ref using L</"fcntl">.
+
+Excetpions:
+
+Exceptions thrown by the L<socket|SPVM::Sys::Socket/"socket"> method in the Sys::Socket class could be thrown.
+
 =head2 bind
 
 C<static method bind : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
@@ -953,11 +969,15 @@ The next argument $addrlen is set to the size of $addr.
 
 Calls the L<bind|SPVM::Sys::Socket/"bind"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen.
 
+Excetpions:
+
 =head2 listen
 
 C<static method listen : void ($sockfd : int, $backlog : int);>
 
 Calls the L<listen|SPVM::Sys::Socket/"listen"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+Excetpions:
 
 =head2 accept
 
@@ -970,6 +990,8 @@ and returns $addr.
 
 The original return value is set to $$new_sockfd_ref.
 
+Excetpions:
+
 =head2 connect
 
 C<static method connect : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
@@ -977,6 +999,8 @@ C<static method connect : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|S
 The next argument $addrlen is set to the size of $addr.
 
 Calls the L<connect|SPVM::Sys::Socket/"connect"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $addrlen.
+
+Excetpions:
 
 =head2 getpeername
 
@@ -986,6 +1010,8 @@ The next argument $addrlen is set to 128.
 
 Calls the L<getpeername|SPVM::Sys::Socket/"getpeername"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
+Excetpions:
+
 =head2 getsockname
 
 C<static method getsockname : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int)>
@@ -994,11 +1020,15 @@ The next argument $addrlen is set to 128.
 
 Calls the L<getsockname|SPVM::Sys::Socket/"getsockname"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
+Excetpions:
+
 =head2 recv
 
 C<static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);>
 
 Calls the L<recv|SPVM::Sys::Socket/"recv"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
+
+Excetpions:
 
 =head2 send
 
@@ -1010,18 +1040,15 @@ Otherwise calls the L<send|SPVM::Sys::Socket/"send"> method in the L<Sys::Socket
 
 If $len is less than 0, The length of $buffer is set to $len.
 
+Excetpions:
+
 =head2 shutdown
 
 C<static method shutdown : void ($sockfd : int, $how : int);>
 
 Calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the L<Sys::Socket|SPVM::Sys::Socket> class.
 
-=head2 socket
-
-C<static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);>
-
-Calls the L<socket|SPVM::Sys::Socket/"socket"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $domain, $type, $protocal,
-and the return value is set to $$sockfd_ref.
+Excetpions:
 
 =head2 socketpair
 
@@ -1031,6 +1058,8 @@ Creates a new int array with the length 2 for the next argument $pair.
 
 Calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the L<Sys::Socket|SPVM::Sys::Socket> class with $pair,
 and the $$sock_fd1_ref is set the first element of $pair, and the $$sock_fd2_ref is set the second element of $pair, nad 
+
+Excetpions:
 
 =head2 setsockopt
 
@@ -1059,6 +1088,8 @@ A string for the next argument $optval is created by the length $optlen.
 
 Calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the L<Sys::Socket|SPVM::Sys::Socket> class
 with $optval and $optlen, and $optval set by this method is returnd.
+
+Excetpions:
 
 =head2 signal
 

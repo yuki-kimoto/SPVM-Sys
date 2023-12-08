@@ -12,6 +12,7 @@ class Sys {
   use Sys::Ioctl;
   use Sys::Select;
   use Sys::Socket;
+  use Sys::Socket::Constant as SOCKET;
   use Sys::OS;
   use Sys::Env;
   use Sys::Time;
@@ -20,7 +21,6 @@ class Sys {
   use Sys::Process;
   use Sys::Signal;
   use Sys::User;
-  use Sys::Socket::Constant as SOCKET;
   
   static method STDIN : Sys::IO::FileStream () { return Sys::IO->spvm_stdin; }
   
@@ -806,6 +806,15 @@ class Sys {
     return $ok;
   }
   
+  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int) {
+    
+    $$sockfd_ref = Sys::Socket->socket($domain, $type, $protocol);
+    
+    unless (Sys::OS->is_windows) {
+      Sys->fcntl($$sockfd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+    }
+  }
+  
   static method bind : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
     my $addrlen = $addr->size;
     Sys::Socket->bind($sockfd, $addr, $addrlen);
@@ -883,10 +892,6 @@ class Sys {
   
   static method shutdown : void ($sockfd : int, $how : int) {
     Sys::Socket->shutdown($sockfd, $how);
-  }
-  
-  static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int) {
-    $$sockfd_ref = Sys::Socket->socket($domain, $type, $protocol);
   }
   
   static method socketpair : void ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
