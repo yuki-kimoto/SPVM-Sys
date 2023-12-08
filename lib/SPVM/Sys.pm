@@ -451,6 +451,8 @@ The open mode $open_mode is replaced to a representation of the L<fopen|https://
   |-             wb
   -|             rb
 
+If the system supports C<FD_CLOEXEC>, this flag is set to the opened file's file descriptor using L</"fcntl">.
+
 Exceptions:
 
 Exceptions thrown by the L<popen|SPVM::Sys::IO/"popen"> method in the Sys::IO or the L<_popen|SPVM::Sys::IO/"_popen"> method in the Sys::IO class could be thrown.
