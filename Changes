@@ -1,3 +1,11 @@
+0.513 2023-12-22
+  [Incompatible Changes]
+    * The first argument of the localtime and gmtime method in the Sys class becomes optional argument and allow it minus epoch time by $allow_minus optional argument.
+      
+      method localtime : Time::Piece ($epoch : long = -1, $allow_minus = 0);
+      
+      method gmtime : Time::Piece ($epoch : long = -1, $allow_minus = 0);
+
 0.512 2023-12-08
   [New Features]
     * Add the new_with_family method class to the Sys::Socket::Sockaddr class.

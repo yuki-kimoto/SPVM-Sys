@@ -1009,13 +1009,29 @@ class Sys {
     return $time;
   }
   
-  static method localtime : Sys::Time::Tm ($time : long) {
-    my $tm = Sys::Time->localtime(\$time);
+  static method localtime : Sys::Time::Tm ($epoch : long = -1, $allow_minus : int = 0) {
+    
+    unless ($allow_minus) {
+      if ($epoch < 0) {
+        $epoch = Sys->time;
+      }
+    }
+    
+    my $tm = Sys::Time->localtime(\$epoch);
+    
     return $tm;
   }
   
-  static method gmtime : Sys::Time::Tm ($time : long) {
-    my $tm = Sys::Time->gmtime(\$time);
+  static method gmtime : Sys::Time::Tm ($epoch : long = -1, $allow_minus : int = 0) {
+    
+    unless ($allow_minus) {
+      if ($epoch < 0) {
+        $epoch = Sys->time;
+      }
+    }
+    
+    my $tm = Sys::Time->gmtime(\$epoch);
+    
     return $tm;
   }
   

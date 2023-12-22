@@ -41,36 +41,40 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count();
 {
   my $time = time;
   my @perl_localtime = localtime($time);
-
-  my $time_info = SPVM::TestCase::Sys::Time->localtime($time);
-
-  is($perl_localtime[0], $time_info->tm_sec);
-  is($perl_localtime[1], $time_info->tm_min);
-  is($perl_localtime[2], $time_info->tm_hour);
-  is($perl_localtime[3], $time_info->tm_mday);
-  is($perl_localtime[4], $time_info->tm_mon);
-  is($perl_localtime[5], $time_info->tm_year);
-  is($perl_localtime[6], $time_info->tm_wday);
-  is($perl_localtime[7], $time_info->tm_yday);
-  is($perl_localtime[8], $time_info->tm_isdst);
+  
+  my $tm = SPVM::TestCase::Sys::Time->localtime_value($time);
+  
+  is($perl_localtime[0], $tm->tm_sec);
+  is($perl_localtime[1], $tm->tm_min);
+  is($perl_localtime[2], $tm->tm_hour);
+  is($perl_localtime[3], $tm->tm_mday);
+  is($perl_localtime[4], $tm->tm_mon);
+  is($perl_localtime[5], $tm->tm_year);
+  is($perl_localtime[6], $tm->tm_wday);
+  is($perl_localtime[7], $tm->tm_yday);
+  is($perl_localtime[8], $tm->tm_isdst);
+  
+  ok(SPVM::TestCase::Sys::Time->localtime);
 }
 
 # gmtime
 {
   my $time = time;
   my @perl_gmtime = gmtime($time);
-
-  my $time_info = SPVM::TestCase::Sys::Time->gmtime($time);
-
-  is($perl_gmtime[0], $time_info->tm_sec);
-  is($perl_gmtime[1], $time_info->tm_min);
-  is($perl_gmtime[2], $time_info->tm_hour);
-  is($perl_gmtime[3], $time_info->tm_mday);
-  is($perl_gmtime[4], $time_info->tm_mon);
-  is($perl_gmtime[5], $time_info->tm_year);
-  is($perl_gmtime[6], $time_info->tm_wday);
-  is($perl_gmtime[7], $time_info->tm_yday);
-  is($perl_gmtime[8], $time_info->tm_isdst);
+  
+  my $tm = SPVM::TestCase::Sys::Time->gmtime_value($time);
+  
+  is($perl_gmtime[0], $tm->tm_sec);
+  is($perl_gmtime[1], $tm->tm_min);
+  is($perl_gmtime[2], $tm->tm_hour);
+  is($perl_gmtime[3], $tm->tm_mday);
+  is($perl_gmtime[4], $tm->tm_mon);
+  is($perl_gmtime[5], $tm->tm_year);
+  is($perl_gmtime[6], $tm->tm_wday);
+  is($perl_gmtime[7], $tm->tm_yday);
+  is($perl_gmtime[8], $tm->tm_isdst);
+  
+  ok(SPVM::TestCase::Sys::Time->gmtime);
 }
 
 ok(SPVM::TestCase::Sys::Time->gettimeofday);

@@ -839,15 +839,19 @@ Returns the current epoch time.
 
 =head2 localtime
 
-C<static method localtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
+C<static method localtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($epoch : long = -1, $allow_minus = 0);>
 
-Converts a time to a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object, and returns it.
+Converts the epoch time $epoch to a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object, and returns it.
+
+The return value is localized for the local time zone.
+
+If $allow_minus is 0 and $epoch is less than 0, $epoch is set to the current epoch time.
 
 =head2 gmtime
 
-C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($time : long);>
+C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($epoch : long = -1, $allow_minus = 0);>
 
-Works just like L</"localtime">, but the returned values are localized for the standard Greenwich time zone.
+Works just like L</"localtime">, but the returned values are for the UTC time zone.
 
 =head2 utime
 
