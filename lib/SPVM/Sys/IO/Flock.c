@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <fcntl.h>
 
-const char* FILE_NAME = "Sys/IO/Flock";
+static const char* FILE_NAME = "Sys/IO/Flock";
 
 int32_t SPVM__Sys__IO__Flock__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)

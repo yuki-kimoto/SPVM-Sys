@@ -21,7 +21,7 @@
 
 #include <errno.h>
 
-const char* FILE_NAME = "Sys/Select.c";
+static const char* FILE_NAME = "Sys/Select.c";
 
 int32_t SPVM__Sys__Select__FD_ZERO(SPVM_ENV* env, SPVM_VALUE* stack) {
   

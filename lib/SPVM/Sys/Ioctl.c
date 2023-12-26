@@ -13,7 +13,7 @@
 
 #include <errno.h>
 
-const char* FILE_NAME = "Sys/Ioctl.c";
+static const char* FILE_NAME = "Sys/Ioctl.c";
 
 int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)

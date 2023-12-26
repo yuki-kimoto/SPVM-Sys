@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <dirent.h>
 
-const char* FILE_NAME = "Sys/IO/DirStream.c";
+static const char* FILE_NAME = "Sys/IO/DirStream.c";
 
 int32_t SPVM__Sys__IO__DirStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   

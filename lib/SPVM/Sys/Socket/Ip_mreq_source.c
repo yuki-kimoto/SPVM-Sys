@@ -6,7 +6,7 @@
 
 #include <assert.h>
 
-const char* FILE_NAME = "Sys/Socket/Ip_mreq_source.c";
+static const char* FILE_NAME = "Sys/Socket/Ip_mreq_source.c";
 
 int32_t SPVM__Sys__Socket__Ip_mreq_source__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 #ifdef __OpenBSD__

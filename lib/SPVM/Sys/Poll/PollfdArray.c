@@ -14,7 +14,7 @@
   #include <poll.h>
 #endif
 
-const char* FILE_NAME = "Sys/Poll/PollfdArray";
+static const char* FILE_NAME = "Sys/Poll/PollfdArray";
 
 int32_t SPVM__Sys__Poll__PollfdArray__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   

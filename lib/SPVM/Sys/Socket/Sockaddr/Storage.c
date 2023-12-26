@@ -6,7 +6,7 @@
 
 #include <assert.h>
 
-const char* FILE_NAME = "Sys/Socket/Sockaddr/Storage.c";
+static const char* FILE_NAME = "Sys/Socket/Sockaddr/Storage.c";
 
 int32_t SPVM__Sys__Socket__Sockaddr__Storage__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   

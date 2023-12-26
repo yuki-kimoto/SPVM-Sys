@@ -19,7 +19,7 @@ typedef struct sockaddr_un {
   #include <sys/un.h>
 #endif
 
-const char* FILE_NAME = "Sys/Socket/Sockaddr.c";
+static const char* FILE_NAME = "Sys/Socket/Sockaddr.c";
 
 int32_t SPVM__Sys__Socket__Sockaddr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   

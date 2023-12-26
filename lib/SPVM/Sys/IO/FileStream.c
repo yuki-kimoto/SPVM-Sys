@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-const char* FILE_NAME = "Sys/IO/FileStream.c";
+static const char* FILE_NAME = "Sys/IO/FileStream.c";
 
 int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   

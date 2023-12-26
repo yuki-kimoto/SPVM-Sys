@@ -6,7 +6,7 @@
 
 #include <assert.h>
 
-const char* FILE_NAME = "Sys/Socket/In_addr.c";
+static const char* FILE_NAME = "Sys/Socket/In_addr.c";
 
 int32_t SPVM__Sys__Socket__In_addr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   

@@ -6,7 +6,7 @@
 
 #include <assert.h>
 
-const char* FILE_NAME = "Sys/Socket/Ip_mreq.c";
+static const char* FILE_NAME = "Sys/Socket/Ip_mreq.c";
 
 int32_t SPVM__Sys__Socket__Ip_mreq__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   

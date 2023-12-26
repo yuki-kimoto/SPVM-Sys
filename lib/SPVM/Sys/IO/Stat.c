@@ -7,7 +7,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 
-const char* FILE_NAME = "Sys/IO/Stat.c";
+static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   

@@ -14,7 +14,7 @@
   #include <grp.h>
 #endif
 
-const char* FILE_NAME = "Sys/User.c";
+static const char* FILE_NAME = "Sys/User.c";
 
 int32_t SPVM__Sys__User__getuid(SPVM_ENV* env, SPVM_VALUE* stack) {
   

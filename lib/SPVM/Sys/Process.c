@@ -17,7 +17,7 @@
   #include <sys/wait.h>
 #endif
 
-const char* FILE_NAME = "Sys/Process.c";
+static const char* FILE_NAME = "Sys/Process.c";
 
 int32_t SPVM__Sys__Process__fork(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)

@@ -21,7 +21,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-const char* FILE_NAME = "Sys/IO.c";
+static const char* FILE_NAME = "Sys/IO.c";
 
 int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
