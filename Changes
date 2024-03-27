@@ -1,3 +1,6 @@
+0.514001 2024-03-27
+  [Bug Fix]
+    * Fix bug that config files cannot be parsed for SPVM version up.
 0.514 2023-12-26
   [Bug Fix]
     * Fix the bug that FILE_NAME in native source file does not have the file scope.
