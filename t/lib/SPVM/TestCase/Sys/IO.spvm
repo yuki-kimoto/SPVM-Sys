@@ -1870,144 +1870,176 @@ class TestCase::Sys::IO {
       my $file = "$test_file_dir/ftest/readline_basic.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
-
       {
         my $line = Sys->readline($stream);
+        
         unless ($line eq "abcd\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
+        
         unless ($line eq "fghi\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
+        
         unless ($line eq "klm\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
+        
         unless ($line == undef) {
+          warn $line;
           return 0;
         }
       }
     }
-
+    
+    warn;
+    
     # With while
     {
       my $file = "$test_file_dir/ftest/readline_basic.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
-
+      
       my $lstrings = StringList->new((string[])undef);
       while (my $line = Sys->readline($stream)) {
         $lstrings->push($line);
       }
-
+      
       my $strings = $lstrings->to_array;
       
-
       unless (Array->equals_string($strings, ["abcd\n", "fghi\n", "klm\n"])) {
+        warn dump $strings;
         return 0;
       }
       
     }
-
+    
     # EOF
     {
       my $file = "$test_file_dir/ftest/readline_eof.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
-
+      
       {
         my $line = Sys->readline($stream);
+        
         unless ($line eq "abcd\n") {
-          return 0;
-        }
-      }
-
-      {
-        my $line = Sys->readline($stream);
-        unless ($line eq "fghi\n") {
+          warn $line;
           return 0;
         }
       }
       
       {
         my $line = Sys->readline($stream);
+        
+        unless ($line eq "fghi\n") {
+          warn $line;
+          return 0;
+        }
+      }
+      
+      {
+        my $line = Sys->readline($stream);
+        
+        warn $line;
+        
         unless ($line eq "\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
+        
+        warn $line;
+        
         unless ($line eq "klm") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
+        
         unless ($line == undef) {
+          warn $line;
           return 0;
         }
       }
       
     }
-
+    
     # Long lines
     {
       my $file = "$test_file_dir/ftest/readline_long_lines.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
-
+      
       {
         my $line = Sys->readline($stream);
+        
         unless ($line eq "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
+        
         unless ($line eq "fghi\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
+        
         unless ($line eq "klm\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
+        
         unless ($line == undef) {
+          warn $line;
           return 0;
         }
       }
       
     }
-
+    
     # With chomp
     {
       my $file = "$test_file_dir/ftest/readline_basic.txt";
       my $stream = Sys::IO->fopen($file, "rb");
-
+      
       {
         my $line = Sys->readline($stream);
         Fn->chomp($line);
         unless ($line eq "abcd") {
+          warn $line;
           return 0;
         }
       }
@@ -2017,31 +2049,35 @@ class TestCase::Sys::IO {
       my $file = "$test_file_dir/ftest/readline_basic.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
-
+      
       {
         my $line = Sys->readline($stream);
         unless ($line eq "abcd\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
         unless ($line eq "fghi\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
         unless ($line eq "klm\n") {
+          warn $line;
           return 0;
         }
       }
-
+      
       {
         my $line = Sys->readline($stream);
         unless ($line == undef) {
+          warn $line;
           return 0;
         }
       }
@@ -2049,7 +2085,7 @@ class TestCase::Sys::IO {
     
     return 1;
   }
-
+  
   static method truncate : int ($test_dir : string) {
     
     my $file = "$test_dir/foo.txt";
