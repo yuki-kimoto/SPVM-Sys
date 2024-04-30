@@ -884,6 +884,7 @@ class TestCase::Sys::IO {
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
+        warn $stream;
         return 0;
       }
       
@@ -894,6 +895,7 @@ class TestCase::Sys::IO {
       Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer eq "a\n\0\0") {
+        warn dump $buffer;
         return 0;
       }
       
@@ -901,6 +903,7 @@ class TestCase::Sys::IO {
       Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer eq "xxx\0") {
+        warn dump $buffer;
         return 0;
       }
       
@@ -908,9 +911,11 @@ class TestCase::Sys::IO {
       Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer->[0] == '\n') {
+        warn dump $buffer;
         return 0;
       }
       unless ($buffer eq "\n\0\0\0") {
+        warn dump $buffer;
         return 0;
       }
       
@@ -918,6 +923,7 @@ class TestCase::Sys::IO {
       Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer eq "bc\n\0") {
+        warn dump $buffer;
         return 0;
       }
       
@@ -925,6 +931,7 @@ class TestCase::Sys::IO {
       Sys::IO->fgets($buffer, $size, $stream);
       
       unless ($buffer eq "d\0\0\0") {
+        warn dump $buffer;
         return 0;
       }
       
