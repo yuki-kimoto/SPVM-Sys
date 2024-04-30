@@ -1,6 +1,8 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+#define __USE_MINGW_ANSI_STDIO 1
+
 #include "spvm_native.h"
 
 // File IO
