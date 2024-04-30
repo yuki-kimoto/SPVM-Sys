@@ -237,6 +237,7 @@ t/ftest/foo.txt
 t/ftest/myexe.bat
 t/ftest/myexe.cmd
 t/ftest/myexe.exe
+t/ftest/newline_lf_only.txt
 t/ftest/readline_basic.txt
 t/ftest/readline_eof.txt
 t/ftest/readline_long_lines.txt

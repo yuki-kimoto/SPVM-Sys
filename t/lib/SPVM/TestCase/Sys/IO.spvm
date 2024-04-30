@@ -874,6 +874,29 @@ class TestCase::Sys::IO {
       }
     }
     
+    {
+      my $file = "$test_dir/ftest/newline_lf_only.txt";
+      my $stream = Sys::IO->fopen($file, "rb");
+      
+      unless ($stream) {
+        warn dump $stream;
+        return 0;
+      }
+      
+      my $char = 0;
+      
+      $char = Sys::IO->getc($stream);
+      unless ($char == '\n') {
+        warn $char;
+        return 0;
+      }
+      $char = Sys::IO->getc( $stream);
+      unless ($char == IO->EOF) {
+        warn $char;
+        return 0;
+      }
+    }
+    
     return 1;
   }
 
