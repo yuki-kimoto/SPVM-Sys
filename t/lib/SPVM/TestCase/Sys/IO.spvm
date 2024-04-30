@@ -1881,7 +1881,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line eq "abcd\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -1890,7 +1890,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line eq "fghi\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -1899,7 +1899,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line eq "klm\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -1908,7 +1908,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line == undef) {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -1946,7 +1946,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line eq "abcd\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -1955,7 +1955,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line eq "fghi\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -1963,10 +1963,10 @@ class TestCase::Sys::IO {
       {
         my $line = Sys->readline($stream);
         
-        warn $line;
+        warn dump $line;
         
         unless ($line eq "\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -1974,10 +1974,10 @@ class TestCase::Sys::IO {
       {
         my $line = Sys->readline($stream);
         
-        warn $line;
+        warn dump $line;
         
         unless ($line eq "klm") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -1986,7 +1986,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line == undef) {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -2003,7 +2003,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line eq "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -2012,7 +2012,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line eq "fghi\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -2021,7 +2021,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line eq "klm\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -2030,7 +2030,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         
         unless ($line == undef) {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -2046,7 +2046,7 @@ class TestCase::Sys::IO {
         my $line = Sys->readline($stream);
         Fn->chomp($line);
         unless ($line eq "abcd") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -2060,7 +2060,7 @@ class TestCase::Sys::IO {
       {
         my $line = Sys->readline($stream);
         unless ($line eq "abcd\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -2068,7 +2068,7 @@ class TestCase::Sys::IO {
       {
         my $line = Sys->readline($stream);
         unless ($line eq "fghi\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -2076,7 +2076,7 @@ class TestCase::Sys::IO {
       {
         my $line = Sys->readline($stream);
         unless ($line eq "klm\n") {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
@@ -2084,7 +2084,7 @@ class TestCase::Sys::IO {
       {
         my $line = Sys->readline($stream);
         unless ($line == undef) {
-          warn $line;
+          warn dump $line;
           return 0;
         }
       }
