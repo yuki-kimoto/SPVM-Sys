@@ -55,7 +55,7 @@ int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = setenv(name, value, overwrite);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]setenv() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setenv() failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -79,7 +79,7 @@ int32_t SPVM__Sys__Env__unsetenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = unsetenv(name);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]unsetenv() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]unsetenv() failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -109,7 +109,7 @@ int32_t SPVM__Sys__Env___putenv_s(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = _putenv_s(name, value);
   
   if (!(status == 0)) {
-    env->die(env, stack, "[System Error]_putenv_s() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]_putenv_s() failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
