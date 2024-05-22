@@ -23,7 +23,7 @@ int32_t SPVM__Sys__Poll__PollfdArray__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t length = stack[0].ival;
   
   if (!(length >= 0)) {
-    return env->die(env, stack, "The length must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The length $length must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t alloc_length = length == 0 ? sizeof(struct pollfd) * 1 : sizeof(struct pollfd) * length;
@@ -68,11 +68,11 @@ int32_t SPVM__Sys__Poll__PollfdArray__fd(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (error_id) { return error_id; }
   
   if (!(index >= 0)) {
-    return env->die(env, stack, "$index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   if (!(index < length)) {
-    return env->die(env, stack, "$index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
   }
 
   struct pollfd* fds = env->get_pointer(env, stack, obj_self);
@@ -96,11 +96,11 @@ int32_t SPVM__Sys__Poll__PollfdArray__set_fd(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (error_id) { return error_id; }
   
   if (!(index >= 0)) {
-    return env->die(env, stack, "$index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   if (!(index < length)) {
-    return env->die(env, stack, "$index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
   }
 
   int32_t fd = stack[2].ival;
@@ -120,14 +120,14 @@ int32_t SPVM__Sys__Poll__PollfdArray__events(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t index = stack[1].ival;
   if (!(index >= 0)) {
-    return env->die(env, stack, "$index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t length = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   if (!(index < length)) {
-    return env->die(env, stack, "$index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
   }
 
   struct pollfd* fds = env->get_pointer(env, stack, obj_self);
@@ -147,14 +147,14 @@ int32_t SPVM__Sys__Poll__PollfdArray__set_events(SPVM_ENV* env, SPVM_VALUE* stac
 
   int32_t index = stack[1].ival;
   if (!(index >= 0)) {
-    return env->die(env, stack, "$index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t length = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   if (!(index < length)) {
-    return env->die(env, stack, "$index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
   }
 
   int16_t events = stack[2].ival;
@@ -174,13 +174,13 @@ int32_t SPVM__Sys__Poll__PollfdArray__revents(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   int32_t index = stack[1].ival;
   if (!(index >= 0)) {
-    return env->die(env, stack, "$index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   int32_t length = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   if (!(index < length)) {
-    return env->die(env, stack, "$index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
   }
 
   struct pollfd* fds = env->get_pointer(env, stack, obj_self);
@@ -200,14 +200,14 @@ int32_t SPVM__Sys__Poll__PollfdArray__set_revents(SPVM_ENV* env, SPVM_VALUE* sta
 
   int32_t index = stack[1].ival;
   if (!(index >= 0)) {
-    return env->die(env, stack, "$index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   int32_t length = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   if (!(index < length)) {
-    return env->die(env, stack, "$index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The index $index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
   }
 
   int16_t revents = stack[2].ival;
