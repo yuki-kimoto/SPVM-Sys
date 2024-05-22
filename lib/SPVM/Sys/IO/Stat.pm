@@ -300,7 +300,7 @@ The implementation of L<Sys#r|SPVM::Sys/"r"> method.
 
 C<method w : int ();>
 
-The implementation of the L<w |SPVM::Sys/"w "> method in the Sys class.
+The implementation of the L<Sys#w|SPVM::Sys/"w"> method.
 
 =head2 x
 
