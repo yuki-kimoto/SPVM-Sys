@@ -1367,8 +1367,8 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   DIR* dirp = env->get_pointer(env, stack, obj_dirp);
-
-  int64_t offset = stack[1].ival;
+  
+  int64_t offset = stack[1].lval;
   
   if (!(offset >= 0)) {
     return env->die(env, stack, "$offset must be less than or equal to 0.", __func__, FILE_NAME, __LINE__);
