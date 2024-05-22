@@ -487,15 +487,15 @@ C<static method ioctl : int ($fd : int, $request : int, $request_arg_ref : objec
 
 Windows:
 
-Calls the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class and returns its return value.
+Calls L<Sys::Ioctl#ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method and returns its return value.
 
 OSs other than Windows:
 
-Calls the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class and returns its return value.
+Calls L<Sys::Ioctl#ioctl|SPVM::Sys::Ioctl/"ioctl"> method and returns its return value.
 
 Exceptions:
 
-Exceptions thrown by the L<ioctl|SPVM::Sys::Ioctl/"ioctl"> method or the L<ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method in the L<Sys::Ioctl|SPVM::Sys::Ioctl> class could be thrown.
+Exceptions thrown by the L<Sys::Ioctl#ioctl|SPVM::Sys::Ioctl/"ioctl"> method or L<Sys::Ioctl#ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method could be thrown.
 
 =head2 A
 
