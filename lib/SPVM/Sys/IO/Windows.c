@@ -579,7 +579,7 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   errno = 0;
   int32_t placed_length = win32_readlink(path, buf, bufsiz);
   if (placed_length == -1) {
-    env->die(env, stack, "[System Error]readlink() failed.%s. The reading of the symbolic link of the \"%s\" file() failed., env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]readlink() failed.%s. $path is \"%s\".", env->strerror(env, stack, errno, 0), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
