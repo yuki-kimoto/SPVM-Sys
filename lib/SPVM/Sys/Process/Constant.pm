@@ -8,7 +8,7 @@ SPVM::Sys::Process::Constant - Constant Values for Process Manipulation
 
 =head1 Description
 
-The Sys::Process::Constant class in L<SPVM> has methods to get constant values for process manipulation.
+Sys::Process::Constant class in L<SPVM> has methods to get constant values for process manipulation.
 
 =head1 Usage
 

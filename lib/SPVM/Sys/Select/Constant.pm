@@ -8,7 +8,7 @@ SPVM::Sys::Select::Constant - Constant Values for Select.
 
 =head1 Description
 
-The Sys::Select::Constant class in L<SPVM> has methods to get constant values for the select system call.
+Sys::Select::Constant class in L<SPVM> has methods to get constant values for the select system call.
 
 =head1 Usage
 

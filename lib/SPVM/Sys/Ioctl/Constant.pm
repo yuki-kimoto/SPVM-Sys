@@ -8,7 +8,7 @@ SPVM::Sys::Ioctl::Constant - Constant Values for The ioctl Function.
 
 =head1 Description
 
-The Sys::Ioctl::Constant class in L<SPVM> has methods to get constant values for the L<ioctl|https://linux.die.net/man/2/ioctl> function.
+Sys::Ioctl::Constant class in L<SPVM> has methods to get constant values for the L<ioctl|https://linux.die.net/man/2/ioctl> function.
 
 =head1 Usage
 

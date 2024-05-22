@@ -8,7 +8,7 @@ SPVM::Sys::Socket - System Calls for Sockets
 
 =head1 Description
 
-The Sys::Socket class in L<SPVM> has methods to call system calls for sockets.
+Sys::Socket class in L<SPVM> has methods to call system calls for sockets.
 
 =head1 Usage
   

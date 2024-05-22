@@ -8,7 +8,7 @@ SPVM::Sys::Poll::PollfdArray - Array of C<struct pollfd> in the C language
 
 =head1 Description
 
-The Sys::Poll::PollfdArray class in L<SPVM> represents the array of C<struct pollfd> in the C language.
+Sys::Poll::PollfdArray class in L<SPVM> represents the array of C<struct pollfd> in the C language.
 
 =head1 Usage
 

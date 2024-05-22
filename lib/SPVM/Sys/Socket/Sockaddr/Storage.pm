@@ -8,7 +8,7 @@ SPVM::Sys::Socket::Sockaddr::Storage - struct sockaddr_storage in the C language
 
 =head1 Description
 
-The Sys::Socket::Sockaddr::Storage class in L<SPVM> represents L<struct sockaddr_storage|https://linux.die.net/man/7/socket> in the C language.
+Sys::Socket::Sockaddr::Storage class in L<SPVM> represents L<struct sockaddr_storage|https://linux.die.net/man/7/socket> in the C language.
 
 =head1 Usage
 

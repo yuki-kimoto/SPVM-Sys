@@ -10,7 +10,7 @@ SPVM::Sys - System Calls for File IO, Sockets, Time, Process, Signals, Users
 
 =head1 Description
 
-The Sys class in L<SPVM> has methods to call system calls for file IO, sockets, user manipulation, process manipulation, and time.
+Sys class in L<SPVM> has methods to call system calls for file IO, sockets, user manipulation, process manipulation, and time.
 
 =head1 Usage
 

@@ -10,7 +10,7 @@ SPVM::Sys::Socket::Util - Socket Utilities
 
 =head1 Description
 
-The Sys::Socket::Util class in L<SPVM> has methods for socket utilities.
+Sys::Socket::Util class in L<SPVM> has methods for socket utilities.
 
 =head1 Usage
 

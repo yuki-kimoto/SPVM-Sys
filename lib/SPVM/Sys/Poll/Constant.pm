@@ -8,7 +8,7 @@ SPVM::Sys::Poll::Constant - Constant Values for The poll System Call
 
 =head1 Description
 
-The Sys::Poll::Constant class in L<SPVM> has methods to get constant values for the poll system call.
+Sys::Poll::Constant class in L<SPVM> has methods to get constant values for the poll system call.
 
 =head1 Usage
 

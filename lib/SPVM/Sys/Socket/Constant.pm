@@ -8,7 +8,7 @@ SPVM::Sys::Socket::Constant - Sockets Constant Values
 
 =head1 Description
 
-The Sys::Socket::Constant class in L<SPVM> has methods to get constant values for sockets.
+Sys::Socket::Constant class in L<SPVM> has methods to get constant values for sockets.
 
 =head1 Usage
 

@@ -8,7 +8,7 @@ SPVM::Sys::Socket::Sockaddr::Un - struct sockaddr_un in the C language
 
 =head1 Description
 
-The Sys::Socket::Sockaddr::Un class in L<SPVM> represents L<struct sockaddr_un|https://linux.die.net/man/7/unix> in the C language.
+Sys::Socket::Sockaddr::Un class in L<SPVM> represents L<struct sockaddr_un|https://linux.die.net/man/7/unix> in the C language.
 
 =head1 Usage
 
