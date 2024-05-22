@@ -73,7 +73,7 @@ $stream_ref must be defined. Otherwise an exception is thrown.
 
 The length of $stream_ref must be equal to 1. Otherwise an exception is thrown.
 
-Exceptions thrown by the L<fopen|SPVM::Sys::IO/"fopen"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#fopen|SPVM::Sys::IO/"fopen"> method could be thrown.
 
 =head2 fdopen
 
@@ -89,7 +89,7 @@ Return the file descriptor of the file stream $stream.
 
 Exceptions:
 
-Exceptions thrown by the L<fileno|SPVM::Sys::IO/"fileno"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#fileno|SPVM::Sys::IO/"fileno"> method could be thrown.
 
 =head2 read
 
@@ -99,7 +99,7 @@ Reads data from the file stream $stream by the $length, and saves it to the buff
 
 Exceptions:
 
-Exceptions thrown by the L<fread|SPVM::Sys::IO/"fread"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#fread|SPVM::Sys::IO/"fread"> method could be thrown.
 
 =head2 eof
 
@@ -111,7 +111,7 @@ If it does, returns 1, otherwise returns 0.
 
 Exceptions:
 
-Exceptions thrown by the L<feof|SPVM::Sys::IO/"feof"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#feof|SPVM::Sys::IO/"feof"> method could be thrown.
 
 =head2 readline
 
@@ -133,7 +133,7 @@ Gets a charactor from the file stream $stream and returns it.
 
 Exceptions:
 
-Exceptions thrown by the L<getc|SPVM::Sys::IO/"getc"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#getc|SPVM::Sys::IO/"getc"> method could be thrown.
 
 =head2 print
 
@@ -143,7 +143,7 @@ Prints the string $string to the file stream $stream.
 
 Exceptions:
 
-Exceptions thrown by the L<fwrite|SPVM::Sys::IO/"fwrite"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#fwrite|SPVM::Sys::IO/"fwrite"> method could be thrown.
 
 =head2 printf
 
@@ -171,7 +171,7 @@ Closes the file stream $stream.
 
 Exceptions:
 
-Exceptions thrown by the L<fclose|SPVM::Sys::IO/"fclose"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#fclose|SPVM::Sys::IO/"fclose"> method could be thrown.
 
 =head2 seek
 
@@ -183,7 +183,7 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-Exceptions thrown by the L<fseek|SPVM::Sys::IO/"fseek"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#fseek|SPVM::Sys::IO/"fseek"> method could be thrown.
 
 =head2 tell
 
@@ -193,7 +193,7 @@ Returns the read/write position pointed to by the file stream $stream.
 
 Exceptions:
 
-Exceptions thrown by the L<ftell|SPVM::Sys::IO/"ftell"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#ftell|SPVM::Sys::IO/"ftell"> method could be thrown.
 
 =head2 sysopen
 
@@ -207,7 +207,7 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-Exceptions thrown by the L<open|SPVM::Sys::IO/"open"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#open|SPVM::Sys::IO/"open"> method could be thrown.
 
 =head2 sysread
 
@@ -217,7 +217,7 @@ Reads data from the file stream $stream by the $length, and saves it to the buff
 
 Exceptions:
 
-Exceptions thrown by the L<read|SPVM::Sys::IO/"read"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#read|SPVM::Sys::IO/"read"> method could be thrown.
 
 =head2 syswrite
 
@@ -227,7 +227,7 @@ Writes data to the file stream $stream by the $length from the buffer $buf at of
 
 Exceptions:
 
-Exceptions thrown by the L<write|SPVM::Sys::IO/"write"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#write|SPVM::Sys::IO/"write"> method could be thrown.
 
 =head2 sysseek
 
@@ -239,17 +239,17 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-Exceptions thrown by the L<lseek|SPVM::Sys::IO/"lseek"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#lseek|SPVM::Sys::IO/"lseek"> method could be thrown.
 
 =head2 fcntl
 
 C<static method fcntl : int ($fd : int, $command : int, $command_arg : object of Int|SPVM::Sys::IO::Flock|object = undef);>
 
-Calls the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the Sys::IO class and its return value.
+Calls L<Sys::IO#fcntl|SPVM::Sys::IO/"fcntl"> method and its return value.
 
 Exceptions:
 
-Exceptions thrown by the L<fcntl|SPVM::Sys::IO/"fcntl"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#fcntl|SPVM::Sys::IO/"fcntl"> method could be thrown.
 
 =head2 flock
 
@@ -261,7 +261,7 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-Exceptions thrown by the L<flock|SPVM::Sys::IO/"flock"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#flock|SPVM::Sys::IO/"flock"> method could be thrown.
 
 =head2 mkdir
 
@@ -275,7 +275,7 @@ In Windows, the mode $mode is ignored.
 
 Exceptions:
 
-Exceptions thrown by the L<mkdir|SPVM::Sys::IO/"mkdir"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#mkdir|SPVM::Sys::IO/"mkdir"> method could be thrown.
 
 =head2 umask
 
@@ -285,7 +285,7 @@ Sets the umask for the process to the mode $mode and returns the previous value.
 
 Exceptions:
 
-Exceptions thrown by the L<umask|SPVM::Sys::IO/"umask"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#umask|SPVM::Sys::IO/"umask"> method could be thrown.
 
 =head2 unlink
 
@@ -293,11 +293,11 @@ C<static method unlink : void ($pathname : string);>
 
 Deletes a file.
 
-In Windows, this method calls the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method in the Sys::IO::Windows, otherwise calls the L<unlink|SPVM::Sys::IO/"unlink"> method in the Sys::IO class.
+In Windows, this method calls the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method in the Sys::IO::Windows, otherwise calls L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method or the L<unlink|SPVM::Sys::IO/"unlink"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method or L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method could be thrown.
 
 =head2 rename
 
@@ -305,11 +305,11 @@ C<static method rename : void ($oldpath : string, $newpath : string);>
 
 Raname the file name from the old name $oldpath to the new name $newpath.
 
-In Windows, this method calls the L<rename|SPVM::Sys::IO::Windows/"rename"> method in the Sys::IO::Windows, otherwise calls the L<rename|SPVM::Sys::IO/"rename"> method in the Sys::IO class.
+In Windows, this method calls the L<rename|SPVM::Sys::IO::Windows/"rename"> method in the Sys::IO::Windows, otherwise calls L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<rename|SPVM::Sys::IO::Windows/"rename"> method or the L<rename|SPVM::Sys::IO/"rename"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<rename|SPVM::Sys::IO::Windows/"rename"> method or L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method could be thrown.
 
 =head2 rmdir
 
@@ -319,7 +319,7 @@ Deletes the directory given the path $path.
 
 Exceptions:
 
-Exceptions thrown by the L<rmdir|SPVM::Sys::IO/"rmdir"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#rmdir|SPVM::Sys::IO/"rmdir"> method could be thrown.
 
 =head2 chdir
 
@@ -329,7 +329,7 @@ Changes the working directory to the path $path.
 
 Exceptions:
 
-Exceptions thrown by the L<chdir|SPVM::Sys::IO/"chdir"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#chdir|SPVM::Sys::IO/"chdir"> method could be thrown.
 
 =head2 chmod
 
@@ -339,7 +339,7 @@ Changes the permissions of the file $path to the permission $mode.
 
 Exceptions:
 
-Exceptions thrown by the L<chmod|SPVM::Sys::IO/"chmod"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#chmod|SPVM::Sys::IO/"chmod"> method could be thrown.
 
 =head2 chown
 
@@ -349,7 +349,7 @@ Changes the owner and the group of the file $path to $owner and $group.
 
 Exceptions:
 
-Exceptions thrown by the L<chown|SPVM::Sys::IO/"chown"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#chown|SPVM::Sys::IO/"chown"> method could be thrown.
 
 =head2 readlink
 
@@ -361,7 +361,7 @@ In Windows thie method calls the L<readlink|SPVM::Sys::IO::Windows/"readlink"> m
 
 Exceptions:
 
-Exceptions thrown by the L<readlink|SPVM::Sys::IO/"readlink"> method in the Sys::IO or the L<readlink|SPVM::Sys::IO::Windows/"readlink"> method in the Sys::IO::Windows class could be thrown.
+Exceptions thrown by the L<readlink|SPVM::Sys::IO/"readlink"> method in the Sys::IO or L<Sys::IO::Windows#readlink|SPVM::Sys::IO::Windows/"readlink"> method could be thrown.
 
 =head2 symlink
 
@@ -373,7 +373,7 @@ In Windows thie method calls the L<symlink|SPVM::Sys::IO::Windows/"symlink"> met
 
 Exceptions:
 
-Exceptions thrown by the L<symlink|SPVM::Sys::IO/"symlink"> method in the Sys::IO or the L<symlink|SPVM::Sys::IO::Windows/"symlink"> method in the Sys::IO::Windows class could be thrown.
+Exceptions thrown by the L<symlink|SPVM::Sys::IO/"symlink"> method in the Sys::IO or L<Sys::IO::Windows#symlink|SPVM::Sys::IO::Windows/"symlink"> method could be thrown.
 
 =head2 truncate
 
@@ -383,7 +383,7 @@ Truncates the file referenced by the file descriptor $fd to a size of precisely 
 
 Exceptions:
 
-Exceptions thrown by the L<ftruncate|SPVM::Sys::IO/"ftruncate"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#ftruncate|SPVM::Sys::IO/"ftruncate"> method could be thrown.
 
 =head2 opendir
 
@@ -395,7 +395,7 @@ The opened directory stream is set to $dh_ref at index 0.
 
 Exceptions:
 
-Exceptions thrown by the L<opendir|SPVM::Sys::IO/"opendir"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#opendir|SPVM::Sys::IO/"opendir"> method could be thrown.
 
 =head2 closedir
 
@@ -405,7 +405,7 @@ Closes the directory stream given the directory $dstream.
 
 Exceptions:
 
-Exceptions thrown by the L<closedir|SPVM::Sys::IO/"closedir"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#closedir|SPVM::Sys::IO/"closedir"> method could be thrown.
 
 =head2 readdir
 
@@ -415,7 +415,7 @@ Reads a directory entry from the dirctory stream $dstream.
 
 Exceptions:
 
-Exceptions thrown by the L<readdir|SPVM::Sys::IO/"readdir"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#readdir|SPVM::Sys::IO/"readdir"> method could be thrown.
 
 =head2 rewinddir
 
@@ -425,7 +425,7 @@ Resets the position of the directory stream $dstream to the beginning of the dir
 
 Exceptions:
 
-Exceptions thrown by the L<rewinddir|SPVM::Sys::IO/"rewinddir"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#rewinddir|SPVM::Sys::IO/"rewinddir"> method could be thrown.
 
 =head2 telldir
 
@@ -435,7 +435,7 @@ Returns the current location associated with the directory stream $dstream.
 
 Exceptions:
 
-Exceptions thrown by the L<telldir|SPVM::Sys::IO/"telldir"> method in the Sys::IO class could be thrown.
+Exceptions thrown by L<Sys::IO#telldir|SPVM::Sys::IO/"telldir"> method could be thrown.
 
 =head2 popen
 
@@ -455,7 +455,7 @@ If the system supports C<FD_CLOEXEC>, this flag is set to the opened file's file
 
 Exceptions:
 
-Exceptions thrown by the L<popen|SPVM::Sys::IO/"popen"> method in the Sys::IO or the L<_popen|SPVM::Sys::IO/"_popen"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<popen|SPVM::Sys::IO/"popen"> method in the Sys::IO or L<Sys::IO#_popen|SPVM::Sys::IO/"_popen"> method could be thrown.
 
 =head2 pclose
 
@@ -465,13 +465,13 @@ Closes the file stream $stream created by the L</"popen"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<pclose|SPVM::Sys::IO/"pclose"> method in the Sys::IO or the L<_pclose|SPVM::Sys::IO/"_pclose"> method in the Sys::IO class could be thrown.
+Exceptions thrown by the L<pclose|SPVM::Sys::IO/"pclose"> method in the Sys::IO or L<Sys::IO#_pclose|SPVM::Sys::IO/"_pclose"> method could be thrown.
 
 =head2 select
 
 C<static method select : int ($readfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $writefds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $exceptfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $timeout : double = 0);>
 
-Calls the L<select|SPVM::Sys::Select/"select"> method in the Sys::Select class and returns its return value.
+Calls L<Sys::Select#select|SPVM::Sys::Select/"select"> method and returns its return value.
 
 If $timeout is greter than or equal to 0, it is converted to a L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object. Otherwise is converted to undef.
 
@@ -863,7 +863,7 @@ If $atime < 0 and $mtime < 0, changes the access time and the modification time 
 
 Exceptions:
 
-Exceptions thrown by the L<utime|SPVM::Sys::Time/"utime"> method in the Sys::Time class could be thrown.
+Exceptions thrown by L<Sys::Time#utime|SPVM::Sys::Time/"utime"> method could be thrown.
 
 =head2 stat
 
@@ -873,7 +873,7 @@ Returns information about a file $path.
 
 Exceptions:
 
-Exceptions thrown by the L<stat|SPVM::Sys::IO::Stat/"stat"> method in the Sys::IO::Stat class could be thrown.
+Exceptions thrown by L<Sys::IO::Stat#stat|SPVM::Sys::IO::Stat/"stat"> method could be thrown.
 
 =head2 lstat
 
@@ -885,7 +885,7 @@ In Windows, this method calls the L<lstat|SPVM::Sys::IO::Windows/"lstat"> method
 
 Exceptions:
 
-Exceptions thrown by the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method in the Sys::IO::Stat class or the L<lstat|SPVM::Sys::IO::Windows/"lstat"> method in the Sys::IO::Windows class could be thrown.
+Exceptions thrown by L<Sys::IO::Stat#lstat|SPVM::Sys::IO::Stat/"lstat"> method or L<Sys::IO::Windows#lstat|SPVM::Sys::IO::Windows/"lstat"> method could be thrown.
 
 =head2 fstat
 
@@ -895,7 +895,7 @@ Identical to L</"stat">, except that the file to be stat-ed is specified by the 
 
 Exceptions:
 
-Exceptions thrown by the L<fstat|SPVM::Sys::IO::Stat/"fstat"> method in the Sys::IO::Stat class could be thrown.
+Exceptions thrown by L<Sys::IO::Stat#fstat|SPVM::Sys::IO::Stat/"fstat"> method could be thrown.
 
 =head2 env
 
@@ -959,13 +959,13 @@ Opens a socket given the domain $domain, the type $type, and the protocal $proto
 
 The created socket file descriptor is set to the value referenced by $sockfd_ref.
 
-This method calls the L<socket|SPVM::Sys::Socket/"socket"> method in the Sys::Socket class.
+This method calls L<Sys::Socket#socket|SPVM::Sys::Socket/"socket"> method.
 
 If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $sockfd_ref using L</"fcntl">.
 
 Exceptions:
 
-Exceptions thrown by the L<socket|SPVM::Sys::Socket/"socket"> method in the Sys::Socket class could be thrown.
+Exceptions thrown by L<Sys::Socket#socket|SPVM::Sys::Socket/"socket"> method could be thrown.
 
 =head2 connect
 
@@ -973,11 +973,11 @@ C<static method connect : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|S
 
 Attempts to connect to a remote socket, just like the C<connect> system call.
 
-This method calls the L<connect|SPVM::Sys::Socket/"connect"> method in the Sys::Socket class.
+This method calls L<Sys::Socket#connect|SPVM::Sys::Socket/"connect"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<connect|SPVM::Sys::Socket/"connect"> method in the Sys::Socket class could be thrown.
+Exceptions thrown by L<Sys::Socket#connect|SPVM::Sys::Socket/"connect"> method could be thrown.
 
 =head2 bind
 
@@ -985,7 +985,7 @@ C<static method bind : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM
 
 Binds a network address $addr to the socket $sockfd.
 
-This method calls the L<bind|SPVM::Sys::Socket/"bind"> method in the Sys::Socket class.
+This method calls L<Sys::Socket#bind|SPVM::Sys::Socket/"bind"> method.
 
 Exceptions:
 
@@ -997,7 +997,7 @@ C<static method listen : void ($sockfd : int, $backlog : int);>
 
 Does the same thing that the C<listen> system call does.
 
-This method calls the L<listen|SPVM::Sys::Socket/"listen"> method in the Sys::Socket class.
+This method calls L<Sys::Socket#listen|SPVM::Sys::Socket/"listen"> method.
 
 Exceptions:
 
@@ -1011,7 +1011,7 @@ Accepts an incoming socket connect, just as the C<accept> system call does. Retu
 
 A new connected socket file descriptor is set to the value referenced by $new_sockfd_ref.
 
-Thie methods calls the L<accept|SPVM::Sys::Socket/"accept"> method in the Sys::Socket class.
+Thie methods calls L<Sys::Socket#accept|SPVM::Sys::Socket/"accept"> method.
 
 The returned packed address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
 
@@ -1027,7 +1027,7 @@ C<static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $f
 
 Receives a message on a socket.
 
-This method calls the L<recv|SPVM::Sys::Socket/"recv"> method in the Sys::Socket class.
+This method calls L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method.
 
 Exceptions:
 
@@ -1041,7 +1041,7 @@ Sends a message on a socket.
 
 If $len is less than 0, The length of $buffer is set to $len.
 
-If $addr is undef, This method calls the L<send|SPVM::Sys::Socket/"send"> method in the Sys::Socket class, otherwise calls the L<sendto|SPVM::Sys::Socket/"sendto"> method in the Sys::Socket class.
+If $addr is undef, This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method, otherwise calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method.
 
 Exceptions:
 
@@ -1053,7 +1053,7 @@ C<static method shutdown : void ($sockfd : int, $how : int);>
 
 Shuts down a socket  connection $sockfd in the manner indicated by $how.
 
-This method calls the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the Sys::Socket class.
+This method calls L<Sys::Socket#shutdown|SPVM::Sys::Socket/"shutdown"> method.
 
 Exceptions:
 
@@ -1065,7 +1065,7 @@ C<static method getpeername : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockadd
 
 Returns the packed sockaddr address of the other end of the socket connection $sockfd.
 
-This method calls the L<getpeername|SPVM::Sys::Socket/"getpeername"> method in the Sys::Socket class.
+This method calls L<Sys::Socket#getpeername|SPVM::Sys::Socket/"getpeername"> method.
 
 The returned packed sockaddr address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
 
@@ -1079,7 +1079,7 @@ C<static method getsockname : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockadd
 
 Returns the packed sockaddr address of this end of the socket connection $sockfd.
             
-Thie method calls the L<getsockname|SPVM::Sys::Socket/"getsockname"> method in the Sys::Socket class.
+Thie method calls L<Sys::Socket#getsockname|SPVM::Sys::Socket/"getsockname"> method.
 
 The returned packed sockaddr address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
 
@@ -1113,7 +1113,7 @@ C<static method setsockopt : void ($sockfd : int, $level : int, $optname : int, 
 
 Sets the socket option requested.
 
-This method calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the Sys::Socket class.
+This method calls L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> method.
 
 Exceptions:
 
@@ -1129,7 +1129,7 @@ C<static method getsockopt : string ($sockfd : int, $level : int, $optname : int
 
 If $optlen is less than 0, it is set to 4.
 
-This method calls the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the Sys::Socket class.
+This method calls L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> method.
 
 Examples:
 
@@ -1154,13 +1154,13 @@ If $handler_name is "DEFAULT", the signal handler is L<"SIG_DFL"|SPVM::Sys::Sign
 
 If $handler_name is "IGNORE", the signal handler is L<"SIG_IGN"|SPVM::Sys::Signal/"SIG_IGN">.
 
-See the L<signal|SPVM::Sys::Signal/"signal"> method in the Sys::Signal class in detail.
+See L<Sys::Signal#signal|SPVM::Sys::Signal/"signal"> method in detail.
 
 Exceptions:
 
 If $handler_name is not available, an exception is thrown.
 
-The exceptions thrown by the L<signal|SPVM::Sys::Signal/"signal"> method in the Sys::Signal class could be thrown.
+The exceptions thrown by L<Sys::Signal#signal|SPVM::Sys::Signal/"signal"> method could be thrown.
 
 =head2 kill
 
@@ -1168,15 +1168,15 @@ C<static method kill : void ($sig : int, $pid : int);>
 
 Send a signal $sig to the process whose process ID is $pid.
 
-See the L<kill|SPVM::Sys::Signal/"kill"> method in the Sys::Signal class in detail.
+See L<Sys::Signal#kill|SPVM::Sys::Signal/"kill"> method in detail.
 
-In Windows, see the L<raise|SPVM::Sys::Signal/"raise"> method in the Sys::Signal class in detail.
+In Windows, see L<Sys::Signal#raise|SPVM::Sys::Signal/"raise"> method in detail.
 
 Exceptions:
 
-The exceptions thrown by the L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class could be thrown.
+The exceptions thrown by L<Sys::Signal#alarm|SPVM::Sys::Signal/"alarm"> method could be thrown.
 
-The exceptions thrown by the L<raise|SPVM::Sys::Signal/"raise"> method in the Sys::Signal class could be thrown.
+The exceptions thrown by L<Sys::Signal#raise|SPVM::Sys::Signal/"raise"> method could be thrown.
 
 $pid must be equal to Sys->process_id in Windows. Otherwise an exception is thrown.
 
@@ -1190,19 +1190,19 @@ See L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class in detail
 
 Exceptions:
 
-The exceptions thrown by the L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class could be thrown.
+The exceptions thrown by L<Sys::Signal#alarm|SPVM::Sys::Signal/"alarm"> method could be thrown.
 
 =head2 fork
 
 C<static method fork : int ();>
 
-Forks the process by calling the L<fork|SPVM::Sys::Process/"fork"> method in the Sys::Process class.
+Forks the process by calling L<Sys::Process#fork|SPVM::Sys::Process/"fork"> method.
 
 It returns the child process ID to the parent process, or returns 0 to the child process.
 
 Exceptions:
 
-Exceptions thrown by the L<fork|SPVM::Sys::Process/"fork"> method in the Sys::Process class could be thrown.
+Exceptions thrown by L<Sys::Process#fork|SPVM::Sys::Process/"fork"> method could be thrown.
 
 =head2 getpriority
 
@@ -1212,7 +1212,7 @@ Return the scheduling priority of the process, process group, or user, as indica
 
 Exceptions:
 
-Exceptions thrown by the L<getpriority|SPVM::Sys::Process/"getpriority"> method in the Sys::Process class could be thrown.
+Exceptions thrown by L<Sys::Process#getpriority|SPVM::Sys::Process/"getpriority"> method could be thrown.
 
 =head2 setpriority
 
@@ -1222,7 +1222,7 @@ Sets the scheduling priority of the process, process group, or user, as indicate
 
 Exceptions:
 
-Exceptions thrown by the L<setpriority|SPVM::Sys::Process/"setpriority"> method in the Sys::Process class could be thrown.
+Exceptions thrown by L<Sys::Process#setpriority|SPVM::Sys::Process/"setpriority"> method could be thrown.
 
 =head2 sleep
 
@@ -1264,7 +1264,7 @@ The following method in the Sys::Process class checks the value of $wstatus_ref.
 
 Exceptions:
 
-Exceptions thrown by the L<wait|SPVM::Sys::Process/"wait"> method in the Sys::Process class could be thrown.
+Exceptions thrown by L<Sys::Process#wait|SPVM::Sys::Process/"wait"> method could be thrown.
 
 =head2 waitpid
 
@@ -1276,7 +1276,7 @@ See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> about constant values
 
 Exceptions:
 
-Exceptions thrown by the L<waitpid|SPVM::Sys::Process/"waitpid"> method in the Sys::Process class could be thrown.
+Exceptions thrown by L<Sys::Process#waitpid|SPVM::Sys::Process/"waitpid"> method could be thrown.
 
 =head2 system
 
