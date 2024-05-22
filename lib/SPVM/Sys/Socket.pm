@@ -197,7 +197,7 @@ C<static method close : int ($fd : int);>
 
 Calls the L</"closesocket"> method in Windows.
 
-Calls the L<close|Sys::IO/"close"> method in the the Sys::IO class in other OSs.
+Calls L<the#close|SPVM::the/"close"> method Sys::IO class in other OSs.
 
 =head2 recv
 

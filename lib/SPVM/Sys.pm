@@ -361,7 +361,7 @@ In Windows thie method calls the L<readlink|SPVM::Sys::IO::Windows/"readlink"> m
 
 Exceptions:
 
-Exceptions thrown by the L<readlink|SPVM::Sys::IO/"readlink"> method in the Sys::IO or L<Sys::IO::Windows#readlink|SPVM::Sys::IO::Windows/"readlink"> method could be thrown.
+Exceptions thrown by L<Sys::IO#readlink|SPVM::Sys::IO/"readlink"> method or L<Sys::IO::Windows#readlink|SPVM::Sys::IO::Windows/"readlink"> method could be thrown.
 
 =head2 symlink
 
@@ -373,7 +373,7 @@ In Windows thie method calls the L<symlink|SPVM::Sys::IO::Windows/"symlink"> met
 
 Exceptions:
 
-Exceptions thrown by the L<symlink|SPVM::Sys::IO/"symlink"> method in the Sys::IO or L<Sys::IO::Windows#symlink|SPVM::Sys::IO::Windows/"symlink"> method could be thrown.
+Exceptions thrown by L<Sys::IO#symlink|SPVM::Sys::IO/"symlink"> method or L<Sys::IO::Windows#symlink|SPVM::Sys::IO::Windows/"symlink"> method could be thrown.
 
 =head2 truncate
 
@@ -455,7 +455,7 @@ If the system supports C<FD_CLOEXEC>, this flag is set to the opened file's file
 
 Exceptions:
 
-Exceptions thrown by the L<popen|SPVM::Sys::IO/"popen"> method in the Sys::IO or L<Sys::IO#_popen|SPVM::Sys::IO/"_popen"> method could be thrown.
+Exceptions thrown by L<Sys::IO#popen|SPVM::Sys::IO/"popen"> method or L<Sys::IO#_popen|SPVM::Sys::IO/"_popen"> method could be thrown.
 
 =head2 pclose
 
@@ -465,7 +465,7 @@ Closes the file stream $stream created by the L</"popen"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<pclose|SPVM::Sys::IO/"pclose"> method in the Sys::IO or L<Sys::IO#_pclose|SPVM::Sys::IO/"_pclose"> method could be thrown.
+Exceptions thrown by L<Sys::IO#pclose|SPVM::Sys::IO/"pclose"> method or L<Sys::IO#_pclose|SPVM::Sys::IO/"_pclose"> method could be thrown.
 
 =head2 select
 
@@ -479,7 +479,7 @@ $nfds is set to 1024.
 
 Exceptions:
 
-Exceptions thrown by the L<select|SPVM::Sys::Select/"select"> method in the Sys::Select method could be thrown.
+Exceptions thrown by L<Sys::Select#select|SPVM::Sys::Select/"select"> method method could be thrown.
 
 =head2 ioctl
 
@@ -989,7 +989,7 @@ This method calls L<Sys::Socket#bind|SPVM::Sys::Socket/"bind"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<bind|SPVM::Sys::Socket/"bind"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#bind|SPVM::Sys::Socket/"bind"> method could be thrown.
 
 =head2 listen
 
@@ -1001,7 +1001,7 @@ This method calls L<Sys::Socket#listen|SPVM::Sys::Socket/"listen"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<listen|SPVM::Sys::Socket/"listen"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#listen|SPVM::Sys::Socket/"listen"> method could be thrown.
 
 =head2 accept
 
@@ -1019,7 +1019,7 @@ If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced b
 
 Exceptions:
 
-Exceptions thrown by the L<accept|SPVM::Sys::Socket/"accept"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#accept|SPVM::Sys::Socket/"accept"> method could be thrown.
 
 =head2 recv
 
@@ -1031,7 +1031,7 @@ This method calls L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<recv|SPVM::Sys::Socket/"recv"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method could be thrown.
 
 =head2 send
 
@@ -1045,7 +1045,7 @@ If $addr is undef, This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"
 
 Exceptions:
 
-Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or the L<sendto|SPVM::Sys::Socket/"sendto"> method in the Sys::Socket could be thrown.
+Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method could be thrown.
 
 =head2 shutdown
 
@@ -1057,7 +1057,7 @@ This method calls L<Sys::Socket#shutdown|SPVM::Sys::Socket/"shutdown"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<shutdown|SPVM::Sys::Socket/"shutdown"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#shutdown|SPVM::Sys::Socket/"shutdown"> method could be thrown.
 
 =head2 getpeername
 
@@ -1071,7 +1071,7 @@ The returned packed sockaddr address is upgraded to a child class of the L<Sys::
 
 Exceptions:
 
-Exceptions thrown by the L<getpeername|SPVM::Sys::Socket/"getpeername"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#getpeername|SPVM::Sys::Socket/"getpeername"> method could be thrown.
 
 =head2 getsockname
 
@@ -1085,7 +1085,7 @@ The returned packed sockaddr address is upgraded to a child class of the L<Sys::
 
 Exceptions:
 
-Exceptions thrown by the L<getsockname|SPVM::Sys::Socket/"getsockname"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#getsockname|SPVM::Sys::Socket/"getsockname"> method could be thrown.
 
 =head2 socketpair
 
@@ -1105,7 +1105,7 @@ If available, C<FD_CLOEXEC> is set to the file descriptor of the value reference
 
 Exceptions:
 
-Exceptions thrown by the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#socketpair|SPVM::Sys::Socket/"socketpair"> method could be thrown.
 
 =head2 setsockopt
 
@@ -1121,7 +1121,7 @@ $optval must be defined. Otherwise an exception is thrown.
 
 The type of \$optval must be the Int or string type.
 
-Exceptions thrown by the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> method could be thrown.
 
 =head2 getsockopt
 
@@ -1142,7 +1142,7 @@ Getting an int value:
 
 Exceptions:
 
-Exceptions thrown by the L<getsockopt|SPVM::Sys::Socket/"getsockopt"> method in the Sys::Socket could be thrown.
+Exceptions thrown by L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> method could be thrown.
 
 =head2 signal
 
