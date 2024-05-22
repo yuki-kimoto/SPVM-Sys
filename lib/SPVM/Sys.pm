@@ -293,11 +293,11 @@ C<static method unlink : void ($pathname : string);>
 
 Deletes a file.
 
-In Windows, this method calls the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method in the Sys::IO::Windows, otherwise calls L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method.
+In Windows, this method calls L<Sys::IO::Windows#unlink|SPVM::Sys::IO::Windows/"unlink"> method , otherwise calls L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<unlink|SPVM::Sys::IO::Windows/"unlink"> method or L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method could be thrown.
+Exceptions thrown by the L<Sys::IO::Windows#unlink|SPVM::Sys::IO::Windows/"unlink"> method or L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method could be thrown.
 
 =head2 rename
 
@@ -305,11 +305,11 @@ C<static method rename : void ($oldpath : string, $newpath : string);>
 
 Raname the file name from the old name $oldpath to the new name $newpath.
 
-In Windows, this method calls the L<rename|SPVM::Sys::IO::Windows/"rename"> method in the Sys::IO::Windows, otherwise calls L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method.
+In Windows, this method calls L<Sys::IO::Windows#rename|SPVM::Sys::IO::Windows/"rename"> method , otherwise calls L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method.
 
 Exceptions:
 
-Exceptions thrown by the L<rename|SPVM::Sys::IO::Windows/"rename"> method or L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method could be thrown.
+Exceptions thrown by the L<Sys::IO::Windows#rename|SPVM::Sys::IO::Windows/"rename"> method or L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method could be thrown.
 
 =head2 rmdir
 
@@ -357,7 +357,7 @@ C<static method readlink : int ($file : string);>
 
 Returns the content of the symbolic link file $file.
 
-In Windows thie method calls the L<readlink|SPVM::Sys::IO::Windows/"readlink"> method in the Sys::IO::Windows, otherwise calls the L<readlink|SPVM::Sys::IO/"readlink"> method in the Sys::IO.
+In Windows thie method calls L<Sys::IO::Windows#readlink|SPVM::Sys::IO::Windows/"readlink"> method , otherwise calls L<Sys::IO#readlink|SPVM::Sys::IO/"readlink"> method .
 
 Exceptions:
 
@@ -369,7 +369,7 @@ C<static method symlink : int ($oldpath : string, $newpath : string);>
 
 Creates a path $newpath symbolically linked to the path $oldpath.
 
-In Windows thie method calls the L<symlink|SPVM::Sys::IO::Windows/"symlink"> method in the Sys::IO::Windows, otherwise calls the L<symlink|SPVM::Sys::IO/"symlink"> method in the Sys::IO.
+In Windows thie method calls L<Sys::IO::Windows#symlink|SPVM::Sys::IO::Windows/"symlink"> method , otherwise calls L<Sys::IO#symlink|SPVM::Sys::IO/"symlink"> method .
 
 Exceptions:
 
@@ -1099,7 +1099,7 @@ The opened reading file descripor is set to the value referenced by $sock_fd1_re
 
 The opened writing file descripor is set to the value referenced by $sock_fd2_ref.
 
-This method calls the L<socketpair|SPVM::Sys::Socket/"socketpair"> method in the Sys::Socket.
+This method calls L<Sys::Socket#socketpair|SPVM::Sys::Socket/"socketpair"> method .
 
 If available, C<FD_CLOEXEC> is set to the file descriptor of the value referenced by $sock_fd1_ref and the value referenced by $sock_fd2_ref.
 
