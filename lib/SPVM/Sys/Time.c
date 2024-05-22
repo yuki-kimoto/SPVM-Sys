@@ -90,7 +90,7 @@ int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = gettimeofday(st_tv, st_tz);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]gettimeofday failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]gettimeofday() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -104,7 +104,7 @@ int32_t SPVM__Sys__Time__clock(SPVM_ENV* env, SPVM_VALUE* stack) {
   int64_t cpu_time = clock();
   
   if (cpu_time == -1) {
-    env->die(env, stack, "[System Error]clock failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]clock() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -130,7 +130,7 @@ int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = clock_gettime(clk_id, st_tp);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]clock_gettime failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]clock_gettime() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -156,7 +156,7 @@ int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = clock_getres(clk_id, st_res);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]clock_getres failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]clock_getres() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -191,7 +191,7 @@ int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = setitimer(which, st_new_value, st_old_value);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]setitimer failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setitimer() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -222,7 +222,7 @@ int32_t SPVM__Sys__Time__getitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = getitimer(which, st_curr_value);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]getitimer failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getitimer() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -249,7 +249,7 @@ int32_t SPVM__Sys__Time__times(SPVM_ENV* env, SPVM_VALUE* stack) {
   int64_t clock_tick = times(st_tms);
   
   if (errno != 0) {
-    env->die(env, stack, "[System Error]times failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]times() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -295,7 +295,7 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t ret_errno = clock_nanosleep(clockid, flags, st_request, st_remain);
   
   if (ret_errno != 0) {
-    env->die(env, stack, "[System Error]clock_nanosleep failed:%s.", env->strerror(env, stack, ret_errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]clock_nanosleep() failed.%s.", env->strerror(env, stack, ret_errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -327,7 +327,7 @@ int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = nanosleep(st_rqtp, st_rmtp);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]nanosleep failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]nanosleep() failed.%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -357,7 +357,7 @@ int32_t SPVM__Sys__Time__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = utime(filename, st_times);
   if (status == -1) {
-    env->die(env, stack, "[System Error]utime failed:%s. The access and modification times of the \"%s\" file can't be changed", env->strerror(env, stack, errno, 0), filename, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]utime() failed.%s. The access and modification times of the \"%s\" file can't be changed", env->strerror(env, stack, errno, 0), filename, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -402,7 +402,7 @@ int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = utimes(filename, times);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]utimes failed:%s.", env->strerror(env, stack, errno, 0), filename, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]utimes() failed.%s.", env->strerror(env, stack, errno, 0), filename, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
