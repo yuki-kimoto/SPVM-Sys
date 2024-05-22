@@ -1186,7 +1186,7 @@ C<static method alarm : int ($seconds : int);>
 
 Sets a alarm signal sent after seconds $seconds.
 
-See L<alarm|SPVM::Sys::Signal/"alarm"> method in the Sys::Signal class in detail.
+See L<Sys::Signal#alarm|SPVM::Sys::Signal/"alarm"> method in detail.
 
 Exceptions:
 
@@ -1238,7 +1238,7 @@ Waits for state changes in a child of the calling process, and returns a process
 
 The status about the child whose state has changed is set to $wstatus_ref.
 
-The following method in the Sys::Process class checks the value of $wstatus_ref.
+The following methods in L<Sys::Process|SPVM::Sys::Process> class checks the value of $wstatus_ref.
 
 =over 2
 
