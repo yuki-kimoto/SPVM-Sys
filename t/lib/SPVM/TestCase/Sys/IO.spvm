@@ -7,7 +7,11 @@ class TestCase::Sys::IO {
   use Sys::Time;
   use Sys::IO::Flock;
   
+  static method TEST_DIR_FTEST : string () { return "t/ftest"; }
+  
   static method open : int ($test_dir : string, $tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$test_dir/ftest/file_empty.txt";
@@ -60,6 +64,8 @@ class TestCase::Sys::IO {
   }
 
   static method read : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
@@ -147,6 +153,8 @@ class TestCase::Sys::IO {
   }
 
   static method write : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$tmp_dir/foo.txt";
@@ -238,6 +246,8 @@ class TestCase::Sys::IO {
 
   static method lseek : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY);
@@ -313,6 +323,8 @@ class TestCase::Sys::IO {
 
   static method close : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_empty.txt";
       my $fd = Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC);
@@ -332,6 +344,8 @@ class TestCase::Sys::IO {
   }
   
   static method fileno : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$tmp_dir/foo.txt";
@@ -367,6 +381,8 @@ class TestCase::Sys::IO {
   }
   
   static method fopen : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$test_dir/ftest/file_empty.txt";
@@ -410,6 +426,8 @@ class TestCase::Sys::IO {
   }
   
   static method fdopen : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$test_dir/ftest/file_empty.txt";
@@ -456,6 +474,8 @@ class TestCase::Sys::IO {
   }
 
   static method fread : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
@@ -583,6 +603,8 @@ class TestCase::Sys::IO {
 
   static method feof : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -680,6 +702,8 @@ class TestCase::Sys::IO {
 
   static method ferror : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -731,6 +755,8 @@ class TestCase::Sys::IO {
 
   static method clearerr : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -777,6 +803,8 @@ class TestCase::Sys::IO {
   }
 
   static method getc : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
@@ -902,6 +930,8 @@ class TestCase::Sys::IO {
 
   static method fgets : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_new_lines.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -966,6 +996,8 @@ class TestCase::Sys::IO {
   }
   
   static method fwrite : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       {
@@ -1188,6 +1220,8 @@ class TestCase::Sys::IO {
 
   static method fseek : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -1250,6 +1284,8 @@ class TestCase::Sys::IO {
 
   static method ftell : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -1308,6 +1344,8 @@ class TestCase::Sys::IO {
 
   static method fflush : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_empty.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -1336,6 +1374,8 @@ class TestCase::Sys::IO {
 
   static method fclose : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_empty.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -1357,6 +1397,8 @@ class TestCase::Sys::IO {
   }
 
   static method flock : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$test_dir/ftest/file_empty.txt";
@@ -1412,6 +1454,9 @@ class TestCase::Sys::IO {
 
 
   static method mkdir : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     my $dir = "$tmp_dir/foo";
     
     my $status = Sys::IO->mkdir($dir, 0755);
@@ -1436,6 +1481,9 @@ class TestCase::Sys::IO {
   }
 
   static method umask : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     my $dir = "$tmp_dir/foo";
     
     my $old_mask = Sys::IO->umask(IO->S_IRUSR);
@@ -1463,6 +1511,9 @@ class TestCase::Sys::IO {
   }
 
   static method rmdir : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     my $dir = "$tmp_dir/foo";
     
     Sys::IO->mkdir($dir, 0755);
@@ -1492,6 +1543,9 @@ class TestCase::Sys::IO {
   }
 
   static method unlink : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     
     my $file = "$tmp_dir/foo.txt";
     
@@ -1524,7 +1578,9 @@ class TestCase::Sys::IO {
   }
 
   static method rename : int ($tmp_dir : string) {
-
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     my $file = "$tmp_dir/foo.txt";
     
     {
@@ -1565,6 +1621,8 @@ class TestCase::Sys::IO {
 
   static method getcwd : int () {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $buf = (mutable string)new_string_len 100;
       my $buf_length = length $buf;
@@ -1595,7 +1653,9 @@ class TestCase::Sys::IO {
   }
 
   static method realpath : int ($test_dir : string) {
-
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     my $file = "$test_dir/ftest/dir_empty/../file_empty.txt";
     
     {
@@ -1643,6 +1703,8 @@ class TestCase::Sys::IO {
   
   private static method replace_chars : void ($string : mutable string, $from : byte, $to : byte) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     unless ($string) {
       die "\$string must be defined.";
     }
@@ -1656,6 +1718,8 @@ class TestCase::Sys::IO {
   }
   
   static method _fullpath : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     my $test_dir_backslash = (mutable string)copy $test_dir;
     &replace_chars($test_dir_backslash, '/', '\\');
@@ -1706,6 +1770,9 @@ class TestCase::Sys::IO {
   }
 
   static method chdir : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     my $dir = "$test_dir/ftest/dir_empty";
     
     my $status = Sys::IO->chdir($dir);
@@ -1730,6 +1797,9 @@ class TestCase::Sys::IO {
   }
 
   static method chmod : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     my $file = "$tmp_dir/foo.txt";
     my $stream = Sys::IO->fopen($file, "w");
     
@@ -1756,6 +1826,9 @@ class TestCase::Sys::IO {
   }
 
   static method chown : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$tmp_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
@@ -1804,6 +1877,8 @@ class TestCase::Sys::IO {
 
   static method symlink : int ($tmp_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     my $file = "$tmp_dir/foo.txt";
     {
       my $stream = Sys::IO->fopen($file, "wb");
@@ -1842,6 +1917,8 @@ class TestCase::Sys::IO {
   }
 
   static method readlink : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     my $file = "$tmp_dir/foo.txt";
     {
@@ -1894,6 +1971,8 @@ class TestCase::Sys::IO {
   }
   
   static method readline : int ($test_file_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     # Basic
     {
@@ -2118,6 +2197,8 @@ class TestCase::Sys::IO {
   
   static method truncate : int ($tmp_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     my $file = "$tmp_dir/foo.txt";
     {
       my $stream = Sys::IO->fopen($file, "wb");
@@ -2154,6 +2235,8 @@ class TestCase::Sys::IO {
   }
 
   static method ftruncate : int ($tmp_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$tmp_dir/foo.txt";
@@ -2222,6 +2305,8 @@ class TestCase::Sys::IO {
 
   static method ungetc : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -2251,6 +2336,8 @@ class TestCase::Sys::IO {
 
   static method fsync : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_empty.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -2278,6 +2365,8 @@ class TestCase::Sys::IO {
   }
 
   static method setvbuf : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
@@ -2316,6 +2405,8 @@ class TestCase::Sys::IO {
 
   static method setbuf : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -2330,6 +2421,8 @@ class TestCase::Sys::IO {
   }
 
   static method setbuffer : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
@@ -2346,6 +2439,8 @@ class TestCase::Sys::IO {
 
   static method setlinebuf : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
@@ -2360,6 +2455,8 @@ class TestCase::Sys::IO {
   }
 
   static method freopen : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $file0 = "$test_dir/ftest/bar.txt";
@@ -2411,6 +2508,8 @@ class TestCase::Sys::IO {
   
   static method opendir : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $file = "$test_dir/ftest";
       
@@ -2439,6 +2538,8 @@ class TestCase::Sys::IO {
   }
   
   static method readdir : int ($test_dir : string) {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $dir = "$test_dir/ftest";
@@ -2564,6 +2665,8 @@ class TestCase::Sys::IO {
   
   static method fcntl : int ($test_dir : string) {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     if (Sys::OS->is_windows) {
       warn "Skip tests of fcntl in Windows";
     }
@@ -2645,6 +2748,9 @@ class TestCase::Sys::IO {
   }
   
   static method stdin : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $stdin = Sys::IO->stdin;
       
@@ -2657,6 +2763,9 @@ class TestCase::Sys::IO {
   }
   
   static method stdout : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $stdout = Sys::IO->stdout;
       
@@ -2669,6 +2778,9 @@ class TestCase::Sys::IO {
   }
   
   static method stderr : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $stderr = Sys::IO->stderr;
       
@@ -2681,7 +2793,9 @@ class TestCase::Sys::IO {
   }
   
   static method spvm_stdin : int () {
-  
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $spvm_stdin = Sys::IO->spvm_stdin;
       
@@ -2694,6 +2808,8 @@ class TestCase::Sys::IO {
   }
   
   static method spvm_stdout : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
       my $spvm_stdout = Sys::IO->spvm_stdout;
@@ -2709,6 +2825,9 @@ class TestCase::Sys::IO {
   }
   
   static method spvm_stderr : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
     {
       my $spvm_stderr = Sys::IO->spvm_stderr;
       
