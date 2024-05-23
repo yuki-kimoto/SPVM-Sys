@@ -316,26 +316,53 @@ class Sys {
     $dh_ref->[0] = $dh;
   }
   
-  static method closedir : void ($dstream : Sys::IO::DirStream) {
-    Sys::IO->closedir($dstream);
+  static method closedir : void ($dir_stream : Sys::IO::DirStream) {
+    
+    if ($dir_stream->closed) {
+      die "The directory stream \$dir_stream is already closed.";
+    }
+    
+    Sys::IO->closedir($dir_stream);
   }
   
-  static method readdir : Sys::IO::Dirent ($dstream : Sys::IO::DirStream) {
-    my $next_dirp = Sys::IO->readdir($dstream);
-    return $next_dirp;
+  static method readdir : Sys::IO::Dirent ($dir_stream : Sys::IO::DirStream) {
+    
+    if ($dir_stream->closed) {
+      die "The directory stream \$dir_stream is already closed.";
+    }
+    
+    my $dirent = Sys::IO->readdir($dir_stream);
+    
+    return $dirent;
   }
   
-  static method rewinddir : void ($dstream : Sys::IO::DirStream) {
-    Sys::IO->rewinddir($dstream);
+  static method rewinddir : void ($dir_stream : Sys::IO::DirStream) {
+    
+    if ($dir_stream->closed) {
+      die "The directory stream \$dir_stream is already closed.";
+    }
+    
+    Sys::IO->rewinddir($dir_stream);
   }
   
-  static method seekdir : void ($dstream : Sys::IO::DirStream, $offset : long) {
-    Sys::IO->seekdir($dstream, $offset);
+  static method seekdir : void ($dir_stream : Sys::IO::DirStream, $offset : long) {
+    
+    if ($dir_stream->closed) {
+      die "The directory stream \$dir_stream is already closed.";
+    }
+    
+    Sys::IO->seekdir($dir_stream, $offset);
   }
   
-  static method telldir : long ($dstream : Sys::IO::DirStream) {
-    my $current_position = Sys::IO->telldir($dstream);
-    return $current_position;
+  static method telldir : long ($dir_stream : Sys::IO::DirStream) {
+    
+    if ($dir_stream->closed) {
+      die "The directory stream \$dir_stream is already closed.";
+    }
+    
+    my $offset = Sys::IO->telldir($dir_stream);
+    
+    return $offset;
   }
   
   static method popen : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $command : string) {

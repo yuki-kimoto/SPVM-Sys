@@ -395,55 +395,79 @@ The opened directory stream is set to $dh_ref at index 0.
 
 Exceptions:
 
+If the directory stream \$dir_stream is already closed, an exception is thrown.
+
+This method calls L<Sys::IO#opendir|SPVM::Sys::IO/"opendir"> method.
+
 Exceptions thrown by L<Sys::IO#opendir|SPVM::Sys::IO/"opendir"> method could be thrown.
 
 =head2 closedir
 
-C<static method closedir : void ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method closedir : void ($dir_stream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Closes the directory stream given the directory $dstream.
+Closes the directory stream given the directory stream $dir_stream.
+
+This method calls L<Sys::IO#closedir|SPVM::Sys::IO/"closedir"> method.
 
 Exceptions:
+
+If the directory stream \$dir_stream is already closed, an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#closedir|SPVM::Sys::IO/"closedir"> method could be thrown.
 
 =head2 readdir
 
-C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dir_stream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Reads a directory entry from the dirctory stream $dstream.
+Reads a directory entry from the dirctory stream $dir_stream.
+
+This method calls L<Sys::IO#readdir|SPVM::Sys::IO/"readdir"> method.
 
 Exceptions:
+
+If the directory stream \$dir_stream is already closed, an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#readdir|SPVM::Sys::IO/"readdir"> method could be thrown.
 
 =head2 rewinddir
 
-C<static method rewinddir : void ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method rewinddir : void ($dir_stream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Resets the position of the directory stream $dstream to the beginning of the directory.
+Resets the position of the directory stream $dir_stream to the beginning of the directory.
+
+This method calls L<Sys::IO#rewinddir|SPVM::Sys::IO/"rewinddir"> method.
 
 Exceptions:
+
+If the directory stream \$dir_stream is already closed, an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#rewinddir|SPVM::Sys::IO/"rewinddir"> method could be thrown.
 
 =head2 seekdir
 
-C<static method seekdir : void ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>, $offset : long);>
+C<static method seekdir : void ($dir_stream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>, $offset : long);>
 
-Sets the current location associated with the directory stream $dstream to the offset $offset.
+Sets the current location associated with the directory stream $dir_stream to the offset $offset.
+
+This method calls L<Sys::IO#seekdir|SPVM::Sys::IO/"seekdir"> method.
 
 Exceptions:
+
+If the directory stream \$dir_stream is already closed, an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#seekdir|SPVM::Sys::IO/"seekdir"> method could be thrown.
 
 =head2 telldir
 
-C<static method telldir : long ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method telldir : long ($dir_stream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Returns the current location associated with the directory stream $dstream.
+Returns the current location associated with the directory stream $dir_stream.
+
+This method calls L<Sys::IO#telldir|SPVM::Sys::IO/"telldir"> method.
 
 Exceptions:
+
+If the directory stream \$dir_stream is already closed, an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#telldir|SPVM::Sys::IO/"telldir"> method could be thrown.
 

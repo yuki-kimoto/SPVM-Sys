@@ -5,6 +5,12 @@
     * Exception messages in native classes are improved.
   [New Features]
     * Add the seekdir method to Sys class.
+  [Changes]
+    * Sys#readdir method throws an exception if the directory stream is already closed.
+    * Sys#closedir method throws an exception if the directory stream is already closed.
+    * Sys#rewinddir method throws an exception if the directory stream is already closed.
+    * Sys#seekdir method throws an exception if the directory stream is already closed.
+    * Sys#telldir method throws an exception if the directory stream is already closed.
     
 0.514001 2024-03-27
   [Bug Fix]
