@@ -75,7 +75,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (ret == -1) {
-    env->die(env, stack, "[System Error]ioctl() failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]ioctl() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

@@ -24,7 +24,7 @@ int32_t SPVM__Sys__Signal__kill(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = kill(pid, sig);
   if (status == -1) {
-    env->die(env, stack, "[System Error]kill() failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]kill() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -40,7 +40,7 @@ int32_t SPVM__Sys__Signal__raise(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = raise(sig);
   if (status != 0) {
-    env->die(env, stack, "[System Error]raise() failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]raise() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -78,7 +78,7 @@ int32_t SPVM__Sys__Signal__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t rest_usecs = ualarm(usecs, interval);
   
   if (rest_usecs == -1) {
-    env->die(env, stack, "[System Error]ualarm() failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]ualarm() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -129,7 +129,7 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* old_handler = signal(signum, handler);
   
   if (old_handler == SIG_ERR) {
-    env->die(env, stack, "[System Error]signal() failed:%s.", env->strerror(env, stack, errno, 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]signal() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
