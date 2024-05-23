@@ -169,14 +169,37 @@ ok(SPVM::TestCase::Sys::IO->freopen);
   ok(SPVM::TestCase::Sys::IO->ftruncate("$tmp_dir"));
 }
 
-# opendir
+# Directory stream system calls
 {
-  ok(SPVM::TestCase::Sys::IO->opendir);
-}
-
-# readdir
-{
-  ok(SPVM::TestCase::Sys::IO->readdir);
+  # opendir
+  {
+    ok(SPVM::TestCase::Sys::IO->opendir);
+  }
+  
+  # readdir
+  {
+    ok(SPVM::TestCase::Sys::IO->readdir);
+  }
+  
+  # seekdir
+  {
+    ok(SPVM::TestCase::Sys::IO->seekdir);
+  }
+  
+  # telldir
+  {
+    ok(SPVM::TestCase::Sys::IO->telldir);
+  }
+  
+  # rewinddir
+  {
+    ok(SPVM::TestCase::Sys::IO->rewinddir);
+  }
+  
+  # closedir
+  {
+    ok(SPVM::TestCase::Sys::IO->closedir);
+  }
 }
 
 # fcntl

@@ -2669,6 +2669,26 @@ class TestCase::Sys::IO {
     return 1;
   }
   
+  static method seekdir : int () {
+    
+    return 1;
+  }
+  
+  static method telldir : int () {
+    
+    return 1;
+  }
+  
+  static method rewinddir : int () {
+    
+    return 1;
+  }
+  
+  static method closedir : int () {
+    
+    return 1;
+  }
+  
   static method fcntl : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
