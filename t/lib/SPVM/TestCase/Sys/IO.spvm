@@ -2707,11 +2707,14 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      eval { Sys::IO->readdir($dir_stream); }
-      
-      unless ($@ && eval_error_id isa_error Error::System) {
-        warn "System call succeeded.";
-        return 0;
+      # This test is needed for every OSs, but only Linux causes a system error.
+      if (Sys->osname eq "linux") {
+        eval { Sys::IO->readdir($dir_stream); }
+        
+        unless ($@ && eval_error_id isa_error Error::System) {
+          warn "System call succeeded.";
+          return 0;
+        }
       }
     }
     
