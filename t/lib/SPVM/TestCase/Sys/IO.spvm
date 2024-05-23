@@ -2686,6 +2686,34 @@ class TestCase::Sys::IO {
   
   static method closedir : int () {
     
+    my $test_dir = &TEST_DIR;
+    
+    {
+      my $dir_stream = Sys::IO->opendir($test_dir);
+      
+      unless ($dir_stream) {
+        return 0;
+      }
+      
+      if ($dir_stream->closed) {
+        return 0;
+      }
+      
+      Sys::IO->closedir($dir_stream);
+      
+      unless ($dir_stream->closed) {
+        return 0;
+      }
+      
+      eval { Sys::IO->readdir($dir_stream); }
+      
+      unless ($@ && eval_error_id isa_error Error::System) {
+        return 0;
+      }
+    }
+    
+    $@ = undef;
+    
     return 1;
   }
   
