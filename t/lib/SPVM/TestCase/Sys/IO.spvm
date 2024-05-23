@@ -65,7 +65,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method read : int ($test_dir : string) {
+  static method read : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -246,7 +246,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method lseek : int ($test_dir : string) {
+  static method lseek : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -323,7 +323,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method close : int ($test_dir : string) {
+  static method close : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -382,7 +382,7 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method fopen : int ($test_dir : string) {
+  static method fopen : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -427,7 +427,7 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method fdopen : int ($test_dir : string) {
+  static method fdopen : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -475,7 +475,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method fread : int ($test_dir : string) {
+  static method fread : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -603,7 +603,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method feof : int ($test_dir : string) {
+  static method feof : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -702,7 +702,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method ferror : int ($test_dir : string) {
+  static method ferror : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -755,7 +755,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method clearerr : int ($test_dir : string) {
+  static method clearerr : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -804,7 +804,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method getc : int ($test_dir : string) {
+  static method getc : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -930,7 +930,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method fgets : int ($test_dir : string) {
+  static method fgets : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -1220,7 +1220,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method fseek : int ($test_dir : string) {
+  static method fseek : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -1284,7 +1284,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method ftell : int ($test_dir : string) {
+  static method ftell : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -1344,7 +1344,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method fflush : int ($test_dir : string) {
+  static method fflush : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -1374,7 +1374,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method fclose : int ($test_dir : string) {
+  static method fclose : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -1398,7 +1398,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method flock : int ($test_dir : string) {
+  static method flock : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -1654,7 +1654,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method realpath : int ($test_dir : string) {
+  static method realpath : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -1719,7 +1719,9 @@ class TestCase::Sys::IO {
     }
   }
   
-  static method _fullpath : int ($test_dir : string) {
+  static method _fullpath : int () {
+    
+    my $test_dir = &TEST_DIR;
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -1771,7 +1773,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method chdir : int ($test_dir : string) {
+  static method chdir : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -1972,13 +1974,13 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method readline : int ($test_file_dir : string) {
+  static method readline : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     # Basic
     {
-      my $file = "$test_file_dir/ftest/readline_basic.txt";
+      my $file = "$test_dir_ftest/readline_basic.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
       {
@@ -2022,7 +2024,7 @@ class TestCase::Sys::IO {
     
     # With while
     {
-      my $file = "$test_file_dir/ftest/readline_basic.txt";
+      my $file = "$test_dir_ftest/readline_basic.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
       
@@ -2042,7 +2044,7 @@ class TestCase::Sys::IO {
     
     # EOF
     {
-      my $file = "$test_file_dir/ftest/readline_eof.txt";
+      my $file = "$test_dir_ftest/readline_eof.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
       
@@ -2099,7 +2101,7 @@ class TestCase::Sys::IO {
     
     # Long lines
     {
-      my $file = "$test_file_dir/ftest/readline_long_lines.txt";
+      my $file = "$test_dir_ftest/readline_long_lines.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
       
@@ -2143,7 +2145,7 @@ class TestCase::Sys::IO {
     
     # With chomp
     {
-      my $file = "$test_file_dir/ftest/readline_basic.txt";
+      my $file = "$test_dir_ftest/readline_basic.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       {
@@ -2157,7 +2159,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_file_dir/ftest/readline_basic.txt";
+      my $file = "$test_dir_ftest/readline_basic.txt";
       
       my $stream = Sys::IO->fopen($file, "rb");
       
@@ -2305,7 +2307,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method ungetc : int ($test_dir : string) {
+  static method ungetc : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -2336,7 +2338,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method fsync : int ($test_dir : string) {
+  static method fsync : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -2366,7 +2368,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method setvbuf : int ($test_dir : string) {
+  static method setvbuf : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -2405,7 +2407,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method setbuf : int ($test_dir : string) {
+  static method setbuf : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -2422,7 +2424,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method setbuffer : int ($test_dir : string) {
+  static method setbuffer : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -2439,7 +2441,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method setlinebuf : int ($test_dir : string) {
+  static method setlinebuf : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -2456,7 +2458,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method freopen : int ($test_dir : string) {
+  static method freopen : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -2508,7 +2510,9 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method opendir : int ($test_dir : string) {
+  static method opendir : int () {
+    
+    my $test_dir = &TEST_DIR;
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -2539,7 +2543,7 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method readdir : int ($test_dir : string) {
+  static method readdir : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
@@ -2665,7 +2669,7 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method fcntl : int ($test_dir : string) {
+  static method fcntl : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
