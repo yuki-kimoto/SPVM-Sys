@@ -22,7 +22,7 @@ SPVM::TestCase::Sys::IO->SET_TEST_DIR($test_dir);
 
 {
   my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys::IO->open($test_dir, "$tmp_dir"));
+  ok(SPVM::TestCase::Sys::IO->open("$tmp_dir"));
 }
 ok(SPVM::TestCase::Sys::IO->read);
 ok(SPVM::TestCase::Sys::IO->lseek);

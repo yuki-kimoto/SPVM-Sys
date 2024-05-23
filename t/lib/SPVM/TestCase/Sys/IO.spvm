@@ -11,7 +11,7 @@ class TestCase::Sys::IO {
   
   static method TEST_DIR_FTEST : string () { return "$TEST_DIR/ftest"; }
   
-  static method open : int ($test_dir : string, $tmp_dir : string) {
+  static method open : int ($tmp_dir : string) {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
