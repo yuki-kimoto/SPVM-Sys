@@ -2696,18 +2696,21 @@ class TestCase::Sys::IO {
       }
       
       if ($dir_stream->closed) {
+        warn $dir_stream->closed;
         return 0;
       }
       
       Sys::IO->closedir($dir_stream);
       
       unless ($dir_stream->closed) {
+        warn $dir_stream->closed;
         return 0;
       }
       
       eval { Sys::IO->readdir($dir_stream); }
       
       unless ($@ && eval_error_id isa_error Error::System) {
+        warn "System call succeeded.";
         return 0;
       }
     }
