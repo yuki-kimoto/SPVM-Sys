@@ -17,6 +17,9 @@ use IO::Poll;
 my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
 my $test_dir = "$FindBin::Bin";
+
+SPVM::TestCase::Sys::IO->SET_TEST_DIR($test_dir);
+
 {
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->open($test_dir, "$tmp_dir"));
@@ -212,6 +215,8 @@ ok(SPVM::TestCase::Sys::IO->freopen("$test_dir"));
 }
 
 SPVM::api->set_exception(undef);
+
+SPVM::TestCase::Sys::IO->SET_TEST_DIR(undef);
 
 # All object is freed
 my $end_memory_blocks_count = SPVM::api->get_memory_blocks_count();

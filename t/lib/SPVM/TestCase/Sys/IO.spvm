@@ -7,14 +7,16 @@ class TestCase::Sys::IO {
   use Sys::Time;
   use Sys::IO::Flock;
   
-  static method TEST_DIR_FTEST : string () { return "t/ftest"; }
+  our $TEST_DIR : rw string;
+  
+  static method TEST_DIR_FTEST : string () { return "$TEST_DIR/ftest"; }
   
   static method open : int ($test_dir : string, $tmp_dir : string) {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY, 0644);
       
       unless ($fd >= 0) {
@@ -24,7 +26,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/not_found.txt";
+      my $file = "$test_dir_ftest/not_found.txt";
       eval { Sys::IO->open($file, IO->O_RDWR, 0644); };
       
       unless ($@) {
@@ -51,7 +53,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $fd = -1;
       Sys->sysopen(\$fd, $file, IO->O_RDONLY, 0644);
       
@@ -68,7 +70,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY);
       
       unless ($fd >= 0) {
@@ -109,7 +111,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY);
       
       unless ($fd >= 0) {
@@ -249,7 +251,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY);
       
       unless ($fd >= 0) {
@@ -288,7 +290,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY);
       
       unless ($fd >= 0) {
@@ -326,7 +328,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $fd = Sys::IO->open($file, IO->O_RDWR, IO->O_TRUNC);
       
       unless ($fd >= 0) {
@@ -385,7 +387,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -394,7 +396,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/not_found.txt";
+      my $file = "$test_dir_ftest/not_found.txt";
       eval { Sys::IO->fopen($file, "rb"); };
       
       unless ($@) {
@@ -411,7 +413,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $stream_ref = [(Sys::IO::FileStream)undef];
       Sys->open($stream_ref, "<", $file);
       
@@ -430,7 +432,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $fd = Sys::IO->open($file, IO->O_RDWR, 0666);
       
       unless ($fd >= 0) {
@@ -453,7 +455,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $fd = Sys::IO->open($file, IO->O_RDWR, 0666);
       
       unless ($fd >= 0) {
@@ -478,7 +480,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -519,7 +521,7 @@ class TestCase::Sys::IO {
     
     # Big buffer size
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -559,7 +561,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -606,7 +608,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -652,7 +654,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -705,7 +707,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -758,7 +760,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -807,7 +809,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -855,7 +857,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -903,7 +905,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/newline_lf_only.txt";
+      my $file = "$test_dir_ftest/newline_lf_only.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -933,7 +935,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_new_lines.txt";
+      my $file = "$test_dir_ftest/file_new_lines.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -1223,7 +1225,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -1254,7 +1256,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -1287,7 +1289,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -1314,7 +1316,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -1347,7 +1349,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -1377,7 +1379,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -1401,7 +1403,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY, IO->O_TRUNC);
       
       my $status_lock = Sys::IO->flock($fd, IO->LOCK_SH);
@@ -1431,7 +1433,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY, IO->O_TRUNC);
       
       my $status_lock = Sys::IO->flock($fd, IO->LOCK_SH);
@@ -1656,7 +1658,7 @@ class TestCase::Sys::IO {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
-    my $file = "$test_dir/ftest/dir_empty/../file_empty.txt";
+    my $file = "$test_dir_ftest/dir_empty/../file_empty.txt";
     
     {
       my $ret_resolved_path = Sys::IO->realpath($file, undef);
@@ -1667,9 +1669,9 @@ class TestCase::Sys::IO {
       
       Fn->shorten_null_char($ret_resolved_path);
       
-      warn "[Test Output]realpath(undef):Expected:$test_dir/ftest/file_empty.txt,Got:$ret_resolved_path";
+      warn "[Test Output]realpath(undef):Expected:$test_dir_ftest/file_empty.txt,Got:$ret_resolved_path";
       
-      unless ($ret_resolved_path eq "$test_dir/ftest/file_empty.txt") {
+      unless ($ret_resolved_path eq "$test_dir_ftest/file_empty.txt") {
         return 0;
       }
     }
@@ -1684,9 +1686,9 @@ class TestCase::Sys::IO {
       
       Fn->shorten_null_char($ret_resolved_path);
       
-      warn "[Test Output]realpath:Expected:$test_dir/ftest/file_empty.txt,Got:$ret_resolved_path";
+      warn "[Test Output]realpath:Expected:$test_dir_ftest/file_empty.txt,Got:$ret_resolved_path";
       
-      unless ($ret_resolved_path eq "$test_dir/ftest/file_empty.txt") {
+      unless ($ret_resolved_path eq "$test_dir_ftest/file_empty.txt") {
         return 0;
       }
     }
@@ -1724,7 +1726,7 @@ class TestCase::Sys::IO {
     my $test_dir_backslash = (mutable string)copy $test_dir;
     &replace_chars($test_dir_backslash, '/', '\\');
     
-    my $file = "$test_dir/ftest/dir_empty/../file_empty.txt";
+    my $file = "$test_dir_ftest/dir_empty/../file_empty.txt";
     
     {
       my $resolved_path = (mutable string)new_string_len 100;
@@ -1773,7 +1775,7 @@ class TestCase::Sys::IO {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
-    my $dir = "$test_dir/ftest/dir_empty";
+    my $dir = "$test_dir_ftest/dir_empty";
     
     my $status = Sys::IO->chdir($dir);
     
@@ -2308,7 +2310,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -2339,7 +2341,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_empty.txt";
+      my $file = "$test_dir_ftest/file_empty.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -2369,7 +2371,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       my $buf = (mutable string)new_string_len IO->BUFSIZ;
@@ -2382,7 +2384,7 @@ class TestCase::Sys::IO {
     }
 
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       my $mode = Sys::IO::Constant->_IOFBF;
@@ -2408,7 +2410,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       my $buf = (mutable string)new_string_len IO->BUFSIZ;
@@ -2425,7 +2427,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       my $buf = (mutable string)new_string_len IO->BUFSIZ;
@@ -2442,7 +2444,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest/file_bytes8.txt";
+      my $file = "$test_dir_ftest/file_bytes8.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       my $buf = (mutable string)new_string_len IO->BUFSIZ;
@@ -2459,8 +2461,8 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file0 = "$test_dir/ftest/bar.txt";
-      my $file = "$test_dir/ftest/foo.txt";
+      my $file0 = "$test_dir_ftest/bar.txt";
+      my $file = "$test_dir_ftest/foo.txt";
       my $stream0 = Sys::IO->fopen($file0, "wb");
       my $stream = Sys::IO->freopen($file, "wb", $stream0);
       
@@ -2481,7 +2483,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest/foo.txt";
+      my $file = "$test_dir_ftest/foo.txt";
       my $stream = Sys::IO->fopen($file, "rb");
       
       unless ($stream) {
@@ -2511,7 +2513,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir/ftest";
+      my $file = "$test_dir_ftest";
       
       my $stream = Sys::IO->opendir($test_dir);
       
@@ -2521,7 +2523,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/ftest";
+      my $file = "$test_dir_ftest";
       
       my $dh_ref = [(Sys::IO::DirStream)undef];
       
@@ -2542,7 +2544,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $dir = "$test_dir/ftest";
+      my $dir = "$test_dir_ftest";
       
       my $stream = Sys::IO->opendir($dir);
       
@@ -2589,7 +2591,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $dir = "$test_dir/ftest";
+      my $dir = "$test_dir_ftest";
       
       my $stream = Sys::IO->opendir($dir);
       
@@ -2671,10 +2673,10 @@ class TestCase::Sys::IO {
       warn "Skip tests of fcntl in Windows";
     }
     else {
-      my $dir = "$test_dir/ftest";
+      my $dir = "$test_dir_ftest";
       
       {
-        my $file = "$test_dir/ftest/file_empty.txt";
+        my $file = "$test_dir_ftest/file_empty.txt";
         my $fd = Sys::IO->open($file, IO->O_RDWR);
         
         unless ($fd >= 0) {
