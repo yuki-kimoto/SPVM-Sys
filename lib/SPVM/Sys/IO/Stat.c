@@ -46,13 +46,13 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
   void* obj_stat = stack[1].oval;
   if (!obj_stat) {
-    return env->die(env, stack, "$stat must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The stat object $stat must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
@@ -73,20 +73,20 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
-  return env->die(env, stack, "lstat is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return env->die(env, stack, "Sys::IO::Stat#lstat method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
 #else
 
   int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "$path must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
   void* obj_lstat = stack[1].oval;
   if (!obj_lstat) {
-    return env->die(env, stack, "$lstat must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The stat object $lstat must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_lstat);
@@ -116,7 +116,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_stat = stack[1].oval;
   
   if (!obj_stat) {
-    return env->die(env, stack, "$stat must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The stat object $stat must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
