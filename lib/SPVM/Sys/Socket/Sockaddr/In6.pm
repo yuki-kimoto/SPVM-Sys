@@ -18,7 +18,7 @@ Sys::Socket::Sockaddr::In6 class in L<SPVM> represents L<struct sockaddr_in6|htt
 
 This class is a pointer class. The pointer the instance has is set to a L<struct sockaddr_in6|https://linux.die.net/man/7/ipv6> object.
 
-=head1 Inheritance
+=head1 Super Class
 
 L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>
 

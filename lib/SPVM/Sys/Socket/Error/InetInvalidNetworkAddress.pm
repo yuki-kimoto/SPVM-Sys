@@ -14,7 +14,7 @@ Sys::Socket::Error class in L<SPVM> represents a socket error "The got address i
 
   use Sys::Socket::Error::InetInvalidNetworkAddress;
 
-=head1 Inheritance
+=head1 Super Class
 
 L<Error|SPVM::Error>
 
