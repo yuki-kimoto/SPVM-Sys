@@ -3,6 +3,9 @@
     * May fix the bug that Sys::IO#seekdir method does not work well.
   [Exception Message Changes]
     * Exception messages in native classes are improved.
+  [New Features]
+    * Add the seekdir method to Sys class.
+    
 0.514001 2024-03-27
   [Bug Fix]
     * Fix bug that config files cannot be parsed for SPVM version up.

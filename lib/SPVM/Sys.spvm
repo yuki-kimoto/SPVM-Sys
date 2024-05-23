@@ -329,6 +329,10 @@ class Sys {
     Sys::IO->rewinddir($dstream);
   }
   
+  static method seekdir : void ($dstream : Sys::IO::DirStream, $offset : long) {
+    Sys::IO->seekdir($dstream, $offset);
+  }
+  
   static method telldir : long ($dstream : Sys::IO::DirStream) {
     my $current_position = Sys::IO->telldir($dstream);
     return $current_position;

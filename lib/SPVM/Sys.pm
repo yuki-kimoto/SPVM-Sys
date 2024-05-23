@@ -427,6 +427,16 @@ Exceptions:
 
 Exceptions thrown by L<Sys::IO#rewinddir|SPVM::Sys::IO/"rewinddir"> method could be thrown.
 
+=head2 seekdir
+
+C<static method seekdir : void ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>, $offset : long);>
+
+Sets the current location associated with the directory stream $dstream to the offset $offset.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::IO#seekdir|SPVM::Sys::IO/"seekdir"> method could be thrown.
+
 =head2 telldir
 
 C<static method telldir : long ($dstream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
