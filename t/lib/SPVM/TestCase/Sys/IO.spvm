@@ -146,10 +146,10 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method write : int ($test_dir : string) {
+  static method write : int ($tmp_dir : string) {
     
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$tmp_dir/foo.txt";
       my $fd = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, 0666);
       
       unless ($fd >= 0) {
@@ -171,7 +171,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$tmp_dir/foo.txt";
       my $fd = Sys::IO->open($file, IO->O_RDONLY);
       
       unless ($fd >= 0) {
@@ -212,7 +212,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$tmp_dir/foo.txt";
       my $fd = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, 0666);
       
       unless ($fd >= 0) {
@@ -331,10 +331,10 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method fileno : int ($test_dir : string) {
+  static method fileno : int ($tmp_dir : string) {
     
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$tmp_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
       
       unless (Sys->f($file)) {
@@ -349,7 +349,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$tmp_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
       
       unless (Sys->f($file)) {
@@ -965,11 +965,11 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method fwrite : int ($test_dir : string) {
+  static method fwrite : int ($tmp_dir : string) {
     
     {
       {
-        my $file = "$test_dir/foo.txt";
+        my $file = "$tmp_dir/foo.txt";
         my $stream = Sys::IO->fopen($file, "wb");
         
         unless ($stream) {
@@ -994,7 +994,7 @@ class TestCase::Sys::IO {
       }
       
       {
-        my $file = "$test_dir/foo.txt";
+        my $file = "$tmp_dir/foo.txt";
         my $stream = Sys::IO->fopen($file, "rb");
         
         unless ($stream) {
@@ -1037,7 +1037,7 @@ class TestCase::Sys::IO {
       }
       
       {
-        my $file = "$test_dir/foo.txt";
+        my $file = "$tmp_dir/foo.txt";
         my $stream = Sys::IO->fopen($file, "wb");
         
         unless ($stream) {
@@ -1055,7 +1055,7 @@ class TestCase::Sys::IO {
       }
       
       {
-        my $file = "$test_dir/foo.txt";
+        my $file = "$tmp_dir/foo.txt";
         my $stream = Sys::IO->fopen($file, "wb");
         
         unless ($stream) {
@@ -1073,7 +1073,7 @@ class TestCase::Sys::IO {
       }
       
       {
-        my $file = "$test_dir/foo.txt";
+        my $file = "$tmp_dir/foo.txt";
         my $stream = Sys::IO->fopen($file, "wb");
         
         unless ($stream) {
@@ -1091,7 +1091,7 @@ class TestCase::Sys::IO {
       }
       
       {
-        my $file = "$test_dir/foo.txt";
+        my $file = "$tmp_dir/foo.txt";
         my $stream = Sys::IO->fopen($file, "wb");
         
         unless ($stream) {
@@ -1112,7 +1112,7 @@ class TestCase::Sys::IO {
     # Big buffer
     {
       {
-        my $file = "$test_dir/foo.txt";
+        my $file = "$tmp_dir/foo.txt";
         my $stream = Sys::IO->fopen($file, "wb");
         
         unless ($stream) {
@@ -1141,7 +1141,7 @@ class TestCase::Sys::IO {
       }
       
       {
-        my $file = "$test_dir/foo.txt";
+        my $file = "$tmp_dir/foo.txt";
         my $stream = Sys::IO->fopen($file, "rb");
         
         unless ($stream) {
@@ -1411,8 +1411,8 @@ class TestCase::Sys::IO {
   }
 
 
-  static method mkdir : int ($test_dir : string) {
-    my $dir = "$test_dir/foo";
+  static method mkdir : int ($tmp_dir : string) {
+    my $dir = "$tmp_dir/foo";
     
     my $status = Sys::IO->mkdir($dir, 0755);
     
@@ -1435,8 +1435,8 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method umask : int ($test_dir : string) {
-    my $dir = "$test_dir/foo";
+  static method umask : int ($tmp_dir : string) {
+    my $dir = "$tmp_dir/foo";
     
     my $old_mask = Sys::IO->umask(IO->S_IRUSR);
     
@@ -1462,8 +1462,8 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method rmdir : int ($test_dir : string) {
-    my $dir = "$test_dir/foo";
+  static method rmdir : int ($tmp_dir : string) {
+    my $dir = "$tmp_dir/foo";
     
     Sys::IO->mkdir($dir, 0755);
     
@@ -1491,9 +1491,9 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method unlink : int ($test_dir : string) {
+  static method unlink : int ($tmp_dir : string) {
     
-    my $file = "$test_dir/foo.txt";
+    my $file = "$tmp_dir/foo.txt";
     
     {
       Sys::IO->fopen($file, "w");
@@ -1523,9 +1523,9 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method rename : int ($test_dir : string) {
+  static method rename : int ($tmp_dir : string) {
 
-    my $file = "$test_dir/foo.txt";
+    my $file = "$tmp_dir/foo.txt";
     
     {
       Sys::IO->fopen($file, "w");
@@ -1535,7 +1535,7 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    my $new_file = "$test_dir/foo_new.txt";
+    my $new_file = "$tmp_dir/foo_new.txt";
     my $status = Sys::IO->rename($file, $new_file);
     
     unless ($status == 0) {
@@ -1563,7 +1563,7 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method getcwd : int ($test_dir : string) {
+  static method getcwd : int () {
     
     {
       my $buf = (mutable string)new_string_len 100;
@@ -1729,8 +1729,8 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method chmod : int ($test_dir : string) {
-    my $file = "$test_dir/foo.txt";
+  static method chmod : int ($tmp_dir : string) {
+    my $file = "$tmp_dir/foo.txt";
     my $stream = Sys::IO->fopen($file, "w");
     
     unless (Sys->f($file)) {
@@ -1755,9 +1755,9 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method chown : int ($test_dir : string) {
+  static method chown : int ($tmp_dir : string) {
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$tmp_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
       
       unless (Sys->f($file)) {
@@ -1781,7 +1781,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$tmp_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
       
       unless (Sys->f($file)) {
@@ -1802,9 +1802,9 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method symlink : int ($test_dir : string) {
+  static method symlink : int ($tmp_dir : string) {
     
-    my $file = "$test_dir/foo.txt";
+    my $file = "$tmp_dir/foo.txt";
     {
       my $stream = Sys::IO->fopen($file, "wb");
       
@@ -1814,7 +1814,7 @@ class TestCase::Sys::IO {
       Sys::IO->fclose($stream);
     }
     
-    my $file_symlink = "$test_dir/foo_link";
+    my $file_symlink = "$tmp_dir/foo_link";
     {
       my $status = Sys::IO->symlink($file, $file_symlink);
       
@@ -1841,9 +1841,9 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method readlink : int ($test_dir : string) {
+  static method readlink : int ($tmp_dir : string) {
     
-    my $file = "$test_dir/foo.txt";
+    my $file = "$tmp_dir/foo.txt";
     {
       my $stream = Sys::IO->fopen($file, "wb");
       
@@ -1853,7 +1853,7 @@ class TestCase::Sys::IO {
       Sys::IO->fclose($stream);
     }
     
-    my $file_symlink = "$test_dir/foo_link";
+    my $file_symlink = "$tmp_dir/foo_link";
     {
       my $status = Sys::IO->symlink($file, $file_symlink);
       
@@ -2116,9 +2116,9 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method truncate : int ($test_dir : string) {
+  static method truncate : int ($tmp_dir : string) {
     
-    my $file = "$test_dir/foo.txt";
+    my $file = "$tmp_dir/foo.txt";
     {
       my $stream = Sys::IO->fopen($file, "wb");
       
@@ -2153,10 +2153,10 @@ class TestCase::Sys::IO {
     return 1;
   }
 
-  static method ftruncate : int ($test_dir : string) {
+  static method ftruncate : int ($tmp_dir : string) {
     
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$tmp_dir/foo.txt";
       {
         my $stream = Sys::IO->fopen($file, "wb");
         
@@ -2190,7 +2190,7 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir/foo.txt";
+      my $file = "$tmp_dir/foo.txt";
       {
         my $stream = Sys::IO->fopen($file, "wb");
         
