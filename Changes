@@ -1,4 +1,6 @@
-0.515 2024-05-22
+0.515 2024-05-24
+  [Bug Fix]
+    * May fix the bug that Sys::IO#seekdir method does not work well.
   [Exception Message Changes]
     * Exception messages in native classes are improved.
   [New Features]
