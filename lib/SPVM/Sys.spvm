@@ -399,6 +399,10 @@ class Sys {
   
   static method closedir : void ($dir_stream : Sys::IO::DirStream) {
     
+    unless ($dir_stream) {
+      die "The directory stream \$dir_stream must be defined.";
+    }
+    
     if ($dir_stream->closed) {
       die "The directory stream \$dir_stream is already closed.";
     }
@@ -407,6 +411,10 @@ class Sys {
   }
   
   static method readdir : Sys::IO::Dirent ($dir_stream : Sys::IO::DirStream) {
+    
+    unless ($dir_stream) {
+      die "The directory stream \$dir_stream must be defined.";
+    }
     
     if ($dir_stream->closed) {
       die "The directory stream \$dir_stream is already closed.";
@@ -419,6 +427,10 @@ class Sys {
   
   static method rewinddir : void ($dir_stream : Sys::IO::DirStream) {
     
+    unless ($dir_stream) {
+      die "The directory stream \$dir_stream must be defined.";
+    }
+    
     if ($dir_stream->closed) {
       die "The directory stream \$dir_stream is already closed.";
     }
@@ -428,6 +440,10 @@ class Sys {
   
   static method seekdir : void ($dir_stream : Sys::IO::DirStream, $offset : long) {
     
+    unless ($dir_stream) {
+      die "The directory stream \$dir_stream must be defined.";
+    }
+    
     if ($dir_stream->closed) {
       die "The directory stream \$dir_stream is already closed.";
     }
@@ -436,6 +452,10 @@ class Sys {
   }
   
   static method telldir : long ($dir_stream : Sys::IO::DirStream) {
+    
+    unless ($dir_stream) {
+      die "The directory stream \$dir_stream must be defined.";
+    }
     
     if ($dir_stream->closed) {
       die "The directory stream \$dir_stream is already closed.";

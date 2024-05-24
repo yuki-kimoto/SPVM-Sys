@@ -6,11 +6,11 @@
   [New Features]
     * Add the seekdir method to Sys class.
   [Changes]
-    * Sys#readdir method throws an exception if the directory stream is already closed.
-    * Sys#closedir method throws an exception if the directory stream is already closed.
-    * Sys#rewinddir method throws an exception if the directory stream is already closed.
-    * Sys#seekdir method throws an exception if the directory stream is already closed.
-    * Sys#telldir method throws an exception if the directory stream is already closed.
+    * Sys#readdir method throws an exception if the directory stream is not defined or the directory stream is already closed.
+    * Sys#closedir method throws an exception if the directory stream is not defined or the directory stream is already closed.
+    * Sys#rewinddir method throws an exception if the directory stream is not defined or the directory stream is already closed.
+    * Sys#seekdir method throws an exception if the directory stream is not defined or the directory stream is already closed.
+    * Sys#telldir method throws an exception if the directory stream is not defined or the directory stream is already closed.
     
     * Sys#fileno method throws an exception if the stream is not defined or the stream is already closed.
     * Sys#read method throws an exception if the stream is not defined or the stream is already closed.
