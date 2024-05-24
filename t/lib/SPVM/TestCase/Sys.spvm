@@ -1060,4 +1060,211 @@ class TestCase::Sys {
     
     return &env;
   }
+  
+  static method opendir : int () {
+    
+    my $test_dir = &TEST_DIR;
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    {
+      my $file = "$test_dir_ftest";
+      
+      my $stream = Sys->opendir($test_dir);
+      
+      unless ($stream) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method readdir : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    {
+      my $dir = "$test_dir_ftest";
+      
+      my $stream = Sys->opendir($dir);
+      
+      Fn->defer([$stream : Sys::IO::DirStream] method : void () {
+        Sys->closedir($stream);
+      });
+      
+      unless ($stream) {
+        return 0;
+      }
+      
+      Sys->rewinddir($stream);
+      Sys->rewinddir($stream);
+      
+      {
+        my $current_offset = Sys->telldir($stream);
+        unless ($current_offset == 0) {
+          return 0;
+        }
+      }
+      
+      {
+        my $current_offset = Sys->telldir($stream);
+        unless ($current_offset == 0) {
+          return 0;
+        }
+      }
+      
+      my $check_file_count = 0;
+      while (my $dirent = Sys->readdir($stream)) {
+        my $d_name = $dirent->d_name;
+        
+        if ($d_name eq "foo.txt") {
+          $check_file_count++;
+        }
+        elsif ($d_name eq "bar.txt") {
+          $check_file_count++;
+        }
+      }
+      
+      unless ($check_file_count == 2) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method seekdir : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    {
+      my $dir_stream = Sys->opendir($test_dir_ftest);
+      
+      my $dirent = Sys->readdir($dir_stream);
+      
+      my $offset = Sys->telldir($dir_stream);
+      
+      my $dirent_next = Sys->readdir($dir_stream);
+      
+      Sys->seekdir($dir_stream, $offset);
+      
+      my $dirent2 = Sys->readdir($dir_stream);
+      
+      unless ($dirent) {
+        warn;
+        return 0;
+      }
+      
+      unless ($dirent2) {
+        warn;
+        return 0;
+      }
+      
+      if ($dirent2->d_name eq $dirent_next->d_name) {
+        warn;
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method telldir : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    {
+      my $dir_stream = Sys->opendir($test_dir_ftest);
+      
+      my $dirent = Sys->readdir($dir_stream);
+      
+      my $offset = Sys->telldir($dir_stream);
+      
+      my $dirent_next = Sys->readdir($dir_stream);
+      
+      Sys->seekdir($dir_stream, $offset);
+      
+      my $dirent2 = Sys->readdir($dir_stream);
+      
+      unless ($dirent) {
+        warn;
+        return 0;
+      }
+      
+      unless ($dirent2) {
+        warn;
+        return 0;
+      }
+      
+      if ($dirent2->d_name eq $dirent_next->d_name) {
+        warn;
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method rewinddir : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    {
+      my $dir_stream = Sys->opendir($test_dir_ftest);
+      
+      my $dirent = Sys->readdir($dir_stream);
+      
+      Sys->rewinddir($dir_stream);
+      
+      my $dirent2 = Sys->readdir($dir_stream);
+      
+      unless ($dirent) {
+        warn;
+        return 0;
+      }
+      
+      unless ($dirent2) {
+        warn;
+        return 0;
+      }
+      
+      unless ($dirent2->d_name eq $dirent->d_name) {
+        warn;
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method closedir : int () {
+    
+    my $test_dir = &TEST_DIR;
+    
+    {
+      my $dir_stream = Sys->opendir($test_dir);
+      
+      unless ($dir_stream) {
+        return 0;
+      }
+      
+      if ($dir_stream->closed) {
+        warn $dir_stream->closed;
+        return 0;
+      }
+      
+      Sys->closedir($dir_stream);
+      
+      unless ($dir_stream->closed) {
+        warn $dir_stream->closed;
+        return 0;
+      }
+    }
+    
+    $@ = undef;
+    
+    return 1;
+  }
+  
 }

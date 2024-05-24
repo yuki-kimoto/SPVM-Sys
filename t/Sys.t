@@ -289,6 +289,39 @@ ok(SPVM::TestCase::Sys->env);
 
 ok(SPVM::TestCase::Sys->set_env);
 
+# Directory stream system calls
+{
+  # opendir
+  {
+    ok(SPVM::TestCase::Sys->opendir);
+  }
+  
+  # readdir
+  {
+    ok(SPVM::TestCase::Sys->readdir);
+  }
+  
+  # seekdir
+  {
+    ok(SPVM::TestCase::Sys->seekdir);
+  }
+  
+  # telldir
+  {
+    ok(SPVM::TestCase::Sys->telldir);
+  }
+  
+  # rewinddir
+  {
+    ok(SPVM::TestCase::Sys->rewinddir);
+  }
+  
+  # closedir
+  {
+    ok(SPVM::TestCase::Sys->closedir);
+  }
+}
+
 SPVM::api->set_exception(undef);
 
 # All object is freed

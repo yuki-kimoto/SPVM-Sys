@@ -2671,15 +2671,104 @@ class TestCase::Sys::IO {
   
   static method seekdir : int () {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    {
+      my $dir_stream = Sys::IO->opendir($test_dir_ftest);
+      
+      my $dirent = Sys::IO->readdir($dir_stream);
+      
+      my $offset = Sys::IO->telldir($dir_stream);
+      
+      my $dirent_next = Sys::IO->readdir($dir_stream);
+      
+      Sys::IO->seekdir($dir_stream, $offset);
+      
+      my $dirent2 = Sys::IO->readdir($dir_stream);
+      
+      unless ($dirent) {
+        warn;
+        return 0;
+      }
+      
+      unless ($dirent2) {
+        warn;
+        return 0;
+      }
+      
+      if ($dirent2->d_name eq $dirent_next->d_name) {
+        warn;
+        return 0;
+      }
+    }
+    
     return 1;
   }
   
   static method telldir : int () {
     
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    {
+      my $dir_stream = Sys::IO->opendir($test_dir_ftest);
+      
+      my $dirent = Sys::IO->readdir($dir_stream);
+      
+      my $offset = Sys::IO->telldir($dir_stream);
+      
+      my $dirent_next = Sys::IO->readdir($dir_stream);
+      
+      Sys::IO->seekdir($dir_stream, $offset);
+      
+      my $dirent2 = Sys::IO->readdir($dir_stream);
+      
+      unless ($dirent) {
+        warn;
+        return 0;
+      }
+      
+      unless ($dirent2) {
+        warn;
+        return 0;
+      }
+      
+      if ($dirent2->d_name eq $dirent_next->d_name) {
+        warn;
+        return 0;
+      }
+    }
+    
     return 1;
   }
   
   static method rewinddir : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    {
+      my $dir_stream = Sys::IO->opendir($test_dir_ftest);
+      
+      my $dirent = Sys::IO->readdir($dir_stream);
+      
+      Sys::IO->rewinddir($dir_stream);
+      
+      my $dirent2 = Sys::IO->readdir($dir_stream);
+      
+      unless ($dirent) {
+        warn;
+        return 0;
+      }
+      
+      unless ($dirent2) {
+        warn;
+        return 0;
+      }
+      
+      unless ($dirent2->d_name eq $dirent->d_name) {
+        warn;
+        return 0;
+      }
+    }
     
     return 1;
   }

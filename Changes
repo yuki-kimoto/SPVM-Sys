@@ -11,6 +11,8 @@
     * Sys#rewinddir method throws an exception if the directory stream is already closed.
     * Sys#seekdir method throws an exception if the directory stream is already closed.
     * Sys#telldir method throws an exception if the directory stream is already closed.
+  [Test Improvement]
+    * Add tests for Sys#opendir method, Sys#readdir method, Sys#seekdir method, Sys#telldir method, Sys#rewinddir method, Sys#closedir method.
     
 0.514001 2024-03-27
   [Bug Fix]
