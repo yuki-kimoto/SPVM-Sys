@@ -96,24 +96,58 @@ class Sys {
   }
   
   static method fileno : int ($stream : Sys::IO::FileStream) {
+    
+    unless ($stream) {
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
+    }
+    
     my $fd = Sys::IO->fileno($stream);
+    
     return $fd;
   }
   
   static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $length : int, $buf_offset : int = 0) {
+    
+    unless ($stream) {
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
+    }
+    
     my $read_length = Sys::IO->fread($buf, 1, $length, $stream);
+    
     return $read_length;
   }
   
   static method eof : int ($stream : Sys::IO::FileStream) {
+    
+    unless ($stream) {
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
+    }
+    
     my $eof = Sys::IO->feof($stream);
+    
     return $eof;
   }
   
   precompile static method readline : mutable string ($stream : Sys::IO::FileStream) {
     
     unless ($stream) {
-      die("\$stream must be defined.");
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
     }
     
     my $capacity = 80;
@@ -166,15 +200,35 @@ class Sys {
   }
   
   static method getc : int ($stream : Sys::IO::FileStream) {
+    
+    unless ($stream) {
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
+    }
+    
     my $char = Sys::IO->getc($stream);
+    
     return $char;
   }
   
   static method print : void ($stream : Sys::IO::FileStream, $string : string) {
+    
+    unless ($stream) {
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
+    }
+    
     Sys::IO->fwrite($string, 1, length $string, $stream);
   }
   
   static method printf : void ($stream : Sys::IO::FileStream, $format : string, $args : object[]) {
+    
     my $formated_string = Format->sprintf($format, $args);
     &print($stream, $formated_string);
   }
@@ -185,14 +239,41 @@ class Sys {
   }
   
   static method close : void ($stream : Sys::IO::FileStream) {
+    
+    unless ($stream) {
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
+    }
+    
     Sys::IO->fclose($stream);
   }
   
   static method seek : void ($stream : Sys::IO::FileStream, $offset : long, $whence : int) {
+    
+    unless ($stream) {
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
+    }
+    
     Sys::IO->fseek($stream, $offset, $whence);
   }
   
   static method tell : long ($stream : Sys::IO::FileStream) {
+    
+    unless ($stream) {
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
+    }
+    
     my $current_position = Sys::IO->ftell($stream);
     return $current_position;
   }
@@ -391,6 +472,14 @@ class Sys {
   }
   
   static method pclose : void ($stream : Sys::IO::FileStream) {
+    
+    unless ($stream) {
+      die "The stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The stream \$stream is already closed.";
+    }
     
     if (Sys::OS->is_windows) {
       Sys::IO->_pclose($stream);

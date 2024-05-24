@@ -11,6 +11,18 @@
     * Sys#rewinddir method throws an exception if the directory stream is already closed.
     * Sys#seekdir method throws an exception if the directory stream is already closed.
     * Sys#telldir method throws an exception if the directory stream is already closed.
+    
+    * Sys#fileno method throws an exception if the stream is not defined or the stream is already closed.
+    * Sys#read method throws an exception if the stream is not defined or the stream is already closed.
+    * Sys#eof method throws an exception if the stream is not defined or the stream is already closed.
+    * Sys#readline method throws an exception if the stream is not defined or the stream is already closed.
+    * Sys#getc method throws an exception if the stream is not defined or the stream is already closed.
+    * Sys#print method throws an exception if the stream is not defined or the stream is already closed.
+    * Sys#close method throws an exception if the stream is not defined or the stream is already closed.
+    * Sys#seek method throws an exception if the stream is not defined or the stream is already closed.
+    * Sys#tell method throws an exception if the stream is not defined or the stream is already closed.
+    * Sys#pclose method throws an exception if the stream is not defined or the stream is already closed.
+    
   [Test Improvement]
     * Add tests for Sys#opendir method, Sys#readdir method, Sys#seekdir method, Sys#telldir method, Sys#rewinddir method, Sys#closedir method.
     
