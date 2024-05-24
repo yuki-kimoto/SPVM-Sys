@@ -474,11 +474,11 @@ class Sys {
   static method pclose : void ($stream : Sys::IO::FileStream) {
     
     unless ($stream) {
-      die "The stream \$stream must be defined.";
+      die "The pipe stream \$stream must be defined.";
     }
     
     if ($stream->closed) {
-      die "The stream \$stream is already closed.";
+      die "The pipe stream \$stream is already closed.";
     }
     
     if (Sys::OS->is_windows) {

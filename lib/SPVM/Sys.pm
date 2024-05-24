@@ -87,7 +87,13 @@ C<static method fileno : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::Fil
 
 Return the file descriptor of the file stream $stream.
 
+This method calls L<Sys::IO#fileno|SPVM::Sys::IO/"fileno"> method.
+
 Exceptions:
+
+The file stream $stream must be defined. Otherwise an exception is thrown.
+
+If the file stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#fileno|SPVM::Sys::IO/"fileno"> method could be thrown.
 
@@ -97,7 +103,13 @@ C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileS
 
 Reads data from the file stream $stream by the $length, and saves it to the buffer $buf at offset $buf_offset.
 
+This method calls L<Sys::IO#fread|SPVM::Sys::IO/"fread"> method.
+
 Exceptions:
+
+The file stream $stream must be defined. Otherwise an exception is thrown.
+
+If the file stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#fread|SPVM::Sys::IO/"fread"> method could be thrown.
 
@@ -109,7 +121,13 @@ Checks if the file stream $stream reasches the end of the file.
 
 If it does, returns 1, otherwise returns 0.
 
+This method calls L<Sys::IO#feof|SPVM::Sys::IO/"feof"> method.
+
 Exceptions:
+
+The file stream $stream must be defined. Otherwise an exception is thrown.
+
+If the file stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#feof|SPVM::Sys::IO/"feof"> method could be thrown.
 
@@ -119,9 +137,13 @@ C<static method readline : mutable string ($stream : L<Sys::IO::FileStream|SPVM:
 
 Reads a line from th file stream $stream and returns it.
 
+This method calls L<Sys::IO#feof|SPVM::Sys::IO/"readline"> method.
+
 Exceptions:
 
-$stream must be defined.
+The file stream $stream must be defined. Otherwise an exception is thrown.
+
+If the file stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by the L</"getc"> method could be thrown.
 
@@ -131,7 +153,13 @@ C<static method getc : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileS
 
 Gets a charactor from the file stream $stream and returns it.
 
+This method calls L<Sys::IO#getc|SPVM::Sys::IO/"getc"> method.
+
 Exceptions:
+
+The file stream $stream must be defined. Otherwise an exception is thrown.
+
+If the file stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#getc|SPVM::Sys::IO/"getc"> method could be thrown.
 
@@ -141,7 +169,13 @@ C<static method print : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::Fil
 
 Prints the string $string to the file stream $stream.
 
+This method calls L<Sys::IO#fwrite|SPVM::Sys::IO/"fwrite"> method.
+
 Exceptions:
+
+The file stream $stream must be defined. Otherwise an exception is thrown.
+
+If the file stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#fwrite|SPVM::Sys::IO/"fwrite"> method could be thrown.
 
@@ -169,7 +203,13 @@ C<static method close : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::Fil
 
 Closes the file stream $stream.
 
+This method calls L<Sys::IO#fclose|SPVM::Sys::IO/"fclose"> method.
+
 Exceptions:
+
+The file stream $stream must be defined. Otherwise an exception is thrown.
+
+If the file stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#fclose|SPVM::Sys::IO/"fclose"> method could be thrown.
 
@@ -181,7 +221,13 @@ Moves the read/write position pointed to by the file stream $stream to the offse
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to $whence.
 
+This method calls L<Sys::IO#fseek|SPVM::Sys::IO/"fseek"> method.
+
 Exceptions:
+
+The file stream $stream must be defined. Otherwise an exception is thrown.
+
+If the file stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#fseek|SPVM::Sys::IO/"fseek"> method could be thrown.
 
@@ -191,7 +237,13 @@ C<static method tell : long ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::File
 
 Returns the read/write position pointed to by the file stream $stream.
 
+This method calls L<Sys::IO#ftell|SPVM::Sys::IO/"ftell"> method.
+
 Exceptions:
+
+The file stream $stream must be defined. Otherwise an exception is thrown.
+
+If the file stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#ftell|SPVM::Sys::IO/"ftell"> method could be thrown.
 
@@ -497,7 +549,13 @@ C<static method pclose : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::Fi
 
 Closes the file stream $stream created by the L</"popen"> method.
 
+This method calls L<Sys::IO#pclose|SPVM::Sys::IO/"pclose"> method or L<Sys::IO#_pclose|SPVM::Sys::IO/"_pclose">.
+
 Exceptions:
+
+The pipe stream $stream must be defined. Otherwise an exception is thrown.
+
+If the pipe stream $stream is already closed,  an exception is thrown.
 
 Exceptions thrown by L<Sys::IO#pclose|SPVM::Sys::IO/"pclose"> method or L<Sys::IO#_pclose|SPVM::Sys::IO/"_pclose"> method could be thrown.
 
