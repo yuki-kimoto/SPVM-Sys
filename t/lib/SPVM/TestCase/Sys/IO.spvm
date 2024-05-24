@@ -2680,8 +2680,8 @@ class TestCase::Sys::IO {
       
       my $offset = Sys::IO->telldir($dir_stream);
       
-      unless ($offset > 0) {
-        warn;
+      if ($offset == 0) {
+        warn $offset;
         return 0;
       }
       
@@ -2726,8 +2726,8 @@ class TestCase::Sys::IO {
       
       my $offset = Sys::IO->telldir($dir_stream);
       
-      unless ($offset > 0) {
-        warn;
+      if ($offset == 0) {
+        warn $offset;
         return 0;
       }
       
