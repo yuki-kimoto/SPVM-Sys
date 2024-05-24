@@ -2676,11 +2676,18 @@ class TestCase::Sys::IO {
     {
       my $dir_stream = Sys::IO->opendir($test_dir_ftest);
       
+      my $original_offset = Sys::IO->telldir($dir_stream);
+      
+      unless ($original_offset == 0) {
+        warn $original_offset;
+        return 0;
+      }
+      
       my $dirent = Sys::IO->readdir($dir_stream);
       
       my $offset = Sys::IO->telldir($dir_stream);
       
-      if ($offset == 0) {
+      unless ($offset > 0) {
         warn $offset;
         return 0;
       }
