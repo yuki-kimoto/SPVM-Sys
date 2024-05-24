@@ -1153,9 +1153,13 @@ class TestCase::Sys {
       
       my $dirent_next = Sys->readdir($dir_stream);
       
+      my $dirent_next_d_name = $dirent_next->d_name;
+      
       Sys->seekdir($dir_stream, $offset);
       
       my $dirent2 = Sys->readdir($dir_stream);
+      
+      my $dirent2_d_name = $dirent2->d_name;
       
       unless ($dirent) {
         warn;
@@ -1167,7 +1171,7 @@ class TestCase::Sys {
         return 0;
       }
       
-      if ($dirent2->d_name eq $dirent_next->d_name) {
+      unless ($dirent2_d_name eq $dirent_next_d_name) {
         warn;
         return 0;
       }
