@@ -8,6 +8,10 @@ class TestCase::Sys {
   use Fn;
   use Errno;
   
+  our $TEST_DIR : rw string;
+  
+  static method TEST_DIR_FTEST : string () { return "$TEST_DIR/ftest"; }
+  
   static method A : int () {
     
     {
@@ -1068,11 +1072,11 @@ class TestCase::Sys {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $file = "$test_dir_ftest";
+      my $dir_stream_ref = [(Sys::IO::DirStream)undef];
+      Sys->opendir($dir_stream_ref, $test_dir_ftest);
+      my $dir_stream = $dir_stream_ref->[0];
       
-      my $stream = Sys->opendir($test_dir);
-      
-      unless ($stream) {
+      unless ($dir_stream) {
         return 0;
       }
     }
@@ -1085,37 +1089,37 @@ class TestCase::Sys {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $dir = "$test_dir_ftest";
+      my $dir_stream_ref = [(Sys::IO::DirStream)undef];
+      Sys->opendir($dir_stream_ref, $test_dir_ftest);
+      my $dir_stream = $dir_stream_ref->[0];
       
-      my $stream = Sys->opendir($dir);
-      
-      Fn->defer([$stream : Sys::IO::DirStream] method : void () {
-        Sys->closedir($stream);
+      Fn->defer([$dir_stream : Sys::IO::DirStream] method : void () {
+        Sys->closedir($dir_stream);
       });
       
-      unless ($stream) {
+      unless ($dir_stream) {
         return 0;
       }
       
-      Sys->rewinddir($stream);
-      Sys->rewinddir($stream);
+      Sys->rewinddir($dir_stream);
+      Sys->rewinddir($dir_stream);
       
       {
-        my $current_offset = Sys->telldir($stream);
+        my $current_offset = Sys->telldir($dir_stream);
         unless ($current_offset == 0) {
           return 0;
         }
       }
       
       {
-        my $current_offset = Sys->telldir($stream);
+        my $current_offset = Sys->telldir($dir_stream);
         unless ($current_offset == 0) {
           return 0;
         }
       }
       
       my $check_file_count = 0;
-      while (my $dirent = Sys->readdir($stream)) {
+      while (my $dirent = Sys->readdir($dir_stream)) {
         my $d_name = $dirent->d_name;
         
         if ($d_name eq "foo.txt") {
@@ -1139,7 +1143,9 @@ class TestCase::Sys {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $dir_stream = Sys->opendir($test_dir_ftest);
+      my $dir_stream_ref = [(Sys::IO::DirStream)undef];
+      Sys->opendir($dir_stream_ref, $test_dir_ftest);
+      my $dir_stream = $dir_stream_ref->[0];
       
       my $dirent = Sys->readdir($dir_stream);
       
@@ -1175,7 +1181,9 @@ class TestCase::Sys {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $dir_stream = Sys->opendir($test_dir_ftest);
+      my $dir_stream_ref = [(Sys::IO::DirStream)undef];
+      Sys->opendir($dir_stream_ref, $test_dir_ftest);
+      my $dir_stream = $dir_stream_ref->[0];
       
       my $dirent = Sys->readdir($dir_stream);
       
@@ -1211,7 +1219,9 @@ class TestCase::Sys {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $dir_stream = Sys->opendir($test_dir_ftest);
+      my $dir_stream_ref = [(Sys::IO::DirStream)undef];
+      Sys->opendir($dir_stream_ref, $test_dir_ftest);
+      my $dir_stream = $dir_stream_ref->[0];
       
       my $dirent = Sys->readdir($dir_stream);
       
@@ -1240,10 +1250,12 @@ class TestCase::Sys {
   
   static method closedir : int () {
     
-    my $test_dir = &TEST_DIR;
+    my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $dir_stream = Sys->opendir($test_dir);
+      my $dir_stream_ref = [(Sys::IO::DirStream)undef];
+      Sys->opendir($dir_stream_ref, $test_dir_ftest);
+      my $dir_stream = $dir_stream_ref->[0];
       
       unless ($dir_stream) {
         return 0;

@@ -18,6 +18,10 @@ use File::stat ();
 # Start objects count
 my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
+my $test_dir = "$FindBin::Bin";
+
+SPVM::TestCase::Sys->SET_TEST_DIR($test_dir);
+
 # osname
 {
   is(SPVM::Sys->osname, $^O);
@@ -323,6 +327,8 @@ ok(SPVM::TestCase::Sys->set_env);
 }
 
 SPVM::api->set_exception(undef);
+
+SPVM::TestCase::Sys->SET_TEST_DIR(undef);
 
 # All object is freed
 my $end_memory_blocks_count = SPVM::api->get_memory_blocks_count();
