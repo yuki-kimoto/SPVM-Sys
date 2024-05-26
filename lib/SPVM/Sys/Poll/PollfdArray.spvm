@@ -6,6 +6,8 @@ class Sys::Poll::PollfdArray {
   # Fields
   has length : ro int;
   
+  has capacity : ro int;
+  
   # Class Methods
   native static method new : Sys::Poll::PollfdArray ($length : int);
   
