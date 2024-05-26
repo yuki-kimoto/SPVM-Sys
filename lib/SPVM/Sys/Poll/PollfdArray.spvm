@@ -9,7 +9,7 @@ class Sys::Poll::PollfdArray {
   has capacity : ro int;
   
   # Class Methods
-  native static method new : Sys::Poll::PollfdArray ($length : int = 0);
+  native static method new : Sys::Poll::PollfdArray ($length : int = 0, $capacity : int = -1);
   
   # Instance Methods
   native method DESTROY : void ();
