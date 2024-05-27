@@ -1,0 +1,67 @@
+class TestCase::Sys::Poll::PollfdArray {
+  
+  use Sys::Poll::PollfdArray;
+  
+  # Fields
+  static method fields : int () {
+    
+    # length
+    {
+      1;
+    }
+    
+    # capacity
+    {
+      1;
+    }
+    
+    return 1;
+  }
+  
+  # Class Methods
+  static method new : int () {
+    
+    return 1;
+  }
+  
+  # Instance Methods
+  static method fd : int () {
+    
+    return 1;
+  }
+  
+  static method set_fd : int () {
+    
+    return 1;
+  }
+  
+  static method events : int () {
+    
+    return 1;
+  }
+  
+  static method set_events : int () {
+    
+    return 1;
+  }
+  
+  static method revents : int () {
+    
+    return 1;
+  }
+  
+  static method set_revents : int () {
+    
+    return 1;
+  }
+  
+  static method push : int () {
+    
+    return 1;
+  }
+  
+  static method remove : int () {
+    
+    return 1;
+  }
+}

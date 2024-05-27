@@ -228,6 +228,7 @@ t/00_TestUtil_ServerRunner.t
 t/execv_success.pl
 t/exit_failure.pl
 t/exit_success.pl
+t/ftest/.gitattributes
 t/ftest/bar.txt
 t/ftest/dir_empty/.gitkeep
 t/ftest/file_bytes8.txt
@@ -247,6 +248,7 @@ t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/IO/Stat.spvm
 t/lib/SPVM/TestCase/Sys/Ioctl.spvm
 t/lib/SPVM/TestCase/Sys/Poll.spvm
+t/lib/SPVM/TestCase/Sys/Poll/PollfdArray.spvm
 t/lib/SPVM/TestCase/Sys/Process.spvm
 t/lib/SPVM/TestCase/Sys/Select.spvm
 t/lib/SPVM/TestCase/Sys/Signal.spvm
@@ -260,6 +262,7 @@ t/Sys-IO-Stat.t
 t/Sys-IO.t
 t/Sys-Ioctl.t
 t/Sys-OS.t
+t/Sys-Poll-PollfdArray.t
 t/Sys-Poll.t
 t/Sys-Process.t
 t/Sys-Select.t
