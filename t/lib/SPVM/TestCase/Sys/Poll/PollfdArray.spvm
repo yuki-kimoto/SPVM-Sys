@@ -7,12 +7,21 @@ class TestCase::Sys::Poll::PollfdArray {
     
     # length
     {
-      1;
+      my $pollfds = Sys::Poll::PollfdArray->new(2, 3);
+      
+      unless ($pollfds->length == 2) {
+        return 0;
+      }
     }
+    
     
     # capacity
     {
-      1;
+      my $pollfds = Sys::Poll::PollfdArray->new(2, 3);
+      
+      unless ($pollfds->capacity == 3) {
+        return 0;
+      }
     }
     
     return 1;
