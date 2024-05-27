@@ -375,6 +375,30 @@ class TestCase::Sys::Poll::PollfdArray {
       
     }
     
+    {
+      my $pollfds = Sys::Poll::PollfdArray->new;
+      
+      for (my $fd = 0; $fd < 100; $fd++) {
+        $pollfds->push($fd);
+      }
+      
+      unless ($pollfds->length == 100) {
+        return 0;
+      }
+      
+      for (my $fd = 0; $fd < 100; $fd++) {
+        $pollfds->remove(0);
+      }
+      
+      for (my $fd = 0; $fd < 50; $fd++) {
+        $pollfds->push($fd);
+      }
+      
+      unless ($pollfds->length == 50) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 }
