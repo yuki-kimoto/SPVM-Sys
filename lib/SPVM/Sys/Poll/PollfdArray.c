@@ -26,15 +26,27 @@ int32_t SPVM__Sys__Poll__PollfdArray__new(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The length $length must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  int32_t alloc_length = length == 0 ? sizeof(struct pollfd) * 1 : sizeof(struct pollfd) * length;
+  int32_t capacity = stack[1].ival;
+  
+  if (capacity < 0) {
+    capacity = length;
+    
+    if (capacity == 0) {
+      capacity = 1;
+    }
+  }
+  
+  int32_t alloc_length = sizeof(struct pollfd) * capacity;
   
   struct pollfd* fds = env->new_memory_block(env, stack, alloc_length);
   
-  int32_t fields_length = 1;
   void* obj_self = env->new_pointer_object_by_name(env, stack, "Sys::Poll::PollfdArray", fds, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   env->set_field_int_by_name(env, stack, obj_self, "length", length, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  env->set_field_int_by_name(env, stack, obj_self, "capacity", length, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_self;
