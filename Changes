@@ -1,3 +1,10 @@
+0.516 2024-05-27
+  [New Features]
+    * Add push method to Sys::Poll::PollfdArray class.
+    * Add remove method to Sys::Poll::PollfdArray class.
+    * Add capacity field to Sys::Poll::PollfdArray class.
+    * Add $capacity optional argument to Sys::Poll::PollfdArray#new method.
+    
 0.515 2024-05-24
   [Bug Fix]
     * May fix the bug that Sys::IO#seekdir method does not work well.
