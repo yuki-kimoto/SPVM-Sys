@@ -16,6 +16,8 @@
 
 static const char* FILE_NAME = "Sys/Poll/PollfdArray";
 
+int32_t SPVM__Sys__Poll__PollfdArray___maybe_extend(SPVM_ENV* env, SPVM_VALUE* stack);
+
 int32_t SPVM__Sys__Poll__PollfdArray__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
@@ -236,6 +238,18 @@ int32_t SPVM__Sys__Poll__PollfdArray__add(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_self = stack[0].oval;
   
   int32_t fd = stack[1].ival;
+  
+  int32_t self_length = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  int32_t new_length = self_length + 1;
+  
+  stack[0].ival = new_length;
+  SPVM__Sys__Poll__PollfdArray___maybe_extend(env, stack);
+  
+  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  
+  fds[new_length - 1].fd = fd;
   
   return 0;
 }
