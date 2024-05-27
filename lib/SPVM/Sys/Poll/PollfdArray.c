@@ -231,7 +231,7 @@ int32_t SPVM__Sys__Poll__PollfdArray__set_revents(SPVM_ENV* env, SPVM_VALUE* sta
   return 0;
 }
 
-int32_t SPVM__Sys__Poll__PollfdArray__add(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Poll__PollfdArray__push(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
@@ -239,10 +239,10 @@ int32_t SPVM__Sys__Poll__PollfdArray__add(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[1].ival;
   
-  int32_t self_length = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
+  int32_t length_field = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
-  int32_t new_length = self_length + 1;
+  int32_t new_length = length_field + 1;
   
   stack[0].ival = new_length;
   SPVM__Sys__Poll__PollfdArray___maybe_extend(env, stack);
@@ -260,7 +260,31 @@ int32_t SPVM__Sys__Poll__PollfdArray__remove(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   
-  int32_t fd = stack[1].ival;
+  int32_t index = stack[1].ival;
+  
+  int32_t length_field = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  if (!(index >= 0)) {
+    return env->die(env, stack, "The index $index must be greater than or equal to 0.");
+  }
+  
+  if (!(index < length_field)) {
+    return env->die(env, stack, "The index $index must be less than the value of length field.");
+  }
+  
+  struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
+  
+  int32_t move_length = length_field - index - 1;
+  
+  memcpy((void*)(pollfds + index), (void*)(pollfds + index + 1), sizeof (struct pollfd) * move_length);
+  
+  memset(&pollfds[length_field - 1], 0, sizeof(struct pollfd));
+  
+  length_field--;
+  
+  env->set_field_int_by_name(env, stack, obj_self, "length", length_field, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   return 0;
 }
@@ -286,10 +310,10 @@ int32_t SPVM__Sys__Poll__PollfdArray___maybe_extend(SPVM_ENV* env, SPVM_VALUE* s
   
   struct pollfd* new_pollfds = env->new_memory_block(env, stack,  sizeof(struct pollfd) * new_capacity);
   
-  int32_t self_length = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
+  int32_t length_field = env->get_field_int_by_name(env, stack, obj_self, "length", &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
-  memcpy((void*)new_pollfds, (void*)old_pollfds, sizeof(struct pollfd) * self_length);
+  memcpy((void*)new_pollfds, (void*)old_pollfds, sizeof(struct pollfd) * length_field);
   
   env->free_memory_block(env, stack, old_pollfds);
   
