@@ -38,9 +38,9 @@ int32_t SPVM__Sys__Poll__PollfdArray__new(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
   }
   
-  struct pollfd* fds = env->new_memory_block(env, stack,  sizeof(struct pollfd) * capacity);
+  struct pollfd* pollfds = env->new_memory_block(env, stack,  sizeof(struct pollfd) * capacity);
   
-  void* obj_self = env->new_pointer_object_by_name(env, stack, "Sys::Poll::PollfdArray", fds, &error_id, __func__, FILE_NAME, __LINE__);
+  void* obj_self = env->new_pointer_object_by_name(env, stack, "Sys::Poll::PollfdArray", pollfds, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   env->set_field_int_by_name(env, stack, obj_self, "length", length, &error_id, __func__, FILE_NAME, __LINE__);
@@ -58,11 +58,11 @@ int32_t SPVM__Sys__Poll__PollfdArray__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   void* obj_self = stack[0].oval;
   
-  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
   
-  assert(fds);
+  assert(pollfds);
   
-  env->free_memory_block(env, stack, fds);
+  env->free_memory_block(env, stack, pollfds);
   env->set_pointer(env, stack, obj_self, NULL);
   
   return 0;
@@ -87,9 +87,9 @@ int32_t SPVM__Sys__Poll__PollfdArray__fd(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The index $index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
   }
   
-  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
   
-  int32_t fd = fds[index].fd;
+  int32_t fd = pollfds[index].fd;
   
   stack[0].ival = fd;
   
@@ -117,9 +117,9 @@ int32_t SPVM__Sys__Poll__PollfdArray__set_fd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[2].ival;
   
-  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
   
-  fds[index].fd = fd;
+  pollfds[index].fd = fd;
   
   return 0;
 }
@@ -142,9 +142,9 @@ int32_t SPVM__Sys__Poll__PollfdArray__events(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The index $index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
   }
   
-  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
   
-  int16_t events = fds[index].events;
+  int16_t events = pollfds[index].events;
   
   stack[0].ival = events;
   
@@ -171,9 +171,9 @@ int32_t SPVM__Sys__Poll__PollfdArray__set_events(SPVM_ENV* env, SPVM_VALUE* stac
   
   int16_t events = stack[2].ival;
   
-  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
   
-  fds[index].events = events;
+  pollfds[index].events = events;
   
   return 0;
 }
@@ -195,9 +195,9 @@ int32_t SPVM__Sys__Poll__PollfdArray__revents(SPVM_ENV* env, SPVM_VALUE* stack) 
     return env->die(env, stack, "The index $index must be less than the value of the length field.", __func__, FILE_NAME, __LINE__);
   }
   
-  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
   
-  int16_t revents = fds[index].revents;
+  int16_t revents = pollfds[index].revents;
   
   stack[0].ival = revents;
   
@@ -224,9 +224,9 @@ int32_t SPVM__Sys__Poll__PollfdArray__set_revents(SPVM_ENV* env, SPVM_VALUE* sta
   
   int16_t revents = stack[2].ival;
   
-  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
   
-  fds[index].revents = revents;
+  pollfds[index].revents = revents;
   
   return 0;
 }
@@ -247,9 +247,9 @@ int32_t SPVM__Sys__Poll__PollfdArray__push(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = new_length;
   SPVM__Sys__Poll__PollfdArray___maybe_extend(env, stack);
   
-  struct pollfd* fds = env->get_pointer(env, stack, obj_self);
+  struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
   
-  fds[new_length - 1].fd = fd;
+  pollfds[new_length - 1].fd = fd;
   
   return 0;
 }
