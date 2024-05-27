@@ -244,12 +244,16 @@ int32_t SPVM__Sys__Poll__PollfdArray__push(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t new_length = length_field + 1;
   
-  stack[0].ival = new_length;
+  stack[0].oval = obj_self;
+  stack[1].ival = new_length;
   SPVM__Sys__Poll__PollfdArray___maybe_extend(env, stack);
   
   struct pollfd* pollfds = env->get_pointer(env, stack, obj_self);
   
   pollfds[new_length - 1].fd = fd;
+  
+  env->set_field_int_by_name(env, stack, obj_self, "length", new_length, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
   
   return 0;
 }
