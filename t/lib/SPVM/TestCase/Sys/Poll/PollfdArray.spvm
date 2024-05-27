@@ -21,6 +21,86 @@ class TestCase::Sys::Poll::PollfdArray {
   # Class Methods
   static method new : int () {
     
+    {
+      my $pollfds = Sys::Poll::PollfdArray->new;
+      
+      unless ($pollfds is_type Sys::Poll::PollfdArray) {
+        return 0;
+      }
+      
+      unless ($pollfds->length == 0) {
+        return 0;
+      }
+      
+      unless ($pollfds->capacity == 1) {
+        return 0;
+      }
+    }
+    
+    {
+      my $pollfds = Sys::Poll::PollfdArray->new(0, -1);
+      
+      unless ($pollfds is_type Sys::Poll::PollfdArray) {
+        return 0;
+      }
+      
+      unless ($pollfds->length == 0) {
+        return 0;
+      }
+      
+      unless ($pollfds->capacity == 1) {
+        return 0;
+      }
+    }
+    
+    {
+      my $pollfds = Sys::Poll::PollfdArray->new(1, -1);
+      
+      unless ($pollfds is_type Sys::Poll::PollfdArray) {
+        return 0;
+      }
+      
+      unless ($pollfds->length == 1) {
+        return 0;
+      }
+      
+      unless ($pollfds->capacity == 1) {
+        return 0;
+      }
+    }
+    
+    {
+      my $pollfds = Sys::Poll::PollfdArray->new(2, -1);
+      
+      unless ($pollfds is_type Sys::Poll::PollfdArray) {
+        return 0;
+      }
+      
+      unless ($pollfds->length == 2) {
+        return 0;
+      }
+      
+      unless ($pollfds->capacity == 2) {
+        return 0;
+      }
+    }
+    
+    {
+      my $pollfds = Sys::Poll::PollfdArray->new(2, 3);
+      
+      unless ($pollfds is_type Sys::Poll::PollfdArray) {
+        return 0;
+      }
+      
+      unless ($pollfds->length == 2) {
+        return 0;
+      }
+      
+      unless ($pollfds->capacity == 3) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
   
