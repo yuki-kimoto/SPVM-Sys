@@ -25,4 +25,14 @@ class Sys::Poll::PollfdArray {
   native method revents : int ($index : int);
   
   native method set_revents : void ($index : int, $revents : int);
+  
+  native method add : void ($fd : int);
+  
+  native method remove : void ($fd : int);
+  
+  method extend : void ($capacity : int) {
+    $self->_maybe_extend($capacity);
+  }
+  
+  native method _maybe_extend : void ($capacity : int);
 }
