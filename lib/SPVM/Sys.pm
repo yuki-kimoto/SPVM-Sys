@@ -1061,7 +1061,7 @@ Exceptions thrown by L<Sys::Socket#socket|SPVM::Sys::Socket/"socket"> method cou
 
 =head2 connect
 
-C<static method connect : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
+C<static method connect : void ($sockfd : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
 Attempts to connect to a remote socket, just like the C<connect> system call.
 
@@ -1073,9 +1073,9 @@ Exceptions thrown by L<Sys::Socket#connect|SPVM::Sys::Socket/"connect"> method c
 
 =head2 bind
 
-C<static method bind : void ($sockfd : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
+C<static method bind : void ($sockfd : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
-Binds a network address $addr to the socket $sockfd.
+Binds a network address $sockaddr to the socket $sockfd.
 
 This method calls L<Sys::Socket#bind|SPVM::Sys::Socket/"bind"> method.
 
@@ -1127,13 +1127,13 @@ Exceptions thrown by L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method could b
 
 =head2 send
 
-C<static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> = undef, $len : int = -1, $buf_offset : int = 0)>
+C<static method send : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> = undef, $len : int = -1, $buf_offset : int = 0)>
 
 Sends a message on a socket.
 
 If $len is less than 0, The length of $buffer is set to $len.
 
-If $addr is undef, This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method, otherwise calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method.
+If $sockaddr is undef, This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method, otherwise calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method.
 
 Exceptions:
 

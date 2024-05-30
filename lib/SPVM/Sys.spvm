@@ -956,18 +956,18 @@ class Sys {
     }
   }
   
-  static method connect : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+  static method connect : void ($sockfd : int, $sockaddr : Sys::Socket::Sockaddr) {
     
-    my $addrlen = $addr->size;
+    my $sockaddr_size = $sockaddr->size;
     
-    Sys::Socket->connect($sockfd, $addr, $addrlen);
+    Sys::Socket->connect($sockfd, $sockaddr, $sockaddr_size);
   }
   
-  static method bind : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+  static method bind : void ($sockfd : int, $sockaddr : Sys::Socket::Sockaddr) {
     
-    my $addrlen = $addr->size;
+    my $sockaddr_size = $sockaddr->size;
     
-    Sys::Socket->bind($sockfd, $addr, $addrlen);
+    Sys::Socket->bind($sockfd, $sockaddr, $sockaddr_size);
   }
   
   static method listen : void ($sockfd : int, $backlog : int) {
@@ -977,19 +977,19 @@ class Sys {
   
   static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int) {
     
-    my $addrlen = 128;
+    my $sockaddr = Sys::Socket::Sockaddr->new;
     
-    my $addr = Sys::Socket::Sockaddr->new;
+    my $sockaddr_size = 128;
     
-    $$new_sockfd_ref = Sys::Socket->accept($sockfd, $addr, \$addrlen);
+    $$new_sockfd_ref = Sys::Socket->accept($sockfd, $sockaddr, \$sockaddr_size);
     
     unless (Sys::OS->is_windows) {
       Sys->fcntl($$new_sockfd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
     }
     
-    $addr = $addr->upgrade;
+    $sockaddr = $sockaddr->upgrade;
     
-    return $addr;
+    return $sockaddr;
   }
   
   static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0) {
@@ -999,7 +999,7 @@ class Sys {
     return $recv_length;
   }
   
-  static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : Sys::Socket::Sockaddr = undef, $len : int = -1, $buf_offset : int = 0) {
+  static method send : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr = undef, $len : int = -1, $buf_offset : int = 0) {
     
     my $send_length = -1;
     
@@ -1007,8 +1007,8 @@ class Sys {
       $len = length $buf;
     }
     
-    if ($addr) {
-      $send_length = Sys::Socket->sendto($sockfd, $buf, $len, $flags, $addr, $addr->size, $buf_offset);
+    if ($sockaddr) {
+      $send_length = Sys::Socket->sendto($sockfd, $buf, $len, $flags, $sockaddr, $sockaddr->size, $buf_offset);
     }
     else {
       $send_length = Sys::Socket->send($sockfd, $buf, $len, $flags, $buf_offset);
@@ -1023,28 +1023,28 @@ class Sys {
   
   static method getpeername : Sys::Socket::Sockaddr ($sockfd : int) {
     
-    my $addrlen = Sys::Socket::Sockaddr::Storage->new->size;
+    my $sockaddr_size = Sys::Socket::Sockaddr::Storage->new->size;
     
-    my $addr = Sys::Socket::Sockaddr->new;
+    my $sockaddr = Sys::Socket::Sockaddr->new;
     
-    Sys::Socket->getpeername($sockfd, $addr, \$addrlen);
+    Sys::Socket->getpeername($sockfd, $sockaddr, \$sockaddr_size);
     
-    $addr = $addr->upgrade;
+    $sockaddr = $sockaddr->upgrade;
     
-    return $addr;
+    return $sockaddr;
   }
   
   static method getsockname : Sys::Socket::Sockaddr ($sockfd : int) {
     
-    my $addrlen = Sys::Socket::Sockaddr::Storage->new->size;
+    my $sockaddr_size = Sys::Socket::Sockaddr::Storage->new->size;
     
-    my $addr = Sys::Socket::Sockaddr->new;
+    my $sockaddr = Sys::Socket::Sockaddr->new;
     
-    Sys::Socket->getsockname($sockfd, $addr, \$addrlen);
+    Sys::Socket->getsockname($sockfd, $sockaddr, \$sockaddr_size);
     
-    $addr = $addr->upgrade;
+    $sockaddr = $sockaddr->upgrade;
     
-    return $addr;
+    return $sockaddr;
   }
   
   static method socketpair : void ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
