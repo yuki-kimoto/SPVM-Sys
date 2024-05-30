@@ -979,7 +979,7 @@ class Sys {
     
     my $sockaddr = Sys::Socket::Sockaddr->new;
     
-    my $sockaddr_size = 128;
+    my $sockaddr_size = Sys::Socket::Sockaddr::Storage->new->size;
     
     $$new_sockfd_ref = Sys::Socket->accept($sockfd, $sockaddr, \$sockaddr_size);
     

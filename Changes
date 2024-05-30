@@ -3,6 +3,7 @@
     * Fix the bug that Sys#getpeername method may allocate a wrong size of memory.
     * Fix the bug that Sys#getsockname method may allocate a wrong size of memory.
     * Fix the bug that Sys::Socket::Sockaddr#new method may allocate a wrong size of memory.
+    * Fix the bug that Sys#accept method may allocate a wrong size of memory.
     
 0.516 2024-05-27
   [New Features]
