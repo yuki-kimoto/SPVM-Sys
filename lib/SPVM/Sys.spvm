@@ -957,21 +957,26 @@ class Sys {
   }
   
   static method connect : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+    
     my $addrlen = $addr->size;
     
     Sys::Socket->connect($sockfd, $addr, $addrlen);
   }
   
   static method bind : void ($sockfd : int, $addr : Sys::Socket::Sockaddr) {
+    
     my $addrlen = $addr->size;
+    
     Sys::Socket->bind($sockfd, $addr, $addrlen);
   }
   
   static method listen : void ($sockfd : int, $backlog : int) {
+    
     Sys::Socket->listen($sockfd, $backlog);
   }
   
   static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $sockfd : int) {
+    
     my $addrlen = 128;
     
     my $addr = Sys::Socket::Sockaddr->new;
@@ -988,12 +993,14 @@ class Sys {
   }
   
   static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0) {
+    
     my $recv_length = Sys::Socket->recv($sockfd, $buf, $len, $flags, $buf_offset);
     
     return $recv_length;
   }
   
   static method send : int ($sockfd : int, $buf : string, $flags : int, $addr : Sys::Socket::Sockaddr = undef, $len : int = -1, $buf_offset : int = 0) {
+    
     my $send_length = -1;
     
     if ($len < 0) {
