@@ -21,6 +21,7 @@ class Sys {
   use Sys::Process;
   use Sys::Signal;
   use Sys::User;
+  use Sys::Socket::Sockaddr::Storage;
   
   static method STDIN : Sys::IO::FileStream () { return Sys::IO->spvm_stdin; }
   
@@ -1014,7 +1015,8 @@ class Sys {
   }
   
   static method getpeername : Sys::Socket::Sockaddr ($sockfd : int) {
-    my $addrlen = 128;
+    
+    my $addrlen = Sys::Socket::Sockaddr::Storage->new->size;
     
     my $addr = Sys::Socket::Sockaddr->new;
     
