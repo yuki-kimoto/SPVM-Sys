@@ -1029,7 +1029,7 @@ class Sys {
   
   static method getsockname : Sys::Socket::Sockaddr ($sockfd : int) {
     
-    my $addrlen = 128;
+    my $addrlen = Sys::Socket::Sockaddr::Storage->new->size;
     
     my $addr = Sys::Socket::Sockaddr->new;
     
