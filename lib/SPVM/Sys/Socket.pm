@@ -213,6 +213,20 @@ $len must be less than the length of $buf - $buf_offset. Otherwise an excetpion 
 
 If the recv function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+=head2 recvfrom
+
+C<static method recvfrom : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $src_addr : Sys::Socket::Sockaddr, $addrlen_ref : int*, $buf_offset : int = 0);>
+
+Calls the L<recvfromv|https://linux.die.net/man/2/recvfrom> function and returns its return value.
+
+Excetpions:
+
+$buf must be defined. Otherwise an excetpion is thrown.
+
+$len must be less than the length of $buf - $buf_offset. Otherwise an excetpion is thrown.
+
+If the recv function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 send
 
 C<static method send : int ($sockfd : int, $buf : string, $len : int, $flags : int, $buf_offset : int = 0);>

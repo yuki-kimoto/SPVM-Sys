@@ -417,14 +417,63 @@ int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The data length $len must be less than the length of the buffer $buf minus the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
-  int32_t bytes_length = recv(sockfd, buf + buf_offset, len, flags);
+  int32_t read_length = recv(sockfd, buf + buf_offset, len, flags);
   
-  if (bytes_length == -1) {
+  if (read_length == -1) {
     env->die(env, stack, "[System Error]recv() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  stack[0].ival = bytes_length;
+  stack[0].ival = read_length;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__recvfrom(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t sockfd = stack[0].ival;
+  
+  void* obj_buf = stack[1].oval;
+  
+  if (!obj_buf) {
+    return env->die(env, stack, "The buffer $buf must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  char* buf = (char*)env->get_chars(env, stack, obj_buf);
+  int32_t buf_length = env->length(env, stack, obj_buf);
+  
+  int32_t len = stack[2].ival;
+  
+  int32_t flags = stack[3].ival;
+  
+  void* obj_src_addr = stack[4].oval;
+  
+  struct sockaddr* src_addr = NULL;
+  if (obj_src_addr) {
+    src_addr = env->get_pointer(env, stack, obj_src_addr);
+  }
+  
+  int32_t* addrlen_ref = stack[5].iref;
+  
+  int32_t buf_offset = stack[6].ival;
+  
+  if (!(len <= buf_length - buf_offset)) {
+    return env->die(env, stack, "The data length $len must be less than the length of the buffer $buf minus the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  spvm_warn("sockfd:%d, buf:%p, buf_offset:%d, len:%d, flags:%d, src_addr:%p", sockfd, buf, buf_offset, len, flags, src_addr);
+  
+  socklen_t addrlen_ref_tmp = -1;
+  int32_t read_length = recvfrom(sockfd, buf + buf_offset, len, flags, src_addr, &addrlen_ref_tmp);
+  
+  if (read_length == -1) {
+    env->die(env, stack, "[System Error]recvfrom() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  *addrlen_ref = addrlen_ref_tmp;
+  
+  stack[0].ival = read_length;
   
   return 0;
 }
