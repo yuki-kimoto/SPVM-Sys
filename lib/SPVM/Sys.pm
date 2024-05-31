@@ -1125,6 +1125,18 @@ Exceptions:
 
 Exceptions thrown by L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method could be thrown.
 
+=head2 recv
+
+C<static method recvfrom : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buf_offset : int = 0);>
+
+Receives a message on a socket.
+
+This method calls L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method could be thrown.
+
 =head2 send
 
 C<static method send : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> = undef, $len : int = -1, $buf_offset : int = 0)>

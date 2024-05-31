@@ -999,6 +999,19 @@ class Sys {
     return $recv_length;
   }
   
+  static method recvfrom : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $buf_offset : int = 0) {
+    
+    my $addrlen = Sys::Socket::Sockaddr::Storage->new->size;
+    
+    my $recv_length = Sys::Socket->recvfrom($sockfd, $buf, $len, $flags, $sockaddr, \$addrlen, $buf_offset);
+    
+    if ($sockaddr) {
+      $sockaddr = $sockaddr->upgrade;
+    }
+    
+    return $recv_length;
+  }
+  
   static method send : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr = undef, $len : int = -1, $buf_offset : int = 0) {
     
     my $send_length = -1;

@@ -798,7 +798,7 @@ class TestCase::Sys::Socket {
       my $addrlen_tmp = -1;
       
       my $recv_buffer = (mutable string)new_string_len 3;
-      my $recv_length = Sys::Socket->recvfrom($socket, $recv_buffer, length $recv_buffer, 0, $sockaddr_tmp, \$addrlen_tmp);
+      my $recv_length = Sys->recvfrom($socket, $recv_buffer, length $recv_buffer, 0, $sockaddr_tmp);
       
       unless ($recv_length == 3) {
         return 0;
