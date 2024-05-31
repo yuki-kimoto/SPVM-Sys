@@ -237,8 +237,6 @@ Excetpions:
 
 $buf must be defined. Otherwise an excetpion is thrown.
 
-$addr must be defined. Otherwise an excetpion is thrown.
-
 $len must be less than the length of $buf - $buf_offset. Otherwise an excetpion is thrown.
 
 If the send function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.

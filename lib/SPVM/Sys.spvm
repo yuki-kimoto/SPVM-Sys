@@ -1017,6 +1017,34 @@ class Sys {
     return $send_length;
   }
   
+  static method send_v2 : int ($sockfd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0) {
+    
+    if ($len < 0) {
+      $len = length $buf;
+    }
+    
+    my $send_length = Sys::Socket->send($sockfd, $buf, $len, $flags, $buf_offset);
+    
+    return $send_length;
+  }
+  
+  static method sendto : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr = undef, $len : int = -1, $buf_offset : int = 0) {
+    
+    if ($len < 0) {
+      $len = length $buf;
+    }
+    
+    my $sockaddr_size = -1;
+    
+    if ($sockaddr) {
+      $sockaddr_size = $sockaddr->size;
+    }
+    
+    my $send_length = Sys::Socket->sendto($sockfd, $buf, $len, $flags, $sockaddr, $sockaddr_size, $buf_offset);
+    
+    return $send_length;
+  }
+  
   static method shutdown : void ($sockfd : int, $how : int) {
     Sys::Socket->shutdown($sockfd, $how);
   }

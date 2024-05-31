@@ -4,6 +4,16 @@
     * Fix the bug that Sys#getsockname method may allocate a wrong size of memory.
     * Fix the bug that Sys::Socket::Sockaddr#new method may allocate a wrong size of memory.
     * Fix the bug that Sys#accept method may allocate a wrong size of memory.
+  [New Features]
+    * Add Sys::sendto method.
+  
+  [New Features that Will Removed in The Nearly Future]
+    * Add Sys::send_v2 method. This will replace Sys::send and will removed.
+  
+  [Future Changes with Imcompatible Changes]
+    * Sys#send method will be replaced with Sys#send_v2.
+  [Changes]
+    * Allow the $addr of Sys::Socket#sendto method undef.
     
 0.516 2024-05-27
   [New Features]
