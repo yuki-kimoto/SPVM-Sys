@@ -1041,7 +1041,7 @@ class Sys {
     return $send_length;
   }
   
-  static method sendto : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr = undef, $len : int = -1, $buf_offset : int = 0) {
+  static method sendto : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $len : int = -1, $buf_offset : int = 0) {
     
     if ($len < 0) {
       $len = length $buf;

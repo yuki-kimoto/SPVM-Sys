@@ -770,7 +770,7 @@ class TestCase::Sys::Socket {
     {
       my $send_buffer = "abcd";
       
-      my $send_length = Sys->sendto($socket, $send_buffer, 0);
+      my $send_length = Sys->sendto($socket, $send_buffer, 0, undef);
       
       unless ($send_length == 4) {
         return 0;
