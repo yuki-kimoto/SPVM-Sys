@@ -111,7 +111,7 @@ class Sys {
     return $fd;
   }
   
-  static method read : int ($stream : Sys::IO::FileStream, $buf : mutable string, $length : int, $buf_offset : int = 0) {
+  static method read : int ($stream : Sys::IO::FileStream, $buffer : mutable string, $length : int, $buffer_offset : int = 0) {
     
     unless ($stream) {
       die "The file stream \$stream must be defined.";
@@ -121,7 +121,7 @@ class Sys {
       die "The file stream \$stream is already closed.";
     }
     
-    my $read_length = Sys::IO->fread($buf, 1, $length, $stream);
+    my $read_length = Sys::IO->fread($buffer, 1, $length, $stream);
     
     return $read_length;
   }
@@ -152,7 +152,7 @@ class Sys {
     }
     
     my $capacity = 80;
-    my $buf = (mutable string)new_string_len $capacity;
+    my $buffer = (mutable string)new_string_len $capacity;
     
     my $pos = 0;
     my $end_is_eof = 0;
@@ -168,19 +168,19 @@ class Sys {
           my $new_capacity = $capacity * 2;
           my $new_buf = (mutable string)new_string_len $new_capacity;
           
-          Fn->memcpy($new_buf, 0, $buf, 0, $capacity);
+          Fn->memcpy($new_buf, 0, $buffer, 0, $capacity);
           
           $capacity = $new_capacity;
-          $buf = $new_buf;
+          $buffer = $new_buf;
         }
         
         if ($ch == '\n') {
-          $buf->[$pos] = (byte)$ch;
+          $buffer->[$pos] = (byte)$ch;
           $pos++;
           last;
         }
         else {
-          $buf->[$pos] = (byte)$ch;
+          $buffer->[$pos] = (byte)$ch;
           $pos++;
         }
       }
@@ -193,7 +193,7 @@ class Sys {
       }
       else {
         $line = (mutable string)new_string_len $pos;
-        Fn->memcpy($line, 0, $buf, 0, $pos);
+        Fn->memcpy($line, 0, $buffer, 0, $pos);
       }
     }
     
@@ -286,13 +286,13 @@ class Sys {
     $$fd_ref = $fd;
   }
   
-  static method sysread : int ($fd : int, $buf : mutable string, $length : int, $buf_offset : int = 0) {
-    my $read_length = Sys::IO->read($fd, $buf, $length, $buf_offset);
+  static method sysread : int ($fd : int, $buffer : mutable string, $length : int, $buffer_offset : int = 0) {
+    my $read_length = Sys::IO->read($fd, $buffer, $length, $buffer_offset);
     return $read_length;
   }
   
-  static method syswrite : int ($fd : int, $buf : string, $length : int = -1, $buf_offset : int = 0) {
-    my $write_length = Sys::IO->write($fd, $buf, $length, $buf_offset);
+  static method syswrite : int ($fd : int, $buffer : string, $length : int = -1, $buffer_offset : int = 0) {
+    my $write_length = Sys::IO->write($fd, $buffer, $length, $buffer_offset);
     return $write_length;
   }
   
@@ -992,18 +992,18 @@ class Sys {
     return $sockaddr;
   }
   
-  static method recv : int ($socket_fd : int, $buf : mutable string, $length : int, $flags : int, $buf_offset : int = 0) {
+  static method recv : int ($socket_fd : int, $buffer : mutable string, $length : int, $flags : int, $buffer_offset : int = 0) {
     
-    my $recv_length = Sys::Socket->recv($socket_fd, $buf, $length, $flags, $buf_offset);
+    my $recv_length = Sys::Socket->recv($socket_fd, $buffer, $length, $flags, $buffer_offset);
     
     return $recv_length;
   }
   
-  static method recvfrom : int ($socket_fd : int, $buf : mutable string, $length : int, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $buf_offset : int = 0) {
+  static method recvfrom : int ($socket_fd : int, $buffer : mutable string, $length : int, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $buffer_offset : int = 0) {
     
     my $addrlen = Sys::Socket::Sockaddr::Storage->new->size;
     
-    my $recv_length = Sys::Socket->recvfrom($socket_fd, $buf, $length, $flags, $sockaddr, \$addrlen, $buf_offset);
+    my $recv_length = Sys::Socket->recvfrom($socket_fd, $buffer, $length, $flags, $sockaddr, \$addrlen, $buffer_offset);
     
     if ($sockaddr) {
       $sockaddr = $sockaddr->upgrade;
@@ -1012,21 +1012,21 @@ class Sys {
     return $recv_length;
   }
   
-  static method send : int ($socket_fd : int, $buf : string, $flags : int, $length : int = -1, $buf_offset : int = 0) {
+  static method send : int ($socket_fd : int, $buffer : string, $flags : int, $length : int = -1, $buffer_offset : int = 0) {
     
     if ($length < 0) {
-      $length = length $buf;
+      $length = length $buffer;
     }
     
-    my $send_length = Sys::Socket->send($socket_fd, $buf, $length, $flags, $buf_offset);
+    my $send_length = Sys::Socket->send($socket_fd, $buffer, $length, $flags, $buffer_offset);
     
     return $send_length;
   }
   
-  static method sendto : int ($socket_fd : int, $buf : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $length : int = -1, $buf_offset : int = 0) {
+  static method sendto : int ($socket_fd : int, $buffer : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $length : int = -1, $buffer_offset : int = 0) {
     
     if ($length < 0) {
-      $length = length $buf;
+      $length = length $buffer;
     }
     
     my $addrlen = -1;
@@ -1035,7 +1035,7 @@ class Sys {
       $addrlen = $sockaddr->size;
     }
     
-    my $send_length = Sys::Socket->sendto($socket_fd, $buf, $length, $flags, $sockaddr, $addrlen, $buf_offset);
+    my $send_length = Sys::Socket->sendto($socket_fd, $buffer, $length, $flags, $sockaddr, $addrlen, $buffer_offset);
     
     return $send_length;
   }

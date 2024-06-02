@@ -99,9 +99,9 @@ Exceptions thrown by L<Sys::IO#fileno|SPVM::Sys::IO/"fileno"> method could be th
 
 =head2 read
 
-C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buf : mutable string, $length : int, $buf_offset : int = 0);>
+C<static method read : int ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>, $buffer : mutable string, $length : int, $buffer_offset : int = 0);>
 
-Reads data from the file stream $stream by the $length, and saves it to the buffer $buf at offset $buf_offset.
+Reads data from the file stream $stream by the $length, and saves it to the buffer $buffer at offset $buffer_offset.
 
 This method calls L<Sys::IO#fread|SPVM::Sys::IO/"fread"> method.
 
@@ -263,9 +263,9 @@ Exceptions thrown by L<Sys::IO#open|SPVM::Sys::IO/"open"> method could be thrown
 
 =head2 sysread
 
-C<static method sysread : int ($fd : int, $buf : mutable string, $length : int, $buf_offset : int = 0);>
+C<static method sysread : int ($fd : int, $buffer : mutable string, $length : int, $buffer_offset : int = 0);>
 
-Reads data from the file stream $stream by the $length, and saves it to the buffer $buf from the offset $buf_offset.
+Reads data from the file stream $stream by the $length, and saves it to the buffer $buffer from the offset $buffer_offset.
 
 Exceptions:
 
@@ -273,9 +273,9 @@ Exceptions thrown by L<Sys::IO#read|SPVM::Sys::IO/"read"> method could be thrown
 
 =head2 syswrite
 
-C<static method syswrite : int ($fd : int, $buf : string, $length : int = -1, $buf_offset : int = 0);>
+C<static method syswrite : int ($fd : int, $buffer : string, $length : int = -1, $buffer_offset : int = 0);>
 
-Writes data to the file stream $stream by the $length from the buffer $buf at offset $buf_offset.
+Writes data to the file stream $stream by the $length from the buffer $buffer at offset $buffer_offset.
 
 Exceptions:
 
@@ -1115,7 +1115,7 @@ Exceptions thrown by L<Sys::Socket#accept|SPVM::Sys::Socket/"accept"> method cou
 
 =head2 recv
 
-C<static method recv : int ($socket_fd : int, $buf : mutable string, $length : int, $flags : int, $buf_offset : int = 0);>
+C<static method recv : int ($socket_fd : int, $buffer : mutable string, $length : int, $flags : int, $buffer_offset : int = 0);>
 
 Receives a message on a socket.
 
@@ -1127,7 +1127,7 @@ Exceptions thrown by L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method could b
 
 =head2 recvfrom
 
-C<static method recvfrom : int ($socket_fd : int, $buf : mutable string, $length : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buf_offset : int = 0);>
+C<static method recvfrom : int ($socket_fd : int, $buffer : mutable string, $length : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buffer_offset : int = 0);>
 
 Receives a message on a socket given the peer socket address $sockaddr for output.
 
@@ -1141,11 +1141,11 @@ Exceptions thrown by L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method
 
 =head2 send
 
-C<static method send : int ($socket_fd : int, $buf : string, $flags : int, $length : int = -1, $buf_offset : int = 0);>
+C<static method send : int ($socket_fd : int, $buffer : string, $flags : int, $length : int = -1, $buffer_offset : int = 0);>
 
 Sends a message on a socket.
 
-If $length is less than 0, $length is set to he length of $buf.
+If $length is less than 0, $length is set to he length of $buffer.
 
 This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method.
 
@@ -1155,7 +1155,7 @@ Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or L<Sys::Socke
 
 =head2 sendto
 
-C<static method sendto : int ($socket_fd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $length : int = -1, $buf_offset : int = 0);>
+C<static method sendto : int ($socket_fd : int, $buffer : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $length : int = -1, $buffer_offset : int = 0);>
 
 Sends a message on a socket given the peer socket address $sockaddr.
 
