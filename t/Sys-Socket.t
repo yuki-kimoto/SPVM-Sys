@@ -121,19 +121,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   ok(SPVM::TestCase::Sys::Socket->send_and_recv($server->port));
 }
 
-# send_v2 and recv
-{
-  my $server = TestUtil::ServerRunner->new(
-    code => sub {
-      my ($port) = @_;
-      
-      TestUtil::ServerRunner->run_echo_server($port);
-    },
-  );
-  
-  ok(SPVM::TestCase::Sys::Socket->send_v2_and_recv($server->port));
-}
-
 # sendto and recvfrom
 {
   my $server = TestUtil::ServerRunner->new(

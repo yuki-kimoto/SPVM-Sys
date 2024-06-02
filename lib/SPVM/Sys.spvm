@@ -1029,13 +1029,13 @@ class Sys {
       $len = length $buf;
     }
     
-    my $sockaddr_size = -1;
+    my $addrlen = -1;
     
     if ($sockaddr) {
-      $sockaddr_size = $sockaddr->size;
+      $addrlen = $sockaddr->size;
     }
     
-    my $send_length = Sys::Socket->sendto($sockfd, $buf, $len, $flags, $sockaddr, $sockaddr_size, $buf_offset);
+    my $send_length = Sys::Socket->sendto($sockfd, $buf, $len, $flags, $sockaddr, $addrlen, $buf_offset);
     
     return $send_length;
   }

@@ -1119,7 +1119,7 @@ C<static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $f
 
 Receives a message on a socket.
 
-This method calls L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method.
+This method calls L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method and returns its return value.
 
 Exceptions:
 
@@ -1129,9 +1129,11 @@ Exceptions thrown by L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method could b
 
 C<static method recvfrom : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buf_offset : int = 0);>
 
-Receives a message on a socket.
+Receives a message on a socket given the peer socket address $sockaddr for output.
 
 This method calls L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method.
+
+If $sockaddr is given, $sockaddr is upgraded by calling L<Sys::Socket::Sockaddr#upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
 
 Exceptions:
 
@@ -1143,7 +1145,7 @@ C<static method send : int ($sockfd : int, $buf : string, $flags : int, $len : i
 
 Sends a message on a socket.
 
-If $len is less than 0, The length of $buffer is set to $len.
+If $len is less than 0, $len is set to he length of $buf.
 
 This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method.
 
@@ -1155,7 +1157,7 @@ Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or L<Sys::Socke
 
 C<static method sendto : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $len : int = -1, $buf_offset : int = 0);>
 
-Sends a message on a socket.
+Sends a message on a socket given the peer socket address $sockaddr.
 
 If $len is less than 0, The length of $buffer is set to $len.
 
