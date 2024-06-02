@@ -1045,15 +1045,15 @@ If the OS name could not be determined, an exception is thrown.
 
 =head2 socket
 
-C<static method socket : void ($sockfd_ref : int*, $domain : int, $type : int, $protocol : int);>
+C<static method socket : void ($socket_fd_ref : int*, $domain : int, $type : int, $protocol : int);>
 
 Opens a socket given the domain $domain, the type $type, and the protocal $protocol.
 
-The created socket file descriptor is set to the value referenced by $sockfd_ref.
+The created socket file descriptor is set to the value referenced by $socket_fd_ref.
 
 This method calls L<Sys::Socket#socket|SPVM::Sys::Socket/"socket"> method.
 
-If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $sockfd_ref using L</"fcntl">.
+If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $socket_fd_ref using L</"fcntl">.
 
 Exceptions:
 
@@ -1061,7 +1061,7 @@ Exceptions thrown by L<Sys::Socket#socket|SPVM::Sys::Socket/"socket"> method cou
 
 =head2 connect
 
-C<static method connect : void ($sockfd : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
+C<static method connect : void ($socket_fd : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
 Attempts to connect to a remote socket, just like the C<connect> system call.
 
@@ -1073,9 +1073,9 @@ Exceptions thrown by L<Sys::Socket#connect|SPVM::Sys::Socket/"connect"> method c
 
 =head2 bind
 
-C<static method bind : void ($sockfd : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
+C<static method bind : void ($socket_fd : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>);>
 
-Binds a network address $sockaddr to the socket $sockfd.
+Binds a network address $sockaddr to the socket $socket_fd.
 
 This method calls L<Sys::Socket#bind|SPVM::Sys::Socket/"bind"> method.
 
@@ -1085,7 +1085,7 @@ Exceptions thrown by L<Sys::Socket#bind|SPVM::Sys::Socket/"bind"> method could b
 
 =head2 listen
 
-C<static method listen : void ($sockfd : int, $backlog : int);>
+C<static method listen : void ($socket_fd : int, $backlog : int);>
 
 Does the same thing that the C<listen> system call does.
 
@@ -1097,7 +1097,7 @@ Exceptions thrown by L<Sys::Socket#listen|SPVM::Sys::Socket/"listen"> method cou
 
 =head2 accept
 
-C<static method accept : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($new_sockfd_ref : int*, $sockfd : int);>
+C<static method accept : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($new_sockfd_ref : int*, $socket_fd : int);>
 
 Accepts an incoming socket connect, just as the C<accept> system call does. Returns the packed address.
 
@@ -1115,7 +1115,7 @@ Exceptions thrown by L<Sys::Socket#accept|SPVM::Sys::Socket/"accept"> method cou
 
 =head2 recv
 
-C<static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);>
+C<static method recv : int ($socket_fd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);>
 
 Receives a message on a socket.
 
@@ -1127,7 +1127,7 @@ Exceptions thrown by L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method could b
 
 =head2 recvfrom
 
-C<static method recvfrom : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buf_offset : int = 0);>
+C<static method recvfrom : int ($socket_fd : int, $buf : mutable string, $len : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buf_offset : int = 0);>
 
 Receives a message on a socket given the peer socket address $sockaddr for output.
 
@@ -1141,7 +1141,7 @@ Exceptions thrown by L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method
 
 =head2 send
 
-C<static method send : int ($sockfd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0);>
+C<static method send : int ($socket_fd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0);>
 
 Sends a message on a socket.
 
@@ -1155,7 +1155,7 @@ Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or L<Sys::Socke
 
 =head2 sendto
 
-C<static method sendto : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $len : int = -1, $buf_offset : int = 0);>
+C<static method sendto : int ($socket_fd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $len : int = -1, $buf_offset : int = 0);>
 
 Sends a message on a socket given the peer socket address $sockaddr.
 
@@ -1171,9 +1171,9 @@ Exceptions thrown by L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method cou
 
 =head2 shutdown
 
-C<static method shutdown : void ($sockfd : int, $how : int);>
+C<static method shutdown : void ($socket_fd : int, $how : int);>
 
-Shuts down a socket  connection $sockfd in the manner indicated by $how.
+Shuts down a socket  connection $socket_fd in the manner indicated by $how.
 
 This method calls L<Sys::Socket#shutdown|SPVM::Sys::Socket/"shutdown"> method.
 
@@ -1183,9 +1183,9 @@ Exceptions thrown by L<Sys::Socket#shutdown|SPVM::Sys::Socket/"shutdown"> method
 
 =head2 getpeername
 
-C<static method getpeername : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int);>
+C<static method getpeername : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($socket_fd : int);>
 
-Returns the packed sockaddr address of the other end of the socket connection $sockfd.
+Returns the packed sockaddr address of the other end of the socket connection $socket_fd.
 
 This method calls L<Sys::Socket#getpeername|SPVM::Sys::Socket/"getpeername"> method.
 
@@ -1197,9 +1197,9 @@ Exceptions thrown by L<Sys::Socket#getpeername|SPVM::Sys::Socket/"getpeername"> 
 
 =head2 getsockname
 
-C<static method getsockname : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($sockfd : int)>
+C<static method getsockname : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($socket_fd : int)>
 
-Returns the packed sockaddr address of this end of the socket connection $sockfd.
+Returns the packed sockaddr address of this end of the socket connection $socket_fd.
             
 Thie method calls L<Sys::Socket#getsockname|SPVM::Sys::Socket/"getsockname"> method.
 
@@ -1231,7 +1231,7 @@ Exceptions thrown by L<Sys::Socket#socketpair|SPVM::Sys::Socket/"socketpair"> me
 
 =head2 setsockopt
 
-C<static method setsockopt : void ($sockfd : int, $level : int, $optname : int, $optval : object of string|Int);>
+C<static method setsockopt : void ($socket_fd : int, $level : int, $optname : int, $optval : object of string|Int);>
 
 Sets the socket option requested.
 
@@ -1247,7 +1247,7 @@ Exceptions thrown by L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> me
 
 =head2 getsockopt
 
-C<static method getsockopt : string ($sockfd : int, $level : int, $optname : int, $optlen : int = -1);>
+C<static method getsockopt : string ($socket_fd : int, $level : int, $optname : int, $optlen : int = -1);>
 
 If $optlen is less than 0, it is set to 4.
 
