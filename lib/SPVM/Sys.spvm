@@ -1012,25 +1012,7 @@ class Sys {
     return $recv_length;
   }
   
-  static method send : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr = undef, $len : int = -1, $buf_offset : int = 0) {
-    
-    my $send_length = -1;
-    
-    if ($len < 0) {
-      $len = length $buf;
-    }
-    
-    if ($sockaddr) {
-      $send_length = Sys::Socket->sendto($sockfd, $buf, $len, $flags, $sockaddr, $sockaddr->size, $buf_offset);
-    }
-    else {
-      $send_length = Sys::Socket->send($sockfd, $buf, $len, $flags, $buf_offset);
-    }
-    
-    return $send_length;
-  }
-  
-  static method send_v2 : int ($sockfd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0) {
+  static method send : int ($sockfd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0) {
     
     if ($len < 0) {
       $len = length $buf;

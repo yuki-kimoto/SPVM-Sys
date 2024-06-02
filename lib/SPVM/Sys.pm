@@ -1139,21 +1139,7 @@ Exceptions thrown by L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method
 
 =head2 send
 
-C<static method send : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> = undef, $len : int = -1, $buf_offset : int = 0)>
-
-Sends a message on a socket.
-
-If $len is less than 0, The length of $buffer is set to $len.
-
-If $sockaddr is undef, This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method, otherwise calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method.
-
-Exceptions:
-
-Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method could be thrown.
-
-=head2 send_v2
-
-C<static method send_v2 : int ($sockfd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0);>
+C<static method send : int ($sockfd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0);>
 
 Sends a message on a socket.
 
