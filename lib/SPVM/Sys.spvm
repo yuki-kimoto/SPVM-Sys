@@ -992,18 +992,18 @@ class Sys {
     return $sockaddr;
   }
   
-  static method recv : int ($socket_fd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0) {
+  static method recv : int ($socket_fd : int, $buf : mutable string, $length : int, $flags : int, $buf_offset : int = 0) {
     
-    my $recv_length = Sys::Socket->recv($socket_fd, $buf, $len, $flags, $buf_offset);
+    my $recv_length = Sys::Socket->recv($socket_fd, $buf, $length, $flags, $buf_offset);
     
     return $recv_length;
   }
   
-  static method recvfrom : int ($socket_fd : int, $buf : mutable string, $len : int, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $buf_offset : int = 0) {
+  static method recvfrom : int ($socket_fd : int, $buf : mutable string, $length : int, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $buf_offset : int = 0) {
     
     my $addrlen = Sys::Socket::Sockaddr::Storage->new->size;
     
-    my $recv_length = Sys::Socket->recvfrom($socket_fd, $buf, $len, $flags, $sockaddr, \$addrlen, $buf_offset);
+    my $recv_length = Sys::Socket->recvfrom($socket_fd, $buf, $length, $flags, $sockaddr, \$addrlen, $buf_offset);
     
     if ($sockaddr) {
       $sockaddr = $sockaddr->upgrade;
@@ -1012,21 +1012,21 @@ class Sys {
     return $recv_length;
   }
   
-  static method send : int ($socket_fd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0) {
+  static method send : int ($socket_fd : int, $buf : string, $flags : int, $length : int = -1, $buf_offset : int = 0) {
     
-    if ($len < 0) {
-      $len = length $buf;
+    if ($length < 0) {
+      $length = length $buf;
     }
     
-    my $send_length = Sys::Socket->send($socket_fd, $buf, $len, $flags, $buf_offset);
+    my $send_length = Sys::Socket->send($socket_fd, $buf, $length, $flags, $buf_offset);
     
     return $send_length;
   }
   
-  static method sendto : int ($socket_fd : int, $buf : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $len : int = -1, $buf_offset : int = 0) {
+  static method sendto : int ($socket_fd : int, $buf : string, $flags : int, $sockaddr : Sys::Socket::Sockaddr, $length : int = -1, $buf_offset : int = 0) {
     
-    if ($len < 0) {
-      $len = length $buf;
+    if ($length < 0) {
+      $length = length $buf;
     }
     
     my $addrlen = -1;
@@ -1035,7 +1035,7 @@ class Sys {
       $addrlen = $sockaddr->size;
     }
     
-    my $send_length = Sys::Socket->sendto($socket_fd, $buf, $len, $flags, $sockaddr, $addrlen, $buf_offset);
+    my $send_length = Sys::Socket->sendto($socket_fd, $buf, $length, $flags, $sockaddr, $addrlen, $buf_offset);
     
     return $send_length;
   }

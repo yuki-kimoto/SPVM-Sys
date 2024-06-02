@@ -1115,7 +1115,7 @@ Exceptions thrown by L<Sys::Socket#accept|SPVM::Sys::Socket/"accept"> method cou
 
 =head2 recv
 
-C<static method recv : int ($socket_fd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);>
+C<static method recv : int ($socket_fd : int, $buf : mutable string, $length : int, $flags : int, $buf_offset : int = 0);>
 
 Receives a message on a socket.
 
@@ -1127,7 +1127,7 @@ Exceptions thrown by L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method could b
 
 =head2 recvfrom
 
-C<static method recvfrom : int ($socket_fd : int, $buf : mutable string, $len : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buf_offset : int = 0);>
+C<static method recvfrom : int ($socket_fd : int, $buf : mutable string, $length : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buf_offset : int = 0);>
 
 Receives a message on a socket given the peer socket address $sockaddr for output.
 
@@ -1141,11 +1141,11 @@ Exceptions thrown by L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method
 
 =head2 send
 
-C<static method send : int ($socket_fd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0);>
+C<static method send : int ($socket_fd : int, $buf : string, $flags : int, $length : int = -1, $buf_offset : int = 0);>
 
 Sends a message on a socket.
 
-If $len is less than 0, $len is set to he length of $buf.
+If $length is less than 0, $length is set to he length of $buf.
 
 This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method.
 
@@ -1155,11 +1155,11 @@ Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or L<Sys::Socke
 
 =head2 sendto
 
-C<static method sendto : int ($socket_fd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $len : int = -1, $buf_offset : int = 0);>
+C<static method sendto : int ($socket_fd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $length : int = -1, $buf_offset : int = 0);>
 
 Sends a message on a socket given the peer socket address $sockaddr.
 
-If $len is less than 0, The length of $buffer is set to $len.
+If $length is less than 0, The length of $buffer is set to $length.
 
 If $sockaddr is undef, This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method, otherwise calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method.
 
