@@ -1125,7 +1125,7 @@ Exceptions:
 
 Exceptions thrown by L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method could be thrown.
 
-=head2 recv
+=head2 recvfrom
 
 C<static method recvfrom : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buf_offset : int = 0);>
 
@@ -1150,6 +1150,36 @@ If $sockaddr is undef, This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"s
 Exceptions:
 
 Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method could be thrown.
+
+=head2 send_v2
+
+C<static method send_v2 : int ($sockfd : int, $buf : string, $flags : int, $len : int = -1, $buf_offset : int = 0);>
+
+Sends a message on a socket.
+
+If $len is less than 0, The length of $buffer is set to $len.
+
+This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method.
+
+Exceptions:
+
+Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method could be thrown.
+
+=head2 sendto
+
+C<static method sendto : int ($sockfd : int, $buf : string, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $len : int = -1, $buf_offset : int = 0);>
+
+Sends a message on a socket.
+
+If $len is less than 0, The length of $buffer is set to $len.
+
+If $sockaddr is undef, This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method, otherwise calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method.
+
+This method calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method could be thrown.
 
 =head2 shutdown
 
