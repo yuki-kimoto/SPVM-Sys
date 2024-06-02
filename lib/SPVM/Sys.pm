@@ -1460,11 +1460,23 @@ C<static method real_user_id : int ();>
 
 Gets the real user ID of this process.
 
+This method calls L<Sys::User#getuid|SPVM::Sys::User/"getuid"> method and returns its return value.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::User#getuid|SPVM::Sys::User/"getuid"> method could be thrown.
+
 =head2 effective_user_id
 
 C<static method effective_user_id : int ();>
 
 Gets the effective user ID of this process.
+
+This method calls L<Sys::User#geteuid|SPVM::Sys::User/"geteuid"> method and returns its return value.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::User#geteuid|SPVM::Sys::User/"geteuid"> method could be thrown.
 
 =head2 real_group_id
 
@@ -1472,17 +1484,35 @@ C<static method real_group_id : int ();>
 
 Gets the real group ID of this process.
 
+This method calls L<Sys::User#getgid|SPVM::Sys::User/"getgid"> method and returns its return value.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::User#getgid|SPVM::Sys::User/"getgid"> method could be thrown.
+
 =head2 effective_group_id
 
 C<static method effective_group_id : int ();>
 
 Gets the effective group ID of this process.
 
+This method calls L<Sys::User#getegid|SPVM::Sys::User/"getegid"> method and returns its return value.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::User#getegid|SPVM::Sys::User/"getegid"> method could be thrown.
+
 =head2 set_real_user_id
 
 C<static method set_real_user_id : int ($uid : int);>
 
 Sets the real user ID of this process.
+
+This method calls L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method and returns its return value.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method could be thrown.
 
 =head2 set_effective_user_id
 
@@ -1492,15 +1522,27 @@ Sets the effective user ID of this process.
 
 =head2 set_real_group_id
 
-C<static method set_real_group_id : int ($gid : int);>
+C<static method set_real_group_id : int ($real_group_id : int);>
 
 Sets the real group ID of this process.
 
+This method calls L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method given the arguments given to this method and returns its return value.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method could be thrown.
+
 =head2 set_effective_group_id
 
-C<static method set_effective_group_id : int ($egid : int);>
+C<static method set_effective_group_id : int ($effective_group_id : int);>
 
 Sets the effective group ID of this process.
+
+This method calls L<Sys::User#getegid|SPVM::Sys::User/"getegid"> method given the arguments given to this method and returns its return value.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::User#getegid|SPVM::Sys::User/"getegid"> method could be thrown.
 
 =head2 setpwent
 
