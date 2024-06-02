@@ -1404,19 +1404,19 @@ class Sys {
     return $effective_group_id;
   }
   
-  static method set_real_user_id : int ($uid : int) {
+  static method set_real_user_id : void ($uid : int) {
     Sys::User->setuid($uid);
   }
   
-  static method set_effective_user_id : int ($euid : int) {
+  static method set_effective_user_id : void ($euid : int) {
     Sys::User->seteuid($euid);
   }
   
-  static method set_real_group_id : int ($real_group_id : int) {
+  static method set_real_group_id : void ($real_group_id : int) {
     Sys::User->setgid($real_group_id);
   }
   
-  static method set_effective_group_id : int ($effective_group_id : int) {
+  static method set_effective_group_id : void ($effective_group_id : int) {
     Sys::User->setegid($effective_group_id);
   }
   

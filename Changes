@@ -1,7 +1,11 @@
 0.518 2024-06-03
   [Incompatible Changes]
     * The implementation and definition of Sys::send method is replaced with the ones of Sys::send_v2 method.
-    * Sys::send_v2 method is removed,
+    * Sys::send_v2 method is removed.
+    * Changes the return type of Sys#set_real_user_id method from int to void.
+    * Changes the return type of Sys#set_effective_user_id method from int to void.
+    * Changes the return type of Sys#set_real_group_id method from int to void.
+    * Changes the return type of Sys#set_effective_group_id method from int to void.
     
 0.517 2024-05-31
   [Bug Fix]

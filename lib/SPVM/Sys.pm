@@ -1504,7 +1504,7 @@ Exceptions thrown by L<Sys::User#getegid|SPVM::Sys::User/"getegid"> method could
 
 =head2 set_real_user_id
 
-C<static method set_real_user_id : int ($uid : int);>
+C<static method set_real_user_id : void ($uid : int);>
 
 Sets the real user ID of this process.
 
@@ -1516,13 +1516,13 @@ Exceptions thrown by L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method could b
 
 =head2 set_effective_user_id
 
-C<static method set_effective_user_id : int ($euid : int);>
+C<static method set_effective_user_id : void ($euid : int);>
 
 Sets the effective user ID of this process.
 
 =head2 set_real_group_id
 
-C<static method set_real_group_id : int ($real_group_id : int);>
+C<static method set_real_group_id : void ($real_group_id : int);>
 
 Sets the real group ID of this process.
 
@@ -1534,7 +1534,7 @@ Exceptions thrown by L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method could b
 
 =head2 set_effective_group_id
 
-C<static method set_effective_group_id : int ($effective_group_id : int);>
+C<static method set_effective_group_id : void ($effective_group_id : int);>
 
 Sets the effective group ID of this process.
 
