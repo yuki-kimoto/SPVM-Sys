@@ -1223,7 +1223,7 @@ class Sys {
     Sys::Time->utime($filename, $utimbuf);
   }
   
-  static method signal : Sys::Signal::Handler ($signum : int, $handler_name : string) {
+  static method signal : Sys::Signal::Handler ($signal_number : int, $handler_name : string) {
     
     my $handler = (Sys::Signal::Handler)undef;
     
@@ -1237,22 +1237,22 @@ class Sys {
       die "\$handler_name \"$handler_name\" is not available.";
     }
     
-    my $old_handler = Sys::Signal->signal($signum, $handler);
+    my $old_handler = Sys::Signal->signal($signal_number, $handler);
     
     return $old_handler;
   }
   
-  static method kill : void ($sig : int, $process_id : int) {
+  static method kill : void ($signal_number : int, $process_id : int) {
     if (Sys::OS->is_windows) {
       if ($process_id == Sys->process_id) {
-        Sys::Signal->raise($sig);
+        Sys::Signal->raise($signal_number);
       }
       else {
         die "\$process_id must be equal to Sys->process_id in Windows.";
       }
     }
     else {
-      Sys::Signal->kill($process_id, $sig);
+      Sys::Signal->kill($process_id, $signal_number);
     }
   }
   

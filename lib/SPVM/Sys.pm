@@ -1268,9 +1268,9 @@ Exceptions thrown by L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> me
 
 =head2 signal
 
-C<static method signal : void ($signum : int, $handler_name : string);>
+C<static method signal : void ($signal_number : int, $handler_name : string);>
 
-Sets a signal handler with its name $handler_name for the given signal number $signum.
+Sets a signal handler with its name $handler_name for the given signal number $signal_number.
 
 If $handler_name is "DEFAULT", the signal handler is L<"SIG_DFL"|SPVM::Sys::Signal/"SIG_DFL">.
 
@@ -1286,9 +1286,9 @@ The exceptions thrown by L<Sys::Signal#signal|SPVM::Sys::Signal/"signal"> method
 
 =head2 kill
 
-C<static method kill : void ($sig : int, $process_id : int);>
+C<static method kill : void ($signal_number : int, $process_id : int);>
 
-Send a signal $sig to the process whose process ID is $process_id.
+Send a signal $signal_number to the process whose process ID is $process_id.
 
 See L<Sys::Signal#kill|SPVM::Sys::Signal/"kill"> method in detail.
 
