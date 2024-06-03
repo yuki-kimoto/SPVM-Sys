@@ -29,7 +29,7 @@ class Sys {
   
   static method STDERR : Sys::IO::FileStream () { return Sys::IO->spvm_stderr; }
   
-  static method open : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file_name : string) {
+  static method open : void ($stream_ref : Sys::IO::FileStream[], $open_mode : string, $file : string) {
     
     unless ($stream_ref) {
       die "\$stream_ref must be defined.";
@@ -41,7 +41,7 @@ class Sys {
     
     my $fopen_mode = &to_fopen_mode($open_mode);
     
-    my $stream = Sys::IO->fopen($file_name, $fopen_mode);
+    my $stream = Sys::IO->fopen($file, $fopen_mode);
     
     unless (Sys::OS->is_windows) {
       Sys->fcntl(Sys->fileno($stream), IO->F_SETFD, IO->FD_CLOEXEC);
@@ -279,9 +279,9 @@ class Sys {
     return $current_position;
   }
   
-  static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0) {
+  static method sysopen : void ($fd_ref : int*, $file : string, $flags : int, $mode : int = 0) {
     
-    my $fd = Sys::IO->open($path, $flags, $mode);
+    my $fd = Sys::IO->open($file, $flags, $mode);
     
     $$fd_ref = $fd;
   }
@@ -315,8 +315,8 @@ class Sys {
     Sys::IO->flock($fd, $operation);
   }
   
-  static method mkdir : void ($path : string, $mode : int) {
-    Sys::IO->mkdir($path, $mode);
+  static method mkdir : void ($dir : string, $mode : int) {
+    Sys::IO->mkdir($dir, $mode);
   }
   
   static method umask : int ($mode : int) {
@@ -325,17 +325,17 @@ class Sys {
     return $current_umask;
   }
   
-  static method rmdir : void ($path : string) {
-    Sys::IO->rmdir($path);
+  static method rmdir : void ($dir : string) {
+    Sys::IO->rmdir($dir);
   }
   
-  static method unlink : void ($pathname : string) {
+  static method unlink : void ($file : string) {
     
     if (Sys::OS->is_windows) {
-      Sys::IO::Windows->unlink($pathname);
+      Sys::IO::Windows->unlink($file);
     }
     else {
-      Sys::IO->unlink($pathname);
+      Sys::IO->unlink($file);
     }
   }
   
@@ -379,16 +379,16 @@ class Sys {
     return $buffer;
   }
   
-  static method chdir : void ($path : string) {
-    Sys::IO->chdir($path);
+  static method chdir : void ($dir : string) {
+    Sys::IO->chdir($dir);
   }
   
-  static method chmod : void ($mode :int, $path : string) {
-    Sys::IO->chmod($path, $mode);
+  static method chmod : void ($mode :int, $file : string) {
+    Sys::IO->chmod($file, $mode);
   }
   
-  static method chown : void ($owner : int, $group : int, $path : string) {
-    Sys::IO->chown($path, $owner, $group);
+  static method chown : void ($owner : int, $group : int, $file : string) {
+    Sys::IO->chown($file, $owner, $group);
   }
   
   static method opendir : void ($dh_ref : Sys::IO::DirStream[], $dir : string) {
@@ -539,21 +539,21 @@ class Sys {
     return $ioctl_ret;
   }
   
-  static method stat : Sys::IO::Stat ($path : string) {
+  static method stat : Sys::IO::Stat ($file : string) {
     my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->stat($path, $stat);
+    Sys::IO::Stat->stat($file, $stat);
     return $stat;
   }
   
-  static method lstat : Sys::IO::Stat ($path : string) {
+  static method lstat : Sys::IO::Stat ($file : string) {
     
     my $stat = Sys::IO::Stat->new;
     
     if (Sys::OS->is_windows) {
-      Sys::IO::Windows->lstat($path, $stat);
+      Sys::IO::Windows->lstat($file, $stat);
     }
     else {
-      Sys::IO::Stat->lstat($path, $stat);
+      Sys::IO::Stat->lstat($file, $stat);
     }
     
     return $stat;
@@ -975,16 +975,16 @@ class Sys {
     Sys::Socket->listen($socket_fd, $backlog);
   }
   
-  static method accept : Sys::Socket::Sockaddr ($new_sockfd_ref : int*, $socket_fd : int) {
+  static method accept : Sys::Socket::Sockaddr ($new_socket_fd_ref : int*, $socket_fd : int) {
     
     my $sockaddr = Sys::Socket::Sockaddr->new;
     
     my $sockaddr_size = Sys::Socket::Sockaddr::Storage->new->size;
     
-    $$new_sockfd_ref = Sys::Socket->accept($socket_fd, $sockaddr, \$sockaddr_size);
+    $$new_socket_fd_ref = Sys::Socket->accept($socket_fd, $sockaddr, \$sockaddr_size);
     
     unless (Sys::OS->is_windows) {
-      Sys->fcntl($$new_sockfd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+      Sys->fcntl($$new_socket_fd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
     }
     
     $sockaddr = $sockaddr->upgrade;
@@ -1108,15 +1108,15 @@ class Sys {
     }
   }
   
-  static method getsockopt : string ($socket_fd : int, $level : int, $option_name : int, $optlen : int = -1) {
+  static method getsockopt : string ($socket_fd : int, $level : int, $option_name : int, $option_value_length : int = -1) {
     
-    unless ($optlen >= 0) {
-      $optlen = 4;
+    unless ($option_value_length >= 0) {
+      $option_value_length = 4;
     }
     
-    my $option_value = (mutable string)new_string_len $optlen;
+    my $option_value = (mutable string)new_string_len $option_value_length;
     
-    Sys::Socket->getsockopt($socket_fd, $level, $option_name, $option_value, \$optlen);
+    Sys::Socket->getsockopt($socket_fd, $level, $option_name, $option_value, \$option_value_length);
     
     return $option_value;
   }
@@ -1177,7 +1177,9 @@ class Sys {
   }
   
   static method time : long () {
+    
     my $time = Sys::Time->time();
+    
     return $time;
   }
   
@@ -1207,7 +1209,7 @@ class Sys {
     return $tm;
   }
   
-  static method utime : void ($atime : long, $mtime : long, $filename : string) {
+  static method utime : void ($atime : long, $mtime : long, $file : string) {
     
     my $utimbuf = (Sys::Time::Utimbuf)undef;
     
@@ -1220,7 +1222,7 @@ class Sys {
       $utimbuf->set_modtime($mtime);
     }
     
-    Sys::Time->utime($filename, $utimbuf);
+    Sys::Time->utime($file, $utimbuf);
   }
   
   static method signal : Sys::Signal::Handler ($signal_number : int, $handler_name : string) {

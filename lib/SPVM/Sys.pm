@@ -17,13 +17,14 @@ Sys class in L<SPVM> has methods to call system calls for file IO, sockets, user
   use Sys;
   
   my $fd_ref = [(Sys::IO::FileStream)undef];
-  Sys->open($fd_ref, "<", $path);
+  my $file = "a.txt";
+  Sys->open($fd_ref, "<", $file);
   
   Sys->mkdir("foo");
   
   Sys->rmdir("foo");
   
-  my $path = Sys->env("PATH");
+  my $env_path = Sys->env("PATH");
   
   my $process_id = Sys->process_id;
 
@@ -49,9 +50,9 @@ Returns the L<stderr|SPVM::Document::NativeAPI/"spvm_stderr"> opened by the SPVM
 
 =head2 open
 
-C<static method open : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file_name : string);>
+C<static method open : void ($stream_ref : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>[], $open_mode : string, $file : string);>
 
-Opens a file given the open mode $open_mode and the file name $file_name. 
+Opens a file given the open mode $open_mode and the file name $file. 
 
 The opened file stream is set to $stream_ref at index 0.
 
@@ -249,9 +250,9 @@ Exceptions thrown by L<Sys::IO#ftell|SPVM::Sys::IO/"ftell"> method could be thro
 
 =head2 sysopen
 
-C<static method sysopen : void ($fd_ref : int*, $path : string, $flags : int, $mode : int = 0);>
+C<static method sysopen : void ($fd_ref : int*, $file : string, $flags : int, $mode : int = 0);>
 
-Opens a file given, the file path $path, the mode $flags and the mode $mode.
+Opens a file given, the file path $file, the mode $flags and the mode $mode.
 
 The file descriptor of the opened file is set to the value reffered by $fd_ref.
 
@@ -317,9 +318,9 @@ Exceptions thrown by L<Sys::IO#flock|SPVM::Sys::IO/"flock"> method could be thro
 
 =head2 mkdir
 
-C<static method mkdir : void ($path : string, $mode : int);>
+C<static method mkdir : void ($dir : string, $mode : int);>
 
-Creates the directory given the path $path and the mode $mode.
+Creates the directory given the path $dir and the mode $mode.
 
 The permissions of the created directory are ($mode & ~L<umask|/"umask"> & 0777).
 
@@ -341,7 +342,7 @@ Exceptions thrown by L<Sys::IO#umask|SPVM::Sys::IO/"umask"> method could be thro
 
 =head2 unlink
 
-C<static method unlink : void ($pathname : string);>
+C<static method unlink : void ($file : string);>
 
 Deletes a file.
 
@@ -365,9 +366,9 @@ Exceptions thrown by the L<Sys::IO::Windows#rename|SPVM::Sys::IO::Windows/"renam
 
 =head2 rmdir
 
-C<static method rmdir : void ($path : string);>
+C<static method rmdir : void ($dir : string);>
 
-Deletes the directory given the path $path.
+Deletes the directory given the path $dir.
 
 Exceptions:
 
@@ -375,9 +376,9 @@ Exceptions thrown by L<Sys::IO#rmdir|SPVM::Sys::IO/"rmdir"> method could be thro
 
 =head2 chdir
 
-C<static method chdir : void ($path : string);>
+C<static method chdir : void ($dir : string);>
 
-Changes the working directory to the path $path.
+Changes the working directory to the path $dir.
 
 Exceptions:
 
@@ -385,9 +386,9 @@ Exceptions thrown by L<Sys::IO#chdir|SPVM::Sys::IO/"chdir"> method could be thro
 
 =head2 chmod
 
-C<static method chmod : void ($mode :int, $path : string);>
+C<static method chmod : void ($mode :int, $file : string);>
 
-Changes the permissions of the file $path to the permission $mode.
+Changes the permissions of the file $file to the permission $mode.
 
 Exceptions:
 
@@ -395,9 +396,9 @@ Exceptions thrown by L<Sys::IO#chmod|SPVM::Sys::IO/"chmod"> method could be thro
 
 =head2 chown
 
-C<static method chown : void ($owner : int, $group : int, $path : string);>
+C<static method chown : void ($owner : int, $group : int, $file : string);>
 
-Changes the owner and the group of the file $path to $owner and $group.
+Changes the owner and the group of the file $file to $owner and $group.
 
 Exceptions:
 
@@ -947,9 +948,9 @@ Works just like L</"localtime">, but the returned values are for the UTC time zo
 
 =head2 utime
 
-C<static method utime : void ($atime : long, $mtime : long, $filename : string);>
+C<static method utime : void ($atime : long, $mtime : long, $file : string);>
 
-Changes the access time and the modification time of the inode specified by the file $filename given the access time $atime and the modification time $mtime.
+Changes the access time and the modification time of the inode specified by the file $file given the access time $atime and the modification time $mtime.
 
 If $atime < 0 and $mtime < 0, changes the access time and the modification time to the current time..
 
@@ -959,9 +960,9 @@ Exceptions thrown by L<Sys::Time#utime|SPVM::Sys::Time/"utime"> method could be 
 
 =head2 stat
 
-C<static method stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
+C<static method stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($file : string);>
 
-Returns information about a file $path.
+Returns information about a file $file.
 
 Exceptions:
 
@@ -969,9 +970,9 @@ Exceptions thrown by L<Sys::IO::Stat#stat|SPVM::Sys::IO::Stat/"stat"> method cou
 
 =head2 lstat
 
-C<static method lstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($path : string);>
+C<static method lstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($file : string);>
 
-Identical to L</"stat">, except that if path $path is a symbolic link(or directory junction only in Windows), then the link itself is stat-ed, not the file that it refers to.
+Identical to L</"stat">, except that if path $file is a symbolic link(or directory junction only in Windows), then the link itself is stat-ed, not the file that it refers to.
 
 In Windows, this method calls the L<lstat|SPVM::Sys::IO::Windows/"lstat"> method, otherwise calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method.
 
@@ -1097,17 +1098,17 @@ Exceptions thrown by L<Sys::Socket#listen|SPVM::Sys::Socket/"listen"> method cou
 
 =head2 accept
 
-C<static method accept : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($new_sockfd_ref : int*, $socket_fd : int);>
+C<static method accept : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($new_socket_fd_ref : int*, $socket_fd : int);>
 
 Accepts an incoming socket connect, just as the C<accept> system call does. Returns the packed address.
 
-A new connected socket file descriptor is set to the value referenced by $new_sockfd_ref.
+A new connected socket file descriptor is set to the value referenced by $new_socket_fd_ref.
 
 Thie methods calls L<Sys::Socket#accept|SPVM::Sys::Socket/"accept"> method.
 
 The returned packed address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
 
-If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $new_sockfd_ref using L</"fcntl">.
+If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $new_socket_fd_ref using L</"fcntl">.
 
 Exceptions:
 
@@ -1247,9 +1248,9 @@ Exceptions thrown by L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> me
 
 =head2 getsockopt
 
-C<static method getsockopt : string ($socket_fd : int, $level : int, $option_name : int, $optlen : int = -1);>
+C<static method getsockopt : string ($socket_fd : int, $level : int, $option_name : int, $option_value_length : int = -1);>
 
-If $optlen is less than 0, it is set to 4.
+If $option_value_length is less than 0, it is set to 4.
 
 This method calls L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> method.
 
