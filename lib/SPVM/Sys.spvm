@@ -1012,6 +1012,31 @@ class Sys {
     return $recv_length;
   }
   
+  static method recvfrom_v2 : int ($socket_fd : int, $buffer : mutable string, $length : int, $flags : int, $sockaddr_ref : Sys::Socket::Sockaddr[], $buffer_offset : int = 0) {
+    
+    my $sockaddr = (Sys::Socket::Sockaddr)undef;
+    
+    my $addrlen = -1;
+    
+    if ($sockaddr_ref) {
+      unless (@$sockaddr_ref == 1) {
+        die "If \$sockaddr_ref for an array for a peer socket address for output is defined, the length must be 1.";
+      }
+      
+      $sockaddr = Sys::Socket::Sockaddr->new;
+    }
+    
+    my $recv_length = Sys::Socket->recvfrom($socket_fd, $buffer, $length, $flags, $sockaddr, \$addrlen, $buffer_offset);
+    
+    if ($sockaddr_ref) {
+      $sockaddr = $sockaddr->upgrade;
+      
+      $sockaddr_ref->[0] = $sockaddr;
+    }
+    
+    return $recv_length;
+  }
+  
   static method send : int ($socket_fd : int, $buffer : string, $flags : int, $length : int = -1, $buffer_offset : int = 0) {
     
     if ($length < 0) {
