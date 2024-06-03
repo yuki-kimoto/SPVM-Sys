@@ -1211,19 +1211,19 @@ Exceptions thrown by L<Sys::Socket#getsockname|SPVM::Sys::Socket/"getsockname"> 
 
 =head2 socketpair
 
-C<static method socketpair : void ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int);>
+C<static method socketpair : void ($socket_fd1_ref : int*, $socket_fd2_ref : int*, $domain : int, $type : int, $protocol : int);>
 
 Creates an unnamed pair of sockets in the specified domain, of
 the specified type. The domain $domain, the type $type, the protocal $protocol are specified the
 same as for the syscall of the same name.
 
-The opened reading file descripor is set to the value referenced by $sock_fd1_ref.
+The opened reading file descripor is set to the value referenced by $socket_fd1_ref.
 
-The opened writing file descripor is set to the value referenced by $sock_fd2_ref.
+The opened writing file descripor is set to the value referenced by $socket_fd2_ref.
 
 This method calls L<Sys::Socket#socketpair|SPVM::Sys::Socket/"socketpair"> method .
 
-If available, C<FD_CLOEXEC> is set to the file descriptor of the value referenced by $sock_fd1_ref and the value referenced by $sock_fd2_ref.
+If available, C<FD_CLOEXEC> is set to the file descriptor of the value referenced by $socket_fd1_ref and the value referenced by $socket_fd2_ref.
 
 Exceptions:
 
@@ -1231,7 +1231,7 @@ Exceptions thrown by L<Sys::Socket#socketpair|SPVM::Sys::Socket/"socketpair"> me
 
 =head2 setsockopt
 
-C<static method setsockopt : void ($socket_fd : int, $level : int, $optname : int, $optval : object of string|Int);>
+C<static method setsockopt : void ($socket_fd : int, $level : int, $option_name : int, $option_value : object of string|Int);>
 
 Sets the socket option requested.
 
@@ -1239,15 +1239,15 @@ This method calls L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> metho
 
 Exceptions:
 
-$optval must be defined. Otherwise an exception is thrown.
+$option_value must be defined. Otherwise an exception is thrown.
 
-The type of \$optval must be the Int or string type.
+The type of \$option_value must be the Int or string type.
 
 Exceptions thrown by L<Sys::Socket#getsockopt|SPVM::Sys::Socket/"getsockopt"> method could be thrown.
 
 =head2 getsockopt
 
-C<static method getsockopt : string ($socket_fd : int, $level : int, $optname : int, $optlen : int = -1);>
+C<static method getsockopt : string ($socket_fd : int, $level : int, $option_name : int, $optlen : int = -1);>
 
 If $optlen is less than 0, it is set to 4.
 

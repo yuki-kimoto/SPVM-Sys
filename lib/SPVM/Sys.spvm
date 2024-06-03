@@ -1070,55 +1070,55 @@ class Sys {
     return $sockaddr;
   }
   
-  static method socketpair : void ($sock_fd1_ref : int*, $sock_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
+  static method socketpair : void ($socket_fd1_ref : int*, $socket_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
     my $pair = new int[2];
     
     Sys::Socket->socketpair($domain, $type, $protocol, $pair);
     
-    $$sock_fd1_ref = $pair->[0];
+    $$socket_fd1_ref = $pair->[0];
     
-    $$sock_fd2_ref = $pair->[1];
+    $$socket_fd2_ref = $pair->[1];
     
     unless (Sys::OS->is_windows) {
-      Sys->fcntl($$sock_fd1_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+      Sys->fcntl($$socket_fd1_ref, IO->F_SETFD, IO->FD_CLOEXEC);
       
-      Sys->fcntl($$sock_fd2_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+      Sys->fcntl($$socket_fd2_ref, IO->F_SETFD, IO->FD_CLOEXEC);
     }
   }
   
-  static method setsockopt : void ($socket_fd : int, $level : int, $optname : int, $optval : object of string|Int) {
+  static method setsockopt : void ($socket_fd : int, $level : int, $option_name : int, $option_value : object of string|Int) {
     
-    unless ($optval) {
-      die "\$optval must be defined.";
+    unless ($option_value) {
+      die "\$option_value must be defined.";
     }
     
-    if ($optval is_type Int) {
-      my $optval_ref = [$optval->(Int)->value];
-      my $optval_string = new_string_len 4;
-      Fn->memcpy($optval_string, 0, $optval_ref, 0, 4);
+    if ($option_value is_type Int) {
+      my $option_value_ref = [$option_value->(Int)->value];
+      my $option_value_string = new_string_len 4;
+      Fn->memcpy($option_value_string, 0, $option_value_ref, 0, 4);
       
-      Sys::Socket->setsockopt($socket_fd, $level, $optname, $optval_string, 4);
+      Sys::Socket->setsockopt($socket_fd, $level, $option_name, $option_value_string, 4);
     }
-    elsif ($optval is_type string) {
-      my $optval_string = (string)$optval;
-      Sys::Socket->setsockopt($socket_fd, $level, $optname, $optval_string, length $optval_string);
+    elsif ($option_value is_type string) {
+      my $option_value_string = (string)$option_value;
+      Sys::Socket->setsockopt($socket_fd, $level, $option_name, $option_value_string, length $option_value_string);
     }
     else {
-      die "The type of \$optval must be the Int or string type.";
+      die "The type of \$option_value must be the Int or string type.";
     }
   }
   
-  static method getsockopt : string ($socket_fd : int, $level : int, $optname : int, $optlen : int = -1) {
+  static method getsockopt : string ($socket_fd : int, $level : int, $option_name : int, $optlen : int = -1) {
     
     unless ($optlen >= 0) {
       $optlen = 4;
     }
     
-    my $optval = (mutable string)new_string_len $optlen;
+    my $option_value = (mutable string)new_string_len $optlen;
     
-    Sys::Socket->getsockopt($socket_fd, $level, $optname, $optval, \$optlen);
+    Sys::Socket->getsockopt($socket_fd, $level, $option_name, $option_value, \$optlen);
     
-    return $optval;
+    return $option_value;
   }
   
   static method osname : string () {
