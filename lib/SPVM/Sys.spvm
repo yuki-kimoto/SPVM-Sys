@@ -1242,17 +1242,17 @@ class Sys {
     return $old_handler;
   }
   
-  static method kill : void ($sig : int, $pid : int) {
+  static method kill : void ($sig : int, $process_id : int) {
     if (Sys::OS->is_windows) {
-      if ($pid == Sys->process_id) {
+      if ($process_id == Sys->process_id) {
         Sys::Signal->raise($sig);
       }
       else {
-        die "\$pid must be equal to Sys->process_id in Windows.";
+        die "\$process_id must be equal to Sys->process_id in Windows.";
       }
     }
     else {
-      Sys::Signal->kill($pid, $sig);
+      Sys::Signal->kill($process_id, $sig);
     }
   }
   
@@ -1274,8 +1274,8 @@ class Sys {
     return $priority;
   }
   
-  static method setpriority : void ($which : int, $who : int, $prio : int) {
-    Sys::Process->setpriority($which, $who, $prio);
+  static method setpriority : void ($which : int, $who : int, $priority : int) {
+    Sys::Process->setpriority($which, $who, $priority);
   }
   
   static method sleep : int ($seconds : int) {
@@ -1292,11 +1292,11 @@ class Sys {
     return $process_id;
   }
   
-  static method waitpid : int ($pid : int, $options : int, $wstatus_ref : int*) {
+  static method waitpid : int ($process_id : int, $options : int, $wstatus_ref : int*) {
     
-    my $process_id = Sys::Process->waitpid($pid, $wstatus_ref, $options);
+    my $process_id_status_changed = Sys::Process->waitpid($process_id, $wstatus_ref, $options);
     
-    return $process_id;
+    return $process_id_status_changed;
   }
   
   static method system : int ($command : string) {
@@ -1331,16 +1331,16 @@ class Sys {
     $$write_fd_ref = $pipe_fds->[1];
   }
   
-  static method getpgrp : int ($pid : int) {
+  static method getpgrp : int ($process_id : int) {
     
-    my $process_group_id = Sys::Process->getpgid($pid);
+    my $process_group_id = Sys::Process->getpgid($process_id);
     
     return $process_group_id;
   }
   
-  static method setpgrp : void ($pid : int, $pgid : int) {
+  static method setpgrp : void ($process_id : int, $process_group_id : int) {
     
-    Sys::Process->setpgid($pid, $pgid);
+    Sys::Process->setpgid($process_id, $process_group_id);
   }
   
   static method process_id : int () {

@@ -1286,9 +1286,9 @@ The exceptions thrown by L<Sys::Signal#signal|SPVM::Sys::Signal/"signal"> method
 
 =head2 kill
 
-C<static method kill : void ($sig : int, $pid : int);>
+C<static method kill : void ($sig : int, $process_id : int);>
 
-Send a signal $sig to the process whose process ID is $pid.
+Send a signal $sig to the process whose process ID is $process_id.
 
 See L<Sys::Signal#kill|SPVM::Sys::Signal/"kill"> method in detail.
 
@@ -1300,7 +1300,7 @@ The exceptions thrown by L<Sys::Signal#alarm|SPVM::Sys::Signal/"alarm"> method c
 
 The exceptions thrown by L<Sys::Signal#raise|SPVM::Sys::Signal/"raise"> method could be thrown.
 
-$pid must be equal to Sys->process_id in Windows. Otherwise an exception is thrown.
+$process_id must be equal to Sys->process_id in Windows. Otherwise an exception is thrown.
 
 =head2 alarm
 
@@ -1338,7 +1338,7 @@ Exceptions thrown by L<Sys::Process#getpriority|SPVM::Sys::Process/"getpriority"
 
 =head2 setpriority
 
-C<static method setpriority : void ($which : int, $who : int, $prio : int)>
+C<static method setpriority : void ($which : int, $who : int, $priority : int)>
 
 Sets the scheduling priority of the process, process group, or user, as indicated by $which and $who is obtained.
 
@@ -1390,9 +1390,9 @@ Exceptions thrown by L<Sys::Process#wait|SPVM::Sys::Process/"wait"> method could
 
 =head2 waitpid
 
-C<static method waitpid : int ($pid : in, $options : int, $wstatus_ref : int*);>
+C<static method waitpid : int ($process_id : in, $options : int, $wstatus_ref : int*);>
 
-Same as the L</"wait"> method, but can give the process ID $pid and the options $options.
+Same as the L</"wait"> method, but can give the process ID $process_id and the options $options.
 
 See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> about constant values given to $options.
 
@@ -1422,15 +1422,15 @@ If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced b
 
 =head2 getpgrp
 
-C<static method getpgrp : int ($pid : int);>
+C<static method getpgrp : int ($process_id : int);>
 
-Gets the process group number given the process ID $pid of the running this program.
+Gets the process group number given the process ID $process_id of the running this program.
 
 =head2 setpgrp
 
-C<static method setpgrp : void ($pid : int, $pgid : int);>
+C<static method setpgrp : void ($process_id : int, $process_group_id : int);>
 
-Sets the process group number $pgid given the process ID $pid of the running this program.
+Sets the process group number $process_group_id given the process ID $process_id of the running this program.
 
 =head2 process_id
 
@@ -1458,7 +1458,7 @@ Examples:
 
 C<static method real_user_id : int ();>
 
-Gets the real user ID of this process.
+Gets the real user ID of the current process.
 
 This method calls L<Sys::User#getuid|SPVM::Sys::User/"getuid"> method and returns its return value.
 
@@ -1470,7 +1470,7 @@ Exceptions thrown by L<Sys::User#getuid|SPVM::Sys::User/"getuid"> method could b
 
 C<static method effective_user_id : int ();>
 
-Gets the effective user ID of this process.
+Gets the effective user ID of the current process.
 
 This method calls L<Sys::User#geteuid|SPVM::Sys::User/"geteuid"> method and returns its return value.
 
@@ -1482,7 +1482,7 @@ Exceptions thrown by L<Sys::User#geteuid|SPVM::Sys::User/"geteuid"> method could
 
 C<static method real_group_id : int ();>
 
-Gets the real group ID of this process.
+Gets the real group ID of the current process.
 
 This method calls L<Sys::User#getgid|SPVM::Sys::User/"getgid"> method and returns its return value.
 
@@ -1494,7 +1494,7 @@ Exceptions thrown by L<Sys::User#getgid|SPVM::Sys::User/"getgid"> method could b
 
 C<static method effective_group_id : int ();>
 
-Gets the effective group ID of this process.
+Gets the effective group ID of the current process.
 
 This method calls L<Sys::User#getegid|SPVM::Sys::User/"getegid"> method and returns its return value.
 
@@ -1506,9 +1506,9 @@ Exceptions thrown by L<Sys::User#getegid|SPVM::Sys::User/"getegid"> method could
 
 C<static method set_real_user_id : void ($uid : int);>
 
-Sets the real user ID of this process.
+Sets the real user ID of the current process.
 
-This method calls L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method and returns its return value.
+This method calls L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method given the argument given to this method.
 
 Exceptions:
 
@@ -1518,27 +1518,33 @@ Exceptions thrown by L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method could b
 
 C<static method set_effective_user_id : void ($euid : int);>
 
-Sets the effective user ID of this process.
+Sets the effective user ID of the current process.
+
+This method calls L<Sys::User#seteuid|SPVM::Sys::User/"seteuid"> method given the argument given to this method.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::User#seteuid|SPVM::Sys::User/"seteuid"> method could be thrown.
 
 =head2 set_real_group_id
 
 C<static method set_real_group_id : void ($real_group_id : int);>
 
-Sets the real group ID of this process.
+Sets the real group ID of the current process.
 
-This method calls L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method given the arguments given to this method and returns its return value.
+This method calls L<Sys::User#setgid|SPVM::Sys::User/"setgid"> method given the argument given to this method.
 
 Exceptions:
 
-Exceptions thrown by L<Sys::User#setuid|SPVM::Sys::User/"setuid"> method could be thrown.
+Exceptions thrown by L<Sys::User#setgid|SPVM::Sys::User/"setgid"> method could be thrown.
 
 =head2 set_effective_group_id
 
 C<static method set_effective_group_id : void ($effective_group_id : int);>
 
-Sets the effective group ID of this process.
+Sets the effective group ID of the current process.
 
-This method calls L<Sys::User#getegid|SPVM::Sys::User/"getegid"> method given the arguments given to this method and returns its return value.
+This method calls L<Sys::User#getegid|SPVM::Sys::User/"getegid"> method given the argument given to this method.
 
 Exceptions:
 
