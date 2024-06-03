@@ -1,6 +1,6 @@
 package SPVM::Sys;
 
-our $VERSION = "0.517";
+our $VERSION = "0.518";
 
 1;
 
@@ -1120,7 +1120,7 @@ C<static method recv : int ($socket_fd : int, $buffer : mutable string, $length 
 
 Receives a message on a socket.
 
-This method calls L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method and returns its return value.
+This method calls L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method given the arguments given to this method and returns its return value.
 
 Exceptions:
 
@@ -1132,7 +1132,9 @@ C<static method recvfrom : int ($socket_fd : int, $buffer : mutable string, $len
 
 Receives a message on a socket given the peer socket address $sockaddr for output.
 
-This method calls L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method.
+This method calls L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method given the arguments given to this method and returns its return value.
+
+$addrlen is set to the return value of L<Sys::Socket::Sockaddr::Storage#size|SPVM::Sys::Socket::Sockaddr::Storage/"size"> method.
 
 If $sockaddr is given, $sockaddr is upgraded by calling L<Sys::Socket::Sockaddr#upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
 
@@ -1146,13 +1148,13 @@ C<static method send : int ($socket_fd : int, $buffer : string, $flags : int, $l
 
 Sends a message on a socket.
 
-If $length is less than 0, $length is set to he length of $buffer.
+This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method given the arguments given to this method and returns its return value.
 
-This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method.
+If $length is less than 0, $length is set to the length of $buffer.
 
 Exceptions:
 
-Exceptions thrown by the L<send|SPVM::Sys::Socket/"send"> method or L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method could be thrown.
+Exceptions thrown by L<Sys::Socket#sendto|SPVM::Sys::Socket/"send"> method could be thrown.
 
 =head2 sendto
 
@@ -1160,11 +1162,9 @@ C<static method sendto : int ($socket_fd : int, $buffer : string, $flags : int, 
 
 Sends a message on a socket given the peer socket address $sockaddr.
 
-If $length is less than 0, The length of $buffer is set to $length.
+This method calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method given the arguments given to this method and returns its return value.
 
-If $sockaddr is undef, This method calls L<Sys::Socket#send|SPVM::Sys::Socket/"send"> method, otherwise calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method.
-
-This method calls L<Sys::Socket#sendto|SPVM::Sys::Socket/"sendto"> method.
+If $length is less than 0, $length is set to the length of $buffer.
 
 Exceptions:
 
