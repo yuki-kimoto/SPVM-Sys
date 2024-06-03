@@ -461,8 +461,6 @@ int32_t SPVM__Sys__Socket__recvfrom(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The data length $len must be less than the length of the buffer $buf minus the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
-  spvm_warn("sockfd:%d, buf:%p, buf_offset:%d, len:%d, flags:%d, src_addr:%p", sockfd, buf, buf_offset, len, flags, src_addr);
-  
   socklen_t addrlen_ref_tmp = -1;
   int32_t read_length = recvfrom(sockfd, buf + buf_offset, len, flags, src_addr, &addrlen_ref_tmp);
   
