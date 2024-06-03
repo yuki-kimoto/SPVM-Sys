@@ -135,18 +135,6 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 }
 
 {
-  my $server = TestUtil::ServerRunner->new(
-    code => sub {
-      my ($port) = @_;
-      
-      TestUtil::ServerRunner->run_echo_server($port);
-    },
-  );
-  
-  ok(SPVM::TestCase::Sys::Socket->sendto_and_recvfrom_v2($server->port));
-}
-
-{
   my $port = TestUtil::ServerRunner->empty_port;
   ok(SPVM::TestCase::Sys::Socket->bind($port));
 }

@@ -1128,23 +1128,7 @@ Exceptions thrown by L<Sys::Socket#recv|SPVM::Sys::Socket/"recv"> method could b
 
 =head2 recvfrom
 
-C<static method recvfrom : int ($socket_fd : int, $buffer : mutable string, $length : int, $flags : int, $sockaddr : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>, $buffer_offset : int = 0);>
-
-Receives a message on a socket given the peer socket address $sockaddr for output.
-
-This method calls L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method given the arguments given to this method and returns its return value.
-
-$addrlen is set to the return value of L<Sys::Socket::Sockaddr::Storage#size|SPVM::Sys::Socket::Sockaddr::Storage/"size"> method.
-
-If $sockaddr is given, $sockaddr is upgraded by calling L<Sys::Socket::Sockaddr#upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
-
-Exceptions:
-
-Exceptions thrown by L<Sys::Socket#recvfrom|SPVM::Sys::Socket/"recvfrom"> method could be thrown.
-
-=head2 recvfrom_v2
-
-C<static method recvfrom_v2 : int ($socket_fd : int, $buffer : mutable string, $length : int, $flags : int, $sockaddr_ref : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>[], $buffer_offset : int = 0);>
+C<static method recvfrom : int ($socket_fd : int, $buffer : mutable string, $length : int, $flags : int, $sockaddr_ref : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>[], $buffer_offset : int = 0);>
 
 Receives a message on a socket given the array $sockaddr_ref for a peer socket address for output.
 
