@@ -339,21 +339,21 @@ class Sys {
     }
   }
   
-  static method rename : void ($oldpath : string, $newpath : string) {
+  static method rename : void ($old_path : string, $new_path : string) {
     if (Sys::OS->is_windows) {
-      Sys::IO::Windows->rename($oldpath, $newpath);
+      Sys::IO::Windows->rename($old_path, $new_path);
     }
     else {
-      Sys::IO->rename($oldpath, $newpath);
+      Sys::IO->rename($old_path, $new_path);
     }
   }
   
-  static method symlink : int ($oldpath : string, $newpath : string) {
+  static method symlink : int ($old_path : string, $new_path : string) {
     if (Sys::OS->is_windows) {
-      Sys::IO::Windows->symlink($oldpath, $newpath);
+      Sys::IO::Windows->symlink($old_path, $new_path);
     }
     else {
-      Sys::IO->symlink($oldpath, $newpath);
+      Sys::IO->symlink($old_path, $new_path);
     }
     
     my $success = 1;
@@ -391,11 +391,11 @@ class Sys {
     Sys::IO->chown($file, $owner, $group);
   }
   
-  static method opendir : void ($dh_ref : Sys::IO::DirStream[], $dir : string) {
+  static method opendir : void ($dir_stream_ref : Sys::IO::DirStream[], $dir : string) {
     
     my $dh = Sys::IO->opendir($dir);
     
-    $dh_ref->[0] = $dh;
+    $dir_stream_ref->[0] = $dh;
   }
   
   static method closedir : void ($dir_stream : Sys::IO::DirStream) {
@@ -510,7 +510,7 @@ class Sys {
     }
   }
   
-  static method select : int ($readfds : Sys::Select::Fd_set, $writefds : Sys::Select::Fd_set, $exceptfds : Sys::Select::Fd_set, $timeout : double = 0) {
+  static method select : int ($read_fds : Sys::Select::Fd_set, $write_fds : Sys::Select::Fd_set, $except_fds : Sys::Select::Fd_set, $timeout : double = 0) {
     my $nfds = 1024;
     
     my $timeout_tv = (Sys::Time::Timeval)undef;
@@ -521,7 +521,7 @@ class Sys {
       $timeout_tv = undef;
     }
     
-    my $fd_number = Sys::Select->select($nfds, $readfds, $writefds, $exceptfds, $timeout_tv);
+    my $fd_number = Sys::Select->select($nfds, $read_fds, $write_fds, $except_fds, $timeout_tv);
     
     return $fd_number;
   }
@@ -1454,17 +1454,17 @@ class Sys {
   
   static method getgroups : int[] () {
     
-    my $groups_length = Sys::User->getgroups(0, undef);
+    my $group_ids_length = Sys::User->getgroups(0, undef);
     
-    my $groups = new int [$groups_length];
+    my $group_ids = new int [$group_ids_length];
     
-    Sys::User->getgroups($groups_length, $groups);
+    Sys::User->getgroups($group_ids_length, $group_ids);
     
-    return $groups;
+    return $group_ids;
   }
   
-  static method setgroups : void ($groups : int[]) {
-    Sys::User->setgroups($groups);
+  static method setgroups : void ($group_ids : int[]) {
+    Sys::User->setgroups($group_ids);
   }
   
   static method getpwuid : Sys::User::Passwd ($id : int) {

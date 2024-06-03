@@ -354,9 +354,9 @@ Exceptions thrown by the L<Sys::IO::Windows#unlink|SPVM::Sys::IO::Windows/"unlin
 
 =head2 rename
 
-C<static method rename : void ($oldpath : string, $newpath : string);>
+C<static method rename : void ($old_path : string, $new_path : string);>
 
-Raname the file name from the old name $oldpath to the new name $newpath.
+Raname the file name from the old name $old_path to the new name $new_path.
 
 In Windows, this method calls L<Sys::IO::Windows#rename|SPVM::Sys::IO::Windows/"rename"> method , otherwise calls L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method.
 
@@ -418,9 +418,9 @@ Exceptions thrown by L<Sys::IO#readlink|SPVM::Sys::IO/"readlink"> method or L<Sy
 
 =head2 symlink
 
-C<static method symlink : int ($oldpath : string, $newpath : string);>
+C<static method symlink : int ($old_path : string, $new_path : string);>
 
-Creates a path $newpath symbolically linked to the path $oldpath.
+Creates a path $new_path symbolically linked to the path $old_path.
 
 In Windows thie method calls L<Sys::IO::Windows#symlink|SPVM::Sys::IO::Windows/"symlink"> method , otherwise calls L<Sys::IO#symlink|SPVM::Sys::IO/"symlink"> method .
 
@@ -440,11 +440,11 @@ Exceptions thrown by L<Sys::IO#ftruncate|SPVM::Sys::IO/"ftruncate"> method could
 
 =head2 opendir
 
-C<static method opendir : void ($dh_ref : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>[], $dir : string);>
+C<static method opendir : void ($dir_stream_ref : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>[], $dir : string);>
 
 Opens the directory stream given the directory $dir.
 
-The opened directory stream is set to $dh_ref at index 0.
+The opened directory stream is set to $dir_stream_ref at index 0.
 
 Exceptions:
 
@@ -562,7 +562,7 @@ Exceptions thrown by L<Sys::IO#pclose|SPVM::Sys::IO/"pclose"> method or L<Sys::I
 
 =head2 select
 
-C<static method select : int ($readfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $writefds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $exceptfds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $timeout : double = 0);>
+C<static method select : int ($read_fds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $write_fds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $except_fds : L<Sys::Select::Fd_set|SPVM::Sys::Select::Fd_set>, $timeout : double = 0);>
 
 Calls L<Sys::Select#select|SPVM::Sys::Select/"select"> method and returns its return value.
 
@@ -1595,7 +1595,7 @@ Returns the supplementary group IDs of the calling process.
 
 =head2 setgroups
 
-C<static method setgroups : void ($groups : int[]);>
+C<static method setgroups : void ($group_ids : int[]);>
 
 Sets the supplementary group IDs for the calling process.
 
