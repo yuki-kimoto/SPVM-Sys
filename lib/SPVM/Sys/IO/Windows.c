@@ -46,8 +46,6 @@ typedef struct {
   } Data;
 } MY_REPARSE_DATA_BUFFER;
 
-static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
-
 #define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
 
 #ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
@@ -64,6 +62,8 @@ static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
 #ifndef SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
 #  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
 #endif
+
+typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
 
 static BOOL
 is_symlink(HANDLE h) {
