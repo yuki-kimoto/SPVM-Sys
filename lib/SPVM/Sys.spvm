@@ -2,7 +2,7 @@
 # MIT License
 
 class Sys {
-  version "0.521";
+  version "0.522";
   
   use Format;
   use Sys::IO;
