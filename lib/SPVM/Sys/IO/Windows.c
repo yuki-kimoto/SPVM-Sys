@@ -3,44 +3,18 @@
 
 #include "spvm_native.h"
 
-#include <sys/stat.h>
-
 static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #if defined(_WIN32)
 
-#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
-
 // These implementations are originally copied form Perl win32/win32.c and win32/win32.h
 
+#include <sys/stat.h>
 #include <unistd.h>
 #include <windows.h>
 #include <errno.h>
 #include <winbase.h>
 #include <fcntl.h>
-
-#ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
-#  define EDQUOT		WSAEDQUOT
-#endif
-
-#define dTHX 
-#define bool BOOL
-#define strEQ(string1, string2) (strcmp(string1, string2) == 0)
-#define isSLASH(c) ((c) == '/' || (c) == '\\')
-
-#define savepv(string) ((char*)env->get_chars(env, stack, env->new_string(env, stack, string, strlen(string))))
-
-#define SAVEFREEPV(pv) ((void*)NULL)
-
-static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
-
-#ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
-#  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
-#endif
-
-#ifndef SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
-#  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
-#endif
 
 static struct MY_SYMLINK_REPARSE_BUFFER {
     USHORT SubstituteNameOffset;
@@ -71,6 +45,31 @@ static struct MY_REPARSE_DATA_BUFFER {
     } GenericReparseBuffer;
   } Data;
 };
+
+static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
+
+#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
+
+#ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
+#  define EDQUOT		WSAEDQUOT
+#endif
+
+#define dTHX 
+#define bool BOOL
+#define strEQ(string1, string2) (strcmp(string1, string2) == 0)
+#define isSLASH(c) ((c) == '/' || (c) == '\\')
+
+#define savepv(string) ((char*)env->get_chars(env, stack, env->new_string(env, stack, string, strlen(string))))
+
+#define SAVEFREEPV(pv) ((void*)NULL)
+
+#ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
+#  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
+#endif
+
+#ifndef SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
+#  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
+#endif
 
 static BOOL
 is_symlink(HANDLE h) {
