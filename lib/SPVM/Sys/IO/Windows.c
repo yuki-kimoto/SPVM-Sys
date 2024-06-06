@@ -34,8 +34,6 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
 
-typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
-
 #ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
 #  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
 #endif
