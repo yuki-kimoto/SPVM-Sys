@@ -52,13 +52,10 @@ static struct MY_REPARSE_DATA_BUFFER {
 #  define EDQUOT		WSAEDQUOT
 #endif
 
-#define bool BOOL
 #define strEQ(string1, string2) (strcmp(string1, string2) == 0)
 #define isSLASH(c) ((c) == '/' || (c) == '\\')
 
 #define savepv(string) ((char*)env->get_chars(env, stack, env->new_string(env, stack, string, strlen(string))))
-
-#define SAVEFREEPV(pv) ((void*)NULL)
 
 #ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
 #  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
@@ -217,7 +214,7 @@ translate_to_errno(void)
 }
 
 static int
-do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
+do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, BOOL *is_symlink) {
     MY_REPARSE_DATA_BUFFER linkdata;
     DWORD linkdata_returned;
 
@@ -352,7 +349,6 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
            /, so replace any with \\
         */
         char *temp = savepv(oldfile);
-        SAVEFREEPV(temp);
         char *p = temp;
         while (*p) {
             if (*p == '/') {
@@ -455,7 +451,7 @@ static int win32_lstat(const char* path, struct stat* sbuf)
     return -1;
   }
   
-  bool is_symlink;
+  BOOL is_symlink;
   
   int size = do_readlink_handle(f, NULL, 0, &is_symlink);
   
