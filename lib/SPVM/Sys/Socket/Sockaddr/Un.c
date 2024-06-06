@@ -81,7 +81,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__set_sun_path(SPVM_ENV* env, SPVM_VALUE*
   void* obj_path = stack[1].oval;
   
   if (!obj_path) {
-    return env->die(env, stack, "The sun_path must be be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The path $sun_path must be be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   const char* path = env->get_chars(env, stack, obj_path);
