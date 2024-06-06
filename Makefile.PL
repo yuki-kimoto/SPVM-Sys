@@ -33,12 +33,12 @@ if ($meta) {
       $minor_version = $2;
     }
     unless ($major_version >= 10) {
-      warn "SPVM::Sys only supports FreeBSD 10+ because the following tests are hard to fix for us. http://www.cpantesters.org/cpan/report/b26888fa-55bd-11ed-9ef0-b2246e8775ea";
+      warn "SPVM::Sys only supports FreeBSD 10+ because the following tests are hard to fix for us. http://www.cpantesters.org/cpan/report/b26888fa-55bd-11ed-9ef0-b2246e8775ea.";
       die "OS unsupported\n";
     }
   }
   elsif ($myuname =~ /\bopenbsd\b/i) {
-    warn "SPVM::Sys doesn't supports OpenBSD because the following tests are hard to fix for us. http://www.cpantesters.org/cpan/report/fa34e08c-5cf9-11ed-aba6-9a79f339625c";
+    warn "SPVM::Sys dose not support OpenBSD because the following tests are hard to fix for us. http://www.cpantesters.org/cpan/report/fa34e08c-5cf9-11ed-aba6-9a79f339625c.";
     die "OS unsupported\n";
   }
 }
