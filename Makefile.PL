@@ -16,6 +16,12 @@ if ($meta) {
 
 # Check supported environment
 {
+  # Do not support 32bit systems
+  if ($Config{ptrsize} == 4) {
+    warn "SPVM::Sys does not support 32bit systems.";
+    die "OS unsupported\n";
+  }
+  
   my $myuname = $Config{myuname};
   # Free BSD myyname examples
   # "freebsd www3301.sakura.ne.jp 9.1-release-p24 freebsd 9.1-release-p24 #0: thu feb 5 10:03:29 jst 2015 root@www3304.sakura.ne.jp:usrobjusrsrcsyssakura17 amd64"
