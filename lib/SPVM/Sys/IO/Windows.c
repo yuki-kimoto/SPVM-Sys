@@ -52,7 +52,6 @@ static struct MY_REPARSE_DATA_BUFFER {
 #  define EDQUOT		WSAEDQUOT
 #endif
 
-#define dTHX 
 #define bool BOOL
 #define strEQ(string1, string2) (strcmp(string1, string2) == 0)
 #define isSLASH(c) ((c) == '/' || (c) == '\\')
@@ -108,7 +107,6 @@ is_symlink_name(const char *name) {
 static int
 win32_unlink(const char *filename)
 {
-  dTHX;
   int ret;
   DWORD attrs;
   
@@ -142,7 +140,6 @@ win32_rename(const char *oname, const char *newname)
     char szOldName[MAX_PATH+1];
     BOOL bResult;
     DWORD dwFlags = MOVEFILE_COPY_ALLOWED;
-    dTHX;
     
     if (stricmp(newname, oname))
         dwFlags |= MOVEFILE_REPLACE_EXISTING;
@@ -332,7 +329,6 @@ win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
 static int
 win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char *newfile)
 {
-    dTHX;
     size_t oldfile_len = strlen(oldfile);
     pCreateSymbolicLinkA_t pCreateSymbolicLinkA =
         (pCreateSymbolicLinkA_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "CreateSymbolicLinkA");
