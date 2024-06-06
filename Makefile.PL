@@ -41,7 +41,7 @@ if ($meta) {
 
 my %configure_and_runtime_requires = (
   'SPVM' => '0.990006',
-  'SPVM::Resource::SocketUtil' => '1.001',
+  'SPVM::Resource::SocketUtil' => '1.002',
 );
 WriteMakefile(
   NAME              => 'SPVM::Sys',
