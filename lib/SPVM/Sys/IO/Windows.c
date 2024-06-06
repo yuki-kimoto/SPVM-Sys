@@ -46,6 +46,8 @@ typedef struct {
   } Data;
 } MY_REPARSE_DATA_BUFFER;
 
+static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
+
 #define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
 
 #ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
