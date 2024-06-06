@@ -346,7 +346,7 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
         /* Win32 (or perhaps NTFS) won't follow symlinks containing
            /, so replace any with \\
         */
-        char *temp = env->get_chars(env, stack, env->new_string(env, stack, string, strlen(oldfile)));
+        char *temp = env->get_chars(env, stack, env->new_string(env, stack, oldfile, strlen(oldfile)));
         char *p = temp;
         while (*p) {
             if (*p == '/') {
