@@ -16,6 +16,8 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #include <winbase.h>
 #include <fcntl.h>
 
+static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
+
 typedef struct {
     USHORT SubstituteNameOffset;
     USHORT SubstituteNameLength;
