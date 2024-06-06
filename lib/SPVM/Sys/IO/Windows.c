@@ -55,8 +55,6 @@ static struct MY_REPARSE_DATA_BUFFER {
 #define strEQ(string1, string2) (strcmp(string1, string2) == 0)
 #define isSLASH(c) ((c) == '/' || (c) == '\\')
 
-#define savepv(string) ((char*)env->get_chars(env, stack, env->new_string(env, stack, string, strlen(string))))
-
 #ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
 #  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
 #endif
@@ -348,7 +346,7 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
         /* Win32 (or perhaps NTFS) won't follow symlinks containing
            /, so replace any with \\
         */
-        char *temp = savepv(oldfile);
+        char *temp = env->get_chars(env, stack, env->new_string(env, stack, string, strlen(oldfile)));
         char *p = temp;
         while (*p) {
             if (*p == '/') {
