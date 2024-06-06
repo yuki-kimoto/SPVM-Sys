@@ -334,7 +334,7 @@ win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
     return bytes_out;
 }
 
-int
+static int
 win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char *newfile)
 {
     dTHX;
@@ -441,7 +441,7 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
     return 0;
 }
 
-int win32_lstat(const char* path, struct stat* sbuf)
+static int win32_lstat(const char* path, struct stat* sbuf)
 {
   HANDLE f;
   int result;
