@@ -5,21 +5,6 @@
 #include "spvm_socket_util.h"
 #include <assert.h>
 
-#if !defined(SPVM_SOCKET_UTIL_DEFINE_SOCKADDR_UN)
-  #if defined(_WIN32)
-  
-  #define UNIX_PATH_MAX 108
-  
-  struct sockaddr_un {
-    ADDRESS_FAMILY sun_family;
-    char sun_path[UNIX_PATH_MAX];
-  };
-  
-  #else
-    #include <sys/un.h>
-  #endif
-#endif
-
 static const char* FILE_NAME = "Sys/Socket/Addrinfo.c";
 
 int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
