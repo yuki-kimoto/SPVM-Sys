@@ -44,40 +44,40 @@ typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
 #  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
 #endif
 
-typedef struct {
+static struct MY_SYMLINK_REPARSE_BUFFER {
     USHORT SubstituteNameOffset;
     USHORT SubstituteNameLength;
     USHORT PrintNameOffset;
     USHORT PrintNameLength;
     ULONG  Flags;
     WCHAR  PathBuffer[MAX_PATH*3];
-} SPVM_SYS_IO_WINDOWS_SYMLINK_REPARSE_BUFFER;
+};
 
-typedef struct {
+static struct MY_MOUNT_POINT_REPARSE_BUFFER {
     USHORT SubstituteNameOffset;
     USHORT SubstituteNameLength;
     USHORT PrintNameOffset;
     USHORT PrintNameLength;
     WCHAR  PathBuffer[MAX_PATH*3];
-} SPVM_SYS_IO_WINDOWS_MOUNT_POINT_REPARSE_BUFFER;
+};
 
-typedef struct {
+static struct MY_REPARSE_DATA_BUFFER {
   ULONG  ReparseTag;
   USHORT ReparseDataLength;
   USHORT Reserved;
   union {
-    SPVM_SYS_IO_WINDOWS_SYMLINK_REPARSE_BUFFER SymbolicLinkReparseBuffer;
-    SPVM_SYS_IO_WINDOWS_MOUNT_POINT_REPARSE_BUFFER MountPointReparseBuffer;
+    MY_SYMLINK_REPARSE_BUFFER SymbolicLinkReparseBuffer;
+    MY_MOUNT_POINT_REPARSE_BUFFER MountPointReparseBuffer;
     struct {
       UCHAR DataBuffer[1];
     } GenericReparseBuffer;
   } Data;
-} SPVM_SYS_IO_WINDOWS_REPARSE_DATA_BUFFER;
+};
 
 static BOOL
 is_symlink(HANDLE h) {
-    SPVM_SYS_IO_WINDOWS_REPARSE_DATA_BUFFER linkdata;
-    const SPVM_SYS_IO_WINDOWS_SYMLINK_REPARSE_BUFFER * const sd =
+    MY_REPARSE_DATA_BUFFER linkdata;
+    const MY_SYMLINK_REPARSE_BUFFER * const sd =
         &linkdata.Data.SymbolicLinkReparseBuffer;
     DWORD linkdata_returned;
 
@@ -85,7 +85,7 @@ is_symlink(HANDLE h) {
         return FALSE;
     }
 
-    if (linkdata_returned < offsetof(SPVM_SYS_IO_WINDOWS_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)
+    if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)
         || (linkdata.ReparseTag != IO_REPARSE_TAG_SYMLINK
             && linkdata.ReparseTag != IO_REPARSE_TAG_MOUNT_POINT)) {
         /* some other type of reparse point */
@@ -226,7 +226,7 @@ translate_to_errno(void)
 
 static int
 do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
-    SPVM_SYS_IO_WINDOWS_REPARSE_DATA_BUFFER linkdata;
+    MY_REPARSE_DATA_BUFFER linkdata;
     DWORD linkdata_returned;
 
     if (is_symlink)
@@ -242,9 +242,9 @@ do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
     switch (linkdata.ReparseTag) {
     case IO_REPARSE_TAG_SYMLINK:
         {
-            const SPVM_SYS_IO_WINDOWS_SYMLINK_REPARSE_BUFFER * const sd =
+            const MY_SYMLINK_REPARSE_BUFFER * const sd =
                 &linkdata.Data.SymbolicLinkReparseBuffer;
-            if (linkdata_returned < offsetof(SPVM_SYS_IO_WINDOWS_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
+            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
                 errno = EINVAL;
                 return -1;
             }
@@ -259,9 +259,9 @@ do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
         break;
     case IO_REPARSE_TAG_MOUNT_POINT:
         {
-            const SPVM_SYS_IO_WINDOWS_MOUNT_POINT_REPARSE_BUFFER * const rd =
+            const MY_MOUNT_POINT_REPARSE_BUFFER * const rd =
                 &linkdata.Data.MountPointReparseBuffer;
-            if (linkdata_returned < offsetof(SPVM_SYS_IO_WINDOWS_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
+            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
                 errno = EINVAL;
                 return -1;
             }
