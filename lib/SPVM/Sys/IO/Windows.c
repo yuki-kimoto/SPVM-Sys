@@ -16,24 +16,24 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #include <winbase.h>
 #include <fcntl.h>
 
-static struct MY_SYMLINK_REPARSE_BUFFER {
+typedef struct {
     USHORT SubstituteNameOffset;
     USHORT SubstituteNameLength;
     USHORT PrintNameOffset;
     USHORT PrintNameLength;
     ULONG  Flags;
     WCHAR  PathBuffer[MAX_PATH*3];
-};
+} MY_SYMLINK_REPARSE_BUFFER;
 
-static struct MY_MOUNT_POINT_REPARSE_BUFFER {
+typedef struct {
     USHORT SubstituteNameOffset;
     USHORT SubstituteNameLength;
     USHORT PrintNameOffset;
     USHORT PrintNameLength;
     WCHAR  PathBuffer[MAX_PATH*3];
-};
+} MY_MOUNT_POINT_REPARSE_BUFFER;
 
-static struct MY_REPARSE_DATA_BUFFER {
+typedef struct {
   ULONG  ReparseTag;
   USHORT ReparseDataLength;
   USHORT Reserved;
@@ -44,7 +44,7 @@ static struct MY_REPARSE_DATA_BUFFER {
       UCHAR DataBuffer[1];
     } GenericReparseBuffer;
   } Data;
-};
+} MY_REPARSE_DATA_BUFFER;
 
 #define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
 
