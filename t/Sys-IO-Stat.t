@@ -40,6 +40,20 @@ my $test_dir = "$FindBin::Bin";
 
 =cut
 
+=pod
+
+A note about stat tests: SPVM::Sys uses MinGW's stat and fstat. On the other hand, Perl's implementation is based on Windows functions.
+
+Also, the implementation will probably change depending on whether the Perl version uses the new Windows C runtime UCRT or the old MSVCRT.
+
+This means that there is a high possibility of differences in the results.
+
+I don't want to fail the SPVM test because of a bug in Perl's stat and fstat and MinGW's stat and fstat and Windows's _stat and _fstat.
+
+So for Windows, write a low-confidence test: if the value matches Perl, pass. If it doesn't, print to standard error the expected value and the result.
+
+=cut
+
 {
   ok(SPVM::TestCase::Sys::IO::Stat->stat("$test_dir"));
 
