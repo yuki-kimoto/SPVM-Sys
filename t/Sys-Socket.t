@@ -10,7 +10,7 @@ use Time::HiRes 'usleep';
 use Socket;
 use IO::Socket;
 use IO::Socket::INET;
-use TestUtil::ServerRunner;
+use Test::SPVM::Sys::Socket::Server;
 
 use SPVM 'Sys::Socket';
 use SPVM 'TestCase::Sys::Socket';
@@ -65,17 +65,17 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # Sys::Socket::Sockaddr
 {
-  my $port = TestUtil::ServerRunner->empty_port;
+  my $port = Test::SPVM::Sys::Socket::Server->empty_port;
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
 
 # connect
 {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
     },
   );
   
@@ -84,11 +84,11 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # close
 {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
     },
   );
   
@@ -97,11 +97,11 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # shutdown
 {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
     },
   );
   
@@ -110,11 +110,11 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # send and recv
 {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
     },
   );
   
@@ -123,11 +123,11 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # sendto and recvfrom
 {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
     },
   );
   
@@ -135,18 +135,18 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 }
 
 {
-  my $port = TestUtil::ServerRunner->empty_port;
+  my $port = Test::SPVM::Sys::Socket::Server->empty_port;
   ok(SPVM::TestCase::Sys::Socket->bind($port));
 }
 
 {
-  my $port = TestUtil::ServerRunner->empty_port;
+  my $port = Test::SPVM::Sys::Socket::Server->empty_port;
   ok(SPVM::TestCase::Sys::Socket->listen($port));
 }
 # accept
 # TODO : Windows
 unless ($^O eq 'MSWin32') {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
@@ -178,11 +178,11 @@ unless ($^O eq 'MSWin32') {
 
 # getpeername
 {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
     },
   );
   
@@ -191,11 +191,11 @@ unless ($^O eq 'MSWin32') {
 
 # getsockname
 {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
     },
   );
   
@@ -211,11 +211,11 @@ else {
 }
 
 {
-  my $port = TestUtil::ServerRunner->empty_port;
+  my $port = Test::SPVM::Sys::Socket::Server->empty_port;
   ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
 }
 {
-  my $port = TestUtil::ServerRunner->empty_port;
+  my $port = Test::SPVM::Sys::Socket::Server->empty_port;
   ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
 }
 

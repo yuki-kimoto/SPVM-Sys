@@ -5,21 +5,21 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
-use TestUtil::ServerRunner;
+use Test::SPVM::Sys::Socket::Server;
 
 # Port
-my $port = TestUtil::ServerRunner->empty_port;
+my $port = Test::SPVM::Sys::Socket::Server->empty_port;
 
 warn "[Test Output]Port:$port";
 
 ok($port >= 20000);
 
 {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
     },
   );
 }

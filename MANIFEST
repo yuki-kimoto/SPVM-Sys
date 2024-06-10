@@ -227,7 +227,7 @@ Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
 README.md
-t/00_TestUtil_ServerRunner.t
+t/00_Test-SPVM-Sys-Socket-Server.t
 t/execv_success.pl
 t/exit_failure.pl
 t/exit_success.pl
@@ -259,7 +259,6 @@ t/lib/SPVM/TestCase/Sys/Socket.spvm
 t/lib/SPVM/TestCase/Sys/Time.spvm
 t/lib/SPVM/TestCase/Sys/Time/Util.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
-t/lib/TestUtil/ServerRunner.pm
 t/print_hello.pl
 t/Sys-IO-Stat.t
 t/Sys-IO.t

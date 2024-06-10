@@ -10,7 +10,7 @@ use Time::HiRes 'usleep';
 use Socket;
 use IO::Socket;
 use IO::Socket::INET;
-use TestUtil::ServerRunner;
+use Test::SPVM::Sys::Socket::Server;
 
 use SPVM 'Sys::Poll';
 use SPVM 'TestCase::Sys::Poll';
@@ -21,11 +21,11 @@ my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 
 # poll
 {
-  my $server = TestUtil::ServerRunner->new(
+  my $server = Test::SPVM::Sys::Socket::Server->new(
     code => sub {
       my ($port) = @_;
       
-      TestUtil::ServerRunner->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
     },
   );
   
