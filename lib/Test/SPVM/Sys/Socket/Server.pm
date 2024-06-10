@@ -222,6 +222,8 @@ sub DESTROY {
   $self->stop;
 }
 
+1;
+
 =head1 Name
 
 Test::SPVM::Sys::Socket::Server - Server Manager
