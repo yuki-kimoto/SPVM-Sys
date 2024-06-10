@@ -177,7 +177,7 @@ sub run_echo_server {
 
 # Instance Methods
 sub stop {
-    my $self = shift;
+    my ($self) = @_;
  
     return unless defined $self->{pid};
     return unless $self->{_my_pid} == $$;
