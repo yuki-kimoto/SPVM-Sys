@@ -611,17 +611,26 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    {
+    my $recv_string_buffer = StringBuffer->new;
+    
+    while (1) {
       my $recv_buffer = (mutable string)new_string_len 1024;
       my $recv_length = Sys->recv($socket, $recv_buffer, length $recv_buffer, 0);
       
-      unless ($recv_length == 6) {
-        return 0;
+      if ($recv_length > 0) {
+        my $recv_string_part = Fn->substr($recv_buffer, 0, $recv_length);
+        
+        $recv_string_buffer->push($recv_string_part);
       }
-      
-      unless (Fn->substr($recv_buffer, 0, $recv_length) eq "abcdef") {
-        return 0;
+      else {
+        last;
       }
+    }
+    
+    my $recv_string = $recv_string_buffer->to_string;
+    
+    unless ($recv_string eq "abcdef") {
+      return 0;
     }
     
     return 1;
@@ -680,19 +689,27 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    {
+    my $recv_string_buffer = StringBuffer->new;
+    
+    while (1) {
       my $sockaddr_tmp_ref = (Sys::Socket::Sockaddr[])undef;
-      
       my $recv_buffer = (mutable string)new_string_len 1024;
       my $recv_length = Sys->recvfrom($socket, $recv_buffer, length $recv_buffer, 0, $sockaddr_tmp_ref);
       
-      unless ($recv_length == 6) {
-        return 0;
+      if ($recv_length > 0) {
+        my $recv_string_part = Fn->substr($recv_buffer, 0, $recv_length);
+        
+        $recv_string_buffer->push($recv_string_part);
       }
-      
-      unless (Fn->substr($recv_buffer, 0, $recv_length) eq "abcdef") {
-        return 0;
+      else {
+        last;
       }
+    }
+    
+    my $recv_string = $recv_string_buffer->to_string;
+    
+    unless ($recv_string eq "abcdef") {
+      return 0;
     }
     
     return 1;

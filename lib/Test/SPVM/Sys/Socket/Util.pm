@@ -139,7 +139,7 @@ sub run_echo_server {
     
     while (1) {
       my $buffer;
-      my $read_length = $client_socket->read($buffer, 1024);
+      my $read_length = $client_socket->sysread($buffer, 1024);
       
       if ($read_length) {
         $client_socket->syswrite($buffer, $read_length);
