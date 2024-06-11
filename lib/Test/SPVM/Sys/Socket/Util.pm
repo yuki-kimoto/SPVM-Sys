@@ -30,6 +30,7 @@ sub _listen_socket {
     LocalAddr => $host,
     LocalPort => $port,
     Proto     => $proto,
+    # In Windows, SO_REUSEADDR works differently In Linux. The feature that corresponds to SO_REUSEADDR in Linux is enabled by default in Windows.
     (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
   );
   
