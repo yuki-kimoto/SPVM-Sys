@@ -40,7 +40,7 @@ sub _listen_socket {
 }
 
 sub get_empty_port {
-  my ($host, $port, $proto) = @_ && ref $_[0] eq 'HASH' ? ($_[0]->{host}, $_[0]->{port}, $_[0]->{proto}) : (undef, @_);
+  my ($host, $port, $proto) = @_;
   
   $host = '127.0.0.1'
       unless defined $host;
