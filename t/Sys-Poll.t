@@ -11,6 +11,7 @@ use Socket;
 use IO::Socket;
 use IO::Socket::INET;
 use Test::SPVM::Sys::Socket::Server;
+use Test::SPVM::Sys::Socket::Util;
 
 use SPVM 'Sys::Poll';
 use SPVM 'TestCase::Sys::Poll';
@@ -25,7 +26,7 @@ my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
   

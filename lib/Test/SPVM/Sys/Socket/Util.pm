@@ -10,7 +10,7 @@ my $localhost = "127.0.0.1";
 
 # Starts a echo server
 sub run_echo_server {
-  my ($class, $port) = @_;
+  my ($port) = @_;
   
   my $server_socket = IO::Socket::INET->new(
     LocalAddr => $localhost,

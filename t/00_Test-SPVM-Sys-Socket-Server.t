@@ -6,6 +6,7 @@ use FindBin;
 use lib "$FindBin::Bin/lib";
 
 use Test::SPVM::Sys::Socket::Server;
+use Test::SPVM::Sys::Socket::Util;
 
 # Port
 my $port = Test::SPVM::Sys::Socket::Server->empty_port;
@@ -19,7 +20,7 @@ ok($port >= 20000);
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
 }

@@ -11,6 +11,7 @@ use Socket;
 use IO::Socket;
 use IO::Socket::INET;
 use Test::SPVM::Sys::Socket::Server;
+use Test::SPVM::Sys::Socket::Util;
 
 use SPVM 'Sys::Select';
 use SPVM 'TestCase::Sys::Select';
@@ -30,7 +31,7 @@ ok(SPVM::TestCase::Sys::Select->select_utils);
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
   

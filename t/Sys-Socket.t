@@ -11,6 +11,7 @@ use Socket;
 use IO::Socket;
 use IO::Socket::INET;
 use Test::SPVM::Sys::Socket::Server;
+use Test::SPVM::Sys::Socket::Util;
 
 use SPVM 'Sys::Socket';
 use SPVM 'TestCase::Sys::Socket';
@@ -75,7 +76,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
   
@@ -88,7 +89,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
   
@@ -101,7 +102,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
   
@@ -114,7 +115,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
   
@@ -127,7 +128,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
   
@@ -182,7 +183,7 @@ unless ($^O eq 'MSWin32') {
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
   
@@ -195,7 +196,7 @@ unless ($^O eq 'MSWin32') {
     code => sub {
       my ($port) = @_;
       
-      Test::SPVM::Sys::Socket::Server->run_echo_server($port);
+      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
   );
   
