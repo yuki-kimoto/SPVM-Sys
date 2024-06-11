@@ -8,45 +8,10 @@ use POSIX ();
 
 use Test::SPVM::Sys::Socket::Util;
 
-# process does not die when received SIGTERM, on win32.
+# process does not die when received SIGTERM in Windows
 my $TERMSIG = $^O eq 'MSWin32' ? 'KILL' : 'TERM';
 
 my $localhost = "127.0.0.1";
-
-# Fields
-sub port { shift->{port} }
-
-# Class Methods
-sub new {
-  my $class = shift;
-  
-  my $self = {
-    @_,
-    _my_pid => $$,
-  };
-  
-  bless $self, ref $class || $class;
-  
-  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
-  
-  $self->{port} = $port;
-  
-  my $code = $self->{code};
-  
-  my $pid = fork;
-  
-  # Child
-  if ($pid == 0) {
-    $code->($port);
-  }
-  else {
-    $self->{pid} = $pid;
-    
-    Test::SPVM::Sys::Socket::Util::wait_port($port);
-  }
-  
-  return $self;
-}
 
 # Instance Methods
 sub stop {
