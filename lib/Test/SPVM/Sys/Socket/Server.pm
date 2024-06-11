@@ -2,7 +2,7 @@ package Test::SPVM::Sys::Socket::Server;
 
 use strict;
 use warnings;
-use Carp 'confess';
+use Carp ();
 use Config;
 
 use IO::Socket::INET;
@@ -162,7 +162,7 @@ sub run_echo_server {
     Reuse => 1,
   );
   unless ($server_socket) {
-    confess "Can't create a server socket:$@";
+    Carp::confess("Can't create a server socket:$@");
   }
   
   while (1) {
