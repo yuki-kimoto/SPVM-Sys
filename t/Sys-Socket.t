@@ -9,7 +9,7 @@ use Time::HiRes 'usleep';
 
 use Socket;
 use IO::Socket;
-use IO::Socket::INET;
+use IO::Socket::IP;
 use Test::SPVM::Sys::Socket::Server;
 use Test::SPVM::Sys::Socket::Util;
 
@@ -155,7 +155,7 @@ unless ($^O eq 'MSWin32') {
     },
   );
   
-  my $sock = IO::Socket::INET->new(
+  my $sock = IO::Socket::IP->new(
     Proto    => 'tcp',
     PeerAddr => $localhost,
     PeerPort => $server->port,
