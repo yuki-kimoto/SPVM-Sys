@@ -6,6 +6,7 @@ use Carp ();
 
 use Socket;
 use IO::Socket::IP;
+use Errno qw/ECONNREFUSED/;
 
 my $localhost = "127.0.0.1";
 
@@ -73,7 +74,7 @@ sub check_port {
     $host = '127.0.0.1'
         unless defined $host;
  
-    return _check_port_udp($host, $port)
+    return &_check_port_udp($host, $port)
         if $proto && lc($proto) eq 'udp';
  
     # TCP, check if possible to connect
@@ -91,6 +92,36 @@ sub check_port {
         return 0; # The port is not used.
     }
  
+}
+
+sub _check_port_udp {
+    my ($host, $port) = @_;
+ 
+    # send some UDP data and see if ICMP error is being sent back (i.e. ECONNREFUSED)
+    my $sock = IO::Socket::IP->new(
+        Proto    => 'udp',
+        PeerAddr => $host,
+        PeerPort => $port,
+        V6Only   => 1,
+        Blocking => 0,
+    ) or die "failed to create bound UDP socket:$!";
+ 
+    $sock->send("0", 0)
+        or die "failed to send a UDP packet:$!";
+ 
+    my ($rfds, $efds) = ('', '');
+    vec($rfds, fileno($sock), 1) = 1;
+    vec($efds, fileno($sock), 1) = 1;
+    select $rfds, undef, $efds, 0.1;
+ 
+    # after 0.1 second of silence, we assume that the server is up
+    my $up = defined($sock->recv(my $data, 1000)) || (
+        ($^O eq 'MSWin32')
+            ? ($^E != Errno::WSAECONNRESET() && $^E != Errno::WSAECONNREFUSED())
+            : ($! != ECONNREFUSED)
+    );
+    close $sock;
+    $up;
 }
 
 sub wait_port {
