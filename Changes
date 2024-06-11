@@ -1,6 +1,10 @@
 0.524 2024-06-11
   [Requirement Changes]
     * Require IO::Socket::IP 0.42.
+  [New Features]
+    * Add Test::SPVM::Sys::Socket module.
+    * Add Test::SPVM::Sys::Socket::Server module.
+    * Add Test::SPVM::Sys::Socket::Util module.
     
 0.523 2024-06-10
 
