@@ -221,6 +221,7 @@ lib/SPVM/Sys/User/Passwd.pm
 lib/SPVM/Sys/User/Passwd.spvm
 lib/Test/SPVM/Sys/Socket.pm
 lib/Test/SPVM/Sys/Socket/Server.pm
+lib/Test/SPVM/Sys/Socket/Server/IP.pm
 lib/Test/SPVM/Sys/Socket/Server/Unix.pm
 lib/Test/SPVM/Sys/Socket/Util.pm
 LICENSE

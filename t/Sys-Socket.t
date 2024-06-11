@@ -10,7 +10,7 @@ use Time::HiRes 'usleep';
 use Socket;
 use IO::Socket;
 use IO::Socket::IP;
-use Test::SPVM::Sys::Socket::Server;
+use Test::SPVM::Sys::Socket::Server::IP;
 use Test::SPVM::Sys::Socket::Util;
 
 use SPVM 'Sys::Socket';
@@ -72,7 +72,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # connect
 {
-  my $server = Test::SPVM::Sys::Socket::Server->new(
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -85,7 +85,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # close
 {
-  my $server = Test::SPVM::Sys::Socket::Server->new(
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -98,7 +98,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # shutdown
 {
-  my $server = Test::SPVM::Sys::Socket::Server->new(
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -111,7 +111,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # send and recv
 {
-  my $server = Test::SPVM::Sys::Socket::Server->new(
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -124,7 +124,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # sendto and recvfrom
 {
-  my $server = Test::SPVM::Sys::Socket::Server->new(
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -147,7 +147,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 # accept
 # TODO : Windows
 unless ($^O eq 'MSWin32') {
-  my $server = Test::SPVM::Sys::Socket::Server->new(
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -179,7 +179,7 @@ unless ($^O eq 'MSWin32') {
 
 # getpeername
 {
-  my $server = Test::SPVM::Sys::Socket::Server->new(
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -192,7 +192,7 @@ unless ($^O eq 'MSWin32') {
 
 # getsockname
 {
-  my $server = Test::SPVM::Sys::Socket::Server->new(
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
     code => sub {
       my ($port) = @_;
       
