@@ -11,33 +11,35 @@ use Test::SPVM::Sys::Socket::Util;
 # process does not die when received SIGTERM in Windows
 my $TERMSIG = $^O eq 'MSWin32' ? 'KILL' : 'TERM';
 
+# Fields
+
+sub pid { ... }
+
+sub _my_pid { ... }
+
 # Instance Methods
 sub stop {
   my ($self) = @_;
   
-  return unless defined $self->{pid};
+  unless (defined $self->{pid}) {
+    return;
+  }
   
-  return unless $self->{_my_pid} == $$;
+  unless ($self->{_my_pid} == $$) {
+    return ;
+  }
   
-  # This is a workaround for win32 fork emulation's bug.
-  #
-  # kill is inherently unsafe for pseudo-processes in Windows
-  # and the process calling kill(9, $pid) may be destabilized
-  # The call to Sleep will decrease the frequency of this problems
-  #
-  # SEE ALSO:
-  #   http://www.gossamer-threads.com/lists/perl/porters/261805
-  #   https://rt.cpan.org/Ticket/Display.html?id=67292
-  Win32::Sleep(0) if $^O eq "MSWin32"; # will relinquish the remainder of its time slice
+  Win32::Sleep(0) if $^O eq "MSWin32";
   
   kill $TERMSIG => $self->{pid};
   
-  Win32::Sleep(0) if $^O eq "MSWin32"; # will relinquish the remainder of its time slice
+  Win32::Sleep(0) if $^O eq "MSWin32";
   
-  local $?; # waitpid modifies original $?.
+  local $?;
+  
   LOOP: while (1) {
     my $kid = waitpid( $self->{pid}, 0 );
-    if ($^O ne 'MSWin32') { # i'm not in hell
+    if ($^O ne 'MSWin32') {
       if (POSIX::WIFSIGNALED($?)) {
         my $signame = (split(' ', $Config{sig_name}))[POSIX::WTERMSIG($?)];
         if ($signame =~ /^(ABRT|PIPE)$/) {
@@ -68,3 +70,12 @@ Test::SPVM::Sys::Socket::Server - Server Manager
 
 =head1 Usage
 
+=head1 Well Known Child Class
+
+=over 2
+
+=item * L<Test::SPVM::Sys::Socket::Server::IP>
+
+=item * L<Test::SPVM::Sys::Socket::Server::UNIX>
+
+=back

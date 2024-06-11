@@ -53,3 +53,10 @@ Test::SPVM::Sys::Socket::Server::IP - Server Manager for IPv4/IPv6
 
 =head1 Usage
 
+=head1 Details
+
+This class is a L<Test::TCP> porting for tests for L<SPVM::Sys::Socket>.
+
+=head1 Super Class
+
+L<Test::SPVM::Sys::Socket::Server>

@@ -141,3 +141,10 @@ Test::SPVM::Sys::Socket::Server::IP - Server Manager for UNIX Domain Sockets
 
 =head1 Usage
 
+=head1 Details
+
+This class is a L<Test::UNIXSock> porting for tests for L<SPVM::Sys::Socket>.
+
+=head1 Super Class
+
+L<Test::SPVM::Sys::Socket::Server>
