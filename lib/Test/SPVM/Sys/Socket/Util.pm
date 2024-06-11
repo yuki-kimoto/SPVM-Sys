@@ -5,7 +5,7 @@ use warnings;
 use Carp ();
 
 use Socket;
-use IO::Socket::INET;
+use IO::Socket::IP;
 
 my $localhost = "127.0.0.1";
 
@@ -35,7 +35,7 @@ sub _listen_socket {
     (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
   );
   
-  my $socket = IO::Socket::INET->new(%options);
+  my $socket = IO::Socket::IP->new(%options);
   
   return $socket;
 }
@@ -77,11 +77,10 @@ sub check_port {
         if $proto && lc($proto) eq 'udp';
  
     # TCP, check if possible to connect
-    my $sock = IO::Socket::INET->new(
+    my $sock = IO::Socket::IP->new(
         Proto    => 'tcp',
         PeerAddr => $host,
         PeerPort => $port,
-        # V6Only   => 1,
     );
  
     if ($sock) {
@@ -107,7 +106,7 @@ sub wait_port {
     
     sleep $wait_time;
     
-    my $sock = IO::Socket::INET->new(
+    my $sock = IO::Socket::IP->new(
       Proto    => 'tcp',
       PeerAddr => $localhost,
       PeerPort => $port,
@@ -124,7 +123,7 @@ sub wait_port {
 sub run_echo_server {
   my ($port) = @_;
   
-  my $server_socket = IO::Socket::INET->new(
+  my $server_socket = IO::Socket::IP->new(
     LocalAddr => $localhost,
     LocalPort => $port,
     Listen    => SOMAXCONN,
