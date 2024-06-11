@@ -49,6 +49,11 @@ my %configure_and_runtime_requires = (
   'SPVM' => '0.990006',
   'SPVM::Resource::SocketUtil' => '1.002',
 );
+
+my %test_requires = (
+  'IO::Socket::IP' => '0.42',
+);
+
 WriteMakefile(
   NAME              => 'SPVM::Sys',
   VERSION_FROM      => 'lib/SPVM/Sys.pm',
@@ -79,6 +84,7 @@ WriteMakefile(
     'SPVM::Errno' => '0.06',
   },
   TEST_REQUIRES => {
+    %test_requires
   }
 );
 

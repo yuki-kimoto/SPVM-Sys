@@ -1,3 +1,7 @@
+0.524 2024-06-11
+  [Requirement Changes]
+    * Require IO::Socket::IP 0.42.
+    
 0.523 2024-06-10
 
   [Test Fix]
