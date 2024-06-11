@@ -137,8 +137,16 @@ sub run_echo_server {
   while (1) {
     my $client_socket = $server_socket->accept;
     
-    while (my $data = <$client_socket>) {
-      print $client_socket $data;
+    while (1) {
+      my $buffer;
+      my $read_length = $client_socket->read($buffer, 1024);
+      
+      if ($read_length) {
+        $client_socket->syswrite($buffer, $read_length);
+      }
+      else {
+        last;
+      }
     }
   }
 }
