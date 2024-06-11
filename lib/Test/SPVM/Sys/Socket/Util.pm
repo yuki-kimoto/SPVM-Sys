@@ -19,17 +19,23 @@ sub can_bind {
 }
 
 sub _listen_socket {
-    my ($host, $port, $proto) = @_;
-    $port  ||= 0;
-    $proto ||= 'tcp';
-    IO::Socket::INET->new(
-        (($proto eq 'udp') ? () : (Listen => 5)),
-        LocalAddr => $host,
-        LocalPort => $port,
-        Proto     => $proto,
-        # V6Only    => 1,
-        (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
-    );
+  my ($host, $port, $proto) = @_;
+  
+  $port  ||= 0;
+  
+  $proto ||= 'tcp';
+  
+  my %options = (
+    (($proto eq 'udp') ? () : (Listen => 5)),
+    LocalAddr => $host,
+    LocalPort => $port,
+    Proto     => $proto,
+    (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
+  );
+  
+  my $socket = IO::Socket::INET->new(%options);
+  
+  return $socket;
 }
 
 # get a empty port on 49152 .. 65535
@@ -39,7 +45,7 @@ sub empty_port {
     $host = '127.0.0.1'
         unless defined $host;
     $proto = $proto ? lc($proto) : 'tcp';
- 
+    
     if (defined $port) {
         # to ensure lower bound, check one by one in order
         $port = 49152 unless $port =~ /^[0-9]+$/ && $port < 49152;
