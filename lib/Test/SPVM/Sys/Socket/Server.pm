@@ -27,7 +27,7 @@ sub new {
   
   bless $self, ref $class || $class;
   
-  my $port = Test::SPVM::Sys::Socket::Util::empty_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
   
   $self->{port} = $port;
   

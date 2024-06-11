@@ -38,9 +38,7 @@ sub _listen_socket {
   return $socket;
 }
 
-# get a empty port on 49152 .. 65535
-# http://www.iana.org/assignments/port-numbers
-sub empty_port {
+sub get_empty_port {
     my ($host, $port, $proto) = @_ && ref $_[0] eq 'HASH' ? ($_[0]->{host}, $_[0]->{port}, $_[0]->{proto}) : (undef, @_);
     $host = '127.0.0.1'
         unless defined $host;
