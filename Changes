@@ -1,7 +1,7 @@
 0.524 2024-06-11
   [Requirement Changes]
     * Require IO::Socket::IP 0.42.
-    * Require Perl v5.14.4.
+    * Require Perl v5.20.3.
   [New Features]
     * Add Test::SPVM::Sys::Socket module.
     * Add Test::SPVM::Sys::Socket::Server module.
