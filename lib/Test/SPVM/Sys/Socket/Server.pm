@@ -64,11 +64,21 @@ sub DESTROY {
 
 =head1 Name
 
-Test::SPVM::Sys::Socket::Server - Server Manager
+Test::SPVM::Sys::Socket::Server - Server Manager Base Class
 
 =head1 Description
 
-=head1 Usage
+Test::SPVM::Sys::Socket::Server is a base class for server managers.
+
+=head1 Instance Methods
+
+=head2 stop
+
+Stop the server process.
+
+=head2 DESTROY
+
+The destructor, which call L</"stop"> method.
 
 =head1 Well Known Child Class
 
