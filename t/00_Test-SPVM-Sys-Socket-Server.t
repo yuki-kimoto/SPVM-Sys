@@ -9,7 +9,7 @@ use Test::SPVM::Sys::Socket::Server;
 use Test::SPVM::Sys::Socket::Util;
 
 # Port
-my $port = Test::SPVM::Sys::Socket::Server->empty_port;
+my $port = Test::SPVM::Sys::Socket::Util::empty_port;
 
 warn "[Test Output]Port:$port";
 
