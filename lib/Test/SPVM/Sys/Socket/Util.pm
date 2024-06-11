@@ -11,7 +11,7 @@ my $localhost = "127.0.0.1";
 sub can_bind {
   my ($host, $port, $proto) = @_;
   
-  my $socket = _listen_socket($host, $port, $proto);
+  my $socket = &_listen_socket($host, $port, $proto);
   
   my $can_bind = defined $socket;
   
@@ -51,7 +51,7 @@ sub get_empty_port {
         while ( $port++ < 65000 ) {
             # Remote checks don't work on UDP, and Local checks would be redundant here...
             next if ($proto eq 'tcp' && check_port({ host => $host, port => $port }));
-            return $port if can_bind($host, $port, $proto);
+            return $port if &can_bind($host, $port, $proto);
         }
     } else {
         # kernel will select an unused port
