@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Carp ();
 use Config;
+use POSIX ();
 
 use Test::SPVM::Sys::Socket::Util;
 
