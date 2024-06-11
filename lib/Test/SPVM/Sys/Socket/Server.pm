@@ -6,7 +6,6 @@ use Carp ();
 use Config;
 
 use Test::SPVM::Sys::Socket::Util;
-use IO::Socket::INET;
 
 # process does not die when received SIGTERM, on win32.
 my $TERMSIG = $^O eq 'MSWin32' ? 'KILL' : 'TERM';
