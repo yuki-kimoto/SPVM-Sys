@@ -1,5 +1,11 @@
 package Test::SPVM::Sys::Socket::Util;
 
+use strict;
+use warnings;
+use Carp ();
+
+use Socket;
+
 1;
 
 =head1 Name

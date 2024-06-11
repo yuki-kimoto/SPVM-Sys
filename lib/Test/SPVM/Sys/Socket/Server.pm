@@ -5,6 +5,7 @@ use warnings;
 use Carp ();
 use Config;
 
+use Test::SPVM::Sys::Socket::Util;
 use IO::Socket::INET;
 
 # process does not die when received SIGTERM, on win32.
