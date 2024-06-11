@@ -9,11 +9,13 @@ use Socket;
 my $localhost = "127.0.0.1";
 
 sub can_bind {
-    my ($host, $port, $proto) = @_;
-    # The following must be split across two statements, due to
-    # https://rt.perl.org/Public/Bug/Display.html?id=124248
-    my $s = _listen_socket($host, $port, $proto);
-    return defined $s;
+  my ($host, $port, $proto) = @_;
+  
+  my $socket = _listen_socket($host, $port, $proto);
+  
+  my $can_bind = defined $socket;
+  
+  return $can_bind;
 }
 
 sub _listen_socket {
