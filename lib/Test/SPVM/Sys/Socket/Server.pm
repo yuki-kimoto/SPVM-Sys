@@ -37,7 +37,7 @@ sub stop {
   
   local $?;
   
-  LOOP: while (1) {
+  while (1) {
     my $kid = waitpid( $self->{pid}, 0 );
     if ($^O ne 'MSWin32') {
       if (POSIX::WIFSIGNALED($?)) {
@@ -48,7 +48,7 @@ sub stop {
       }
     }
     if ($kid == 0 || $kid == -1) {
-      last LOOP;
+      last;
     }
   }
   undef $self->{pid};
