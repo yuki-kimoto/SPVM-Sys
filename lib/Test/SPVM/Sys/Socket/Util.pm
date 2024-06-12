@@ -28,10 +28,10 @@ sub get_empty_port {
   $proto = lc $proto;
   
   # kernel will select an unused port
-  while ( my $sock = _listen_socket($host, undef, $proto) ) {
+  while (my $sock = _listen_socket($host, undef, $proto)) {
     my $port = $sock->sockport;
     $sock->close;
-    next if ($proto eq 'tcp' && &_can_use_port(host => $host, port => $port));
+    next if ($proto eq 'tcp' && &_is_unavailable_port($host, $port, $proto));
     return $port;
   }
   
@@ -56,37 +56,22 @@ sub _listen_socket {
   return $socket;
 }
 
-sub _can_use_port {
-  my %options = @_;
-  
-  my $host = $options{host};
-  unless (defined $host) {
-    $host = '127.0.0.1';
-  }
-  
-  # port option
-  my $port = $options{port};
-  
-  # proto option
-  my $proto = $options{proto};
-  unless (defined $proto) {
-    $proto = 'tcp';
-  }
-  $proto = lc $proto;
+sub _is_unavailable_port {
+  my ($host, $port, $proto) = @_;
   
   my $can_use = 0;
   if ($proto eq 'udp') {
-    $can_use = &_can_use_port_udp($host, $port)
+    $can_use = &_is_unavailable_port_udp($host, $port)
   }
   elsif ($proto eq 'tcp') {
-    $can_use = &_can_use_port_tcp($host, $port)
+    $can_use = &_is_unavailable_port_tcp($host, $port)
   }
   else {
     Carp::confess("\"proto\" option does not support \"$proto\".");
   }
 }
 
-sub _can_use_port_tcp {
+sub _is_unavailable_port_tcp {
   my ($host, $port) = @_;
   
   my $sock = IO::Socket::IP->new(
@@ -106,7 +91,7 @@ sub _can_use_port_tcp {
   return $can_use;
 }
 
-sub _can_use_port_udp {
+sub _is_unavailable_port_udp {
   my ($host, $port) = @_;
   
   # send some UDP data and see if ICMP error is being sent back (i.e. ECONNREFUSED)
