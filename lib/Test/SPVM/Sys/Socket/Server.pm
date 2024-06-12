@@ -162,7 +162,7 @@ L</"max_wait"> field is set to 10 if C<max_wait> option is not specified.
 
 L</"auto_start"> field is set to 1 if C<auto_start> option is not specified.
 
-This method is planed to be implemented in child classes.
+If L</"auto_start"> field is a true value, this method calls L</"start"> method.
 
 Options:
 
