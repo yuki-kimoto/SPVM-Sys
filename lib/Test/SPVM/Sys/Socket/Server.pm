@@ -8,9 +8,6 @@ use POSIX ();
 
 use Test::SPVM::Sys::Socket::Util;
 
-# process does not die when received SIGTERM in Windows
-my $TERMSIG = $^O eq 'MSWin32' ? 'KILL' : 'TERM';
-
 # Fields
 
 sub pid  { $_[0]->{pid} }
@@ -33,7 +30,10 @@ sub stop {
   
   Win32::Sleep(0) if $^O eq "MSWin32";
   
-  kill $TERMSIG => $self->{pid};
+  # process does not die when received SIGTERM in Windows
+  my $termsig = $^O eq 'MSWin32' ? 'KILL' : 'TERM';
+  
+  kill $termsig, $self->{pid};
   
   Win32::Sleep(0) if $^O eq "MSWin32";
   
