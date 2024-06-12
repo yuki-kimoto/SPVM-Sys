@@ -17,6 +17,8 @@ sub auto_start { shift->{auto_start} }
 
 sub max_wait { shift->{max_wait} }
 
+sub code { shift->{code} }
+
 # Class Methods
 sub new {
   my $class = shift;
@@ -50,19 +52,16 @@ sub init_fields {
   }
   $self->{max_wait} = $max_wait;
   
-  # my_pid field
-  my $my_pid = $options{my_pid};
-  unless (defined $my_pid) {
-    $my_pid = $$;
-  }
-  $self->{my_pid} = $my_pid;
-  
   # code field
   my $code = $options{code};
   unless (defined $code) {
     Carp::confess("\"code\" option must be deinfed.") ;
   }
   $self->{code} = $code;
+  
+  # my_pid field
+  $self->{my_pid} = $$;
+  
 }
 
 sub start { Carp::confess("Not implemented.") }
@@ -116,11 +115,17 @@ sub DESTROY {
 
 =head1 Name
 
-Test::SPVM::Sys::Socket::Server - Server Manager Base Class
+Test::SPVM::Sys::Socket::Server - Server Manager Base Class for Tests for Sockets.
 
 =head1 Description
 
-Test::SPVM::Sys::Socket::Server is a base class for server managers.
+Test::SPVM::Sys::Socket::Server is a base class for server managers for tests for sockets.
+
+=head1 Usage
+
+This class is a base class, so it should not be used directory.
+
+See usage sections of L</"Well Known Child Class">.
 
 =head1 Fields
 
@@ -140,13 +145,19 @@ The parent process ID created by L<fork|https://perldoc.perl.org/functions/fork>
 
   my $auto_start = $self->auto_start;
 
-If this field is a true value, L</"new"> method call L</"start"> method, otherwise does not call it.
+If this field is a true value, L</"new"> method calls L</"start"> method, otherwise does not call it.
 
 =head2 max_wait
 
   my $max_wait = $self->max_wait;
 
 The maximum number of times to wait to check that a server has been started by a child process created by L<fork|https://perldoc.perl.org/functions/fork> function..
+
+=head2 code
+
+  my $code = $self->code;
+
+An anon subroutine to run a server.
 
 =head1 Class Methods
 
@@ -156,11 +167,7 @@ The maximum number of times to wait to check that a server has been started by a
 
 Creates a new L<Test::SPVM::Sys::Socket::Server> object and returns it.
 
-L</"pid"> field is set to the current process ID.
-
-L</"max_wait"> field is set to 10 if C<max_wait> option is not specified.
-
-L</"auto_start"> field is set to 1 if C<auto_start> option is not specified.
+This method calls L</"init_fields"> methods.
 
 If L</"auto_start"> field is a true value, this method calls L</"start"> method.
 
@@ -180,13 +187,33 @@ Sets L</"max_wait"> field to this value.
 
 =head1 Instance Methods
 
+=head2 init_fields
+
+  $server->init_fields(%options);
+
+L</"max_wait"> field is set to the value of C<max_wait> option.
+
+If C<max_wait> option is not defind, it is set to 10.
+
+L</"auto_start"> field is set to the value of C<auto_start> option.
+
+If C<auto_start> option is not defind, it is set to 1.
+
+L</"my_pid"> field is set to the current process ID.
+
+L</"code"> field is set to the value of C<code> option.
+
+If C<code> option is not defind, an exception is thrown.
+
+This method is a protected method, so it should only be called in this class and its child classes.
+
 =head2 start
 
   $server->start($code);
 
 Starts a server process given an anon subroutine $code.
 
-Call L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
+This method calls L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
 
 The parent process waits until the server starts.
 

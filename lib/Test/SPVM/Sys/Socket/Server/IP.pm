@@ -92,19 +92,50 @@ sub _wait_server_start {
 
 =head1 Name
 
-Test::SPVM::Sys::Socket::Server::IP - Server Manager for IPv4/IPv6
+Test::SPVM::Sys::Socket::Server::IP - Server Manager for tests for internet domain sockets
 
 =head1 Description
 
+Test::SPVM::Sys::Socket::Server::IP class is a server manager for tests for internet domain sockets.
+
 =head1 Usage
+
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
+    code => sub {
+      my ($port) = @_;
+      
+      # Start a server
+      
+    },
+  );
 
 =head1 Details
 
-This class is a L<Test::TCP> porting for tests for L<SPVM::Sys::Socket>.
+This class is originally a L<Test::TCP> porting for tests for L<SPVM::Sys::Socket>.
 
 =head1 Super Class
 
 L<Test::SPVM::Sys::Socket::Server>
+
+=head1 Class Methods
+
+=head2 new
+
+  my $server = Test::SPVM::Sys::Socket::Server::IP->new(%options);
+
+Calls L<new|Test::SPVM::Sys::Socket::Server/"new"> method in its super class and returns its return value.
+
+Options:
+
+The following options are available adding the options of L<new|Test::SPVM::Sys::Socket::Server/"new"> method in its super class.
+
+=over 2
+
+=item * C<port>
+
+Sets L</"port"> field to this value.
+
+=back
 
 =head1 Fields
 
@@ -114,12 +145,19 @@ L<Test::SPVM::Sys::Socket::Server>
 
 The port number to which the server binds.
 
-=head1 Class Methods
-
-=head2 new
-
-
 =head1 Instance Methods
+
+=head2 init_fields
+
+  $server->init_fields(%options);
+
+Calls L<init_fields|Test::SPVM::Sys::Socket::Server/"init_fields"> method in the super class and sets fields of this calss.
+
+L</"port"> field is set to the value of C<port> option.
+
+If C<port> option is not specified, the field is set to an available port.
+
+This method is a protected method, so it should only be called in this class and its child classes.
 
 =head2 start
 
@@ -127,6 +165,13 @@ The port number to which the server binds.
 
 Starts a server process given an anon subroutine $code.
 
-Call L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
+This method calls L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
+
+The value of L</"port"> field is passed to the 1th argument of $code.
+
+  $server->start(sub {
+    my ($port) = @_;
+    
+  });
 
 The parent process waits until the server starts.

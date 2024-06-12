@@ -110,15 +110,28 @@ sub _make_waiter {
 
 =head1 Name
 
-Test::SPVM::Sys::Socket::Server::IP - Server Manager for UNIX Domain Sockets
+Test::SPVM::Sys::Socket::Server::UNIX - Server Manager for tests for UNIX Domain Sockets
 
 =head1 Description
 
+Test::SPVM::Sys::Socket::Server::UNIX class is a server manager for tests for UNIX domain sockets.
+
 =head1 Usage
+  
+  use Test::SPVM::Sys::Socket::Server::UNIX;
+  
+  my $server = Test::SPVM::Sys::Socket::Server::UNIX->new(
+    code => sub {
+      my ($port) = @_;
+      
+      # Start a server
+      
+    },
+  );
 
 =head1 Details
 
-This class is a L<Test::UNIXSock> porting for tests for L<SPVM::Sys::Socket>.
+This class is originally a L<Test::UNIXSock> porting for tests for L<SPVM::Sys::Socket>.
 
 =head1 Super Class
 
@@ -126,28 +139,49 @@ L<Test::SPVM::Sys::Socket::Server>
 
 =head1 Fields
 
-=head2 port
-
-  my $port = $self->port;
-
-The port number to which the server binds.
-
-=head2 tmpdir
-
-A temporary directory used by L</"path">.
-
 =head2 path
 
   my $path = $self->path;
 
 The path to which the server binds.
 
+=head2 tmpdir
+
+A temporary directory used by L</"path">.
+
 =head1 Class Methods
 
 =head2 new
 
+  my $server = Test::SPVM::Sys::Socket::Server::UNIX->new(%options);
+
+Calls L<new|Test::SPVM::Sys::Socket::Server/"new"> method in its super class and returns its return value.
+
+Options:
+
+The following options are available adding the options of L<new|Test::SPVM::Sys::Socket::Server/"new"> method in its super class.
+
+=over 2
+
+=item * C<path>
+
+Sets L</"path"> field to this value.
+
+=back
 
 =head1 Instance Methods
+
+=head2 init_fields
+
+  $server->init_fields(%options);
+
+Calls L<init_fields|Test::SPVM::Sys::Socket::Server/"init_fields"> method in its super class and sets fields of this calss.
+
+L</"path"> field is set to the value of C<path> option.
+
+If C<path> option is not defind, L<tmpdir> field is set to a temporary directory and L</"path"> is set to an available path.
+
+This method is a protected method, so it should only be called in this class and its child classes.
 
 =head2 start
 
@@ -155,6 +189,13 @@ The path to which the server binds.
 
 Starts a server process given an anon subroutine $code.
 
-Call L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
+This method calls L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
+
+The value of L</"path"> field is passed to the 1th argument of $code.
+
+  $server->start(sub {
+    my ($path) = @_;
+    
+  });
 
 The parent process waits until the server starts.

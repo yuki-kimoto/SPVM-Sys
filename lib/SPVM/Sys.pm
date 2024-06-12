@@ -1743,6 +1743,18 @@ Searches a group entry given The group name $name. If found, returns the group e
 
 =back
 
+=head1 Perl Modules
+
+=over 2
+
+=item * L<Test::SPVM::Sys::Socket::Server>
+
+=item * L<Test::SPVM::Sys::Socket::Server::IP>
+
+=item * L<Test::SPVM::Sys::Socket::Server::UNIX>
+
+=back
+
 =head1 See Also
 
 =over 2
