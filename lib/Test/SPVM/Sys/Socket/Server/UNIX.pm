@@ -74,13 +74,17 @@ sub start {
   # Parent
   else {
     $self->{pid} = $pid;
-    &_wait_unix_sock($self->path, $self->{max_wait});
+    $self->_wait_server_start;
     return;
   }
 }
 
-sub _wait_unix_sock {
-  my ($path, $max_wait) = @_;
+sub _wait_server_start {
+  my ($self) = @_;
+  
+  my $path = $self->path;
+  
+  my $max_wait = $self->{max_wait};
   
   $max_wait ||= 10;
   
