@@ -11,8 +11,6 @@ use File::Temp ();
 use Time::HiRes ();
 
 # Fields
-sub auto_start { shift->{auto_start} }
-
 sub max_wait { shift->{max_wait} }
 
 sub tmpdir { shift->{tmpdir} }
@@ -42,7 +40,7 @@ sub new {
   }
   
   if ($self->{auto_start}) {
-    $self->start();
+    $self->start;
   }
   
   return $self;

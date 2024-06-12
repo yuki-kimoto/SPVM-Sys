@@ -15,7 +15,9 @@ my $TERMSIG = $^O eq 'MSWin32' ? 'KILL' : 'TERM';
 
 sub pid  { $_[0]->{pid} }
 
-sub my_pid { ... }
+sub my_pid { shift->{my_pid} }
+
+sub auto_start { shift->{auto_start} }
 
 # Instance Methods
 sub stop {

@@ -16,8 +16,9 @@ sub new {
   my $class = shift;
   
   my $self = {
-    @_,
+    auto_start => 1,
     my_pid => $$,
+    @_,
   };
   
   bless $self, ref $class || $class;
@@ -26,21 +27,32 @@ sub new {
   
   $self->{port} = $port;
   
-  my $code = $self->{code};
+  if ($self->{auto_start}) {
+    $self->start;
+  }
+  
+  return $self;
+}
+
+sub start {
+  my ($self) = @_;
+  
+  my $port = $self->{port};
   
   my $pid = fork;
   
   # Child
   if ($pid == 0) {
+    my $code = $self->{code};
+    
     $code->($port);
   }
+  # Parent
   else {
     $self->{pid} = $pid;
     
     Test::SPVM::Sys::Socket::Util::wait_port($port);
   }
-  
-  return $self;
 }
 
 1;
