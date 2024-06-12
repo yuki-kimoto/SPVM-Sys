@@ -19,6 +19,10 @@ sub get_empty_port {
   $proto = $proto ? lc($proto) : 'tcp';
   
   if (defined $port) {
+    Carp::confess("The port $port must not be defined.");
+
+=pod
+
       # to ensure lower bound, check one by one in order
       $port = 49152 unless $port =~ /^[0-9]+$/ && $port < 49152;
       while ( $port++ < 65000 ) {
@@ -26,6 +30,9 @@ sub get_empty_port {
           next if ($proto eq 'tcp' && &_check_port({ host => $host, port => $port }));
           return $port if &_can_bind($host, $port, $proto);
       }
+
+=cut
+
   } else {
       # kernel will select an unused port
       while ( my $sock = _listen_socket($host, undef, $proto) ) {
@@ -63,16 +70,6 @@ sub _check_port {
         return 0; # The port is not used.
     }
  
-}
-
-sub _can_bind {
-  my ($host, $port, $proto) = @_;
-  
-  my $socket = &_listen_socket($host, $port, $proto);
-  
-  my $can_bind = defined $socket;
-  
-  return $can_bind;
 }
 
 sub _listen_socket {
