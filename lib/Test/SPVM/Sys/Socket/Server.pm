@@ -13,7 +13,7 @@ my $TERMSIG = $^O eq 'MSWin32' ? 'KILL' : 'TERM';
 
 # Fields
 
-sub pid { ... }
+sub pid  { $_[0]->{pid} }
 
 sub _my_pid { ... }
 
