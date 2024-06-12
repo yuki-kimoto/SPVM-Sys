@@ -20,56 +20,42 @@ sub get_empty_port {
   
   if (defined $port) {
     Carp::confess("The port $port must not be defined.");
-
-=pod
-
-      # to ensure lower bound, check one by one in order
-      $port = 49152 unless $port =~ /^[0-9]+$/ && $port < 49152;
-      while ( $port++ < 65000 ) {
-          # Remote checks don't work on UDP, and Local checks would be redundant here...
-          next if ($proto eq 'tcp' && &_check_port({ host => $host, port => $port }));
-          return $port if &_can_bind($host, $port, $proto);
-      }
-
-=cut
-
-  } else {
-      # kernel will select an unused port
-      while ( my $sock = _listen_socket($host, undef, $proto) ) {
-          $port = $sock->sockport;
-          $sock->close;
-          next if ($proto eq 'tcp' && &_check_port({ host => $host, port => $port }));
-          return $port;
-      }
+  }
+  
+  # kernel will select an unused port
+  while ( my $sock = _listen_socket($host, undef, $proto) ) {
+    $port = $sock->sockport;
+    $sock->close;
+    next if ($proto eq 'tcp' && &_check_port({ host => $host, port => $port }));
+    return $port;
   }
   
   Carp::confess("empty port not found");
 }
 
 sub _check_port {
-    my ($host, $port, $proto) = @_ && ref $_[0] eq 'HASH' ? ($_[0]->{host}, $_[0]->{port}, $_[0]->{proto}) : (undef, @_);
-    $host = '127.0.0.1'
-        unless defined $host;
- 
-    return &_check_port_udp($host, $port)
-        if $proto && lc($proto) eq 'udp';
- 
-    # TCP, check if possible to connect
-    my $sock = IO::Socket::IP->new(
-        Proto    => 'tcp',
-        PeerAddr => $host,
-        PeerPort => $port,
-        V6Only    => 1,
-    );
- 
-    if ($sock) {
-        close $sock;
-        return 1; # The port is used.
-    }
-    else {
-        return 0; # The port is not used.
-    }
- 
+  my ($host, $port, $proto) = @_ && ref $_[0] eq 'HASH' ? ($_[0]->{host}, $_[0]->{port}, $_[0]->{proto}) : (undef, @_);
+  $host = '127.0.0.1'
+      unless defined $host;
+  
+  return &_check_port_udp($host, $port)
+      if $proto && lc($proto) eq 'udp';
+  
+  # TCP, check if possible to connect
+  my $sock = IO::Socket::IP->new(
+      Proto    => 'tcp',
+      PeerAddr => $host,
+      PeerPort => $port,
+      V6Only    => 1,
+  );
+  
+  if ($sock) {
+      close $sock;
+      return 1; # The port is used.
+  }
+  else {
+      return 0; # The port is not used.
+  }
 }
 
 sub _listen_socket {
@@ -95,33 +81,33 @@ sub _listen_socket {
 }
 
 sub _check_port_udp {
-    my ($host, $port) = @_;
- 
-    # send some UDP data and see if ICMP error is being sent back (i.e. ECONNREFUSED)
-    my $sock = IO::Socket::IP->new(
-        Proto    => 'udp',
-        PeerAddr => $host,
-        PeerPort => $port,
-        V6Only   => 1,
-        Blocking => 0,
-    ) or die "failed to create bound UDP socket:$!";
- 
-    $sock->send("0", 0)
-        or die "failed to send a UDP packet:$!";
- 
-    my ($rfds, $efds) = ('', '');
-    vec($rfds, fileno($sock), 1) = 1;
-    vec($efds, fileno($sock), 1) = 1;
-    select $rfds, undef, $efds, 0.1;
- 
-    # after 0.1 second of silence, we assume that the server is up
-    my $up = defined($sock->recv(my $data, 1000)) || (
-        ($^O eq 'MSWin32')
-            ? ($^E != Errno::WSAECONNRESET() && $^E != Errno::WSAECONNREFUSED())
-            : ($! != ECONNREFUSED)
-    );
-    close $sock;
-    $up;
+  my ($host, $port) = @_;
+  
+  # send some UDP data and see if ICMP error is being sent back (i.e. ECONNREFUSED)
+  my $sock = IO::Socket::IP->new(
+      Proto    => 'udp',
+      PeerAddr => $host,
+      PeerPort => $port,
+      V6Only   => 1,
+      Blocking => 0,
+  ) or die "failed to create bound UDP socket:$!";
+  
+  $sock->send("0", 0)
+      or die "failed to send a UDP packet:$!";
+  
+  my ($rfds, $efds) = ('', '');
+  vec($rfds, fileno($sock), 1) = 1;
+  vec($efds, fileno($sock), 1) = 1;
+  select $rfds, undef, $efds, 0.1;
+  
+  # after 0.1 second of silence, we assume that the server is up
+  my $up = defined($sock->recv(my $data, 1000)) || (
+      ($^O eq 'MSWin32')
+          ? ($^E != Errno::WSAECONNRESET() && $^E != Errno::WSAECONNREFUSED())
+          : ($! != ECONNREFUSED)
+  );
+  close $sock;
+  $up;
 }
 
 sub run_echo_server {
