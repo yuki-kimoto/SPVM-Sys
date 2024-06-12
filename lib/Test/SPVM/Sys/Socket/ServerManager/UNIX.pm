@@ -122,7 +122,9 @@ Test::SPVM::Sys::Socket::ServerManager::UNIX class is a server manager for tests
   
   my $server = Test::SPVM::Sys::Socket::ServerManager::UNIX->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $path = $server_manager->path;
       
       # Start a server
       

@@ -102,7 +102,9 @@ Test::SPVM::Sys::Socket::ServerManager::IP class is a server manager for tests f
 
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       # Start a server
       
