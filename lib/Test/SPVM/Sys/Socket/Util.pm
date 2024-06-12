@@ -129,9 +129,10 @@ sub run_echo_server {
     LocalAddr => $localhost,
     LocalPort => $port,
     Listen    => SOMAXCONN,
-    Proto     => 'tcp',
+    Type     => SOCK_STREAM,
     ReuseAddr => 1,
   );
+  
   unless ($server_socket) {
     Carp::confess("Can't create a server socket:$@");
   }
