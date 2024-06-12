@@ -125,7 +125,7 @@ sub _is_unavailable_port_udp {
 sub run_echo_server {
   my ($port) = @_;
   
-  my $server_socket = IO::Socket::IP->new(
+  my $io_socket = IO::Socket::IP->new(
     LocalAddr => $localhost,
     LocalPort => $port,
     Listen    => SOMAXCONN,
@@ -133,11 +133,11 @@ sub run_echo_server {
     ReuseAddr => 1,
   );
   
-  unless ($server_socket) {
+  unless ($io_socket) {
     Carp::confess("Can't create a server socket:$@");
   }
   
-  &_echo_server_accept_loop($server_socket);
+  &_echo_server_accept_loop($io_socket);
 }
 
 sub start_echo_server_ipv4_tcp {
@@ -154,7 +154,7 @@ sub start_echo_server_ipv4_tcp {
   
   my $host = '127.0.0.1';
   
-  my $server_socket = IO::Socket::IP->new(
+  my $io_socket = IO::Socket::IP->new(
     LocalAddr => $host,
     LocalPort => $port,
     Listen    => SOMAXCONN,
@@ -162,11 +162,11 @@ sub start_echo_server_ipv4_tcp {
     ReuseAddr => 1,
   );
   
-  unless ($server_socket) {
+  unless ($io_socket) {
     Carp::confess("Can't create a server socket:$@");
   }
   
-  &_echo_server_accept_loop($server_socket, $read_buffer_length);
+  &_echo_server_accept_loop($io_socket, $read_buffer_length);
 }
 
 sub start_echo_server_ipv6_tcp {
@@ -183,35 +183,36 @@ sub start_echo_server_ipv6_tcp {
   
   my $host = '::1';
   
-  my $server_socket = IO::Socket::IP->new(
+  my $io_socket = IO::Socket::IP->new(
     LocalAddr => $host,
     LocalPort => $port,
     Listen    => SOMAXCONN,
     Type     => SOCK_STREAM,
     ReuseAddr => 1,
+    V6Only   => 1,
   );
   
-  unless ($server_socket) {
+  unless ($io_socket) {
     Carp::confess("Can't create a server socket:$@");
   }
   
-  &_echo_server_accept_loop($server_socket, $read_buffer_length);
+  &_echo_server_accept_loop($io_socket, $read_buffer_length);
 }
 
 sub run_echo_server_unix {
   my ($path) = @_;
   
-  my $server_socket = IO::Socket::UNIX->new(
+  my $io_socket = IO::Socket::UNIX->new(
     Type => SOCK_STREAM(),
     Local => $path,
     Listen => SOMAXCONN,
   );
   
-  unless ($server_socket) {
+  unless ($io_socket) {
     Carp::confess("Can't create a server socket:$@");
   }
   
-  &_echo_server_accept_loop($server_socket);
+  &_echo_server_accept_loop($io_socket);
 }
 
 sub start_echo_server_unix_tcp {
@@ -226,26 +227,26 @@ sub start_echo_server_unix_tcp {
   # read_buffer_length option
   my $read_buffer_length = $options{read_buffer_length};
   
-  my $server_socket = IO::Socket::UNIX->new(
+  my $io_socket = IO::Socket::UNIX->new(
     Type => SOCK_STREAM,
     Local => $path,
     Listen => SOMAXCONN,
   );
   
-  unless ($server_socket) {
+  unless ($io_socket) {
     Carp::confess("Can't create a server socket:$@");
   }
   
-  &_echo_server_accept_loop($server_socket);
+  &_echo_server_accept_loop($io_socket);
 }
 
 sub _echo_server_accept_loop {
-  my ($server_socket, $read_buffer_length) = @_;
+  my ($io_socket, $read_buffer_length) = @_;
   
   $read_buffer_length //= 1024;
   
   while (1) {
-    my $client_socket = $server_socket->accept;
+    my $client_socket = $io_socket->accept;
     
     while (1) {
       my $buffer;
