@@ -18,9 +18,53 @@ sub auto_start { shift->{auto_start} }
 sub max_wait { shift->{max_wait} }
 
 # Class Methods
-sub new { Carp::confess("Not implemented.") }
+sub new {
+  my $class = shift;
+  
+  my $self = bless {}, ref $class || $class;
+  
+  $self->init_fields(@_);
+  
+  if ($self->{auto_start}) {
+    $self->start;
+  }
+  
+  return $self;
+}
 
 # Instance Methods
+sub init_fields {
+  my ($self, %options) = @_;
+  
+  # auto_start field
+  my $auto_start = $options{auto_start};
+  unless (defined $auto_start) {
+    $auto_start = 1;
+  }
+  $self->{auto_start} = $auto_start;
+  
+  # max_wait field
+  my $max_wait = $options{max_wait};
+  unless (defined $max_wait) {
+    $max_wait = 10;
+  }
+  $self->{max_wait} = $max_wait;
+  
+  # my_pid field
+  my $my_pid = $options{my_pid};
+  unless (defined $my_pid) {
+    $my_pid = $$;
+  }
+  $self->{my_pid} = $my_pid;
+  
+  # code field
+  my $code = $options{code};
+  unless (defined $code) {
+    Carp::confess("\"code\" option must be deinfed.") ;
+  }
+  $self->{code} = $code;
+}
+
 sub start { Carp::confess("Not implemented.") }
 
 sub stop {

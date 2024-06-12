@@ -11,21 +11,6 @@ use Test::SPVM::Sys::Socket::Util;
 # Fields
 sub port { shift->{port} }
 
-# Class Methods
-sub new {
-  my $class = shift;
-  
-  my $self = bless {}, ref $class || $class;
-  
-  $self->init_fields(@_);
-  
-  if ($self->{auto_start}) {
-    $self->start;
-  }
-  
-  return $self;
-}
-
 # Instance Methods
 sub init_fields {
   my ($self, %options) = @_;
