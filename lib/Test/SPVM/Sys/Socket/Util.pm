@@ -35,6 +35,7 @@ sub _listen_socket {
     Proto     => $proto,
     # In Windows, SO_REUSEADDR works differently In Linux. The feature that corresponds to SO_REUSEADDR in Linux is enabled by default in Windows.
     (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
+    V6Only    => 1,
   );
   
   my $socket = IO::Socket::IP->new(%options);
@@ -83,6 +84,7 @@ sub check_port {
         Proto    => 'tcp',
         PeerAddr => $host,
         PeerPort => $port,
+        V6Only    => 1,
     );
  
     if ($sock) {
