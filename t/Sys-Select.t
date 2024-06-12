@@ -26,7 +26,9 @@ ok(SPVM::TestCase::Sys::Select->select_utils);
 {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },

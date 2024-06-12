@@ -74,7 +74,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
@@ -87,7 +89,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
@@ -100,7 +104,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
@@ -113,7 +119,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
@@ -126,7 +134,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
@@ -149,7 +159,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 unless ($^O eq 'MSWin32') {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       SPVM::TestCase::Sys::Socket->run_echo_server($port);
     },
@@ -181,7 +193,9 @@ unless ($^O eq 'MSWin32') {
 {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
@@ -194,7 +208,9 @@ unless ($^O eq 'MSWin32') {
 {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },

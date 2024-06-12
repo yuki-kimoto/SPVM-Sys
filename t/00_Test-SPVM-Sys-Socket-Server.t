@@ -19,7 +19,9 @@ ok($port >= 20000);
 {
   my $server_manager = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::start_echo_server_ipv4_tcp(port => $port);
     },
@@ -29,7 +31,9 @@ ok($port >= 20000);
 {
   my $server_manager = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::start_echo_server_ipv4_tcp(port => $port);
     },

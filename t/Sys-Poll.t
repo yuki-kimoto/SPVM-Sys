@@ -21,7 +21,9 @@ my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
 {
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
-      my ($port) = @_;
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
       
       Test::SPVM::Sys::Socket::Util::run_echo_server($port);
     },
