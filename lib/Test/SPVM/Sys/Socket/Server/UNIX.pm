@@ -50,25 +50,32 @@ sub new {
 sub start {
   my ($self) = @_;
   
+  my $path = $self->path;
+  
   my $pid = fork();
   
   unless (defined $pid) {
     Carp::confess("fork() failed: $!");
   }
   
-  # Parent process
-  if ($pid) {
+  # Child
+  if ($pid == 0) {
+    
+    my $code = $self->{code};
+    
+    $code->($path);
+    
+    if (kill 0, $self->{my_pid}) {
+      warn("[Test::SPVM::Sys::Socket::Server::Socket::UNIX#start]Child process does not block(pid: $$, my_pid:$self->{my_pid}).");
+    }
+    
+    exit 0;
+  }
+  # Parent
+  else {
     $self->{pid} = $pid;
     &_wait_unix_sock($self->path, $self->{max_wait});
     return;
-  }
-  # Child process
-  else {
-    $self->{code}->($self->path);
-    if (kill 0, $self->{my_pid}) {
-      warn("[Test::SPVM::Sys::Socket::Server::UNIXet] Child process does not block(PID: $$, PPID: $self->{my_pid})");
-    }
-    exit 0;
   }
 }
 

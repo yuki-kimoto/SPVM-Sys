@@ -41,11 +41,21 @@ sub start {
   
   my $pid = fork;
   
+  unless (defined $pid) {
+    Carp::confess("fork() failed: $!");
+  }
+  
   # Child
   if ($pid == 0) {
     my $code = $self->{code};
     
     $code->($port);
+    
+    if (kill 0, $self->{my_pid}) {
+      warn("[Test::SPVM::Sys::Socket::Server::Socket::IP#start]Child process does not block(pid: $$, my_pid:$self->{my_pid}).");
+    }
+    
+    exit 0;
   }
   # Parent
   else {
