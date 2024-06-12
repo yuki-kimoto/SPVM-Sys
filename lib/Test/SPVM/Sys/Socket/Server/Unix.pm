@@ -4,90 +4,105 @@ use base 'Test::SPVM::Sys::Socket::Server';
 
 use strict;
 use warnings;
-use IO::Socket::UNIX;
 use Carp ();
-use File::Temp 'tempdir';
+
+use IO::Socket::UNIX;
+use File::Temp ();
 use Time::HiRes ();
 
 # Fields
-sub auto_start { ... }
+sub auto_start { shift->{auto_start} }
 
-sub max_wait { ... }
+sub max_wait { shift->{max_wait} }
 
-sub tmpdir { ... }
+sub tmpdir { shift->{tmpdir} }
 
-sub path { ... }
+sub path { shift->{path} }
 
 # Class Methods
 sub new {
-    my $class = shift;
-    my %args = @_==1 ? %{$_[0]} : @_;
-    Carp::croak("missing mandatory parameter 'code'") unless exists $args{code};
-    my $self = bless {
-        auto_start => 1,
-        max_wait   => 10,
-        _my_pid    => $$,
-        %args,
-    }, $class;
-    unless (defined $self->{path}) {
-        $self->{tmpdir} = tempdir( CLEANUP => 1 );
-        $self->{path} = $self->{tmpdir} . "/test.sock";
-    }
-    $self->start()
-      if $self->{auto_start};
-    return $self;
+  my $class = shift;
+  
+  my $self = {
+    auto_start => 1,
+    max_wait   => 10,
+    _my_pid    => $$,
+    @_,
+  };
+  
+  bless $self, ref $class || $class;
+  
+  unless (defined $self->{code}) {
+    Carp::confess("The anon subroutine \$code must be defined.") ;
+  }
+  
+  unless (defined $self->{path}) {
+    $self->{tmpdir} = File::Temp->newdir;
+    $self->{path} = $self->{tmpdir} . "/test.sock";
+  }
+  
+  if ($self->{auto_start}) {
+    $self->start();
+  }
+  
+  return $self;
 }
 
 # Instance Methods
 sub start {
-  my $self = shift;
+  my ($self) = @_;
+  
   my $pid = fork();
   
-  die "fork() failed: $!" unless defined $pid;
+  unless (defined $pid) {
+    Carp::confess("fork() failed: $!");
+  }
   
-  if ( $pid ) { # parent process.
-      $self->{pid} = $pid;
-      &_wait_unix_sock({ path => $self->path, max_wait => $self->{max_wait} });
-      return;
-  } else { # child process
-      $self->{code}->($self->path);
-      # should not reach here
-      if (kill 0, $self->{_my_pid}) { # warn only parent process still exists
-          warn("[Test::SPVM::Sys::Socket::Server::UNIXet] Child process does not block(PID: $$, PPID: $self->{_my_pid})");
-      }
-      exit 0;
+  # Parent process
+  if ($pid) {
+    $self->{pid} = $pid;
+    &_wait_unix_sock($self->path, $self->{max_wait});
+    return;
+  }
+  # Child process
+  else {
+    $self->{code}->($self->path);
+    if (kill 0, $self->{_my_pid}) {
+      warn("[Test::SPVM::Sys::Socket::Server::UNIXet] Child process does not block(PID: $$, PPID: $self->{_my_pid})");
+    }
+    exit 0;
   }
 }
 
 sub _wait_unix_sock {
-  my ($path, $max_wait);
-  if (@_ && ref $_[0] eq 'HASH') {
-      $path = $_[0]->{path};
-      $max_wait = $_[0]->{max_wait};
-  } elsif (@_ == 3) {
-      # backward compat
-      ($path, (my $sleep), (my $retry)) = @_;
-      $max_wait = $sleep * $retry;
-  } else {
-      ($path, $max_wait) = @_;
-  }
+  my ($path, $max_wait) = @_;
+  
   $max_wait ||= 10;
+  
   my $waiter = &_make_waiter($max_wait);
-  while ( $waiter->() ) {
-      IO::Socket::UNIX->new(
-          Type => SOCK_STREAM,
-          Peer => $path,
-      ) && return 1;
+  
+  while ($waiter->()) {
+    my $socket = IO::Socket::UNIX->new(
+      Type => SOCK_STREAM,
+      Peer => $path,
+    );
+    
+    if ($socket) {
+      return 1;
+    }
   }
+  
   return 0;
 }
 
 sub _make_waiter {
-  my $max_wait = shift;
+  my ($max_wait) = @_;
+  
   my $waited = 0;
+  
   my $sleep  = 0.001;
   
-  return sub {
+  my $waiter = sub {
     return 0 if $max_wait >= 0 && $waited > $max_wait;
     
     Time::HiRes::sleep($sleep);
@@ -96,6 +111,8 @@ sub _make_waiter {
     
     return 1;
   };
+  
+  return $waiter;
 }
 
 1;
