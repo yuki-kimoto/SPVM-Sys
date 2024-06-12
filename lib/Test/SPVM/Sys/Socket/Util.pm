@@ -41,10 +41,6 @@ sub get_empty_port {
 sub _listen_socket {
   my ($host, $port, $proto) = @_;
   
-  $port  ||= 0;
-  
-  $proto ||= 'tcp';
-  
   my %options = (
     (($proto eq 'udp') ? () : (Listen => 5)),
     LocalAddr => $host,
@@ -78,29 +74,36 @@ sub _can_use_port {
   }
   $proto = lc $proto;
   
+  my $can_use = 0;
   if ($proto eq 'udp') {
-    return &_can_use_port_udp($host, $port)
+    $can_use = &_can_use_port_udp($host, $port)
   }
   elsif ($proto eq 'tcp') {
-    
-    my $sock = IO::Socket::IP->new(
-      Proto    => $proto,
-      PeerAddr => $host,
-      PeerPort => $port,
-      V6Only    => 1,
-    );
-    
-    if ($sock) {
-      close $sock;
-      return 1;
-    }
-    else {
-      return 0;
-    }
+    $can_use = &_can_use_port_tcp($host, $port)
   }
   else {
     Carp::confess("\"proto\" option does not support \"$proto\".");
   }
+}
+
+sub _can_use_port_tcp {
+  my ($host, $port) = @_;
+  
+  my $sock = IO::Socket::IP->new(
+    Proto    => 'tcp',
+    PeerAddr => $host,
+    PeerPort => $port,
+    V6Only    => 1,
+  );
+  
+  my $can_use = 0;
+  
+  if ($sock) {
+    close $sock;
+    $can_use = 1;
+  }
+  
+  return $can_use;
 }
 
 sub _can_use_port_udp {
@@ -124,13 +127,14 @@ sub _can_use_port_udp {
   select $rfds, undef, $efds, 0.1;
   
   # after 0.1 second of silence, we assume that the server is up
-  my $up = defined($sock->recv(my $data, 1000)) || (
+  my $can_use = defined($sock->recv(my $data, 1000)) || (
       ($^O eq 'MSWin32')
           ? ($^E != Errno::WSAECONNRESET() && $^E != Errno::WSAECONNREFUSED())
           : ($! != ECONNREFUSED)
   );
   close $sock;
-  $up;
+  
+  return $can_use;
 }
 
 sub run_echo_server {
