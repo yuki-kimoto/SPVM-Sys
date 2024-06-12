@@ -58,6 +58,7 @@ sub init_fields {
   }
   $self->{code} = $code;
   
+  # port field
   my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
   
   $self->{port} = $port;
