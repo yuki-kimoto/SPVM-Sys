@@ -31,7 +31,7 @@ sub get_empty_port {
   while ( my $sock = _listen_socket($host, undef, $proto) ) {
     my $port = $sock->sockport;
     $sock->close;
-    next if ($proto eq 'tcp' && &_check_port(host => $host, port => $port));
+    next if ($proto eq 'tcp' && &_can_use_port(host => $host, port => $port));
     return $port;
   }
   
@@ -60,7 +60,7 @@ sub _listen_socket {
   return $socket;
 }
 
-sub _check_port {
+sub _can_use_port {
   my %options = @_;
   
   my $host = $options{host};
@@ -79,7 +79,7 @@ sub _check_port {
   $proto = lc $proto;
   
   if ($proto eq 'udp') {
-    return &_check_port_udp($host, $port)
+    return &_can_use_port_udp($host, $port)
   }
   elsif ($proto eq 'tcp') {
     
@@ -103,7 +103,7 @@ sub _check_port {
   }
 }
 
-sub _check_port_udp {
+sub _can_use_port_udp {
   my ($host, $port) = @_;
   
   # send some UDP data and see if ICMP error is being sent back (i.e. ECONNREFUSED)
