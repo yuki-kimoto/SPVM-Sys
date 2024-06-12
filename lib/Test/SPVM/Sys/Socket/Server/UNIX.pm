@@ -11,8 +11,6 @@ use File::Temp ();
 use Time::HiRes ();
 
 # Fields
-sub max_wait { shift->{max_wait} }
-
 sub tmpdir { shift->{tmpdir} }
 
 sub path { shift->{path} }
@@ -141,3 +139,38 @@ This class is a L<Test::UNIXSock> porting for tests for L<SPVM::Sys::Socket>.
 =head1 Super Class
 
 L<Test::SPVM::Sys::Socket::Server>
+
+=head1 Fields
+
+=head2 port
+
+  my $port = $self->port;
+
+The port number to which the server binds.
+
+=head2 tmpdir
+
+A temporary directory used by L</"path">.
+
+=head2 path
+
+  my $path = $self->path;
+
+The path to which the server binds.
+
+=head1 Class Methods
+
+=head2 new
+
+
+=head1 Instance Methods
+
+=head2 start
+
+  $server->start($code);
+
+Starts a server process given an anon subroutine $code.
+
+Call L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
+
+The parent process waits until the server starts.

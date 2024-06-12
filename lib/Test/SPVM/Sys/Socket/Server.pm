@@ -9,14 +9,20 @@ use POSIX ();
 use Test::SPVM::Sys::Socket::Util;
 
 # Fields
-
-sub pid  { $_[0]->{pid} }
+sub pid  { shift->{pid} }
 
 sub my_pid { shift->{my_pid} }
 
 sub auto_start { shift->{auto_start} }
 
+sub max_wait { shift->{max_wait} }
+
+# Class Methods
+sub new { Carp::confess("Not implemented.") }
+
 # Instance Methods
+sub start { Carp::confess("Not implemented.") }
+
 sub stop {
   my ($self) = @_;
   
@@ -72,15 +78,87 @@ Test::SPVM::Sys::Socket::Server - Server Manager Base Class
 
 Test::SPVM::Sys::Socket::Server is a base class for server managers.
 
+=head1 Fields
+
+=head2 pid
+
+  my $pid = $self->pid;
+
+The child process ID created by L<fork|https://perldoc.perl.org/functions/fork> function.
+
+=head2 my_pid
+
+  my $my_pid = $self->my_pid;
+
+The parent process ID created by L<fork|https://perldoc.perl.org/functions/fork> function.
+
+=head2 auto_start
+
+  my $auto_start = $self->auto_start;
+
+If this field is a true value, L</"new"> method call L</"start"> method, otherwise does not call it.
+
+=head2 max_wait
+
+  my $max_wait = $self->max_wait;
+
+The maximum number of times to wait to check that a server has been started by a child process created by L<fork|https://perldoc.perl.org/functions/fork> function..
+
+=head1 Class Methods
+
+=head2 new
+
+  my $server = Test::SPVM::Sys::Socket::Server->new(%options);
+
+Creates a new L<Test::SPVM::Sys::Socket::Server> object and returns it.
+
+L</"pid"> field is set to the current process ID.
+
+L</"max_wait"> field is set to 10 if C<max_wait> option is not specified.
+
+L</"auto_start"> field is set to 1 if C<auto_start> option is not specified.
+
+This method is planed to be implemented in child classes.
+
+Options:
+
+=over 2
+
+=item * C<auto_start>
+
+Sets L</"auto_start"> field to this value.
+
+=item * C<max_wait>
+
+Sets L</"max_wait"> field to this value.
+
+=back
+
 =head1 Instance Methods
+
+=head2 start
+
+  $server->start($code);
+
+Starts a server process given an anon subroutine $code.
+
+Call L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
+
+The parent process waits until the server starts.
+
+This method is planed to be implemented in child classes.
 
 =head2 stop
 
-Stop the server process.
+  $server->stop;
+
+Stops the server process stared by L</"start"> method.
 
 =head2 DESTROY
 
-The destructor, which call L</"stop"> method.
+The destructor.
+
+This method calls L</"stop"> method.
 
 =head1 Well Known Child Class
 

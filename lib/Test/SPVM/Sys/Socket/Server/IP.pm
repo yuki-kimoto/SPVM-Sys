@@ -17,6 +17,7 @@ sub new {
   
   my $self = {
     auto_start => 1,
+    max_wait   => 10,
     my_pid => $$,
     @_,
   };
@@ -72,7 +73,10 @@ sub _wait_server_start {
   
   my $port = $self->{port};
   
-  my $max_wait = 3;
+  my $max_wait = $self->{max_wait};
+  
+  $max_wait ||= 10;
+  
   my $wait_time = 0.1;
   my $wait_total = 0;
   while (1) {
@@ -113,3 +117,28 @@ This class is a L<Test::TCP> porting for tests for L<SPVM::Sys::Socket>.
 =head1 Super Class
 
 L<Test::SPVM::Sys::Socket::Server>
+
+=head1 Fields
+
+=head2 port
+
+  my $port = $self->port;
+
+The port number to which the server binds.
+
+=head1 Class Methods
+
+=head2 new
+
+
+=head1 Instance Methods
+
+=head2 start
+
+  $server->start($code);
+
+Starts a server process given an anon subroutine $code.
+
+Call L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
+
+The parent process waits until the server starts.
