@@ -222,7 +222,7 @@ lib/SPVM/Sys/User/Passwd.spvm
 lib/Test/SPVM/Sys/Socket.pm
 lib/Test/SPVM/Sys/Socket/Server.pm
 lib/Test/SPVM/Sys/Socket/Server/IP.pm
-lib/Test/SPVM/Sys/Socket/Server/Unix.pm
+lib/Test/SPVM/Sys/Socket/Server/UNIX.pm
 lib/Test/SPVM/Sys/Socket/Util.pm
 LICENSE
 Makefile.PL
@@ -230,6 +230,7 @@ MANIFEST			This list of files
 MANIFEST.SKIP
 README.md
 t/00_Test-SPVM-Sys-Socket-Server-IP.t
+t/00_Test-SPVM-Sys-Socket-Server-UNIX.t
 t/execv_success.pl
 t/exit_failure.pl
 t/exit_success.pl

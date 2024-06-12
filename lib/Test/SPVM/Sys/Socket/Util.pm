@@ -6,6 +6,7 @@ use Carp ();
 
 use Socket;
 use IO::Socket::IP;
+use IO::Socket::UNIX;
 use Errno qw/ECONNREFUSED/;
 
 my $localhost = "127.0.0.1";
@@ -161,6 +162,36 @@ sub run_echo_server {
     Proto     => 'tcp',
     ReuseAddr => 1,
   );
+  unless ($server_socket) {
+    Carp::confess("Can't create a server socket:$@");
+  }
+  
+  while (1) {
+    my $client_socket = $server_socket->accept;
+    
+    while (1) {
+      my $buffer;
+      my $read_length = $client_socket->sysread($buffer, 1024);
+      
+      if ($read_length) {
+        $client_socket->syswrite($buffer, $read_length);
+      }
+      else {
+        last;
+      }
+    }
+  }
+}
+
+sub run_echo_server_unix {
+  my ($path) = @_;
+  
+  my $server_socket = IO::Socket::UNIX->new(
+    Type => SOCK_STREAM(),
+    Local => $path,
+    Listen => 1,
+  );
+  
   unless ($server_socket) {
     Carp::confess("Can't create a server socket:$@");
   }
