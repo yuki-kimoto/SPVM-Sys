@@ -17,7 +17,7 @@ warn "[Test Output]Port:$port";
 ok($port >= 20000);
 
 {
-  my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
+  my $server_manager = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -27,7 +27,7 @@ ok($port >= 20000);
 }
 
 {
-  my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
+  my $server_manager = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -37,9 +37,11 @@ ok($port >= 20000);
 }
 
 {
-  my $server = Test::SPVM::Sys::Socket::ServerManager::UNIX->new(
+  my $server_manager = Test::SPVM::Sys::Socket::ServerManager::UNIX->new(
     code => sub {
-      my ($path) = @_;
+      my ($server_manager) = @_;
+      
+      my $path = $server_manager->path;
       
       Test::SPVM::Sys::Socket::Util::start_echo_server_unix_tcp(path => $path);
     },

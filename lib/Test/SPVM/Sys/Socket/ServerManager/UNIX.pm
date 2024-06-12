@@ -45,7 +45,7 @@ sub start {
     
     my $code = $self->{code};
     
-    $code->($path);
+    $code->($self);
     
     if (kill 0, $self->{my_pid}) {
       warn("[Test::SPVM::Sys::Socket::ServerManager::Socket::UNIX#start]Child process does not block(pid: $$, my_pid:$self->{my_pid}).");
@@ -191,10 +191,12 @@ Starts a server process given an anon subroutine $code.
 
 This method calls L<fork|https://perldoc.perl.org/functions/fork> function and starts the server specified by $code in the child process.
 
-The value of L</"path"> field is passed to the 1th argument of $code.
+The L<Test::SPVM::Sys::Socket::ServerManager::UNIX> object is passed to the 1th argument of $code.
 
   $server->start(sub {
-    my ($path) = @_;
+    my ($server_manager) = @_;
+    
+    my $path = $server_manager->path;
     
   });
 
