@@ -31,36 +31,11 @@ sub get_empty_port {
   while ( my $sock = _listen_socket($host, undef, $proto) ) {
     my $port = $sock->sockport;
     $sock->close;
-    next if ($proto eq 'tcp' && &_check_port({ host => $host, port => $port }));
+    next if ($proto eq 'tcp' && &_check_port(host => $host, port => $port));
     return $port;
   }
   
   Carp::confess("empty port not found");
-}
-
-sub _check_port {
-  my ($host, $port, $proto) = @_ && ref $_[0] eq 'HASH' ? ($_[0]->{host}, $_[0]->{port}, $_[0]->{proto}) : (undef, @_);
-  $host = '127.0.0.1'
-      unless defined $host;
-  
-  return &_check_port_udp($host, $port)
-      if $proto && lc($proto) eq 'udp';
-  
-  # TCP, check if possible to connect
-  my $sock = IO::Socket::IP->new(
-      Proto    => 'tcp',
-      PeerAddr => $host,
-      PeerPort => $port,
-      V6Only    => 1,
-  );
-  
-  if ($sock) {
-      close $sock;
-      return 1; # The port is used.
-  }
-  else {
-      return 0; # The port is not used.
-  }
 }
 
 sub _listen_socket {
@@ -83,6 +58,49 @@ sub _listen_socket {
   my $socket = IO::Socket::IP->new(%options);
   
   return $socket;
+}
+
+sub _check_port {
+  my %options = @_;
+  
+  my $host = $options{host};
+  unless (defined $host) {
+    $host = '127.0.0.1';
+  }
+  
+  # port option
+  my $port = $options{port};
+  
+  # proto option
+  my $proto = $options{proto};
+  unless (defined $proto) {
+    $proto = 'tcp';
+  }
+  $proto = lc $proto;
+  
+  if ($proto eq 'udp') {
+    return &_check_port_udp($host, $port)
+  }
+  elsif ($proto eq 'tcp') {
+    
+    my $sock = IO::Socket::IP->new(
+      Proto    => $proto,
+      PeerAddr => $host,
+      PeerPort => $port,
+      V6Only    => 1,
+    );
+    
+    if ($sock) {
+      close $sock;
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }
+  else {
+    Carp::confess("\"proto\" option does not support \"$proto\".");
+  }
 }
 
 sub _check_port_udp {
