@@ -11,38 +11,6 @@ use Errno qw/ECONNREFUSED/;
 
 my $localhost = "127.0.0.1";
 
-sub can_bind {
-  my ($host, $port, $proto) = @_;
-  
-  my $socket = &_listen_socket($host, $port, $proto);
-  
-  my $can_bind = defined $socket;
-  
-  return $can_bind;
-}
-
-sub _listen_socket {
-  my ($host, $port, $proto) = @_;
-  
-  $port  ||= 0;
-  
-  $proto ||= 'tcp';
-  
-  my %options = (
-    (($proto eq 'udp') ? () : (Listen => 5)),
-    LocalAddr => $host,
-    LocalPort => $port,
-    Proto     => $proto,
-    # In Windows, SO_REUSEADDR works differently In Linux. The feature that corresponds to SO_REUSEADDR in Linux is enabled by default in Windows.
-    (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
-    V6Only    => 1,
-  );
-  
-  my $socket = IO::Socket::IP->new(%options);
-  
-  return $socket;
-}
-
 sub get_empty_port {
   my ($host, $port, $proto) = @_;
   
@@ -56,7 +24,7 @@ sub get_empty_port {
       while ( $port++ < 65000 ) {
           # Remote checks don't work on UDP, and Local checks would be redundant here...
           next if ($proto eq 'tcp' && &_check_port({ host => $host, port => $port }));
-          return $port if &can_bind($host, $port, $proto);
+          return $port if &_can_bind($host, $port, $proto);
       }
   } else {
       # kernel will select an unused port
@@ -95,6 +63,38 @@ sub _check_port {
         return 0; # The port is not used.
     }
  
+}
+
+sub _can_bind {
+  my ($host, $port, $proto) = @_;
+  
+  my $socket = &_listen_socket($host, $port, $proto);
+  
+  my $can_bind = defined $socket;
+  
+  return $can_bind;
+}
+
+sub _listen_socket {
+  my ($host, $port, $proto) = @_;
+  
+  $port  ||= 0;
+  
+  $proto ||= 'tcp';
+  
+  my %options = (
+    (($proto eq 'udp') ? () : (Listen => 5)),
+    LocalAddr => $host,
+    LocalPort => $port,
+    Proto     => $proto,
+    # In Windows, SO_REUSEADDR works differently In Linux. The feature that corresponds to SO_REUSEADDR in Linux is enabled by default in Windows.
+    (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
+    V6Only    => 1,
+  );
+  
+  my $socket = IO::Socket::IP->new(%options);
+  
+  return $socket;
 }
 
 sub _check_port_udp {
