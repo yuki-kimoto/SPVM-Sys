@@ -5,11 +5,11 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
-use Test::SPVM::Sys::Socket::Server::UNIX;
+use Test::SPVM::Sys::Socket::ServerManager::UNIX;
 use Test::SPVM::Sys::Socket::Util;
 
 {
-  my $server = Test::SPVM::Sys::Socket::Server::UNIX->new(
+  my $server = Test::SPVM::Sys::Socket::ServerManager::UNIX->new(
     code => sub {
       my ($path) = @_;
       

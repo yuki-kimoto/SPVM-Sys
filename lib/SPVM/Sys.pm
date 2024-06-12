@@ -1747,11 +1747,11 @@ Searches a group entry given The group name $name. If found, returns the group e
 
 =over 2
 
-=item * L<Test::SPVM::Sys::Socket::Server>
+=item * L<Test::SPVM::Sys::Socket::ServerManager>
 
-=item * L<Test::SPVM::Sys::Socket::Server::IP>
+=item * L<Test::SPVM::Sys::Socket::ServerManager::IP>
 
-=item * L<Test::SPVM::Sys::Socket::Server::UNIX>
+=item * L<Test::SPVM::Sys::Socket::ServerManager::UNIX>
 
 =back
 

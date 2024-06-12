@@ -159,7 +159,7 @@ sub run_echo_server_unix {
   my $server_socket = IO::Socket::UNIX->new(
     Type => SOCK_STREAM(),
     Local => $path,
-    Listen => 1,
+    Listen => SOMAXCONN,
   );
   
   unless ($server_socket) {

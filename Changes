@@ -4,7 +4,7 @@
     * Require Perl v5.20.3.
   [New Features]
     * Add Test::SPVM::Sys::Socket module.
-    * Add Test::SPVM::Sys::Socket::Server module.
+    * Add Test::SPVM::Sys::Socket::ServerManager module.
     * Add Test::SPVM::Sys::Socket::Util module.
     
 0.523 2024-06-10

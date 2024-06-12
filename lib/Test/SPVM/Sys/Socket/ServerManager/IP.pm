@@ -1,6 +1,6 @@
-package Test::SPVM::Sys::Socket::Server::IP;
+package Test::SPVM::Sys::Socket::ServerManager::IP;
 
-use base 'Test::SPVM::Sys::Socket::Server';
+use base 'Test::SPVM::Sys::Socket::ServerManager';
 
 use strict;
 use warnings;
@@ -41,7 +41,7 @@ sub start {
     $code->($port);
     
     if (kill 0, $self->{my_pid}) {
-      warn("[Test::SPVM::Sys::Socket::Server::Socket::IP#start]Child process does not block(pid: $$, my_pid:$self->{my_pid}).");
+      warn("[Test::SPVM::Sys::Socket::ServerManager::Socket::IP#start]Child process does not block(pid: $$, my_pid:$self->{my_pid}).");
     }
     
     exit 0;
@@ -92,15 +92,15 @@ sub _wait_server_start {
 
 =head1 Name
 
-Test::SPVM::Sys::Socket::Server::IP - Server Manager for tests for internet domain sockets
+Test::SPVM::Sys::Socket::ServerManager::IP - Server Manager for tests for internet domain sockets
 
 =head1 Description
 
-Test::SPVM::Sys::Socket::Server::IP class is a server manager for tests for internet domain sockets.
+Test::SPVM::Sys::Socket::ServerManager::IP class is a server manager for tests for internet domain sockets.
 
 =head1 Usage
 
-  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
+  my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
       my ($port) = @_;
       
@@ -115,19 +115,19 @@ This class is originally a L<Test::TCP> porting for tests for L<SPVM::Sys::Socke
 
 =head1 Super Class
 
-L<Test::SPVM::Sys::Socket::Server>
+L<Test::SPVM::Sys::Socket::ServerManager>
 
 =head1 Class Methods
 
 =head2 new
 
-  my $server = Test::SPVM::Sys::Socket::Server::IP->new(%options);
+  my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(%options);
 
-Calls L<new|Test::SPVM::Sys::Socket::Server/"new"> method in its super class and returns its return value.
+Calls L<new|Test::SPVM::Sys::Socket::ServerManager/"new"> method in its super class and returns its return value.
 
 Options:
 
-The following options are available adding the options of L<new|Test::SPVM::Sys::Socket::Server/"new"> method in its super class.
+The following options are available adding the options of L<new|Test::SPVM::Sys::Socket::ServerManager/"new"> method in its super class.
 
 =over 2
 
@@ -151,7 +151,7 @@ The port number to which the server binds.
 
   $server->init_fields(%options);
 
-Calls L<init_fields|Test::SPVM::Sys::Socket::Server/"init_fields"> method in the super class and sets fields of this calss.
+Calls L<init_fields|Test::SPVM::Sys::Socket::ServerManager/"init_fields"> method in the super class and sets fields of this calss.
 
 L</"port"> field is set to the value of C<port> option.
 

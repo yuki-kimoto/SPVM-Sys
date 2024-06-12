@@ -1,6 +1,6 @@
-package Test::SPVM::Sys::Socket::Server::UNIX;
+package Test::SPVM::Sys::Socket::ServerManager::UNIX;
 
-use base 'Test::SPVM::Sys::Socket::Server';
+use base 'Test::SPVM::Sys::Socket::ServerManager';
 
 use strict;
 use warnings;
@@ -48,7 +48,7 @@ sub start {
     $code->($path);
     
     if (kill 0, $self->{my_pid}) {
-      warn("[Test::SPVM::Sys::Socket::Server::Socket::UNIX#start]Child process does not block(pid: $$, my_pid:$self->{my_pid}).");
+      warn("[Test::SPVM::Sys::Socket::ServerManager::Socket::UNIX#start]Child process does not block(pid: $$, my_pid:$self->{my_pid}).");
     }
     
     exit 0;
@@ -110,17 +110,17 @@ sub _make_waiter {
 
 =head1 Name
 
-Test::SPVM::Sys::Socket::Server::UNIX - Server Manager for tests for UNIX Domain Sockets
+Test::SPVM::Sys::Socket::ServerManager::UNIX - Server Manager for tests for UNIX Domain Sockets
 
 =head1 Description
 
-Test::SPVM::Sys::Socket::Server::UNIX class is a server manager for tests for UNIX domain sockets.
+Test::SPVM::Sys::Socket::ServerManager::UNIX class is a server manager for tests for UNIX domain sockets.
 
 =head1 Usage
   
-  use Test::SPVM::Sys::Socket::Server::UNIX;
+  use Test::SPVM::Sys::Socket::ServerManager::UNIX;
   
-  my $server = Test::SPVM::Sys::Socket::Server::UNIX->new(
+  my $server = Test::SPVM::Sys::Socket::ServerManager::UNIX->new(
     code => sub {
       my ($port) = @_;
       
@@ -135,7 +135,7 @@ This class is originally a L<Test::UNIXSock> porting for tests for L<SPVM::Sys::
 
 =head1 Super Class
 
-L<Test::SPVM::Sys::Socket::Server>
+L<Test::SPVM::Sys::Socket::ServerManager>
 
 =head1 Fields
 
@@ -153,13 +153,13 @@ A temporary directory used by L</"path">.
 
 =head2 new
 
-  my $server = Test::SPVM::Sys::Socket::Server::UNIX->new(%options);
+  my $server = Test::SPVM::Sys::Socket::ServerManager::UNIX->new(%options);
 
-Calls L<new|Test::SPVM::Sys::Socket::Server/"new"> method in its super class and returns its return value.
+Calls L<new|Test::SPVM::Sys::Socket::ServerManager/"new"> method in its super class and returns its return value.
 
 Options:
 
-The following options are available adding the options of L<new|Test::SPVM::Sys::Socket::Server/"new"> method in its super class.
+The following options are available adding the options of L<new|Test::SPVM::Sys::Socket::ServerManager/"new"> method in its super class.
 
 =over 2
 
@@ -175,7 +175,7 @@ Sets L</"path"> field to this value.
 
   $server->init_fields(%options);
 
-Calls L<init_fields|Test::SPVM::Sys::Socket::Server/"init_fields"> method in its super class and sets fields of this calss.
+Calls L<init_fields|Test::SPVM::Sys::Socket::ServerManager/"init_fields"> method in its super class and sets fields of this calss.
 
 L</"path"> field is set to the value of C<path> option.
 

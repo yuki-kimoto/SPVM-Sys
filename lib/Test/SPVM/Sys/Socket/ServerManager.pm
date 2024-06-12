@@ -1,4 +1,4 @@
-package Test::SPVM::Sys::Socket::Server;
+package Test::SPVM::Sys::Socket::ServerManager;
 
 use strict;
 use warnings;
@@ -115,11 +115,11 @@ sub DESTROY {
 
 =head1 Name
 
-Test::SPVM::Sys::Socket::Server - Server Manager Base Class for Tests for Sockets.
+Test::SPVM::Sys::Socket::ServerManager - Server Manager Base Class for Tests for Sockets.
 
 =head1 Description
 
-Test::SPVM::Sys::Socket::Server is a base class for server managers for tests for sockets.
+Test::SPVM::Sys::Socket::ServerManager is a base class for server managers for tests for sockets.
 
 =head1 Usage
 
@@ -163,9 +163,9 @@ An anon subroutine to run a server.
 
 =head2 new
 
-  my $server = Test::SPVM::Sys::Socket::Server->new(%options);
+  my $server = Test::SPVM::Sys::Socket::ServerManager->new(%options);
 
-Creates a new L<Test::SPVM::Sys::Socket::Server> object and returns it.
+Creates a new L<Test::SPVM::Sys::Socket::ServerManager> object and returns it.
 
 This method calls L</"init_fields"> methods.
 
@@ -235,8 +235,8 @@ This method calls L</"stop"> method.
 
 =over 2
 
-=item * L<Test::SPVM::Sys::Socket::Server::IP>
+=item * L<Test::SPVM::Sys::Socket::ServerManager::IP>
 
-=item * L<Test::SPVM::Sys::Socket::Server::UNIX>
+=item * L<Test::SPVM::Sys::Socket::ServerManager::UNIX>
 
 =back

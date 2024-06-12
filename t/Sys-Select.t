@@ -7,7 +7,7 @@ use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 use Time::HiRes 'usleep';
 
-use Test::SPVM::Sys::Socket::Server::IP;
+use Test::SPVM::Sys::Socket::ServerManager::IP;
 use Test::SPVM::Sys::Socket::Util;
 
 use SPVM 'Sys::Select';
@@ -24,7 +24,7 @@ ok(SPVM::TestCase::Sys::Select->select_utils);
 
 # select
 {
-  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
+  my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
       my ($port) = @_;
       

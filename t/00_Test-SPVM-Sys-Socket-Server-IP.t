@@ -5,7 +5,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
-use Test::SPVM::Sys::Socket::Server::IP;
+use Test::SPVM::Sys::Socket::ServerManager::IP;
 use Test::SPVM::Sys::Socket::Util;
 
 # Port
@@ -16,7 +16,7 @@ warn "[Test Output]Port:$port";
 ok($port >= 20000);
 
 {
-  my $server = Test::SPVM::Sys::Socket::Server::IP->new(
+  my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
       my ($port) = @_;
       

@@ -220,9 +220,9 @@ lib/SPVM/Sys/User/Passwd.config
 lib/SPVM/Sys/User/Passwd.pm
 lib/SPVM/Sys/User/Passwd.spvm
 lib/Test/SPVM/Sys/Socket.pm
-lib/Test/SPVM/Sys/Socket/Server.pm
-lib/Test/SPVM/Sys/Socket/Server/IP.pm
-lib/Test/SPVM/Sys/Socket/Server/UNIX.pm
+lib/Test/SPVM/Sys/Socket/ServerManager.pm
+lib/Test/SPVM/Sys/Socket/ServerManager/IP.pm
+lib/Test/SPVM/Sys/Socket/ServerManager/UNIX.pm
 lib/Test/SPVM/Sys/Socket/Util.pm
 LICENSE
 Makefile.PL
