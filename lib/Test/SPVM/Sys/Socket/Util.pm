@@ -55,7 +55,7 @@ sub get_empty_port {
       $port = 49152 unless $port =~ /^[0-9]+$/ && $port < 49152;
       while ( $port++ < 65000 ) {
           # Remote checks don't work on UDP, and Local checks would be redundant here...
-          next if ($proto eq 'tcp' && check_port({ host => $host, port => $port }));
+          next if ($proto eq 'tcp' && &_check_port({ host => $host, port => $port }));
           return $port if &can_bind($host, $port, $proto);
       }
   } else {
@@ -63,7 +63,7 @@ sub get_empty_port {
       while ( my $sock = _listen_socket($host, undef, $proto) ) {
           $port = $sock->sockport;
           $sock->close;
-          next if ($proto eq 'tcp' && check_port({ host => $host, port => $port }));
+          next if ($proto eq 'tcp' && &_check_port({ host => $host, port => $port }));
           return $port;
       }
   }
@@ -71,7 +71,7 @@ sub get_empty_port {
   Carp::confess("empty port not found");
 }
 
-sub check_port {
+sub _check_port {
     my ($host, $port, $proto) = @_ && ref $_[0] eq 'HASH' ? ($_[0]->{host}, $_[0]->{port}, $_[0]->{proto}) : (undef, @_);
     $host = '127.0.0.1'
         unless defined $host;
