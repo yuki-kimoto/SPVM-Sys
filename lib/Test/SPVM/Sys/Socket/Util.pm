@@ -136,21 +136,7 @@ sub run_echo_server {
     Carp::confess("Can't create a server socket:$@");
   }
   
-  while (1) {
-    my $client_socket = $server_socket->accept;
-    
-    while (1) {
-      my $buffer;
-      my $read_length = $client_socket->sysread($buffer, 1024);
-      
-      if ($read_length) {
-        $client_socket->syswrite($buffer, $read_length);
-      }
-      else {
-        last;
-      }
-    }
-  }
+  &_echo_server_accept_loop($server_socket);
 }
 
 sub run_echo_server_unix {
@@ -166,12 +152,20 @@ sub run_echo_server_unix {
     Carp::confess("Can't create a server socket:$@");
   }
   
+  &_echo_server_accept_loop($server_socket);
+}
+
+sub _echo_server_accept_loop {
+  my ($server_socket, $read_buffer_length) = @_;
+  
+  $read_buffer_length //= 1024;
+  
   while (1) {
     my $client_socket = $server_socket->accept;
     
     while (1) {
       my $buffer;
-      my $read_length = $client_socket->sysread($buffer, 1024);
+      my $read_length = $client_socket->sysread($buffer, $read_buffer_length);
       
       if ($read_length) {
         $client_socket->syswrite($buffer, $read_length);
