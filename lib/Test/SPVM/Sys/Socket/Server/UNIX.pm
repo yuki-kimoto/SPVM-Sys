@@ -26,7 +26,7 @@ sub new {
   my $self = {
     auto_start => 1,
     max_wait   => 10,
-    _my_pid    => $$,
+    my_pid    => $$,
     @_,
   };
   
@@ -67,8 +67,8 @@ sub start {
   # Child process
   else {
     $self->{code}->($self->path);
-    if (kill 0, $self->{_my_pid}) {
-      warn("[Test::SPVM::Sys::Socket::Server::UNIXet] Child process does not block(PID: $$, PPID: $self->{_my_pid})");
+    if (kill 0, $self->{my_pid}) {
+      warn("[Test::SPVM::Sys::Socket::Server::UNIXet] Child process does not block(PID: $$, PPID: $self->{my_pid})");
     }
     exit 0;
   }

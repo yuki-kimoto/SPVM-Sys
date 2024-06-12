@@ -17,7 +17,7 @@ sub new {
   
   my $self = {
     @_,
-    _my_pid => $$,
+    my_pid => $$,
   };
   
   bless $self, ref $class || $class;

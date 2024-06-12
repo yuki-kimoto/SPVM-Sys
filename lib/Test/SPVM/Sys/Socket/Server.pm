@@ -15,7 +15,7 @@ my $TERMSIG = $^O eq 'MSWin32' ? 'KILL' : 'TERM';
 
 sub pid  { $_[0]->{pid} }
 
-sub _my_pid { ... }
+sub my_pid { ... }
 
 # Instance Methods
 sub stop {
@@ -25,7 +25,7 @@ sub stop {
     return;
   }
   
-  unless ($self->{_my_pid} == $$) {
+  unless ($self->{my_pid} == $$) {
     return ;
   }
   
