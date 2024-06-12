@@ -12,19 +12,24 @@ use Errno qw/ECONNREFUSED/;
 my $localhost = "127.0.0.1";
 
 sub get_empty_port {
-  my ($host, $port, $proto) = @_;
+  my %options = @_;
   
-  $host = '127.0.0.1'
-      unless defined $host;
-  $proto = $proto ? lc($proto) : 'tcp';
-  
-  if (defined $port) {
-    Carp::confess("The port $port must not be defined.");
+  # host option
+  my $host = $options{host};
+  unless (defined $host) {
+    $host = '127.0.0.1';
   }
+  
+  # proto option
+  my $proto = $options{proto};
+  unless (defined $proto) {
+    $proto = 'tcp';
+  }
+  $proto = lc $proto;
   
   # kernel will select an unused port
   while ( my $sock = _listen_socket($host, undef, $proto) ) {
-    $port = $sock->sockport;
+    my $port = $sock->sockport;
     $sock->close;
     next if ($proto eq 'tcp' && &_check_port({ host => $host, port => $port }));
     return $port;
