@@ -61,7 +61,38 @@ sub start {
   else {
     $self->{pid} = $pid;
     
-    Test::SPVM::Sys::Socket::Util::wait_port($port);
+    $self->_wait_server_start;
+  }
+}
+
+my $localhost = "127.0.0.1";
+
+sub _wait_server_start {
+  my ($self) = @_;
+  
+  my $port = $self->{port};
+  
+  my $max_wait = 3;
+  my $wait_time = 0.1;
+  my $wait_total = 0;
+  while (1) {
+    if ($wait_total > $max_wait) {
+      last;
+    }
+    
+    sleep $wait_time;
+    
+    my $sock = IO::Socket::IP->new(
+      Proto    => 'tcp',
+      PeerAddr => $localhost,
+      PeerPort => $port,
+    );
+    
+    if ($sock) {
+      last;
+    }
+    $wait_total += $wait_time;
+    $wait_time *= 2;
   }
 }
 

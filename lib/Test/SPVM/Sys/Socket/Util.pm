@@ -125,33 +125,6 @@ sub _check_port_udp {
     $up;
 }
 
-sub wait_port {
-  my ($port) = @_;
-  
-  my $max_wait = 3;
-  my $wait_time = 0.1;
-  my $wait_total = 0;
-  while (1) {
-    if ($wait_total > $max_wait) {
-      last;
-    }
-    
-    sleep $wait_time;
-    
-    my $sock = IO::Socket::IP->new(
-      Proto    => 'tcp',
-      PeerAddr => $localhost,
-      PeerPort => $port,
-    );
-    
-    if ($sock) {
-      last;
-    }
-    $wait_total += $wait_time;
-    $wait_time *= 2;
-  }
-}
-
 sub run_echo_server {
   my ($port) = @_;
   
