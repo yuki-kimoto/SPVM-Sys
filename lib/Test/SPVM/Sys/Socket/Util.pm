@@ -140,11 +140,94 @@ sub run_echo_server {
   &_echo_server_accept_loop($server_socket);
 }
 
+sub start_echo_server_ipv4_tcp {
+  my %options = @_;
+  
+  # port option
+  my $port = $options{port};
+  unless (defined $port) {
+    Carp::confess("\"port\" option must be defined.");
+  }
+  
+  # read_buffer_length option
+  my $read_buffer_length = $options{read_buffer_length};
+  
+  my $host = '127.0.0.1';
+  
+  my $server_socket = IO::Socket::IP->new(
+    LocalAddr => $host,
+    LocalPort => $port,
+    Listen    => SOMAXCONN,
+    Type     => SOCK_STREAM,
+    ReuseAddr => 1,
+  );
+  
+  unless ($server_socket) {
+    Carp::confess("Can't create a server socket:$@");
+  }
+  
+  &_echo_server_accept_loop($server_socket, $read_buffer_length);
+}
+
+sub start_echo_server_ipv6_tcp {
+  my %options = @_;
+  
+  # port option
+  my $port = $options{port};
+  unless (defined $port) {
+    Carp::confess("\"port\" option must be defined.");
+  }
+  
+  # read_buffer_length option
+  my $read_buffer_length = $options{read_buffer_length};
+  
+  my $host = '::1';
+  
+  my $server_socket = IO::Socket::IP->new(
+    LocalAddr => $host,
+    LocalPort => $port,
+    Listen    => SOMAXCONN,
+    Type     => SOCK_STREAM,
+    ReuseAddr => 1,
+  );
+  
+  unless ($server_socket) {
+    Carp::confess("Can't create a server socket:$@");
+  }
+  
+  &_echo_server_accept_loop($server_socket, $read_buffer_length);
+}
+
 sub run_echo_server_unix {
   my ($path) = @_;
   
   my $server_socket = IO::Socket::UNIX->new(
     Type => SOCK_STREAM(),
+    Local => $path,
+    Listen => SOMAXCONN,
+  );
+  
+  unless ($server_socket) {
+    Carp::confess("Can't create a server socket:$@");
+  }
+  
+  &_echo_server_accept_loop($server_socket);
+}
+
+sub start_echo_server_unix_tcp {
+  my %options = @_;
+  
+  # path option
+  my $path = $options{path};
+  unless (defined $path) {
+    Carp::confess("\"path\" option must be defined.");
+  }
+  
+  # read_buffer_length option
+  my $read_buffer_length = $options{read_buffer_length};
+  
+  my $server_socket = IO::Socket::UNIX->new(
+    Type => SOCK_STREAM,
     Local => $path,
     Listen => SOMAXCONN,
   );
