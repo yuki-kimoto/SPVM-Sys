@@ -1,5 +1,9 @@
 0.524 2024-06-13
   [Requirement Changes]
+    * Does not upgrade IO::Socket::IP.
+
+0.524 2024-06-13
+  [Requirement Changes]
     * Require IO::Socket::IP 0.42.
     * Require Perl v5.20.3.
   [New Features]
