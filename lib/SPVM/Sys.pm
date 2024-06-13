@@ -1753,6 +1753,10 @@ Searches a group entry given The group name $name. If found, returns the group e
 
 =item * L<Test::SPVM::Sys::Socket::ServerManager::UNIX>
 
+=item * L<Test::SPVM::Sys::Socket::Server>
+
+=item * L<Test::SPVM::Sys::Socket::Util>
+
 =back
 
 =head1 See Also

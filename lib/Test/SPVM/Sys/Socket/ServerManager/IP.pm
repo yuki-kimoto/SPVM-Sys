@@ -18,7 +18,7 @@ sub init_fields {
   $self->SUPER::init_fields(%options);
   
   # port field
-  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
   
   $self->{port} = $port;
 }
@@ -106,8 +106,9 @@ Test::SPVM::Sys::Socket::ServerManager::IP class is a server manager for tests f
       
       my $port = $server_manager->port;
       
-      # Start a server
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
       
+      $server->start;
     },
   );
 
