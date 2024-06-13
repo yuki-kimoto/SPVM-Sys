@@ -29,7 +29,7 @@ sub get_empty_port {
   while (my $sock = _listen_socket($host, undef, $proto)) {
     my $port = $sock->sockport;
     $sock->close;
-    next if ($proto eq 'tcp' && &_is_unavailable_port($host, $port, $proto));
+    next if ($proto eq 'tcp' && !&_is_available_port($host, $port, $proto));
     return $port;
   }
   
@@ -54,22 +54,24 @@ sub _listen_socket {
   return $socket;
 }
 
-sub _is_unavailable_port {
+sub _is_available_port {
   my ($host, $port, $proto) = @_;
   
-  my $can_use = 0;
+  my $is_available_port = 0;
   if ($proto eq 'udp') {
-    $can_use = &_is_unavailable_port_udp($host, $port)
+    $is_available_port = &_is_available_port_udp($host, $port)
   }
   elsif ($proto eq 'tcp') {
-    $can_use = &_is_unavailable_port_tcp($host, $port)
+    $is_available_port = &_is_available_port_tcp($host, $port)
   }
   else {
     Carp::confess("\"proto\" option does not support \"$proto\".");
   }
+  
+  return $is_available_port;
 }
 
-sub _is_unavailable_port_tcp {
+sub _is_available_port_tcp {
   my ($host, $port) = @_;
   
   my $sock = IO::Socket::IP->new(
@@ -79,17 +81,19 @@ sub _is_unavailable_port_tcp {
     V6Only    => 1,
   );
   
-  my $can_use = 0;
+  my $used = 0;
   
   if ($sock) {
     close $sock;
-    $can_use = 1;
+    $used = 1;
   }
   
-  return $can_use;
+  my $is_available_port = !$used;
+  
+  return $is_available_port;
 }
 
-sub _is_unavailable_port_udp {
+sub _is_available_port_udp {
   my ($host, $port) = @_;
   
   # send some UDP data and see if ICMP error is being sent back (i.e. ECONNREFUSED)
@@ -110,14 +114,16 @@ sub _is_unavailable_port_udp {
   select $rfds, undef, $efds, 0.1;
   
   # after 0.1 second of silence, we assume that the server is up
-  my $can_use = defined($sock->recv(my $data, 1000)) || (
+  my $used = defined($sock->recv(my $data, 1000)) || (
       ($^O eq 'MSWin32')
           ? ($^E != Errno::WSAECONNRESET() && $^E != Errno::WSAECONNREFUSED())
           : ($! != ECONNREFUSED)
   );
   close $sock;
   
-  return $can_use;
+  my $is_available_port = !$used;
+  
+  return $is_available_port;
 }
 
 1;
