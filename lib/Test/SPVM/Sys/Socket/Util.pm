@@ -29,7 +29,6 @@ sub get_empty_port {
   while (my $sock = _listen_socket($host, undef, $proto)) {
     my $port = $sock->sockport;
     $sock->close;
-    next if ($proto eq 'tcp' && !&_is_available_port($host, $port, $proto));
     return $port;
   }
   
