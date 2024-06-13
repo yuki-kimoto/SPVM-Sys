@@ -263,3 +263,26 @@ Test::SPVM::Sys::Socket::Server class has methods to start servers for tests for
 
   my $server_options $self->server_options;
 
+=head1 Class Methods
+
+=head2 new
+
+  my $server_manager = Test::SPVM::Sys::Socket::Server->new(%options);
+
+Creates a new L<Test::SPVM::Sys::Socket::Server> object and returns it.
+
+=head2 new_echo_server_ipv4_tcp
+
+  my $server_manager = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(%options);
+
+Creates a new a new L<Test::SPVM::Sys::Socket::Server> object that has the features for an IPv4 TCP echo server and returns it.
+
+=head1 Instance Methods
+
+=head2 start
+
+  $server_manager->start;
+
+Starts the server.
+
+This method call a subroutine stored in L</"loop_cb"> field with the L<Test::SPVM::Sys::Socket::Server> object at 1th argument.
