@@ -12,15 +12,8 @@ use Errno qw/ECONNREFUSED/;
 sub get_empty_port {
   my %options = @_;
   
-  # proto option
-  my $proto = $options{proto};
-  unless (defined $proto) {
-    $proto = 'tcp';
-  }
-  $proto = lc $proto;
-  
   # System will select an unused port
-  while (my $sock = _listen_socket(undef, undef, $proto)) {
+  while (my $sock = &_listen_socket) {
     my $port = $sock->sockport;
     $sock->close;
     return $port;
