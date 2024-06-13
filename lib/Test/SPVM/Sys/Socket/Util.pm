@@ -19,7 +19,7 @@ sub get_empty_port {
   }
   $proto = lc $proto;
   
-  # kernel will select an unused port
+  # System will select an unused port
   while (my $sock = _listen_socket(undef, undef, $proto)) {
     my $port = $sock->sockport;
     $sock->close;
@@ -33,13 +33,9 @@ sub _listen_socket {
   my ($host, $port, $proto) = @_;
   
   my %options = (
-    (($proto eq 'udp') ? () : (Listen => 5)),
-    LocalAddr => $host,
-    LocalPort => $port,
-    Proto     => $proto,
+    Listen => 5,
     # In Windows, SO_REUSEADDR works differently In Linux. The feature that corresponds to SO_REUSEADDR in Linux is enabled by default in Windows.
     (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
-    V6Only    => 1,
   );
   
   my $socket = IO::Socket::IP->new(%options);
