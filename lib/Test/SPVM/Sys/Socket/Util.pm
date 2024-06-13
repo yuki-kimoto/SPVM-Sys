@@ -36,3 +36,14 @@ Test::SPVM::Sys::Socket::Util module has functions for socket utilities for SPVM
 
 =head1 Usage
 
+  use  Test::SPVM::Sys::Socket::Util;
+  
+  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+
+=head1 Functions
+
+=head2 get_empty_port
+
+  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+
+Gets an available port and returns it.
