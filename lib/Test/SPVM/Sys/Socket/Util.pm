@@ -10,30 +10,18 @@ use IO::Socket::UNIX;
 use Errno qw/ECONNREFUSED/;
 
 sub get_empty_port {
-  my %options = @_;
   
   # System will select an unused port
-  my $sock = &_listen_socket;
-  
-  my $port = $sock->sockport;
-  
-  $sock->close;
-  
-  return $port;
-}
-
-sub _listen_socket {
-  my ($host, $port, $proto) = @_;
-  
-  my %options = (
+  my $socket = IO::Socket::IP->new(
     Listen => 5,
     # In Windows, SO_REUSEADDR works differently In Linux. The feature that corresponds to SO_REUSEADDR in Linux is enabled by default in Windows.
     (($^O eq 'MSWin32') ? () : (ReuseAddr => 1)),
   );
+  my $port = $socket->sockport;
   
-  my $socket = IO::Socket::IP->new(%options);
+  $socket->close;
   
-  return $socket;
+  return $port;
 }
 
 sub _is_available_port {
