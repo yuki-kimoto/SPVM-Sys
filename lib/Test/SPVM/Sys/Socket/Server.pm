@@ -51,13 +51,15 @@ sub new_echo_server_ipv4_tcp {
   
   my %options = (
     socket_domain => AF_INET,
-    socket_type => SOCK_STREAM
+    socket_type => SOCK_STREAM,
     host => '127.0.0.1',
     loop_cb => $loop_cb,
     @_,
   );
   
   my $self = $class->new(%options);
+  
+  my $host = $self->{host};
   
   my $port = $self->{port};
   unless (defined $port) {
@@ -83,6 +85,8 @@ sub new_echo_server_ipv4_tcp {
   }
   
   $self->{io_socket} = $io_socket;
+  
+  return $self;
 }
 
 sub _echo_server_accept_loop {
