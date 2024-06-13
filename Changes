@@ -1,4 +1,4 @@
-0.524 2024-06-13
+0.525 2024-06-14
   [Requirement Changes]
     * Does not upgrade IO::Socket::IP.
 
