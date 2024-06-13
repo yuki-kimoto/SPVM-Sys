@@ -24,42 +24,6 @@ ok($port >= 20000);
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::start_echo_server_ipv4_tcp(port => $port);
-    },
-  );
-}
-
-{
-  my $server_manager = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      Test::SPVM::Sys::Socket::Util::start_echo_server_ipv4_tcp(port => $port);
-    },
-  );
-}
-
-{
-  my $server_manager = Test::SPVM::Sys::Socket::ServerManager::UNIX->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $path = $server_manager->path;
-      
-      Test::SPVM::Sys::Socket::Util::start_echo_server_unix_tcp(path => $path);
-    },
-  );
-}
-
-{
-  my $server_manager = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
       my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
       
       $server->start;
