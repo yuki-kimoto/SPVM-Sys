@@ -135,6 +135,49 @@ sub new_echo_server_ipv6_tcp {
   return $self;
 }
 
+sub new_echo_server_unix_tcp {
+  my $class = shift;
+  
+  my $loop_cb = \&_echo_server_accept_loop;
+  
+  my %options = (
+    socket_domain => AF_INET,
+    socket_type => SOCK_STREAM,
+    host => '127.0.0.1',
+    loop_cb => $loop_cb,
+    @_,
+  );
+  
+  my $self = $class->new(%options);
+  
+  my $host = $self->{host};
+  
+  my $path = $self->{path};
+  unless (defined $path) {
+    Carp::confess("\"path\" option must be defined.");
+  }
+  
+  my $listen_backlog = $self->{listen_backlog};
+  
+  my $socket_domain = $self->{socket_domain};
+  
+  my $socket_type = $self->{socket_type};
+  
+  my $io_socket = IO::Socket::UNIX->new(
+    Type => $socket_type,
+    Local => $path,
+    Listen => $listen_backlog,
+  );
+  
+  unless ($io_socket) {
+    Carp::confess("Can't create a server socket:$@");
+  }
+  
+  $self->{io_socket} = $io_socket;
+  
+  return $self;
+}
+
 sub _echo_server_accept_loop {
   my ($server_manager) = @_;
   
