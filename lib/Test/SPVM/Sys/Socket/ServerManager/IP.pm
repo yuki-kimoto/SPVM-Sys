@@ -18,7 +18,7 @@ sub init_fields {
   $self->SUPER::init_fields(%options);
   
   # port field
-  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
   
   $self->{port} = $port;
 }

@@ -11,7 +11,7 @@ use Test::SPVM::Sys::Socket::Util;
 use Test::SPVM::Sys::Socket::Server;
 
 # Port
-my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
 
 warn "[Test Output]Port:$port";
 

@@ -67,7 +67,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 # Sys::Socket::Sockaddr
 {
-  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
   ok(SPVM::TestCase::Sys::Socket->sockaddr($port));
 }
 
@@ -157,12 +157,12 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 }
 
 {
-  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
   ok(SPVM::TestCase::Sys::Socket->bind($port));
 }
 
 {
-  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
   ok(SPVM::TestCase::Sys::Socket->listen($port));
 }
 # accept
@@ -245,11 +245,11 @@ else {
 }
 
 {
-  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
   ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
 }
 {
-  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
   ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
 }
 

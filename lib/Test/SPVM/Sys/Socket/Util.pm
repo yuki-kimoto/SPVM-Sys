@@ -9,7 +9,7 @@ use IO::Socket::IP;
 use IO::Socket::UNIX;
 use Errno qw/ECONNREFUSED/;
 
-sub get_empty_port {
+sub get_available_port {
   
   # System will select an unused port
   my $socket = IO::Socket::IP->new(
@@ -38,12 +38,12 @@ Test::SPVM::Sys::Socket::Util module has functions for socket utilities for SPVM
 
   use  Test::SPVM::Sys::Socket::Util;
   
-  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
 
 =head1 Functions
 
-=head2 get_empty_port
+=head2 get_available_port
 
-  my $port = Test::SPVM::Sys::Socket::Util::get_empty_port;
+  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
 
 Gets an available port and returns it.
