@@ -76,6 +76,7 @@ sub new_echo_server_ipv4_tcp {
     LocalAddr => $host,
     LocalPort => $port,
     Listen    => $listen_backlog,
+    Domain => $socket_domain,
     Type     => $socket_type,
     ReuseAddr => 1,
   );
@@ -121,6 +122,7 @@ sub new_echo_server_ipv6_tcp {
     LocalAddr => $host,
     LocalPort => $port,
     Listen    => $listen_backlog,
+    Domain => $socket_domain,
     Type     => $socket_type,
     ReuseAddr => 1,
     V6Only   => 1,
@@ -141,9 +143,7 @@ sub new_echo_server_unix_tcp {
   my $loop_cb = \&_echo_server_accept_loop;
   
   my %options = (
-    socket_domain => AF_INET,
     socket_type => SOCK_STREAM,
-    host => '127.0.0.1',
     loop_cb => $loop_cb,
     @_,
   );
@@ -158,8 +158,6 @@ sub new_echo_server_unix_tcp {
   }
   
   my $listen_backlog = $self->{listen_backlog};
-  
-  my $socket_domain = $self->{socket_domain};
   
   my $socket_type = $self->{socket_type};
   
@@ -222,4 +220,46 @@ Test::SPVM::Sys::Socket::Server - Servers for tests for SPVM::Sys::Socket
 Test::SPVM::Sys::Socket::Server class has methods to start servers for tests for L<SPVM::Sys::Socket>.
 
 =head1 Usage
+
+=head1 Fields
+
+=head2 socket_domain
+
+  my $socket_domain $self->socket_domain;
+
+=head2 socket_type
+
+  my $socket_type $self->socket_type;
+
+=head2 socket_protocol
+
+  my $socket_protocol $self->socket_protocol;
+
+=head2 io_socket
+
+  my $io_socket $self->io_socket;
+
+=head2 listen_backlog
+
+  my $listen_backlog $self->listen_backlog;
+
+=head2 host
+
+  my $host $self->host;
+
+=head2 port
+
+  my $port $self->port;
+
+=head2 path
+
+  my $path $self->path;
+
+=head2 loop_cb
+
+  my $loop_cb $self->loop_cb;
+
+=head2 server_options
+
+  my $server_options $self->server_options;
 
