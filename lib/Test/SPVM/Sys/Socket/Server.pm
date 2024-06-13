@@ -225,43 +225,63 @@ Test::SPVM::Sys::Socket::Server class has methods to start servers for tests for
 
 =head2 socket_domain
 
-  my $socket_domain $self->socket_domain;
+  my $socket_domain = $self->socket_domain;
+
+A socket domain.
 
 =head2 socket_type
 
-  my $socket_type $self->socket_type;
+  my $socket_type = $self->socket_type;
+
+A socket type.
 
 =head2 socket_protocol
 
-  my $socket_protocol $self->socket_protocol;
+  my $socket_protocol = $self->socket_protocol;
+
+A socket protocol.
 
 =head2 io_socket
 
-  my $io_socket $self->io_socket;
+  my $io_socket = $self->io_socket;
+
+An L<IO::Socket> object.
 
 =head2 listen_backlog
 
-  my $listen_backlog $self->listen_backlog;
+  my $listen_backlog = $self->listen_backlog;
+
+The length of listen backlog.
 
 =head2 host
 
-  my $host $self->host;
+  my $host = $self->host;
+
+A host name for intenet domain sockets.
 
 =head2 port
 
-  my $port $self->port;
+  my $port = $self->port;
+
+A port number for intenet domain sockets.
 
 =head2 path
 
-  my $path $self->path;
+  my $path = $self->path;
+
+A path for UNIX domain sockets.
 
 =head2 loop_cb
 
-  my $loop_cb $self->loop_cb;
+  my $loop_cb = $self->loop_cb;
+
+An anon subroutine for server main loop.
 
 =head2 server_options
 
-  my $server_options $self->server_options;
+  my $server_options = $self->server_options;
+
+Server options. This should be an hash reference.
 
 =head1 Class Methods
 
@@ -271,11 +291,82 @@ Test::SPVM::Sys::Socket::Server class has methods to start servers for tests for
 
 Creates a new L<Test::SPVM::Sys::Socket::Server> object and returns it.
 
+Options:
+
+=over 2
+
+=item * C<socket_domain>
+
+Sets L</"socket_domain"> field to this value.
+
+=item * C<socket_type>
+
+  my $socket_type = $self->socket_type;
+
+Sets L</"socket_type"> field to this value.
+
+=item * C<socket_protocol>
+
+  my $socket_protocol = $self->socket_protocol;
+
+Sets L</"socket_protocol"> field to this value.
+
+=item * C<listen_backlog>
+
+  my $listen_backlog = $self->listen_backlog;
+
+Sets L</"listen_backlog"> field to this value.
+
+=item * C<host>
+
+  my $host = $self->host;
+
+Sets L</"host"> field to this value.
+
+=item * C<port>
+
+  my $port = $self->port;
+
+Sets L</"port"> field to this value.
+
+=item * C<path>
+
+  my $path = $self->path;
+
+Sets L</"path"> field to this value.
+
+=item * C<loop_cb>
+
+  my $loop_cb = $self->loop_cb;
+
+Sets L</"loop_cb"> field to this value.
+
+=item * C<server_options>
+
+  my $server_options = $self->server_options;
+
+Sets L</"server_options"> field to this value. This value must be a hash reference if specified.
+
+If this option is not defined, the field is set to an emtpy hash reference.
+
+=back
+
 =head2 new_echo_server_ipv4_tcp
 
   my $server_manager = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(%options);
 
-Creates a new a new L<Test::SPVM::Sys::Socket::Server> object that has the features for an IPv4 TCP echo server and returns it.
+Creates a new a new L<Test::SPVM::Sys::Socket::Server> object that has the features for an IPv4-TCP echo server and returns it.
+
+An L<IO::Socket::IP> object is created and L</"io_socket"> field is set to an L<IO::Socket::IP> object.
+
+A client can signal to the echo server that it is done writing with C<SHUT_WR>.
+  
+  use Sys::Socket;
+  use Sys::Socket::Constant as SCOKET;
+  
+  Sys::Socket->shutdown($socket, SOCKET->SHUT_WR);
+
+The options %options are the same as ones of L</"new"> method.
 
 =head1 Instance Methods
 
@@ -285,4 +376,4 @@ Creates a new a new L<Test::SPVM::Sys::Socket::Server> object that has the featu
 
 Starts the server.
 
-This method call a subroutine stored in L</"loop_cb"> field with the L<Test::SPVM::Sys::Socket::Server> object at 1th argument.
+This method call a subroutine stored in L</"loop_cb"> field given the L<Test::SPVM::Sys::Socket::Server> object at 1th argument.
