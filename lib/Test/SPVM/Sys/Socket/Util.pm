@@ -13,13 +13,13 @@ sub get_empty_port {
   my %options = @_;
   
   # System will select an unused port
-  while (my $sock = &_listen_socket) {
-    my $port = $sock->sockport;
-    $sock->close;
-    return $port;
-  }
+  my $sock = &_listen_socket;
   
-  Carp::confess("empty port not found");
+  my $port = $sock->sockport;
+  
+  $sock->close;
+  
+  return $port;
 }
 
 sub _listen_socket {
