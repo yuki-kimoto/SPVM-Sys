@@ -12,6 +12,7 @@ use IO::Socket;
 use IO::Socket::IP;
 use Test::SPVM::Sys::Socket::ServerManager::IP;
 use Test::SPVM::Sys::Socket::Util;
+use Test::SPVM::Sys::Socket::Server;
 
 use SPVM 'Sys::Socket';
 use SPVM 'TestCase::Sys::Socket';
@@ -78,7 +79,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   
@@ -93,7 +96,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   
@@ -108,7 +113,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   
@@ -123,7 +130,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   
@@ -138,7 +147,9 @@ ok(SPVM::TestCase::Sys::Socket->socket);
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   
@@ -163,7 +174,9 @@ unless ($^O eq 'MSWin32') {
       
       my $port = $server_manager->port;
       
-      SPVM::TestCase::Sys::Socket->run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   
@@ -197,7 +210,9 @@ unless ($^O eq 'MSWin32') {
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   
@@ -212,7 +227,9 @@ unless ($^O eq 'MSWin32') {
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   

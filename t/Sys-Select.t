@@ -9,6 +9,7 @@ use Time::HiRes 'usleep';
 
 use Test::SPVM::Sys::Socket::ServerManager::IP;
 use Test::SPVM::Sys::Socket::Util;
+use Test::SPVM::Sys::Socket::Server;
 
 use SPVM 'Sys::Select';
 use SPVM 'TestCase::Sys::Select';
@@ -30,7 +31,9 @@ ok(SPVM::TestCase::Sys::Select->select_utils);
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   

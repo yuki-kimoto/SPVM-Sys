@@ -9,6 +9,7 @@ use Time::HiRes 'usleep';
 
 use Test::SPVM::Sys::Socket::ServerManager::IP;
 use Test::SPVM::Sys::Socket::Util;
+use Test::SPVM::Sys::Socket::Server;
 
 use SPVM 'Sys::Poll';
 use SPVM 'TestCase::Sys::Poll';
@@ -25,7 +26,9 @@ my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
       
       my $port = $server_manager->port;
       
-      Test::SPVM::Sys::Socket::Util::run_echo_server($port);
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
     },
   );
   
