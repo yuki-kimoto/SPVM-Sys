@@ -7,42 +7,97 @@ use Carp ();
 use Socket;
 use IO::Socket::IP;
 use IO::Socket::UNIX;
-use Errno qw/ECONNREFUSED/;
 
-my $localhost = "127.0.0.1";
+# Fields
+sub socket_domain { shift->{socket_domain} }
+
+sub socket_type { shift->{socket_type} }
+
+sub socket_protocol { shift->{socket_protocol} }
+
+sub io_socket { shift->{io_socket} }
+
+sub listen_backlog { shift->{listen_backlog} }
+
+sub host { shift->{host} }
+
+sub port { shift->{port} }
+
+sub path { shift->{path} }
+
+sub loop_cb { shift->{loop_cb} }
+
+sub server_options { shift->{server_options} }
 
 # Class Methods
-sub start_echo_server {
-  my %options = @_;
+sub new {
+  my $class = shift;
   
-  my $io_socket_options = $options{io_socket_options};
+  my $self = {
+    listen_backlog => SOMAXCONN,
+    server_options => {},
+    @_
+  };
   
-  unless ($io_socket_options) {
-    Carp::confess("io_socket_options option must be defined.");
+  bless $self, ref $class || $class;
+  
+  return $self;
+}
+
+sub new_echo_server_ipv4_tcp {
+  my $class = shift;
+  
+  my $loop_cb = \&_echo_server_accept_loop;
+  
+  my %options = (
+    socket_domain => AF_INET,
+    socket_type => SOCK_STREAM
+    host => '127.0.0.1',
+    loop_cb => $loop_cb,
+    @_,
+  );
+  
+  my $self = $class->new(%options);
+  
+  my $port = $self->{port};
+  unless (defined $port) {
+    Carp::confess("\"port\" option must be defined.");
   }
   
-  my $port = 
+  my $listen_backlog = $self->{listen_backlog};
   
-  my ($port) = @_;
+  my $socket_domain = $self->{socket_domain};
   
-  my $server_socket = IO::Socket::IP->new(
-    LocalAddr => $localhost,
+  my $socket_type = $self->{socket_type};
+  
+  my $io_socket = IO::Socket::IP->new(
+    LocalAddr => $host,
     LocalPort => $port,
-    Listen    => SOMAXCONN,
-    Proto     => 'tcp',
+    Listen    => $listen_backlog,
+    Type     => $socket_type,
     ReuseAddr => 1,
   );
   
-  unless ($server_socket) {
+  unless ($io_socket) {
     Carp::confess("Can't create a server socket:$@");
   }
   
+  $self->{io_socket} = $io_socket;
+}
+
+sub _echo_server_accept_loop {
+  my ($server_manager) = @_;
+  
+  my $io_socket = $server_manager->{io_socket};
+  
+  my $read_buffer_length = $server_manager->{server_options}{read_buffer_length} // 1024;
+  
   while (1) {
-    my $client_socket = $server_socket->accept;
+    my $client_socket = $io_socket->accept;
     
     while (1) {
       my $buffer;
-      my $read_length = $client_socket->sysread($buffer, 1024);
+      my $read_length = $client_socket->sysread($buffer, $read_buffer_length);
       
       if ($read_length) {
         $client_socket->syswrite($buffer, $read_length);
@@ -54,45 +109,24 @@ sub start_echo_server {
   }
 }
 
-sub start_echo_server_unix {
-  my ($path) = @_;
+# Instance Methods
+sub start {
+  my ($self) = @_;
   
-  my $server_socket = IO::Socket::UNIX->new(
-    Type => SOCK_STREAM(),
-    Local => $path,
-    Listen => SOMAXCONN,
-  );
+  my $loop_cb = $self->{loop_cb};
   
-  unless ($server_socket) {
-    Carp::confess("Can't create a server socket:$@");
-  }
-  
-  while (1) {
-    my $client_socket = $server_socket->accept;
-    
-    while (1) {
-      my $buffer;
-      my $read_length = $client_socket->sysread($buffer, 1024);
-      
-      if ($read_length) {
-        $client_socket->syswrite($buffer, $read_length);
-      }
-      else {
-        last;
-      }
-    }
-  }
+  $loop_cb->($self);
 }
 
 1;
 
 =head1 Name
 
-Test::SPVM::Sys::Socket::Server - Server Utility Functions for SPVM::Sys::Socket
+Test::SPVM::Sys::Socket::Server - Servers for tests for SPVM::Sys::Socket
 
 =head1 Description
 
-Test::SPVM::Sys::Socket::Server module has functions for server utilities for SPVM::Sys::Socket.
+Test::SPVM::Sys::Socket::Server class has methods to start servers for tests for L<SPVM::Sys::Socket>.
 
 =head1 Usage
 
