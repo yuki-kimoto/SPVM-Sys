@@ -12,7 +12,7 @@ Sys::Socket::Constant class in L<SPVM> has methods to get constant values for so
 
 =head1 Usage
 
-  use Sys::Socket::Constant;
+  use Sys::Socket::Constant as SOCKET;
 
 =head1 Class Methods
 
