@@ -166,8 +166,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
   ok(SPVM::TestCase::Sys::Socket->listen($port));
 }
 # accept
-# TODO : Windows
-unless ($^O eq 'MSWin32') {
+{
   my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
       my ($server_manager) = @_;
