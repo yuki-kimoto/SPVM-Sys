@@ -362,7 +362,7 @@ An L<IO::Socket::IP> object is created and L</"io_socket"> field is set to an L<
 A client can signal to the echo server that it is done writing with C<SHUT_WR>.
   
   use Sys::Socket;
-  use Sys::Socket::Constant as SCOKET;
+  use Sys::Socket::Constant as SOCKET;
   
   Sys::Socket->shutdown($socket, SOCKET->SHUT_WR);
 
