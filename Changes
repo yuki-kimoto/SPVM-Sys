@@ -2,7 +2,8 @@
   [Document Improvement]
     * Improve docs for Sys::Socket::Constant class.
   [Test Improvement]
-    * Restore a test for Sys::Socket#accept method.
+    * Restore a test for Sys::Socket#accept method in Windows.
+    * Restore a test for Sys::Socket::Sockaddr::Un class in Windows.
     
 0.525 2024-06-14
   [Requirement Changes]
