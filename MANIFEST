@@ -8,7 +8,6 @@
 .gitignore
 Changes
 development.txt
-lib/SPVM/Sys.config
 lib/SPVM/Sys.pm
 lib/SPVM/Sys.spvm
 lib/SPVM/Sys/Env.c

@@ -1,3 +1,7 @@
+0.526001 2024-10-09
+  [Changes]
+    * Remove unused Sys.config
+    
 0.526 2024-06-14
   [Document Improvement]
     * Improve docs for Sys::Socket::Constant class.
