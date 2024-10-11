@@ -2,6 +2,9 @@
   [New Features]
     * Add host option to Test::SPVM::Sys::Socket::ServerManager class.
     * Add can_bind function to Test::SPVM::Sys::Socket::Util module.
+  [Test Improvement]
+    * Add IPv6 tests.
+    
 0.526001 2024-10-09
   [Changes]
     * Remove unused Sys.config

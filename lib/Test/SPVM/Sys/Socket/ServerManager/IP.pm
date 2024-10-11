@@ -59,8 +59,6 @@ sub _wait_server_start {
   
   my $host = $self->{host};
   
-  warn $host;
-  
   my $port = $self->{port};
   
   my $max_wait = $self->{max_wait};
