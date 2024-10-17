@@ -4,6 +4,9 @@
     * Add can_bind function to Test::SPVM::Sys::Socket::Util module.
   [Test Improvement]
     * Add IPv6 tests.
+  
+  [Cleanup]
+    * Improve docs, argument names, variable names of Sys#accept method and Sys::Socket#accept method.
     
 0.526001 2024-10-09
   [Changes]

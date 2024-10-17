@@ -975,16 +975,16 @@ class Sys {
     Sys::Socket->listen($socket_fd, $backlog);
   }
   
-  static method accept : Sys::Socket::Sockaddr ($new_socket_fd_ref : int*, $socket_fd : int) {
+  static method accept : Sys::Socket::Sockaddr ($client_fd_ref : int*, $server_fd : int) {
     
     my $sockaddr = Sys::Socket::Sockaddr->new;
     
     my $sockaddr_size = Sys::Socket::Sockaddr::Storage->new->size;
     
-    $$new_socket_fd_ref = Sys::Socket->accept($socket_fd, $sockaddr, \$sockaddr_size);
+    $$client_fd_ref = Sys::Socket->accept($server_fd, $sockaddr, \$sockaddr_size);
     
     unless (Sys::OS->is_windows) {
-      Sys->fcntl($$new_socket_fd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+      Sys->fcntl($$client_fd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
     }
     
     $sockaddr = $sockaddr->upgrade;

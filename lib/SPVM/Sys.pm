@@ -1098,17 +1098,21 @@ Exceptions thrown by L<Sys::Socket#listen|SPVM::Sys::Socket/"listen"> method cou
 
 =head2 accept
 
-C<static method accept : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($new_socket_fd_ref : int*, $socket_fd : int);>
+C<static method accept : L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> ($client_fd_ref : int*, $server_fd : int);>
 
-Accepts an incoming socket connect, just as the C<accept> system call does. Returns the packed address.
+Performs accept operation.
 
-A new connected socket file descriptor is set to the value referenced by $new_socket_fd_ref.
+Implementation:
 
-Thie methods calls L<Sys::Socket#accept|SPVM::Sys::Socket/"accept"> method.
+Thie methods calls L<Sys::Socket#accept|SPVM::Sys::Socket/"accept"> method given the file descriptor $server_fd, a client address for output, the size of the client address.
 
-The returned packed address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
+The client address for output and the size of the client address are automatically created.
 
-If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $new_socket_fd_ref using L</"fcntl">.
+$$client_fd_ref is set to the return value.
+
+The client address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
+
+If the system supports C<FD_CLOEXEC>, The file descriptor flag of $$client_fd_ref is set to C<FD_CLOEXEC> using L</"fcntl"> method.
 
 Exceptions:
 
