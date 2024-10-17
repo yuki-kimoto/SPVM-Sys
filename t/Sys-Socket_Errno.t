@@ -14,6 +14,35 @@ my $api = SPVM::api();
 
 my $start_memory_blocks_count = $api->get_memory_blocks_count();
 
+# is_read_again
+{
+  ok(SPVM::Sys::Socket::Errno->is_read_again(SPVM::Sys::Socket::Errno->EINTR));
+  ok(SPVM::Sys::Socket::Errno->is_read_again(SPVM::Sys::Socket::Errno->EWOULDBLOCK));
+  ok(!SPVM::Sys::Socket::Errno->is_read_again(SPVM::Sys::Socket::Errno->EBADF));
+}
+
+# is_write_again
+{
+  ok(SPVM::Sys::Socket::Errno->is_write_again(SPVM::Sys::Socket::Errno->EINTR));
+  ok(SPVM::Sys::Socket::Errno->is_write_again(SPVM::Sys::Socket::Errno->EWOULDBLOCK));
+  ok(!SPVM::Sys::Socket::Errno->is_write_again(SPVM::Sys::Socket::Errno->EBADF));
+}
+
+# is_connect_again
+{
+  ok(SPVM::Sys::Socket::Errno->is_connect_again(SPVM::Sys::Socket::Errno->EINTR));
+  ok(SPVM::Sys::Socket::Errno->is_connect_again(SPVM::Sys::Socket::Errno->EWOULDBLOCK));
+  ok(SPVM::Sys::Socket::Errno->is_connect_again(SPVM::Sys::Socket::Errno->EINPROGRESS));
+  ok(!SPVM::Sys::Socket::Errno->is_connect_again(SPVM::Sys::Socket::Errno->EBADF));
+}
+
+# is_accept_again
+{
+  ok(SPVM::Sys::Socket::Errno->is_accept_again(SPVM::Sys::Socket::Errno->EINTR));
+  ok(SPVM::Sys::Socket::Errno->is_accept_again(SPVM::Sys::Socket::Errno->EWOULDBLOCK));
+  ok(!SPVM::Sys::Socket::Errno->is_accept_again(SPVM::Sys::Socket::Errno->EBADF));
+}
+
 # The constant values
 {
   if ($^O eq 'MSWin32') {
