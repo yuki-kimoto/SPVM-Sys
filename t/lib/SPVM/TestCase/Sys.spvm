@@ -816,12 +816,23 @@ class TestCase::Sys {
   }
 
   static method mkdir : int ($test_dir : string) {
+    
     my $dir = "$test_dir/foo";
     
     Sys->mkdir($dir, 0755);
     
     unless (Sys->d($dir)) {
       return 0;
+    }
+    
+    {
+      my $dir = "$test_dir/foo_no_mode";
+      
+      Sys->mkdir($dir);
+      
+      unless (Sys->d($dir)) {
+        return 0;
+      }
     }
     
     {

@@ -4,6 +4,9 @@
   [New Features]
     * Add Sys#rand method.
     * Add Sys#srand method.
+  [Changes]
+    * $mode argument of Sys#mkdir method is optional.
+    
 0.528 2024-10-17
   [New Features]
     * Add Sys::Socket::Errno#is_read_again method.

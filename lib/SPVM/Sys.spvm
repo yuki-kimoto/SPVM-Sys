@@ -315,7 +315,12 @@ class Sys {
     Sys::IO->flock($fd, $operation);
   }
   
-  static method mkdir : void ($dir : string, $mode : int) {
+  static method mkdir : void ($dir : string, $mode : int = -1) {
+    
+    if ($mode < 0) {
+      $mode = 0777;
+    }
+    
     Sys::IO->mkdir($dir, $mode);
   }
   

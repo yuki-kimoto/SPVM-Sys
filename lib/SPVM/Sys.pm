@@ -318,9 +318,11 @@ Exceptions thrown by L<Sys::IO#flock|SPVM::Sys::IO/"flock"> method could be thro
 
 =head2 mkdir
 
-C<static method mkdir : void ($dir : string, $mode : int);>
+C<static method mkdir : void ($dir : string, $mode : int = -1);>
 
 Creates the directory given the path $dir and the mode $mode.
+
+If $mode is less than 0, $mode is set to 0777.
 
 The permissions of the created directory are ($mode & ~L<umask|/"umask"> & 0777).
 
