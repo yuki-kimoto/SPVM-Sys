@@ -1631,6 +1631,32 @@ C<static method getgrnam : L<Sys::User::Group|SPVM::Sys::User::Group> ($name : s
 
 Searches a group entry given The group name $name. If found, returns the group entry, otherwise return undef.
 
+=head2 srand
+
+C<static method srand : void ($seed : int);>
+
+Sets the random number $seed for L</"rand"> method.
+
+Implementation:
+
+Calls L<Fn#set_seed|SPVM::Fn/"set_seed"> method given $seed.
+
+=head2 rand
+
+C<static method rand : double ($max : int = 1);>
+
+Returns a random fractional number greater than or equal to 0 and less than $max.
+
+If C<seed> stack variable is initialized, the random seed is got from the variable.
+
+Otherwise the random seed is created from the process ID and epoch time.
+
+The reference of the seed is passed to L<Fn#crand|SPVM::Fn|/"crand"> method.
+
+The returned seed is passed to L</"srand"> method to update C<seed> stack variable.
+
+If you change the random seed before calling this method, you can use L</"srand"> method.
+
 =head1 Modules
 
 =over 2

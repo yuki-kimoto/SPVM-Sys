@@ -1507,4 +1507,34 @@ class Sys {
     return $grent;
   }
   
+  static method srand : void ($seed : int) {
+    Fn->set_seed($seed);
+  }
+  
+  static method rand : double ($max : int = 1) {
+    
+    unless ($max > 0) {
+      die "The max number \$max must be greter than 0.";
+    }
+    
+    my $seed_initialized = Fn->seed_initialized;
+    
+    my $seed = 0;
+    if ($seed_initialized) {
+      $seed = Fn->get_seed;
+    }
+    else {
+      $seed = &process_id * (int)&time;
+    }
+    
+    # 0 <= random_number < $max
+    my $random_number = (double)Fn->crand(\$seed) / ((double)Fn->RAND_MAX() + 1);
+    
+    &srand($seed);
+    
+    $random_number *= $max;
+    
+    return $random_number;
+  }
+  
 }

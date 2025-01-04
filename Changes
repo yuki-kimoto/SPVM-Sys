@@ -1,6 +1,9 @@
 0.529 2025-01-05
   [Requirement Changes]
     * Require SPVM 0.990035.
+  [New Features]
+    * Add Sys#rand method.
+    * Add Sys#srand method.
 0.528 2024-10-17
   [New Features]
     * Add Sys::Socket::Errno#is_read_again method.

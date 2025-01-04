@@ -1287,4 +1287,64 @@ class TestCase::Sys {
     return 1;
   }
   
+  # rand (srand is called from rand)
+  static method rand : int () {
+    
+    # 0 <= random_number < 1
+    {
+      my $rand = 0.0;
+      my $invalid_range = 0;
+      for (my $i = 0; $i < 100000; $i++) {
+        $rand = Sys->rand;
+        
+        unless ($rand >= 0 && $rand < 1) {
+          $invalid_range = 1;
+          last;
+        }
+      }
+      
+      if ($invalid_range) {
+        return 0;
+      }
+    }
+    
+    # Apper random numbers
+    {
+      my $founds_plus = new int[10];
+      my $founds_minus = new int[10];
+      my $rand = 0.0;
+      for (my $i = 0; $i < 100000; $i++) {
+        $rand = Sys->rand;
+        
+        # 0-9
+        my $dig0 = (int)($rand * 10);
+        $founds_plus->[$dig0] = 1;
+      }
+      
+      unless (Array->equals_int($founds_plus, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1])) {
+        return 0;
+      }
+    }
+    
+    # Apper random numbers
+    {
+      my $founds_plus = new int[10];
+      my $founds_minus = new int[10];
+      my $rand = 0.0;
+      for (my $i = 0; $i < 100000; $i++) {
+        $rand = Sys->rand(10);
+        
+        # 0-9
+        my $dig0 = (int)($rand);
+        $founds_plus->[$dig0] = 1;
+      }
+      
+      unless (Array->equals_int($founds_plus, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1])) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
 }
