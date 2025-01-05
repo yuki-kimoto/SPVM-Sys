@@ -1649,15 +1649,21 @@ C<static method rand : double ($max : int = 1);>
 
 Returns a random fractional number greater than or equal to 0 and less than $max.
 
+If you change the random seed, you can use L</"srand"> method.
+
+Implementation:
+
 If C<seed> stack variable is initialized, the random seed is got from the variable.
 
 Otherwise the random seed is created from the process ID and epoch time.
 
-The reference of the seed is passed to L<Fn#crand|SPVM::Fn|/"crand"> method.
+And calls L<Fn#rand|SPVM::Fn/"rand"> method given the reference of the seed, $max.
 
-The returned seed is passed to L</"srand"> method to update C<seed> stack variable.
+And calls L</"srand"> method given the returned seed to update C<seed> stack variable.
 
-If you change the random seed before calling this method, you can use L</"srand"> method.
+Exceptions:
+
+Exceptions thrown by L<Fn#rand|SPVM::Fn/"rand"> method could be thrown.
 
 =head1 Modules
 

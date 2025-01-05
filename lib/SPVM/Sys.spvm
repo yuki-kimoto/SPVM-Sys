@@ -1518,12 +1518,7 @@ class Sys {
   
   static method rand : double ($max : int = 1) {
     
-    unless ($max > 0) {
-      die "The max number \$max must be greter than 0.";
-    }
-    
     my $seed_initialized = Fn->seed_initialized;
-    
     my $seed = 0;
     if ($seed_initialized) {
       $seed = Fn->get_seed;
@@ -1532,12 +1527,9 @@ class Sys {
       $seed = &process_id * (int)&time;
     }
     
-    # 0 <= random_number < $max
-    my $random_number = (double)Fn->crand(\$seed) / ((double)Fn->RAND_MAX() + 1);
+    my $random_number = Fn->rand(\$seed, $max);
     
     &srand($seed);
-    
-    $random_number *= $max;
     
     return $random_number;
   }
