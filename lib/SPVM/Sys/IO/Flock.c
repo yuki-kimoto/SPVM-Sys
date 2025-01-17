@@ -74,9 +74,10 @@ int32_t SPVM__Sys__IO__Flock__set_l_type(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   
+  int16_t l_type = stack[1].ival;
+  
   struct flock* st_flock = env->get_pointer(env, stack, obj_self);
   
-  int16_t l_type = stack[1].ival;
   st_flock->l_type = l_type;
   
   return 0;
@@ -111,9 +112,10 @@ int32_t SPVM__Sys__IO__Flock__set_l_whence(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   
+  int16_t l_whence = stack[1].ival;
+  
   struct flock* st_flock = env->get_pointer(env, stack, obj_self);
   
-  int16_t l_whence = stack[1].ival;
   st_flock->l_whence = l_whence;
   
   return 0;
@@ -148,9 +150,10 @@ int32_t SPVM__Sys__IO__Flock__set_l_start(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   
+  int64_t l_start = stack[1].lval;
+  
   struct flock* st_flock = env->get_pointer(env, stack, obj_self);
   
-  int64_t l_start = stack[1].lval;
   st_flock->l_start = l_start;
   
   return 0;
@@ -185,9 +188,10 @@ int32_t SPVM__Sys__IO__Flock__set_l_len(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   
+  int64_t l_len = stack[1].lval;
+  
   struct flock* st_flock = env->get_pointer(env, stack, obj_self);
   
-  int64_t l_len = stack[1].lval;
   st_flock->l_len = l_len;
   
   return 0;
@@ -222,9 +226,10 @@ int32_t SPVM__Sys__IO__Flock__set_l_pid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_self = stack[0].oval;
   
+  int32_t l_pid = stack[1].ival;
+  
   struct flock* st_flock = env->get_pointer(env, stack, obj_self);
   
-  int32_t l_pid = stack[1].ival;
   st_flock->l_pid = l_pid;
   
   return 0;

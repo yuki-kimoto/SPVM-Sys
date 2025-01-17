@@ -20,6 +20,7 @@ int32_t SPVM__Sys__Signal__kill(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   
   int32_t pid = stack[0].ival;
+  
   int32_t sig = stack[1].ival;
   
   int32_t status = kill(pid, sig);

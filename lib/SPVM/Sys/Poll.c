@@ -67,9 +67,9 @@ static const char* socket_strerror(SPVM_ENV* env, SPVM_VALUE* stack, int32_t err
 int32_t SPVM__Sys__Poll__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_fds = stack[0].oval;
   
-  struct pollfd* fds = env->get_pointer(env, stack, obj_fds);
-  
   int32_t nfds = stack[1].ival;
+  
+  struct pollfd* fds = env->get_pointer(env, stack, obj_fds);
   
   int32_t timeout = stack[2].ival;
   

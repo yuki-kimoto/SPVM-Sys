@@ -586,12 +586,14 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
   void* obj_oldpath = stack[0].oval;
+  
+  void* obj_newpath = stack[1].oval;
+  
   if (!obj_oldpath) {
     return env->die(env, stack, "The old path $oldpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* oldpath = env->get_chars(env, stack, obj_oldpath);
   
-  void* obj_newpath = stack[1].oval;
   if (!obj_newpath) {
     return env->die(env, stack, "The new path $newpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -618,12 +620,14 @@ int32_t SPVM__Sys__IO__Windows__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
+  
+  void* obj_lstat = stack[1].oval;
+  
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
-  void* obj_lstat = stack[1].oval;
   if (!obj_lstat) {
     return env->die(env, stack, "The stat object $lstat must be defined.", __func__, FILE_NAME, __LINE__);
   }

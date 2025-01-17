@@ -268,11 +268,11 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t size = stack[0].ival;
   
+  void* obj_list = stack[1].oval;
+  
   if (!(size >= 0)) {
     return env->die(env, stack, "The size $size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
-  
-  void* obj_list = stack[1].oval;
   
   if (obj_list) {
     int32_t list_length = env->length(env, stack, obj_list);

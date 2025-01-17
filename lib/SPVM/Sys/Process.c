@@ -45,6 +45,7 @@ int32_t SPVM__Sys__Process__getpriority(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   
   int32_t which = stack[0].ival;
+  
   int32_t who = stack[1].ival;
   
   errno = 0;
@@ -67,7 +68,9 @@ int32_t SPVM__Sys__Process__setpriority(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   
   int32_t which = stack[0].ival;
+  
   int32_t who = stack[1].ival;
+  
   int32_t prio = stack[2].ival;
   
   int32_t status = setpriority(which, who, prio);
@@ -143,7 +146,9 @@ int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   
   int32_t pid = stack[0].ival;
+  
   int32_t* wstatus_ref = stack[1].iref;
+  
   int32_t options = stack[2].ival;
   
   if (!wstatus_ref) {
@@ -239,6 +244,8 @@ int32_t SPVM__Sys__Process___pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_pipefds = stack[0].oval;
   
+  unsigned int psize = (uint32_t)stack[1].ival;
+  
   if (!obj_pipefds) {
     return env->die(env, stack, "The file descriptors $pipefds must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -247,8 +254,6 @@ int32_t SPVM__Sys__Process___pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!(pipefds_length == 2)) {
     return env->die(env, stack, "The length of the file descriptors $pipefds must 2.", __func__, FILE_NAME, __LINE__);
   }
-  
-  unsigned int psize = (uint32_t)stack[1].ival;
   
   int32_t* pipefds = env->get_elems_int(env, stack, obj_pipefds);
   
@@ -299,6 +304,7 @@ int32_t SPVM__Sys__Process__setpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   
   int32_t pid = stack[0].ival;
+  
   int32_t pgid = stack[1].ival;
   
   int32_t status = setpgid(pid, pgid);
@@ -341,12 +347,13 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   
+  void* obj_args = stack[1].oval;
+  
   if (!obj_path) {
     return env->die(env, stack, "The command path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
-  void* obj_args = stack[1].oval;
   if (!obj_args) {
     return env->die(env, stack, "The command arguments $args must be defined.", __func__, FILE_NAME, __LINE__);
   }

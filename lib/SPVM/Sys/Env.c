@@ -39,12 +39,14 @@ int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_name = stack[0].oval;
+  
+  void* obj_value = stack[1].oval;
+  
   if (!obj_name) {
     return env->die(env, stack, "The environment variable name $name must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* name = env->get_chars(env, stack, obj_name);
-
-  void* obj_value = stack[1].oval;
+  
   if (!obj_value) {
     return env->die(env, stack, "The environment variable value $value must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -95,12 +97,14 @@ int32_t SPVM__Sys__Env___putenv_s(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   void* obj_name = stack[0].oval;
+  
+  void* obj_value = stack[1].oval;
+  
   if (!obj_name) {
     return env->die(env, stack, "The environment variable name $name must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* name = env->get_chars(env, stack, obj_name);
-
-  void* obj_value = stack[1].oval;
+  
   if (!obj_value) {
     return env->die(env, stack, "The environment variable value $value must be defined.", __func__, FILE_NAME, __LINE__);
   }

@@ -83,12 +83,12 @@ int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_tv = stack[0].oval;
   
+  void* obj_tz = stack[1].oval;
+  
   struct timeval* st_tv = NULL;
   if (obj_tv) {
     st_tv = env->get_pointer(env, stack, obj_tv);
   }
-  
-  void* obj_tz = stack[1].oval;
   
   struct timezone* st_tz = NULL;
   if (obj_tz) {
@@ -182,6 +182,9 @@ int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t which = stack[0].ival;
   
   void* obj_new_value = stack[1].oval;
+  
+  void* obj_old_value = stack[1].oval;
+  
   struct itimerval* st_new_value = NULL;
   if (obj_new_value) {
     st_new_value = env->get_pointer(env, stack, obj_new_value);
@@ -190,7 +193,6 @@ int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The new timer $new_value must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  void* obj_old_value = stack[1].oval;
   struct itimerval* st_old_value = NULL;
   if (obj_old_value) {
     st_old_value = env->get_pointer(env, stack, obj_old_value);
@@ -317,6 +319,8 @@ int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_rqtp = stack[0].oval;
   
+  void* obj_rmtp = stack[1].oval;
+  
   struct timespec* st_rqtp = NULL;
   if (obj_rqtp) {
     st_rqtp = env->get_pointer(env, stack, obj_rqtp);
@@ -324,8 +328,6 @@ int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     return env->die(env, stack, "The request time $rqtp must be defined.", __func__, FILE_NAME, __LINE__);
   }
-  
-  void* obj_rmtp = stack[1].oval;
   
   struct timespec* st_rmtp = NULL;
   if (obj_rmtp) {
@@ -349,12 +351,14 @@ int32_t SPVM__Sys__Time__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
   void* obj_filename = stack[0].oval;
+  
+  void* obj_times = stack[1].oval;
+  
   if (!obj_filename) {
     return env->die(env, stack, "The file path $filename must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* filename = env->get_chars(env, stack, obj_filename);
-
-  void* obj_times = stack[1].oval;
+  
   struct utimbuf* st_times;
   if (obj_times) {
     st_times = env->get_pointer(env, stack, obj_times);
@@ -382,12 +386,13 @@ int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
   void* obj_filename = stack[0].oval;
+  
+  void* obj_times = stack[1].oval;
+  
   if (!obj_filename) {
     return env->die(env, stack, "The file path $filename must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* filename = env->get_chars(env, stack, obj_filename);
-  
-  void* obj_times = stack[1].oval;
   
   if (!obj_times) {
     return env->die(env, stack, "The utime infomation $times must be defined.", __func__, FILE_NAME, __LINE__);
