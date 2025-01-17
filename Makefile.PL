@@ -133,6 +133,11 @@ sub MY::postamble {
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal::Handler');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal::Constant');
+    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::OS');
+    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Env');
+    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Select::Constant');
+    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::Constant');
+    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Stat');
   }
   
   return $make_rule;
