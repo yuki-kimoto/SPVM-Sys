@@ -159,6 +159,8 @@ Exceptions:
 
 $addr must be defined. Otherwise an excetpion is thrown.
 
+The reference of the output address length $addrlen_ref must be defined. Otherwise an exception is thrown.
+
 If the accept function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 listen
@@ -227,6 +229,8 @@ $buf must be defined. Otherwise an excetpion is thrown.
 
 $len must be less than the length of $buf - $buf_offset. Otherwise an excetpion is thrown.
 
+The reference of the output address length $addrlen_ref must be defined. Otherwise an exception is thrown.
+
 If the recv function failed, an excetpion is thrownn with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 send
@@ -267,6 +271,8 @@ Exceptions:
 
 $addr must be defined. Otherwise an exception is thrown.
 
+The reference of the output address length $addrlen_ref must be defined. Otherwise an exception is thrown.
+
 If the getpeername function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 Excetpions:
@@ -280,6 +286,8 @@ Calls the L<getsockname|https://linux.die.net/man/2/getsockname> function and re
 Excetpions:
 
 $addr must be defined. Otherwise an exception is thrown.
+
+The reference of the output address length $addrlen_ref must be defined. Otherwise an exception is thrown.
 
 If the getsockname function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 

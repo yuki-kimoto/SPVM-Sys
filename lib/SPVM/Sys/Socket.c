@@ -315,13 +315,17 @@ int32_t SPVM__Sys__Socket__accept(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_addr = stack[1].oval;
   
+  int32_t* addrlen_ref = stack[2].iref;
+  
   if (!obj_addr) {
     return env->die(env, stack, "The client address $addr must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
   
-  int32_t* addrlen_ref = stack[2].iref;
+  if (!addrlen_ref) {
+    return env->die(env, stack, "The reference of the output address length $addrlen_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  }
   
   socklen_t sl_addrlen = *addrlen_ref;
   
@@ -448,14 +452,18 @@ int32_t SPVM__Sys__Socket__recvfrom(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_src_addr = stack[4].oval;
   
+  int32_t* addrlen_ref = stack[5].iref;
+  
+  int32_t buf_offset = stack[6].ival;
+  
   struct sockaddr* src_addr = NULL;
   if (obj_src_addr) {
     src_addr = env->get_pointer(env, stack, obj_src_addr);
   }
   
-  int32_t* addrlen_ref = stack[5].iref;
-  
-  int32_t buf_offset = stack[6].ival;
+  if (!addrlen_ref) {
+    return env->die(env, stack, "The reference of the output address length $addrlen_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  }
   
   if (!(len <= buf_length - buf_offset)) {
     return env->die(env, stack, "The data length $len must be less than the length of the buffer $buf minus the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
@@ -560,13 +568,17 @@ int32_t SPVM__Sys__Socket__getpeername(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_addr = stack[1].oval;
   
+  int32_t* addrlen_ref = stack[2].iref;
+  
   if (!obj_addr) {
     return env->die(env, stack, "The socket address $addr must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
   
-  int32_t* addrlen_ref = stack[2].iref;
+  if (!addrlen_ref) {
+    return env->die(env, stack, "The reference of the output address length $addrlen_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  }
   
   socklen_t sl_addrlen = *addrlen_ref;
   
@@ -590,13 +602,17 @@ int32_t SPVM__Sys__Socket__getsockname(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_addr = stack[1].oval;
   
+  int32_t* addrlen_ref = stack[2].iref;
+  
   if (!obj_addr) {
     return env->die(env, stack, "The socket address $addr must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
   
-  int32_t* addrlen_ref = stack[2].iref;
+  if (!addrlen_ref) {
+    return env->die(env, stack, "The reference of the output address length $addrlen_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  }
   
   socklen_t sl_addrlen = *addrlen_ref;
   

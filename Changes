@@ -12,6 +12,10 @@
     * Sys::Process#wait method throws an exception if $wstatus_ref is not defined.
     * Sys::Time#localtime method throws an exception if $time_ref is not defined.
     * Sys::Time#gmtime method throws an exception if $time_ref is not defined.
+    * Sys::Socket#accept method throws an exception if $addrlen_ref is not defined.
+    * Sys::Socket#getsockname method throws an exception if $addrlen_ref is not defined.
+    * Sys::Socket#getpeername method throws an exception if $addrlen_ref is not defined.
+    * Sys::Socket#recvfrom method throws an exception if $addrlen_ref is not defined.
     
 0.529001 2025-01-05
   [Changes]
