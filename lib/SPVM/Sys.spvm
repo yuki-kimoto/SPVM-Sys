@@ -4,6 +4,8 @@
 class Sys {
   version "0.529001";
   
+  use Resource::SocketUtil;
+  
   use Format;
   use Sys::IO;
   use Sys::IO::FileStream;
