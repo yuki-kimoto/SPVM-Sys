@@ -10,6 +10,8 @@
   [Exception Changes]
     * Sys::Process#waitpid method throws an exception if $wstatus_ref is not defined.
     * Sys::Process#wait method throws an exception if $wstatus_ref is not defined.
+    * Sys::Time#localtime method throws an exception if $time_ref is not defined.
+    * Sys::Time#gmtime method throws an exception if $time_ref is not defined.
     
 0.529001 2025-01-05
   [Changes]

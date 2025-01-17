@@ -29,6 +29,10 @@ int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int64_t* time_ref = stack[0].lref;
   
+  if (!time_ref) {
+    return env->die(env, stack, "The reference of the time $time must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
   time_t time = *time_ref;
   
   struct tm* st_tm = env->new_memory_block(env, stack, sizeof(struct tm));
@@ -52,6 +56,10 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
   int64_t* time_ref = stack[0].lref;
+  
+  if (!time_ref) {
+    return env->die(env, stack, "The reference of the time $time must be defined.", __func__, FILE_NAME, __LINE__);
+  }
   
   time_t time = *time_ref;
   
