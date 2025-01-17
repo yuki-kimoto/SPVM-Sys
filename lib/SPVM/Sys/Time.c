@@ -30,7 +30,7 @@ int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   int64_t* time_ref = stack[0].lref;
   
   if (!time_ref) {
-    return env->die(env, stack, "The reference of the time $time must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The reference of the time $time_ref must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   time_t time = *time_ref;
@@ -58,7 +58,7 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   int64_t* time_ref = stack[0].lref;
   
   if (!time_ref) {
-    return env->die(env, stack, "The reference of the time $time must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The reference of the time $time_ref must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   time_t time = *time_ref;
