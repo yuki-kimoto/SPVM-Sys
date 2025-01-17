@@ -86,7 +86,7 @@ If the usleep function failed, an exception is thrown with C<eval_error_id> set 
 
 =head2 wait
 
-C<static method wait : int ($wstatus : int*);>
+C<static method wait : int ($wstatus_ref : int*);>
 
 Calls the L<wait|https://linux.die.net/man/2/wait> function and returns its return value.
 
@@ -98,13 +98,15 @@ In Windows, the following exception is thrown with C<eval_error_id> set to the b
 
 =head2 waitpid
 
-C<static method waitpid : int ($pid : int, $wstatus : int*, $options : int);>
+C<static method waitpid : int ($pid : int, $wstatus_ref : int*, $options : int);>
 
 Calls the L<waitpid|https://linux.die.net/man/2/waitpid> function and returns its return value.
 
 See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> about constant values given to $options.
 
 Exceptions:
+
+The reference of the output wait status $wstatus_ref must be defined. Otherwise an exception is thrown.
 
 If the waitpid function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 

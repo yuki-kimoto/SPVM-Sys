@@ -117,6 +117,10 @@ int32_t SPVM__Sys__Process__wait(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t* wstatus_ref = stack[0].iref;
   
+  if (!wstatus_ref) {
+    return env->die(env, stack, "The reference of the output wait status $wstatus_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
   int wstatus_int;
   int32_t process_id = wait(&wstatus_int);
   *wstatus_ref = wstatus_int;
@@ -141,6 +145,10 @@ int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t pid = stack[0].ival;
   int32_t* wstatus_ref = stack[1].iref;
   int32_t options = stack[2].ival;
+  
+  if (!wstatus_ref) {
+    return env->die(env, stack, "The reference of the output wait status $wstatus_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  }
   
   int wstatus_int;
   int32_t process_id = waitpid(pid, &wstatus_int, options);
