@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::User::Group : pointer {
+  version_from Sys;
   native method gr_name : string ();
   native method gr_passwd : string ();
   native method gr_gid : int ();

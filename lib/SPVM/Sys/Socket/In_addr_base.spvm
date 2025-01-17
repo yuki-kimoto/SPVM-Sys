@@ -2,5 +2,6 @@
 # MIT License
 
 class Sys::Socket::In_addr_base {
+  version_from Sys;
   
 }

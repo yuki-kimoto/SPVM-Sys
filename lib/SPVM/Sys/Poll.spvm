@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Poll {
+  version_from Sys;
 
   use Sys::Poll::PollfdArray;
   use Sys::Poll::Constant;

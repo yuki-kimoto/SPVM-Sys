@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Socket::Errno {
+  version_from Sys;
   use Sys::OS;
   use Errno;
   use Sys::Socket;

@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Time::Itimerval : pointer {
+  version_from Sys;
   use Sys::Time::Timeval;
   
   # Class Methods

@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Socket::Util {
+  version_from Sys;
   use Sys::Socket;
   use Sys::Socket::Constant as SOCKET;
   use Sys::Socket::In_addr;

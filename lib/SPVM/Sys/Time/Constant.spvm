@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Time::Constant {
+  version_from Sys;
   native static method CLOCKS_PER_SEC : int ();
 
   native static method CLOCK_BOOTTIME : int ();

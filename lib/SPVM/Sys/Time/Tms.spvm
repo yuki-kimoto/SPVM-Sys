@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Time::Tms : pointer {
+  version_from Sys;
   
   # Class methods
   native static method new : Sys::Time::Tms ();

@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Select {
+  version_from Sys;
 
   use Sys::Time::Timeval;
   use Sys::Select::Fd_set;

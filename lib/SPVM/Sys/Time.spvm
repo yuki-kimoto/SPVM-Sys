@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Time {
+  version_from Sys;
   use Sys::Time::Tm;
   use Sys::Time::Tms;
   use Sys::Time::Timeval;

@@ -18,6 +18,8 @@
     * Sys::Socket#getsockname method throws an exception if $addrlen_ref is not defined.
     * Sys::Socket#getpeername method throws an exception if $addrlen_ref is not defined.
     * Sys::Socket#recvfrom method throws an exception if $addrlen_ref is not defined.
+  [Changes]
+    * Add version_from Sys to all classes except for Sys class.
     
 0.529001 2025-01-05
   [Changes]

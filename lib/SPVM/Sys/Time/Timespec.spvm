@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Time::Timespec : pointer {
+  version_from Sys;
   
   # Class Methods
   native static method new : Sys::Time::Timespec ($tv_sec : long = 0, $tv_nsec : long = 0);

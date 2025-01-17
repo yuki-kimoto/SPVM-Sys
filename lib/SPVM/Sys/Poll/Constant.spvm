@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Poll::Constant {
+  version_from Sys;
   
   # Class Methods
   native static method POLLERR : int ();

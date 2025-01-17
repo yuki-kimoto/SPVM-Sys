@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::IO::Constant {
+  version_from Sys;
   native static method AT_EMPTY_PATH : int ();
 
   native static method AT_FDCWD : int ();

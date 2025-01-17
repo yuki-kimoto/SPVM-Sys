@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::IO::Windows {
+  version_from Sys;
   use Sys::IO::Stat;
   
   # Class Methods

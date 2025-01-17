@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Poll::PollfdArray {
+  version_from Sys;
   
   # Fields
   has length : ro int;

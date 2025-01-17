@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Ioctl {
+  version_from Sys;
   
   # Class Methods
   native static method ioctl : int ($fd : int, $request : int, $request_arg_ref : object of byte[]|short[]|int[]|long[]|float[]|double[]|object = undef);

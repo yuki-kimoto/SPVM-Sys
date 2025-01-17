@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Socket::Constant {
+  version_from Sys;
   use Sys::Socket::In6_addr;
   
   native static method AF_ALG : int ();

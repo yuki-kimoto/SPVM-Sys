@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Socket::In6_addr extends Sys::Socket::In_addr_base : pointer {
+  version_from Sys;
   
   # Class Methods
   native static method new : Sys::Socket::In6_addr ();

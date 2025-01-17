@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::User {
+  version_from Sys;
   use Sys::User::Passwd;
   
   use Sys::User::Group;

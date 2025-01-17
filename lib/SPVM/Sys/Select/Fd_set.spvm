@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Select::Fd_set {
+  version_from Sys;
   
   interface Cloneable;
   

@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Signal::Constant {
+  version_from Sys;
   native static method BUS_ADRALN : int ();
 
   native static method BUS_ADRERR : int ();

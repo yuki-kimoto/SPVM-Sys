@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Process::Constant {
+  version_from Sys;
   
   # Class Methods
   native static method EXIT_FAILURE : int ();

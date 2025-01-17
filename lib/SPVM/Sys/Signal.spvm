@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Signal {
+  version_from Sys;
   use Sys::Signal::Constant;
   use Sys::Signal::Handler;
   use Sys::OS;

@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Socket {
+  version_from Sys;
   allow Sys::Socket::Errno;
   
   use Fn;

@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Process {
+  version_from Sys;
   
   use Sys::Process::Constant;
   

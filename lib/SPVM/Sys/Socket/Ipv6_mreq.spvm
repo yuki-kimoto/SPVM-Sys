@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Socket::Ipv6_mreq {
+  version_from Sys;
   use Sys::Socket::In6_addr;
   
   # Class Methods

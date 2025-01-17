@@ -2,5 +2,6 @@
 # MIT License
 
 class Sys::Ioctl::Constant {
+  version_from Sys;
   native static method FIONBIO : int ();
 }

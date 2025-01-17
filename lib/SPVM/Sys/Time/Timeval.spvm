@@ -2,6 +2,7 @@
 # MIT License
 
 class Sys::Time::Timeval : pointer {
+  version_from Sys;
   
   native static method new : Sys::Time::Timeval ($tv_sec : long = 0, $tv_usec : long = 0);
 
