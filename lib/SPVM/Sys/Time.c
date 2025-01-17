@@ -183,7 +183,7 @@ int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_new_value = stack[1].oval;
   
-  void* obj_old_value = stack[1].oval;
+  void* obj_old_value = stack[2].oval;
   
   struct itimerval* st_new_value = NULL;
   if (obj_new_value) {
