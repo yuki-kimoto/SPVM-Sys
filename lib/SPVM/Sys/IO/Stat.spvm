@@ -56,7 +56,7 @@ class Sys::IO::Stat : pointer {
   
   method A : double () {
     
-    my $base_time = CommandInfo->BASE_TIME;
+    my $base_time = CommandInfo->BASETIME;
     
     my $atime = $self->st_atime;
     
@@ -67,7 +67,7 @@ class Sys::IO::Stat : pointer {
   
   method C : double () {
     
-    my $base_time = CommandInfo->BASE_TIME;
+    my $base_time = CommandInfo->BASETIME;
     
     my $ctime = $self->st_ctime;
     
@@ -78,7 +78,7 @@ class Sys::IO::Stat : pointer {
   
   method M : double () {
     
-    my $base_time = CommandInfo->BASE_TIME;
+    my $base_time = CommandInfo->BASETIME;
     
     my $mtime = $self->st_mtime;
     
