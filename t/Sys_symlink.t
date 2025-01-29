@@ -20,6 +20,10 @@ use File::Spec;
 use SPVM 'Fn';
 use SPVM 'TestCase::Sys';
 
+my $api = SPVM::api();
+
+my $start_memory_blocks_count = $api->get_memory_blocks_count;
+
 if (SPVM::Sys::OS->is_windows) {
   my $symlink_supported;
   
@@ -34,10 +38,6 @@ if (SPVM::Sys::OS->is_windows) {
   plan skip_all => "no symlink available on Windows"
       if !$symlink_supported;
 }
-
-my $api = SPVM::api();
-
-my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 # readlink
 {
