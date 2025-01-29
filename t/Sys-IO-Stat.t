@@ -8,6 +8,7 @@ BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 
 use File::Temp;
 
+use SPVM 'Fn';
 use SPVM 'TestCase::Sys::IO::Stat';
 use SPVM 'Sys::IO::Stat';
 use SPVM 'Sys::IO';
@@ -17,8 +18,9 @@ use File::stat ();
 
 use Data::Dumper;
 
-# Start objects count
-my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+my $api = SPVM::api();
+
+my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 my $test_dir = "$FindBin::Bin";
 
@@ -223,10 +225,9 @@ unless ($^O eq 'MSWin32') {
   }
 }
 
-SPVM::api->set_exception(undef);
+SPVM::Fn->destroy_runtime_permanent_vars;
 
-# All object is freed
-my $end_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+my $end_memory_blocks_count = $api->get_memory_blocks_count;
 is($end_memory_blocks_count, $start_memory_blocks_count);
 
 done_testing;

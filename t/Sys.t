@@ -15,10 +15,12 @@ use SPVM 'TestCase::Sys';
 use SPVM 'Sys::OS';
 use File::stat ();
 
+use SPVM 'Fn';
 use SPVM 'Sys::IO::Stat';
 
-# Start objects count
-my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+my $api = SPVM::api();
+
+my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 my $test_dir = "$FindBin::Bin";
 
@@ -326,12 +328,11 @@ ok(SPVM::TestCase::Sys->set_env);
 
 ok(SPVM::TestCase::Sys->rand);
 
-SPVM::api->set_exception(undef);
-
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);
 
-# All object is freed
-my $end_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+SPVM::Fn->destroy_runtime_permanent_vars;
+
+my $end_memory_blocks_count = $api->get_memory_blocks_count;
 is($end_memory_blocks_count, $start_memory_blocks_count);
 
 done_testing;

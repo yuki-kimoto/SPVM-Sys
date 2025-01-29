@@ -60,7 +60,7 @@ class TestCase::Sys::IO {
       Sys::IO->close($fd);
     }
     
-    $@ = undef;
+    
     
     return 1;
   }
@@ -422,7 +422,7 @@ class TestCase::Sys::IO {
       }
     }
     
-    $@ = undef;
+    
     
     return 1;
   }
@@ -470,7 +470,7 @@ class TestCase::Sys::IO {
       }
     }
     
-    $@ = undef;
+    
     
     return 1;
   }
@@ -1369,7 +1369,7 @@ class TestCase::Sys::IO {
       }
     }
     
-    $@ = undef;
+    
     
     return 1;
   }
@@ -1393,7 +1393,7 @@ class TestCase::Sys::IO {
       }
     }
     
-    $@ = undef;
+    
     
     return 1;
   }
@@ -2363,7 +2363,7 @@ class TestCase::Sys::IO {
       }
     }
     
-    $@ = undef;
+    
     
     return 1;
   }
@@ -2841,7 +2841,7 @@ class TestCase::Sys::IO {
       }
     }
     
-    $@ = undef;
+    
     
     return 1;
   }

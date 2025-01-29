@@ -10,10 +10,12 @@ use POSIX q(:sys_wait_h);
 
 use SPVM 'Sys::Process';
 
+use SPVM 'Fn';
 use SPVM 'TestCase::Sys::Process';
 
-# Start objects count
-my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+my $api = SPVM::api();
+
+my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Process->fork };
@@ -153,10 +155,9 @@ warn "[Test Output]usleep";
 
 ok(SPVM::TestCase::Sys::Process->usleep);
 
-SPVM::api->set_exception(undef);
+SPVM::Fn->destroy_runtime_permanent_vars;
 
-# All object is freed
-my $end_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+my $end_memory_blocks_count = $api->get_memory_blocks_count;
 is($end_memory_blocks_count, $start_memory_blocks_count);
 
 done_testing;

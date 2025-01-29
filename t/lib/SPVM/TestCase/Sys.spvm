@@ -334,7 +334,7 @@ class TestCase::Sys {
       }
     }
     
-    $@ = undef;
+    
     
     return 1;
   }
@@ -424,7 +424,7 @@ class TestCase::Sys {
       }
     }
     
-    $@ = undef;
+    
     
     return 1;
   }
@@ -1293,7 +1293,7 @@ class TestCase::Sys {
       }
     }
     
-    $@ = undef;
+    
     
     return 1;
   }

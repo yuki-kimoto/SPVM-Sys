@@ -7,12 +7,13 @@ use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 use Time::HiRes 'usleep';
 
+use SPVM 'Fn';
 use SPVM 'Errno';
 use SPVM 'Sys::Socket::Errno';
 
 my $api = SPVM::api();
 
-my $start_memory_blocks_count = $api->get_memory_blocks_count();
+my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 # is_read_again
 {
@@ -333,7 +334,9 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count();
   }
 }
 
-my $end_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+SPVM::Fn->destroy_runtime_permanent_vars;
+
+my $end_memory_blocks_count = $api->get_memory_blocks_count;
 is($end_memory_blocks_count, $start_memory_blocks_count);
 
 done_testing;

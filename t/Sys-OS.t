@@ -12,12 +12,12 @@ use SPVM 'Int';
 use SPVM 'Long';
 use SPVM 'Double';
 
+use SPVM 'Fn';
 use SPVM 'TestCase::Sys::IO';
 
 my $api = SPVM::api();
 
-# Start objects count
-my $start_memory_blocks_count = $api->get_memory_blocks_count();
+my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 # is_windows
 {
@@ -85,10 +85,9 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count();
   }
 }
 
-$api->set_exception(undef);
+SPVM::Fn->destroy_runtime_permanent_vars;
 
-# All object is freed
-my $end_memory_blocks_count = $api->get_memory_blocks_count();
+my $end_memory_blocks_count = $api->get_memory_blocks_count;
 is($end_memory_blocks_count, $start_memory_blocks_count);
 
 done_testing;

@@ -15,8 +15,13 @@ use Test::SPVM::Sys::Socket::Util;
 use Test::SPVM::Sys::Socket::Server;
 
 use SPVM 'Sys::Socket';
+use SPVM 'Fn';
 use SPVM 'TestCase::Sys::Socket';
 use SPVM 'Sys::Socket::Constant';
+
+my $api = SPVM::api();
+
+my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 my $ipv6_available = Test::SPVM::Sys::Socket::Util::can_bind('::1');
 
@@ -45,10 +50,9 @@ my $start_memory_blocks_count = SPVM::api->get_memory_blocks_count();
   ok(SPVM::TestCase::Sys::Socket->connect_ipv6($server->port));
 }
 
-SPVM::api->set_exception(undef);
+SPVM::Fn->destroy_runtime_permanent_vars;
 
-# All object is freed
-my $end_memory_blocks_count = SPVM::api->get_memory_blocks_count();
+my $end_memory_blocks_count = $api->get_memory_blocks_count;
 is($end_memory_blocks_count, $start_memory_blocks_count);
 
 done_testing;

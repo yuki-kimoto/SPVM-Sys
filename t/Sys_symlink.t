@@ -17,6 +17,7 @@ use SPVM 'Sys::OS';
 use SPVM 'Sys::IO';
 use SPVM 'Sys::IO::Windows';
 use File::Spec;
+use SPVM 'Fn';
 use SPVM 'TestCase::Sys';
 
 if (SPVM::Sys::OS->is_windows) {
@@ -33,6 +34,10 @@ if (SPVM::Sys::OS->is_windows) {
   plan skip_all => "no symlink available on Windows"
       if !$symlink_supported;
 }
+
+my $api = SPVM::api();
+
+my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 # readlink
 {
@@ -207,5 +212,10 @@ sub check_stat {
     warn "[Test Output]st_ctime different,file1: " . $stat1->st_ctime . ",file2: " . $stat2->st_ctime;
   }
 }
+
+SPVM::Fn->destroy_runtime_permanent_vars;
+
+my $end_memory_blocks_count = $api->get_memory_blocks_count;
+is($end_memory_blocks_count, $start_memory_blocks_count);
 
 done_testing();
