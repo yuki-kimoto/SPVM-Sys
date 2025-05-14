@@ -30,7 +30,7 @@
   };
   typedef struct w32_stat Stat_t;
 #elif
-
+  typedef struct stat Stat_t;
 #endif
 
 static const char* FILE_NAME = "Sys/IO/Stat.c";
