@@ -39,9 +39,7 @@ int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  // sizeof(Stat_t) is maybe right, but Ubuntu/Linux 32bit doesn't work well in this setting.
-  // So sizeof(Stat_t) * 2 is allocated.
-  Stat_t* st_stat = env->new_memory_block(env, stack, sizeof(Stat_t) * 2);
+  Stat_t* st_stat = env->new_memory_block(env, stack, sizeof(Stat_t));
   
   void* obj_stat = env->new_pointer_object_by_name(env, stack, "Sys::IO::Stat", st_stat, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
