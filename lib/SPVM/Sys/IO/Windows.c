@@ -430,56 +430,75 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
     return 0;
 }
 
-static int win32_lstat(const char* path, struct stat* sbuf)
+typedef BOOL bool;
+typedef struct stat Stat_t;
+typedef uint32_t STRLEN;
+
+static int
+win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
+               DWORD reparse_type) {
+    
+    // TODO
+    int fd = _open_osfhandle((intptr_t)handle, _O_RDONLY);
+    
+    int32_t result = fstat(fd, sbuf);
+    
+    _close(fd);
+    
+    return result;
+}
+
+static int
+win32_stat(const char *path, Stat_t *sbuf) {
+  
+  // TODO
+  stat(path, sbuf);
+}
+
+// Exactly same as Perl's win32_lstat in Windows.c
+static int
+win32_lstat(const char *path, Stat_t *sbuf)
 {
-  HANDLE f;
-  int result;
-  DWORD attr = GetFileAttributes(path); /* doesn't follow symlinks */
-  
-  if (attr == INVALID_FILE_ATTRIBUTES) {
-    translate_to_errno();
-    return -1;
-  }
-  
-  if (!(attr & FILE_ATTRIBUTE_REPARSE_POINT)) {
-    return stat(path, sbuf);
-  }
-  
-  f = CreateFileA(path, GENERIC_READ, 0, NULL, OPEN_EXISTING,
-                         FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
-  
-  if (f == INVALID_HANDLE_VALUE) {
-    translate_to_errno();
-    return -1;
-  }
-  
-  BOOL is_symlink;
-  
-  int size = do_readlink_handle(f, NULL, 0, &is_symlink);
-  
-  if (!is_symlink) {
-    /* it isn't a symlink, fallback to normal stat */
+    HANDLE f;
+    int result;
+    DWORD attr = GetFileAttributes(path); /* doesn't follow symlinks */
+
+    if (attr == INVALID_FILE_ATTRIBUTES) {
+        translate_to_errno();
+        return -1;
+    }
+
+    if (!(attr & FILE_ATTRIBUTE_REPARSE_POINT)) {
+        return win32_stat(path, sbuf);
+    }
+
+    f = CreateFileA(path, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                           FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    if (f == INVALID_HANDLE_VALUE) {
+        translate_to_errno();
+        return -1;
+    }
+    bool is_symlink;
+    int size = do_readlink_handle(f, NULL, 0, &is_symlink);
+    if (!is_symlink) {
+        /* it isn't a symlink, fallback to normal stat */
+        CloseHandle(f);
+        return win32_stat(path, sbuf);
+    }
+    else if (size < 0) {
+        /* some other error, errno already set */
+        CloseHandle(f);
+        return -1;
+    }
+    result = win32_stat_low(f, NULL, 0, sbuf, 0);
+
+    if (result != -1){
+        sbuf->st_mode = (sbuf->st_mode & ~_S_IFMT) | _S_IFLNK;
+        sbuf->st_size = size;
+    }
     CloseHandle(f);
-    return stat(path, sbuf);
-  }
-  else if (size < 0) {
-    /* some other error, errno already set */
-    CloseHandle(f);
-    return -1;
-  }
-  
-  int32_t fd = _open_osfhandle((intptr_t)f, _O_RDONLY);
-  
-  result = fstat(fd, sbuf);
-  
-  if (result != -1){
-    sbuf->st_mode = (sbuf->st_mode & ~_S_IFMT) | _S_IFLNK;
-    sbuf->st_size = size;
-  }
-  
-  _close(fd);
-  
-  return result;
+
+    return result;
 }
 
 #endif // _WIN32
