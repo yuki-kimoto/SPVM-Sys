@@ -3,6 +3,8 @@
 
 #include "spvm_native.h"
 
+#include <assert.h>
+
 static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #if defined(_WIN32)
@@ -433,6 +435,14 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
 typedef BOOL bool;
 typedef struct stat Stat_t;
 typedef uint32_t STRLEN;
+#define PerlDir_mapA(dir) dir
+
+static HANDLE
+S_follow_symlinks_to(const char *pathname, DWORD *reparse_type) {
+  
+  // TODO
+  assert(0);
+}
 
 static int
 win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
@@ -448,11 +458,43 @@ win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
     return result;
 }
 
-static int
-win32_stat(const char *path, Stat_t *sbuf) {
-  
-  // TODO
-  stat(path, sbuf);
+// Exactly same as Perl's win32_lstat in Windows.c
+int
+win32_stat(const char *path, Stat_t *sbuf)
+{
+    int result;
+    HANDLE handle;
+    DWORD reparse_type = 0;
+
+    path = PerlDir_mapA(path);
+
+    handle =
+        CreateFileA(path, FILE_READ_ATTRIBUTES,
+                    FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+    if (handle == INVALID_HANDLE_VALUE) {
+        /* AF_UNIX sockets need to be opened as a reparse point, but
+           that will also open symlinks rather than following them.
+
+           There may be other reparse points that need similar
+           treatment.
+        */
+        handle = S_follow_symlinks_to(path, &reparse_type);
+        if (handle == INVALID_HANDLE_VALUE) {
+            /* S_follow_symlinks_to() will set errno */
+            return -1;
+        }
+    }
+    if (handle != INVALID_HANDLE_VALUE) {
+        result = win32_stat_low(handle, path, strlen(path), sbuf, reparse_type);
+        CloseHandle(handle);
+    }
+    else {
+        translate_to_errno();
+        result = -1;
+    }
+
+    return result;
 }
 
 // Exactly same as Perl's win32_lstat in Windows.c
