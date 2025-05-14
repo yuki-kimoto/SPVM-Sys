@@ -29,7 +29,7 @@
       time_t st_ctime;
   };
   typedef struct w32_stat Stat_t;
-#elif
+#else
   typedef struct stat Stat_t;
 #endif
 
