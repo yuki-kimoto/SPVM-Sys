@@ -625,43 +625,6 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
-
-#if !defined(_WIN32)
-  return env->die(env, stack, "Sys::IO::Windows#stat method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-#else
-
-  int32_t error_id = 0;
-  
-  void* obj_path = stack[0].oval;
-  
-  void* obj_stat = stack[1].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  if (!obj_stat) {
-    return env->die(env, stack, "The stat object $stat must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  struct stat* stat_buf = env->get_pointer(env, stack, obj_stat);
-  
-  int32_t status = win32_stat(path, stat_buf);
-  
-  if (status == -1) {
-    const char* path = env->get_chars(env, stack, obj_path);
-    env->die(env, stack, "[System Error]stat() failed:%s. $path is \"%s\".", path, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
 int32_t SPVM__Sys__IO__Windows__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   return env->die(env, stack, "Sys::IO::Windows#stat method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -688,7 +651,7 @@ int32_t SPVM__Sys__IO__Windows__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
-    env->die(env, stack, "[System Error]stat() failed:%s. $path is \"%s\".", path, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]win32_stat() failed:%s. $path is \"%s\".", path, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -726,7 +689,7 @@ int32_t SPVM__Sys__IO__Windows__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
-    env->die(env, stack, "[System Error]lstat() failed:%s. $path is \"%s\".", path, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]win32_lstat() failed:%s. $path is \"%s\".", path, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

@@ -547,8 +547,16 @@ class Sys {
   }
   
   static method stat : Sys::IO::Stat ($file : string) {
+    
     my $stat = Sys::IO::Stat->new;
-    Sys::IO::Stat->stat($file, $stat);
+    
+    if (Sys::OS->is_windows) {
+      Sys::IO::Windows->stat($file, $stat);
+    }
+    else {
+      Sys::IO::Stat->stat($file, $stat);
+    }
+    
     return $stat;
   }
   
