@@ -42,10 +42,6 @@ int32_t SPVM__Sys__IO__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-#if defined(_WIN32)
-  return env->die(env, stack, "Sys::IO::Stat#lstat method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-#else
-
   int32_t error_id = 0;
   
   void* obj_path = stack[0].oval;
@@ -74,7 +70,6 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
