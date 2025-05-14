@@ -86,6 +86,26 @@ Symbolic links and directory junctions in Windows are manipulated as symbolic li
 
 Error numbers in Windows are replaced with the ones in POSIX.
 
+=head2 stat
+
+C<static method stat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>
+
+Calls the C<stat> function implemented for Windows.
+
+Note:
+
+This method is implemented so that the beheivior is the same as L<Sys::IO#stat|SPVM::Sys::IO/"stat"> method as possible..
+
+Error numbers in Windows are replaced with the ones in POSIX.
+
+Exceptions:
+
+$path must be defined. Otherwise an exception is thrown.
+
+$stat must be defined. Otherwise an exception is thrown.
+
+If the stat function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 lstat
 
 C<static method lstat : int ($path : string, $stat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat>);>

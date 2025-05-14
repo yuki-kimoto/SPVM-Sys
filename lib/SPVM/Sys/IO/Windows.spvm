@@ -14,5 +14,7 @@ class Sys::IO::Windows {
   
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
   
+  native static method stat : int ($path : string, $stat : Sys::IO::Stat);
+  
   native static method lstat : int ($path : string, $stat : Sys::IO::Stat);
 }
