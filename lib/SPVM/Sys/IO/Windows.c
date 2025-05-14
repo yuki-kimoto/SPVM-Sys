@@ -434,13 +434,13 @@ static int win32_stat(const char* path, struct stat* sbuf) {
   
   int32_t fd = open(path, O_RDONLY);
   
-  if (result != -1){
-    result = fstat(fd, sbuf);
+  int32_t status = fstat(fd, sbuf);
+  
+  if (fd != -1) {
+    close(fd);
   }
   
-  close(fd);
-  
-  return result;
+  return status;
 }
 
 static int win32_lstat(const char* path, struct stat* sbuf)
