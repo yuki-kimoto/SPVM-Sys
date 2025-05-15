@@ -2,9 +2,9 @@
   [Fix Exception Messages]
     * Fix an exception message in Sys::IO::Stat#lstat method.
   [New Features with Incompatible Changes]
-    * Sys::IO::Stat#stat method returns Perl compatible values.
-    * Sys::IO::Stat#lstat method returns Perl compatible values.
-    * Sys::IO::Stat#fstat method returns Perl compatible values.
+    * Sys::IO::Stat#stat method returns Perl compatible values in Windows.
+    * Sys::IO::Stat#lstat method returns Perl compatible values in Windows.
+    * Sys::IO::Stat#fstat method returns Perl compatible values in Windows.
     
 0.532 2025-01-29
   [Requirement Changes]
