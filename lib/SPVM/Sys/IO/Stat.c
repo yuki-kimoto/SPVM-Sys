@@ -521,6 +521,8 @@ typedef struct {
   } Data;
 } MY_REPARSE_DATA_BUFFER, *PMY_REPARSE_DATA_BUFFER;
 
+__thread SPVM_ENV* thread_env;
+
 static HANDLE
 S_follow_symlinks_to(const char *pathname, DWORD *reparse_type) {
   
