@@ -61,7 +61,11 @@ So for Windows, write a low-confidence test: if the value matches Perl, pass. If
 =cut
 
 {
+  warn;
+  
   ok(SPVM::TestCase::Sys::IO::Stat->stat("$test_dir"));
+  
+  warn;
   
   my $file = "$test_dir/ftest/readline_long_lines.txt";
   my $stat = SPVM::Sys::IO::Stat->new();
