@@ -437,6 +437,26 @@ typedef struct stat Stat_t;
 typedef uint32_t STRLEN;
 #define PerlDir_mapA(dir) dir
 
+typedef off_t Off_t;
+
+// Exactly same as Perl's Dev_t, Ino_t, struct w32_stat, Stat_t in Win32.h
+typedef DWORD Dev_t;
+typedef unsigned __int64 Ino_t;
+struct w32_stat {
+    Dev_t st_dev;
+    Ino_t st_ino;
+    unsigned short st_mode;
+    DWORD st_nlink;
+    short st_uid;
+    short st_gid;
+    Dev_t st_rdev;
+    Off_t st_size;
+    time_t st_atime;
+    time_t st_mtime;
+    time_t st_ctime;
+};
+typedef struct stat Stat_t;
+
 static HANDLE
 S_follow_symlinks_to(const char *pathname, DWORD *reparse_type) {
   
