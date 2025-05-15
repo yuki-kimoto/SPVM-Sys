@@ -54,17 +54,17 @@ my $test_dir = "$FindBin::Bin";
   
   if ($stat_expected->ino == 0) {
     warn "This version of Perl does not support emulations of st_dev, st_ino, st_rdev, st_nlink.";
-    warn "[Test Output]st_dev:$stat->st_dev";
-    warn "[Test Output]st_ino:$stat->st_ino";
-    warn "[Test Output]st_rdev:$stat->st_rdev";
-    warn "[Test Output]st_nlink:$stat->st_nlink";
+    warn "[Test Output]st_dev:" . $stat->st_dev;
+    warn "[Test Output]st_ino:" . $stat->st_ino;
+    warn "[Test Output]st_rdev:" . $stat->st_rdev;
+    warn "[Test Output]st_nlink:" . $stat->st_nlink;
   }
   else {
     is($stat->st_dev, $stat_expected->dev, "st_dev");
     is($stat->st_ino, $stat_expected->ino, "st_ino");
     is($stat->st_rdev, $stat_expected->rdev, "rdev");
-    is($stat->st_nlink, $stat_expected->nlink, "st_nlink");
   }
+  is($stat->st_nlink, $stat_expected->nlink, "st_nlink");
   is($stat->st_mode, $stat_expected->mode, "st_mode");
   is($stat->st_uid, $stat_expected->uid, "uid");
   is($stat->st_gid, $stat_expected->gid, "gid");
@@ -89,10 +89,10 @@ ok(SPVM::TestCase::Sys::IO::Stat->lstat("$test_dir"));
   
   if ($stat_expected->ino == 0) {
     warn "This version of Perl does not support emulations of st_dev, st_ino, st_rdev, st_nlink.";
-    warn "[Test Output]st_dev:$stat->st_dev";
-    warn "[Test Output]st_ino:$stat->st_ino";
-    warn "[Test Output]st_rdev:$stat->st_rdev";
-    warn "[Test Output]st_nlink:$stat->st_nlink";
+    warn "[Test Output]st_dev:" . $stat->st_dev;
+    warn "[Test Output]st_ino:" . $stat->st_ino;
+    warn "[Test Output]st_rdev:" . $stat->st_rdev;
+    warn "[Test Output]st_nlink:" . $stat->st_nlink;
   }
   else {
     is($stat->st_dev, $stat_expected->dev, "st_dev");
@@ -132,16 +132,15 @@ ok(SPVM::TestCase::Sys::IO::Stat->lstat("$test_dir"));
     
     if ($stat_expected->ino == 0) {
       warn "This version of Perl does not support emulations of st_dev, st_ino, st_rdev, st_nlink.";
-      warn "[Test Output]st_dev:$stat->st_dev";
-      warn "[Test Output]st_ino:$stat->st_ino";
-      warn "[Test Output]st_rdev:$stat->st_rdev";
-      warn "[Test Output]st_nlink:$stat->st_nlink";
+      warn "[Test Output]st_dev:" . $stat->st_dev;
+      warn "[Test Output]st_ino:" . $stat->st_ino;
+      warn "[Test Output]st_rdev:" . $stat->st_rdev;
+      warn "[Test Output]st_nlink:" . $stat->st_nlink;
     }
     else {
       is($stat->st_dev, $stat_expected->dev, "st_dev");
       is($stat->st_ino, $stat_expected->ino, "st_ino");
       is($stat->st_rdev, $stat_expected->rdev, "rdev");
-      is($stat->st_nlink, $stat_expected->nlink, "st_nlink");
     }
     is($stat->st_mode, $stat_expected->mode, "st_mode");
     is($stat->st_uid, $stat_expected->uid, "uid");
