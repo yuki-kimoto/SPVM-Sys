@@ -1,4 +1,4 @@
-0.533 2025-05-14
+0.533 2025-05-15
   [Fix Exception Messages]
     * Fix an exception message in Sys::IO::Stat#lstat method.
   [New Features with Incompatible Changes]
