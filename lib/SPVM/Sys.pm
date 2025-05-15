@@ -976,11 +976,9 @@ C<static method lstat : L<Sys::IO::Stat|SPVM::Sys::IO::Stat> ($file : string);>
 
 Identical to L</"stat">, except that if path $file is a symbolic link(or directory junction only in Windows), then the link itself is stat-ed, not the file that it refers to.
 
-In Windows, this method calls the L<lstat|SPVM::Sys::IO::Windows/"lstat"> method, otherwise calls the L<lstat|SPVM::Sys::IO::Stat/"lstat"> method.
-
 Exceptions:
 
-Exceptions thrown by L<Sys::IO::Stat#lstat|SPVM::Sys::IO::Stat/"lstat"> method or L<Sys::IO::Windows#lstat|SPVM::Sys::IO::Windows/"lstat"> method could be thrown.
+Exceptions thrown by L<Sys::IO::Stat#lstat|SPVM::Sys::IO::Stat/"lstat"> method could be thrown.
 
 =head2 fstat
 
