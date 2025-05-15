@@ -385,6 +385,33 @@ typedef uint32_t STRLEN;
 #define Zero(ptr, size, type) memset(ptr, 0, size * sizeof(type));
 typedef uint64_t Off_t;
 
+// Exactly same as Perl's one in Win32.h
+#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
+
+// Exactly same as Perl's one in Win32.h
+#define _S_IFSOCK ((unsigned)(_S_IFDIR | _S_IFIFO))
+
+// Exactly same as Perl's one in Win32.h
+typedef DWORD Dev_t;
+
+// Exactly same as Perl's one in Win32.h
+typedef unsigned __int64 Ino_t;
+
+// Exactly same as Perl's one in Win32.h
+struct w32_stat {
+    Dev_t st_dev;
+    Ino_t st_ino;
+    unsigned short st_mode;
+    DWORD st_nlink;
+    short st_uid;
+    short st_gid;
+    Dev_t st_rdev;
+    Off_t st_size;
+    time_t st_atime;
+    time_t st_mtime;
+    time_t st_ctime;
+};
+
 // Exactly same as Perl's one in sys/errno2.h
 #ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
 #  define EDQUOT		WSAEDQUOT
@@ -433,12 +460,6 @@ translate_to_errno(void)
     }
 }
 
-// Exactly same as Perl's one in Win32.h
-#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
-
-// Exactly same as Perl's one in Win32.h
-#define _S_IFSOCK ((unsigned)(_S_IFDIR | _S_IFIFO))
-
 // Exactly same as Perl's one in Win32.c
 #ifndef IO_REPARSE_TAG_SYMLINK
 #  define IO_REPARSE_TAG_SYMLINK                  (0xA000000CL)
@@ -467,22 +488,38 @@ translate_to_errno(void)
 // Exactly same as Perl's one in Win32.c
 typedef DWORD (__stdcall *pGetFinalPathNameByHandleA_t)(HANDLE, LPSTR, DWORD, DWORD);
 
-// Exactly same as Perl's Dev_t, Ino_t, struct w32_stat, Stat_t in Win32.h
-typedef DWORD Dev_t;
-typedef unsigned __int64 Ino_t;
-struct w32_stat {
-    Dev_t st_dev;
-    Ino_t st_ino;
-    unsigned short st_mode;
-    DWORD st_nlink;
-    short st_uid;
-    short st_gid;
-    Dev_t st_rdev;
-    Off_t st_size;
-    time_t st_atime;
-    time_t st_mtime;
-    time_t st_ctime;
-};
+// Exactly same as Perl's one in Win32.c
+typedef struct {
+    USHORT SubstituteNameOffset;
+    USHORT SubstituteNameLength;
+    USHORT PrintNameOffset;
+    USHORT PrintNameLength;
+    ULONG  Flags;
+    WCHAR  PathBuffer[MAX_PATH*3];
+} MY_SYMLINK_REPARSE_BUFFER, *PMY_SYMLINK_REPARSE_BUFFER;
+
+// Exactly same as Perl's one in Win32.c
+typedef struct {
+    USHORT SubstituteNameOffset;
+    USHORT SubstituteNameLength;
+    USHORT PrintNameOffset;
+    USHORT PrintNameLength;
+    WCHAR  PathBuffer[MAX_PATH*3];
+} MY_MOUNT_POINT_REPARSE_BUFFER;
+
+// Exactly same as Perl's one in Win32.c
+typedef struct {
+  ULONG  ReparseTag;
+  USHORT ReparseDataLength;
+  USHORT Reserved;
+  union {
+    MY_SYMLINK_REPARSE_BUFFER SymbolicLinkReparseBuffer;
+    MY_MOUNT_POINT_REPARSE_BUFFER MountPointReparseBuffer;
+    struct {
+      UCHAR DataBuffer[1];
+    } GenericReparseBuffer;
+  } Data;
+} MY_REPARSE_DATA_BUFFER, *PMY_REPARSE_DATA_BUFFER;
 
 static HANDLE
 S_follow_symlinks_to(const char *pathname, DWORD *reparse_type) {
@@ -491,13 +528,73 @@ S_follow_symlinks_to(const char *pathname, DWORD *reparse_type) {
   assert(0);
 }
 
+// Exactly same as Perl's one in Win32.c
 static int
 do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
-  // TODO
-  assert(0);
+    MY_REPARSE_DATA_BUFFER linkdata;
+    DWORD linkdata_returned;
+
+    if (is_symlink)
+        *is_symlink = FALSE;
+
+    if (!DeviceIoControl(hlink, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+        translate_to_errno();
+        return -1;
+    }
+
+    int bytes_out;
+    BOOL used_default;
+    switch (linkdata.ReparseTag) {
+    case IO_REPARSE_TAG_SYMLINK:
+        {
+            const MY_SYMLINK_REPARSE_BUFFER * const sd =
+                &linkdata.Data.SymbolicLinkReparseBuffer;
+            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
+                errno = EINVAL;
+                return -1;
+            }
+            bytes_out =
+                WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS,
+                                    sd->PathBuffer + sd->PrintNameOffset/2,
+                                    sd->PrintNameLength/2,
+                                    buf, (int)bufsiz, NULL, &used_default);
+            if (is_symlink)
+                *is_symlink = TRUE;
+        }
+        break;
+    case IO_REPARSE_TAG_MOUNT_POINT:
+        {
+            const MY_MOUNT_POINT_REPARSE_BUFFER * const rd =
+                &linkdata.Data.MountPointReparseBuffer;
+            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
+                errno = EINVAL;
+                return -1;
+            }
+            bytes_out =
+                WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS,
+                                    rd->PathBuffer + rd->PrintNameOffset/2,
+                                    rd->PrintNameLength/2,
+                                    buf, (int)bufsiz, NULL, &used_default);
+            if (is_symlink)
+                *is_symlink = TRUE;
+        }
+        break;
+
+    default:
+        errno = EINVAL;
+        return -1;
+    }
+
+    if (bytes_out == 0 || used_default) {
+        /* failed conversion from unicode to ANSI or otherwise failed */
+        errno = EINVAL;
+        return -1;
+    }
+
+    return bytes_out;
 }
 
-// Exactly same as Perl's win32_lstat in Windows.c
+// Exactly same as Perl's one in Win32.c
 time_t
 translate_ft_to_time_t(FILETIME ft) {
     SYSTEMTIME st;
@@ -523,7 +620,7 @@ translate_ft_to_time_t(FILETIME ft) {
     return retval;
 }
 
-// Exactly same as Perl's win32_lstat in Windows.c
+// Exactly same as Perl's one in Win32.c
 static int
 win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
                DWORD reparse_type) {
@@ -655,7 +752,7 @@ win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
     return 0;
 }
 
-// Exactly same as Perl's win32_lstat in Windows.c
+// Exactly same as Perl's one in Win32.c
 int
 win32_stat(const char *path, Stat_t *sbuf)
 {
@@ -694,7 +791,7 @@ win32_stat(const char *path, Stat_t *sbuf)
     return result;
 }
 
-// Exactly same as Perl's win32_lstat in Windows.c
+// Exactly same as Perl's one in Win32.c
 static int
 win32_lstat(const char *path, Stat_t *sbuf)
 {
