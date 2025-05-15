@@ -595,6 +595,52 @@ do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
 }
 
 // Exactly same as Perl's one in Win32.c
+int
+win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
+    if (pathname == NULL || buf == NULL) {
+        errno = EFAULT;
+        return -1;
+    }
+    if (bufsiz <= 0) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    DWORD fileattr = GetFileAttributes(pathname);
+    if (fileattr == INVALID_FILE_ATTRIBUTES) {
+        translate_to_errno();
+        return -1;
+    }
+
+    if (!(fileattr & FILE_ATTRIBUTE_REPARSE_POINT)) {
+        /* not a symbolic link */
+        errno = EINVAL;
+        return -1;
+    }
+
+    HANDLE hlink =
+        CreateFileA(pathname, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                    FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    if (hlink == INVALID_HANDLE_VALUE) {
+        translate_to_errno();
+        return -1;
+    }
+    int bytes_out = do_readlink_handle(hlink, buf, bufsiz, NULL);
+    CloseHandle(hlink);
+    if (bytes_out < 0) {
+        /* errno already set */
+        return -1;
+    }
+
+    if ((size_t)bytes_out > bufsiz) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    return bytes_out;
+}
+
+// Exactly same as Perl's one in Win32.c
 time_t
 translate_ft_to_time_t(FILETIME ft) {
     SYSTEMTIME st;
