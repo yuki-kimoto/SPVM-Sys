@@ -78,6 +78,9 @@ plan skip_all => "no access to symlink as this user"
      if !$ok && $! == &Errno::EPERM;
 
 ok($ok, "create a dangling symbolic link");
+ok(SPVM::Sys->e($tmpfile2));
+ok(!SPVM::Sys->f($tmpfile2));
+ok(!SPVM::Sys->d($tmpfile2));
 ok(SPVM::Sys->l($tmpfile2), "-l sees it as a symlink");
 SPVM::Sys->unlink($tmpfile2);
 

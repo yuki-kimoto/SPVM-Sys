@@ -750,7 +750,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method e : int ($file : string);>
 
-If If the file doesn't exist or can't be examined(These checks are done by L</"stat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
+If If the file doesn't exist or can't be examined(These checks are done by L</"lstat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value. 
 
 This method corresponds to Perl's  L<-e|https://perldoc.perl.org/functions/-X>.
 

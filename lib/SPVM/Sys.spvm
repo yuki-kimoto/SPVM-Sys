@@ -748,7 +748,7 @@ class Sys {
     }
     
     my $stat = (Sys::IO::Stat)undef;
-    eval { $stat = Sys->stat($file); }
+    eval { $stat = Sys->lstat($file); }
     
     my $ok = 0;
     unless ($@) {
