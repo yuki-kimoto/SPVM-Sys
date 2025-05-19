@@ -961,7 +961,7 @@ class TestCase::Sys {
 
     my $file = "$test_dir/foo.txt";
     {
-      Sys::IO->fopen($file, "w");
+      Sys->open([(Sys::IO::FileStream)undef], ">", $file);
     }
     
     unless (Sys->e($file)) {
