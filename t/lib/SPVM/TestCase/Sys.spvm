@@ -858,7 +858,7 @@ class TestCase::Sys {
     }
     
     # Restore
-    Sys::IO->umask($old_mask);
+    Sys->umask($old_mask);
     
     return 1;
   }
