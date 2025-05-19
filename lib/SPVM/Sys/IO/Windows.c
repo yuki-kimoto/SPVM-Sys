@@ -65,6 +65,10 @@ typedef struct {
 #  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
 #endif
 
+// These are different from Perl's ones, but they must be defined well
+#define PerlDir_mapA(dir) dir
+#define dTHX 
+
 typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
 
 static BOOL
@@ -133,18 +137,21 @@ win32_unlink(const char *filename)
   return ret;
 }
 
+// Exactly same as Perl's win32_rename in Win32.c
 static int
 win32_rename(const char *oname, const char *newname)
 {
     char szOldName[MAX_PATH+1];
     BOOL bResult;
     DWORD dwFlags = MOVEFILE_COPY_ALLOWED;
-    
+    dTHX;
+
     if (stricmp(newname, oname))
         dwFlags |= MOVEFILE_REPLACE_EXISTING;
-    strcpy(szOldName, oname);
+    strcpy(szOldName, PerlDir_mapA(oname));
     
-    bResult = MoveFileExA(szOldName,newname, dwFlags);
+    bResult = MoveFileExA(szOldName,PerlDir_mapA(newname), dwFlags);
+    
     if (!bResult) {
         DWORD err = GetLastError();
         switch (err) {
@@ -519,13 +526,14 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* oldpath = env->get_chars(env, stack, obj_oldpath);
   
-  void* obj_newpath = stack[0].oval;
+  void* obj_newpath = stack[1].oval;
   if (!obj_newpath) {
     return env->die(env, stack, "The new path $newpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
   int32_t status = win32_rename(oldpath, newpath);
+  
   if (status == -1) {
     env->die(env, stack, "[System Error]rename() failed:%s. $oldpath is \"%s\". $newpath is \"%s\".", env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;

@@ -1,3 +1,6 @@
+0.535 2025-05-19
+  [Bug Fix]
+    * Fix bugs that Sys#rename in Windows and Sys::IO::Windows#rename do not work well.
 0.534 2025-05-17
   [Bug Fix with Incompatible Changes]
     * Fix a bug that Sys->e return 0 if the file is a symbolic link.

@@ -969,7 +969,7 @@ class TestCase::Sys {
     }
     
     my $new_file = "$test_dir/foo_new.txt";
-    Sys::IO->rename($file, $new_file);
+    Sys->rename($file, $new_file);
     
     if (Sys->e($file)) {
       return 0;
@@ -980,7 +980,7 @@ class TestCase::Sys {
     }
     
     {
-      eval { Sys::IO->rename($file, $new_file); };
+      eval { Sys->rename($file, $new_file); };
       unless (Fn->contains($@, "foo.txt")) {
         return 0;
       }
