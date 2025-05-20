@@ -489,6 +489,33 @@ static int win32_lstat(const char* path, struct stat* sbuf)
   return result;
 }
 
+// Original implementation
+static int win32_realpath(const char* path, char* out_path, int32_t out_path_length) {
+  
+  int32_t len = 0; // 0 indicates an error
+  HANDLE hFile = CreateFileA(
+      path,
+      0,
+      FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+      NULL,
+      OPEN_EXISTING,
+      FILE_ATTRIBUTE_NORMAL,
+      NULL
+  );
+  
+  if (hFile == INVALID_HANDLE_VALUE) {
+    goto END_OF_FUNC;
+  }
+  
+  len = GetFinalPathNameByHandleA(hFile, out_path, out_path_length, 0);
+  
+  END_OF_FUNC:
+  
+  CloseHandle(hFile);
+  
+  return len;
+}
+
 #endif // _WIN32
 
 int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
