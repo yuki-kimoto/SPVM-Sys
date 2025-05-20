@@ -1,3 +1,6 @@
+0.537 2025-05-20
+  [Incompatible Changes]
+    * Sys::IO::Windows#realpath method does not return long path.
 0.536 2025-05-20
   [New Features]
     * Add Sys::IO::Windows#realpath method.

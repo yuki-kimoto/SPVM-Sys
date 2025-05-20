@@ -105,6 +105,7 @@ check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
   
   warn "[Test Output]realpath:$realpath. $tmpfile1, $tmpfile2";
   like($realpath, qr|/file1|);
+  unlike($realpath, qr|^//?/|);
 }
 
 SPVM::Sys->unlink($tmpfile2);

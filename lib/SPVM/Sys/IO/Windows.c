@@ -707,13 +707,26 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  obj_resolved_path = env->new_string(env, stack, NULL, len + 1);
+  obj_resolved_path = env->new_string(env, stack, NULL, len);
   char* resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
   
   len = win32_realpath(path, resolved_path, len + 1);
   if (!(len > 0)) {
     env->die(env, stack, "[System Error]win32_realpath() failed:GetLastError() %d. $path:\"%s\".", GetLastError(), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  if (strncmp(resolved_path, "\\\\?\\", 4) == 0) {
+    for (int32_t i = 0; i < len - 4; i++) {
+      resolved_path[i] = resolved_path[i + 4];
+    }
+    env->shorten(env, stack, obj_resolved_path, len - 4);
+  }
+  else if (strncmp(resolved_path, "\\\\?\\UNC\\", 8) == 0) {
+    for (int32_t i = 2; i < len - 6; i++) {
+      resolved_path[i] = resolved_path[i + 6];
+    }
+    env->shorten(env, stack, obj_resolved_path, len - 8);
   }
   
   for (int32_t i = 0; i < len; i++) {
