@@ -685,3 +685,42 @@ int32_t SPVM__Sys__IO__Windows__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  return env->die(env, stack, "Sys::IO::Windows#realpath method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+#else
+  
+  void* obj_path = stack[0].oval;
+  
+  void* obj_resolved_path = stack[1].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  if (obj_resolved_path) {
+    return env->die(env, stack, "The resolved path $resolved_path must not be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t len = win32_realpath(path, NULL, 0);
+  if (!(len > 0)) {
+    env->die(env, stack, "[System Error]win32_realpath() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  obj_resolved_path = env->new_string(env, stack, NULL, len);
+  char* resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
+  
+  len = win32_realpath(path, resolved_path, len);
+  if (!(len > 0)) {
+    env->die(env, stack, "[System Error]win32_realpath() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].oval = obj_resolved_path;
+  
+  return 0;
+#endif
+}
