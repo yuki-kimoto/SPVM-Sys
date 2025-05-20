@@ -1,3 +1,6 @@
+0.538 2025-05-21
+  [Bug Fix]
+    * Fix bugs that Sys::IO::Windows#realpath method failed when the file is not symbolic link.
 0.537 2025-05-20
   [Incompatible Changes]
     * Sys::IO::Windows#realpath method does not return long path.

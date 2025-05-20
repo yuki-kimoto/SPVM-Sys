@@ -493,7 +493,9 @@ static int win32_lstat(const char* path, struct stat* sbuf)
 static int win32_realpath(const char* path, char* out_path, int32_t out_path_length) {
   
   int32_t len = 0; // 0 indicates an error
-  HANDLE hFile = CreateFileA(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
+  HANDLE hFile = CreateFileA(path, FILE_READ_ATTRIBUTES,
+                    FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
   
   if (hFile == INVALID_HANDLE_VALUE) {
     len = -1;
