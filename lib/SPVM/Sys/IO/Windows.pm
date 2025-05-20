@@ -90,7 +90,7 @@ Error numbers in Windows are replaced with the ones in POSIX.
 
 C<static method realpath : mutable string ($path : string, $resolved_path : mutable string);>
 
-Resolves symbolic link in the path $path and converts it to a canonical absolute path, and returns it.
+Resolves symbolic link in the path $path and converts it to a canonical absolute path(but not long path format), and returns it.
 
 $resolved_path must be undef.
 
