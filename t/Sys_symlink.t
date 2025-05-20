@@ -92,6 +92,21 @@ ok(SPVM::Sys->l($tmpfile2), "which does look like a symlink");
 ok(SPVM::Sys->d($tmpfile2), "normal -d sees it as a directory");
 is(SPVM::Sys->readlink($tmpfile2), $tmpfile1, "readlink works");
 check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
+
+# realpath
+{
+  my $realpath;
+  if (SPVM::Sys::OS->is_windows) {
+    $realpath = SPVM::Sys::IO::Windows->realpath($tmpfile2, undef);
+  }
+  else {
+    $realpath = SPVM::Sys::IO->realpath($tmpfile2, undef);
+  }
+  
+  warn "[Test Output]realpath:$realpath. $tmpfile1, $tmpfile2";
+  like($realpath, qr|/file1|);
+}
+
 SPVM::Sys->unlink($tmpfile2);
 
 # test our various name based directory tests

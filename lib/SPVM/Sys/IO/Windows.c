@@ -493,17 +493,10 @@ static int win32_lstat(const char* path, struct stat* sbuf)
 static int win32_realpath(const char* path, char* out_path, int32_t out_path_length) {
   
   int32_t len = 0; // 0 indicates an error
-  HANDLE hFile = CreateFileA(
-      path,
-      0,
-      FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-      NULL,
-      OPEN_EXISTING,
-      FILE_ATTRIBUTE_NORMAL,
-      NULL
-  );
+  HANDLE hFile = CreateFileA(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, 0);
   
   if (hFile == INVALID_HANDLE_VALUE) {
+    len = -1;
     goto END_OF_FUNC;
   }
   
@@ -705,18 +698,28 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* path = env->get_chars(env, stack, obj_path);
   
   int32_t len = win32_realpath(path, NULL, 0);
-  if (!(len > 0)) {
-    env->die(env, stack, "[System Error]win32_realpath() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+  if (len == -1) {
+    env->die(env, stack, "[System Error]CreateFile() failed:the symbolic link is not permitted, broken or not found. $path:\"%s\".", path, __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  else if (!(len > 0)) {
+    env->die(env, stack, "[System Error]win32_realpath() failed:GetLastError() %d. $path:\"%s\".", GetLastError(), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  obj_resolved_path = env->new_string(env, stack, NULL, len);
+  obj_resolved_path = env->new_string(env, stack, NULL, len + 1);
   char* resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
   
-  len = win32_realpath(path, resolved_path, len);
+  len = win32_realpath(path, resolved_path, len + 1);
   if (!(len > 0)) {
-    env->die(env, stack, "[System Error]win32_realpath() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]win32_realpath() failed:GetLastError() %d. $path:\"%s\".", GetLastError(), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  for (int32_t i = 0; i < len; i++) {
+    if (resolved_path[i] == '\\') {
+      resolved_path[i] = '/';
+    }
   }
   
   stack[0].oval = obj_resolved_path;
