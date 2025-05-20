@@ -14,4 +14,6 @@ class Sys::IO::Windows {
   
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
   
+  native static method realpath : mutable string ($path : string, $resolved_path : mutable string);
+  
 }

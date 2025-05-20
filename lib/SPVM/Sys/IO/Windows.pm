@@ -86,6 +86,14 @@ Symbolic links and directory junctions in Windows are manipulated as symbolic li
 
 Error numbers in Windows are replaced with the ones in POSIX.
 
+=head2 realpath
+
+C<static method realpath : mutable string ($path : string, $resolved_path : mutable string);>
+
+Resolves symbolic link in the path $path and converts it to a absolute path, and returns it.
+
+$resolved_path must be undef.
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto
