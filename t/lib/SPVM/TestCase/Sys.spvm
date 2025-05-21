@@ -896,6 +896,16 @@ class TestCase::Sys {
       }
     }
     
+    my $test_tmp_dir = &TEST_TMP_DIR;
+    
+    {
+      my $dir = "$test_tmp_dir/rmdir_あ";
+      
+      Sys->mkdir($dir);
+      
+      Sys->rmdir($dir);
+    }
+    
     return 1;
   }
   

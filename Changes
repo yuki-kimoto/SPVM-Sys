@@ -5,7 +5,8 @@
       Sys#open, Sys::IO#fopen
       Sys#chmod, Sys::IO#chmod
       Sys::IO#access
-      
+      Sys#mkdir, Sys::IO#mkdir
+      Sys#rmdir, Sys::IO#rmdir
     
 0.538 2025-05-21
   [Bug Fix]
