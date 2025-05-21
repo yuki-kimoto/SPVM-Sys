@@ -68,7 +68,7 @@ static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_
   return utf16le_string;
 }
 
-static void* utf16le_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, void* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+static const char* utf16le_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, wchar_t* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   if (utf16le_string == NULL) {
     return NULL;
@@ -110,7 +110,7 @@ static void* utf16le_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, void* utf16le_str
     return NULL;
   }
   
-  return obj_utf8_string;
+  return utf8_string;
 }
 
 #endif // defined(_WIN32)
