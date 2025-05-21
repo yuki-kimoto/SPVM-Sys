@@ -912,11 +912,19 @@ class TestCase::Sys {
   static method chdir : int ($test_dir : string) {
     my $dir = "$test_dir/ftest/dir_empty";
     
-    Sys->chdir($dir);
-    
-    my $cwd = Sys::IO->getcwd(undef, 0);
-    unless (Fn->contains($cwd, "dir_empty")) {
-      return 0;
+    {
+      my $cwd_save = Sys::IO->getcwd(undef, 0);
+      
+      Fn->defer([$cwd_save : string]method : void () {
+        Sys->chdir($cwd_save);
+      });
+      
+      Sys->chdir($dir);
+      
+      my $cwd = Sys::IO->getcwd(undef, 0);
+      unless (Fn->contains($cwd, "dir_empty")) {
+        return 0;
+      }
     }
     
     {
@@ -924,6 +932,20 @@ class TestCase::Sys {
       unless (Fn->contains($@, "not_found.txt")) {
         return 0;
       }
+    }
+    
+    {
+      my $dir = "$TEST_TMP_DIR/chdir_あ";
+      
+      Sys->mkdir($dir);
+      
+      my $cwd_save = Sys::IO->getcwd(undef, 0);
+      
+      Fn->defer([$cwd_save : string]method : void () {
+        Sys->chdir($cwd_save);
+      });
+      
+      Sys->chdir($dir);
     }
     
     return 1;
