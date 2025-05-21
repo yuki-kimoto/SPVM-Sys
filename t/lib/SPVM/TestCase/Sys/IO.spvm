@@ -9,6 +9,8 @@ class TestCase::Sys::IO {
   
   our $TEST_DIR : rw string;
   
+  our $TEST_TMP_DIR : rw cache string;
+  
   static method TEST_DIR_FTEST : string () { return "$TEST_DIR/ftest"; }
   
   static method open : int ($tmp_dir : string) {
@@ -384,6 +386,8 @@ class TestCase::Sys::IO {
   
   static method fopen : int () {
     
+    my $test_tmp_dir = &TEST_TMP_DIR;
+    
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
@@ -423,8 +427,11 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $file = "$test_dir_ftest/あいうえお.txt";
+      my $file = "$test_tmp_dir/あいうえお.txt";
       my $stream_ref = [(Sys::IO::FileStream)undef];
+      
+      warn $file;
+      
       Sys->open($stream_ref, "<", $file);
       
       unless ($stream_ref->[0]) {

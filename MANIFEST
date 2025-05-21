@@ -248,7 +248,6 @@ t/ftest/readline_basic.txt
 t/ftest/readline_eof.txt
 t/ftest/readline_long_lines.txt
 t/ftest/utime.txt
-t/ftest/あいうえお.txt
 t/lib/SPVM/TestCase/Sys.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
 t/lib/SPVM/TestCase/Sys/IO/Stat.spvm

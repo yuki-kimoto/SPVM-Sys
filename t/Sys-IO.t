@@ -2,6 +2,7 @@ use Test::More;
 
 use strict;
 use warnings;
+use utf8;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
@@ -11,7 +12,7 @@ use File::Temp;
 use SPVM 'Fn';
 use SPVM 'TestCase::Sys::IO';
 use SPVM 'Sys::IO';
-
+use Encode 'encode', 'decode';
 use IO::Poll;
 
 my $api = SPVM::api();
@@ -21,6 +22,29 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
 my $test_dir = "$FindBin::Bin";
 
 SPVM::TestCase::Sys::IO->SET_TEST_DIR($test_dir);
+
+sub file_name {
+  my ($file_name) = @_;
+  
+  if ($^O eq 'MSWin32') {
+    $file_name = encode('cp932', $file_name);
+  }
+  else {
+    $file_name = encode('UTF-8', $file_name);
+  }
+  return $file_name;
+}
+
+my $test_tmp_dir = File::Temp->newdir;
+{
+  SPVM::TestCase::Sys::IO->SET_TEST_TMP_DIR("$test_tmp_dir");
+  
+  {
+    my $file = 'あいうえお.txt';
+    open my $fh, '>', "$test_tmp_dir/" . &file_name('あいうえお.txt')
+      or die "Can't open file \"$file\":$!";
+  }
+}
 
 {
   my $tmp_dir = File::Temp->newdir;
