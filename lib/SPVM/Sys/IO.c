@@ -21,7 +21,60 @@
 #include <errno.h>
 #include <stdlib.h>
 
+#if defined(_WIN32)
+#include <windows.h>
+
 static const char* FILE_NAME = "Sys/IO.c";
+
+static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, void* obj_utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+  
+  *error_id = 0;
+  
+  if (obj_utf8_string == NULL) {
+    return NULL;
+  }
+  
+  const char* utf8_string = env->get_chars(env, stack, obj_utf8_string);
+  
+  int32_t utf16le_string_length = MultiByteToWideChar(
+      CP_UTF8,
+      0,
+      utf8_string,
+      -1,
+      NULL,
+      0
+  );
+  
+  if (utf16le_string_length == 0) {
+    *error_id = env->die(env, stack,  "utf8_to_utf16le failed:Error calculating length: %lu.", GetLastError(), func_name, file, line);
+    return NULL;
+  }
+  
+  void* obj_utf16le_string = env->new_short_array(env, stack, utf16le_string_length);
+  int16_t* utf16le_string = env->get_elems_short(env, stack, obj_utf16le_string);
+  
+  utf16le_string_length = MultiByteToWideChar(
+    CP_UTF8,
+    0,
+    utf8_string,
+    -1,
+    utf16le_string,
+    utf16le_string_length
+  );
+  
+  if (utf16le_string_length == 0) {
+    *error_id = env->die(env, stack,  "utf8_to_utf16le failed:Error converting UTF-8 to UTF-16LE: %lu.", GetLastError(), func_name, file, line);
+    return NULL;
+  }
+  
+  return utf16le_string;
+}
+
+static void* win_wide_char_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, void* utf16u_string) {
+  
+}
+
+#endif // defined(_WIN32)
 
 int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
