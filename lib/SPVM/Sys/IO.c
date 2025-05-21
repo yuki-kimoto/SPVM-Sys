@@ -26,15 +26,13 @@
 
 static const char* FILE_NAME = "Sys/IO.c";
 
-static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, void* obj_utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   *error_id = 0;
   
-  if (obj_utf8_string == NULL) {
+  if (utf8_string == NULL) {
     return NULL;
   }
-  
-  const char* utf8_string = env->get_chars(env, stack, obj_utf8_string);
   
   int32_t utf16le_string_length = MultiByteToWideChar(
       CP_UTF8,
@@ -51,7 +49,7 @@ static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, void* obj_utf8_st
   }
   
   void* obj_utf16le_string = env->new_short_array(env, stack, utf16le_string_length);
-  int16_t* utf16le_string = env->get_elems_short(env, stack, obj_utf16le_string);
+  wchar_t* utf16le_string = env->get_elems_short(env, stack, obj_utf16le_string);
   
   utf16le_string_length = MultiByteToWideChar(
     CP_UTF8,
@@ -67,7 +65,7 @@ static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, void* obj_utf8_st
     return NULL;
   }
   
-  return obj_utf16le_string;
+  return utf16le_string;
 }
 
 static void* utf16le_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, void* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
@@ -136,18 +134,17 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* mode = env->get_chars(env, stack, obj_mode);
   
 #if defined(_WIN32)
-  void* obj_path_win = utf8_to_utf16le(env, stack, obj_path, &error_id, __func__, FILE_NAME, __LINE__);
+  wchar_t* path_w = utf8_to_utf16le(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
-  wchar_t* path_win = (wchar_t*)env->get_elems_short(env, stack, obj_path_win);
   
-  void* obj_mode_win = utf8_to_utf16le(env, stack, obj_mode, &error_id, __func__, FILE_NAME, __LINE__);
+  wchar_t* mode_w = utf8_to_utf16le(env, stack, mode, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
-  wchar_t* mode_win = (wchar_t*)env->get_elems_short(env, stack, obj_mode_win);
-  FILE* stream = _wfopen(path_win, mode_win);
+  
+  FILE* stream = _wfopen(path_w, mode_w);
 #else
   FILE* stream = fopen(path, mode);
 #endif
