@@ -38,7 +38,7 @@ static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, void* obj_utf8_st
   
   int32_t utf16le_string_length = MultiByteToWideChar(
       CP_UTF8,
-      0,
+      MB_ERR_INVALID_CHARS,
       utf8_string,
       -1,
       NULL,
@@ -55,7 +55,7 @@ static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, void* obj_utf8_st
   
   utf16le_string_length = MultiByteToWideChar(
     CP_UTF8,
-    0,
+    MB_ERR_INVALID_CHARS,
     utf8_string,
     -1,
     utf16le_string,
@@ -70,7 +70,7 @@ static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, void* obj_utf8_st
   return utf16le_string;
 }
 
-static void* win_wide_char_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, void* utf16u_string) {
+static void* utf16le_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, void* utf16u_string) {
   
 }
 
