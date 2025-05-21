@@ -46,12 +46,12 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* mode = env->get_chars(env, stack, obj_mode);
   
 #if defined(_WIN32)
-  wchar_t* path_w = utf8_to_utf16le(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  wchar_t* mode_w = utf8_to_utf16le(env, stack, mode, &error_id, __func__, FILE_NAME, __LINE__);
+  wchar_t* mode_w = utf8_to_win_wchar(env, stack, mode, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -557,7 +557,7 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* path = env->get_chars(env, stack, obj_path);
   
 #if defined(_WIN32)
-  wchar_t* path_w = utf8_to_utf16le(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
