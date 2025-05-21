@@ -21,10 +21,10 @@
 #include <errno.h>
 #include <stdlib.h>
 
+static const char* FILE_NAME = "Sys/IO.c";
+
 #if defined(_WIN32)
 #include <windows.h>
-
-static const char* FILE_NAME = "Sys/IO.c";
 
 static void* utf8_to_utf16le(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
