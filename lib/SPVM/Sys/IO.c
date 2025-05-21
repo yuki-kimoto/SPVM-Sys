@@ -862,6 +862,8 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t error_id = 0;
+  
   void* obj_path = stack[0].oval;
   
   int64_t length = stack[1].lval;
@@ -875,7 +877,18 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The length $length must be less than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
+#if defined(_WIN32)
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  int32_t fd = _wopen(path_w, O_WRONLY);
+  int32_t status = ftruncate(fd, length);
+#else
   int32_t status = truncate(path, length);
+#endif
+
   if (status == -1) {
     env->die(env, stack, "[System Error]truncate() failed:%s. $path is \"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;

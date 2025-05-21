@@ -2258,6 +2258,15 @@ class TestCase::Sys::IO {
         return 0;
       }
     }
+    
+    {
+      my $file = "$TEST_TMP_DIR/truncate_あ.txt";
+      
+      Sys->open([(Sys::IO::FileStream)undef], ">", $file);
+      
+      Sys::IO->truncate($file, 0);
+    }
+    
     return 1;
   }
 

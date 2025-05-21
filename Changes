@@ -7,6 +7,8 @@
       Sys::IO#access
       Sys#mkdir, Sys::IO#mkdir
       Sys#rmdir, Sys::IO#rmdir
+      Sys#chdir, Sys::IO#chdir
+      Sys::IO#truncate
     
 0.538 2025-05-21
   [Bug Fix]
