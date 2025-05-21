@@ -910,23 +910,36 @@ class TestCase::Sys {
   }
 
   static method chmod : int ($test_dir : string) {
-    my $file = "$test_dir/foo.txt";
-    Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
-    my $stream = $_->[0];
-    
-    unless (Sys->f($file)) {
-      return 0;
-    }
-    
-    Sys->close($stream);
-    
-    Sys->chmod(0755, $file);
     
     {
-      eval { Sys->chmod(0755, "$file/not_found.txt"); };
-      unless (Fn->contains($@, "not_found.txt")) {
+      my $file = "$test_dir/foo.txt";
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      my $stream = $_->[0];
+      
+      unless (Sys->f($file)) {
         return 0;
       }
+      
+      Sys->close($stream);
+      
+      Sys->chmod(0755, $file);
+      
+      {
+        eval { Sys->chmod(0755, "$file/not_found.txt"); };
+        unless (Fn->contains($@, "not_found.txt")) {
+          return 0;
+        }
+      }
+    }
+    
+    {
+      my $file = "$test_dir/open_あ.txt";
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      my $stream = $_->[0];
+      
+      Sys->close($stream);
+      
+      Sys->chmod(0755, $file);
     }
     
     return 1;

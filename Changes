@@ -1,3 +1,11 @@
+0.539 2025-05-22
+  [Improvement with Incompatible Changes]
+    * In this release, UTF-8 strings passed as arguments to the methods that calls Windows system calls are now handled correctly.
+      Sys::IO#open
+      Sys#open, Sys::IO#fopen
+      Sys#chmod, Sys::IO#chmod
+      
+    
 0.538 2025-05-21
   [Bug Fix]
     * Fix bugs that Sys::IO::Windows#realpath method failed when the file is not symbolic link.
