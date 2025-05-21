@@ -422,7 +422,15 @@ class TestCase::Sys::IO {
       }
     }
     
-    
+    {
+      my $file = "$test_dir_ftest/あいうえお.txt";
+      my $stream_ref = [(Sys::IO::FileStream)undef];
+      Sys->open($stream_ref, "<", $file);
+      
+      unless ($stream_ref->[0]) {
+        return 0;
+      }
+    }
     
     return 1;
   }
