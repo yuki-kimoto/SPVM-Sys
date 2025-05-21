@@ -62,6 +62,15 @@ class TestCase::Sys::IO {
       Sys::IO->close($fd);
     }
     
+    {
+      my $file = "$tmp_dir/open_あいうえお.txt";
+      my $fd = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, IO->S_IRUSR | IO->S_IWUSR | IO->S_IRGRP | IO->S_IWGRP | IO->S_IROTH | IO->S_IWOTH);
+      
+      unless ($fd >= 0) {
+        return 0;
+      }
+      Sys::IO->close($fd);
+    }
     
     
     return 1;
