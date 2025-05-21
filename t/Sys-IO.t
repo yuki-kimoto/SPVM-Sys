@@ -38,12 +38,6 @@ sub file_name {
 my $test_tmp_dir = File::Temp->newdir;
 {
   SPVM::TestCase::Sys::IO->SET_TEST_TMP_DIR("$test_tmp_dir");
-  
-  {
-    my $file = 'あいうえお.txt';
-    open my $fh, '>', "$test_tmp_dir/" . &file_name('あいうえお.txt')
-      or die "Can't open file \"$file\":$!";
-  }
 }
 
 {
