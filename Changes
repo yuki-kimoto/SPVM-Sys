@@ -4,6 +4,7 @@
       Sys::IO#open
       Sys#open, Sys::IO#fopen
       Sys#chmod, Sys::IO#chmod
+      Sys::IO#access
       
     
 0.538 2025-05-21

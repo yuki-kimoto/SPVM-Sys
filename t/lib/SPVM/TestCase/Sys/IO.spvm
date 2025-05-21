@@ -3047,4 +3047,23 @@ class TestCase::Sys::IO {
     return 1;
   }
   
+  static method access : int () {
+    
+    my $test_tmp_dir = &TEST_TMP_DIR;
+    
+    {
+      my $file = "$test_tmp_dir/access_あ.txt";
+      
+      Sys->open([(Sys::IO::FileStream)undef], ">", $file);
+      
+      my $ret = Sys::IO->access($file, 0);
+      
+      if ($ret) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
 }

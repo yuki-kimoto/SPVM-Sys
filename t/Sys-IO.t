@@ -257,6 +257,8 @@ ok(SPVM::TestCase::Sys::IO->freopen);
   ok(SPVM::TestCase::Sys::IO->spvm_stderr);
 }
 
+ok(SPVM::TestCase::Sys::IO->access);
+
 SPVM::TestCase::Sys::IO->SET_TEST_DIR(undef);
 
 SPVM::Fn->destroy_runtime_permanent_vars;

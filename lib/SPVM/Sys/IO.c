@@ -793,7 +793,9 @@ int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+  
+  int32_t error_id = 0;
+  
   void* obj_pathname = stack[0].oval;
   
   int32_t mode = stack[1].ival;
@@ -804,7 +806,16 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* pathname = env->get_chars(env, stack, obj_pathname);
   
+#if defined(_WIN32)
+  wchar_t* pathname_w = utf8_to_win_wchar(env, stack, pathname, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  int32_t status = _waccess(pathname_w, mode);
+#else
   int32_t status = access(pathname, mode);
+#endif
   
   if (status == -1) {
     const char* pathname = env->get_chars(env, stack, obj_pathname);
