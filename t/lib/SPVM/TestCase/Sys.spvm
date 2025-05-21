@@ -10,6 +10,8 @@ class TestCase::Sys {
   
   our $TEST_DIR : rw string;
   
+  our $TEST_TMP_DIR : rw cache string;
+  
   static method TEST_DIR_FTEST : string () { return "$TEST_DIR/ftest"; }
   
   static method A : int () {
@@ -842,6 +844,14 @@ class TestCase::Sys {
       unless (Fn->contains($@, "foo")) {
         return 0;
       }
+    }
+    
+    my $test_tmp_dir = &TEST_TMP_DIR;
+    
+    {
+      my $dir = "$test_tmp_dir/mkdir_あ";
+      
+      Sys->mkdir($dir);
     }
     
     return 1;

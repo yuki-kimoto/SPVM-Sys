@@ -26,6 +26,11 @@ my $test_dir = "$FindBin::Bin";
 
 SPVM::TestCase::Sys->SET_TEST_DIR($test_dir);
 
+my $test_tmp_dir = File::Temp->newdir;
+{
+  SPVM::TestCase::Sys->SET_TEST_TMP_DIR("$test_tmp_dir");
+}
+
 # osname
 {
   is(SPVM::Sys->osname, $^O);
