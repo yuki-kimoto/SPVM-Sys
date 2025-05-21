@@ -217,6 +217,13 @@ lib/SPVM/Sys/User/Passwd.c
 lib/SPVM/Sys/User/Passwd.config
 lib/SPVM/Sys/User/Passwd.pm
 lib/SPVM/Sys/User/Passwd.spvm
+lib/SPVM/Sys/Windows.c
+lib/SPVM/Sys/Windows.config
+lib/SPVM/Sys/Windows.native/include/.gitkeep
+lib/SPVM/Sys/Windows.native/include/Sys-Windows.h
+lib/SPVM/Sys/Windows.native/src/.gitkeep
+lib/SPVM/Sys/Windows.pm
+lib/SPVM/Sys/Windows.spvm
 lib/Test/SPVM/Sys/Socket.pm
 lib/Test/SPVM/Sys/Socket/Server.pm
 lib/Test/SPVM/Sys/Socket/ServerManager.pm
