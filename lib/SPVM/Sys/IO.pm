@@ -584,18 +584,6 @@ $path must be defined. Otherwise an exception is thrown.
 
 If the realpath function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-=head2 _fullpath
-
-C<native static method _fullpath : mutable string ($absPath : mutable string, $relPath : string, $maxLength : int);>
-
-Calls the L<_fullpath|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/fullpath-wfullpath?view=msvc-170> function and return its return value.
-
-Exceptions:
-
-$relPath must be defined. Otherwise an exception is thrown.
-
-If the _fullpath function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
-
 =head2 chdir
 
 C<static method chdir : int ($path : string);>

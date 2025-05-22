@@ -1156,47 +1156,6 @@ int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__IO___fullpath(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "Sys::IO#_fullpath method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  void* obj_absPath = stack[0].oval;
-  
-  void* obj_relPath = stack[1].oval;
-
-  if (!obj_relPath) {
-    return env->die(env, stack, "The relative path $relPath must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  char* relPath = (char*)env->get_chars(env, stack, obj_relPath);
-  
-  int32_t maxLength = stack[2].ival;
-  
-  char* ret_absPath;
-  if (obj_absPath) {
-    char* absPath = (char*)env->get_chars(env, stack, obj_absPath);
-    ret_absPath = _fullpath(absPath, relPath, maxLength);
-  }
-  else {
-    ret_absPath = _fullpath(NULL, relPath, 0);
-    if (ret_absPath) {
-      obj_absPath = env->new_string(env, stack, ret_absPath, strlen(ret_absPath));
-      free(ret_absPath);
-    }
-  }
-  
-  if (!ret_absPath) {
-    env->die(env, stack, "[System Error]_fullpath() failed:%s. $relPath is \"%s\".", env->strerror_nolen(env, stack, errno), relPath, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].oval = obj_absPath;
-
-  return 0;
-#endif
-}
-
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;

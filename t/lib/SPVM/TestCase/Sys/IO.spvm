@@ -1742,60 +1742,6 @@ class TestCase::Sys::IO {
     }
   }
   
-  static method _fullpath : int () {
-    
-    my $test_dir = &TEST_DIR;
-    
-    my $test_dir_ftest = &TEST_DIR_FTEST;
-    
-    my $test_dir_backslash = (mutable string)copy $test_dir;
-    &replace_chars($test_dir_backslash, '/', '\\');
-    
-    my $file = "$test_dir_ftest/dir_empty/../file_empty.txt";
-    
-    {
-      my $resolved_path = (mutable string)new_string_len 100;
-      my $ret_resolved_path = Sys::IO->_fullpath($resolved_path, $file, 100);
-      
-      unless ($ret_resolved_path) {
-        return 0;
-      }
-      
-      Fn->shorten_null_char($ret_resolved_path);
-      
-      unless ($ret_resolved_path eq "$test_dir_backslash\\ftest\\file_empty.txt") {
-        return 0;
-      }
-    }
-
-    {
-      my $ret_resolved_path = Sys::IO->_fullpath(undef, $file, 0);
-      
-      unless ($ret_resolved_path) {
-        return 0;
-      }
-      
-      Fn->shorten_null_char($ret_resolved_path);
-      
-      unless ($ret_resolved_path eq "$test_dir_backslash\\ftest\\file_empty.txt") {
-        return 0;
-      }
-    }
-
-=pod
-
-    {
-      eval { Sys::IO->_fullpath(undef, "$file/not_found.txt", 0); };
-      unless (Fn->contains($@, "not_found.txt")) {
-        return 0;
-      }
-    }
-
-=cut
-    
-    return 1;
-  }
-
   static method chdir : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;

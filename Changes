@@ -14,6 +14,8 @@
       Sys#rename, Sys::IO::Windows#rename
       Sys#symlink, Sys::IO::Windows#symlink
       Sys::IO::Windows#_realpath
+  [Incompatible Changes]
+    Remove Sys::IO#_fullpath method.
     
 0.538 2025-05-21
   [Bug Fix]
