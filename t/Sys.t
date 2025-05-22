@@ -352,6 +352,12 @@ ok(SPVM::TestCase::Sys->set_env);
 
 ok(SPVM::TestCase::Sys->rand);
 
+# getcwd
+{
+  my $expected = Cwd::getcwd();
+  is(SPVM::Sys->_getcwd, $expected);
+}
+
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);
 
 SPVM::Fn->destroy_runtime_permanent_vars;

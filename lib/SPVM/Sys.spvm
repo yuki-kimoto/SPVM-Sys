@@ -1548,4 +1548,16 @@ class Sys {
     }
   }
   
+  # This is for Cwd#getcwd method
+  static method _getcwd : string () {
+    
+    my $cwd = Sys::IO->getcwd(undef, 0);
+    
+    if (Sys::OS->is_windows) {
+      Fn->replace_chars($cwd, '\\', '/');
+    }
+    
+    return $cwd;
+  }
+  
 }
