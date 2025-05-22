@@ -11,6 +11,8 @@
       Sys::IO#truncate
       Sys::Process#execv
       Sys#unlink, Sys::IO::Windows#unlink
+      Sys#rename, Sys::IO::Windows#rename
+      Sys#symlink, Sys::IO::Windows#symlink
     
 0.538 2025-05-21
   [Bug Fix]

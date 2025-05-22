@@ -73,6 +73,7 @@ typedef struct {
 #define dTHX 
 
 typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
+typedef BOOLEAN (__stdcall *pCreateSymbolicLinkW_t)(LPCWSTR, LPCWSTR, DWORD);
 
 static BOOL
 is_symlink(HANDLE h) {
@@ -337,12 +338,15 @@ win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
     return bytes_out;
 }
 
+#define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
+#define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
+
 static int
-win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char *newfile)
+win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wchar_t *newfile)
 {
-    size_t oldfile_len = strlen(oldfile);
-    pCreateSymbolicLinkA_t pCreateSymbolicLinkA =
-        (pCreateSymbolicLinkA_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "CreateSymbolicLinkA");
+    size_t oldfile_len = wcslen(oldfile);
+    pCreateSymbolicLinkW_t pCreateSymbolicLinkW =
+        (pCreateSymbolicLinkW_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "CreateSymbolicLinkW");
     DWORD create_flags = 0;
 
     /* this flag can be used only on Windows 10 1703 or newer */
@@ -353,19 +357,20 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
         create_flags |= SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
     }
 
-    if (!pCreateSymbolicLinkA) {
+    if (!pCreateSymbolicLinkW) {
         errno = ENOSYS;
         return -1;
     }
 
-    if (strchr(oldfile, '/')) {
+    if (wcschr(oldfile, L'/')) {
         /* Win32 (or perhaps NTFS) won't follow symlinks containing
            /, so replace any with \\
         */
-        char *temp = (char*)env->get_chars(env, stack, env->new_string(env, stack, oldfile, strlen(oldfile)));
-        char *p = temp;
+        wchar_t *temp = (wchar_t*)env->new_memory_block(env, stack, (wcslen(oldfile) + 1) * sizeof(wchar_t));
+        memcpy(temp, oldfile, (wcslen(oldfile) + 1) * sizeof(wchar_t));
+        wchar_t *p = temp;
         while (*p) {
-            if (*p == '/') {
+            if (*p == L'/') {
                 *p = '\\';
             }
             ++p;
@@ -373,10 +378,11 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
         *p = 0;
         oldfile = temp;
         oldfile_len = p - temp;
+        env->free_memory_block(env, stack, temp);
     }
 
     /* are we linking to a directory?
-       CreateSymlinkA() needs to know if the target is a directory,
+       CreateSymlinkW() needs to know if the target is a directory,
        If it looks like a directory name:
         - ends in slash
         - is just . or ..
@@ -386,28 +392,28 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
        Otherwise if the oldfile is relative we need to make a relative path
        based on the newfile to check if the target is a directory.
     */
-    if ((oldfile_len >= 1 && isSLASH(oldfile[oldfile_len-1])) ||
-        strEQ(oldfile, "..") ||
-        strEQ(oldfile, ".") ||
+    if ((oldfile_len >= 1 && isSLASHW(oldfile[oldfile_len-1])) ||
+        strEQW(oldfile, L"..") ||
+        strEQW(oldfile, L".") ||
         (isSLASH(oldfile[oldfile_len-2]) && oldfile[oldfile_len-1] == '.') ||
-        strEQ(oldfile+oldfile_len-3, "\\..") ||
-        (oldfile_len == 2 && oldfile[1] == ':')) {
+        strEQW(oldfile+oldfile_len-3, L"\\..") ||
+        (oldfile_len == 2 && oldfile[1] == L':')) {
         create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
     }
     else {
         DWORD dest_attr;
-        const char *dest_path = oldfile;
-        char szTargetName[MAX_PATH+1];
+        const wchar_t *dest_path = oldfile;
+        wchar_t szTargetName[MAX_PATH+1];
 
         if (oldfile_len >= 3 && oldfile[1] == ':') {
             /* relative to current directory on a drive, or absolute */
             /* dest_path = oldfile; already done */
         }
-        else if (oldfile[0] != '\\') {
-            size_t newfile_len = strlen(newfile);
-            char *last_slash = strrchr(newfile, '/');
-            char *last_bslash = strrchr(newfile, '\\');
-            char *end_dir = last_slash && last_bslash
+        else if (oldfile[0] != L'\\') {
+            size_t newfile_len = wcslen(newfile);
+            wchar_t *last_slash = wcsrchr(newfile, L'/');
+            wchar_t *last_bslash = wcsrchr(newfile, L'\\');
+            wchar_t *end_dir = last_slash && last_bslash
                 ? ( last_slash > last_bslash ? last_slash : last_bslash)
                 : last_slash ? last_slash : last_bslash ? last_bslash : NULL;
 
@@ -418,8 +424,8 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
                     return -1;
                 }
 
-                memcpy(szTargetName, newfile, end_dir - newfile + 1);
-                strcpy(szTargetName + (end_dir - newfile + 1), oldfile);
+                memcpy(szTargetName, newfile, (end_dir - newfile + 1) * sizeof(wchar_t));
+                wcscpy(szTargetName + (end_dir - newfile + 1), oldfile);
                 dest_path = szTargetName;
             }
             else {
@@ -428,13 +434,13 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char *oldfile, const char 
             }
         }
 
-        dest_attr = GetFileAttributes(dest_path);
+        dest_attr = GetFileAttributesW(dest_path);
         if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
             create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
         }
     }
 
-    if (!pCreateSymbolicLinkA(newfile, oldfile, create_flags)) {
+    if (!pCreateSymbolicLinkW(newfile, oldfile, create_flags)) {
         translate_to_errno();
         return -1;
     }
@@ -655,8 +661,19 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
+  wchar_t* oldpath_w = utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  wchar_t* newpath_w = utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
   errno = 0;
-  int32_t status = win32_symlink(env, stack, oldpath, newpath);
+  int32_t status = win32_symlink(env, stack, oldpath_w, newpath_w);
+  
   if (status == -1) {
     env->die(env, stack, "[System Error]win32_symlink() failed:%s. $oldpath is \"%s\". $newpath is \"%s\".", env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
