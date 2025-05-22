@@ -1649,29 +1649,13 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     {
-      my $buf = (mutable string)new_string_len 100;
-      my $buf_length = length $buf;
-      my $ret_buf = Sys::IO->getcwd($buf, $buf_length);
-      
-      unless ($ret_buf) {
-        return 0;
-      }
-      
-      unless ($buf == $ret_buf) {
-        return 0;
-      }
-      
-      warn "\n[Test Output]getcwd:$ret_buf";
-    }
-
-    {
       my $ret_buf = Sys::IO->getcwd(undef, 0);
       
       unless ($ret_buf) {
         return 0;
       }
       
-      warn "\n[Test Output]getcwd(NULL, 0):$ret_buf";
+      warn "\n[Test Output]getcwd:$ret_buf";
     }
     
     return 1;

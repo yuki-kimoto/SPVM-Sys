@@ -1038,34 +1038,29 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t size = stack[1].ival;
   
+  if (obj_buf) {
+    return env->die(env, stack, "The buffer $buf must be undef.", __func__, FILE_NAME, __LINE__);
+  }
+  
   if (!(size >= 0)) {
     return env->die(env, stack, "The size $size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  char* buf = NULL;
-  if (obj_buf) {
-    buf = (char*)env->get_chars(env, stack, obj_buf);
-    int32_t buf_length = env->length(env, stack, obj_buf);
-    if (!(size <= buf_length)) {
-      return env->die(env, stack, "The size $size must be less than or equal to the lenght of $buf.", __func__, FILE_NAME, __LINE__);
-    }
+  char* ret = getcwd(NULL, size);
+  
+  void* obj_ret = NULL;
+  
+  if (ret) {
+    obj_ret = env->new_string(env, stack, ret, strlen(ret));
+    free(ret);
   }
   
-  char* ret_buf = getcwd(buf, size);
-  
-  if (!obj_buf) {
-    if (ret_buf) {
-      obj_buf = env->new_string(env, stack, ret_buf, strlen(ret_buf));
-      free(ret_buf);
-    }
-  }
-  
-  if (!ret_buf) {
+  if (!ret) {
     env->die(env, stack, "[System Error]getcwd() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  stack[0].oval = obj_buf;
+  stack[0].oval = obj_ret;
   
   return 0;
 }

@@ -550,7 +550,11 @@ C<static method getcwd : mutable string ($buf : mutable string, $size : int);>
 
 Calls the L<getcwd|https://linux.die.net/man/2/getcwd> function and return its return value.
 
+The buffer $buf must be undef.
+
 Exceptions:
+
+The buffer $buf must be undef. Otherwise an exception is thrown.
 
 $size must be greater than or equal to 0. Otherwise an exception is thrown.
 

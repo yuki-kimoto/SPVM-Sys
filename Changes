@@ -15,7 +15,8 @@
       Sys#symlink, Sys::IO::Windows#symlink
       Sys::IO::Windows#_realpath
   [Incompatible Changes]
-    Remove Sys::IO#_fullpath method.
+    * Remove Sys::IO#_fullpath method.
+    * The first argument of Sys::IO#getcwd must be undef. Otherwise an exception is thrown.
     
 0.538 2025-05-21
   [Bug Fix]
