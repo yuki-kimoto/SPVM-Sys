@@ -568,7 +568,11 @@ C<static method _getdcwd : mutable string ($drive : int, $buffer : mutable strin
 
 Calls the L<_getdcwd|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/getdcwd-wgetdcwd?view=msvc-170> function and return its return value.
 
+The buffer $buffer must be undef.
+
 Exceptions:
+
+The buffer $buffer must be undef. Otherwise an exception is thrown.
 
 $maxlen must be greater than 0. Otherwise an exception is thrown.
 

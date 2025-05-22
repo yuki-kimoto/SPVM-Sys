@@ -1646,8 +1646,6 @@ class TestCase::Sys::IO {
 
   static method getcwd : int () {
     
-    my $test_dir_ftest = &TEST_DIR_FTEST;
-    
     {
       my $ret_buf = Sys::IO->getcwd(undef, 0);
       
@@ -1660,7 +1658,22 @@ class TestCase::Sys::IO {
     
     return 1;
   }
-
+  
+  static method _getdcwd : int () {
+    
+    {
+      my $ret_buf = Sys::IO->_getdcwd(0, undef, 1);
+      
+      unless ($ret_buf) {
+        return 0;
+      }
+      
+      warn "\n[Test Output]_getdcwd:$ret_buf";
+    }
+    
+    return 1;
+  }
+  
   static method realpath : int () {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
@@ -2192,7 +2205,8 @@ class TestCase::Sys::IO {
     {
       my $file = "$TEST_TMP_DIR/truncate_あ.txt";
       
-      Sys->open([(Sys::IO::FileStream)undef], ">", $file);
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      my $fh = $_->[0];
       
       Sys::IO->truncate($file, 0);
     }

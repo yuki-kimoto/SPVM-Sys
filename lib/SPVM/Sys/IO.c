@@ -885,6 +885,9 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = _wopen(path_w, O_WRONLY);
   int32_t status = ftruncate(fd, length);
+  if (!(fd == -1)) {
+    close(fd);
+  }
 #else
   int32_t status = truncate(path, length);
 #endif
@@ -1076,36 +1079,31 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_buffer = stack[1].oval;
   
+  if (obj_buffer) {
+    return env->die(env, stack, "The buffer $buffer must be undef.", __func__, FILE_NAME, __LINE__);
+  }
+  
   int32_t maxlen = stack[2].ival;
   
   if (!(maxlen > 0)) {
     return env->die(env, stack, "The max length $maxlen must be greater than 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  char* ret_buffer;
-  if (obj_buffer) {
-    char* buffer = (char*)env->get_chars(env, stack, obj_buffer);
-    int32_t buffer_length = env->length(env, stack, obj_buffer);
-    if (!(maxlen <= buffer_length)) {
-      return env->die(env, stack, "The max length $maxlen must be less than or equal to the lenght of the buffer $buffer.", __func__, FILE_NAME, __LINE__);
-    }
-    
-    ret_buffer = _getdcwd(drive, buffer, maxlen);
-  }
-  else {
-    ret_buffer = _getdcwd(drive, NULL, maxlen);
-    if (ret_buffer) {
-      obj_buffer = env->new_string(env, stack, ret_buffer, strlen(ret_buffer));
-      free(ret_buffer);
-    }
+  char* ret = _getdcwd(drive, NULL, maxlen);
+  
+  void* obj_ret = NULL;
+  
+  if (ret) {
+    obj_ret = env->new_string(env, stack, ret, strlen(ret));
+    free(ret);
   }
   
-  if (!ret_buffer) {
+  if (!ret) {
     env->die(env, stack, "[System Error]_getdcwd() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  stack[0].oval = obj_buffer;
+  stack[0].oval = obj_ret;
   
   return 0;
 #endif

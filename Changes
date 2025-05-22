@@ -16,7 +16,8 @@
       Sys::IO::Windows#_realpath
   [Incompatible Changes]
     * Remove Sys::IO#_fullpath method.
-    * The first argument of Sys::IO#getcwd must be undef. Otherwise an exception is thrown.
+    * The first argument $buf of Sys::IO#getcwd must be undef. Otherwise an exception is thrown.
+    * The second argument $buffer of Sys::IO#getcwd must be undef. Otherwise an exception is thrown.
     
 0.538 2025-05-21
   [Bug Fix]

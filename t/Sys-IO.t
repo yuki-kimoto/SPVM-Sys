@@ -107,8 +107,11 @@ else {
 }
 
 {
-  my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->getcwd);
+}
+
+{
+  ok(SPVM::TestCase::Sys::IO->_getdcwd);
 }
 
 if ($^O eq 'MSWin32') {
