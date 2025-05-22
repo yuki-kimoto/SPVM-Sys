@@ -15,6 +15,7 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #include <errno.h>
 #include <winbase.h>
 #include <fcntl.h>
+#include <direct.h>
 
 #include "Sys-Windows.h"
 
@@ -94,9 +95,10 @@ is_symlink(HANDLE h) {
     return TRUE;
 }
 
+// Same as Perl's is_symlink_name in Win32.c, but call APIs for wide characters(W instead of A).
 static BOOL
-is_symlink_name(const char *name) {
-    HANDLE f = CreateFileA(name, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+is_symlink_name(const wchar_t *name) {
+    HANDLE f = CreateFileW(name, GENERIC_READ, 0, NULL, OPEN_EXISTING,
                            FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
     BOOL result;
 
@@ -109,31 +111,32 @@ is_symlink_name(const char *name) {
     return result;
 }
 
+// Same as Perl's win32_unlink in Win32.c, but call APIs for wide characters(W instead of A).
 static int
-win32_unlink(const char *filename)
+win32_unlink(const wchar_t *filename)
 {
   int ret;
   DWORD attrs;
   
-  attrs = GetFileAttributesA(filename);
+  attrs = GetFileAttributesW(filename);
   if (attrs == 0xFFFFFFFF) {
     errno = ENOENT;
     return -1;
   }
   
   if (attrs & FILE_ATTRIBUTE_READONLY) {
-    (void)SetFileAttributesA(filename, attrs & ~FILE_ATTRIBUTE_READONLY);
-    ret = unlink(filename);
+    (void)SetFileAttributesW(filename, attrs & ~FILE_ATTRIBUTE_READONLY);
+    ret = _wunlink(filename);
     if (ret == -1)
-        (void)SetFileAttributesA(filename, attrs);
+        (void)SetFileAttributesW(filename, attrs);
   }
   else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
     == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
          && is_symlink_name(filename)) {
-    ret = rmdir(filename);
+    ret = _wrmdir(filename);
   }
   else {
-    ret = unlink(filename);
+    ret = _wunlink(filename);
   }
   
   return ret;
@@ -520,6 +523,9 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO::Windows#unlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
+  
+  int32_t error_id = 0;
+  
   void* obj_pathname = stack[0].oval;
   if (!obj_pathname) {
     return env->die(env, stack, "The path $pathname must be defined.", __func__, FILE_NAME, __LINE__);
@@ -527,7 +533,12 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* pathname = env->get_chars(env, stack, obj_pathname);
   
-  int32_t status = win32_unlink(pathname);
+  wchar_t* pathname_w = utf8_to_win_wchar(env, stack, pathname, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  int32_t status = win32_unlink(pathname_w);
   
   stack[0].ival = status;
   if (status == -1) {

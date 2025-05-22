@@ -1011,6 +1011,18 @@ class TestCase::Sys {
       }
     }
     
+    {
+      my $file = "$TEST_TMP_DIR/unlink_あ.txt";
+      
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      
+      my $fh = $_->[0];
+      
+      Sys->close($fh);
+      
+      Sys->unlink($file);
+    }
+    
     return 1;
   }
 
