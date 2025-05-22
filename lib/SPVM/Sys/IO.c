@@ -1110,19 +1110,32 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The max length $maxlen must be greater than 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  char* ret = _getdcwd(drive, NULL, maxlen);
+  wchar_t* ret_w = _wgetdcwd(drive, NULL, maxlen);
   
-  void* obj_ret = NULL;
+  void* free_object = ret_w;
   
-  if (ret) {
-    obj_ret = env->new_string(env, stack, ret, strlen(ret));
-    free(ret);
+  char* ret = (char*)win_wchar_to_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
+  
+  if (error_id) {
+    goto END_OF_FUNC;
   }
   
   if (!ret) {
     env->die(env, stack, "[System Error]_getdcwd() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+  
+  END_OF_FUNC:
+  
+  if (free_object) {
+    free(free_object);
+  }
+  
+  if (error_id) {
+    return error_id;
+  }
+  
+  void* obj_ret = env->new_string(env, stack, ret, strlen(ret));
   
   stack[0].oval = obj_ret;
   

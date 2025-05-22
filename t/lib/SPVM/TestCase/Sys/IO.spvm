@@ -1653,7 +1653,25 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      warn "\n[Test Output]getcwd:$ret_buf";
+      warn "[Test Output]getcwd:$ret_buf";
+    }
+    
+    {
+      my $dir = "$TEST_TMP_DIR/getcwd_あ";
+      
+      Sys->mkdir($dir);
+      
+      my $cwd_save = Sys::IO->getcwd(undef, 0);
+      
+      Fn->defer([$cwd_save : string] method : void () {
+        Sys->chdir($cwd_save);
+      });
+      
+      Sys->chdir($dir);
+      
+      my $cwd = Sys::IO->getcwd(undef, 0);
+      
+      warn "[Test Output]getcwd non-ascii:$cwd";
     }
     
     return 1;
@@ -1668,7 +1686,25 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      warn "\n[Test Output]_getdcwd:$ret_buf";
+      warn "[Test Output]_getdcwd:$ret_buf";
+      
+      {
+        my $dir = "$TEST_TMP_DIR/getdcwd_あ";
+        
+        Sys->mkdir($dir);
+        
+        my $cwd_save = Sys::IO->getcwd(undef, 0);
+        
+        Fn->defer([$cwd_save : string] method : void () {
+          Sys->chdir($cwd_save);
+        });
+        
+        Sys->chdir($dir);
+        
+        my $dcwd = Sys::IO->_getdcwd(0, undef, 1);
+        
+        warn "[Test Output]_getdcwd non-ascii:$dcwd";
+      }
     }
     else {
       warn "[Test Skip]_getdcwd is not supported in this system.";
@@ -1780,8 +1816,6 @@ class TestCase::Sys::IO {
       Sys->chdir($dir);
       
       my $cwd = Sys::IO->getcwd(undef, 0);
-      
-      warn;
       
       warn "[Test Output]chdir non-ascii:$cwd";
     }
@@ -2850,7 +2884,7 @@ class TestCase::Sys::IO {
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     if (Sys::OS->is_windows) {
-      warn "Skip tests of fcntl in Windows";
+      warn "[Test Skip]fcntl is not supported in this system";
     }
     else {
       my $dir = "$test_dir_ftest";
