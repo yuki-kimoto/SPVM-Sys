@@ -352,10 +352,28 @@ ok(SPVM::TestCase::Sys->set_env);
 
 ok(SPVM::TestCase::Sys->rand);
 
-# getcwd
+# _getcwd
 {
   my $expected = Cwd::getcwd();
   is(SPVM::Sys->_getcwd, $expected);
+}
+
+# _getdcwd
+if (SPVM::Sys::OS->is_windows) {
+  {
+    my $expected = Cwd::getdcwd();
+    is(SPVM::Sys->_getdcwd, $expected);
+  }
+  
+  {
+    my $expected = Cwd::getdcwd('c:');
+    is(SPVM::Sys->_getdcwd('c:'), $expected);
+  }
+  
+  {
+    my $expected = Cwd::getdcwd('C:');
+    is(SPVM::Sys->_getdcwd('C:'), $expected);
+  }
 }
 
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);
