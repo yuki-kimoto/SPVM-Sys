@@ -1042,18 +1042,18 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The size $size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  char* ret_buf;
+  char* buf = NULL;
   if (obj_buf) {
-    char* buf = (char*)env->get_chars(env, stack, obj_buf);
+    buf = (char*)env->get_chars(env, stack, obj_buf);
     int32_t buf_length = env->length(env, stack, obj_buf);
     if (!(size <= buf_length)) {
       return env->die(env, stack, "The size $size must be less than or equal to the lenght of $buf.", __func__, FILE_NAME, __LINE__);
     }
-    
-    ret_buf = getcwd(buf, size);
   }
-  else {
-    ret_buf = getcwd(NULL, size);
+  
+  char* ret_buf = getcwd(buf, size);
+  
+  if (!obj_buf) {
     if (ret_buf) {
       obj_buf = env->new_string(env, stack, ret_buf, strlen(ret_buf));
       free(ret_buf);
