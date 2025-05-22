@@ -17,6 +17,10 @@
   #include <sys/wait.h>
 #endif
 
+#if defined(_WIN32)
+  #include "Sys-Windows.h"
+#endif
+
 static const char* FILE_NAME = "Sys/Process.c";
 
 int32_t SPVM__Sys__Process__fork(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -345,6 +349,8 @@ int32_t SPVM__Sys__Process__getppid(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t error_id = 0;
+  
   void* obj_path = stack[0].oval;
   
   void* obj_args = stack[1].oval;
@@ -358,27 +364,43 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The command arguments $args must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  char** argv;
-  int32_t args_length = 0;
-  if (obj_args) {
-    args_length = env->length(env, stack, obj_args);
-    argv = env->new_memory_block(env, stack, sizeof(char*) * (args_length + 1));
-    for (int32_t i = 0; i < args_length; i++) {
-      void* obj_arg = env->get_elem_object(env, stack, obj_args, i);
-      
-      if (!obj_arg) {
-        return env->die(env, stack, "The %dth element of the command arguments $args must be defined.", i, __func__, FILE_NAME, __LINE__);
-      }
-      
-      char* arg = (char*)env->get_chars(env, stack, obj_arg);
-      argv[i] = arg;
+  int32_t args_length = env->length(env, stack, obj_args);
+  char** argv = env->new_memory_block(env, stack, sizeof(char*) * (args_length + 1));
+  for (int32_t i = 0; i < args_length; i++) {
+    void* obj_arg = env->get_elem_object(env, stack, obj_args, i);
+    
+    if (!obj_arg) {
+      return env->die(env, stack, "The %dth element of the command arguments $args must be defined.", i, __func__, FILE_NAME, __LINE__);
     }
+    
+    char* arg = (char*)env->get_chars(env, stack, obj_arg);
+    argv[i] = arg;
   }
   
   assert(argv[args_length] == NULL);
   
-  int32_t status = execv(path, argv);
+#if defined(_WIN32)
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
   
+  wchar_t** argv_w = env->new_memory_block(env, stack, sizeof(wchar_t*) * (args_length + 1));
+  for (int32_t i = 0; i < args_length; i++) {
+    char* arg = argv[i];
+    wchar_t* arg_w = utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
+      return error_id;
+    }
+    
+    argv_w[i] = arg_w;
+  }
+  
+  int32_t status = _wexecv(path_w, (const wchar_t *const *)argv_w);
+#else
+  int32_t status = execv(path, argv);
+#endif
+
   env->free_memory_block(env, stack, argv);
   
   if (status == -1) {

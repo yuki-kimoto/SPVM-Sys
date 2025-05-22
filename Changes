@@ -9,6 +9,7 @@
       Sys#rmdir, Sys::IO#rmdir
       Sys#chdir, Sys::IO#chdir
       Sys::IO#truncate
+      Sys::Process#execv
     
 0.538 2025-05-21
   [Bug Fix]
