@@ -13,6 +13,7 @@
       Sys#unlink, Sys::IO::Windows#unlink
       Sys#rename, Sys::IO::Windows#rename
       Sys#symlink, Sys::IO::Windows#symlink
+      Sys::IO::Windows#_realpath
     
 0.538 2025-05-21
   [Bug Fix]

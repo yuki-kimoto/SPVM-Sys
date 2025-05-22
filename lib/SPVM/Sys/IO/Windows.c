@@ -501,10 +501,10 @@ static int win32_lstat(const char* path, struct stat* sbuf)
 }
 
 // Original implementation
-static int win32_realpath(const char* path, char* out_path, int32_t out_path_length) {
+static int win32_realpath(const wchar_t* path, wchar_t* out_path, int32_t out_path_length) {
   
   int32_t len = 0; // 0 indicates an error
-  HANDLE hFile = CreateFileA(path, FILE_READ_ATTRIBUTES,
+  HANDLE hFile = CreateFileW(path, FILE_READ_ATTRIBUTES,
                     FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
                     NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
   
@@ -513,7 +513,7 @@ static int win32_realpath(const char* path, char* out_path, int32_t out_path_len
     goto END_OF_FUNC;
   }
   
-  len = GetFinalPathNameByHandleA(hFile, out_path, out_path_length, 0);
+  len = GetFinalPathNameByHandleW(hFile, out_path, out_path_length, 0);
   
   END_OF_FUNC:
   
@@ -728,6 +728,8 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   return env->die(env, stack, "Sys::IO::Windows#realpath method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
 #else
   
+  int32_t error_id = 0;
+  
   void* obj_path = stack[0].oval;
   
   void* obj_resolved_path = stack[1].oval;
@@ -742,7 +744,13 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  int32_t len = win32_realpath(path, NULL, 0);
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  int32_t len = win32_realpath(path_w, NULL, 0);
+  
   if (len == -1) {
     env->die(env, stack, "[System Error]CreateFile() failed:the symbolic link is not permitted, broken or not found. $path:\"%s\".", path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -752,29 +760,39 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  obj_resolved_path = env->new_string(env, stack, NULL, len);
-  char* resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
+  void* obj_resolved_path_w = env->new_short_array(env, stack, len + 1);
+  wchar_t* resolved_path_w = (wchar_t*)env->get_elems_short(env, stack, obj_resolved_path_w);
   
-  len = win32_realpath(path, resolved_path, len + 1);
+  len = win32_realpath(path_w, resolved_path_w, len);
+  
   if (!(len > 0)) {
     env->die(env, stack, "[System Error]win32_realpath() failed:GetLastError() %d. $path:\"%s\".", GetLastError(), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
+  const char* resolved_path_tmp = win_wchar_to_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
+  
+  if (error_id) {
+    return error_id;
+  }
+  obj_resolved_path = env->new_string(env, stack, resolved_path_tmp, strlen(resolved_path_tmp));
+  char* resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
+  int32_t resolved_path_length = env->length(env, stack, obj_resolved_path);
+  
   if (strncmp(resolved_path, "\\\\?\\", 4) == 0) {
-    for (int32_t i = 0; i < len - 4; i++) {
+    for (int32_t i = 0; i < resolved_path_length - 4; i++) {
       resolved_path[i] = resolved_path[i + 4];
     }
-    env->shorten(env, stack, obj_resolved_path, len - 4);
+    env->shorten(env, stack, obj_resolved_path, resolved_path_length - 4);
   }
   else if (strncmp(resolved_path, "\\\\?\\UNC\\", 8) == 0) {
-    for (int32_t i = 2; i < len - 6; i++) {
+    for (int32_t i = 2; i < resolved_path_length - 6; i++) {
       resolved_path[i] = resolved_path[i + 6];
     }
-    env->shorten(env, stack, obj_resolved_path, len - 8);
+    env->shorten(env, stack, obj_resolved_path, resolved_path_length - 8);
   }
   
-  for (int32_t i = 0; i < len; i++) {
+  for (int32_t i = 0; i < resolved_path_length; i++) {
     if (resolved_path[i] == '\\') {
       resolved_path[i] = '/';
     }

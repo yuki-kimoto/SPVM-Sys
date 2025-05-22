@@ -2,6 +2,7 @@ use Test::More;
 
 use strict;
 use warnings;
+use utf8;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
@@ -93,14 +94,6 @@ ok(SPVM::Sys->d($tmpfile2), "normal -d sees it as a directory");
 is(SPVM::Sys->readlink($tmpfile2), $tmpfile1, "readlink works");
 check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
 
-{
-  my $tmpfile1 = File::Spec->catfile($tmp_dir, 'file1_あ');
-  my $tmpfile2 = File::Spec->catfile($tmp_dir, 'file2_あ');
-  
-  SPVM::Sys->mkdir($tmpfile1);
-  SPVM::Sys->symlink($tmpfile1, $tmpfile2);
-}
-
 # _realpath
 {
   my $realpath = SPVM::Sys->_realpath($tmpfile2, undef);
@@ -111,6 +104,22 @@ check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
 }
 
 SPVM::Sys->unlink($tmpfile2);
+
+{
+  my $tmpfile1 = File::Spec->catfile($tmp_dir, 'file1_あ');
+  my $tmpfile2 = File::Spec->catfile($tmp_dir, 'file2_あ');
+  
+  SPVM::Sys->mkdir($tmpfile1);
+  SPVM::Sys->symlink($tmpfile1, $tmpfile2);
+  
+  # _realpath
+  {
+    my $realpath = SPVM::Sys->_realpath($tmpfile2, undef);
+    
+    like($realpath, qr|/file1_あ|);
+    unlike($realpath, qr|^//?/|);
+  }
+}
 
 # test our various name based directory tests
 if (SPVM::Sys::OS->is_windows) {
