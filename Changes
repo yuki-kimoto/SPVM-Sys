@@ -14,6 +14,7 @@
       Sys#rename, Sys::IO::Windows#rename
       Sys#symlink, Sys::IO::Windows#symlink
       Sys::IO::Windows#_realpath
+      Sys::IO#getcwd
   [Incompatible Changes]
     * Remove Sys::IO#_fullpath method.
     * The first argument $buf of Sys::IO#getcwd must be undef. Otherwise an exception is thrown.

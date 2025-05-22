@@ -1049,19 +1049,40 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The size $size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  char* ret = getcwd(NULL, size);
+  void* free_object = NULL;
   
-  void* obj_ret = NULL;
+#if defined(_WIN32)
   
-  if (ret) {
-    obj_ret = env->new_string(env, stack, ret, strlen(ret));
-    free(ret);
+  wchar_t* ret_w = _wgetcwd(NULL, size);
+  free_object = ret_w;
+  
+  char* ret = (char*)win_wchar_to_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
+  
+  if (error_id) {
+    goto END_OF_FUNC;
   }
-  
+#else
+  char* ret = getcwd(NULL, size);
+  free_object = ret;
+#endif
+
   if (!ret) {
     env->die(env, stack, "[System Error]getcwd() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
   }
+  
+  END_OF_FUNC:
+  
+  if (free_object) {
+    free(free_object);
+  }
+  
+  if (error_id) {
+    return error_id;
+  }
+  
+  void* obj_ret = env->new_string(env, stack, ret, strlen(ret));
   
   stack[0].oval = obj_ret;
   

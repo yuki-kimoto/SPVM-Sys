@@ -1661,7 +1661,7 @@ class TestCase::Sys::IO {
   
   static method _getdcwd : int () {
     
-    {
+    if (Sys::OS->is_windows) {
       my $ret_buf = Sys::IO->_getdcwd(0, undef, 1);
       
       unless ($ret_buf) {
@@ -1669,6 +1669,9 @@ class TestCase::Sys::IO {
       }
       
       warn "\n[Test Output]_getdcwd:$ret_buf";
+    }
+    else {
+      warn "[Test Skip]_getdcwd is not supported in this system.";
     }
     
     return 1;
@@ -1761,6 +1764,26 @@ class TestCase::Sys::IO {
       unless (Fn->contains($@, "not_found.txt")) {
         return 0;
       }
+    }
+    
+    {
+      my $dir = "$TEST_TMP_DIR/chdir_あ";
+      
+      Sys->mkdir($dir);
+      
+      my $cwd_save = Sys::IO->getcwd(undef, 0);
+      
+      Fn->defer([$cwd_save : string] method : void () {
+        Sys->chdir($cwd_save);
+      });
+      
+      Sys->chdir($dir);
+      
+      my $cwd = Sys::IO->getcwd(undef, 0);
+      
+      warn;
+      
+      warn "[Test Output]chdir non-ascii:$cwd";
     }
     
     return 1;
