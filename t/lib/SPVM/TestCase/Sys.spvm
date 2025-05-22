@@ -1058,6 +1058,20 @@ class TestCase::Sys {
       }
     }
     
+    {
+      my $file_from = "$TEST_TMP_DIR/rename_あ.txt";
+      
+      my $file_to = "$TEST_TMP_DIR/rename_い.txt";
+      
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file_from);
+      
+      my $fh = $_->[0];
+      
+      Sys->close($fh);
+      
+      Sys->rename($file_from, $file_to);
+    }
+    
     return 1;
   }
   

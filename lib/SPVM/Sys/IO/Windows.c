@@ -111,7 +111,7 @@ is_symlink_name(const wchar_t *name) {
     return result;
 }
 
-// Same as Perl's win32_unlink in Win32.c, but call APIs for wide characters(W instead of A).
+// Same as Perl's win32_unlink in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
 static int
 win32_unlink(const wchar_t *filename)
 {
@@ -142,20 +142,20 @@ win32_unlink(const wchar_t *filename)
   return ret;
 }
 
-// Exactly same as Perl's win32_rename in Win32.c
+// Same as Perl's win32_rename in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
 static int
-win32_rename(const char *oname, const char *newname)
+win32_rename(const wchar_t *oname, const wchar_t *newname)
 {
-    char szOldName[MAX_PATH+1];
+    wchar_t szOldName[MAX_PATH+1];
     BOOL bResult;
     DWORD dwFlags = MOVEFILE_COPY_ALLOWED;
     dTHX;
 
-    if (stricmp(newname, oname))
+    if (_wcsicmp(newname, oname))
         dwFlags |= MOVEFILE_REPLACE_EXISTING;
-    strcpy(szOldName, PerlDir_mapA(oname));
+    wcscpy(szOldName, oname);
     
-    bResult = MoveFileExA(szOldName,PerlDir_mapA(newname), dwFlags);
+    bResult = MoveFileExW(szOldName,newname, dwFlags);
     
     if (!bResult) {
         DWORD err = GetLastError();
@@ -555,6 +555,9 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO::Windows#rename method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
+  
+  int32_t error_id = 0;
+  
   void* obj_oldpath = stack[0].oval;
   if (!obj_oldpath) {
     return env->die(env, stack, "The old path $oldpath must be defined.", __func__, FILE_NAME, __LINE__);
@@ -567,7 +570,17 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
-  int32_t status = win32_rename(oldpath, newpath);
+  wchar_t* oldpath_w = utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  wchar_t* newpath_w = utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  int32_t status = win32_rename(oldpath_w, newpath_w);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]rename() failed:%s. $oldpath is \"%s\". $newpath is \"%s\".", env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
