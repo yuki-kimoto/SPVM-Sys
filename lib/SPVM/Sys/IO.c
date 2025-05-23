@@ -1074,6 +1074,14 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   END_OF_FUNC:
   
+  ;
+  
+  void* obj_ret = NULL;
+  
+  if (ret) {
+    obj_ret = env->new_string(env, stack, ret, strlen(ret));
+  }
+  
   if (free_object) {
     free(free_object);
   }
@@ -1081,8 +1089,6 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (error_id) {
     return error_id;
   }
-  
-  void* obj_ret = env->new_string(env, stack, ret, strlen(ret));
   
   stack[0].oval = obj_ret;
   
