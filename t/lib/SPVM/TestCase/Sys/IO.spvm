@@ -1786,23 +1786,14 @@ class TestCase::Sys::IO {
     
     my $status = Sys::IO->chdir($dir);
     
-    warn;
-    
     unless ($status == 0) {
       return 0;
     }
     
-    warn;
-    
     my $cwd = Sys::IO->getcwd(undef, 0);
-    
-    warn $cwd;
-    
     unless (Fn->contains($cwd, "dir_empty")) {
       return 0;
     }
-    
-    warn;
     
     {
       eval { Sys::IO->chdir("$dir/not_found.txt"); };
@@ -1810,8 +1801,6 @@ class TestCase::Sys::IO {
         return 0;
       }
     }
-    
-    warn;
     
     {
       my $dir = "$TEST_TMP_DIR/chdir_あ";
@@ -1831,7 +1820,7 @@ class TestCase::Sys::IO {
       warn "[Test Output]chdir non-ascii:$cwd";
     }
     
-    warn;
+    warn "[Test Output]getcwd cwd_save:" . Sys::IO->getcwd(undef, 0);
     
     return 1;
   }

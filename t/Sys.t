@@ -293,11 +293,6 @@ my $test_tmp_dir = File::Temp->newdir;
 }
 
 {
-  my $test_dir = "$FindBin::Bin";
-  ok(SPVM::TestCase::Sys->chdir("$test_dir"));
-}
-
-{
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys->chmod("$tmp_dir"));
 }
@@ -460,6 +455,11 @@ if (SPVM::Sys::OS->is_windows) {
       is($ret, $expected);
     }
   }
+}
+
+{
+  my $test_dir = "$FindBin::Bin";
+  ok(SPVM::TestCase::Sys->chdir("$test_dir"));
 }
 
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);
