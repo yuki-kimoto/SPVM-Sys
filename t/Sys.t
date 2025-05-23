@@ -7,8 +7,6 @@ use FindBin;
 use lib "$FindBin::Bin/lib";
 BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 
-use Encode 'decode';
-
 use SPVM 'Sys';
 use SPVM 'Int';
 use SPVM 'Long';
@@ -358,24 +356,24 @@ ok(SPVM::TestCase::Sys->rand);
 # _getcwd
 {
   my $expected = Cwd::getcwd();
-  is(SPVM::Sys->_getcwd, decode('UTF-8', $expected));
+  is(SPVM::Sys->_getcwd, $expected);
 }
 
 # _getdcwd
 if (SPVM::Sys::OS->is_windows) {
   {
     my $expected = Cwd::getdcwd();
-    is(SPVM::Sys->_getdcwd, decode('UTF-8', $expected));
+    is(SPVM::Sys->_getdcwd, $expected);
   }
   
   {
     my $expected = Cwd::getdcwd('c:');
-    is(SPVM::Sys->_getdcwd('c:'), decode('UTF-8', $expected));
+    is(SPVM::Sys->_getdcwd('c:'), $expected);
   }
   
   {
     my $expected = Cwd::getdcwd('C:');
-    is(SPVM::Sys->_getdcwd('C:'), decode('UTF-8', $expected));
+    is(SPVM::Sys->_getdcwd('C:'), $expected);
   }
 }
 
@@ -385,43 +383,43 @@ if (SPVM::Sys::OS->is_windows) {
     my $path = 't/Sys.t';
     my $ret = SPVM::Sys->_realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, decode('UTF-8', $expected));
+    is($ret, $expected);
   }
   {
     my $path = 't/lib/../Sys.t';
     my $ret = SPVM::Sys->_realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, decode('UTF-8', $expected));
+    is($ret, $expected);
   }
   {
     my $path = 't';
     my $ret = SPVM::Sys->_realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, decode('UTF-8', $expected));
+    is($ret, $expected);
   }
   {
     my $path = 't/';
     my $ret = SPVM::Sys->_realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, decode('UTF-8', $expected));
+    is($ret, $expected);
   }
   {
     my $path = 't//';
     my $ret = SPVM::Sys->_realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, decode('UTF-8', $expected));
+    is($ret, $expected);
   }
   {
     my $path = '/';
     my $ret = SPVM::Sys->_realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, decode('UTF-8', $expected));
+    is($ret, $expected);
   }
   {
     my $path = "$FindBin::Bin";
     my $ret = SPVM::Sys->_realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, decode('UTF-8', $expected));
+    is($ret, $expected);
   }
   
   if ($^O eq 'MSWin32') {
@@ -429,37 +427,37 @@ if (SPVM::Sys::OS->is_windows) {
       my $path = "t\\Sys.t";
       my $ret = SPVM::Sys->_realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, decode('UTF-8', $expected));
+      is($ret, $expected);
     }
     {
       my $path = "t\\lib\\..\\Sys.t";
       my $ret = SPVM::Sys->_realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, decode('UTF-8', $expected));
+      is($ret, $expected);
     }
     {
       my $path = "t";
       my $ret = SPVM::Sys->_realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, decode('UTF-8', $expected));
+      is($ret, $expected);
     }
     {
       my $path = "t\\";
       my $ret = SPVM::Sys->_realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, decode('UTF-8', $expected));
+      is($ret, $expected);
     }
     {
       my $path = "t\\\\";
       my $ret = SPVM::Sys->_realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, decode('UTF-8', $expected));
+      is($ret, $expected);
     }
     {
       my $path = '\\';
       my $ret = SPVM::Sys->_realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, decode('UTF-8', $expected));
+      is($ret, $expected);
     }
   }
 }
