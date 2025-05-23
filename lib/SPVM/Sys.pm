@@ -28,6 +28,12 @@ Sys class in L<SPVM> has methods to call system calls for file IO, sockets, user
   
   my $process_id = Sys->process_id;
 
+=head1 Details
+
+=head2 Windows Unicode Support
+
+Windows internally manages filenames using UTF-16LE encoding. In contrast, SPVM interprets strings as raw byte sequences, expecting them to be UTF-8. To bridge this difference, all methods have been implemented to perform this conversion automatically.
+
 =head1 Class Methods
 
 =head2 STDIN
