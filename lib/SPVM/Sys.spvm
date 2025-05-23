@@ -1534,7 +1534,7 @@ class Sys {
     return $random_number;
   }
   
-  # This is for Cwd#realpath method
+  # This is only for Cwd#realpath method
   static method _realpath : string ($file : string) {
     if (Sys::OS->is_windows) {
       my $realpath = Sys::IO::Windows->realpath($file, undef);
@@ -1548,7 +1548,7 @@ class Sys {
     }
   }
   
-  # This is for Cwd#getcwd method
+  # This is only for Cwd#getcwd method
   static method _getcwd : string () {
     
     my $cwd = Sys::IO->getcwd(undef, 0);
@@ -1560,11 +1560,13 @@ class Sys {
     return $cwd;
   }
   
-  # This is for Cwd#getdcwd method
+  # This is only for Cwd#getdcwd method
   static method _getdcwd : string ($drive : string = undef) {
+    
     unless (Sys::OS->is_windows) {
-      die Error::NotSupported "The getdcwd is not supported on this system(_WIN32)";
+      die Error::NotSupported "Cwd#getdcwd method is not supported in this system";
     }
+    
     my $drive_id = 0;
     if ($drive) {
       unless (length $drive == 2) {
@@ -1588,4 +1590,5 @@ class Sys {
     
     return $cwd;
   }
+  
 }

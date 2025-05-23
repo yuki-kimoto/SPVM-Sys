@@ -376,6 +376,91 @@ if (SPVM::Sys::OS->is_windows) {
   }
 }
 
+# _realpath
+{
+  {
+    my $path = 't/Sys.t';
+    my $realpath = SPVM::Sys->_realpath($path);
+    my $realpath_expected = Cwd::realpath($path);
+    is($realpath, $realpath_expected);
+  }
+  {
+    my $path = 't/lib/../Sys.t';
+    my $realpath = SPVM::Sys->_realpath($path);
+    my $realpath_expected = Cwd::realpath($path);
+    is($realpath, $realpath_expected);
+  }
+  {
+    my $path = 't';
+    my $realpath = SPVM::Sys->_realpath($path);
+    my $realpath_expected = Cwd::realpath($path);
+    is($realpath, $realpath_expected);
+  }
+  {
+    my $path = 't/';
+    my $realpath = SPVM::Sys->_realpath($path);
+    my $realpath_expected = Cwd::realpath($path);
+    is($realpath, $realpath_expected);
+  }
+  {
+    my $path = 't//';
+    my $realpath = SPVM::Sys->_realpath($path);
+    my $realpath_expected = Cwd::realpath($path);
+    is($realpath, $realpath_expected);
+  }
+  {
+    my $path = '/';
+    my $realpath = SPVM::Sys->_realpath($path);
+    my $realpath_expected = Cwd::realpath($path);
+    is($realpath, $realpath_expected);
+  }
+  {
+    my $path = "$FindBin::Bin";
+    my $realpath = SPVM::Sys->_realpath($path);
+    my $realpath_expected = Cwd::realpath($path);
+    is($realpath, $realpath_expected);
+  }
+  
+  if ($^O eq 'MSWin32') {
+    {
+      my $path = "t\\Sys.t";
+      my $realpath = SPVM::Sys->_realpath($path);
+      my $realpath_expected = Cwd::realpath($path);
+      is($realpath, $realpath_expected);
+    }
+    {
+      my $path = "t\\lib\\..\\Sys.t";
+      my $realpath = SPVM::Sys->_realpath($path);
+      my $realpath_expected = Cwd::realpath($path);
+      is($realpath, $realpath_expected);
+    }
+    {
+      my $path = "t";
+      my $realpath = SPVM::Sys->_realpath($path);
+      my $realpath_expected = Cwd::realpath($path);
+      is($realpath, $realpath_expected);
+    }
+    {
+      my $path = "t\\";
+      my $realpath = SPVM::Sys->_realpath($path);
+      my $realpath_expected = Cwd::realpath($path);
+      is($realpath, $realpath_expected);
+    }
+    {
+      my $path = "t\\\\";
+      my $realpath = SPVM::Sys->_realpath($path);
+      my $realpath_expected = Cwd::realpath($path);
+      is($realpath, $realpath_expected);
+    }
+    {
+      my $path = '\\';
+      my $realpath = SPVM::Sys->_realpath($path);
+      my $realpath_expected = Cwd::realpath($path);
+      is($realpath, $realpath_expected);
+    }
+  }
+}
+
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);
 
 SPVM::Fn->destroy_runtime_permanent_vars;
