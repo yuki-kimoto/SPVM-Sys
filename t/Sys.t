@@ -381,83 +381,83 @@ if (SPVM::Sys::OS->is_windows) {
 {
   {
     my $path = 't/Sys.t';
-    my $realpath = SPVM::Sys->_realpath($path);
-    my $realpath_expected = Cwd::realpath($path);
-    is($realpath, $realpath_expected);
+    my $ret = SPVM::Sys->_realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
   }
   {
     my $path = 't/lib/../Sys.t';
-    my $realpath = SPVM::Sys->_realpath($path);
-    my $realpath_expected = Cwd::realpath($path);
-    is($realpath, $realpath_expected);
+    my $ret = SPVM::Sys->_realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
   }
   {
     my $path = 't';
-    my $realpath = SPVM::Sys->_realpath($path);
-    my $realpath_expected = Cwd::realpath($path);
-    is($realpath, $realpath_expected);
+    my $ret = SPVM::Sys->_realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
   }
   {
     my $path = 't/';
-    my $realpath = SPVM::Sys->_realpath($path);
-    my $realpath_expected = Cwd::realpath($path);
-    is($realpath, $realpath_expected);
+    my $ret = SPVM::Sys->_realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
   }
   {
     my $path = 't//';
-    my $realpath = SPVM::Sys->_realpath($path);
-    my $realpath_expected = Cwd::realpath($path);
-    is($realpath, $realpath_expected);
+    my $ret = SPVM::Sys->_realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
   }
   {
     my $path = '/';
-    my $realpath = SPVM::Sys->_realpath($path);
-    my $realpath_expected = Cwd::realpath($path);
-    is($realpath, $realpath_expected);
+    my $ret = SPVM::Sys->_realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
   }
   {
     my $path = "$FindBin::Bin";
-    my $realpath = SPVM::Sys->_realpath($path);
-    my $realpath_expected = Cwd::realpath($path);
-    is($realpath, $realpath_expected);
+    my $ret = SPVM::Sys->_realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
   }
   
   if ($^O eq 'MSWin32') {
     {
       my $path = "t\\Sys.t";
-      my $realpath = SPVM::Sys->_realpath($path);
-      my $realpath_expected = Cwd::realpath($path);
-      is($realpath, $realpath_expected);
+      my $ret = SPVM::Sys->_realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
     }
     {
       my $path = "t\\lib\\..\\Sys.t";
-      my $realpath = SPVM::Sys->_realpath($path);
-      my $realpath_expected = Cwd::realpath($path);
-      is($realpath, $realpath_expected);
+      my $ret = SPVM::Sys->_realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
     }
     {
       my $path = "t";
-      my $realpath = SPVM::Sys->_realpath($path);
-      my $realpath_expected = Cwd::realpath($path);
-      is($realpath, $realpath_expected);
+      my $ret = SPVM::Sys->_realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
     }
     {
       my $path = "t\\";
-      my $realpath = SPVM::Sys->_realpath($path);
-      my $realpath_expected = Cwd::realpath($path);
-      is($realpath, $realpath_expected);
+      my $ret = SPVM::Sys->_realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
     }
     {
       my $path = "t\\\\";
-      my $realpath = SPVM::Sys->_realpath($path);
-      my $realpath_expected = Cwd::realpath($path);
-      is($realpath, $realpath_expected);
+      my $ret = SPVM::Sys->_realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
     }
     {
       my $path = '\\';
-      my $realpath = SPVM::Sys->_realpath($path);
-      my $realpath_expected = Cwd::realpath($path);
-      is($realpath, $realpath_expected);
+      my $ret = SPVM::Sys->_realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
     }
   }
 }
