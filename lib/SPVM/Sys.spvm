@@ -418,7 +418,7 @@ class Sys {
     Sys::IO->closedir($dir_stream);
   }
   
-  static method readdir : Sys::IO::Dirent ($dir_stream : Sys::IO::DirStream) {
+  static method readdir : string ($dir_stream : Sys::IO::DirStream) {
     
     unless ($dir_stream) {
       die "The directory stream \$dir_stream must be defined.";
@@ -430,7 +430,9 @@ class Sys {
     
     my $dirent = Sys::IO->readdir($dir_stream);
     
-    return $dirent;
+    my $name = $dirent ? $dirent->d_name : undef;
+    
+    return $name;
   }
   
   static method rewinddir : void ($dir_stream : Sys::IO::DirStream) {

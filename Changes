@@ -1,3 +1,7 @@
+0.540 2025-05-23
+  [Incompatible Changes]
+    * Sys#readdir method returns a file name instead of a directory entry.
+    
 0.539 2025-05-23
   [Improvement with Incompatible Changes]
     * In this release, UTF-8 strings passed as arguments to the methods that calls Windows system calls are now handled correctly.

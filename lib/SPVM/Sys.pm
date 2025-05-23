@@ -472,9 +472,11 @@ Exceptions thrown by L<Sys::IO#closedir|SPVM::Sys::IO/"closedir"> method could b
 
 =head2 readdir
 
-C<static method readdir : L<Sys::IO::Dirent|SPVM::Sys::IO::Dirent> ($dir_stream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
+C<static method readdir : string ($dir_stream : L<Sys::IO::DirStream|SPVM::Sys::IO::DirStream>);>
 
-Reads a directory entry from the dirctory stream $dir_stream.
+Reads a directory entry from the dirctory stream $dir_stream. If it is defined, returns its file name; otherwise returns undef.
+
+Implementation:
 
 This method calls L<Sys::IO#readdir|SPVM::Sys::IO/"readdir"> method.
 

@@ -1213,13 +1213,12 @@ class TestCase::Sys {
       }
       
       my $check_file_count = 0;
-      while (my $dirent = Sys->readdir($dir_stream)) {
-        my $d_name = $dirent->d_name;
+      while (my $name = Sys->readdir($dir_stream)) {
         
-        if ($d_name eq "foo.txt") {
+        if ($name eq "foo.txt") {
           $check_file_count++;
         }
-        elsif ($d_name eq "bar.txt") {
+        elsif ($name eq "bar.txt") {
           $check_file_count++;
         }
       }
@@ -1241,31 +1240,27 @@ class TestCase::Sys {
       Sys->opendir($dir_stream_ref, $test_dir_ftest);
       my $dir_stream = $dir_stream_ref->[0];
       
-      my $dirent = Sys->readdir($dir_stream);
+      my $name = Sys->readdir($dir_stream);
       
       my $offset = Sys->telldir($dir_stream);
       
-      my $dirent_next = Sys->readdir($dir_stream);
-      
-      my $dirent_next_d_name = $dirent_next->d_name;
+      my $name_next = Sys->readdir($dir_stream);
       
       Sys->seekdir($dir_stream, $offset);
       
-      my $dirent2 = Sys->readdir($dir_stream);
+      my $name2 = Sys->readdir($dir_stream);
       
-      my $dirent2_d_name = $dirent2->d_name;
-      
-      unless ($dirent) {
+      unless ($name) {
         warn;
         return 0;
       }
       
-      unless ($dirent2) {
+      unless ($name2) {
         warn;
         return 0;
       }
       
-      unless ($dirent2_d_name eq $dirent_next_d_name) {
+      unless ($name2 eq $name_next) {
         warn;
         return 0;
       }
@@ -1283,31 +1278,27 @@ class TestCase::Sys {
       Sys->opendir($dir_stream_ref, $test_dir_ftest);
       my $dir_stream = $dir_stream_ref->[0];
       
-      my $dirent = Sys->readdir($dir_stream);
+      my $name = Sys->readdir($dir_stream);
       
       my $offset = Sys->telldir($dir_stream);
       
-      my $dirent_next = Sys->readdir($dir_stream);
-      
-      my $dirent_next_d_name = $dirent_next->d_name;
+      my $name_next = Sys->readdir($dir_stream);
       
       Sys->seekdir($dir_stream, $offset);
       
-      my $dirent2 = Sys->readdir($dir_stream);
+      my $name2 = Sys->readdir($dir_stream);
       
-      my $dirent2_d_name = $dirent2->d_name;
-      
-      unless ($dirent) {
+      unless ($name) {
         warn;
         return 0;
       }
       
-      unless ($dirent2) {
+      unless ($name2) {
         warn;
         return 0;
       }
       
-      unless ($dirent2_d_name eq $dirent_next_d_name) {
+      unless ($name2 eq $name_next) {
         warn;
         return 0;
       }
@@ -1325,24 +1316,21 @@ class TestCase::Sys {
       Sys->opendir($dir_stream_ref, $test_dir_ftest);
       my $dir_stream = $dir_stream_ref->[0];
       
-      my $dirent = Sys->readdir($dir_stream);
+      my $name = Sys->readdir($dir_stream);
       
       Sys->rewinddir($dir_stream);
       
-      my $dirent2 = Sys->readdir($dir_stream);
+      my $name2 = Sys->readdir($dir_stream);
       
-      unless ($dirent) {
-        warn;
+      unless ($name) {
         return 0;
       }
       
-      unless ($dirent2) {
-        warn;
+      unless ($name2) {
         return 0;
       }
       
-      unless ($dirent2->d_name eq $dirent->d_name) {
-        warn;
+      unless ($name2 eq $name) {
         return 0;
       }
     }
