@@ -2,6 +2,13 @@
   [Improvement with Incompatible Changes]
     * In this release, UTF-8 strings passed as arguments to the methods that calls Windows system calls are now handled correctly.
       Sys#opendir, Sys::IO#opendir
+      Sys#closedir, Sys::IO#closedir
+      Sys#readdir, Sys::IO#readdir
+      Sys#rewinddir, Sys::IO#rewinddir
+      Sys#telldir, Sys::IO#telldir
+      Sys#seekdir, Sys::IO#seekdir
+      Sys::IO::DirStream#DESTROY
+      Sys::IO::Dirent#d_name
   
 0.540 2025-05-23
   [Incompatible Changes]
