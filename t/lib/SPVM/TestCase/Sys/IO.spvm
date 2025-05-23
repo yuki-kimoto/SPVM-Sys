@@ -2573,6 +2573,16 @@ class TestCase::Sys::IO {
       Sys->closedir($dh_ref->[0]);
     }
     
+    {
+      my $dir = "$TEST_TMP_DIR/opendir_あ";
+      
+      Sys->mkdir($dir);
+      
+      my $ds = Sys::IO->opendir($dir);
+      
+      Sys->readdir($ds);
+    }
+    
     return 1;
   }
   
