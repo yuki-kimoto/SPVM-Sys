@@ -15,7 +15,7 @@
   
   #define MY_DIRENT struct _wdirent
 #else
-  #define MY_DIRENT MY_DIRENT
+  #define MY_DIRENT struct dirent
 #endif
 
 static const char* FILE_NAME = "Sys/IO/Dirent.c";

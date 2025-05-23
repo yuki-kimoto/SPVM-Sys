@@ -32,7 +32,7 @@ static const char* FILE_NAME = "Sys/IO.c";
   #define MY_DIR _WDIR
   #define MY_DIRENT struct _wdirent
 #else
-  #define MY_DIR DIR DIR
+  #define MY_DIR DIR
   #define MY_DIRENT struct dirent
 #endif
 

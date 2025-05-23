@@ -12,7 +12,7 @@
 #if defined(_WIN32)
   #define MY_DIR _WDIR
 #else
-  #define MY_DIR DIR DIR
+  #define MY_DIR DIR
 #endif
 
 static const char* FILE_NAME = "Sys/IO/DirStream.c";
