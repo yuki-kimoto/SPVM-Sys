@@ -24,7 +24,22 @@
     * Add Sys#_getcwd method only for Cwd class.
     * Add Sys#_getdcwd method only for Cwd class.
     * Add Sys#_realpath method only for Cwd class.
-    
+  [New Features]
+    * Add the following methods to Sys::IO::Stat class.
+      dev
+      ino
+      mode
+      nlink
+      uid
+      gid
+      rdev
+      size
+      blksize
+      blocks
+      mtime
+      atime
+      ctime
+   
 0.538 2025-05-21
   [Bug Fix]
     * Fix bugs that Sys::IO::Windows#realpath method failed when the file is not symbolic link.

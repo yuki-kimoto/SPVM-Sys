@@ -21,8 +21,9 @@ Sys::IO::Stat class in L<SPVM> represents C<struct stat> in the C language, and 
   
   Sys::IO::Stat->lstat($file, $stat);
   
-  my $st_mode = $stat->st_mode;
-  my $st_size = $stat->st_size;
+  my $st_mode = $stat->mode;
+  
+  my $st_size = $stat->size;
 
 =head1 Details
 
@@ -325,6 +326,84 @@ The implementation of L<Sys#W|SPVM::Sys/"W"> method.
 C<method X : int ();>
 
 The implementation of L<Sys#X|SPVM::Sys/"X"> method.
+
+=head1 dev
+
+C<method dev : long ();>
+
+Same as L</"st_dev">.
+
+=head1 ino
+
+C<method ino : long ();>
+
+Same as L</"st_ino">.
+
+=head1 mode
+
+C<method mode : int ();>
+
+Same as L</"st_mode">.
+
+=head1 nlink
+
+C<method nlink : long ();>
+
+Same as L</"st_nlink">.
+
+=head1 uid
+
+C<method uid : int ();>
+
+Same as L</"st_uid">.
+
+=head1 gid
+
+C<method gid : int ();>
+
+Same as L</"st_gid">.
+
+=head1 rdev
+
+C<method rdev : long ();>
+
+Same as L</"st_rdev">.
+
+=head1 size
+
+C<method size : long ();>
+
+Same as L</"st_size">.
+
+=head1 blksize
+
+C<method blksize : long ();>
+
+Same as L</"st_blksize">.
+
+=head1 blocks
+
+C<method blocks : long ();>
+
+Same as L</"st_blocks">.
+
+=head1 mtime
+
+C<method mtime : long ();>
+
+Same as L</"st_mtime">.
+
+=head1 atime
+
+C<method atime : long ();>
+
+Same as L</"st_atime">.
+
+=head1 ctime
+
+C<method ctime : long ();>
+
+Same as L</"st_ctime">.
 
 =head1 Copyright & License
 

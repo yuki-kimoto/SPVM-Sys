@@ -28,6 +28,70 @@ class TestCase::Sys::IO::Stat {
         }
       }
     }
+    
+    # Accessor methods
+    {
+      my $file = "$test_dir/ftest/readline_long_lines.txt";
+      
+      my $stat = Sys::IO::Stat->new;
+      Sys::IO::Stat->stat($file, $stat);
+      
+      unless ($stat->dev == $stat->st_dev) {
+        return 0;
+      }
+      
+      unless ($stat->ino == $stat->st_ino) {
+        return 0;
+      }
+      
+      unless ($stat->mode == $stat->st_mode) {
+        return 0;
+      }
+      
+      unless ($stat->nlink == $stat->st_nlink) {
+        return 0;
+      }
+      
+      unless ($stat->uid == $stat->st_uid) {
+        return 0;
+      }
+      
+      unless ($stat->gid == $stat->st_gid) {
+        return 0;
+      }
+      
+      unless ($stat->rdev == $stat->st_rdev) {
+        return 0;
+      }
+      
+      unless ($stat->size == $stat->st_size) {
+        return 0;
+      }
+      
+      unless ($stat->mtime == $stat->st_mtime) {
+        return 0;
+      }
+      
+      unless ($stat->atime == $stat->st_atime) {
+        return 0;
+      }
+      
+      unless ($stat->ctime == $stat->st_ctime) {
+        return 0;
+      }
+      
+      unless (Sys::OS->is_windows) {
+        unless ($stat->blksize == $stat->st_blksize) {
+          return 0;
+        }
+        
+        unless ($stat->blocks == $stat->st_blocks) {
+          return 0;
+        }
+      }
+    
+    }
+    
     return 1;
   }
 
