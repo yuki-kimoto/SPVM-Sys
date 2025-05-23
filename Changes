@@ -20,6 +20,10 @@
     * Remove Sys::IO#_fullpath method.
     * The first argument $buf of Sys::IO#getcwd must be undef. Otherwise an exception is thrown.
     * The second argument $buffer of Sys::IO#getcwd must be undef. Otherwise an exception is thrown.
+  [Internal Changes]
+    * Add Sys#_getcwd method only for Cwd class.
+    * Add Sys#_getdcwd method only for Cwd class.
+    * Add Sys#_realpath method only for Cwd class.
     
 0.538 2025-05-21
   [Bug Fix]
