@@ -2045,8 +2045,6 @@ class TestCase::Sys::IO {
       }
     }
     
-    warn;
-    
     # With while
     {
       my $file = "$test_dir_ftest/readline_basic.txt";
