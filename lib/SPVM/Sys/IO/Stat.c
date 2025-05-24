@@ -113,8 +113,6 @@ typedef struct w32_stat Stat_t;
 #  define IO_REPARSE_TAG_LX_BLK  0x80000026
 #endif
 
-typedef DWORD (__stdcall *pGetFinalPathNameByHandleW_t)(HANDLE, LPWSTR, DWORD, DWORD);
-
 // Exactly same as Perl's one in Win32.c
 typedef struct {
     USHORT SubstituteNameOffset;
@@ -527,39 +525,32 @@ win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
                 sbuf->st_mode = _S_IFREG;
 
                 if (!path) {
-                    pGetFinalPathNameByHandleW_t pGetFinalPathNameByHandleW =
-                        (pGetFinalPathNameByHandleW_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetFinalPathNameByHandleW");
-                    if (pGetFinalPathNameByHandleW) {
-                        len = pGetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
-                        if (len > 0) {
-                          SPVM_ENV* env = thread_env;
-                          
-                          SPVM_VALUE* stack = env->new_stack(env);
-                          
-                          int32_t scope_id = env->enter_scope(env, stack);
-                          
-                          wchar_t* path_buf_w = env->new_memory_block(env, stack, sizeof(wchar_t) * (len + 1));
-                          
-                          len = pGetFinalPathNameByHandleW(handle, path_buf_w, len + 1, 0);
-                          
-                          assert(len > 0);
-                          
-                          int32_t error_id = 0;
-                          
-                          path = win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
-                          
-                          env->free_memory_block(env, stack, path_buf_w);
-                          
-                          assert(error_id == 0);
-                          
-                          env->leave_scope(env, stack, scope_id);
-                          
-                          env->free_stack(env, stack);
-                        }
-                    }
-                    else {
-                        len = 0;
-                    }
+                  len = GetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
+                  if (len > 0) {
+                    SPVM_ENV* env = thread_env;
+                    
+                    SPVM_VALUE* stack = env->new_stack(env);
+                    
+                    int32_t scope_id = env->enter_scope(env, stack);
+                    
+                    wchar_t* path_buf_w = env->new_memory_block(env, stack, sizeof(wchar_t) * (len + 1));
+                    
+                    len = GetFinalPathNameByHandleW(handle, path_buf_w, len + 1, 0);
+                    
+                    assert(len > 0);
+                    
+                    int32_t error_id = 0;
+                    
+                    path = win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
+                    
+                    env->free_memory_block(env, stack, path_buf_w);
+                    
+                    assert(error_id == 0);
+                    
+                    env->leave_scope(env, stack, scope_id);
+                    
+                    env->free_stack(env, stack);
+                  }
                 }
 
                 if (path && len > 4 &&
