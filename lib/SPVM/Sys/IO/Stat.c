@@ -3,6 +3,8 @@
 
 #include "spvm_native.h"
 
+static const char* FILE_NAME = "Sys/IO/Stat.c";
+
 #include <assert.h>
 #include <errno.h>
 #include <sys/stat.h>
@@ -11,7 +13,9 @@
 
 #include <windows.h>
 #include <time.h>
-  
+
+#include "Sys-Windows.h"
+
 // These are different from Perl's ones, but they must be defined well
 typedef BOOL bool;
 typedef uint32_t STRLEN;
@@ -109,8 +113,7 @@ typedef struct w32_stat Stat_t;
 #  define IO_REPARSE_TAG_LX_BLK  0x80000026
 #endif
 
-// Exactly same as Perl's one in Win32.c
-typedef DWORD (__stdcall *pGetFinalPathNameByHandleA_t)(HANDLE, LPSTR, DWORD, DWORD);
+typedef DWORD (__stdcall *pGetFinalPathNameByHandleW_t)(HANDLE, LPWSTR, DWORD, DWORD);
 
 // Exactly same as Perl's one in Win32.c
 typedef struct {
@@ -447,7 +450,7 @@ translate_ft_to_time_t(FILETIME ft) {
     return retval;
 }
 
-// Exactly same as Perl's one in Win32.c
+// Same as Perl's one in Win32.c, but this function use Perl data structure SV. I replace it with SPVM data structure.
 static int
 win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
                DWORD reparse_type) {
@@ -520,22 +523,42 @@ win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
                 }
             }
             else {
-                char path_buf[MAX_PATH+1];
+                wchar_t path_buf_tmp_w[MAX_PATH+1];
                 sbuf->st_mode = _S_IFREG;
 
                 if (!path) {
-                    pGetFinalPathNameByHandleA_t pGetFinalPathNameByHandleA =
-                        (pGetFinalPathNameByHandleA_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetFinalPathNameByHandleA");
-                    if (pGetFinalPathNameByHandleA) {
-                        len = pGetFinalPathNameByHandleA(handle, path_buf, sizeof(path_buf), 0);
+                    pGetFinalPathNameByHandleW_t pGetFinalPathNameByHandleW =
+                        (pGetFinalPathNameByHandleW_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetFinalPathNameByHandleW");
+                    if (pGetFinalPathNameByHandleW) {
+                        len = pGetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
+                        if (len > 0) {
+                          SPVM_ENV* env = thread_env;
+                          
+                          SPVM_VALUE* stack = env->new_stack(env);
+                          
+                          int32_t scope_id = env->enter_scope(env, stack);
+                          
+                          wchar_t* path_buf_w = env->new_memory_block(env, stack, sizeof(wchar_t) * (len + 1));
+                          
+                          len = pGetFinalPathNameByHandleW(handle, path_buf_w, len + 1, 0);
+                          
+                          assert(len > 0);
+                          
+                          int32_t error_id = 0;
+                          
+                          path = win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
+                          
+                          env->free_memory_block(env, stack, path_buf_w);
+                          
+                          assert(error_id == 0);
+                          
+                          env->leave_scope(env, stack, scope_id);
+                          
+                          env->free_stack(env, stack);
+                        }
                     }
                     else {
                         len = 0;
-                    }
-
-                    /* < to ensure there's space for the \0 */
-                    if (len && len < sizeof(path_buf)) {
-                        path = path_buf;
                     }
                 }
 
@@ -668,8 +691,6 @@ win32_lstat(const char *path, Stat_t *sbuf)
 #else // defined(_WIN32)
   typedef struct stat Stat_t;
 #endif // defined(_WIN32)
-
-static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
