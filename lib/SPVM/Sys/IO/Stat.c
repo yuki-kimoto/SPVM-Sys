@@ -199,7 +199,7 @@ translate_to_errno(void)
     }
 }
 
-// Exactly same as Perl's one in Win32.c
+// Exactly same as Perl's one in Win32.c, bytes_out is UTF-8
 static int
 do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
     MY_REPARSE_DATA_BUFFER linkdata;
@@ -225,7 +225,7 @@ do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
                 return -1;
             }
             bytes_out =
-                WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS,
+                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
                                     sd->PathBuffer + sd->PrintNameOffset/2,
                                     sd->PrintNameLength/2,
                                     buf, (int)bufsiz, NULL, &used_default);
@@ -242,7 +242,7 @@ do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
                 return -1;
             }
             bytes_out =
-                WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS,
+                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
                                     rd->PathBuffer + rd->PrintNameOffset/2,
                                     rd->PrintNameLength/2,
                                     buf, (int)bufsiz, NULL, &used_default);
