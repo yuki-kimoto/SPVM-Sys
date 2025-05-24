@@ -449,9 +449,9 @@ translate_ft_to_time_t(FILETIME ft) {
 }
 
 // Same as Perl's one in Win32.c, but this function use Perl data structure SV. I replace it with SPVM data structure.
+// And path argument is not needed.
 static int
-win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
-               DWORD reparse_type) {
+win32_stat_low(HANDLE handle, STRLEN len, Stat_t *sbuf, DWORD reparse_type) {
     DWORD type = GetFileType(handle);
     BY_HANDLE_FILE_INFORMATION bhi;
 
@@ -523,34 +523,33 @@ win32_stat_low(HANDLE handle, const char *path, STRLEN len, Stat_t *sbuf,
             else {
                 wchar_t path_buf_tmp_w[MAX_PATH+1];
                 sbuf->st_mode = _S_IFREG;
-
-                if (!path) {
-                  len = GetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
-                  if (len > 0) {
-                    SPVM_ENV* env = thread_env;
-                    
-                    SPVM_VALUE* stack = env->new_stack(env);
-                    
-                    int32_t scope_id = env->enter_scope(env, stack);
-                    
-                    wchar_t* path_buf_w = env->new_memory_block(env, stack, sizeof(wchar_t) * (len + 1));
-                    
-                    len = GetFinalPathNameByHandleW(handle, path_buf_w, len + 1, 0);
-                    
-                    assert(len > 0);
-                    
-                    int32_t error_id = 0;
-                    
-                    path = win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
-                    
-                    env->free_memory_block(env, stack, path_buf_w);
-                    
-                    assert(error_id == 0);
-                    
-                    env->leave_scope(env, stack, scope_id);
-                    
-                    env->free_stack(env, stack);
-                  }
+                
+                const char* path = NULL;
+                len = GetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
+                if (len > 0) {
+                  SPVM_ENV* env = thread_env;
+                  
+                  SPVM_VALUE* stack = env->new_stack(env);
+                  
+                  int32_t scope_id = env->enter_scope(env, stack);
+                  
+                  wchar_t* path_buf_w = env->new_memory_block(env, stack, sizeof(wchar_t) * (len + 1));
+                  
+                  len = GetFinalPathNameByHandleW(handle, path_buf_w, len + 1, 0);
+                  
+                  assert(len > 0);
+                  
+                  int32_t error_id = 0;
+                  
+                  path = win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
+                  
+                  env->free_memory_block(env, stack, path_buf_w);
+                  
+                  assert(error_id == 0);
+                  
+                  env->leave_scope(env, stack, scope_id);
+                  
+                  env->free_stack(env, stack);
                 }
 
                 if (path && len > 4 &&
@@ -622,7 +621,7 @@ win32_stat(const char *path, Stat_t *sbuf)
         }
     }
     if (handle != INVALID_HANDLE_VALUE) {
-        result = win32_stat_low(handle, path, strlen(path), sbuf, reparse_type);
+        result = win32_stat_low(handle, strlen(path), sbuf, reparse_type);
         CloseHandle(handle);
     }
     else {
@@ -668,7 +667,7 @@ win32_lstat(const char *path, Stat_t *sbuf)
         CloseHandle(f);
         return -1;
     }
-    result = win32_stat_low(f, NULL, 0, sbuf, 0);
+    result = win32_stat_low(f, 0, sbuf, 0);
 
     if (result != -1){
         sbuf->st_mode = (sbuf->st_mode & ~_S_IFMT) | _S_IFLNK;
@@ -804,7 +803,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   thread_env = env;
   HANDLE handle = (HANDLE)win32_get_osfhandle(fd);
-  int32_t status = win32_stat_low(handle, NULL, 0, stat_buf, 0);
+  int32_t status = win32_stat_low(handle, 0, stat_buf, 0);
 #else
   int32_t status = fstat(fd, stat_buf);
 #endif
