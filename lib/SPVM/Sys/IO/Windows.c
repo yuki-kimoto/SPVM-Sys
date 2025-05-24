@@ -253,7 +253,7 @@ do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, BOOL *is_symlink) {
                 return -1;
             }
             bytes_out =
-                WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS,
+                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
                                     sd->PathBuffer + sd->PrintNameOffset/2,
                                     sd->PrintNameLength/2,
                                     buf, (int)bufsiz, NULL, &used_default);
@@ -270,7 +270,7 @@ do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, BOOL *is_symlink) {
                 return -1;
             }
             bytes_out =
-                WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS,
+                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
                                     rd->PathBuffer + rd->PrintNameOffset/2,
                                     rd->PrintNameLength/2,
                                     buf, (int)bufsiz, NULL, &used_default);
@@ -294,7 +294,7 @@ do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, BOOL *is_symlink) {
 }
 
 static int
-win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
+win32_readlink(const wchar_t *pathname, char *buf, size_t bufsiz) {
     if (pathname == NULL || buf == NULL) {
         errno = EFAULT;
         return -1;
@@ -304,7 +304,7 @@ win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
         return -1;
     }
 
-    DWORD fileattr = GetFileAttributes(pathname);
+    DWORD fileattr = GetFileAttributesW(pathname);
     if (fileattr == INVALID_FILE_ATTRIBUTES) {
         translate_to_errno();
         return -1;
@@ -317,7 +317,7 @@ win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
     }
 
     HANDLE hlink =
-        CreateFileA(pathname, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+        CreateFileW(pathname, GENERIC_READ, 0, NULL, OPEN_EXISTING,
                     FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
     if (hlink == INVALID_HANDLE_VALUE) {
         translate_to_errno();
@@ -575,8 +575,13 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The buffer size $bufsiz must be less than or equal to the length of the buffer $buf.", __func__, FILE_NAME, __LINE__);
   }
   
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
   errno = 0;
-  int32_t placed_length = win32_readlink(path, buf, bufsiz);
+  int32_t placed_length = win32_readlink(path_w, buf, bufsiz);
   if (placed_length == -1) {
     env->die(env, stack, "[System Error]readlink() failed:%s. $path is \"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
