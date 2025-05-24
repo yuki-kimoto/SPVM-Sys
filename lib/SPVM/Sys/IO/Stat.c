@@ -634,11 +634,11 @@ win32_stat(const char *path, Stat_t *sbuf)
 
 // Exactly same as Perl's one in Win32.c
 static int
-win32_lstat(const char *path, Stat_t *sbuf)
+win32_lstat(const char* path, const wchar_t *path_w, Stat_t *sbuf)
 {
     HANDLE f;
     int result;
-    DWORD attr = GetFileAttributes(path); /* doesn't follow symlinks */
+    DWORD attr = GetFileAttributesW(path_w); /* doesn't follow symlinks */
 
     if (attr == INVALID_FILE_ATTRIBUTES) {
         translate_to_errno();
@@ -649,7 +649,7 @@ win32_lstat(const char *path, Stat_t *sbuf)
         return win32_stat(path, sbuf);
     }
 
-    f = CreateFileA(path, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+    f = CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
                            FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
     if (f == INVALID_HANDLE_VALUE) {
         translate_to_errno();
@@ -769,7 +769,13 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   thread_env = env;
-  int32_t status = win32_lstat(path, stat_buf);
+  
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  int32_t status = win32_lstat(path, path_w, stat_buf);
 #else
   int32_t status = lstat(path, stat_buf);
 #endif
