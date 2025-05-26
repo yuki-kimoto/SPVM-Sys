@@ -297,7 +297,6 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t error_id = 0;
-  
   void* obj_path = stack[0].oval;
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -308,7 +307,6 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (error_id) {
     goto END_OF_FUNC;
   }
-  
   DWORD fileattr = GetFileAttributesW(path_w);
   if (fileattr == INVALID_FILE_ATTRIBUTES) {
     translate_to_errno();
@@ -332,6 +330,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
+  
   MY_REPARSE_DATA_BUFFER linkdata;
   DWORD linkdata_returned;
   
@@ -340,6 +339,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
+  
   
   const wchar_t* PathBuffer = NULL;
   int32_t PrintNameOffset = -1;

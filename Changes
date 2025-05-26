@@ -10,6 +10,7 @@
       Sys::IO::DirStream#DESTROY
       Sys::IO::Dirent#d_name
       Sys#readlink.
+      Sys#lstat, Sys::IO::Windows#lstat
   [Incompatible Changes]
     * Remove Sys::IO::Windows#readlink method and add win_readlink method.
   
@@ -17,6 +18,9 @@
     * Add Sys::IO::Windows#is_symlink method.
   [Changes]
     * Sys#l method use Sys::IO::Windows#is_symlink method.
+  [Internal Changes]
+    * Rewrite Sys::IO::Windows#lstat completly.
+    
 0.540 2025-05-23
   [Incompatible Changes]
     * Sys#readdir method returns a file name instead of a directory entry.

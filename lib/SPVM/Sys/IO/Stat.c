@@ -246,6 +246,73 @@ win32_lstat(const char* path, const wchar_t *path_w, Stat_t *sbuf)
     return result;
 }
 
+static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {   
+  
+  int32_t error_id = 0;
+  
+  void* obj_path = stack[0].oval;
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    goto END_OF_FUNC;
+  }
+  
+  HANDLE handle = CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                         FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+  if (handle == INVALID_HANDLE_VALUE) {
+    translate_to_errno();
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  int32_t result = win32_stat_low(handle, 0, st_stat, 0);
+  
+  if (result == -1) {
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  int32_t is_sym = is_symlink(handle);
+  
+  if (!(handle == INVALID_HANDLE_VALUE)) {
+    CloseHandle(handle);
+    handle == INVALID_HANDLE_VALUE;
+  }
+  
+  if (is_sym) {
+    void* obj_link_text = NULL;
+    stack[0].oval = obj_path;
+    env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
+      goto END_OF_FUNC;
+    }
+    obj_link_text = stack[0].oval;
+    
+    int32_t link_text_length = env->length(env, stack, obj_link_text);
+    
+    st_stat->st_mode = (st_stat->st_mode & ~_S_IFMT) | _S_IFLNK;
+    st_stat->st_size = link_text_length;
+  }
+  
+  END_OF_FUNC:
+  
+  if (!(handle == INVALID_HANDLE_VALUE)) {
+    CloseHandle(handle);
+  }
+  
+  if (error_id) {
+    if (errno) {
+      env->die(env, stack, "[System Error]win_lstat() failed:%s. $path is \"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    }
+    
+    return error_id;
+  }
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
@@ -333,13 +400,9 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   thread_env = env;
-  
-  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    return error_id;
-  }
-  
-  int32_t status = win32_lstat(path, path_w, stat_buf);
+  stack[0].oval = obj_path;
+  error_id = win_lstat(env, stack, stat_buf);
+  int32_t status = error_id ? -1 : 0;
 #else
   int32_t status = lstat(path, stat_buf);
 #endif
