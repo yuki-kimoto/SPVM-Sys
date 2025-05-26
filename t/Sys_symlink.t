@@ -83,6 +83,10 @@ ok(SPVM::Sys->e($tmpfile2));
 ok(!SPVM::Sys->f($tmpfile2));
 ok(!SPVM::Sys->d($tmpfile2));
 ok(SPVM::Sys->l($tmpfile2), "-l sees it as a symlink");
+{
+  my $lstat = SPVM::Sys->lstat($tmpfile2);
+  is($lstat->st_size, length Encode::encode('UTF-8', SPVM::Sys->readlink($tmpfile2)));
+}
 SPVM::Sys->unlink($tmpfile2);
 
 ok(mkdir($tmpfile1), "make a directory");
