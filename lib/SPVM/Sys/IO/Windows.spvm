@@ -12,7 +12,7 @@ class Sys::IO::Windows {
   
   native static method symlink : int ($oldpath : string, $newpath : string);
   
-  native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
+  native static method win_readlink : string ($path : string);
   
   native static method realpath : mutable string ($path : string, $resolved_path : mutable string);
   

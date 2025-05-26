@@ -72,19 +72,15 @@ This method is implemented so that the beheivior is the same as L<Sys::IO#symlin
 
 Error numbers in Windows are replaced with the ones in POSIX.
 
-=head2 readlink
+=head2 win_readlink
 
-C<static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);>
+C<static method win_readlink : string ($path : string);>
 
-Calls the C<readlink> function implemented for Windows.
+If the file $path is a symbolic link or directory junction, returns its link text.
 
-Note:
+Exceptions:
 
-This method is implemented so that the beheivior is the same as L<Sys::IO#readlink|SPVM::Sys::IO/"readlink"> method as possible.
-
-Symbolic links and directory junctions in Windows are manipulated as symbolic links.
-
-Error numbers in Windows are replaced with the ones in POSIX.
+An exception is thrown if $path does not exist, if the process do not have the appropriate permission to open $path, or if $path is not a symbolic link or a directory junction.
 
 =head2 realpath
 

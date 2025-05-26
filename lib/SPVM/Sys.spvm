@@ -370,20 +370,20 @@ class Sys {
   
   static method readlink : string ($file : string) {
     
-    my $stat = Sys->lstat($file);
-    
-    my $readlink_buffer_size = (int)$stat->st_size;
-    
-    my $buffer = (mutable string)new_string_len $readlink_buffer_size;
-    
     if (Sys::OS->is_windows) {
-      Sys::IO::Windows->readlink($file, $buffer, $readlink_buffer_size);
+      return Sys::IO::Windows->win_readlink($file);
     }
     else {
+      my $stat = Sys->lstat($file);
+      
+      my $readlink_buffer_size = (int)$stat->st_size;
+      
+      my $buffer = (mutable string)new_string_len $readlink_buffer_size;
+      
       Sys::IO->readlink($file, $buffer, $readlink_buffer_size);
+      
+      return $buffer;
     }
-    
-    return $buffer;
   }
   
   static method chdir : void ($dir : string) {

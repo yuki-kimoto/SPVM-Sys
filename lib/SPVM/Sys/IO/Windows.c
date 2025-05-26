@@ -228,116 +228,6 @@ translate_to_errno(void)
     }
 }
 
-static int
-do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, BOOL *is_symlink) {
-    MY_REPARSE_DATA_BUFFER linkdata;
-    DWORD linkdata_returned;
-
-    if (is_symlink)
-        *is_symlink = FALSE;
-
-    if (!DeviceIoControl(hlink, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
-        translate_to_errno();
-        return -1;
-    }
-
-    int bytes_out;
-    BOOL used_default;
-    switch (linkdata.ReparseTag) {
-    case IO_REPARSE_TAG_SYMLINK:
-        {
-            const MY_SYMLINK_REPARSE_BUFFER * const sd =
-                &linkdata.Data.SymbolicLinkReparseBuffer;
-            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
-                errno = EINVAL;
-                return -1;
-            }
-            bytes_out =
-                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
-                                    sd->PathBuffer + sd->PrintNameOffset/2,
-                                    sd->PrintNameLength/2,
-                                    buf, (int)bufsiz, NULL, &used_default);
-            if (is_symlink)
-                *is_symlink = TRUE;
-        }
-        break;
-    case IO_REPARSE_TAG_MOUNT_POINT:
-        {
-            const MY_MOUNT_POINT_REPARSE_BUFFER * const rd =
-                &linkdata.Data.MountPointReparseBuffer;
-            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
-                errno = EINVAL;
-                return -1;
-            }
-            bytes_out =
-                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
-                                    rd->PathBuffer + rd->PrintNameOffset/2,
-                                    rd->PrintNameLength/2,
-                                    buf, (int)bufsiz, NULL, &used_default);
-            if (is_symlink)
-                *is_symlink = TRUE;
-        }
-        break;
-
-    default:
-        errno = EINVAL;
-        return -1;
-    }
-
-    if (bytes_out == 0 || used_default) {
-        /*() failed.conversion from unicode to ANSI or otherwise() failed.*/
-        errno = EINVAL;
-        return -1;
-    }
-
-    return bytes_out;
-}
-
-static int
-win32_readlink(const wchar_t *pathname, char *buf, size_t bufsiz) {
-    if (pathname == NULL || buf == NULL) {
-        errno = EFAULT;
-        return -1;
-    }
-    if (bufsiz <= 0) {
-        errno = EINVAL;
-        return -1;
-    }
-
-    DWORD fileattr = GetFileAttributesW(pathname);
-    if (fileattr == INVALID_FILE_ATTRIBUTES) {
-        translate_to_errno();
-        return -1;
-    }
-
-    if (!(fileattr & FILE_ATTRIBUTE_REPARSE_POINT)) {
-        /* not a symbolic link */
-        errno = EINVAL;
-        return -1;
-    }
-
-    HANDLE hlink =
-        CreateFileW(pathname, GENERIC_READ, 0, NULL, OPEN_EXISTING,
-                    FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
-    if (hlink == INVALID_HANDLE_VALUE) {
-        translate_to_errno();
-        return -1;
-    }
-    int bytes_out = do_readlink_handle(hlink, buf, bufsiz, NULL);
-    CloseHandle(hlink);
-    if (bytes_out < 0) {
-        /* errno already set */
-        return -1;
-    }
-
-    if ((size_t)bytes_out > bufsiz) {
-        errno = EINVAL;
-        return -1;
-    }
-
-    return bytes_out;
-}
-
 #define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
 #define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
 
@@ -547,9 +437,9 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
-  env->die(env, stack, "Sys::IO::Windows#readlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "Sys::IO::Windows#win_readlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t error_id = 0;
@@ -560,34 +450,126 @@ int32_t SPVM__Sys__IO__Windows__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
-  void* obj_buf = stack[1].oval;
-  if (!obj_buf) {
-    return env->die(env, stack, "The buffer $buf must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  char* buf = (char*)env->get_chars(env, stack, obj_buf);
-  int32_t buf_length = env->length(env, stack, obj_buf);
-  
-  int32_t bufsiz = stack[2].ival;
-  if (!(bufsiz >= 0)) {
-    return env->die(env, stack, "The buffer size $bufsiz must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-  if (!(bufsiz <= buf_length)) {
-    return env->die(env, stack, "The buffer size $bufsiz must be less than or equal to the length of the buffer $buf.", __func__, FILE_NAME, __LINE__);
-  }
-  
   wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
+    goto END_OF_FUNC;
+  }
+  
+  DWORD fileattr = GetFileAttributesW(path_w);
+  if (fileattr == INVALID_FILE_ATTRIBUTES) {
+    translate_to_errno();
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  if (!(fileattr & FILE_ATTRIBUTE_REPARSE_POINT)) {
+    /* not a symbolic link */
+    errno = EINVAL;
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  HANDLE hlink =
+    CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+  if (hlink == INVALID_HANDLE_VALUE) {
+    translate_to_errno();
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  MY_REPARSE_DATA_BUFFER linkdata;
+  DWORD linkdata_returned;
+  
+  if (!DeviceIoControl(hlink, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+    translate_to_errno();
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  const wchar_t* PathBuffer = NULL;
+  int32_t PrintNameOffset = -1;
+  int32_t PrintNameLength = -1;
+  switch (linkdata.ReparseTag) {
+    case IO_REPARSE_TAG_SYMLINK: {
+      const MY_SYMLINK_REPARSE_BUFFER * const sd =
+        &linkdata.Data.SymbolicLinkReparseBuffer;
+      if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
+        errno = EINVAL;
+        error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+        goto END_OF_FUNC;
+      }
+      
+      PathBuffer = sd->PathBuffer;
+      PrintNameOffset = sd->PrintNameOffset;
+      PrintNameLength = sd->PrintNameLength;
+      
+      break;
+    }
+    case IO_REPARSE_TAG_MOUNT_POINT: {
+      const MY_MOUNT_POINT_REPARSE_BUFFER * const rd =
+        &linkdata.Data.MountPointReparseBuffer;
+      if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
+        errno = EINVAL;
+        error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+        goto END_OF_FUNC;
+      }
+      
+      PathBuffer = rd->PathBuffer;
+      PrintNameOffset = rd->PrintNameOffset;
+      PrintNameLength = rd->PrintNameLength;
+      break;
+    }
+    default: {
+      errno = EINVAL;
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      goto END_OF_FUNC;
+    }
+  }
+  
+  int32_t bytes_out =
+    WideCharToMultiByte(CP_UTF8, 0,
+                        PathBuffer + PrintNameOffset/2,
+                        PrintNameLength/2,
+                        NULL, 0, NULL, NULL);
+                        
+  if (bytes_out == 0) {
+    /*() failed.conversion from unicode to ANSI or otherwise() failed.*/
+    errno = EINVAL;
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  void* obj_link_text = env->new_string(env, stack, NULL, bytes_out);
+  char* link_text = (char*)env->get_chars(env, stack, obj_link_text);
+  
+  bytes_out =
+    WideCharToMultiByte(CP_UTF8, 0,
+                        PathBuffer + PrintNameOffset/2,
+                        PrintNameLength/2,
+                        link_text, bytes_out, NULL, NULL);
+  if (bytes_out == 0) {
+    /*() failed.conversion from unicode to ANSI or otherwise() failed.*/
+    errno = EINVAL;
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  END_OF_FUNC:
+  
+  if (!(hlink == INVALID_HANDLE_VALUE)) {
+    CloseHandle(hlink);
+  }
+  
+  if (error_id) {
+    if (errno) {
+      env->die(env, stack, "[System Error]win_readlink() failed:%s. $path is \"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    }
+    
     return error_id;
   }
   
-  errno = 0;
-  int32_t placed_length = win32_readlink(path_w, buf, bufsiz);
-  if (placed_length == -1) {
-    env->die(env, stack, "[System Error]readlink() failed:%s. $path is \"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = placed_length;
+  stack[0].oval = obj_link_text;
   
   return 0;
 #endif

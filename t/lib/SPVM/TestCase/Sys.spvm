@@ -807,10 +807,25 @@ class TestCase::Sys {
       }
     }
     {
-      my $buffer = (mutable string)new_string_len 255;
       my $ret_file = Sys->readlink($file_symlink);
       
       unless ($ret_file eq $file) {
+        return 0;
+      }
+    }
+    
+    {
+      my $file = "t/ftest/file_empty.txt";
+      eval { Sys->readlink($file); }
+      unless ($@) {
+        return 0;
+      }
+    }
+    
+    {
+      my $file = "t/ftest/not_found_file";
+      eval { Sys->readlink($file); }
+      unless ($@) {
         return 0;
       }
     }

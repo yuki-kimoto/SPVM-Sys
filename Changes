@@ -9,6 +9,9 @@
       Sys#seekdir, Sys::IO#seekdir
       Sys::IO::DirStream#DESTROY
       Sys::IO::Dirent#d_name
+      Sys#readlink.
+  [Incompatible Changes]
+    * Remove Sys::IO::Windows#readlink method and add win_readlink method.
   
 0.540 2025-05-23
   [Incompatible Changes]
