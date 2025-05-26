@@ -2,7 +2,295 @@
 #define SPVM__SYS__WINDOWS__H
 
 #if defined(_WIN32)
+
 #include <windows.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <windows.h>
+#include <errno.h>
+#include <winbase.h>
+#include <fcntl.h>
+#include <direct.h>
+#include <time.h>
+#include <assert.h>
+
+static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
+
+// Exactly same as Perl's one in Win32.c
+typedef struct {
+    USHORT SubstituteNameOffset;
+    USHORT SubstituteNameLength;
+    USHORT PrintNameOffset;
+    USHORT PrintNameLength;
+    ULONG  Flags;
+    WCHAR  PathBuffer[MAX_PATH*3];
+} MY_SYMLINK_REPARSE_BUFFER;
+
+// Exactly same as Perl's one in Win32.c
+typedef struct {
+    USHORT SubstituteNameOffset;
+    USHORT SubstituteNameLength;
+    USHORT PrintNameOffset;
+    USHORT PrintNameLength;
+    WCHAR  PathBuffer[MAX_PATH*3];
+} MY_MOUNT_POINT_REPARSE_BUFFER;
+
+// Exactly same as Perl's one in Win32.c
+typedef struct {
+  ULONG  ReparseTag;
+  USHORT ReparseDataLength;
+  USHORT Reserved;
+  union {
+    MY_SYMLINK_REPARSE_BUFFER SymbolicLinkReparseBuffer;
+    MY_MOUNT_POINT_REPARSE_BUFFER MountPointReparseBuffer;
+    struct {
+      UCHAR DataBuffer[1];
+    } GenericReparseBuffer;
+  } Data;
+} MY_REPARSE_DATA_BUFFER;
+
+#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
+
+#ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
+#  define EDQUOT		WSAEDQUOT
+#endif
+
+#define strEQ(string1, string2) (strcmp(string1, string2) == 0)
+#define isSLASH(c) ((c) == '/' || (c) == '\\')
+
+#ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
+#  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
+#endif
+
+#ifndef SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
+#  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
+#endif
+
+// These are different from Perl's ones, but they must be defined well
+#define PerlDir_mapA(dir) dir
+#define dTHX 
+
+typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
+typedef BOOLEAN (__stdcall *pCreateSymbolicLinkW_t)(LPCWSTR, LPCWSTR, DWORD);
+
+// These are different from Perl's ones, but they must be defined well
+typedef BOOL bool;
+typedef uint32_t STRLEN;
+#define PerlDir_mapA(dir) dir
+#define dTHX 
+#define aTHX_ 
+#define MKTIME_LOCK 
+#define MKTIME_UNLOCK
+#define Zero(ptr, size, type) memset(ptr, 0, size * sizeof(type));
+typedef uint64_t Off_t;
+#define PERL_ARGS_ASSERT_MY_MEMRCHR
+
+#define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
+#define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
+
+// Exactly same as Perl's one in inline.h
+static void *
+S_my_memrchr(const char * s, const char c, const STRLEN len)
+{
+    /* memrchr(), since many platforms lack it */
+
+    const char * t = s + len - 1;
+
+    PERL_ARGS_ASSERT_MY_MEMRCHR;
+
+    while (t >= s) {
+        if (*t == c) {
+            return (void *) t;
+        }
+        t--;
+    }
+
+    return NULL;
+}
+
+// Exactly same as Perl's one in embed.h
+#define my_memrchr S_my_memrchr
+
+// Exactly same as Perl's one in Win32.h
+#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
+
+// Exactly same as Perl's one in Win32.h
+#define _S_IFSOCK ((unsigned)(_S_IFDIR | _S_IFIFO))
+
+// Exactly same as Perl's one in Win32.h
+typedef DWORD Dev_t;
+
+// Exactly same as Perl's one in Win32.h
+typedef unsigned __int64 Ino_t;
+
+// Exactly same as Perl's one in Win32.h
+struct w32_stat {
+    Dev_t st_dev;
+    Ino_t st_ino;
+    unsigned short st_mode;
+    DWORD st_nlink;
+    short st_uid;
+    short st_gid;
+    Dev_t st_rdev;
+    Off_t st_size;
+    time_t st_atime;
+    time_t st_mtime;
+    time_t st_ctime;
+};
+
+typedef struct w32_stat Stat_t;
+
+// Exactly same as Perl's one in sys/errno2.h
+#ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
+#  define EDQUOT		WSAEDQUOT
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#define SYMLINK_FOLLOW_LIMIT 63
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_SYMLINK
+#  define IO_REPARSE_TAG_SYMLINK                  (0xA000000CL)
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_AF_UNIX
+#  define IO_REPARSE_TAG_AF_UNIX 0x80000023
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_LX_FIFO
+#  define IO_REPARSE_TAG_LX_FIFO 0x80000024
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_LX_CHR
+#  define IO_REPARSE_TAG_LX_CHR  0x80000025
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_LX_BLK
+#  define IO_REPARSE_TAG_LX_BLK  0x80000026
+#endif
+
+__thread SPVM_ENV* thread_env;
+
+// Exactly same as Perl's one in Win32.c
+static
+intptr_t
+win32_get_osfhandle(int fd)
+{
+    return (intptr_t)_get_osfhandle(fd);
+}
+
+// Exactly same as Perl's one in Win32.c
+static void
+translate_to_errno(void)
+{
+    /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
+       both permissions errors and if the source is a directory, while
+       POSIX wants EACCES and EPERM respectively.
+    */
+    switch (GetLastError()) {
+    case ERROR_BAD_NET_NAME:
+    case ERROR_BAD_NETPATH:
+    case ERROR_BAD_PATHNAME:
+    case ERROR_FILE_NOT_FOUND:
+    case ERROR_FILENAME_EXCED_RANGE:
+    case ERROR_INVALID_DRIVE:
+    case ERROR_PATH_NOT_FOUND:
+      errno = ENOENT;
+      break;
+    case ERROR_ALREADY_EXISTS:
+      errno = EEXIST;
+      break;
+    case ERROR_ACCESS_DENIED:
+      errno = EACCES;
+      break;
+    case ERROR_PRIVILEGE_NOT_HELD:
+      errno = EPERM;
+      break;
+    case ERROR_NOT_SAME_DEVICE:
+      errno = EXDEV;
+      break;
+    case ERROR_DISK_FULL:
+      errno = ENOSPC;
+      break;
+    case ERROR_NOT_ENOUGH_QUOTA:
+      errno = EDQUOT;
+      break;
+    default:
+      /* ERROR_INVALID_FUNCTION - eg. symlink on a FAT volume */
+      errno = EINVAL;
+      break;
+    }
+}
+
+// Exactly same as Perl's one in Win32.c, bytes_out is UTF-8
+static int
+do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
+    MY_REPARSE_DATA_BUFFER linkdata;
+    DWORD linkdata_returned;
+
+    if (is_symlink)
+        *is_symlink = FALSE;
+
+    if (!DeviceIoControl(hlink, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+        translate_to_errno();
+        return -1;
+    }
+
+    int bytes_out;
+    BOOL used_default;
+    switch (linkdata.ReparseTag) {
+    case IO_REPARSE_TAG_SYMLINK:
+        {
+            const MY_SYMLINK_REPARSE_BUFFER * const sd =
+                &linkdata.Data.SymbolicLinkReparseBuffer;
+            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
+                errno = EINVAL;
+                return -1;
+            }
+            bytes_out =
+                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
+                                    sd->PathBuffer + sd->PrintNameOffset/2,
+                                    sd->PrintNameLength/2,
+                                    buf, (int)bufsiz, NULL, &used_default);
+            if (is_symlink)
+                *is_symlink = TRUE;
+        }
+        break;
+    case IO_REPARSE_TAG_MOUNT_POINT:
+        {
+            const MY_MOUNT_POINT_REPARSE_BUFFER * const rd =
+                &linkdata.Data.MountPointReparseBuffer;
+            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
+                errno = EINVAL;
+                return -1;
+            }
+            bytes_out =
+                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
+                                    rd->PathBuffer + rd->PrintNameOffset/2,
+                                    rd->PrintNameLength/2,
+                                    buf, (int)bufsiz, NULL, &used_default);
+            if (is_symlink)
+                *is_symlink = TRUE;
+        }
+        break;
+
+    default:
+        errno = EINVAL;
+        return -1;
+    }
+
+    if (bytes_out == 0 || used_default) {
+        /* failed conversion from unicode to ANSI or otherwise failed */
+        errno = EINVAL;
+        return -1;
+    }
+
+    return bytes_out;
+}
 
 static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
@@ -91,62 +379,6 @@ static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, wchar_t* 
   return utf8_string;
 }
 
-static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
-
-typedef struct {
-    USHORT SubstituteNameOffset;
-    USHORT SubstituteNameLength;
-    USHORT PrintNameOffset;
-    USHORT PrintNameLength;
-    ULONG  Flags;
-    WCHAR  PathBuffer[MAX_PATH*3];
-} MY_SYMLINK_REPARSE_BUFFER;
-
-typedef struct {
-    USHORT SubstituteNameOffset;
-    USHORT SubstituteNameLength;
-    USHORT PrintNameOffset;
-    USHORT PrintNameLength;
-    WCHAR  PathBuffer[MAX_PATH*3];
-} MY_MOUNT_POINT_REPARSE_BUFFER;
-
-typedef struct {
-  ULONG  ReparseTag;
-  USHORT ReparseDataLength;
-  USHORT Reserved;
-  union {
-    MY_SYMLINK_REPARSE_BUFFER SymbolicLinkReparseBuffer;
-    MY_MOUNT_POINT_REPARSE_BUFFER MountPointReparseBuffer;
-    struct {
-      UCHAR DataBuffer[1];
-    } GenericReparseBuffer;
-  } Data;
-} MY_REPARSE_DATA_BUFFER;
-
-#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
-
-#ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
-#  define EDQUOT		WSAEDQUOT
-#endif
-
-#define strEQ(string1, string2) (strcmp(string1, string2) == 0)
-#define isSLASH(c) ((c) == '/' || (c) == '\\')
-
-#ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
-#  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
-#endif
-
-#ifndef SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
-#  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
-#endif
-
-// These are different from Perl's ones, but they must be defined well
-#define PerlDir_mapA(dir) dir
-#define dTHX 
-
-typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
-typedef BOOLEAN (__stdcall *pCreateSymbolicLinkW_t)(LPCWSTR, LPCWSTR, DWORD);
-
 static BOOL
 is_symlink(HANDLE h) {
     MY_REPARSE_DATA_BUFFER linkdata;
@@ -184,252 +416,187 @@ is_symlink_name(const wchar_t *name) {
     return result;
 }
 
-// Same as Perl's win32_unlink in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
-static int
-win32_unlink(const wchar_t *filename)
-{
-  int ret;
-  DWORD attrs;
-  
-  attrs = GetFileAttributesW(filename);
-  if (attrs == 0xFFFFFFFF) {
-    errno = ENOENT;
-    return -1;
-  }
-  
-  if (attrs & FILE_ATTRIBUTE_READONLY) {
-    (void)SetFileAttributesW(filename, attrs & ~FILE_ATTRIBUTE_READONLY);
-    ret = _wunlink(filename);
-    if (ret == -1)
-        (void)SetFileAttributesW(filename, attrs);
-  }
-  else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
-    == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
-         && is_symlink_name(filename)) {
-    ret = _wrmdir(filename);
-  }
-  else {
-    ret = _wunlink(filename);
-  }
-  
-  return ret;
-}
-
-// Same as Perl's win32_rename in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
-static int
-win32_rename(const wchar_t *oname, const wchar_t *newname)
-{
-    wchar_t szOldName[MAX_PATH+1];
-    BOOL bResult;
-    DWORD dwFlags = MOVEFILE_COPY_ALLOWED;
-    dTHX;
-
-    if (_wcsicmp(newname, oname))
-        dwFlags |= MOVEFILE_REPLACE_EXISTING;
-    wcscpy(szOldName, oname);
-    
-    bResult = MoveFileExW(szOldName,newname, dwFlags);
-    
-    if (!bResult) {
-        DWORD err = GetLastError();
-        switch (err) {
-        case ERROR_BAD_NET_NAME:
-        case ERROR_BAD_NETPATH:
-        case ERROR_BAD_PATHNAME:
-        case ERROR_FILE_NOT_FOUND:
-        case ERROR_FILENAME_EXCED_RANGE:
-        case ERROR_INVALID_DRIVE:
-        case ERROR_NO_MORE_FILES:
-        case ERROR_PATH_NOT_FOUND:
-            errno = ENOENT;
-            break;
-        case ERROR_DISK_FULL:
-            errno = ENOSPC;
-            break;
-        case ERROR_NOT_ENOUGH_QUOTA:
-            errno = EDQUOT;
-            break;
-        default:
-            errno = EACCES;
-            break;
-        }
+// Exactly same as Perl's one in Win32.c
+static
+int
+win32_readlink(const char *pathname, char *buf, size_t bufsiz) {
+    if (pathname == NULL || buf == NULL) {
+        errno = EFAULT;
         return -1;
     }
-    return 0;
-}
-
-static void
-translate_to_errno(void)
-{
-    /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
-       both permissions errors and if the source is a directory, while
-       POSIX wants EACCES and EPERM respectively.
-    */
-    switch (GetLastError()) {
-    case ERROR_BAD_NET_NAME:
-    case ERROR_BAD_NETPATH:
-    case ERROR_BAD_PATHNAME:
-    case ERROR_FILE_NOT_FOUND:
-    case ERROR_FILENAME_EXCED_RANGE:
-    case ERROR_INVALID_DRIVE:
-    case ERROR_PATH_NOT_FOUND:
-      errno = ENOENT;
-      break;
-    case ERROR_ALREADY_EXISTS:
-      errno = EEXIST;
-      break;
-    case ERROR_ACCESS_DENIED:
-      errno = EACCES;
-      break;
-    case ERROR_PRIVILEGE_NOT_HELD:
-      errno = EPERM;
-      break;
-    case ERROR_NOT_SAME_DEVICE:
-      errno = EXDEV;
-      break;
-    case ERROR_DISK_FULL:
-      errno = ENOSPC;
-      break;
-    case ERROR_NOT_ENOUGH_QUOTA:
-      errno = EDQUOT;
-      break;
-    default:
-      /* ERROR_INVALID_FUNCTION - eg. symlink on a FAT volume */
-      errno = EINVAL;
-      break;
-    }
-}
-
-#define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
-#define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
-
-static int
-win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wchar_t *newfile)
-{
-    size_t oldfile_len = wcslen(oldfile);
-    pCreateSymbolicLinkW_t pCreateSymbolicLinkW =
-        (pCreateSymbolicLinkW_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "CreateSymbolicLinkW");
-    DWORD create_flags = 0;
-
-    /* this flag can be used only on Windows 10 1703 or newer */
-    if (g_osver.dwMajorVersion > 10 ||
-        (g_osver.dwMajorVersion == 10 &&
-         (g_osver.dwMinorVersion > 0 || g_osver.dwBuildNumber > 15063)))
-    {
-        create_flags |= SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
-    }
-
-    if (!pCreateSymbolicLinkW) {
-        errno = ENOSYS;
+    if (bufsiz <= 0) {
+        errno = EINVAL;
         return -1;
     }
 
-    if (wcschr(oldfile, L'/')) {
-        /* Win32 (or perhaps NTFS) won't follow symlinks containing
-           /, so replace any with \\
-        */
-        wchar_t *temp = (wchar_t*)env->new_memory_block(env, stack, (wcslen(oldfile) + 1) * sizeof(wchar_t));
-        memcpy(temp, oldfile, (wcslen(oldfile) + 1) * sizeof(wchar_t));
-        wchar_t *p = temp;
-        while (*p) {
-            if (*p == L'/') {
-                *p = '\\';
-            }
-            ++p;
-        }
-        *p = 0;
-        oldfile = temp;
-        oldfile_len = p - temp;
-        env->free_memory_block(env, stack, temp);
-    }
-
-    /* are we linking to a directory?
-       CreateSymlinkW() needs to know if the target is a directory,
-       If it looks like a directory name:
-        - ends in slash
-        - is just . or ..
-        - ends in /. or /.. (with either slash)
-        - is a simple drive letter
-       assume it's a directory.
-       Otherwise if the oldfile is relative we need to make a relative path
-       based on the newfile to check if the target is a directory.
-    */
-    if ((oldfile_len >= 1 && isSLASHW(oldfile[oldfile_len-1])) ||
-        strEQW(oldfile, L"..") ||
-        strEQW(oldfile, L".") ||
-        (isSLASH(oldfile[oldfile_len-2]) && oldfile[oldfile_len-1] == '.') ||
-        strEQW(oldfile+oldfile_len-3, L"\\..") ||
-        (oldfile_len == 2 && oldfile[1] == L':')) {
-        create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
-    }
-    else {
-        DWORD dest_attr;
-        const wchar_t *dest_path = oldfile;
-        wchar_t szTargetName[MAX_PATH+1];
-
-        if (oldfile_len >= 3 && oldfile[1] == ':') {
-            /* relative to current directory on a drive, or absolute */
-            /* dest_path = oldfile; already done */
-        }
-        else if (oldfile[0] != L'\\') {
-            size_t newfile_len = wcslen(newfile);
-            wchar_t *last_slash = wcsrchr(newfile, L'/');
-            wchar_t *last_bslash = wcsrchr(newfile, L'\\');
-            wchar_t *end_dir = last_slash && last_bslash
-                ? ( last_slash > last_bslash ? last_slash : last_bslash)
-                : last_slash ? last_slash : last_bslash ? last_bslash : NULL;
-
-            if (end_dir) {
-                if ((end_dir - newfile + 1) + oldfile_len > MAX_PATH) {
-                    /* too long */
-                    errno = EINVAL;
-                    return -1;
-                }
-
-                memcpy(szTargetName, newfile, (end_dir - newfile + 1) * sizeof(wchar_t));
-                wcscpy(szTargetName + (end_dir - newfile + 1), oldfile);
-                dest_path = szTargetName;
-            }
-            else {
-                /* newpath is just a filename */
-                /* dest_path = oldfile; */
-            }
-        }
-
-        dest_attr = GetFileAttributesW(dest_path);
-        if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
-            create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
-        }
-    }
-
-    if (!pCreateSymbolicLinkW(newfile, oldfile, create_flags)) {
+    DWORD fileattr = GetFileAttributes(pathname);
+    if (fileattr == INVALID_FILE_ATTRIBUTES) {
         translate_to_errno();
         return -1;
     }
 
-    return 0;
+    if (!(fileattr & FILE_ATTRIBUTE_REPARSE_POINT)) {
+        /* not a symbolic link */
+        errno = EINVAL;
+        return -1;
+    }
+
+    HANDLE hlink =
+        CreateFileA(pathname, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                    FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    if (hlink == INVALID_HANDLE_VALUE) {
+        translate_to_errno();
+        return -1;
+    }
+    int bytes_out = do_readlink_handle(hlink, buf, bufsiz, NULL);
+    CloseHandle(hlink);
+    if (bytes_out < 0) {
+        /* errno already set */
+        return -1;
+    }
+
+    if ((size_t)bytes_out > bufsiz) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    return bytes_out;
 }
 
-// Original implementation
-static int win32_realpath(const wchar_t* path, wchar_t* out_path, int32_t out_path_length) {
-  
-  int32_t len = 0; // 0 indicates an error
-  HANDLE hFile = CreateFileW(path, FILE_READ_ATTRIBUTES,
-                    FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
-                    NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-  
-  if (hFile == INVALID_HANDLE_VALUE) {
-    len = -1;
-    goto END_OF_FUNC;
-  }
-  
-  len = GetFinalPathNameByHandleW(hFile, out_path, out_path_length, 0);
-  
-  END_OF_FUNC:
-  
-  CloseHandle(hFile);
-  
-  return len;
+// The logic is the same as Perl's one in Win32.c, but this function use Perl data structure SV. I replace it with SPVM data structure.
+static HANDLE
+S_follow_symlinks_to(const char *pathname, DWORD *reparse_type) {
+    
+    SPVM_ENV* env = thread_env;
+    
+    SPVM_VALUE* stack = env->new_stack(env);
+    
+    int32_t scope_id = env->enter_scope(env, stack);
+    
+    char link_target[MAX_PATH];
+    void* work_path = env->new_string(env, stack, pathname, strlen(pathname));
+    int link_count = 0;
+    int link_len;
+    HANDLE handle;
+    
+    *reparse_type = 0;
+    
+    while ((link_len = win32_readlink(env->get_chars(env, stack, work_path), link_target,
+                                      sizeof(link_target))) > 0) {
+        if (link_count++ >= SYMLINK_FOLLOW_LIMIT) {
+            /* Windows doesn't appear to ever return ELOOP,
+               let's do better ourselves
+            */
+            errno = ELOOP;
+            handle = INVALID_HANDLE_VALUE;
+            goto END_OF_FUNC;
+        }
+        /* Adjust the linktarget based on the link source or current
+           directory as needed.
+        */
+        if (link_target[0] == '\\'
+            || link_target[0] == '/'
+            || (link_len >=2 && link_target[1] == ':')) {
+            /* link is absolute */
+            work_path = env->new_string(env, stack, link_target, link_len);
+        }
+        else {
+            STRLEN work_len;
+            const char *workp = env->get_chars(env, stack, work_path);
+            const char *final_bslash =
+                (const char *)my_memrchr(workp, '\\', work_len);
+            const char *final_slash =
+                (const char *)my_memrchr(workp, '/', work_len);
+            const char *path_sep = NULL;
+            if (final_bslash && final_slash)
+                path_sep = final_bslash > final_slash ? final_bslash : final_slash;
+            else if (final_bslash)
+                path_sep = final_bslash;
+            else if (final_slash)
+                path_sep = final_slash;
+
+            if (path_sep) {
+                void* new_path = env->new_string(env, stack, workp, path_sep - workp + 1);
+                env->concat(env, stack, new_path, env->new_string(env, stack, link_target, link_len));
+                work_path = new_path;
+            }
+            else {
+                /* should only get here the first time around */
+                assert(link_count == 1);
+                char path_temp[MAX_PATH];
+                DWORD path_len = GetCurrentDirectoryA(sizeof(path_temp), path_temp);
+                if (!path_len || path_len > sizeof(path_temp)) {
+                    errno = EINVAL;
+                    handle = INVALID_HANDLE_VALUE;
+                    goto END_OF_FUNC;
+                }
+
+                void* new_path = env->new_string(env, stack, path_temp, path_len);
+                if (path_temp[path_len-1] != '\\') {
+                    new_path = env->concat(env, stack, new_path, env->new_string_nolen(env, stack, "\\"));
+                }
+                new_path = env->concat(env, stack, new_path, env->new_string(env, stack, link_target, link_len));
+                work_path = new_path;
+            }
+        }
+    }
+
+    handle =
+        CreateFileA(env->get_chars(env, stack, work_path), GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                    FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    if (handle != INVALID_HANDLE_VALUE) {
+        MY_REPARSE_DATA_BUFFER linkdata;
+        DWORD linkdata_returned;
+
+        if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0,
+                             &linkdata, sizeof(linkdata),
+                             &linkdata_returned, NULL)) {
+            translate_to_errno();
+            CloseHandle(handle);
+            handle = INVALID_HANDLE_VALUE;
+            goto END_OF_FUNC;
+        }
+        *reparse_type = linkdata.ReparseTag;
+        goto END_OF_FUNC;
+    }
+    else {
+        translate_to_errno();
+    }
+    
+    END_OF_FUNC:
+    
+    env->leave_scope(env, stack, scope_id);
+    
+    env->free_stack(env, stack);
+    
+    return handle;
+}
+
+// Exactly same as Perl's one in Win32.c
+static
+time_t
+translate_ft_to_time_t(FILETIME ft) {
+    SYSTEMTIME st;
+    struct tm pt;
+    time_t retval;
+    dTHX;
+
+    if (!FileTimeToSystemTime(&ft, &st))
+        return -1;
+
+    Zero(&pt, 1, struct tm);
+    pt.tm_year = st.wYear - 1900;
+    pt.tm_mon = st.wMonth - 1;
+    pt.tm_mday = st.wDay;
+    pt.tm_hour = st.wHour;
+    pt.tm_min = st.wMinute;
+    pt.tm_sec = st.wSecond;
+
+    MKTIME_LOCK;
+    retval = _mkgmtime(&pt);
+    MKTIME_UNLOCK;
+
+    return retval;
 }
 
 #endif // defined(_WIN32)

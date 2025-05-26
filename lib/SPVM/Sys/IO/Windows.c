@@ -9,15 +9,210 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 // These implementations are originally copied form Perl win32/win32.c and win32/win32.h
 
-#include <sys/stat.h>
-#include <unistd.h>
-#include <windows.h>
-#include <errno.h>
-#include <winbase.h>
-#include <fcntl.h>
-#include <direct.h>
-
 #include "Sys-Windows.h"
+
+// Same as Perl's win32_unlink in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
+static int
+win32_unlink(const wchar_t *filename)
+{
+  int ret;
+  DWORD attrs;
+  
+  attrs = GetFileAttributesW(filename);
+  if (attrs == 0xFFFFFFFF) {
+    errno = ENOENT;
+    return -1;
+  }
+  
+  if (attrs & FILE_ATTRIBUTE_READONLY) {
+    (void)SetFileAttributesW(filename, attrs & ~FILE_ATTRIBUTE_READONLY);
+    ret = _wunlink(filename);
+    if (ret == -1)
+        (void)SetFileAttributesW(filename, attrs);
+  }
+  else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
+    == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
+         && is_symlink_name(filename)) {
+    ret = _wrmdir(filename);
+  }
+  else {
+    ret = _wunlink(filename);
+  }
+  
+  return ret;
+}
+
+// Same as Perl's win32_rename in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
+static int
+win32_rename(const wchar_t *oname, const wchar_t *newname)
+{
+    wchar_t szOldName[MAX_PATH+1];
+    BOOL bResult;
+    DWORD dwFlags = MOVEFILE_COPY_ALLOWED;
+    dTHX;
+
+    if (_wcsicmp(newname, oname))
+        dwFlags |= MOVEFILE_REPLACE_EXISTING;
+    wcscpy(szOldName, oname);
+    
+    bResult = MoveFileExW(szOldName,newname, dwFlags);
+    
+    if (!bResult) {
+        DWORD err = GetLastError();
+        switch (err) {
+        case ERROR_BAD_NET_NAME:
+        case ERROR_BAD_NETPATH:
+        case ERROR_BAD_PATHNAME:
+        case ERROR_FILE_NOT_FOUND:
+        case ERROR_FILENAME_EXCED_RANGE:
+        case ERROR_INVALID_DRIVE:
+        case ERROR_NO_MORE_FILES:
+        case ERROR_PATH_NOT_FOUND:
+            errno = ENOENT;
+            break;
+        case ERROR_DISK_FULL:
+            errno = ENOSPC;
+            break;
+        case ERROR_NOT_ENOUGH_QUOTA:
+            errno = EDQUOT;
+            break;
+        default:
+            errno = EACCES;
+            break;
+        }
+        return -1;
+    }
+    return 0;
+}
+
+static int
+win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wchar_t *newfile)
+{
+    size_t oldfile_len = wcslen(oldfile);
+    pCreateSymbolicLinkW_t pCreateSymbolicLinkW =
+        (pCreateSymbolicLinkW_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "CreateSymbolicLinkW");
+    DWORD create_flags = 0;
+
+    /* this flag can be used only on Windows 10 1703 or newer */
+    if (g_osver.dwMajorVersion > 10 ||
+        (g_osver.dwMajorVersion == 10 &&
+         (g_osver.dwMinorVersion > 0 || g_osver.dwBuildNumber > 15063)))
+    {
+        create_flags |= SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
+    }
+
+    if (!pCreateSymbolicLinkW) {
+        errno = ENOSYS;
+        return -1;
+    }
+
+    if (wcschr(oldfile, L'/')) {
+        /* Win32 (or perhaps NTFS) won't follow symlinks containing
+           /, so replace any with \\
+        */
+        wchar_t *temp = (wchar_t*)env->new_memory_block(env, stack, (wcslen(oldfile) + 1) * sizeof(wchar_t));
+        memcpy(temp, oldfile, (wcslen(oldfile) + 1) * sizeof(wchar_t));
+        wchar_t *p = temp;
+        while (*p) {
+            if (*p == L'/') {
+                *p = '\\';
+            }
+            ++p;
+        }
+        *p = 0;
+        oldfile = temp;
+        oldfile_len = p - temp;
+        env->free_memory_block(env, stack, temp);
+    }
+
+    /* are we linking to a directory?
+       CreateSymlinkW() needs to know if the target is a directory,
+       If it looks like a directory name:
+        - ends in slash
+        - is just . or ..
+        - ends in /. or /.. (with either slash)
+        - is a simple drive letter
+       assume it's a directory.
+       Otherwise if the oldfile is relative we need to make a relative path
+       based on the newfile to check if the target is a directory.
+    */
+    if ((oldfile_len >= 1 && isSLASHW(oldfile[oldfile_len-1])) ||
+        strEQW(oldfile, L"..") ||
+        strEQW(oldfile, L".") ||
+        (isSLASH(oldfile[oldfile_len-2]) && oldfile[oldfile_len-1] == '.') ||
+        strEQW(oldfile+oldfile_len-3, L"\\..") ||
+        (oldfile_len == 2 && oldfile[1] == L':')) {
+        create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+    }
+    else {
+        DWORD dest_attr;
+        const wchar_t *dest_path = oldfile;
+        wchar_t szTargetName[MAX_PATH+1];
+
+        if (oldfile_len >= 3 && oldfile[1] == ':') {
+            /* relative to current directory on a drive, or absolute */
+            /* dest_path = oldfile; already done */
+        }
+        else if (oldfile[0] != L'\\') {
+            size_t newfile_len = wcslen(newfile);
+            wchar_t *last_slash = wcsrchr(newfile, L'/');
+            wchar_t *last_bslash = wcsrchr(newfile, L'\\');
+            wchar_t *end_dir = last_slash && last_bslash
+                ? ( last_slash > last_bslash ? last_slash : last_bslash)
+                : last_slash ? last_slash : last_bslash ? last_bslash : NULL;
+
+            if (end_dir) {
+                if ((end_dir - newfile + 1) + oldfile_len > MAX_PATH) {
+                    /* too long */
+                    errno = EINVAL;
+                    return -1;
+                }
+
+                memcpy(szTargetName, newfile, (end_dir - newfile + 1) * sizeof(wchar_t));
+                wcscpy(szTargetName + (end_dir - newfile + 1), oldfile);
+                dest_path = szTargetName;
+            }
+            else {
+                /* newpath is just a filename */
+                /* dest_path = oldfile; */
+            }
+        }
+
+        dest_attr = GetFileAttributesW(dest_path);
+        if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
+            create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+        }
+    }
+
+    if (!pCreateSymbolicLinkW(newfile, oldfile, create_flags)) {
+        translate_to_errno();
+        return -1;
+    }
+
+    return 0;
+}
+
+// Original implementation
+static int win32_realpath(const wchar_t* path, wchar_t* out_path, int32_t out_path_length) {
+  
+  int32_t len = 0; // 0 indicates an error
+  HANDLE hFile = CreateFileW(path, FILE_READ_ATTRIBUTES,
+                    FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+  
+  if (hFile == INVALID_HANDLE_VALUE) {
+    len = -1;
+    goto END_OF_FUNC;
+  }
+  
+  len = GetFinalPathNameByHandleW(hFile, out_path, out_path_length, 0);
+  
+  END_OF_FUNC:
+  
+  CloseHandle(hFile);
+  
+  return len;
+}
 
 #endif // _WIN32
 
