@@ -503,7 +503,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t len = win32_realpath(path_w, NULL, 0);
   
   if (len == -1) {
-    env->die(env, stack, "[System Error]CreateFile() failed:the symbolic link is not permitted, broken or not found. $path:\"%s\".", path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]win32_realpath() failed:the symbolic link is not permitted, broken or not found. $path:\"%s\".", path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   else if (!(len > 0)) {
