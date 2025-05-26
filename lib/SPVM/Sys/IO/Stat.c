@@ -16,6 +16,7 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
   typedef struct stat Stat_t;
 #endif
 
+#if defined(_WIN32)
 // Same as Perl's one in Win32.c, but this function use Perl data structure SV. I replace it with SPVM data structure.
 // And path argument is not needed.
 static int
@@ -313,6 +314,8 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   return 0;
 }
+
+#endif // defined(_WIN32)
 
 int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
