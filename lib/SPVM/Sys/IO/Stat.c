@@ -276,12 +276,13 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   int32_t is_sym = is_symlink(handle);
   
-  if (!(handle == INVALID_HANDLE_VALUE)) {
-    CloseHandle(handle);
-    handle == INVALID_HANDLE_VALUE;
-  }
-  
   if (is_sym) {
+    // Sys::IO::Windows#win_readlink failed in some cases if the handle is not closed.
+    if (!(handle == INVALID_HANDLE_VALUE)) {
+      CloseHandle(handle);
+      handle == INVALID_HANDLE_VALUE;
+    }
+    
     void* obj_link_text = NULL;
     stack[0].oval = obj_path;
     env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, FILE_NAME, __LINE__);
