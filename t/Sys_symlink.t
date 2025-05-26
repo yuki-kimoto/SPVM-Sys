@@ -80,7 +80,6 @@ plan skip_all => "no access to symlink as this user"
 
 ok($ok, "create a dangling symbolic link");
 ok(SPVM::Sys->e($tmpfile2));
-
 ok(!SPVM::Sys->f($tmpfile2));
 ok(!SPVM::Sys->d($tmpfile2));
 ok(SPVM::Sys->l($tmpfile2), "-l sees it as a symlink");
@@ -94,6 +93,11 @@ ok(SPVM::Sys->l($tmpfile2), "which does look like a symlink");
 ok(SPVM::Sys->d($tmpfile2), "normal -d sees it as a directory");
 is(SPVM::Sys->readlink($tmpfile2), $tmpfile1, "readlink works");
 check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
+
+{
+  my $lstat = SPVM::Sys->lstat($tmpfile2);
+  is($lstat->st_size, length Encode::encode('UTF-8', SPVM::Sys->readlink($tmpfile2)));
+}
 
 # _realpath
 {
