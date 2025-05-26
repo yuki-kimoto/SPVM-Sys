@@ -90,6 +90,16 @@ Resolves symbolic link in the path $path and converts it to a canonical absolute
 
 $resolved_path must be undef.
 
+=head2 is_symlink
+
+C<static method is_symlink : int ($path : string);>
+
+If the file $path is a symblic link or a directory junction, returns 1; otherwise returns 0.
+
+Excepsitons:
+
+The path $path must be defined. Otherwise an exception is thrown.
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

@@ -385,18 +385,18 @@ is_symlink(HANDLE h) {
     const MY_SYMLINK_REPARSE_BUFFER * const sd =
         &linkdata.Data.SymbolicLinkReparseBuffer;
     DWORD linkdata_returned;
-
+    
     if (!DeviceIoControl(h, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
         return FALSE;
     }
-
+    
     if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)
         || (linkdata.ReparseTag != IO_REPARSE_TAG_SYMLINK
             && linkdata.ReparseTag != IO_REPARSE_TAG_MOUNT_POINT)) {
         /* some other type of reparse point */
         return FALSE;
     }
-
+    
     return TRUE;
 }
 
@@ -408,7 +408,8 @@ is_symlink_name(const wchar_t *name) {
     BOOL result;
 
     if (f == INVALID_HANDLE_VALUE) {
-        return FALSE;
+      translate_to_errno();
+      return FALSE;
     }
     result = is_symlink(f);
     CloseHandle(f);

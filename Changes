@@ -13,6 +13,10 @@
   [Incompatible Changes]
     * Remove Sys::IO::Windows#readlink method and add win_readlink method.
   
+  [New Features]
+    * Add Sys::IO::Windows#is_symlink method.
+  [Changes]
+    * Sys#l method use Sys::IO::Windows#is_symlink method.
 0.540 2025-05-23
   [Incompatible Changes]
     * Sys#readdir method returns a file name instead of a directory entry.

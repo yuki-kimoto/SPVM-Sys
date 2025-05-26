@@ -510,6 +510,8 @@ class TestCase::Sys {
           return 0;
         }
         
+        warn Errno->errno;
+        
         unless (Errno->errno > 0) {
           return 0;
         }
