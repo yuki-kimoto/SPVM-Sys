@@ -300,11 +300,11 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  HANDLE hlink =
+  HANDLE handle =
     CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
                 FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
   
-  if (hlink == INVALID_HANDLE_VALUE) {
+  if (handle == INVALID_HANDLE_VALUE) {
     translate_to_errno();
     env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -314,7 +314,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   MY_REPARSE_DATA_BUFFER linkdata;
   DWORD linkdata_returned;
-  if (!DeviceIoControl(hlink, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+  if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
     translate_to_errno();
     env->die(env, stack, "[System Error]DeviceIoControl() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -394,8 +394,8 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   END_OF_FUNC:
   
-  if (!(hlink == INVALID_HANDLE_VALUE)) {
-    CloseHandle(hlink);
+  if (!(handle == INVALID_HANDLE_VALUE)) {
+    CloseHandle(handle);
   }
   
   if (error_id) {
