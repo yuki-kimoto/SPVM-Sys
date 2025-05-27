@@ -110,6 +110,32 @@ check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
   warn "[Test Output]_realpath:$realpath. $tmpfile1, $tmpfile2";
   like($realpath, qr|/file1|);
   unlike($realpath, qr|^//?/|);
+  
+  if (SPVM::Sys::OS->is_windows) {
+    {
+      my $resolved_path = SPVM::Sys::IO::Windows->_follow_symlinks_to($tmpfile2);
+      ok(File::Spec->file_name_is_absolute($resolved_path));
+      like($resolved_path, qr|file1|);
+    }
+    
+    {
+      my $cwd = Cwd::getcwd;
+      
+      chdir $tmp_dir
+        or die "Cannot change directory to \"$tmp_dir\":$!";
+      
+      my $resolved_path = SPVM::Sys::IO::Windows->_follow_symlinks_to('file2');
+      ok(File::Spec->file_name_is_absolute($resolved_path));
+      like($resolved_path, qr|file1|);
+      
+      chdir $cwd
+        or die "Cannot change directory to \"$tmp_dir\":$!";
+      
+    }
+  }
+  else {
+    warn "[Test Skip]_follow_symlinks_to.";
+  }
 }
 
 SPVM::Sys->unlink($tmpfile2);

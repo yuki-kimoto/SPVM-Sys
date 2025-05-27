@@ -14,8 +14,58 @@ class Sys::IO::Windows {
   
   native static method win_readlink : string ($path : string);
   
-  native static method realpath : mutable string ($path : string, $resolved_path : mutable string);
+  native static method realpath : string ($path : string, $resolved_path : mutable string);
   
   native static method is_symlink : int ($path : string);
+  
+  # Only used from Sys/IO/Stat.c and realpath method
+  static method _follow_symlinks_to : string ($path : string) {
+    
+    # $path is absolute 
+    unless ($path->[0] == '\\' || $path->[0] == '/' || (length $path >= 2 && $path->[1] == ':')) {
+      my $cwd = Sys->_getcwd;
+      $path = "$cwd/$path";
+    }
+    
+    my $resolved_path = $path;
+    my $symlink_follow_limit = 63;
+    my $link_count = 0;
+    while (1) {
+      
+      my $link_text = (string)undef;
+      eval { $link_text = &win_readlink($resolved_path); }
+      if ($@) {
+        last;
+      }
+      
+      if ($link_count++ >= $symlink_follow_limit) {
+        die "Symbolic link nesting limit exceeded.";
+      }
+      
+      if ($link_text->[0] == '\\' || $link_text->[0] == '/' || (length $link_text >= 2 && $link_text->[1] == ':')) {
+        # $link_text is absolute
+        $resolved_path = $link_text;
+      }
+      else {
+        my $last_sep_index = -1;
+        for (my $i = length $resolved_path - 1; $i >= 0; $i--) {
+          my $char = $resolved_path->[$i];
+          if ($char == '\\' || $char == '/') {
+            $last_sep_index = $i;
+            last;
+          }
+        }
+        
+        unless ($last_sep_index >= 0) {
+          die "[Unpexpexted Erro]$link_text is not an absolute path.";
+        }
+        
+        my $resolved_dir = Fn->substr($resolved_path, $last_sep_index + 1);
+        $resolved_path = "$resolved_dir/$link_text";
+      }
+    }
+    
+    return $resolved_path;
+  }
   
 }

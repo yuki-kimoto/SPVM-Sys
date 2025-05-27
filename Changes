@@ -20,7 +20,7 @@
     * Sys#l method use Sys::IO::Windows#is_symlink method.
   [Internal Changes]
     * Rewrite Sys::IO::Windows#lstat completly.
-    
+    * Add Sys::IO::Windows#_follow_symlinks_to method.
 0.540 2025-05-23
   [Incompatible Changes]
     * Sys#readdir method returns a file name instead of a directory entry.
