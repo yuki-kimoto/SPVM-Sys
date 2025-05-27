@@ -66,27 +66,35 @@ class TestCase::Sys::Process {
 
   static method setpriority : int () {
     
+    my $not_supported = 0;
+    my $failed = 0;
     {
       my $status = -1;
       eval { $status = Sys::Process->setpriority(PROCESS->PRIO_PROCESS, 0, 0); };
       
-      if ($@ && eval_error_id == basic_type_id Error::System) {
-        warn "\n[Test Output]setpriority:setpriority failed on this environment";
-      }
-      else {
-        unless ($status == 0) {
-          return 0;
+      if ($@) {
+        if (eval_error_id == basic_type_id Error::NotSupported) {
+          $not_supported = 1;
+        }
+        elsif (eval_error_id == basic_type_id Error::System) {
+          $failed = 1;
+        }
+        else {
+          die $@;
         }
       }
     }
     
-    {
-      Sys->setpriority(PROCESS->PRIO_PROCESS, 0, 0);
-      
-      if ($@ && eval_error_id == basic_type_id Error::System) {
-        warn "\n[Test Output]setpriority:setpriority failed on this environment";
-      }
+    if ($not_supported) {
+      warn "[Test Skip]setpriority is not supported in this system.";
     }
+    elsif ($failed) {
+      warn "[Test Skip]setpriority failed in this system.";
+    }
+    else {
+      Sys->setpriority(PROCESS->PRIO_PROCESS, 0, 0);
+    }
+    
     return 1;
   }
   

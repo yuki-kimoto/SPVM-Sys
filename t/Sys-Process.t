@@ -33,13 +33,7 @@ else {
   ok(SPVM::TestCase::Sys::Process->getpriority);
 }
 
-if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::Process->setpriority(0, 0, 0) };
-  like($@, qr/not supported/);
-}
-else {
-  ok(SPVM::TestCase::Sys::Process->setpriority);
-}
+ok(SPVM::TestCase::Sys::Process->setpriority);
 
 if ($^O eq 'MSWin32') {
   eval { my $status = -1; SPVM::Sys::Process->wait(\$status) };

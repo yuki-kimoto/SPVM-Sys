@@ -1,4 +1,14 @@
-0.541 2025-05-23
+0.542 2025-05-27
+  [Bug Fix]
+    * Fix bugs.
+      
+      Failed test 'st_dev'
+      https://github.com/yuki-kimoto/SPVM-Sys/issues/92
+      
+      setpriority failed on this environment
+      https://github.com/yuki-kimoto/SPVM-Sys/issues/93
+      
+0.541 2025-05-27
   [Improvement with Incompatible Changes]
     * In this release, UTF-8 strings passed as arguments to the methods that calls Windows system calls are now handled correctly.
       Sys#opendir, Sys::IO#opendir
