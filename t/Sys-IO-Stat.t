@@ -49,6 +49,14 @@ my $test_tmp_dir = File::Temp->newdir;
 
 =cut
 
+sub ulong_to_long {
+  my ($ulong_value) = @_;
+  
+  my ($long_value) = unpack('q', pack('Q', $ulong_value));
+  
+  return $long_value;
+}
+
 {
   ok(SPVM::TestCase::Sys::IO::Stat->stat("$test_dir"));
   
@@ -65,7 +73,7 @@ my $test_tmp_dir = File::Temp->newdir;
     warn "[Test Output]st_nlink:" . $stat->nlink;
   }
   else {
-    is($stat->dev, $stat_expected->dev, "st_dev");
+    is($stat->dev, &ulong_to_long($stat_expected->dev), "st_dev");
     is($stat->ino, $stat_expected->ino, "st_ino");
     is($stat->rdev, $stat_expected->rdev, "rdev");
   }
@@ -100,7 +108,7 @@ ok(SPVM::TestCase::Sys::IO::Stat->lstat("$test_dir"));
     warn "[Test Output]st_nlink:" . $stat->nlink;
   }
   else {
-    is($stat->dev, $stat_expected->dev, "st_dev");
+    is($stat->dev, &ulong_to_long($stat_expected->dev), "st_dev");
     is($stat->ino, $stat_expected->ino, "st_ino");
     is($stat->rdev, $stat_expected->rdev, "rdev");
     is($stat->nlink, $stat_expected->nlink, "st_nlink");
@@ -143,7 +151,7 @@ ok(SPVM::TestCase::Sys::IO::Stat->lstat("$test_dir"));
       warn "[Test Output]st_nlink:" . $stat->nlink;
     }
     else {
-      is($stat->dev, $stat_expected->dev, "st_dev");
+      is($stat->dev, &ulong_to_long($stat_expected->dev), "st_dev");
       is($stat->ino, $stat_expected->ino, "st_ino");
       is($stat->rdev, $stat_expected->rdev, "rdev");
     }
