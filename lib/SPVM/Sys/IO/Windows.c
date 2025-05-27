@@ -192,28 +192,6 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wc
     return 0;
 }
 
-// Original implementation
-static int win32_realpath(const wchar_t* path, wchar_t* out_path, int32_t out_path_length) {
-  
-  int32_t len = 0; // 0 indicates an error
-  HANDLE hFile = CreateFileW(path, FILE_READ_ATTRIBUTES,
-                    FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
-                    NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-  
-  if (hFile == INVALID_HANDLE_VALUE) {
-    len = -1;
-    goto END_OF_FUNC;
-  }
-  
-  len = GetFinalPathNameByHandleW(hFile, out_path, out_path_length, 0);
-  
-  END_OF_FUNC:
-  
-  CloseHandle(hFile);
-  
-  return len;
-}
-
 #endif // _WIN32
 
 int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -483,13 +461,13 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   
-  void* obj_resolved_path = stack[1].oval;
+  void* obj_resolved_path_tmp = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  if (obj_resolved_path) {
+  if (obj_resolved_path_tmp) {
     return env->die(env, stack, "The resolved path $resolved_path must not be defined.", __func__, FILE_NAME, __LINE__);
   }
   
@@ -500,34 +478,43 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  int32_t len = win32_realpath(path_w, NULL, 0);
+  HANDLE handle = CreateFileW(path_w, FILE_READ_ATTRIBUTES,
+                    FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
   
-  if (len == -1) {
-    env->die(env, stack, "[System Error]win32_realpath() failed:the symbolic link is not permitted, broken or not found. $path:\"%s\".", path, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  else if (!(len > 0)) {
-    env->die(env, stack, "[System Error]win32_realpath() failed:GetLastError() %d. $path:\"%s\".", GetLastError(), path, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  if (handle == INVALID_HANDLE_VALUE) {
+    translate_to_errno();
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
   }
   
-  void* obj_resolved_path_w = env->new_short_array(env, stack, len + 1);
+  int32_t needed_len = GetFinalPathNameByHandleW(handle, NULL, 0, 0);
+  
+  if (needed_len == 0) {
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path:\"%s\".", path, __func__, FILE_NAME, __LINE__);
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  void* obj_resolved_path_w = env->new_short_array(env, stack, needed_len);
   wchar_t* resolved_path_w = (wchar_t*)env->get_elems_short(env, stack, obj_resolved_path_w);
   
-  len = win32_realpath(path_w, resolved_path_w, len);
+  int32_t len = GetFinalPathNameByHandleW(handle, resolved_path_w, needed_len, 0);
   
-  if (!(len > 0)) {
-    env->die(env, stack, "[System Error]win32_realpath() failed:GetLastError() %d. $path:\"%s\".", GetLastError(), path, __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  if (len == 0) {
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path:\"%s\".", path, __func__, FILE_NAME, __LINE__);
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
   }
   
-  const char* resolved_path_tmp = win_wchar_to_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
-  
+  char* resolved_path_tmp = (char*)win_wchar_to_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
-  obj_resolved_path = env->new_string(env, stack, resolved_path_tmp, strlen(resolved_path_tmp));
+  
+  void* obj_resolved_path = env->new_string(env, stack, resolved_path_tmp, strlen(resolved_path_tmp));
   char* resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
+  
   int32_t resolved_path_length = env->length(env, stack, obj_resolved_path);
   
   if (strncmp(resolved_path, "\\\\?\\", 4) == 0) {
@@ -547,6 +534,20 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     if (resolved_path[i] == '\\') {
       resolved_path[i] = '/';
     }
+  }
+  
+  END_OF_FUNC:
+  
+  if (!(handle == INVALID_HANDLE_VALUE)) {
+    CloseHandle(handle);
+  }
+  
+  if (error_id) {
+    if (errno) {
+      env->die(env, stack, "[System Error]win_realpath() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    }
+    
+    return error_id;
   }
   
   stack[0].oval = obj_resolved_path;
