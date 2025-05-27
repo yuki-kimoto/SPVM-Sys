@@ -24,6 +24,11 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 my $test_dir = "$FindBin::Bin";
 
+my $test_tmp_dir = File::Temp->newdir;
+{
+  SPVM::TestCase::Sys::IO::Stat->SET_TEST_TMP_DIR("$test_tmp_dir");
+}
+
 =pod
 
   0 dev      device number of filesystem

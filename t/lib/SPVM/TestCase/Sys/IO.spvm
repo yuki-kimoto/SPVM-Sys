@@ -360,20 +360,33 @@ class TestCase::Sys::IO {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
+    warn;
+    
     {
       my $file = "$tmp_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
-      
+    
+    warn;
+    
       unless (Sys->f($file)) {
         return 0;
       }
-      
+    
+    warn;
+    
       my $fd = Sys::IO->fileno($stream);
-      
+    
+    warn;
+    
       unless ($fd >= 0) {
         return 0;
       }
+    
+    warn;
+    
     }
+    
+    warn;
     
     {
       my $file = "$tmp_dir/foo.txt";
@@ -389,6 +402,8 @@ class TestCase::Sys::IO {
         return 0;
       }
     }
+    
+    warn;
     
     return 1;
   }

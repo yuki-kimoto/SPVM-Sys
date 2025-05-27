@@ -4,7 +4,9 @@ class TestCase::Sys::IO::Stat {
   use Sys;
   use Sys::IO;
   use Sys::OS;
-
+  
+  our $TEST_TMP_DIR : rw cache string;
+  
   static method stat : int ($test_dir : string) {
     
     {
@@ -92,6 +94,20 @@ class TestCase::Sys::IO::Stat {
     
     }
     
+    {
+      my $file = "$TEST_TMP_DIR/stat_あ.txt";
+      
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      my $fs = $_->[0];
+      Sys->close($fs);
+      
+      my $stat = Sys::IO::Stat->new;
+      my $status = Sys::IO::Stat->stat($file, $stat);
+      unless ($status == 0) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 
@@ -161,6 +177,20 @@ class TestCase::Sys::IO::Stat {
         unless (Fn->contains($@, "not_found.txt")) {
           return 0;
         }
+      }
+    }
+    
+    {
+      my $file = "$TEST_TMP_DIR/lstat_あ.txt";
+      
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      my $fs = $_->[0];
+      Sys->close($fs);
+      
+      my $stat = Sys::IO::Stat->new;
+      my $status = Sys::IO::Stat->lstat($file, $stat);
+      unless ($status == 0) {
+        return 0;
       }
     }
     

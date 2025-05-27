@@ -161,90 +161,83 @@ win32_stat_low(HANDLE handle, STRLEN len, Stat_t *sbuf, DWORD reparse_type) {
     return 0;
 }
 
-// Exactly same as Perl's one in Win32.c
-static
-int
-win32_stat(const char *path, Stat_t *sbuf)
-{
-    int result;
-    HANDLE handle;
-    DWORD reparse_type = 0;
-
-    path = PerlDir_mapA(path);
-
-    handle =
-        CreateFileA(path, FILE_READ_ATTRIBUTES,
-                    FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
-                    NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-    if (handle == INVALID_HANDLE_VALUE) {
-        /* AF_UNIX sockets need to be opened as a reparse point, but
-           that will also open symlinks rather than following them.
-
-           There may be other reparse points that need similar
-           treatment.
-        */
-        handle = S_follow_symlinks_to(aTHX_ path, &reparse_type);
-        if (handle == INVALID_HANDLE_VALUE) {
-            /* S_follow_symlinks_to() will set errno */
-            return -1;
-        }
+static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
+  
+  int32_t error_id = 0;
+  
+  void* obj_path = stack[0].oval;
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  HANDLE handle =
+      CreateFileA(path, FILE_READ_ATTRIBUTES,
+                  FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
+                  NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+  
+  int32_t ReparseTag = 0;
+  if (handle == INVALID_HANDLE_VALUE) {
+    void* obj_resolved_link_text = NULL;
+    {
+      void* obj_link_text = NULL;
+      stack[0].oval = obj_path;
+      env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
+      if (error_id) {
+        goto END_OF_FUNC;
+      }
+      obj_resolved_link_text = stack[0].oval;
     }
-    if (handle != INVALID_HANDLE_VALUE) {
-        result = win32_stat_low(handle, strlen(path), sbuf, reparse_type);
-        CloseHandle(handle);
-    }
-    else {
-        translate_to_errno();
-        result = -1;
+    const char* resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
+    
+    wchar_t* resolved_link_text_w = utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
+      return error_id;
     }
     
-    return result;
-}
-
-// Exactly same as Perl's one in Win32.c
-static int
-win32_lstat(const char* path, const wchar_t *path_w, Stat_t *sbuf)
-{
-    HANDLE f;
-    int result;
-    DWORD attr = GetFileAttributesW(path_w); /* doesn't follow symlinks */
-
-    if (attr == INVALID_FILE_ATTRIBUTES) {
-        translate_to_errno();
-        return -1;
+    handle =
+        CreateFileW(resolved_link_text_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                    FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    
+    if (handle == INVALID_HANDLE_VALUE) {
+      translate_to_errno();
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      goto END_OF_FUNC;
     }
-
-    if (!(attr & FILE_ATTRIBUTE_REPARSE_POINT)) {
-        return win32_stat(path, sbuf);
+    
+    MY_REPARSE_DATA_BUFFER linkdata;
+    DWORD linkdata_returned;
+    
+    if (DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+      ReparseTag = linkdata.ReparseTag;
     }
-
-    f = CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
-                           FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
-    if (f == INVALID_HANDLE_VALUE) {
-        translate_to_errno();
-        return -1;
+  }
+  
+  int32_t result = win32_stat_low(handle, 0, st_stat, ReparseTag);
+  
+  if (result == -1) {
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  END_OF_FUNC:
+  
+  if (!(handle == INVALID_HANDLE_VALUE)) {
+    CloseHandle(handle);
+  }
+  
+  if (error_id) {
+    if (errno) {
+      env->die(env, stack, "[System Error]win_stat() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     }
-    bool is_symlink;
-    int size = do_readlink_handle(f, NULL, 0, &is_symlink);
-    if (!is_symlink) {
-        /* it isn't a symlink, fallback to normal stat */
-        CloseHandle(f);
-        return win32_stat(path, sbuf);
-    }
-    else if (size < 0) {
-        /* some other error, errno already set */
-        CloseHandle(f);
-        return -1;
-    }
-    result = win32_stat_low(f, 0, sbuf, 0);
-
-    if (result != -1){
-        sbuf->st_mode = (sbuf->st_mode & ~_S_IFMT) | _S_IFLNK;
-        sbuf->st_size = size;
-    }
-    CloseHandle(f);
-
-    return result;
+    
+    return error_id;
+  }
+  
+  return 0;
 }
 
 static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {   
@@ -306,7 +299,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   if (error_id) {
     if (errno) {
-      env->die(env, stack, "[System Error]win_lstat() failed:%s. $path is \"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]win_lstat() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     }
     
     return error_id;
@@ -367,14 +360,16 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   thread_env = env;
-  int32_t status = win32_stat(path, stat_buf);
+  stack[0].oval = obj_path;
+  error_id = win_stat(env, stack, stat_buf);
+  int32_t status = error_id ? -1 : 0;
 #else
   int32_t status = stat(path, stat_buf);
 #endif
   
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
-    env->die(env, stack, "[System Error]stat() failed:%s. $path is \"%s\".", path, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]stat() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -413,7 +408,7 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
-    env->die(env, stack, "[System Error]lstat() failed:%s. $path is \"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]lstat() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
