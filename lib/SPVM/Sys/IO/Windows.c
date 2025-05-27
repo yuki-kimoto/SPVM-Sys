@@ -473,14 +473,26 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  void* obj_resolved_link_text = NULL;
+  {
+    void* obj_link_text = NULL;
+    stack[0].oval = obj_path;
+    env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
+      goto END_OF_FUNC;
+    }
+    obj_resolved_link_text = stack[0].oval;
+  }
+  const char* resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
+  
+  wchar_t* resolved_link_text_w = utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  HANDLE handle = CreateFileW(path_w, FILE_READ_ATTRIBUTES,
+  HANDLE handle = CreateFileW(resolved_link_text_w, FILE_READ_ATTRIBUTES,
                     FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
-                    NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+                    NULL, OPEN_EXISTING, FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, NULL);
   
   if (handle == INVALID_HANDLE_VALUE) {
     translate_to_errno();

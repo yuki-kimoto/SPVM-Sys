@@ -18,6 +18,7 @@
     * Add Sys::IO::Windows#is_symlink method.
   [Changes]
     * Sys#l method use Sys::IO::Windows#is_symlink method.
+    * Sys::IO::Windows#realpath resolve symbolic link by own and open a file as a reparse point.
   [Internal Changes]
     * Rewrite Sys::IO::Windows#lstat completly.
     * Add Sys::IO::Windows#_follow_symlinks_to method.
