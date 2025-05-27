@@ -58,29 +58,29 @@ my $test_tmp_dir = File::Temp->newdir;
   my $stat_expected = File::stat::stat($file);
   
   if ($stat_expected->ino == 0) {
-    warn "This version of Perl does not support emulations of st_dev, st_ino, st_rdev, st_nlink.";
-    warn "[Test Output]st_dev:" . $stat->st_dev;
-    warn "[Test Output]st_ino:" . $stat->st_ino;
-    warn "[Test Output]st_rdev:" . $stat->st_rdev;
-    warn "[Test Output]st_nlink:" . $stat->st_nlink;
+    warn "[Test Skip]This version of Perl does not support emulations of st_dev, st_ino, st_rdev, st_nlink.";
+    warn "[Test Output]st_dev:" . $stat->dev;
+    warn "[Test Output]st_ino:" . $stat->ino;
+    warn "[Test Output]st_rdev:" . $stat->rdev;
+    warn "[Test Output]st_nlink:" . $stat->nlink;
   }
   else {
-    is($stat->st_dev, $stat_expected->dev, "st_dev");
-    is($stat->st_ino, $stat_expected->ino, "st_ino");
-    is($stat->st_rdev, $stat_expected->rdev, "rdev");
+    is($stat->dev, $stat_expected->dev, "st_dev");
+    is($stat->ino, $stat_expected->ino, "st_ino");
+    is($stat->rdev, $stat_expected->rdev, "rdev");
   }
-  is($stat->st_nlink, $stat_expected->nlink, "st_nlink");
-  is($stat->st_mode, $stat_expected->mode, "st_mode");
-  is($stat->st_uid, $stat_expected->uid, "uid");
-  is($stat->st_gid, $stat_expected->gid, "gid");
-  is($stat->st_size, $stat_expected->size, "size");
-  is($stat->st_atime, $stat_expected->atime, "atime");
-  is($stat->st_mtime, $stat_expected->mtime, "mtime");
-  is($stat->st_ctime, $stat_expected->ctime, "ctime");
+  is($stat->nlink, $stat_expected->nlink, "st_nlink");
+  is($stat->mode, $stat_expected->mode, "st_mode");
+  is($stat->uid, $stat_expected->uid, "uid");
+  is($stat->gid, $stat_expected->gid, "gid");
+  is($stat->size, $stat_expected->size, "size");
+  is($stat->atime, $stat_expected->atime, "atime");
+  is($stat->mtime, $stat_expected->mtime, "mtime");
+  is($stat->ctime, $stat_expected->ctime, "ctime");
   
   unless ($^O eq 'MSWin32') {
-    is($stat->st_blksize, $stat_expected->blksize, "blksize");
-    is($stat->st_blocks, $stat_expected->blocks, "blocks");
+    is($stat->blksize, $stat_expected->blksize, "blksize");
+    is($stat->blocks, $stat_expected->blocks, "blocks");
   }
 }
 
@@ -93,29 +93,29 @@ ok(SPVM::TestCase::Sys::IO::Stat->lstat("$test_dir"));
   my $stat_expected = File::stat::lstat($file);
   
   if ($stat_expected->ino == 0) {
-    warn "This version of Perl does not support emulations of st_dev, st_ino, st_rdev, st_nlink.";
-    warn "[Test Output]st_dev:" . $stat->st_dev;
-    warn "[Test Output]st_ino:" . $stat->st_ino;
-    warn "[Test Output]st_rdev:" . $stat->st_rdev;
-    warn "[Test Output]st_nlink:" . $stat->st_nlink;
+    warn "[Test Skip]This version of Perl does not support emulations of st_dev, st_ino, st_rdev, st_nlink.";
+    warn "[Test Output]st_dev:" . $stat->dev;
+    warn "[Test Output]st_ino:" . $stat->ino;
+    warn "[Test Output]st_rdev:" . $stat->rdev;
+    warn "[Test Output]st_nlink:" . $stat->nlink;
   }
   else {
-    is($stat->st_dev, $stat_expected->dev, "st_dev");
-    is($stat->st_ino, $stat_expected->ino, "st_ino");
-    is($stat->st_rdev, $stat_expected->rdev, "rdev");
-    is($stat->st_nlink, $stat_expected->nlink, "st_nlink");
+    is($stat->dev, $stat_expected->dev, "st_dev");
+    is($stat->ino, $stat_expected->ino, "st_ino");
+    is($stat->rdev, $stat_expected->rdev, "rdev");
+    is($stat->nlink, $stat_expected->nlink, "st_nlink");
   }
-  is($stat->st_mode, $stat_expected->mode, "st_mode");
-  is($stat->st_uid, $stat_expected->uid, "uid");
-  is($stat->st_gid, $stat_expected->gid, "gid");
-  is($stat->st_size, $stat_expected->size, "size");
-  is($stat->st_atime, $stat_expected->atime, "atime");
-  is($stat->st_mtime, $stat_expected->mtime, "mtime");
-  is($stat->st_ctime, $stat_expected->ctime, "ctime");
+  is($stat->mode, $stat_expected->mode, "st_mode");
+  is($stat->uid, $stat_expected->uid, "uid");
+  is($stat->gid, $stat_expected->gid, "gid");
+  is($stat->size, $stat_expected->size, "size");
+  is($stat->atime, $stat_expected->atime, "atime");
+  is($stat->mtime, $stat_expected->mtime, "mtime");
+  is($stat->ctime, $stat_expected->ctime, "ctime");
   
   unless ($^O eq 'MSWin32') {
-    is($stat->st_blksize, $stat_expected->blksize, "blksize");
-    is($stat->st_blocks, $stat_expected->blocks, "blocks");
+    is($stat->blksize, $stat_expected->blksize, "blksize");
+    is($stat->blocks, $stat_expected->blocks, "blocks");
   }
 }
 
@@ -136,27 +136,27 @@ ok(SPVM::TestCase::Sys::IO::Stat->lstat("$test_dir"));
     my $stat_expected = File::stat::stat($fh_perl);
     
     if ($stat_expected->ino == 0) {
-      warn "This version of Perl does not support emulations of st_dev, st_ino, st_rdev, st_nlink.";
-      warn "[Test Output]st_dev:" . $stat->st_dev;
-      warn "[Test Output]st_ino:" . $stat->st_ino;
-      warn "[Test Output]st_rdev:" . $stat->st_rdev;
-      warn "[Test Output]st_nlink:" . $stat->st_nlink;
+      warn "[Test Skip]This version of Perl does not support emulations of st_dev, st_ino, st_rdev, st_nlink.";
+      warn "[Test Output]st_dev:" . $stat->dev;
+      warn "[Test Output]st_ino:" . $stat->ino;
+      warn "[Test Output]st_rdev:" . $stat->rdev;
+      warn "[Test Output]st_nlink:" . $stat->nlink;
     }
     else {
-      is($stat->st_dev, $stat_expected->dev, "st_dev");
-      is($stat->st_ino, $stat_expected->ino, "st_ino");
-      is($stat->st_rdev, $stat_expected->rdev, "rdev");
+      is($stat->dev, $stat_expected->dev, "st_dev");
+      is($stat->ino, $stat_expected->ino, "st_ino");
+      is($stat->rdev, $stat_expected->rdev, "rdev");
     }
-    is($stat->st_mode, $stat_expected->mode, "st_mode");
-    is($stat->st_uid, $stat_expected->uid, "uid");
-    is($stat->st_gid, $stat_expected->gid, "gid");
-    is($stat->st_size, $stat_expected->size, "size");
-    is($stat->st_atime, $stat_expected->atime, "atime");
-    is($stat->st_mtime, $stat_expected->mtime, "mtime");
-    is($stat->st_ctime, $stat_expected->ctime, "ctime");
+    is($stat->mode, $stat_expected->mode, "st_mode");
+    is($stat->uid, $stat_expected->uid, "uid");
+    is($stat->gid, $stat_expected->gid, "gid");
+    is($stat->size, $stat_expected->size, "size");
+    is($stat->atime, $stat_expected->atime, "atime");
+    is($stat->mtime, $stat_expected->mtime, "mtime");
+    is($stat->ctime, $stat_expected->ctime, "ctime");
     unless ($^O eq 'MSWin32') {
-      is($stat->st_blksize, $stat_expected->blksize, "blksize");
-      is($stat->st_blocks, $stat_expected->blocks, "blocks");
+      is($stat->blksize, $stat_expected->blksize, "blksize");
+      is($stat->blocks, $stat_expected->blocks, "blocks");
     }
   }
 }
