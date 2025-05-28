@@ -274,12 +274,11 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO::Windows#win_readlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  
+
   int32_t error_id = 0;
-  
   void* obj_path = stack[0].oval;
   if (!obj_path) {
-    return env->die(env, stack, "The path \$path must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
@@ -295,32 +294,45 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  if (!(fileattr & FILE_ATTRIBUTE_REPARSE_POINT)) {
-    errno = EINVAL;
-    env->die(env, stack, "[System Error]This file is not a reparse point. $path=\"%s\".", path, __func__, FILE_NAME, __LINE__);
-    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-    goto END_OF_FUNC;
-  }
-  
-  HANDLE handle =
-    CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
-                FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
-  
-  if (handle == INVALID_HANDLE_VALUE) {
-    translate_to_errno();
-    env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
-    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-    goto END_OF_FUNC;
-  }
-  
-  
   MY_REPARSE_DATA_BUFFER linkdata;
   DWORD linkdata_returned;
-  if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
-    translate_to_errno();
-    env->die(env, stack, "[System Error]DeviceIoControl() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
-    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-    goto END_OF_FUNC;
+  HANDLE handle = NULL;
+  if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
+    handle =
+      CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                  FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    
+    if (handle == INVALID_HANDLE_VALUE) {
+      translate_to_errno();
+      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      goto END_OF_FUNC;
+    }
+    
+    if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+      translate_to_errno();
+      env->die(env, stack, "[System Error]DeviceIoControl() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      goto END_OF_FUNC;
+    }
+  }
+  else {
+    handle =
+      CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                  FILE_FLAG_BACKUP_SEMANTICS, 0);
+    
+    if (handle == INVALID_HANDLE_VALUE) {
+      translate_to_errno();
+      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      goto END_OF_FUNC;
+    }
+    else {
+      errno = EINVAL;
+      env->die(env, stack, "[System Error]This file is not a reparse point. $path=\"%s\".", path, __func__, FILE_NAME, __LINE__);
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      goto END_OF_FUNC;
+    }
   }
   
   const wchar_t* PathBuffer = NULL;
