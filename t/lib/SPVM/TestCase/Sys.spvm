@@ -1101,6 +1101,7 @@ class TestCase::Sys {
       }
     }
     
+    # Same name
     {
       my $file_from = "$TEST_TMP_DIR/rename_same_name.txt";
       
@@ -1115,6 +1116,31 @@ class TestCase::Sys {
       Sys->rename($file_from, $file_to);
       
       unless (Sys->e($file_from)) {
+        return 0;
+      }
+    }
+    
+    # Overwrite
+    {
+      my $file_from = "$TEST_TMP_DIR/rename_overwrite_from.txt";
+      
+      my $file_to = "$TEST_TMP_DIR/rename_overwrite_to.txt";
+      
+      {
+        Sys->open([(Sys::IO::FileStream)undef], ">", $file_from);
+      }
+      
+      {
+        Sys->open([(Sys::IO::FileStream)undef], ">", $file_to);
+      }
+      
+      Sys->rename($file_from, $file_to);
+      
+      if (Sys->e($file_from)) {
+        return 0;
+      }
+      
+      unless (Sys->e($file_to)) {
         return 0;
       }
     }
