@@ -317,9 +317,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
   }
   else {
-    handle =
-      CreateFileW(path_w, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
-                  FILE_FLAG_BACKUP_SEMANTICS, 0);
+    handle = CreateFileW_for_read(path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       translate_to_errno();

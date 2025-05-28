@@ -600,6 +600,25 @@ translate_ft_to_time_t(FILETIME ft) {
     return retval;
 }
 
+static HANDLE CreateFileW_for_read_common(wchar_t* path_w, int32_t file_flag) {
+
+  HANDLE handle = CreateFileW(path_w, GENERIC_READ,
+    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
+    file_flag|FILE_FLAG_BACKUP_SEMANTICS, 0
+  );
+  
+  return handle;
+}
+static HANDLE CreateFileW_for_read(wchar_t* path_w) {
+  
+  return CreateFileW_for_read_common(path_w, 0);
+}
+
+static HANDLE CreateFileW_reparse_point_for_read(wchar_t* path_w) {
+
+  return CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
+}
+
 #endif // defined(_WIN32)
 
 #endif // SPVM__SYS__WINDOWS__H
