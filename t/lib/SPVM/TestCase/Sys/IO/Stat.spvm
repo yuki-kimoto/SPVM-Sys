@@ -97,9 +97,7 @@ class TestCase::Sys::IO::Stat {
     {
       my $file = "$TEST_TMP_DIR/stat_あ.txt";
       
-      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
-      my $fs = $_->[0];
-      Sys->close($fs);
+      Sys->open([(Sys::IO::FileStream)undef], ">", $file);
       
       my $stat = Sys::IO::Stat->new;
       my $status = Sys::IO::Stat->stat($file, $stat);
@@ -183,9 +181,7 @@ class TestCase::Sys::IO::Stat {
     {
       my $file = "$TEST_TMP_DIR/lstat_あ.txt";
       
-      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
-      my $fs = $_->[0];
-      Sys->close($fs);
+      Sys->open([(Sys::IO::FileStream)undef], ">", $file);
       
       my $stat = Sys::IO::Stat->new;
       my $status = Sys::IO::Stat->lstat($file, $stat);
