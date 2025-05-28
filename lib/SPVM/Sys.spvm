@@ -2,7 +2,7 @@
 # MIT License
 
 class Sys {
-  version "0.542";
+  version "0.543";
   
   use Resource::SocketUtil;
   
@@ -202,6 +202,19 @@ class Sys {
     return $line;
   }
   
+  static method close : void ($stream : Sys::IO::FileStream) {
+    
+    unless ($stream) {
+      die "The file stream \$stream must be defined.";
+    }
+    
+    if ($stream->closed) {
+      die "The file stream \$stream is already closed.";
+    }
+    
+    Sys::IO->fclose($stream);
+  }
+  
   static method getc : int ($stream : Sys::IO::FileStream) {
     
     unless ($stream) {
@@ -239,19 +252,6 @@ class Sys {
   static method say : void ($stream : Sys::IO::FileStream, $string : string) {
     &print($stream, $string);
     &print($stream, "\n");
-  }
-  
-  static method close : void ($stream : Sys::IO::FileStream) {
-    
-    unless ($stream) {
-      die "The file stream \$stream must be defined.";
-    }
-    
-    if ($stream->closed) {
-      die "The file stream \$stream is already closed.";
-    }
-    
-    Sys::IO->fclose($stream);
   }
   
   static method seek : void ($stream : Sys::IO::FileStream, $offset : long, $whence : int) {
