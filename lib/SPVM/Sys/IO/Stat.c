@@ -198,9 +198,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
       return error_id;
     }
     
-    handle =
-        CreateFileW(resolved_link_text_w, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
-                    FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    handle = CreateFileW_reparse_point_for_read(resolved_link_text_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       translate_to_errno();
@@ -253,8 +251,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     goto END_OF_FUNC;
   }
   
-  HANDLE handle = CreateFileW(path_w, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
-                         FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+  HANDLE handle = CreateFileW_reparse_point_for_read(path_w);
   if (handle == INVALID_HANDLE_VALUE) {
     translate_to_errno();
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;

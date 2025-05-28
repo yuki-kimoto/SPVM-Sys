@@ -298,9 +298,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   DWORD linkdata_returned;
   HANDLE handle = NULL;
   if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
-    handle =
-      CreateFileW(path_w, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
-                  FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
+    handle = CreateFileW_reparse_point_for_read(path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       translate_to_errno();
@@ -503,9 +501,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  HANDLE handle = CreateFileW(resolved_link_text_w, GENERIC_READ,
-                    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-                    NULL, OPEN_EXISTING, FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, NULL);
+  HANDLE handle = CreateFileW_reparse_point_for_read(resolved_link_text_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
     translate_to_errno();
