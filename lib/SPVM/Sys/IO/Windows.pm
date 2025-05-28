@@ -12,6 +12,12 @@ SPVM::Sys::IO::Windows - IO System Call on Windows
 
 Sys::IO::Windows class in L<SPVM> has methods to manipulate IO system calls in Windows.
 
+=head1 Details
+
+=head2 Symbolic Link
+
+In this document, 'symbolic link' refers to both symbolic links and directory junctions.
+
 =head1 Usage
 
   use Sys::IO::Windows;
@@ -20,25 +26,19 @@ Sys::IO::Windows class in L<SPVM> has methods to manipulate IO system calls in W
 
 =head2 unlink
 
-C<static method unlink : int ($pathname : string);>
+C<static method unlink : int ($path : string);>
 
-Delete a file.
+Delete a file(not a directory) or L<a symbolic link/"Symbolic Link">.
 
 Note:
 
-This method is implemented so that the beheivior is the same as L<Sys::IO#readlink|SPVM::Sys::IO/"readlink"> method as possible.
-
-If the file given by the path name $pathname is read-only, the flag is disabled before the file deletion. If the file deletion failed, the flag is restored.
-
-This method can delete both symlinks and directory junctions.
-
-Error numbers in Windows are replaced with the ones in POSIX.
+If $path has read-only flag, it is disabled before the deletion. If the deletion fails, the flag is restored.
 
 Exceptions:
 
-$pathname must be defined. Otherwise an exception is thrown.
+$path must be defined. Otherwise an exception is thrown.
 
-If the unlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+If unlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 rename
 

@@ -11,41 +11,6 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #include "Sys-Windows.h"
 
-// This logic is the same as Perl's win32_unlink in Win32.c, and UTF-8 path_w is supported.
-static int win32_unlink(const wchar_t *path_w) {
-  
-  int32_t status = -1;
-  
-  DWORD attrs = GetFileAttributesW(path_w);
-  
-  if (attrs == 0xFFFFFFFF) {
-    errno = ENOENT;
-    status = -1;
-    goto END_OF_FUNC;
-  }
-  
-  if (attrs & FILE_ATTRIBUTE_READONLY) {
-    SetFileAttributesW(path_w, attrs & ~FILE_ATTRIBUTE_READONLY);
-    status = _wunlink(path_w);
-    if (status == -1) {
-      SetFileAttributesW(path_w, attrs);
-    }
-  }
-  else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
-    == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
-         && is_symlink_name(path_w))
-  {
-    status = _wrmdir(path_w);
-  }
-  else {
-    status = _wunlink(path_w);
-  }
-  
-  END_OF_FUNC:
-  
-  return status;
-}
-
 // Same as Perl's win32_rename in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
 static int
 win32_rename(const wchar_t *oname, const wchar_t *newname)
@@ -198,6 +163,7 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wc
 
 #endif // _WIN32
 
+// This logic is the same as Perl's win32_unlink in Win32.c, and UTF-8 arguments are supported.
 int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   env->die(env, stack, "Sys::IO::Windows#unlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -206,25 +172,54 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_pathname = stack[0].oval;
-  if (!obj_pathname) {
-    return env->die(env, stack, "The path $pathname must be defined.", __func__, FILE_NAME, __LINE__);
+  void* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  const char* pathname = env->get_chars(env, stack, obj_pathname);
+  const char* path = env->get_chars(env, stack, obj_path);
   
-  wchar_t* pathname_w = utf8_to_win_wchar(env, stack, pathname, &error_id, __func__, FILE_NAME, __LINE__);
+  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  int32_t status = win32_unlink(pathname_w);
+  int32_t status = -1;
   
-  stack[0].ival = status;
+  DWORD attrs = GetFileAttributesW(path_w);
+  
+  if (attrs == 0xFFFFFFFF) {
+    errno = ENOENT;
+    status = -1;
+    goto END_OF_FUNC;
+  }
+  
+  if (attrs & FILE_ATTRIBUTE_READONLY) {
+    SetFileAttributesW(path_w, attrs & ~FILE_ATTRIBUTE_READONLY);
+    status = _wunlink(path_w);
+    if (status == -1) {
+      SetFileAttributesW(path_w, attrs);
+    }
+  }
+  else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
+    == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
+         && is_symlink_name(path_w))
+  {
+    status = _wrmdir(path_w);
+  }
+  else {
+    status = _wunlink(path_w);
+  }
+  
+  END_OF_FUNC:
+  
   if (status == -1) {
-    env->die(env, stack, "[System Error]unlink() failed:%s. $pathname is \"%s\".", env->strerror_nolen(env, stack, errno), pathname, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]unlink() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+  
+  stack[0].ival = status;
   
   return 0;
 #endif
