@@ -299,7 +299,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   HANDLE handle = NULL;
   if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
     handle =
-      CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+      CreateFileW(path_w, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
                   FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
     
     if (handle == INVALID_HANDLE_VALUE) {
@@ -318,7 +318,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   else {
     handle =
-      CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+      CreateFileW(path_w, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
                   FILE_FLAG_BACKUP_SEMANTICS, 0);
     
     if (handle == INVALID_HANDLE_VALUE) {
