@@ -11,53 +11,6 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #include "Sys-Windows.h"
 
-// This logic is the same as Perl's win32_rename in Win32.c, and UTF-8 arguments are supported.
-static int win32_rename(const wchar_t *oldpath_w, const wchar_t *newpath_w) {
-  
-  DWORD flags = MOVEFILE_COPY_ALLOWED;
-  if (!(_wcsicmp(newpath_w, oldpath_w) == 0)) {
-    flags |= MOVEFILE_REPLACE_EXISTING;
-  }
-  
-  int32_t success = MoveFileExW(oldpath_w, newpath_w, flags);
-  
-  int32_t status = -1;
-  if (success) {
-    status = 0;
-  }
-  else {
-    DWORD last_error = GetLastError();
-    switch (last_error) {
-      case ERROR_BAD_NET_NAME:
-      case ERROR_BAD_NETPATH:
-      case ERROR_BAD_PATHNAME:
-      case ERROR_FILE_NOT_FOUND:
-      case ERROR_FILENAME_EXCED_RANGE:
-      case ERROR_INVALID_DRIVE:
-      case ERROR_NO_MORE_FILES:
-      case ERROR_PATH_NOT_FOUND:
-      {
-        errno = ENOENT;
-        break;
-      }
-      case ERROR_DISK_FULL: {
-        errno = ENOSPC;
-        break;
-      }
-      case ERROR_NOT_ENOUGH_QUOTA: {
-        errno = EDQUOT;
-        break;
-      }
-      default: {
-        errno = EACCES;
-        break;
-      }
-    }
-  }
-  
-  return status;
-}
-
 static int
 win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wchar_t *newfile)
 {
@@ -229,6 +182,7 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
+// This logic is the same as Perl's win32_rename in Win32.c, and UTF-8 arguments are supported.
 int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   env->die(env, stack, "Sys::IO::Windows#rename method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -259,10 +213,49 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  int32_t status = win32_rename(oldpath_w, newpath_w);
+  DWORD flags = MOVEFILE_COPY_ALLOWED;
+  if (!(_wcsicmp(newpath_w, oldpath_w) == 0)) {
+    flags |= MOVEFILE_REPLACE_EXISTING;
+  }
+  
+  int32_t success = MoveFileExW(oldpath_w, newpath_w, flags);
+  
+  int32_t status = -1;
+  if (success) {
+    status = 0;
+  }
+  else {
+    DWORD last_error = GetLastError();
+    switch (last_error) {
+      case ERROR_BAD_NET_NAME:
+      case ERROR_BAD_NETPATH:
+      case ERROR_BAD_PATHNAME:
+      case ERROR_FILE_NOT_FOUND:
+      case ERROR_FILENAME_EXCED_RANGE:
+      case ERROR_INVALID_DRIVE:
+      case ERROR_NO_MORE_FILES:
+      case ERROR_PATH_NOT_FOUND:
+      {
+        errno = ENOENT;
+        break;
+      }
+      case ERROR_DISK_FULL: {
+        errno = ENOSPC;
+        break;
+      }
+      case ERROR_NOT_ENOUGH_QUOTA: {
+        errno = EDQUOT;
+        break;
+      }
+      default: {
+        errno = EACCES;
+        break;
+      }
+    }
+  }
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]rename() failed:%s. $oldpath is \"%s\". $newpath is \"%s\".", env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]MoveFileExW() for renaming failed(%d: %s). $oldpath=\"%s\", $newpath=\"%s\".", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
