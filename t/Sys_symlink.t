@@ -25,19 +25,16 @@ my $api = SPVM::api();
 
 my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
-if (SPVM::Sys::OS->is_windows) {
-  my $symlink_supported;
+{
+  my $tmp_dir = File::Temp->newdir;
+  my $symlink = "$tmp_dir/symlink";
   
-  require Win32;
-
-  Win32::FsType() eq 'NTFS'
-      or skip_all("need NTFS");
-  eval { SPVM::Sys->symlink('', '') };
-  if ($@ && $@ !~ /not permitted/) {
-    $symlink_supported = 1;
+  eval { SPVM::Sys->symlink("$tmp_dir", $symlink) };
+  
+  if (my $message = $@) {
+    ($message) = split("\n", $message);
+    plan skip_all => "no symlink available in this system(Reason: $message).";
   }
-  plan skip_all => "no symlink available on Windows"
-      if !$symlink_supported;
 }
 
 # readlink
@@ -71,14 +68,9 @@ my $tmpfile2 = File::Spec->catfile($tmp_dir, 'file2');
 
 warn "[Test Output]$tmpfile1 $tmpfile2";
 
-eval { SPVM::Sys->symlink($tmpfile1, $tmpfile2) };
+# Create a dangling symbolic link
+SPVM::Sys->symlink($tmpfile1, $tmpfile2);
 
-my $ok = !$@;
-
-plan skip_all => "no access to symlink as this user"
-     if !$ok && $! == &Errno::EPERM;
-
-ok($ok, "create a dangling symbolic link");
 ok(SPVM::Sys->e($tmpfile2));
 ok(!SPVM::Sys->f($tmpfile2));
 ok(!SPVM::Sys->d($tmpfile2));
