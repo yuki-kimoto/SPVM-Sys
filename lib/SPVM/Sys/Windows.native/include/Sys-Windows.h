@@ -403,7 +403,7 @@ is_symlink(HANDLE h) {
 // Same as Perl's is_symlink_name in Win32.c, but call APIs for wide characters(W instead of A).
 static BOOL
 is_symlink_name(const wchar_t *name) {
-    HANDLE f = CreateFileW(name, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+    HANDLE f = CreateFileW(name, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
                            FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
     BOOL result;
 

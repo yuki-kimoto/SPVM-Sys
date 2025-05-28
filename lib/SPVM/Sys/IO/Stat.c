@@ -199,7 +199,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     }
     
     handle =
-        CreateFileW(resolved_link_text_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+        CreateFileW(resolved_link_text_w, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
                     FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
     
     if (handle == INVALID_HANDLE_VALUE) {
@@ -253,7 +253,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     goto END_OF_FUNC;
   }
   
-  HANDLE handle = CreateFileW(path_w, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+  HANDLE handle = CreateFileW(path_w, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
                          FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
   if (handle == INVALID_HANDLE_VALUE) {
     translate_to_errno();
@@ -271,12 +271,6 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   int32_t is_sym = is_symlink(handle);
   
   if (is_sym) {
-    // Sys::IO::Windows#win_readlink failed in some cases if the handle is not closed.
-    if (!(handle == INVALID_HANDLE_VALUE)) {
-      CloseHandle(handle);
-      handle == INVALID_HANDLE_VALUE;
-    }
-    
     void* obj_link_text = NULL;
     stack[0].oval = obj_path;
     env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, FILE_NAME, __LINE__);
