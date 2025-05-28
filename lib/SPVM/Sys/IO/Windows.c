@@ -505,7 +505,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  HANDLE handle = CreateFileW(resolved_link_text_w, FILE_READ_ATTRIBUTES,
+  HANDLE handle = CreateFileW(resolved_link_text_w, GENERIC_READ,
                     FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
                     NULL, OPEN_EXISTING, FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, NULL);
   
