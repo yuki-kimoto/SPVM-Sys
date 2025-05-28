@@ -11,35 +11,39 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #include "Sys-Windows.h"
 
-// Same as Perl's win32_unlink in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
-static int
-win32_unlink(const wchar_t *filename)
-{
-  int ret;
-  DWORD attrs;
+// This logic is the same as Perl's win32_unlink in Win32.c, and UTF-8 path_w is supported.
+static int win32_unlink(const wchar_t *path_w) {
   
-  attrs = GetFileAttributesW(filename);
+  int32_t status = -1;
+  
+  DWORD attrs = GetFileAttributesW(path_w);
+  
   if (attrs == 0xFFFFFFFF) {
     errno = ENOENT;
-    return -1;
+    status = -1;
+    goto END_OF_FUNC;
   }
   
   if (attrs & FILE_ATTRIBUTE_READONLY) {
-    (void)SetFileAttributesW(filename, attrs & ~FILE_ATTRIBUTE_READONLY);
-    ret = _wunlink(filename);
-    if (ret == -1)
-        (void)SetFileAttributesW(filename, attrs);
+    SetFileAttributesW(path_w, attrs & ~FILE_ATTRIBUTE_READONLY);
+    status = _wunlink(path_w);
+    if (status == -1) {
+      SetFileAttributesW(path_w, attrs);
+    }
   }
   else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
     == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
-         && is_symlink_name(filename)) {
-    ret = _wrmdir(filename);
+         && is_symlink_name(path_w))
+  {
+    status = _wrmdir(path_w);
   }
   else {
-    ret = _wunlink(filename);
+    status = _wunlink(path_w);
   }
   
-  return ret;
+  END_OF_FUNC:
+  
+  return status;
 }
 
 // Same as Perl's win32_rename in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
