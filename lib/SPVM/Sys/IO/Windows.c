@@ -13,15 +13,13 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 // This logic is the same as Perl's win32_rename in Win32.c, and UTF-8 arguments are supported.
 static int win32_rename(const wchar_t *oldpath_w, const wchar_t *newpath_w) {
-  wchar_t szOldName[MAX_PATH+1];
   
   DWORD flags = MOVEFILE_COPY_ALLOWED;
   if (!(_wcsicmp(newpath_w, oldpath_w) == 0)) {
     flags |= MOVEFILE_REPLACE_EXISTING;
   }
-  wcscpy(szOldName, oldpath_w);
   
-  int32_t success = MoveFileExW(szOldName, newpath_w, flags);
+  int32_t success = MoveFileExW(oldpath_w, newpath_w, flags);
   
   int32_t status = -1;
   if (success) {
