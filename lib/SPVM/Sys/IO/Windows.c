@@ -343,7 +343,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
       const MY_SYMLINK_REPARSE_BUFFER * const sd =
         &linkdata.Data.SymbolicLinkReparseBuffer;
       if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
-        errno = EINVAL;
+        errno = ENOMEM;
         env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path=\"%s\".", path, __func__, FILE_NAME, __LINE__);
         error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
         goto END_OF_FUNC;
@@ -359,7 +359,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
       const MY_MOUNT_POINT_REPARSE_BUFFER * const rd =
         &linkdata.Data.MountPointReparseBuffer;
       if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
-        errno = EINVAL;
+        errno = ENOMEM;
         env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path=\"%s\".", path, __func__, FILE_NAME, __LINE__);
         error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
         goto END_OF_FUNC;
@@ -386,7 +386,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
                         
   if (bytes_out == 0) {
     env->die(env, stack, "[System Error]WideCharToMultiByte() failed. $path=\"%s\".", path, __func__, FILE_NAME, __LINE__);
-    errno = EINVAL;
+    errno = EILSEQ;
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
@@ -401,7 +401,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
                         link_text, bytes_out, NULL, NULL);
   if (bytes_out == 0) {
     env->die(env, stack, "[System Error]WideCharToMultiByte() failed. $path=\"%s\".", path, __func__, FILE_NAME, __LINE__);
-    errno = EINVAL;
+    errno = EILSEQ;
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
