@@ -1042,28 +1042,34 @@ class TestCase::Sys {
   }
 
   static method rename : int ($test_dir : string) {
-
-    my $file = "$test_dir/foo.txt";
-    {
-      Sys->open([(Sys::IO::FileStream)undef], ">", $file);
-    }
-    
-    unless (Sys->e($file)) {
-      return 0;
-    }
-    
-    my $new_file = "$test_dir/foo_new.txt";
-    Sys->rename($file, $new_file);
-    
-    if (Sys->e($file)) {
-      return 0;
-    }
-    
-    unless (Sys->e($new_file)) {
-      return 0;
-    }
     
     {
+      my $file = "$test_dir/foo.txt";
+      {
+        Sys->open([(Sys::IO::FileStream)undef], ">", $file);
+      }
+      
+      unless (Sys->e($file)) {
+        return 0;
+      }
+      
+      my $new_file = "$test_dir/foo_new.txt";
+      Sys->rename($file, $new_file);
+      
+      if (Sys->e($file)) {
+        return 0;
+      }
+      
+      unless (Sys->e($new_file)) {
+        return 0;
+      }
+    }
+    
+    {
+      my $file = "$test_dir/foo.txt";
+      
+      my $new_file = "$test_dir/foo_new.txt";
+      
       eval { Sys->rename($file, $new_file); };
       unless (Fn->contains($@, "foo.txt")) {
         return 0;
@@ -1085,6 +1091,32 @@ class TestCase::Sys {
       Sys->close($fh);
       
       Sys->rename($file_from, $file_to);
+      
+      if (Sys->e($file_from)) {
+        return 0;
+      }
+      
+      unless (Sys->e($file_to)) {
+        return 0;
+      }
+    }
+    
+    {
+      my $file_from = "$TEST_TMP_DIR/rename_same_name.txt";
+      
+      my $file_to = $file_from;
+      
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file_from);
+      
+      my $fh = $_->[0];
+      
+      Sys->close($fh);
+      
+      Sys->rename($file_from, $file_to);
+      
+      unless (Sys->e($file_from)) {
+        return 0;
+      }
     }
     
     return 1;

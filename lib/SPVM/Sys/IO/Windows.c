@@ -11,47 +11,53 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #include "Sys-Windows.h"
 
-// Same as Perl's win32_rename in Win32.c, but call APIs for wide characters(W instead of A and _w prefixed).
-static int
-win32_rename(const wchar_t *oname, const wchar_t *newname)
-{
-    wchar_t szOldName[MAX_PATH+1];
-    BOOL bResult;
-    DWORD dwFlags = MOVEFILE_COPY_ALLOWED;
-    dTHX;
-
-    if (_wcsicmp(newname, oname))
-        dwFlags |= MOVEFILE_REPLACE_EXISTING;
-    wcscpy(szOldName, oname);
-    
-    bResult = MoveFileExW(szOldName,newname, dwFlags);
-    
-    if (!bResult) {
-        DWORD err = GetLastError();
-        switch (err) {
-        case ERROR_BAD_NET_NAME:
-        case ERROR_BAD_NETPATH:
-        case ERROR_BAD_PATHNAME:
-        case ERROR_FILE_NOT_FOUND:
-        case ERROR_FILENAME_EXCED_RANGE:
-        case ERROR_INVALID_DRIVE:
-        case ERROR_NO_MORE_FILES:
-        case ERROR_PATH_NOT_FOUND:
-            errno = ENOENT;
-            break;
-        case ERROR_DISK_FULL:
-            errno = ENOSPC;
-            break;
-        case ERROR_NOT_ENOUGH_QUOTA:
-            errno = EDQUOT;
-            break;
-        default:
-            errno = EACCES;
-            break;
-        }
-        return -1;
+// This logic is the same as Perl's win32_rename in Win32.c, and UTF-8 arguments are supported.
+static int win32_rename(const wchar_t *oname_w, const wchar_t *newname_w) {
+  wchar_t szOldName[MAX_PATH+1];
+  
+  DWORD flags = MOVEFILE_COPY_ALLOWED;
+  if (!(_wcsicmp(newname_w, oname_w) == 0)) {
+    flags |= MOVEFILE_REPLACE_EXISTING;
+  }
+  wcscpy(szOldName, oname_w);
+  
+  int32_t success = MoveFileExW(szOldName, newname_w, flags);
+  
+  int32_t status = -1;
+  if (success) {
+    status = 0;
+  }
+  else {
+    DWORD last_error = GetLastError();
+    switch (last_error) {
+      case ERROR_BAD_NET_NAME:
+      case ERROR_BAD_NETPATH:
+      case ERROR_BAD_PATHNAME:
+      case ERROR_FILE_NOT_FOUND:
+      case ERROR_FILENAME_EXCED_RANGE:
+      case ERROR_INVALID_DRIVE:
+      case ERROR_NO_MORE_FILES:
+      case ERROR_PATH_NOT_FOUND:
+      {
+        errno = ENOENT;
+        break;
+      }
+      case ERROR_DISK_FULL: {
+        errno = ENOSPC;
+        break;
+      }
+      case ERROR_NOT_ENOUGH_QUOTA: {
+        errno = EDQUOT;
+        break;
+      }
+      default: {
+        errno = EACCES;
+        break;
+      }
     }
-    return 0;
+  }
+  
+  return status;
 }
 
 static int
