@@ -1,3 +1,8 @@
+0.543 2025-05-27
+  [Bug Fix]
+    * Fix bugs that Sys#stat, Sys#lstat, Sys#readlink, Sys#_realpath methods fails
+      in some cases that the file is opened.
+    
 0.542 2025-05-27
   [Bug Fix]
     * Fix bugs.
