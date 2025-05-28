@@ -7,31 +7,12 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #if defined(_WIN32)
 
-// These implementations are originally copied form Perl win32/win32.c and win32/win32.h
-
 #include "Sys-Windows.h"
 
-static int
-win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wchar_t *newfile)
-{
+static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wchar_t *newfile) {
+    DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
     size_t oldfile_len = wcslen(oldfile);
-    pCreateSymbolicLinkW_t pCreateSymbolicLinkW =
-        (pCreateSymbolicLinkW_t)GetProcAddress(GetModuleHandle("kernel32.dll"), "CreateSymbolicLinkW");
-    DWORD create_flags = 0;
-
-    /* this flag can be used only on Windows 10 1703 or newer */
-    if (g_osver.dwMajorVersion > 10 ||
-        (g_osver.dwMajorVersion == 10 &&
-         (g_osver.dwMinorVersion > 0 || g_osver.dwBuildNumber > 15063)))
-    {
-        create_flags |= SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
-    }
-
-    if (!pCreateSymbolicLinkW) {
-        errno = ENOSYS;
-        return -1;
-    }
-
+    
     if (wcschr(oldfile, L'/')) {
         /* Win32 (or perhaps NTFS) won't follow symlinks containing
            /, so replace any with \\
@@ -110,7 +91,7 @@ win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wc
         }
     }
 
-    if (!pCreateSymbolicLinkW(newfile, oldfile, create_flags)) {
+    if (!CreateSymbolicLinkW(newfile, oldfile, create_flags)) {
         translate_to_errno();
         return -1;
     }
