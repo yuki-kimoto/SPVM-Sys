@@ -3,6 +3,9 @@
 
 #if defined(_WIN32)
 
+// For SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
+#define _WIN32_WINNT 0x0A00
+
 #include <windows.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -13,6 +16,7 @@
 #include <direct.h>
 #include <time.h>
 #include <assert.h>
+
 
 // Exactly same as Perl's one in Win32.c
 typedef struct {
