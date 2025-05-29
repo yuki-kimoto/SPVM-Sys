@@ -253,17 +253,21 @@ static HANDLE CreateFileW_reparse_point_for_read(const WCHAR* path_w) {
 
 static int32_t is_symlink_by_handle(HANDLE handle) {
   
+  int32_t is_sym = 0;
+  
   MY_REPARSE_DATA_BUFFER linkdata;
-  
   if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
-    return 0;
+    translate_to_errno();
+    goto END_OF_FUNC;
   }
   
-  if (!(linkdata.ReparseTag != IO_REPARSE_TAG_SYMLINK || linkdata.ReparseTag != IO_REPARSE_TAG_MOUNT_POINT)) {
-    return 0;
+  if (linkdata.ReparseTag == IO_REPARSE_TAG_SYMLINK || linkdata.ReparseTag == IO_REPARSE_TAG_MOUNT_POINT) {
+    is_sym = 1;
   }
   
-  return 1;
+  END_OF_FUNC:
+  
+  return is_sym;
 }
 
 static int32_t is_symlink_name(const WCHAR* path_w) {
