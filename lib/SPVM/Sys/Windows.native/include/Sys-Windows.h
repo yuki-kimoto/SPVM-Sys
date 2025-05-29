@@ -254,11 +254,8 @@ static HANDLE CreateFileW_reparse_point_for_read(const WCHAR* path_w) {
 static int32_t is_symlink_by_handle(HANDLE handle) {
   
   MY_REPARSE_DATA_BUFFER linkdata;
-  const MY_SYMLINK_REPARSE_BUFFER * const sd =
-    &linkdata.Data.SymbolicLinkReparseBuffer;
-  DWORD linkdata_returned;
   
-  if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+  if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
     return 0;
   }
   
