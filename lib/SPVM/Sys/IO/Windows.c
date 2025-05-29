@@ -9,6 +9,9 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #include "Sys-Windows.h"
 
+#define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
+#define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
+
 // The logic is the same as Perl's win32_symlink in Win32.c, and supports UTF-8 arugments.
 static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *oldpath_w, const WCHAR *newpath_w) {
   DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;

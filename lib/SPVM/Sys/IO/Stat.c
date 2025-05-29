@@ -24,6 +24,9 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
   // Exactly same as Perl's one in Win32.h
   typedef unsigned __int64 Ino_t;
   
+  // This is different from Perl's ones, but it must be defined well
+  typedef uint64_t Off_t;
+
   // Exactly same as Perl's one in Win32.h
   struct w32_stat {
       Dev_t st_dev;

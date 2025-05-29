@@ -25,6 +25,35 @@
 #include <time.h>
 #include <assert.h>
 
+// Exactly same as Perl's one in sys/errno2.h
+#ifndef EDQUOT
+#  define EDQUOT WSAEDQUOT
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_SYMLINK
+#  define IO_REPARSE_TAG_SYMLINK (0xA000000CL)
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_AF_UNIX
+#  define IO_REPARSE_TAG_AF_UNIX 0x80000023
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_LX_FIFO
+#  define IO_REPARSE_TAG_LX_FIFO 0x80000024
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_LX_CHR
+#  define IO_REPARSE_TAG_LX_CHR  0x80000025
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_LX_BLK
+#  define IO_REPARSE_TAG_LX_BLK  0x80000026
+#endif
 
 // Exactly same as Perl's one in Win32.c
 typedef struct {
@@ -58,42 +87,6 @@ typedef struct {
     } GenericReparseBuffer;
   } Data;
 } MY_REPARSE_DATA_BUFFER;
-
-// These are different from Perl's ones, but they must be defined well
-typedef uint64_t Off_t;
-
-#define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
-#define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
-
-// Exactly same as Perl's one in sys/errno2.h
-#ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
-#  define EDQUOT		WSAEDQUOT
-#endif
-
-// Exactly same as Perl's one in Win32.c
-#ifndef IO_REPARSE_TAG_SYMLINK
-#  define IO_REPARSE_TAG_SYMLINK                  (0xA000000CL)
-#endif
-
-// Exactly same as Perl's one in Win32.c
-#ifndef IO_REPARSE_TAG_AF_UNIX
-#  define IO_REPARSE_TAG_AF_UNIX 0x80000023
-#endif
-
-// Exactly same as Perl's one in Win32.c
-#ifndef IO_REPARSE_TAG_LX_FIFO
-#  define IO_REPARSE_TAG_LX_FIFO 0x80000024
-#endif
-
-// Exactly same as Perl's one in Win32.c
-#ifndef IO_REPARSE_TAG_LX_CHR
-#  define IO_REPARSE_TAG_LX_CHR  0x80000025
-#endif
-
-// Exactly same as Perl's one in Win32.c
-#ifndef IO_REPARSE_TAG_LX_BLK
-#  define IO_REPARSE_TAG_LX_BLK  0x80000026
-#endif
 
 static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
