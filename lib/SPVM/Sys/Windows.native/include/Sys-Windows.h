@@ -187,6 +187,26 @@ static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, wchar_t* 
   return utf8_string;
 }
 
+static HANDLE CreateFileW_for_read(wchar_t* path_w) {
+  
+  return CreateFileW_for_read_common(path_w, 0);
+}
+
+static HANDLE CreateFileW_reparse_point_for_read(wchar_t* path_w) {
+
+  return CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
+}
+
+static HANDLE CreateFileW_for_read_common(wchar_t* path_w, int32_t file_flag) {
+
+  HANDLE handle = CreateFileW(path_w, GENERIC_READ,
+    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
+    file_flag|FILE_FLAG_BACKUP_SEMANTICS, 0
+  );
+  
+  return handle;
+}
+
 static BOOL
 is_symlink(HANDLE h) {
     REPARSE_DATA_BUFFER linkdata;
@@ -208,40 +228,20 @@ is_symlink(HANDLE h) {
     return TRUE;
 }
 
-// Same as Perl's is_symlink_name in Win32.c, but call APIs for wide characters(W instead of A).
-static BOOL
-is_symlink_name(const wchar_t *name) {
-    HANDLE f = CreateFileW(name, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
-                           FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS, 0);
-    BOOL result;
-
-    if (f == INVALID_HANDLE_VALUE) {
-      translate_to_errno();
-      return FALSE;
-    }
-    result = is_symlink(f);
-    CloseHandle(f);
-
-    return result;
-}
-
-static HANDLE CreateFileW_for_read_common(wchar_t* path_w, int32_t file_flag) {
-
-  HANDLE handle = CreateFileW(path_w, GENERIC_READ,
-    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
-    file_flag|FILE_FLAG_BACKUP_SEMANTICS, 0
-  );
+static int32_t is_symlink_name(const wchar_t* path_w) {
   
-  return handle;
-}
-static HANDLE CreateFileW_for_read(wchar_t* path_w) {
+  HANDLE handle = CreateFileW_reparse_point_for_read(path_w);
   
-  return CreateFileW_for_read_common(path_w, 0);
-}
-
-static HANDLE CreateFileW_reparse_point_for_read(wchar_t* path_w) {
-
-  return CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
+  if (handle == INVALID_HANDLE_VALUE) {
+    translate_to_errno();
+    return 0;
+  }
+  
+  int32_t is_symlink = is_symlink(handle);
+  
+  CloseHandle(handle);
+  
+  return is_symlink;
 }
 
 #endif // defined(_WIN32)
