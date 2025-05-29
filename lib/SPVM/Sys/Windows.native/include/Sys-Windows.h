@@ -98,9 +98,6 @@ typedef struct w32_stat Stat_t;
 #endif
 
 // Exactly same as Perl's one in Win32.c
-#define SYMLINK_FOLLOW_LIMIT 63
-
-// Exactly same as Perl's one in Win32.c
 #ifndef IO_REPARSE_TAG_SYMLINK
 #  define IO_REPARSE_TAG_SYMLINK                  (0xA000000CL)
 #endif
