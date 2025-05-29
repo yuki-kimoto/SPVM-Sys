@@ -272,16 +272,22 @@ static int32_t is_symlink_by_handle(HANDLE handle) {
 
 static int32_t is_symlink_name(const WCHAR* path_w) {
   
+  int32_t is_sym = 0;
+  
   HANDLE handle = CreateFileW_reparse_point_for_read(path_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
     translate_to_errno();
-    return 0;
+    goto END_OF_FUNC;
   }
   
-  int32_t is_sym = is_symlink_by_handle(handle);
+  is_sym = is_symlink_by_handle(handle);
   
-  CloseHandle(handle);
+  END_OF_FUNC:
+  
+  if (!(handle == INVALID_HANDLE_VALUE)) {
+    CloseHandle(handle);
+  }
   
   return is_sym;
 }
