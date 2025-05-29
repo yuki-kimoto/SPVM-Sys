@@ -49,28 +49,30 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 #if defined(_WIN32)
 
-// The output is the same as Perl's translate_ft_to_time_t in Win32.c
-static time_t translate_ft_to_time_t(FILETIME ft) {
-  SYSTEMTIME st;
-  struct tm pt;
-  time_t retval;
+// The output is the same as Perl's file_time_to_epoch in Win32.c
+static time_t file_time_to_epoch(FILETIME file_time) {
+  SYSTEMTIME system_time;
+  struct tm st_tm = {0};
   
-  if (!FileTimeToSystemTime(&ft, &st)) {
-    return -1;
+  time_t epoch = -1;
+  
+  if (!FileTimeToSystemTime(&file_time, &system_time)) {
+    win_last_error_to_errno();
+    goto END_OF_FUNC;
   }
   
-  memset(&pt, 0, 1 * sizeof(struct tm));
+  st_tm.tm_year = system_time.wYear - 1900;
+  st_tm.tm_mon = system_time.wMonth - 1;
+  st_tm.tm_mday = system_time.wDay;
+  st_tm.tm_hour = system_time.wHour;
+  st_tm.tm_min = system_time.wMinute;
+  st_tm.tm_sec = system_time.wSecond;
   
-  pt.tm_year = st.wYear - 1900;
-  pt.tm_mon = st.wMonth - 1;
-  pt.tm_mday = st.wDay;
-  pt.tm_hour = st.wHour;
-  pt.tm_min = st.wMinute;
-  pt.tm_sec = st.wSecond;
+  epoch = _mkgmtime(&st_tm);
   
-  retval = _mkgmtime(&pt);
+  END_OF_FUNC:
   
-  return retval;
+  return epoch;
 }
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
@@ -104,9 +106,9 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
             sbuf->st_size <<= 32;
             sbuf->st_size |= bhi.nFileSizeLow;
 
-            sbuf->st_atime = translate_ft_to_time_t(bhi.ftLastAccessTime);
-            sbuf->st_mtime = translate_ft_to_time_t(bhi.ftLastWriteTime);
-            sbuf->st_ctime = translate_ft_to_time_t(bhi.ftCreationTime);
+            sbuf->st_atime = file_time_to_epoch(bhi.ftLastAccessTime);
+            sbuf->st_mtime = file_time_to_epoch(bhi.ftLastWriteTime);
+            sbuf->st_ctime = file_time_to_epoch(bhi.ftCreationTime);
 
             if (reparse_type) {
                 /* https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
