@@ -146,7 +146,7 @@ win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, STRLEN len, Stat
                 }
             }
             else {
-                wchar_t path_buf_tmp_w[MAX_PATH+1];
+                WCHAR path_buf_tmp_w[MAX_PATH+1];
                 sbuf->st_mode = _S_IFREG;
                 
                 const char* path = NULL;
@@ -154,7 +154,7 @@ win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, STRLEN len, Stat
                 if (len > 0) {
                   int32_t scope_id = env->enter_scope(env, stack);
                   
-                  wchar_t* path_buf_w = env->new_memory_block(env, stack, sizeof(wchar_t) * (len + 1));
+                  WCHAR* path_buf_w = env->new_memory_block(env, stack, sizeof(WCHAR) * (len + 1));
                   
                   len = GetFinalPathNameByHandleW(handle, path_buf_w, len + 1, 0);
                   
@@ -162,7 +162,7 @@ win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, STRLEN len, Stat
                   
                   int32_t error_id = 0;
                   
-                  path = win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
+                  path = win_WCHARo_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
                   
                   env->free_memory_block(env, stack, path_buf_w);
                   
@@ -219,7 +219,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -243,7 +243,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     }
     const char* resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
     
-    wchar_t* resolved_link_text_w = utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
+    WCHAR* resolved_link_text_w = utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       return error_id;
     }
@@ -296,7 +296,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     goto END_OF_FUNC;
   }

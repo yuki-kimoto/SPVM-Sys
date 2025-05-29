@@ -167,7 +167,7 @@ static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf
   }
   
   void* obj_utf16le_string = env->new_short_array(env, stack, utf16le_string_length);
-  wchar_t* utf16le_string = env->get_elems_short(env, stack, obj_utf16le_string);
+  WCHAR* utf16le_string = env->get_elems_short(env, stack, obj_utf16le_string);
   
   utf16le_string_length = MultiByteToWideChar(
     CP_UTF8,
@@ -186,7 +186,7 @@ static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf
   return utf16le_string;
 }
 
-static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, wchar_t* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+static const char* win_WCHARo_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   if (utf16le_string == NULL) {
     return NULL;
@@ -224,14 +224,14 @@ static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, wchar_t* 
   );
   
   if (utf8_string_length == 0) {
-    *error_id = env->die(env, stack,  "win_wchar_to_utf8 failed:Error converting UTF-16LE to UTF-8: %lu.", GetLastError(), func_name, file, line);
+    *error_id = env->die(env, stack,  "win_WCHARo_utf8 failed:Error converting UTF-16LE to UTF-8: %lu.", GetLastError(), func_name, file, line);
     return NULL;
   }
   
   return utf8_string;
 }
 
-static HANDLE CreateFileW_for_read_common(const wchar_t* path_w, int32_t file_flag) {
+static HANDLE CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
 
   HANDLE handle = CreateFileW(path_w, GENERIC_READ,
     FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
@@ -241,12 +241,12 @@ static HANDLE CreateFileW_for_read_common(const wchar_t* path_w, int32_t file_fl
   return handle;
 }
 
-static HANDLE CreateFileW_for_read(const wchar_t* path_w) {
+static HANDLE CreateFileW_for_read(const WCHAR* path_w) {
   
   return CreateFileW_for_read_common(path_w, 0);
 }
 
-static HANDLE CreateFileW_reparse_point_for_read(const wchar_t* path_w) {
+static HANDLE CreateFileW_reparse_point_for_read(const WCHAR* path_w) {
 
   return CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
 }
@@ -272,7 +272,7 @@ static int32_t is_symlink_by_handle(HANDLE handle) {
   return 1;
 }
 
-static int32_t is_symlink_name(const wchar_t* path_w) {
+static int32_t is_symlink_name(const WCHAR* path_w) {
   
   HANDLE handle = CreateFileW_reparse_point_for_read(path_w);
   

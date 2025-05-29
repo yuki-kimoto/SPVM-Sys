@@ -40,8 +40,8 @@ int32_t SPVM__Sys__IO__Dirent__d_name(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIRENT* st_dirent = env->get_pointer(env, stack, obj_dirent);
   
 #if defined(_WIN32)
-  const wchar_t* d_name_w = st_dirent->d_name;
-  const char* d_name = (char*)win_wchar_to_utf8(env, stack, (wchar_t*)d_name_w, &error_id, __func__, FILE_NAME, __LINE__);
+  const WCHAR* d_name_w = st_dirent->d_name;
+  const char* d_name = (char*)win_WCHARo_utf8(env, stack, (WCHAR*)d_name_w, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }

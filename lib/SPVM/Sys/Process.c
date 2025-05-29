@@ -380,15 +380,15 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   assert(argv[args_length] == NULL);
   
 #if defined(_WIN32)
-  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  wchar_t** argv_w = env->new_memory_block(env, stack, sizeof(wchar_t*) * (args_length + 1));
+  WCHAR** argv_w = env->new_memory_block(env, stack, sizeof(WCHAR*) * (args_length + 1));
   for (int32_t i = 0; i < args_length; i++) {
     char* arg = argv[i];
-    wchar_t* arg_w = utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
+    WCHAR* arg_w = utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       return error_id;
     }
@@ -396,7 +396,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
     argv_w[i] = arg_w;
   }
   
-  int32_t status = _wexecv(path_w, (const wchar_t *const *)argv_w);
+  int32_t status = _wexecv(path_w, (const WCHAR *const *)argv_w);
 #else
   int32_t status = execv(path, argv);
 #endif

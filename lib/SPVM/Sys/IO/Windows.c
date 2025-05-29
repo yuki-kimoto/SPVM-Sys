@@ -10,7 +10,7 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #include "Sys-Windows.h"
 
 // The logic is the same as Perl's win32_symlink in Win32.c, and supports UTF-8 arugments.
-static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldpath_w, const wchar_t *newpath_w) {
+static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *oldpath_w, const WCHAR *newpath_w) {
   DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
   size_t oldpath_w_len = wcslen(oldpath_w);
   
@@ -18,9 +18,9 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldpat
     /* Win32 (or perhaps NTFS) won't follow symlinks containing
        /, so replace any with \\
     */
-    wchar_t *temp = (wchar_t*)env->new_memory_block(env, stack, (wcslen(oldpath_w) + 1) * sizeof(wchar_t));
-    memcpy(temp, oldpath_w, (wcslen(oldpath_w) + 1) * sizeof(wchar_t));
-    wchar_t *p = temp;
+    WCHAR *temp = (WCHAR*)env->new_memory_block(env, stack, (wcslen(oldpath_w) + 1) * sizeof(WCHAR));
+    memcpy(temp, oldpath_w, (wcslen(oldpath_w) + 1) * sizeof(WCHAR));
+    WCHAR *p = temp;
     while (*p) {
       if (*p == L'/') {
         *p = L'\\';
@@ -54,8 +54,8 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldpat
   }
   else {
     DWORD dest_attr;
-    const wchar_t *dest_path_w = oldpath_w;
-    wchar_t target_name_w[MAX_PATH+1];
+    const WCHAR *dest_path_w = oldpath_w;
+    WCHAR target_name_w[MAX_PATH+1];
     
     if (oldpath_w_len >= 3 && oldpath_w[1] == L':') {
       /* relative to current directory on a drive, or absolute */
@@ -63,9 +63,9 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldpat
     }
     else if (oldpath_w[0] != L'\\') {
       size_t newpath_w_len = wcslen(newpath_w);
-      wchar_t *last_slash_w = wcsrchr(newpath_w, L'/');
-      wchar_t *last_bslash_w = wcsrchr(newpath_w, L'\\');
-      wchar_t *end_dir_w = last_slash_w && last_bslash_w
+      WCHAR *last_slash_w = wcsrchr(newpath_w, L'/');
+      WCHAR *last_bslash_w = wcsrchr(newpath_w, L'\\');
+      WCHAR *end_dir_w = last_slash_w && last_bslash_w
         ? ( last_slash_w > last_bslash_w ? last_slash_w : last_bslash_w)
         : last_slash_w ? last_slash_w : last_bslash_w ? last_bslash_w : NULL;
       
@@ -76,7 +76,7 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldpat
           return -1;
         }
         
-        memcpy(target_name_w, newpath_w, (end_dir_w - newpath_w + 1) * sizeof(wchar_t));
+        memcpy(target_name_w, newpath_w, (end_dir_w - newpath_w + 1) * sizeof(WCHAR));
         wcscpy(target_name_w + (end_dir_w - newpath_w + 1), oldpath_w);
         dest_path_w = target_name_w;
       }
@@ -119,7 +119,7 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -185,12 +185,12 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
-  wchar_t* oldpath_w = utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* oldpath_w = utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  wchar_t* newpath_w = utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* newpath_w = utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -260,7 +260,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
-  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     goto END_OF_FUNC;
   }
@@ -309,7 +309,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
   }
   
-  const wchar_t* PathBuffer = NULL;
+  const WCHAR* PathBuffer = NULL;
   int32_t PrintNameOffset = -1;
   int32_t PrintNameLength = -1;
   switch (linkdata.ReparseTag) {
@@ -417,12 +417,12 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
-  wchar_t* oldpath_w = utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* oldpath_w = utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  wchar_t* newpath_w = utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* newpath_w = utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -474,7 +474,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
   
-  wchar_t* resolved_link_text_w = utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* resolved_link_text_w = utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -496,7 +496,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   void* obj_resolved_path_w = env->new_short_array(env, stack, needed_len);
-  wchar_t* resolved_path_w = (wchar_t*)env->get_elems_short(env, stack, obj_resolved_path_w);
+  WCHAR* resolved_path_w = (WCHAR*)env->get_elems_short(env, stack, obj_resolved_path_w);
   
   int32_t len = GetFinalPathNameByHandleW(handle, resolved_path_w, needed_len, 0);
   
@@ -506,7 +506,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  char* resolved_path_tmp = (char*)win_wchar_to_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
+  char* resolved_path_tmp = (char*)win_WCHARo_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -570,7 +570,7 @@ int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  wchar_t* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
