@@ -185,7 +185,7 @@ win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, STRLEN len, Stat
             }
         }
         else {
-            translate_to_errno();
+            win_last_error_to_errno();
             return -1;
         }
         break;
@@ -251,7 +251,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     handle = CreateFileW_reparse_point_for_read(resolved_link_text_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
-      translate_to_errno();
+      win_last_error_to_errno();
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
@@ -303,7 +303,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   HANDLE handle = CreateFileW_reparse_point_for_read(path_w);
   if (handle == INVALID_HANDLE_VALUE) {
-    translate_to_errno();
+    win_last_error_to_errno();
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }

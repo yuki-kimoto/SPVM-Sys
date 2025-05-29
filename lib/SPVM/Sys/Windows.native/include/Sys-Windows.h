@@ -101,9 +101,8 @@ typedef uint64_t Off_t;
 #  define IO_REPARSE_TAG_LX_BLK  0x80000026
 #endif
 
-// Exactly same as Perl's one in Win32.c
-static void
-translate_to_errno(void)
+// The logic is the same as Perl's translcate_to_errno in Win32.c
+static void win_last_error_to_errno(void)
 {
     /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
        both permissions errors and if the source is a directory, while
@@ -257,7 +256,7 @@ static int32_t is_symlink_by_handle(HANDLE handle) {
   
   MY_REPARSE_DATA_BUFFER linkdata;
   if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
-    translate_to_errno();
+    win_last_error_to_errno();
     goto END_OF_FUNC;
   }
   
@@ -277,7 +276,7 @@ static int32_t is_symlink(const WCHAR* path_w) {
   HANDLE handle = CreateFileW_reparse_point_for_read(path_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
-    translate_to_errno();
+    win_last_error_to_errno();
     goto END_OF_FUNC;
   }
   
