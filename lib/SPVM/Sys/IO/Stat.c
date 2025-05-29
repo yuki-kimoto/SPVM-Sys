@@ -49,27 +49,28 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 #if defined(_WIN32)
 
-// The logic is the same as Perl's translate_ft_to_time_t in Win32.c
+// The output is the same as Perl's translate_ft_to_time_t in Win32.c
 static time_t translate_ft_to_time_t(FILETIME ft) {
-    SYSTEMTIME st;
-    struct tm pt;
-    time_t retval;
-    
-    if (!FileTimeToSystemTime(&ft, &st))
-        return -1;
-    
-    memset(&pt, 0, 1 * sizeof(struct tm));
-    
-    pt.tm_year = st.wYear - 1900;
-    pt.tm_mon = st.wMonth - 1;
-    pt.tm_mday = st.wDay;
-    pt.tm_hour = st.wHour;
-    pt.tm_min = st.wMinute;
-    pt.tm_sec = st.wSecond;
-    
-    retval = _mkgmtime(&pt);
-    
-    return retval;
+  SYSTEMTIME st;
+  struct tm pt;
+  time_t retval;
+  
+  if (!FileTimeToSystemTime(&ft, &st)) {
+    return -1;
+  }
+  
+  memset(&pt, 0, 1 * sizeof(struct tm));
+  
+  pt.tm_year = st.wYear - 1900;
+  pt.tm_mon = st.wMonth - 1;
+  pt.tm_mday = st.wDay;
+  pt.tm_hour = st.wHour;
+  pt.tm_min = st.wMinute;
+  pt.tm_sec = st.wSecond;
+  
+  retval = _mkgmtime(&pt);
+  
+  return retval;
 }
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
