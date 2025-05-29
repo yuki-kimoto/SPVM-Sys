@@ -102,13 +102,12 @@ typedef uint64_t Off_t;
 #endif
 
 // The logic is the same as Perl's translcate_to_errno in Win32.c
-static void win_last_error_to_errno(void)
-{
-    /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
-       both permissions errors and if the source is a directory, while
-       POSIX wants EACCES and EPERM respectively.
-    */
-    switch (GetLastError()) {
+static void win_last_error_to_errno(void) {
+  /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
+     both permissions errors and if the source is a directory, while
+     POSIX wants EACCES and EPERM respectively.
+  */
+  switch (GetLastError()) {
     case ERROR_BAD_NET_NAME:
     case ERROR_BAD_NETPATH:
     case ERROR_BAD_PATHNAME:
@@ -116,31 +115,39 @@ static void win_last_error_to_errno(void)
     case ERROR_FILENAME_EXCED_RANGE:
     case ERROR_INVALID_DRIVE:
     case ERROR_PATH_NOT_FOUND:
+    {
       errno = ENOENT;
       break;
-    case ERROR_ALREADY_EXISTS:
+    }
+    case ERROR_ALREADY_EXISTS: {
       errno = EEXIST;
       break;
-    case ERROR_ACCESS_DENIED:
+    }
+    case ERROR_ACCESS_DENIED: {
       errno = EACCES;
       break;
-    case ERROR_PRIVILEGE_NOT_HELD:
+    }
+    case ERROR_PRIVILEGE_NOT_HELD: {
       errno = EPERM;
       break;
-    case ERROR_NOT_SAME_DEVICE:
+    }
+    case ERROR_NOT_SAME_DEVICE: {
       errno = EXDEV;
       break;
-    case ERROR_DISK_FULL:
+    }
+    case ERROR_DISK_FULL: {
       errno = ENOSPC;
       break;
-    case ERROR_NOT_ENOUGH_QUOTA:
+    }
+    case ERROR_NOT_ENOUGH_QUOTA: {
       errno = EDQUOT;
       break;
-    default:
+    }
+    default: {
       /* ERROR_INVALID_FUNCTION - eg. symlink on a FAT volume */
       errno = EINVAL;
-      break;
     }
+  }
 }
 
 static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
