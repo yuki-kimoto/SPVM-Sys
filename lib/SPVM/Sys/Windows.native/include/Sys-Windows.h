@@ -251,8 +251,7 @@ static HANDLE CreateFileW_reparse_point_for_read(const wchar_t* path_w) {
   return CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
 }
 
-static BOOL
-is_symlink(HANDLE h) {
+static int32_t is_symlink_by_handle(HANDLE h) {
     MY_REPARSE_DATA_BUFFER linkdata;
     const MY_SYMLINK_REPARSE_BUFFER * const sd =
         &linkdata.Data.SymbolicLinkReparseBuffer;
@@ -281,7 +280,7 @@ static int32_t is_symlink_name(const wchar_t* path_w) {
     return 0;
   }
   
-  int32_t is_sym = is_symlink(handle);
+  int32_t is_sym = is_symlink_by_handle(handle);
   
   CloseHandle(handle);
   

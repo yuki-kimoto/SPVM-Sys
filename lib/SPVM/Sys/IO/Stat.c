@@ -315,7 +315,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     goto END_OF_FUNC;
   }
   
-  int32_t is_sym = is_symlink(handle);
+  int32_t is_sym = is_symlink_by_handle(handle);
   
   if (is_sym) {
     void* obj_link_text = NULL;
