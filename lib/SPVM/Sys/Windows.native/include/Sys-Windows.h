@@ -58,6 +58,31 @@ typedef uint64_t Off_t;
 #define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
 
 // Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_SYMLINK
+#  define IO_REPARSE_TAG_SYMLINK                  (0xA000000CL)
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_AF_UNIX
+#  define IO_REPARSE_TAG_AF_UNIX 0x80000023
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_LX_FIFO
+#  define IO_REPARSE_TAG_LX_FIFO 0x80000024
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_LX_CHR
+#  define IO_REPARSE_TAG_LX_CHR  0x80000025
+#endif
+
+// Exactly same as Perl's one in Win32.c
+#ifndef IO_REPARSE_TAG_LX_BLK
+#  define IO_REPARSE_TAG_LX_BLK  0x80000026
+#endif
+
+// Exactly same as Perl's one in Win32.c
 static void
 translate_to_errno(void)
 {
