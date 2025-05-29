@@ -9,94 +9,101 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #include "Sys-Windows.h"
 
-static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldfile, const wchar_t *newfile) {
-    DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
-    size_t oldfile_len = wcslen(oldfile);
-    
-    if (wcschr(oldfile, L'/')) {
-        /* Win32 (or perhaps NTFS) won't follow symlinks containing
-           /, so replace any with \\
-        */
-        wchar_t *temp = (wchar_t*)env->new_memory_block(env, stack, (wcslen(oldfile) + 1) * sizeof(wchar_t));
-        memcpy(temp, oldfile, (wcslen(oldfile) + 1) * sizeof(wchar_t));
-        wchar_t *p = temp;
-        while (*p) {
-            if (*p == L'/') {
-                *p = '\\';
-            }
-            ++p;
-        }
-        *p = 0;
-        oldfile = temp;
-        oldfile_len = p - temp;
-        env->free_memory_block(env, stack, temp);
-    }
-
-    /* are we linking to a directory?
-       CreateSymlinkW() needs to know if the target is a directory,
-       If it looks like a directory name:
-        - ends in slash
-        - is just . or ..
-        - ends in /. or /.. (with either slash)
-        - is a simple drive letter
-       assume it's a directory.
-       Otherwise if the oldfile is relative we need to make a relative path
-       based on the newfile to check if the target is a directory.
+// The logic is the same as Perl's win32_symlink in Win32.c, and supports UTF-8 arugments.
+static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldpath_w, const wchar_t *newpath_w) {
+  DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
+  size_t oldpath_w_len = wcslen(oldpath_w);
+  
+  if (wcschr(oldpath_w, L'/')) {
+    /* Win32 (or perhaps NTFS) won't follow symlinks containing
+       /, so replace any with \\
     */
-    if ((oldfile_len >= 1 && isSLASHW(oldfile[oldfile_len-1])) ||
-        strEQW(oldfile, L"..") ||
-        strEQW(oldfile, L".") ||
-        (isSLASH(oldfile[oldfile_len-2]) && oldfile[oldfile_len-1] == '.') ||
-        strEQW(oldfile+oldfile_len-3, L"\\..") ||
-        (oldfile_len == 2 && oldfile[1] == L':')) {
-        create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+    wchar_t *temp = (wchar_t*)env->new_memory_block(env, stack, (wcslen(oldpath_w) + 1) * sizeof(wchar_t));
+    memcpy(temp, oldpath_w, (wcslen(oldpath_w) + 1) * sizeof(wchar_t));
+    wchar_t *p = temp;
+    while (*p) {
+      if (*p == L'/') {
+        *p = L'\\';
+      }
+      ++p;
     }
-    else {
-        DWORD dest_attr;
-        const wchar_t *dest_path = oldfile;
-        wchar_t szTargetName[MAX_PATH+1];
-
-        if (oldfile_len >= 3 && oldfile[1] == ':') {
-            /* relative to current directory on a drive, or absolute */
-            /* dest_path = oldfile; already done */
-        }
-        else if (oldfile[0] != L'\\') {
-            size_t newfile_len = wcslen(newfile);
-            wchar_t *last_slash = wcsrchr(newfile, L'/');
-            wchar_t *last_bslash = wcsrchr(newfile, L'\\');
-            wchar_t *end_dir = last_slash && last_bslash
-                ? ( last_slash > last_bslash ? last_slash : last_bslash)
-                : last_slash ? last_slash : last_bslash ? last_bslash : NULL;
-
-            if (end_dir) {
-                if ((end_dir - newfile + 1) + oldfile_len > MAX_PATH) {
-                    /* too long */
-                    errno = EINVAL;
-                    return -1;
-                }
-
-                memcpy(szTargetName, newfile, (end_dir - newfile + 1) * sizeof(wchar_t));
-                wcscpy(szTargetName + (end_dir - newfile + 1), oldfile);
-                dest_path = szTargetName;
-            }
-            else {
-                /* newpath is just a filename */
-                /* dest_path = oldfile; */
-            }
-        }
-
-        dest_attr = GetFileAttributesW(dest_path);
-        if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
-            create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
-        }
+    *p = 0;
+    oldpath_w = temp;
+    oldpath_w_len = p - temp;
+    env->free_memory_block(env, stack, temp);
+  }
+  
+  /* are we linking to a directory?
+     CreateSymlinkW() needs to know if the target is a directory,
+     If it looks like a directory name:
+      - ends in slash
+      - is just . or ..
+      - ends in /. or /.. (with either slash)
+      - is a simple drive letter
+     assume it's a directory.
+     Otherwise if the oldpath_w is relative we need to make a relative path
+     based on the newpath_w to check if the target is a directory.
+  */
+  if ((oldpath_w_len >= 1 && isSLASHW(oldpath_w[oldpath_w_len - 1])) ||
+    strEQW(oldpath_w, L"..") ||
+    strEQW(oldpath_w, L".") ||
+    (isSLASHW(oldpath_w[oldpath_w_len-2]) && oldpath_w[oldpath_w_len - 1] == L'.') ||
+    strEQW(oldpath_w+oldpath_w_len-3, L"\\..") ||
+    (oldpath_w_len == 2 && oldpath_w[1] == L':')) {
+    create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+  }
+  else {
+    DWORD dest_attr;
+    const wchar_t *dest_path_w = oldpath_w;
+    wchar_t* target_name_w = NULL;
+    
+    if (oldpath_w_len >= 3 && oldpath_w[1] == L':') {
+      /* relative to current directory on a drive, or absolute */
+      /* dest_path_w = oldpath_w; already done */
     }
-
-    if (!CreateSymbolicLinkW(newfile, oldfile, create_flags)) {
-        translate_to_errno();
-        return -1;
+    else if (oldpath_w[0] != L'\\') {
+      size_t newpath_w_len = wcslen(newpath_w);
+      wchar_t *last_slash_w = wcsrchr(newpath_w, L'/');
+      wchar_t *last_bslash_w = wcsrchr(newpath_w, L'\\');
+      wchar_t *end_dir_w = last_slash_w && last_bslash_w
+        ? ( last_slash_w > last_bslash_w ? last_slash_w : last_bslash_w)
+        : last_slash_w ? last_slash_w : last_bslash_w ? last_bslash_w : NULL;
+      
+      if (end_dir_w) {
+        if ((end_dir_w - newpath_w + 1) + oldpath_w_len > MAX_PATH) {
+          /* too long */
+          errno = EINVAL;
+          return -1;
+        }
+        
+        target_name_w = (wchar_t*)env->new_memory_block(env, stack, (end_dir_w - newpath_w + 1) * sizeof(wchar_t));
+        memcpy(target_name_w, newpath_w, (end_dir_w - newpath_w + 1) * sizeof(wchar_t));
+        wcscpy(target_name_w + (end_dir_w - newpath_w + 1), oldpath_w);
+        dest_path_w = target_name_w;
+      }
+      else {
+        /* newpath_w is just a filename */
+        /* dest_path_w = oldpath_w; */
+      }
     }
-
-    return 0;
+    
+    dest_attr = GetFileAttributesW(dest_path_w);
+    
+    if (target_name_w) {
+      env->free_memory_block(env, stack, target_name_w);
+    }
+    
+    if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
+      create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+    }
+  }
+  
+  if (!CreateSymbolicLinkW(newpath_w, oldpath_w, create_flags)) {
+    translate_to_errno();
+    return -1;
+  }
+  
+  return 0;
 }
 
 #endif // _WIN32

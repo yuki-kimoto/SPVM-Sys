@@ -14,8 +14,6 @@
 #include <time.h>
 #include <assert.h>
 
-static OSVERSIONINFO g_osver = {0, 0, 0, 0, 0, ""};
-
 // Exactly same as Perl's one in Win32.c
 typedef struct {
     USHORT SubstituteNameOffset;
@@ -55,9 +53,6 @@ typedef struct {
 #  define EDQUOT		WSAEDQUOT
 #endif
 
-#define strEQ(string1, string2) (strcmp(string1, string2) == 0)
-#define isSLASH(c) ((c) == '/' || (c) == '\\')
-
 #ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
 #  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
 #endif
@@ -67,18 +62,9 @@ typedef struct {
 #endif
 
 // These are different from Perl's ones, but they must be defined well
-#define PerlDir_mapA(dir) dir
-#define dTHX 
-
-typedef BOOLEAN (__stdcall *pCreateSymbolicLinkA_t)(LPCSTR, LPCSTR, DWORD);
-typedef BOOLEAN (__stdcall *pCreateSymbolicLinkW_t)(LPCWSTR, LPCWSTR, DWORD);
-
-// These are different from Perl's ones, but they must be defined well
 typedef BOOL bool;
 typedef uint32_t STRLEN;
-#define PerlDir_mapA(dir) dir
 #define dTHX 
-#define aTHX_ 
 #define MKTIME_LOCK 
 #define MKTIME_UNLOCK
 #define Zero(ptr, size, type) memset(ptr, 0, size * sizeof(type));
