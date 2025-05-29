@@ -27,13 +27,17 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 {
   my $tmp_dir = File::Temp->newdir;
-  my $symlink = "$tmp_dir/symlink";
+  my $symlink = "$tmp_dir/tmp_symlink";
   
   eval { SPVM::Sys->symlink("$tmp_dir", $symlink) };
   
   if (my $message = $@) {
     ($message) = split("\n", $message);
     plan skip_all => "no symlink available in this system(Reason: $message).";
+  }
+  else {
+    unlink $symlink
+      or die "Cannot remove a temporary file \"$symlink\":$!";
   }
 }
 
