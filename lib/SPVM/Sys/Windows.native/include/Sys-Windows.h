@@ -59,7 +59,6 @@ typedef uint32_t STRLEN;
 #define MKTIME_UNLOCK
 #define Zero(ptr, size, type) memset(ptr, 0, size * sizeof(type));
 typedef uint64_t Off_t;
-#define PERL_ARGS_ASSERT_MY_MEMRCHR
 
 #define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
 #define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
