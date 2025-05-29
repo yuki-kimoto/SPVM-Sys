@@ -76,7 +76,7 @@ translate_ft_to_time_t(FILETIME ft) {
 // Same as Perl's one in Win32.c, but this function use Perl data structure SV. I replace it with SPVM data structure.
 // And path argument is not needed.
 static int
-win32_stat_low(HANDLE handle, STRLEN len, Stat_t *sbuf, DWORD reparse_type) {
+win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, STRLEN len, Stat_t *sbuf, DWORD reparse_type) {
     DWORD type = GetFileType(handle);
     BY_HANDLE_FILE_INFORMATION bhi;
 
@@ -152,10 +152,6 @@ win32_stat_low(HANDLE handle, STRLEN len, Stat_t *sbuf, DWORD reparse_type) {
                 const char* path = NULL;
                 len = GetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
                 if (len > 0) {
-                  SPVM_ENV* env = thread_env;
-                  
-                  SPVM_VALUE* stack = env->new_stack(env);
-                  
                   int32_t scope_id = env->enter_scope(env, stack);
                   
                   wchar_t* path_buf_w = env->new_memory_block(env, stack, sizeof(wchar_t) * (len + 1));
@@ -173,8 +169,6 @@ win32_stat_low(HANDLE handle, STRLEN len, Stat_t *sbuf, DWORD reparse_type) {
                   assert(error_id == 0);
                   
                   env->leave_scope(env, stack, scope_id);
-                  
-                  env->free_stack(env, stack);
                 }
 
                 if (path && len > 4 &&
@@ -270,7 +264,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     }
   }
   
-  int32_t result = win32_stat_low(handle, 0, st_stat, ReparseTag);
+  int32_t result = win32_stat_low(env, stack, handle, 0, st_stat, ReparseTag);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -314,7 +308,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     goto END_OF_FUNC;
   }
   
-  int32_t result = win32_stat_low(handle, 0, st_stat, 0);
+  int32_t result = win32_stat_low(env, stack, handle, 0, st_stat, 0);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -406,7 +400,6 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   Stat_t* stat_buf = env->get_pointer(env, stack, obj_stat);
   
 #if defined(_WIN32)
-  thread_env = env;
   stack[0].oval = obj_path;
   error_id = win_stat(env, stack, stat_buf);
   int32_t status = error_id ? -1 : 0;
@@ -445,7 +438,6 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   Stat_t* stat_buf = env->get_pointer(env, stack, obj_lstat);
   
 #if defined(_WIN32)
-  thread_env = env;
   stack[0].oval = obj_path;
   error_id = win_lstat(env, stack, stat_buf);
   int32_t status = error_id ? -1 : 0;
@@ -480,9 +472,8 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   
 #if defined(_WIN32)
-  thread_env = env;
   HANDLE handle = (HANDLE)_get_osfhandle(fd);
-  int32_t status = win32_stat_low(handle, 0, stat_buf, 0);
+  int32_t status = win32_stat_low(env, stack, handle, 0, stat_buf, 0);
 #else
   int32_t status = fstat(fd, stat_buf);
 #endif

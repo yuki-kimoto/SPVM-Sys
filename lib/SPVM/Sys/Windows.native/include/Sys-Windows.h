@@ -105,8 +105,6 @@ typedef uint64_t Off_t;
 #  define IO_REPARSE_TAG_LX_BLK  0x80000026
 #endif
 
-__thread SPVM_ENV* thread_env;
-
 // Exactly same as Perl's one in Win32.c
 static void
 translate_to_errno(void)
