@@ -1,6 +1,6 @@
 # Copyright (c) 2025 Yuki Kimoto
 # MIT License
 
-class Sys::Windows {
+class Sys::Resource::Windows {
   version_from Sys;
 }

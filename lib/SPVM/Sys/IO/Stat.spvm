@@ -11,7 +11,7 @@ class Sys::IO::Stat : pointer {
   use Sys::IO;
   
   # This is a resource class
-  use Sys::Windows;
+  use Sys::Resource::Windows;
   
   # Class methods
   native static method new : Sys::IO::Stat ();

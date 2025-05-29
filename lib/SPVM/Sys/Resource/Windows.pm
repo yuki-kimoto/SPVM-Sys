@@ -1,4 +1,4 @@
-package SPVM::Sys::Windows;
+package SPVM::Sys::Resource::Windows;
 
 
 
@@ -6,15 +6,15 @@ package SPVM::Sys::Windows;
 
 =head1 Name
 
-SPVM::Sys::Windows - Short Description
+SPVM::Sys::Resource::Windows - Short Description
 
 =head1 Description
 
-Sys::Windows class in L<SPVM> has methods to do someting.
+Sys::Resource::Windows class in L<SPVM> has methods to do someting.
 
 =head1 Usage
 
-  use Sys::Windows;
+  use Sys::Resource::Windows;
 
 =head1 Details
 
