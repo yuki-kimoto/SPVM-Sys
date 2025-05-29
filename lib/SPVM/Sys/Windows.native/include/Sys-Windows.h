@@ -71,11 +71,6 @@ typedef uint64_t Off_t;
 #define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
 #define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
 
-// Exactly same as Perl's one in sys/errno2.h
-#ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
-#  define EDQUOT		WSAEDQUOT
-#endif
-
 // Exactly same as Perl's one in Win32.c
 static void
 translate_to_errno(void)
