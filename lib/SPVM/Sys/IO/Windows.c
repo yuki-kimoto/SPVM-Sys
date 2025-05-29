@@ -55,7 +55,7 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldpat
   else {
     DWORD dest_attr;
     const wchar_t *dest_path_w = oldpath_w;
-    wchar_t* target_name_w = NULL;
+    wchar_t target_name_w[MAX_PATH+1];
     
     if (oldpath_w_len >= 3 && oldpath_w[1] == L':') {
       /* relative to current directory on a drive, or absolute */
@@ -76,7 +76,6 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldpat
           return -1;
         }
         
-        target_name_w = (wchar_t*)env->new_memory_block(env, stack, (end_dir_w - newpath_w + 1) * sizeof(wchar_t));
         memcpy(target_name_w, newpath_w, (end_dir_w - newpath_w + 1) * sizeof(wchar_t));
         wcscpy(target_name_w + (end_dir_w - newpath_w + 1), oldpath_w);
         dest_path_w = target_name_w;
@@ -88,11 +87,6 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const wchar_t *oldpat
     }
     
     dest_attr = GetFileAttributesW(dest_path_w);
-    
-    if (target_name_w) {
-      env->free_memory_block(env, stack, target_name_w);
-    }
-    
     if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
       create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
     }
