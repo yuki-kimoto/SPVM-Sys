@@ -1065,7 +1065,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   WCHAR* ret_w = _wgetcwd(NULL, size);
   free_object = ret_w;
   
-  char* ret = (char*)win_WCHARo_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
+  char* ret = (char*)win_wchar_to_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
   
   if (error_id) {
     goto END_OF_FUNC;
@@ -1129,7 +1129,7 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* free_object = ret_w;
   
-  char* ret = (char*)win_WCHARo_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
+  char* ret = (char*)win_wchar_to_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
   
   if (error_id) {
     goto END_OF_FUNC;
