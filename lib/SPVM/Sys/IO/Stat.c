@@ -453,7 +453,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   thread_env = env;
-  HANDLE handle = (HANDLE)win32_get_osfhandle(fd);
+  HANDLE handle = (HANDLE)_get_osfhandle(fd);
   int32_t status = win32_stat_low(handle, 0, stat_buf, 0);
 #else
   int32_t status = fstat(fd, stat_buf);

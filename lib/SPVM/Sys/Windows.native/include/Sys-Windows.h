@@ -162,14 +162,6 @@ typedef struct w32_stat Stat_t;
 __thread SPVM_ENV* thread_env;
 
 // Exactly same as Perl's one in Win32.c
-static
-intptr_t
-win32_get_osfhandle(int fd)
-{
-    return (intptr_t)_get_osfhandle(fd);
-}
-
-// Exactly same as Perl's one in Win32.c
 static void
 translate_to_errno(void)
 {
@@ -210,72 +202,6 @@ translate_to_errno(void)
       errno = EINVAL;
       break;
     }
-}
-
-// Exactly same as Perl's one in Win32.c, bytes_out is UTF-8
-static int
-do_readlink_handle(HANDLE hlink, char *buf, size_t bufsiz, bool *is_symlink) {
-    MY_REPARSE_DATA_BUFFER linkdata;
-    DWORD linkdata_returned;
-
-    if (is_symlink)
-        *is_symlink = FALSE;
-
-    if (!DeviceIoControl(hlink, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
-        translate_to_errno();
-        return -1;
-    }
-
-    int bytes_out;
-    BOOL used_default;
-    switch (linkdata.ReparseTag) {
-    case IO_REPARSE_TAG_SYMLINK:
-        {
-            const MY_SYMLINK_REPARSE_BUFFER * const sd =
-                &linkdata.Data.SymbolicLinkReparseBuffer;
-            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
-                errno = EINVAL;
-                return -1;
-            }
-            bytes_out =
-                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
-                                    sd->PathBuffer + sd->PrintNameOffset/2,
-                                    sd->PrintNameLength/2,
-                                    buf, (int)bufsiz, NULL, &used_default);
-            if (is_symlink)
-                *is_symlink = TRUE;
-        }
-        break;
-    case IO_REPARSE_TAG_MOUNT_POINT:
-        {
-            const MY_MOUNT_POINT_REPARSE_BUFFER * const rd =
-                &linkdata.Data.MountPointReparseBuffer;
-            if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
-                errno = EINVAL;
-                return -1;
-            }
-            bytes_out =
-                WideCharToMultiByte(CP_UTF8, WC_NO_BEST_FIT_CHARS,
-                                    rd->PathBuffer + rd->PrintNameOffset/2,
-                                    rd->PrintNameLength/2,
-                                    buf, (int)bufsiz, NULL, &used_default);
-            if (is_symlink)
-                *is_symlink = TRUE;
-        }
-        break;
-
-    default:
-        errno = EINVAL;
-        return -1;
-    }
-
-    if (bytes_out == 0 || used_default) {
-        /* failed conversion from unicode to ANSI or otherwise failed */
-        errno = EINVAL;
-        return -1;
-    }
-
-    return bytes_out;
 }
 
 static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
