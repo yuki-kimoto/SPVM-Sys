@@ -87,9 +87,13 @@ sub MY::postamble {
   
   unless ($no_build_spvm_modules) {
     require SPVM::Builder::Util::API;
+    
+    # For loading resources
+    local @INC = @INC;
+    unshift @INC, 'lib';
+    
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_precompile('Sys');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Windows');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Windows');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Constant');
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::FileStream');

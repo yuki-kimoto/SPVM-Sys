@@ -5,6 +5,9 @@ class Sys::IO::Windows {
   version_from Sys;
   use Sys::IO::Stat;
   
+  # This is a resource class
+  use Sys::Windows;
+  
   # Class Methods
   native static method unlink : int ($pathname : string);
   
