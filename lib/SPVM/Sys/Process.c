@@ -18,7 +18,7 @@
 #endif
 
 #if defined(_WIN32)
-  #include "Sys-Windows.h"
+  #include "spvm_sys_windows.h"
 #endif
 
 static const char* FILE_NAME = "Sys/Process.c";

@@ -27,7 +27,7 @@ static const char* FILE_NAME = "Sys/IO.c";
 #undef MY_DIRENT
 
 #if defined(_WIN32)
-  #include "Sys-Windows.h"
+  #include "spvm_sys_windows.h"
   
   #define MY_DIR _WDIR
   #define MY_DIRENT struct _wdirent

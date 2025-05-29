@@ -7,7 +7,7 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #if defined(_WIN32)
 
-#include "Sys-Windows.h"
+#include "spvm_sys_windows.h"
 
 #define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
 #define strEQW(string1, string2) (wcscmp(string1, string2) == 0)

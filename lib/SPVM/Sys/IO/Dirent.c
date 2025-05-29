@@ -11,7 +11,7 @@
 #undef MY_DIRENT
 
 #if defined(_WIN32)
-  #include "Sys-Windows.h"
+  #include "spvm_sys_windows.h"
   
   #define MY_DIRENT struct _wdirent
 #else

@@ -10,7 +10,7 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 #include <sys/stat.h>
 
 #if defined(_WIN32)
-  #include "Sys-Windows.h"
+  #include "spvm_sys_windows.h"
   
   // Exactly same as Perl's one in Win32.h
   #define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
