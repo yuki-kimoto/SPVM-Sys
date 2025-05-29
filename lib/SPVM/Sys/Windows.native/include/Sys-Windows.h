@@ -59,10 +59,6 @@ typedef struct {
   } Data;
 } MY_REPARSE_DATA_BUFFER;
 
-#ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
-#  define EDQUOT		WSAEDQUOT
-#endif
-
 // These are different from Perl's ones, but they must be defined well
 typedef BOOL bool;
 typedef uint32_t STRLEN;
