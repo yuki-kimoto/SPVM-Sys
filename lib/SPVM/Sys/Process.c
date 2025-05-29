@@ -32,7 +32,7 @@ int32_t SPVM__Sys__Process__fork(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = fork();
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]fork() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fork() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -55,7 +55,7 @@ int32_t SPVM__Sys__Process__getpriority(SPVM_ENV* env, SPVM_VALUE* stack) {
   errno = 0;
   int32_t nice = getpriority(which, who);
   if (errno != 0) {
-    env->die(env, stack, "[System Error]getpriority() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getpriority() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -79,7 +79,7 @@ int32_t SPVM__Sys__Process__setpriority(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = setpriority(which, who, prio);
   if (status == -1) {
-    env->die(env, stack, "[System Error]setpriority() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setpriority() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -133,7 +133,7 @@ int32_t SPVM__Sys__Process__wait(SPVM_ENV* env, SPVM_VALUE* stack) {
   *wstatus_ref = wstatus_int;
   
   if (process_id == -1) {
-    env->die(env, stack, "[System Error]wait() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]wait() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -164,7 +164,7 @@ int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
   *wstatus_ref = wstatus_int;
   
   if (process_id == -1) {
-    env->die(env, stack, "[System Error]waitpid() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]waitpid() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -186,7 +186,7 @@ int32_t SPVM__Sys__Process__system(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t wstatus = system(command);
   
   if (wstatus == -1) {
-    env->die(env, stack, "[System Error]system() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]system() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -227,7 +227,7 @@ int32_t SPVM__Sys__Process__pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = pipe(pipefds_int);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]pipe() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]pipe() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -267,7 +267,7 @@ int32_t SPVM__Sys__Process___pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = _pipe(pipefds_int, psize, textmode);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]_pipe() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]_pipe() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -291,7 +291,7 @@ int32_t SPVM__Sys__Process__getpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t process_group_id = getpgid(pid);
   
   if (process_group_id == -1) {
-    env->die(env, stack, "[System Error]getpgid() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getpgid() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -314,7 +314,7 @@ int32_t SPVM__Sys__Process__setpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = setpgid(pid, pgid);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]setpgid() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setpgid() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -404,7 +404,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->free_memory_block(env, stack, argv);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]execv() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]execv() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

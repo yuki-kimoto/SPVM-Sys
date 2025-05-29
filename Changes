@@ -5,7 +5,8 @@
   [Big Fix]
     * Fix a bug that SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE is not specified in symlink method.
     * Fix bugs related to wide character in symlink method in Windows.
-    
+  [Exception Message Improvement]
+    * Exception messages related to system errors contains the value of errno.
 0.543 2025-05-28
   [Bug Fix]
     * Fix bugs that Sys#stat, Sys#lstat, Sys#readlink, Sys#_realpath methods fails

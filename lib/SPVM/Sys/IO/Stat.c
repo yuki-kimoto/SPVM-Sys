@@ -279,7 +279,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   if (error_id) {
     if (errno) {
-      env->die(env, stack, "[System Error]win_stat() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]win_stat() failed(%d: %s). $path:\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     }
     
     return error_id;
@@ -340,7 +340,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   if (error_id) {
     if (errno) {
-      env->die(env, stack, "[System Error]win_lstat() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]win_lstat() failed(%d: %s). $path:\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     }
     
     return error_id;
@@ -409,7 +409,7 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
-    env->die(env, stack, "[System Error]stat() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]stat() failed(%d: %s). $path:\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -447,7 +447,7 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
-    env->die(env, stack, "[System Error]lstat() failed:%s. $path:\"%s\".", env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]lstat() failed(%d: %s). $path:\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -479,7 +479,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   if (status == -1) {
-    env->die(env, stack, "[System Error]fstat() failed:%s.", env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fstat() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

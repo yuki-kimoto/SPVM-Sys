@@ -154,7 +154,7 @@ int32_t SPVM__Sys__Select__select(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t updated_fds_count = select(fd, readfds, writefds, exceptfds, timeout);
   
   if (updated_fds_count == -1) {
-    env->die(env, stack, "[System Error]select() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]select() failed(%d: %s).", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

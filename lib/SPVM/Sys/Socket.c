@@ -95,7 +95,7 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
     return InvalidNetworkAddress;
   }
   else if (status == -1) {
-    env->die(env, stack, "[System Error]inet_aton() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]inet_aton() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -117,7 +117,7 @@ int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
   char* output_address = inet_ntoa(*in);
   
   if (!output_address) {
-    env->die(env, stack, "[System Error]inet_ntoa() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]inet_ntoa() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -190,7 +190,7 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
     return InvalidNetworkAddress;
   }
   else if (status == -1) {
-    env->die(env, stack, "[System Error]inet_pton() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]inet_pton() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -226,7 +226,7 @@ int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* dst_ret = inet_ntop(af, src, dst, size);
   
   if (!dst_ret) {
-    env->die(env, stack, "[System Error]inet_ntop() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]inet_ntop() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -246,7 +246,7 @@ int32_t SPVM__Sys__Socket__socket(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t sockfd = socket(domain, type, protocol);
   
   if (sockfd == -1) {
-    env->die(env, stack, "[System Error]socket() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]socket() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -272,7 +272,7 @@ int32_t SPVM__Sys__Socket__connect(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = connect(sockfd, addr, addrlen);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]connect() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]connect() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -298,7 +298,7 @@ int32_t SPVM__Sys__Socket__bind(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = bind(sockfd, addr, addrlen);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]bind() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]bind() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -330,7 +330,7 @@ int32_t SPVM__Sys__Socket__accept(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t client_fd = accept(sockfd, addr, &sl_addrlen);
   
   if (client_fd == -1) {
-    env->die(env, stack, "[System Error]accept() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]accept() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -350,7 +350,7 @@ int32_t SPVM__Sys__Socket__listen(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = listen(sockfd, backlog);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]listen() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]listen() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -368,7 +368,7 @@ int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = shutdown(sockfd, how);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]shutdown() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]shutdown() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -387,7 +387,7 @@ int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = closesocket(s);
   
   if (!(status == 0)) {
-    env->die(env, stack, "[System Error]close() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]close() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -422,7 +422,7 @@ int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t read_length = recv(sockfd, buf + buf_offset, len, flags);
   
   if (read_length == -1) {
-    env->die(env, stack, "[System Error]recv() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]recv() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -471,7 +471,7 @@ int32_t SPVM__Sys__Socket__recvfrom(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t read_length = recvfrom(sockfd, buf + buf_offset, len, flags, src_addr, &addrlen_ref_tmp);
   
   if (read_length == -1) {
-    env->die(env, stack, "[System Error]recvfrom() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]recvfrom() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -507,7 +507,7 @@ int32_t SPVM__Sys__Socket__send(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t bytes_length = send(sockfd, buf + buf_offset, len, flags);
   
   if (bytes_length == -1) {
-    env->die(env, stack, "[System Error]send() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]send() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -551,7 +551,7 @@ int32_t SPVM__Sys__Socket__sendto(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t bytes_length = sendto(sockfd, buf + buf_offset, len, flags, addr, addrlen);
   
   if (bytes_length == -1) {
-    env->die(env, stack, "[System Error]sendto() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]sendto() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -583,7 +583,7 @@ int32_t SPVM__Sys__Socket__getpeername(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = getpeername(sockfd, addr, &sl_addrlen);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]getpeername() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getpeername() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -617,7 +617,7 @@ int32_t SPVM__Sys__Socket__getsockname(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = getsockname(sockfd, addr, &sl_addrlen);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]getsockname() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getsockname() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -658,7 +658,7 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = getsockopt(sockfd, level, optname, optval, &optlen_tmp);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]getsockopt() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getsockopt() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -698,7 +698,7 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = setsockopt(sockfd, level, optname, optval, optlen);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]setsockopt() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]setsockopt() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -736,7 +736,7 @@ int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = socketpair(domain, type, protocol, int_sv);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]socketpair() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]socketpair() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -800,7 +800,7 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
     SPVM__Sys__Socket__gai_strerror(env, stack);
     void* obj_gai_strerror = stack[0].oval;
     const char* ch_gai_strerror = env->get_chars(env, stack, obj_gai_strerror);
-    env->die(env, stack, "[System Error]getaddrinfo() failed:%s.", ch_gai_strerror, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getaddrinfo() failed(%d: %s).", status, ch_gai_strerror, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -850,7 +850,7 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
     SPVM__Sys__Socket__gai_strerror(env, stack);
     void* obj_gai_strerror = stack[0].oval;
     const char* ch_gai_strerror = env->get_chars(env, stack, obj_gai_strerror);
-    env->die(env, stack, "[System Error]getnameinfo() failed:%s.", ch_gai_strerror, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]getnameinfo() failed(%d: %s).", status, ch_gai_strerror, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -871,7 +871,7 @@ int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = obj_error_string;
   }
   else {
-    env->die(env, stack, "[System Error]gai_strerror() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]gai_strerror() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -889,7 +889,7 @@ int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = sockatmark(sockfd);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]sockatmark() failed:%s.", spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]sockatmark() failed(%d: %s).", spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
