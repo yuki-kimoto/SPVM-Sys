@@ -47,18 +47,8 @@ typedef struct {
   } Data;
 } MY_REPARSE_DATA_BUFFER;
 
-#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
-
 #ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */
 #  define EDQUOT		WSAEDQUOT
-#endif
-
-#ifndef SYMBOLIC_LINK_FLAG_DIRECTORY
-#  define SYMBOLIC_LINK_FLAG_DIRECTORY 0x1
-#endif
-
-#ifndef SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
-#  define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE 0x2
 #endif
 
 // These are different from Perl's ones, but they must be defined well
