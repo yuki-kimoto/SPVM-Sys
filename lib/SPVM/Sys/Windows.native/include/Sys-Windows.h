@@ -60,7 +60,6 @@ typedef struct {
 } MY_REPARSE_DATA_BUFFER;
 
 // These are different from Perl's ones, but they must be defined well
-#define Zero(ptr, size, type) memset(ptr, 0, size * sizeof(type));
 typedef uint64_t Off_t;
 
 #define isSLASHW(c) ((c) == L'/' || (c) == L'\\')

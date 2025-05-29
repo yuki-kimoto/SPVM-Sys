@@ -55,7 +55,8 @@ static time_t translate_ft_to_time_t(FILETIME ft) {
     if (!FileTimeToSystemTime(&ft, &st))
         return -1;
     
-    Zero(&pt, 1, struct tm);
+    memset(&pt, 0, 1 * sizeof(struct tm));
+    
     pt.tm_year = st.wYear - 1900;
     pt.tm_mon = st.wMonth - 1;
     pt.tm_mday = st.wDay;
@@ -74,9 +75,9 @@ static int
 win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *sbuf, DWORD reparse_type) {
     DWORD type = GetFileType(handle);
     BY_HANDLE_FILE_INFORMATION bhi;
-
-    Zero(sbuf, 1, Stat_t);
-
+    
+    memset(sbuf, 0, 1 * sizeof(Stat_t));
+    
     if (reparse_type) {
         /* Lie to get to the right place */
         type = FILE_TYPE_DISK;
