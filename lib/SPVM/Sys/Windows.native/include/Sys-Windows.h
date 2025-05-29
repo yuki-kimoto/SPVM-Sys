@@ -101,55 +101,6 @@ typedef uint64_t Off_t;
 #  define IO_REPARSE_TAG_LX_BLK  0x80000026
 #endif
 
-// The logic is the same as Perl's translcate_to_errno in Win32.c
-static void win_last_error_to_errno(void) {
-  /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
-     both permissions errors and if the source is a directory, while
-     POSIX wants EACCES and EPERM respectively.
-  */
-  switch (GetLastError()) {
-    case ERROR_BAD_NET_NAME:
-    case ERROR_BAD_NETPATH:
-    case ERROR_BAD_PATHNAME:
-    case ERROR_FILE_NOT_FOUND:
-    case ERROR_FILENAME_EXCED_RANGE:
-    case ERROR_INVALID_DRIVE:
-    case ERROR_PATH_NOT_FOUND:
-    {
-      errno = ENOENT;
-      break;
-    }
-    case ERROR_ALREADY_EXISTS: {
-      errno = EEXIST;
-      break;
-    }
-    case ERROR_ACCESS_DENIED: {
-      errno = EACCES;
-      break;
-    }
-    case ERROR_PRIVILEGE_NOT_HELD: {
-      errno = EPERM;
-      break;
-    }
-    case ERROR_NOT_SAME_DEVICE: {
-      errno = EXDEV;
-      break;
-    }
-    case ERROR_DISK_FULL: {
-      errno = ENOSPC;
-      break;
-    }
-    case ERROR_NOT_ENOUGH_QUOTA: {
-      errno = EDQUOT;
-      break;
-    }
-    default: {
-      /* ERROR_INVALID_FUNCTION - eg. symlink on a FAT volume */
-      errno = EINVAL;
-    }
-  }
-}
-
 static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   *error_id = 0;
@@ -235,6 +186,55 @@ static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* ut
   }
   
   return utf8_string;
+}
+
+// The logic is the same as Perl's translcate_to_errno in Win32.c
+static void win_last_error_to_errno(void) {
+  /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
+     both permissions errors and if the source is a directory, while
+     POSIX wants EACCES and EPERM respectively.
+  */
+  switch (GetLastError()) {
+    case ERROR_BAD_NET_NAME:
+    case ERROR_BAD_NETPATH:
+    case ERROR_BAD_PATHNAME:
+    case ERROR_FILE_NOT_FOUND:
+    case ERROR_FILENAME_EXCED_RANGE:
+    case ERROR_INVALID_DRIVE:
+    case ERROR_PATH_NOT_FOUND:
+    {
+      errno = ENOENT;
+      break;
+    }
+    case ERROR_ALREADY_EXISTS: {
+      errno = EEXIST;
+      break;
+    }
+    case ERROR_ACCESS_DENIED: {
+      errno = EACCES;
+      break;
+    }
+    case ERROR_PRIVILEGE_NOT_HELD: {
+      errno = EPERM;
+      break;
+    }
+    case ERROR_NOT_SAME_DEVICE: {
+      errno = EXDEV;
+      break;
+    }
+    case ERROR_DISK_FULL: {
+      errno = ENOSPC;
+      break;
+    }
+    case ERROR_NOT_ENOUGH_QUOTA: {
+      errno = EDQUOT;
+      break;
+    }
+    default: {
+      /* ERROR_INVALID_FUNCTION - eg. symlink on a FAT volume */
+      errno = EINVAL;
+    }
+  }
 }
 
 static HANDLE CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
