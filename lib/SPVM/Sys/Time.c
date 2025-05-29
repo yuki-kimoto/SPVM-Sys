@@ -305,7 +305,7 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t ret_errno = clock_nanosleep(clockid, flags, st_request, st_remain);
   
   if (ret_errno != 0) {
-    env->die(env, stack, "[System Error]clock_nanosleep() failed:%s.", env->strerror_nolen(env, stack, ret_errno), __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]clock_nanosleep() failed(%d: %s).", ret_errno, env->strerror_nolen(env, stack, ret_errno), __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
