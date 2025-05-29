@@ -72,10 +72,8 @@ static time_t translate_ft_to_time_t(FILETIME ft) {
     return retval;
 }
 
-// Same as Perl's one in Win32.c, but this function use Perl data structure SV. I replace it with SPVM data structure.
-// And path argument is not needed.
-static int
-win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *sbuf, DWORD reparse_type) {
+// The output data is the same as Perl's win32_stat_low in Win32.c.
+static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *sbuf, DWORD reparse_type) {
     DWORD type = GetFileType(handle);
     BY_HANDLE_FILE_INFORMATION bhi;
     
@@ -263,7 +261,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     }
   }
   
-  int32_t result = win32_stat_low(env, stack, handle, 0, st_stat, ReparseTag);
+  int32_t result = win_fstat_by_handle(env, stack, handle, 0, st_stat, ReparseTag);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -307,7 +305,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     goto END_OF_FUNC;
   }
   
-  int32_t result = win32_stat_low(env, stack, handle, 0, st_stat, 0);
+  int32_t result = win_fstat_by_handle(env, stack, handle, 0, st_stat, 0);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -472,7 +470,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   HANDLE handle = (HANDLE)_get_osfhandle(fd);
-  int32_t status = win32_stat_low(env, stack, handle, 0, stat_buf, 0);
+  int32_t status = win_fstat_by_handle(env, stack, handle, 0, stat_buf, 0);
 #else
   int32_t status = fstat(fd, stat_buf);
 #endif
