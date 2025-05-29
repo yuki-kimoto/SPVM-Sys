@@ -431,7 +431,7 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = win32_symlink(env, stack, oldpath_w, newpath_w);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]win32_symlink() failed(%d: %s). $oldpath is \"%s\". $newpath is \"%s\".", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]win32_symlink() failed(%d: %s). $oldpath=\"%s\", $newpath=\"%s\".", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

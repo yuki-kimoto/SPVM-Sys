@@ -71,7 +71,7 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   if (!stream) {
-    env->die(env, stack, "[System Error]fopen() failed(%d: %s). $path is \"%s\". $mode is \"%s\"", errno, env->strerror_nolen(env, stack, errno), path, mode, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]fopen() failed(%d: %s). $path=\"%s\", $mode=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, mode, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -498,7 +498,7 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* reopened_stream = freopen(path, mode, stream);
   
   if (!reopened_stream) {
-    env->die(env, stack, "[System Error]freopen() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]freopen() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -577,7 +577,7 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   if (fd == -1) {
-    env->die(env, stack, "[System Error]open() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]open() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -902,7 +902,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   if (status == -1) {
-    env->die(env, stack, "[System Error]truncate() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]truncate() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -937,7 +937,7 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]mkdir() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]mkdir() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -981,7 +981,7 @@ int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   if (status == -1) {
-    env->die(env, stack, "[System Error]rmdir() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]rmdir() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1002,7 +1002,7 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = unlink(pathname);
   if (status == -1) {
-    env->die(env, stack, "[System Error]unlink() failed(%d: %s). $pathname is \"%s\".", errno, env->strerror_nolen(env, stack, errno), pathname, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]unlink() failed(%d: %s). $pathname=\"%s\".", errno, env->strerror_nolen(env, stack, errno), pathname, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1033,7 +1033,7 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = rename(oldpath, newpath);
   if (status == -1) {
-    env->die(env, stack, "[System Error]rename() failed(%d: %s). $oldpath is \"%s\". $newpath is \"%s\".", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]rename() failed(%d: %s). $oldpath=\"%s\", $newpath=\"%s\".", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1188,7 +1188,7 @@ int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (!ret_resolved_path) {
-    env->die(env, stack, "[System Error]realpath() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]realpath() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1220,7 +1220,7 @@ int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   if (status == -1) {
-    env->die(env, stack, "[System Error]chdir() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]chdir() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1254,7 +1254,7 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   if (status == -1) {
-    env->die(env, stack, "[System Error]chmod() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]chmod() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1282,7 +1282,7 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = chown(path, owner, group);
   if (status == -1) {
-    env->die(env, stack, "[System Error]chown() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]chown() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1315,7 +1315,7 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = symlink(oldpath, newpath);
   if (status == -1) {
-    env->die(env, stack, "[System Error]symlink() failed(%d: %s). $oldpath is \"%s\". $newpath is \"%s\"", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]symlink() failed(%d: %s). $oldpath=\"%s\", $newpath=\"%s\".", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1357,7 +1357,7 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t placed_length = readlink(path, buf, bufsiz);
   if (placed_length == -1) {
-    env->die(env, stack, "[System Error]readlink() failed(%d: %s). $path is \"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]readlink() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1389,7 +1389,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   if (!dir_stream) {
-    env->die(env, stack, "[System Error]opendir() failed(%d: %s). $dir is \"%s\".", errno, env->strerror_nolen(env, stack, errno), dir, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]opendir() failed(%d: %s). $dir=\"%s\".", errno, env->strerror_nolen(env, stack, errno), dir, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
