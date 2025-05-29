@@ -4,7 +4,15 @@
 #if defined(_WIN32)
 
 // For SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
-#define _WIN32_WINNT 0x0A00
+#define MY_TARGET_WIN_VERSION 0x0A00 // Windows 10 (10.0)
+#ifndef _WIN32_WINNT
+  #define _WIN32_WINNT MY_TARGET_WIN_VERSION
+#else
+  #if _WIN32_WINNT < MY_TARGET_WIN_VERSION
+    #undef _WIN32_WINNT
+    #define _WIN32_WINNT MY_TARGET_WIN_VERSION
+  #endif
+#endif
 
 #include <windows.h>
 #include <sys/stat.h>
@@ -66,35 +74,6 @@ typedef uint64_t Off_t;
 
 #define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
 #define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
-
-// Exactly same as Perl's one in Win32.h
-#define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
-
-// Exactly same as Perl's one in Win32.h
-#define _S_IFSOCK ((unsigned)(_S_IFDIR | _S_IFIFO))
-
-// Exactly same as Perl's one in Win32.h
-typedef DWORD Dev_t;
-
-// Exactly same as Perl's one in Win32.h
-typedef unsigned __int64 Ino_t;
-
-// Exactly same as Perl's one in Win32.h
-struct w32_stat {
-    Dev_t st_dev;
-    Ino_t st_ino;
-    unsigned short st_mode;
-    DWORD st_nlink;
-    short st_uid;
-    short st_gid;
-    Dev_t st_rdev;
-    Off_t st_size;
-    time_t st_atime;
-    time_t st_mtime;
-    time_t st_ctime;
-};
-
-typedef struct w32_stat Stat_t;
 
 // Exactly same as Perl's one in sys/errno2.h
 #ifndef EDQUOT			/* Not in errno.h but wanted by POSIX.pm */

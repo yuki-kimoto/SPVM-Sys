@@ -36,8 +36,7 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
     plan skip_all => "no symlink available in this system(Reason: $message).";
   }
   else {
-    unlink $symlink
-      or die "Cannot remove a temporary file \"$symlink\":$!";
+    SPVM::Sys->unlink($symlink);
   }
 }
 

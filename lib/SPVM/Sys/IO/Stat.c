@@ -11,6 +11,34 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 #if defined(_WIN32)
   #include "Sys-Windows.h"
+  
+  // Exactly same as Perl's one in Win32.h
+  #define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
+  
+  // Exactly same as Perl's one in Win32.h
+  #define _S_IFSOCK ((unsigned)(_S_IFDIR | _S_IFIFO))
+  
+  // Exactly same as Perl's one in Win32.h
+  typedef DWORD Dev_t;
+  
+  // Exactly same as Perl's one in Win32.h
+  typedef unsigned __int64 Ino_t;
+  
+  // Exactly same as Perl's one in Win32.h
+  struct w32_stat {
+      Dev_t st_dev;
+      Ino_t st_ino;
+      unsigned short st_mode;
+      DWORD st_nlink;
+      short st_uid;
+      short st_gid;
+      Dev_t st_rdev;
+      Off_t st_size;
+      time_t st_atime;
+      time_t st_mtime;
+      time_t st_ctime;
+  };
+  
   typedef struct w32_stat Stat_t;
 #else // defined(_WIN32)
   typedef struct stat Stat_t;
