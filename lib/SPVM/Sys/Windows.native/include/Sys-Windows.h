@@ -45,20 +45,6 @@ typedef struct {
     WCHAR  PathBuffer[MAX_PATH*3];
 } MY_MOUNT_POINT_REPARSE_BUFFER;
 
-// Exactly same as Perl's one in Win32.c
-typedef struct {
-  ULONG  ReparseTag;
-  USHORT ReparseDataLength;
-  USHORT Reserved;
-  union {
-    MY_SYMLINK_REPARSE_BUFFER SymbolicLinkReparseBuffer;
-    MY_MOUNT_POINT_REPARSE_BUFFER MountPointReparseBuffer;
-    struct {
-      UCHAR DataBuffer[1];
-    } GenericReparseBuffer;
-  } Data;
-} MY_REPARSE_DATA_BUFFER;
-
 // These are different from Perl's ones, but they must be defined well
 typedef BOOL bool;
 typedef uint32_t STRLEN;
@@ -203,7 +189,7 @@ static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, wchar_t* 
 
 static BOOL
 is_symlink(HANDLE h) {
-    MY_REPARSE_DATA_BUFFER linkdata;
+    REPARSE_DATA_BUFFER linkdata;
     const MY_SYMLINK_REPARSE_BUFFER * const sd =
         &linkdata.Data.SymbolicLinkReparseBuffer;
     DWORD linkdata_returned;
@@ -212,7 +198,7 @@ is_symlink(HANDLE h) {
         return FALSE;
     }
     
-    if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)
+    if (linkdata_returned < offsetof(REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)
         || (linkdata.ReparseTag != IO_REPARSE_TAG_SYMLINK
             && linkdata.ReparseTag != IO_REPARSE_TAG_MOUNT_POINT)) {
         /* some other type of reparse point */
