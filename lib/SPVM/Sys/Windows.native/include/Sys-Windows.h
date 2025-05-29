@@ -186,7 +186,7 @@ static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf
   return utf16le_string;
 }
 
-static const char* win_WCHARo_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   if (utf16le_string == NULL) {
     return NULL;
@@ -224,7 +224,7 @@ static const char* win_WCHARo_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf1
   );
   
   if (utf8_string_length == 0) {
-    *error_id = env->die(env, stack,  "win_WCHARo_utf8 failed:Error converting UTF-16LE to UTF-8: %lu.", GetLastError(), func_name, file, line);
+    *error_id = env->die(env, stack,  "win_wchar_to_utf8 failed:Error converting UTF-16LE to UTF-8: %lu.", GetLastError(), func_name, file, line);
     return NULL;
   }
   

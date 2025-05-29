@@ -162,7 +162,7 @@ win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, STRLEN len, Stat
                   
                   int32_t error_id = 0;
                   
-                  path = win_WCHARo_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
+                  path = win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
                   
                   env->free_memory_block(env, stack, path_buf_w);
                   

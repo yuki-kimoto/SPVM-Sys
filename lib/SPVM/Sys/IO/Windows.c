@@ -506,7 +506,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  char* resolved_path_tmp = (char*)win_WCHARo_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
+  char* resolved_path_tmp = (char*)win_wchar_to_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
