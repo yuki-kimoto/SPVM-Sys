@@ -403,33 +403,6 @@ is_symlink_name(const wchar_t *name) {
     return result;
 }
 
-// Exactly same as Perl's one in Win32.c
-static
-time_t
-translate_ft_to_time_t(FILETIME ft) {
-    SYSTEMTIME st;
-    struct tm pt;
-    time_t retval;
-    dTHX;
-
-    if (!FileTimeToSystemTime(&ft, &st))
-        return -1;
-
-    Zero(&pt, 1, struct tm);
-    pt.tm_year = st.wYear - 1900;
-    pt.tm_mon = st.wMonth - 1;
-    pt.tm_mday = st.wDay;
-    pt.tm_hour = st.wHour;
-    pt.tm_min = st.wMinute;
-    pt.tm_sec = st.wSecond;
-
-    MKTIME_LOCK;
-    retval = _mkgmtime(&pt);
-    MKTIME_UNLOCK;
-
-    return retval;
-}
-
 static HANDLE CreateFileW_for_read_common(wchar_t* path_w, int32_t file_flag) {
 
   HANDLE handle = CreateFileW(path_w, GENERIC_READ,
