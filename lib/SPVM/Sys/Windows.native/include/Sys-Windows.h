@@ -74,29 +74,6 @@ typedef uint64_t Off_t;
 #define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
 #define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
 
-// Exactly same as Perl's one in inline.h
-static void *
-S_my_memrchr(const char * s, const char c, const STRLEN len)
-{
-    /* memrchr(), since many platforms lack it */
-
-    const char * t = s + len - 1;
-
-    PERL_ARGS_ASSERT_MY_MEMRCHR;
-
-    while (t >= s) {
-        if (*t == c) {
-            return (void *) t;
-        }
-        t--;
-    }
-
-    return NULL;
-}
-
-// Exactly same as Perl's one in embed.h
-#define my_memrchr S_my_memrchr
-
 // Exactly same as Perl's one in Win32.h
 #define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
 
