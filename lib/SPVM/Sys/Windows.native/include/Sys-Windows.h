@@ -270,7 +270,7 @@ static int32_t is_symlink_by_handle(HANDLE handle) {
   return is_sym;
 }
 
-static int32_t is_symlink_name(const WCHAR* path_w) {
+static int32_t is_symlink(const WCHAR* path_w) {
   
   int32_t is_sym = 0;
   

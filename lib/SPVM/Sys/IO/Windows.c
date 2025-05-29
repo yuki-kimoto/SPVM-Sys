@@ -143,7 +143,7 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
     == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
-         && is_symlink_name(path_w))
+         && is_symlink(path_w))
   {
     status = _wrmdir(path_w);
   }
@@ -575,7 +575,7 @@ int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  int32_t ret = is_symlink_name(path_w);
+  int32_t ret = is_symlink(path_w);
   
   stack[0].ival = ret;
   
