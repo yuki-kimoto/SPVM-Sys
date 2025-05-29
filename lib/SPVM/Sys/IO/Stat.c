@@ -46,18 +46,15 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 #if defined(_WIN32)
 
-// Exactly same as Perl's one in Win32.c
-static
-time_t
-translate_ft_to_time_t(FILETIME ft) {
+// The logic is the same as Perl's translate_ft_to_time_t in Win32.c
+static time_t translate_ft_to_time_t(FILETIME ft) {
     SYSTEMTIME st;
     struct tm pt;
     time_t retval;
-    dTHX;
-
+    
     if (!FileTimeToSystemTime(&ft, &st))
         return -1;
-
+    
     Zero(&pt, 1, struct tm);
     pt.tm_year = st.wYear - 1900;
     pt.tm_mon = st.wMonth - 1;
@@ -65,18 +62,16 @@ translate_ft_to_time_t(FILETIME ft) {
     pt.tm_hour = st.wHour;
     pt.tm_min = st.wMinute;
     pt.tm_sec = st.wSecond;
-
-    MKTIME_LOCK;
+    
     retval = _mkgmtime(&pt);
-    MKTIME_UNLOCK;
-
+    
     return retval;
 }
 
 // Same as Perl's one in Win32.c, but this function use Perl data structure SV. I replace it with SPVM data structure.
 // And path argument is not needed.
 static int
-win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, STRLEN len, Stat_t *sbuf, DWORD reparse_type) {
+win32_stat_low(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *sbuf, DWORD reparse_type) {
     DWORD type = GetFileType(handle);
     BY_HANDLE_FILE_INFORMATION bhi;
 

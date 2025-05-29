@@ -60,11 +60,6 @@ typedef struct {
 } MY_REPARSE_DATA_BUFFER;
 
 // These are different from Perl's ones, but they must be defined well
-typedef BOOL bool;
-typedef uint32_t STRLEN;
-#define dTHX 
-#define MKTIME_LOCK 
-#define MKTIME_UNLOCK
 #define Zero(ptr, size, type) memset(ptr, 0, size * sizeof(type));
 typedef uint64_t Off_t;
 
