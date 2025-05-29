@@ -231,17 +231,7 @@ static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, wchar_t* 
   return utf8_string;
 }
 
-static HANDLE CreateFileW_for_read(wchar_t* path_w) {
-  
-  return CreateFileW_for_read_common(path_w, 0);
-}
-
-static HANDLE CreateFileW_reparse_point_for_read(wchar_t* path_w) {
-
-  return CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
-}
-
-static HANDLE CreateFileW_for_read_common(wchar_t* path_w, int32_t file_flag) {
+static HANDLE CreateFileW_for_read_common(const wchar_t* path_w, int32_t file_flag) {
 
   HANDLE handle = CreateFileW(path_w, GENERIC_READ,
     FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
@@ -249,6 +239,16 @@ static HANDLE CreateFileW_for_read_common(wchar_t* path_w, int32_t file_flag) {
   );
   
   return handle;
+}
+
+static HANDLE CreateFileW_for_read(const wchar_t* path_w) {
+  
+  return CreateFileW_for_read_common(path_w, 0);
+}
+
+static HANDLE CreateFileW_reparse_point_for_read(const wchar_t* path_w) {
+
+  return CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
 }
 
 static BOOL
@@ -281,11 +281,11 @@ static int32_t is_symlink_name(const wchar_t* path_w) {
     return 0;
   }
   
-  int32_t is_symlink = is_symlink(handle);
+  int32_t is_sym = is_symlink(handle);
   
   CloseHandle(handle);
   
-  return is_symlink;
+  return is_sym;
 }
 
 #endif // defined(_WIN32)
