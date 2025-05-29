@@ -262,10 +262,7 @@ static int32_t is_symlink_by_handle(HANDLE handle) {
     return 0;
   }
   
-  if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)
-    || (linkdata.ReparseTag != IO_REPARSE_TAG_SYMLINK
-        && linkdata.ReparseTag != IO_REPARSE_TAG_MOUNT_POINT)) {
-    /* some other type of reparse point */
+  if (!(linkdata.ReparseTag != IO_REPARSE_TAG_SYMLINK || linkdata.ReparseTag != IO_REPARSE_TAG_MOUNT_POINT)) {
     return 0;
   }
   
