@@ -251,24 +251,29 @@ static HANDLE CreateFileW_reparse_point_for_read(const wchar_t* path_w) {
   return CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
 }
 
-static int32_t is_symlink_by_handle(HANDLE h) {
-    MY_REPARSE_DATA_BUFFER linkdata;
-    const MY_SYMLINK_REPARSE_BUFFER * const sd =
-        &linkdata.Data.SymbolicLinkReparseBuffer;
-    DWORD linkdata_returned;
-    
-    if (!DeviceIoControl(h, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
-        return FALSE;
-    }
-    
-    if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)
-        || (linkdata.ReparseTag != IO_REPARSE_TAG_SYMLINK
-            && linkdata.ReparseTag != IO_REPARSE_TAG_MOUNT_POINT)) {
-        /* some other type of reparse point */
-        return FALSE;
-    }
-    
-    return TRUE;
+static int32_t is_symlink_by_handle(HANDLE handle) {
+  MY_REPARSE_DATA_BUFFER linkdata;
+  const MY_SYMLINK_REPARSE_BUFFER * const sd = &linkdata.Data.SymbolicLinkReparseBuffer;
+  DWORD linkdata_returned;
+  
+  int32_t is_sym = 0;
+  
+  if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+    goto END_OF_FUNC;
+  }
+  
+  
+  if (!(linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
+    goto END_OF_FUNC;
+  }
+  
+  if (linkdata.ReparseTag == IO_REPARSE_TAG_SYMLINK || linkdata.ReparseTag == IO_REPARSE_TAG_MOUNT_POINT) {
+    is_sym = 1;
+  }
+  
+  END_OF_FUNC:
+  
+  return is_sym;
 }
 
 static int32_t is_symlink_name(const wchar_t* path_w) {
