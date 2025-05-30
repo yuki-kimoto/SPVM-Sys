@@ -12,27 +12,14 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
 
 // The logic is the same as Perl's win32_symlink in Win32.c, and supports UTF-8 arugments.
-static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *oldpath_w, const WCHAR *newpath_w) {
-  DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
-  size_t oldpath_w_len = wcslen(oldpath_w);
+static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR *oldpath_w, const WCHAR *newpath_w) {
   
-  if (wcschr(oldpath_w, L'/')) {
-    /* Win32 (or perhaps NTFS) won't follow symlinks containing
-       /, so replace any with \\
-    */
-    WCHAR *temp = (WCHAR*)env->new_memory_block(env, stack, (wcslen(oldpath_w) + 1) * sizeof(WCHAR));
-    memcpy(temp, oldpath_w, (wcslen(oldpath_w) + 1) * sizeof(WCHAR));
-    WCHAR *p = temp;
-    while (*p) {
-      if (*p == L'/') {
-        *p = L'\\';
-      }
-      ++p;
+  // Win32 (or perhaps NTFS) won't follow symlinks containing /, so replace any with \\.
+  int32_t oldpath_w_length = wcslen(oldpath_w);
+  for (int32_t i = 0; i < oldpath_w_length; i++) {
+    if (oldpath_w[i] == L'/') {
+      oldpath_w[i] = L'\\';
     }
-    *p = 0;
-    oldpath_w = temp;
-    oldpath_w_len = p - temp;
-    env->free_memory_block(env, stack, temp);
   }
   
   /* are we linking to a directory?
@@ -46,12 +33,13 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *oldpath_
      Otherwise if the oldpath_w is relative we need to make a relative path
      based on the newpath_w to check if the target is a directory.
   */
-  if ((oldpath_w_len >= 1 && isSLASHW(oldpath_w[oldpath_w_len - 1])) ||
+  DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
+  if ((oldpath_w_length >= 1 && isSLASHW(oldpath_w[oldpath_w_length - 1])) ||
     wcscmp(oldpath_w, L"..") == 0 ||
     wcscmp(oldpath_w, L".") == 0 ||
-    (isSLASHW(oldpath_w[oldpath_w_len-2]) && oldpath_w[oldpath_w_len - 1] == L'.') ||
-    wcscmp(oldpath_w+oldpath_w_len-3, L"\\..") == 0 ||
-    (oldpath_w_len == 2 && oldpath_w[1] == L':')) {
+    (isSLASHW(oldpath_w[oldpath_w_length - 2]) && oldpath_w[oldpath_w_length - 1] == L'.') ||
+    wcscmp(oldpath_w+oldpath_w_length-3, L"\\..") == 0 ||
+    (oldpath_w_length == 2 && oldpath_w[1] == L':')) {
     create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
   }
   else {
@@ -59,7 +47,7 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *oldpath_
     const WCHAR *dest_path_w = oldpath_w;
     WCHAR target_name_w[MAX_PATH+1];
     
-    if (oldpath_w_len >= 3 && oldpath_w[1] == L':') {
+    if (oldpath_w_length >= 3 && oldpath_w[1] == L':') {
       /* relative to current directory on a drive, or absolute */
       /* dest_path_w = oldpath_w; already done */
     }
@@ -72,7 +60,7 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *oldpath_
         : last_slash_w ? last_slash_w : last_bslash_w ? last_bslash_w : NULL;
       
       if (end_dir_w) {
-        if ((end_dir_w - newpath_w + 1) + oldpath_w_len > MAX_PATH) {
+        if ((end_dir_w - newpath_w + 1) + oldpath_w_length > MAX_PATH) {
           /* too long */
           errno = EINVAL;
           return -1;
