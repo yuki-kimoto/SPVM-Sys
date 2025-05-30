@@ -79,7 +79,6 @@ static time_t file_time_to_epoch(FILETIME file_time) {
 static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *st_stat, DWORD reparse_type) {
   
   int32_t status = -1;
-  
   DWORD type = GetFileType(handle);
   
   if (reparse_type) {
