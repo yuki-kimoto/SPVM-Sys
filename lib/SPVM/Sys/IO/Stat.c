@@ -256,7 +256,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
       goto END_OF_FUNC;
     }
     
-    MY_REPARSE_DATA_BUFFER linkdata;
+    SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata;
     DWORD linkdata_returned;
     
     if (DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {

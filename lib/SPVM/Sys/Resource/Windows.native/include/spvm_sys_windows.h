@@ -61,7 +61,7 @@ typedef struct {
     USHORT PrintNameLength;
     ULONG  Flags;
     WCHAR  PathBuffer[MAX_PATH*3];
-} MY_SYMLINK_REPARSE_BUFFER;
+} SPVM_SYS_WINDOWS_SYMLINK_REPARSE_BUFFER;
 
 // Exactly same as Perl's one in Win32.c
 typedef struct {
@@ -70,7 +70,7 @@ typedef struct {
     USHORT PrintNameOffset;
     USHORT PrintNameLength;
     WCHAR  PathBuffer[MAX_PATH*3];
-} MY_MOUNT_POINT_REPARSE_BUFFER;
+} SPVM_SYS_WINDOWS_MOUNT_POINT_REPARSE_BUFFER;
 
 // Exactly same as Perl's one in Win32.c
 typedef struct {
@@ -78,13 +78,13 @@ typedef struct {
   USHORT ReparseDataLength;
   USHORT Reserved;
   union {
-    MY_SYMLINK_REPARSE_BUFFER SymbolicLinkReparseBuffer;
-    MY_MOUNT_POINT_REPARSE_BUFFER MountPointReparseBuffer;
+    SPVM_SYS_WINDOWS_SYMLINK_REPARSE_BUFFER SymbolicLinkReparseBuffer;
+    SPVM_SYS_WINDOWS_MOUNT_POINT_REPARSE_BUFFER MountPointReparseBuffer;
     struct {
       UCHAR DataBuffer[1];
     } GenericReparseBuffer;
   } Data;
-} MY_REPARSE_DATA_BUFFER;
+} SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER;
 
 void* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 

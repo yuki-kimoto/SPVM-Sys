@@ -275,7 +275,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  MY_REPARSE_DATA_BUFFER linkdata;
+  SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata;
   DWORD linkdata_returned;
   HANDLE handle = NULL;
   if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
@@ -317,9 +317,9 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t PrintNameLength = -1;
   switch (linkdata.ReparseTag) {
     case IO_REPARSE_TAG_SYMLINK: {
-      const MY_SYMLINK_REPARSE_BUFFER * const sd =
+      const SPVM_SYS_WINDOWS_SYMLINK_REPARSE_BUFFER * const sd =
         &linkdata.Data.SymbolicLinkReparseBuffer;
-      if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
+      if (linkdata_returned < offsetof(SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
         errno = ENOMEM;
         env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path=\"%s\".", path, __func__, FILE_NAME, __LINE__);
         error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -333,9 +333,9 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
       break;
     }
     case IO_REPARSE_TAG_MOUNT_POINT: {
-      const MY_MOUNT_POINT_REPARSE_BUFFER * const rd =
+      const SPVM_SYS_WINDOWS_MOUNT_POINT_REPARSE_BUFFER * const rd =
         &linkdata.Data.MountPointReparseBuffer;
-      if (linkdata_returned < offsetof(MY_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
+      if (linkdata_returned < offsetof(SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
         errno = ENOMEM;
         env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path=\"%s\".", path, __func__, FILE_NAME, __LINE__);
         error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;

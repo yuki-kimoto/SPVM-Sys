@@ -162,7 +162,7 @@ int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle) {
   
   int32_t is_sym = 0;
   
-  MY_REPARSE_DATA_BUFFER linkdata;
+  SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata;
   if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
     spvm_sys_windows_win_last_error_to_errno();
     goto END_OF_FUNC;
