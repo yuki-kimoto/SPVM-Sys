@@ -76,8 +76,9 @@ static time_t file_time_to_epoch(FILETIME file_time) {
 }
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
-static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *st_stat, DWORD reparse_type) {
+static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *st_stat, DWORD reparse_type) {
   
+  int32_t status = -1;
   DWORD type = GetFileType(handle);
   
   BY_HANDLE_FILE_INFORMATION file_info = {0};
@@ -135,7 +136,7 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
             default: {
               /* Is there anything else we can do here? */
               errno = EINVAL;
-              return -1;
+              goto END_OF_FUNC;
             }
           }
         }
@@ -188,7 +189,7 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
       }
       else {
         spvm_sys_windows_win_last_error_to_errno(EINVAL);
-        return -1;
+        goto END_OF_FUNC;
       }
       break;
     }
@@ -204,7 +205,8 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
       break;
     }
     default: {
-      return -1;
+      errno = EINVAL;
+      goto END_OF_FUNC;
     }
   }
   
@@ -212,7 +214,11 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
   st_stat->st_mode |= (st_stat->st_mode & 0700) >> 3;
   st_stat->st_mode |= (st_stat->st_mode & 0700) >> 6;
   
-  return 0;
+  status = 0;
+  
+  END_OF_FUNC:
+  
+  return status;
 }
 
 static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
