@@ -92,8 +92,6 @@ const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack,
 
 void spvm_sys_windows_win_last_error_to_errno(void);
 
-HANDLE spvm_sys_windows_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag);
-
 HANDLE spvm_sys_windows_CreateFileW_for_read(const WCHAR* path_w);
 
 HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(const WCHAR* path_w);

@@ -138,7 +138,7 @@ void spvm_sys_windows_win_last_error_to_errno(void) {
   }
 }
 
-HANDLE spvm_sys_windows_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
+static HANDLE spvm_sys_windows_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
 
   HANDLE handle = CreateFileW(path_w, GENERIC_READ,
     FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
