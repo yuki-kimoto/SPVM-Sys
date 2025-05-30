@@ -58,51 +58,61 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR *oldpath_w, con
     create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
   }
   else {
-    DWORD dest_attr;
-    const WCHAR *dest_path_w = oldpath_w;
-    WCHAR target_name_w[MAX_PATH+1];
+    const WCHAR *resolved_path_w = NULL;
+    WCHAR *resolved_path_w_tmp = NULL;
     
+    int32_t oldpath_is_abs = 0;
     if (oldpath_w_length >= 3 && oldpath_w[1] == L':') {
       /* relative to current directory on a drive, or absolute */
-      /* dest_path_w = oldpath_w; already done */
+      oldpath_is_abs = 1;
     }
-    else if (oldpath_w[0] != L'\\') {
-      size_t newpath_w_len = wcslen(newpath_w);
-      WCHAR *last_slash_w = wcsrchr(newpath_w, L'/');
-      WCHAR *last_bslash_w = wcsrchr(newpath_w, L'\\');
-      WCHAR *end_dir_w = last_slash_w && last_bslash_w
-        ? ( last_slash_w > last_bslash_w ? last_slash_w : last_bslash_w)
-        : last_slash_w ? last_slash_w : last_bslash_w ? last_bslash_w : NULL;
-      
-      if (end_dir_w) {
-        if ((end_dir_w - newpath_w + 1) + oldpath_w_length > MAX_PATH) {
-          /* too long */
-          errno = EINVAL;
-          return -1;
+    else if (oldpath_w[0] == L'\\') {
+      oldpath_is_abs = 1;
+    }
+    
+    if (oldpath_is_abs) {
+      resolved_path_w = oldpath_w;
+    }
+    else {
+      int32_t last_sep_index = -1;
+      size_t newpath_w_length = wcslen(newpath_w);
+      for (int32_t i = newpath_w_length - 1; i >= 0; i--) {
+        char ch = newpath_w[i];
+        if (ch == '\\' || ch == '/') {
+          last_sep_index = i;
+          break;
         }
-        
-        memcpy(target_name_w, newpath_w, (end_dir_w - newpath_w + 1) * sizeof(WCHAR));
-        wcscpy(target_name_w + (end_dir_w - newpath_w + 1), oldpath_w);
-        dest_path_w = target_name_w;
+      }
+      
+      if (last_sep_index >= 0) {
+        resolved_path_w_tmp = env->new_memory_block(env, stack, (last_sep_index + 1 + oldpath_w_length + 1) * sizeof(WCHAR));
+        memcpy(resolved_path_w_tmp, newpath_w, sizeof(WCHAR) * (last_sep_index + 1));
+        memcpy(resolved_path_w_tmp + (last_sep_index + 1), oldpath_w, oldpath_w_length);
+        resolved_path_w = resolved_path_w_tmp;
       }
       else {
         /* newpath_w is just a filename */
-        /* dest_path_w = oldpath_w; */
+        resolved_path_w = oldpath_w;
       }
     }
     
-    dest_attr = GetFileAttributesW(dest_path_w);
+    DWORD dest_attr = GetFileAttributesW(resolved_path_w);
     if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
       create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
     }
+    
+    if (resolved_path_w_tmp) {
+      env->free_memory_block(env, stack, resolved_path_w_tmp);
+    }
   }
   
-  if (!CreateSymbolicLinkW(newpath_w, oldpath_w, create_flags)) {
+  int32_t success = CreateSymbolicLinkW(newpath_w, oldpath_w, create_flags);
+  int32_t status = success ? 0 : -1;
+  if (status == -1) {
     spvm_sys_windows_win_last_error_to_errno(EINVAL);
-    return -1;
   }
   
-  return 0;
+  return status;
 }
 
 #endif // _WIN32
