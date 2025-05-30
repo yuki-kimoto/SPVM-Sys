@@ -1,3 +1,10 @@
+0.545 2025-05-30
+  [Bug Fix]
+    * Fix potential bugs related to Windows API, such as Sys#lstat, Sys#stat, Sys#fstat, Sys#l.
+  [Internal Changes]
+    * Rename Sys::Windows to Sys::Resource::Windows.
+      Separete Sys-Windows.h to spvm_sys_windows.h and spvm_sys_windows.c.
+    
 0.544 2025-05-29
   [Requirement Changes]
     * Windows must support CreateSymbolicLinkW and SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE.
