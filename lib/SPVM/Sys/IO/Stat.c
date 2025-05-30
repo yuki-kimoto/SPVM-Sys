@@ -404,14 +404,14 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The stat object $stat must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  Stat_t* stat_buf = env->get_pointer(env, stack, obj_stat);
+  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
 #if defined(_WIN32)
   stack[0].oval = obj_path;
-  error_id = win_stat(env, stack, stat_buf);
+  error_id = win_stat(env, stack, st_stat);
   int32_t status = error_id ? -1 : 0;
 #else
-  int32_t status = stat(path, stat_buf);
+  int32_t status = stat(path, st_stat);
 #endif
   
   if (status == -1) {
@@ -442,14 +442,14 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The stat object $lstat must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  Stat_t* stat_buf = env->get_pointer(env, stack, obj_lstat);
+  Stat_t* st_stat = env->get_pointer(env, stack, obj_lstat);
   
 #if defined(_WIN32)
   stack[0].oval = obj_path;
-  error_id = win_lstat(env, stack, stat_buf);
+  error_id = win_lstat(env, stack, st_stat);
   int32_t status = error_id ? -1 : 0;
 #else
-  int32_t status = lstat(path, stat_buf);
+  int32_t status = lstat(path, st_stat);
 #endif
 
   if (status == -1) {
@@ -475,14 +475,14 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The stat object $stat must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  Stat_t* stat_buf = env->get_pointer(env, stack, obj_stat);
+  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
   
 #if defined(_WIN32)
   HANDLE handle = (HANDLE)_get_osfhandle(fd);
-  int32_t status = win_fstat_by_handle(env, stack, handle, stat_buf, 0);
+  int32_t status = win_fstat_by_handle(env, stack, handle, st_stat, 0);
 #else
-  int32_t status = fstat(fd, stat_buf);
+  int32_t status = fstat(fd, st_stat);
 #endif
 
   if (status == -1) {
