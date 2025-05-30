@@ -89,8 +89,7 @@ const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack,
   return utf8_string;
 }
 
-// The logic is the same as Perl's translcate_to_errno in Win32.c
-void spvm_sys_windows_win_last_error_to_errno(void) {
+void spvm_sys_windows_win_last_error_to_errno(int32_t default_errno) {
   /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
      both permissions errors and if the source is a directory, while
      POSIX wants EACCES and EPERM respectively.
@@ -132,8 +131,7 @@ void spvm_sys_windows_win_last_error_to_errno(void) {
       break;
     }
     default: {
-      /* ERROR_INVALID_FUNCTION - eg. symlink on a FAT volume */
-      errno = EINVAL;
+      errno = default_errno;
     }
   }
 }
@@ -164,7 +162,7 @@ int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle) {
   
   SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata;
   if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
-    spvm_sys_windows_win_last_error_to_errno();
+    spvm_sys_windows_win_last_error_to_errno(EINVAL);
     goto END_OF_FUNC;
   }
   
@@ -184,7 +182,7 @@ int32_t spvm_sys_windows_is_symlink(const WCHAR* path_w) {
   HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(path_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
-    spvm_sys_windows_win_last_error_to_errno();
+    spvm_sys_windows_win_last_error_to_errno(EINVAL);
     goto END_OF_FUNC;
   }
   

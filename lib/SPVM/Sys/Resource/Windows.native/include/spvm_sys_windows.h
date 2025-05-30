@@ -90,7 +90,7 @@ void* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const
 
 const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
-void spvm_sys_windows_win_last_error_to_errno(void);
+void spvm_sys_windows_win_last_error_to_errno(int32_t default_errno);
 
 HANDLE spvm_sys_windows_CreateFileW_for_read(const WCHAR* path_w);
 
