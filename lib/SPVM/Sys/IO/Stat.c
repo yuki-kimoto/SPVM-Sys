@@ -76,39 +76,39 @@ static time_t file_time_to_epoch(FILETIME file_time) {
 }
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
-static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *sbuf, DWORD reparse_type) {
-  DWORD type = GetFileType(handle);
-  BY_HANDLE_FILE_INFORMATION bhi;
+static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *st_stat, DWORD reparse_type) {
   
-  memset(sbuf, 0, 1 * sizeof(Stat_t));
+  DWORD type = GetFileType(handle);
+  
+  BY_HANDLE_FILE_INFORMATION file_info = {0};
   
   if (reparse_type) {
     /* Lie to get to the right place */
     type = FILE_TYPE_DISK;
   }
-
+  
   type &= ~FILE_TYPE_REMOTE;
-
+  
   switch (type) {
     case FILE_TYPE_DISK: {
-      if (GetFileInformationByHandle(handle, &bhi)) {
-        sbuf->st_dev = bhi.dwVolumeSerialNumber;
-        sbuf->st_ino = bhi.nFileIndexHigh;
-        sbuf->st_ino <<= 32;
-        sbuf->st_ino |= bhi.nFileIndexLow;
-        sbuf->st_nlink = bhi.nNumberOfLinks;
-        sbuf->st_uid = 0;
-        sbuf->st_gid = 0;
+      if (GetFileInformationByHandle(handle, &file_info)) {
+        st_stat->st_dev = file_info.dwVolumeSerialNumber;
+        st_stat->st_ino = file_info.nFileIndexHigh;
+        st_stat->st_ino <<= 32;
+        st_stat->st_ino |= file_info.nFileIndexLow;
+        st_stat->st_nlink = file_info.nNumberOfLinks;
+        st_stat->st_uid = 0;
+        st_stat->st_gid = 0;
         /* ucrt sets this to the drive letter for
            stat(), lets not reproduce that mistake */
-        sbuf->st_rdev = 0;
-        sbuf->st_size = bhi.nFileSizeHigh;
-        sbuf->st_size <<= 32;
-        sbuf->st_size |= bhi.nFileSizeLow;
+        st_stat->st_rdev = 0;
+        st_stat->st_size = file_info.nFileSizeHigh;
+        st_stat->st_size <<= 32;
+        st_stat->st_size |= file_info.nFileSizeLow;
 
-        sbuf->st_atime = file_time_to_epoch(bhi.ftLastAccessTime);
-        sbuf->st_mtime = file_time_to_epoch(bhi.ftLastWriteTime);
-        sbuf->st_ctime = file_time_to_epoch(bhi.ftCreationTime);
+        st_stat->st_atime = file_time_to_epoch(file_info.ftLastAccessTime);
+        st_stat->st_mtime = file_time_to_epoch(file_info.ftLastWriteTime);
+        st_stat->st_ctime = file_time_to_epoch(file_info.ftCreationTime);
 
         if (reparse_type) {
           /* https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
@@ -117,19 +117,19 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
           */
           switch (reparse_type) {
             case IO_REPARSE_TAG_AF_UNIX: {
-              sbuf->st_mode = _S_IFSOCK;
+              st_stat->st_mode = _S_IFSOCK;
               break;
             }
             case IO_REPARSE_TAG_LX_FIFO: {
-              sbuf->st_mode = _S_IFIFO;
+              st_stat->st_mode = _S_IFIFO;
               break;
             }
             case IO_REPARSE_TAG_LX_CHR: {
-              sbuf->st_mode = _S_IFCHR;
+              st_stat->st_mode = _S_IFCHR;
               break;
             }
             case IO_REPARSE_TAG_LX_BLK: {
-              sbuf->st_mode = _S_IFBLK;
+              st_stat->st_mode = _S_IFBLK;
               break;
             }
             default: {
@@ -139,16 +139,16 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
             }
           }
         }
-        else if (bhi.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-          sbuf->st_mode = _S_IFDIR | _S_IREAD | _S_IEXEC;
+        else if (file_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+          st_stat->st_mode = _S_IFDIR | _S_IREAD | _S_IEXEC;
           /* duplicate the logic from the end of the old win32_stat() */
-          if (!(bhi.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-            sbuf->st_mode |= S_IWRITE;
+          if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
+            st_stat->st_mode |= S_IWRITE;
           }
         }
         else {
           WCHAR path_buf_tmp_w[MAX_PATH+1];
-          sbuf->st_mode = _S_IFREG;
+          st_stat->st_mode = _S_IFREG;
           
           const char* path = NULL;
           len = GetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
@@ -176,13 +176,14 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
             (_stricmp(path + len - 4, ".exe") == 0 ||
              _stricmp(path + len - 4, ".bat") == 0 ||
              _stricmp(path + len - 4, ".cmd") == 0 ||
-             _stricmp(path + len - 4, ".com") == 0)) {
-            sbuf->st_mode |= _S_IEXEC;
+             _stricmp(path + len - 4, ".com") == 0))
+          {
+            st_stat->st_mode |= _S_IEXEC;
           }
-          if (!(bhi.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-              sbuf->st_mode |= _S_IWRITE;
+          if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
+              st_stat->st_mode |= _S_IWRITE;
           }
-          sbuf->st_mode |= _S_IREAD;
+          st_stat->st_mode |= _S_IREAD;
         }
       }
       else {
@@ -194,11 +195,11 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
     case FILE_TYPE_CHAR:
     case FILE_TYPE_PIPE:
     {
-      sbuf->st_mode = (type == FILE_TYPE_CHAR) ? _S_IFCHR : _S_IFIFO;
+      st_stat->st_mode = (type == FILE_TYPE_CHAR) ? _S_IFCHR : _S_IFIFO;
       if (handle == GetStdHandle(STD_INPUT_HANDLE) ||
         handle == GetStdHandle(STD_OUTPUT_HANDLE) ||
         handle == GetStdHandle(STD_ERROR_HANDLE)) {
-        sbuf->st_mode |= _S_IWRITE | _S_IREAD;
+        st_stat->st_mode |= _S_IWRITE | _S_IREAD;
       }
       break;
     }
@@ -208,8 +209,8 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
   }
   
   /* owner == user == group */
-  sbuf->st_mode |= (sbuf->st_mode & 0700) >> 3;
-  sbuf->st_mode |= (sbuf->st_mode & 0700) >> 6;
+  st_stat->st_mode |= (st_stat->st_mode & 0700) >> 3;
+  st_stat->st_mode |= (st_stat->st_mode & 0700) >> 6;
   
   return 0;
 }
