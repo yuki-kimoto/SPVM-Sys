@@ -76,20 +76,35 @@ static time_t file_time_to_epoch(FILETIME file_time) {
 }
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
-static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, Stat_t *st_stat, DWORD reparse_type) {
+static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, Stat_t *st_stat, int32_t is_stat) {
   
   int32_t status = -1;
   DWORD type = GetFileType(handle);
   
-  if (reparse_type) {
-    /* Lie to get to the right place */
-    type = FILE_TYPE_DISK;
-  }
-  
   switch (type) {
     case FILE_TYPE_DISK: {
+      
       BY_HANDLE_FILE_INFORMATION file_info = {0};
       if (GetFileInformationByHandle(handle, &file_info)) {
+        
+        // Note: I dose not understand this logic cause correct results.
+        int32_t reparse_type = 0;
+        if (is_stat) {
+          SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata = {0};
+          if (DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
+            reparse_type = linkdata.ReparseTag;
+          }
+          else {
+            if (GetLastError() == ERROR_NOT_A_REPARSE_POINT) {
+              // Do nothing
+            }
+            else {
+              spvm_sys_windows_win_last_error_to_errno(EINVAL);
+              goto END_OF_FUNC;
+            }
+          }
+        }
+        
         st_stat->st_dev = file_info.dwVolumeSerialNumber;
         st_stat->st_ino = file_info.nFileIndexHigh;
         st_stat->st_ino <<= 32;
@@ -103,11 +118,11 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
         st_stat->st_size = file_info.nFileSizeHigh;
         st_stat->st_size <<= 32;
         st_stat->st_size |= file_info.nFileSizeLow;
-
+        
         st_stat->st_atime = file_time_to_epoch(file_info.ftLastAccessTime);
         st_stat->st_mtime = file_time_to_epoch(file_info.ftLastWriteTime);
         st_stat->st_ctime = file_time_to_epoch(file_info.ftCreationTime);
-
+        
         if (reparse_type) {
           /* https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
              describes all of these as WSL only, but the AF_UNIX tag
@@ -169,7 +184,7 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
             
             env->leave_scope(env, stack, scope_id);
           }
-
+          
           if (path && len > 4 &&
             (_stricmp(path + len - 4, ".exe") == 0 ||
              _stricmp(path + len - 4, ".bat") == 0 ||
@@ -262,16 +277,9 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
-    
-    SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata;
-    DWORD linkdata_returned;
-    
-    if (DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
-      ReparseTag = linkdata.ReparseTag;
-    }
   }
   
-  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat, ReparseTag);
+  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat, 1);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
