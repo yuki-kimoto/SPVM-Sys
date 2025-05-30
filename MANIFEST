@@ -77,11 +77,11 @@ lib/SPVM/Sys/Process/Constant.c
 lib/SPVM/Sys/Process/Constant.config
 lib/SPVM/Sys/Process/Constant.pm
 lib/SPVM/Sys/Process/Constant.spvm
-lib/SPVM/Sys/Resource/Windows.c
 lib/SPVM/Sys/Resource/Windows.config
 lib/SPVM/Sys/Resource/Windows.native/include/.gitkeep
 lib/SPVM/Sys/Resource/Windows.native/include/spvm_sys_windows.h
 lib/SPVM/Sys/Resource/Windows.native/src/.gitkeep
+lib/SPVM/Sys/Resource/Windows.native/src/spvm_sys_windows.c
 lib/SPVM/Sys/Resource/Windows.pm
 lib/SPVM/Sys/Resource/Windows.spvm
 lib/SPVM/Sys/Select.c
