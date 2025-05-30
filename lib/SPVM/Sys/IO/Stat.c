@@ -76,7 +76,7 @@ static time_t file_time_to_epoch(FILETIME file_time) {
 }
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
-static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, Stat_t *st_stat, int32_t is_stat) {
+static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, Stat_t *st_stat) {
   
   int32_t status = -1;
   DWORD type = GetFileType(handle);
@@ -87,21 +87,18 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
       BY_HANDLE_FILE_INFORMATION file_info = {0};
       if (GetFileInformationByHandle(handle, &file_info)) {
         
-        // Note: I dose not understand this logic cause correct results.
         int32_t reparse_type = 0;
-        if (is_stat) {
-          SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata = {0};
-          if (DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
-            reparse_type = linkdata.ReparseTag;
+        SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata = {0};
+        if (DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
+          reparse_type = linkdata.ReparseTag;
+        }
+        else {
+          if (GetLastError() == ERROR_NOT_A_REPARSE_POINT) {
+            // Do nothing
           }
           else {
-            if (GetLastError() == ERROR_NOT_A_REPARSE_POINT) {
-              // Do nothing
-            }
-            else {
-              spvm_sys_windows_win_last_error_to_errno(EINVAL);
-              goto END_OF_FUNC;
-            }
+            spvm_sys_windows_win_last_error_to_errno(EINVAL);
+            goto END_OF_FUNC;
           }
         }
         
@@ -128,6 +125,7 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
              describes all of these as WSL only, but the AF_UNIX tag
              is known to be used for AF_UNIX sockets without WSL.
           */
+          st_stat->st_mode = 0;
           switch (reparse_type) {
             case IO_REPARSE_TAG_AF_UNIX: {
               st_stat->st_mode = _S_IFSOCK;
@@ -145,6 +143,11 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
               st_stat->st_mode = _S_IFBLK;
               break;
             }
+            case IO_REPARSE_TAG_SYMLINK:
+            case IO_REPARSE_TAG_MOUNT_POINT:
+            {
+              break;
+            }
             default: {
               /* Is there anything else we can do here? */
               errno = EINVAL;
@@ -152,51 +155,54 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
             }
           }
         }
-        else if (file_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-          st_stat->st_mode = _S_IFDIR | _S_IREAD | _S_IEXEC;
-          /* duplicate the logic from the end of the old win32_stat() */
-          if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-            st_stat->st_mode |= S_IWRITE;
+        
+        if (st_stat->st_mode == 0) {
+          if (file_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+            st_stat->st_mode = _S_IFDIR | _S_IREAD | _S_IEXEC;
+            /* duplicate the logic from the end of the old win32_stat() */
+            if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
+              st_stat->st_mode |= S_IWRITE;
+            }
           }
-        }
-        else {
-          WCHAR path_tmp_w[MAX_PATH+1];
-          st_stat->st_mode = _S_IFREG;
-          
-          const char* path = NULL;
-          int32_t len = GetFinalPathNameByHandleW(handle, path_tmp_w, sizeof(path_tmp_w), 0);
-          if (len > 0) {
-            int32_t scope_id = env->enter_scope(env, stack);
+          else {
+            WCHAR path_tmp_w[MAX_PATH+1];
+            st_stat->st_mode = _S_IFREG;
             
-            WCHAR* path_w = env->new_memory_block(env, stack, sizeof(WCHAR) * (len + 1));
+            const char* path = NULL;
+            int32_t len = GetFinalPathNameByHandleW(handle, path_tmp_w, sizeof(path_tmp_w), 0);
+            if (len > 0) {
+              int32_t scope_id = env->enter_scope(env, stack);
+              
+              WCHAR* path_w = env->new_memory_block(env, stack, sizeof(WCHAR) * (len + 1));
+              
+              len = GetFinalPathNameByHandleW(handle, path_w, len + 1, 0);
+              
+              assert(len > 0);
+              
+              int32_t error_id = 0;
+              
+              path = spvm_sys_windows_win_wchar_to_utf8(env, stack, path_w, &error_id, __func__, FILE_NAME, __LINE__);
+              
+              env->free_memory_block(env, stack, path_w);
+              
+              assert(error_id == 0);
+              
+              env->leave_scope(env, stack, scope_id);
+            }
             
-            len = GetFinalPathNameByHandleW(handle, path_w, len + 1, 0);
-            
-            assert(len > 0);
-            
-            int32_t error_id = 0;
-            
-            path = spvm_sys_windows_win_wchar_to_utf8(env, stack, path_w, &error_id, __func__, FILE_NAME, __LINE__);
-            
-            env->free_memory_block(env, stack, path_w);
-            
-            assert(error_id == 0);
-            
-            env->leave_scope(env, stack, scope_id);
+            if (path && len > 4 &&
+              (_stricmp(path + len - 4, ".exe") == 0 ||
+               _stricmp(path + len - 4, ".bat") == 0 ||
+               _stricmp(path + len - 4, ".cmd") == 0 ||
+               _stricmp(path + len - 4, ".com") == 0))
+            {
+              st_stat->st_mode |= _S_IEXEC;
+            }
+            if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
+              st_stat->st_mode |= _S_IWRITE;
+            }
+            st_stat->st_mode |= _S_IREAD;
           }
-          
-          if (path && len > 4 &&
-            (_stricmp(path + len - 4, ".exe") == 0 ||
-             _stricmp(path + len - 4, ".bat") == 0 ||
-             _stricmp(path + len - 4, ".cmd") == 0 ||
-             _stricmp(path + len - 4, ".com") == 0))
-          {
-            st_stat->st_mode |= _S_IEXEC;
-          }
-          if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-            st_stat->st_mode |= _S_IWRITE;
-          }
-          st_stat->st_mode |= _S_IREAD;
         }
       }
       else {
@@ -279,7 +285,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     }
   }
   
-  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat, 1);
+  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -323,7 +329,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     goto END_OF_FUNC;
   }
   
-  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat, 0);
+  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -488,7 +494,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   HANDLE handle = (HANDLE)_get_osfhandle(fd);
-  int32_t status = win_fstat_by_handle(env, stack, handle, st_stat, 0);
+  int32_t status = win_fstat_by_handle(env, stack, handle, st_stat);
 #else
   int32_t status = fstat(fd, st_stat);
 #endif
