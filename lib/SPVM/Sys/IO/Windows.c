@@ -10,7 +10,6 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 #include "spvm_sys_windows.h"
 
 #define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
-#define strEQW(string1, string2) (wcscmp(string1, string2) == 0)
 
 // The logic is the same as Perl's win32_symlink in Win32.c, and supports UTF-8 arugments.
 static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *oldpath_w, const WCHAR *newpath_w) {
@@ -48,10 +47,10 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *oldpath_
      based on the newpath_w to check if the target is a directory.
   */
   if ((oldpath_w_len >= 1 && isSLASHW(oldpath_w[oldpath_w_len - 1])) ||
-    strEQW(oldpath_w, L"..") ||
-    strEQW(oldpath_w, L".") ||
+    wcscmp(oldpath_w, L"..") == 0 ||
+    wcscmp(oldpath_w, L".") == 0 ||
     (isSLASHW(oldpath_w[oldpath_w_len-2]) && oldpath_w[oldpath_w_len - 1] == L'.') ||
-    strEQW(oldpath_w+oldpath_w_len-3, L"\\..") ||
+    wcscmp(oldpath_w+oldpath_w_len-3, L"\\..") == 0 ||
     (oldpath_w_len == 2 && oldpath_w[1] == L':')) {
     create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
   }
