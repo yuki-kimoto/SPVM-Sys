@@ -44,10 +44,10 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR *oldpath_w, con
   else if (wcscmp(oldpath_w, L".") == 0) {
     oldpath_is_dir = 1;
   }
-  else if (isSLASHW(oldpath_w[oldpath_w_length - 2]) && oldpath_w[oldpath_w_length - 1] == L'.') {
+  else if (oldpath_w_length >= 2 && isSLASHW(oldpath_w[oldpath_w_length - 2]) && oldpath_w[oldpath_w_length - 1] == L'.') {
     oldpath_is_dir = 1;
   }
-  else if (wcscmp(oldpath_w+oldpath_w_length - 3, L"\\..") == 0) {
+  else if (oldpath_w_length >= 3 && wcscmp(oldpath_w+oldpath_w_length - 3, L"\\..") == 0) {
     oldpath_is_dir = 1;
   }
   else if (oldpath_w_length == 2 && oldpath_w[1] == L':') {
