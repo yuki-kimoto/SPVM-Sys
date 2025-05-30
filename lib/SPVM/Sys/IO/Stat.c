@@ -174,37 +174,28 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
               goto END_OF_FUNC;
             }
             
-            int32_t scope_id = env->enter_scope(env, stack);
-            
             WCHAR* path_w = env->new_memory_block(env, stack, sizeof(WCHAR) * (needed_len + 1));
             
             int32_t len = GetFinalPathNameByHandleW(handle, path_w, needed_len + 1, 0);
             
-            if (len == 0) {
+            if (len) {
+              if (len > 4 &&
+                (_wcsicmp(path_w + len - 4, L".exe") == 0 ||
+                 _wcsicmp(path_w + len - 4, L".bat") == 0 ||
+                 _wcsicmp(path_w + len - 4, L".cmd") == 0 ||
+                 _wcsicmp(path_w + len - 4, L".com") == 0))
+              {
+                st_stat->st_mode |= _S_IEXEC;
+              }
+            }
+            
+            env->free_memory_block(env, stack, path_w);
+            
+            if (!len) {
               spvm_sys_windows_win_last_error_to_errno(EINVAL);
               goto END_OF_FUNC;
             }
             
-            int32_t error_id = 0;
-            
-            const char* path = spvm_sys_windows_win_wchar_to_utf8(env, stack, path_w, &error_id, __func__, FILE_NAME, __LINE__);
-            
-            env->free_memory_block(env, stack, path_w);
-            
-            env->leave_scope(env, stack, scope_id);
-            
-            if (error_id) {
-              goto END_OF_FUNC;
-            }
-            
-            if (path && len > 4 &&
-              (_stricmp(path + len - 4, ".exe") == 0 ||
-               _stricmp(path + len - 4, ".bat") == 0 ||
-               _stricmp(path + len - 4, ".cmd") == 0 ||
-               _stricmp(path + len - 4, ".com") == 0))
-            {
-              st_stat->st_mode |= _S_IEXEC;
-            }
             if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
               st_stat->st_mode |= _S_IWRITE;
             }
