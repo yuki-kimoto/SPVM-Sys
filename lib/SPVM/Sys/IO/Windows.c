@@ -205,41 +205,10 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t success = MoveFileExW(oldpath_w, newpath_w, flags);
   
-  int32_t status = -1;
-  if (success) {
-    status = 0;
-  }
-  else {
-    DWORD last_error = GetLastError();
-    switch (last_error) {
-      case ERROR_BAD_NET_NAME:
-      case ERROR_BAD_NETPATH:
-      case ERROR_BAD_PATHNAME:
-      case ERROR_FILE_NOT_FOUND:
-      case ERROR_FILENAME_EXCED_RANGE:
-      case ERROR_INVALID_DRIVE:
-      case ERROR_NO_MORE_FILES:
-      case ERROR_PATH_NOT_FOUND:
-      {
-        errno = ENOENT;
-        break;
-      }
-      case ERROR_DISK_FULL: {
-        errno = ENOSPC;
-        break;
-      }
-      case ERROR_NOT_ENOUGH_QUOTA: {
-        errno = EDQUOT;
-        break;
-      }
-      default: {
-        errno = EACCES;
-        break;
-      }
-    }
-  }
+  int32_t status = success ? 0 : -1;
   
   if (status == -1) {
+    spvm_sys_windows_win_last_error_to_errno(EACCES);
     env->die(env, stack, "[System Error]MoveFileExW() for renaming failed(%d: %s). $oldpath=\"%s\", $newpath=\"%s\".", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
