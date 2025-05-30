@@ -22,6 +22,7 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR *oldpath_w, con
     }
   }
   
+  DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
   /* are we linking to a directory?
      CreateSymlinkW() needs to know if the target is a directory,
      If it looks like a directory name:
@@ -33,13 +34,27 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR *oldpath_w, con
      Otherwise if the oldpath_w is relative we need to make a relative path
      based on the newpath_w to check if the target is a directory.
   */
-  DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
-  if ((oldpath_w_length >= 1 && isSLASHW(oldpath_w[oldpath_w_length - 1])) ||
-    wcscmp(oldpath_w, L"..") == 0 ||
-    wcscmp(oldpath_w, L".") == 0 ||
-    (isSLASHW(oldpath_w[oldpath_w_length - 2]) && oldpath_w[oldpath_w_length - 1] == L'.') ||
-    wcscmp(oldpath_w+oldpath_w_length-3, L"\\..") == 0 ||
-    (oldpath_w_length == 2 && oldpath_w[1] == L':')) {
+  int32_t oldpath_is_dir = 0;
+  if (oldpath_w_length >= 1 && isSLASHW(oldpath_w[oldpath_w_length - 1])) {
+    oldpath_is_dir = 1;
+  }
+  else if (wcscmp(oldpath_w, L"..") == 0) {
+    oldpath_is_dir = 1;
+  }
+  else if (wcscmp(oldpath_w, L".") == 0) {
+    oldpath_is_dir = 1;
+  }
+  else if (isSLASHW(oldpath_w[oldpath_w_length - 2]) && oldpath_w[oldpath_w_length - 1] == L'.') {
+    oldpath_is_dir = 1;
+  }
+  else if (wcscmp(oldpath_w+oldpath_w_length - 3, L"\\..") == 0) {
+    oldpath_is_dir = 1;
+  }
+  else if (oldpath_w_length == 2 && oldpath_w[1] == L':') {
+    oldpath_is_dir = 1;
+  }
+  
+  if (oldpath_is_dir) {
     create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
   }
   else {
