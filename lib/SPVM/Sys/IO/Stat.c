@@ -77,138 +77,141 @@ static time_t file_time_to_epoch(FILETIME file_time) {
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
 static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *sbuf, DWORD reparse_type) {
-    DWORD type = GetFileType(handle);
-    BY_HANDLE_FILE_INFORMATION bhi;
-    
-    memset(sbuf, 0, 1 * sizeof(Stat_t));
-    
-    if (reparse_type) {
-        /* Lie to get to the right place */
-        type = FILE_TYPE_DISK;
-    }
+  DWORD type = GetFileType(handle);
+  BY_HANDLE_FILE_INFORMATION bhi;
+  
+  memset(sbuf, 0, 1 * sizeof(Stat_t));
+  
+  if (reparse_type) {
+    /* Lie to get to the right place */
+    type = FILE_TYPE_DISK;
+  }
 
-    type &= ~FILE_TYPE_REMOTE;
+  type &= ~FILE_TYPE_REMOTE;
 
-    switch (type) {
-    case FILE_TYPE_DISK:
-        if (GetFileInformationByHandle(handle, &bhi)) {
-            sbuf->st_dev = bhi.dwVolumeSerialNumber;
-            sbuf->st_ino = bhi.nFileIndexHigh;
-            sbuf->st_ino <<= 32;
-            sbuf->st_ino |= bhi.nFileIndexLow;
-            sbuf->st_nlink = bhi.nNumberOfLinks;
-            sbuf->st_uid = 0;
-            sbuf->st_gid = 0;
-            /* ucrt sets this to the drive letter for
-               stat(), lets not reproduce that mistake */
-            sbuf->st_rdev = 0;
-            sbuf->st_size = bhi.nFileSizeHigh;
-            sbuf->st_size <<= 32;
-            sbuf->st_size |= bhi.nFileSizeLow;
+  switch (type) {
+    case FILE_TYPE_DISK: {
+      if (GetFileInformationByHandle(handle, &bhi)) {
+        sbuf->st_dev = bhi.dwVolumeSerialNumber;
+        sbuf->st_ino = bhi.nFileIndexHigh;
+        sbuf->st_ino <<= 32;
+        sbuf->st_ino |= bhi.nFileIndexLow;
+        sbuf->st_nlink = bhi.nNumberOfLinks;
+        sbuf->st_uid = 0;
+        sbuf->st_gid = 0;
+        /* ucrt sets this to the drive letter for
+           stat(), lets not reproduce that mistake */
+        sbuf->st_rdev = 0;
+        sbuf->st_size = bhi.nFileSizeHigh;
+        sbuf->st_size <<= 32;
+        sbuf->st_size |= bhi.nFileSizeLow;
 
-            sbuf->st_atime = file_time_to_epoch(bhi.ftLastAccessTime);
-            sbuf->st_mtime = file_time_to_epoch(bhi.ftLastWriteTime);
-            sbuf->st_ctime = file_time_to_epoch(bhi.ftCreationTime);
+        sbuf->st_atime = file_time_to_epoch(bhi.ftLastAccessTime);
+        sbuf->st_mtime = file_time_to_epoch(bhi.ftLastWriteTime);
+        sbuf->st_ctime = file_time_to_epoch(bhi.ftCreationTime);
 
-            if (reparse_type) {
-                /* https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
-                   describes all of these as WSL only, but the AF_UNIX tag
-                   is known to be used for AF_UNIX sockets without WSL.
-                */
-                switch (reparse_type) {
-                case IO_REPARSE_TAG_AF_UNIX:
-                    sbuf->st_mode = _S_IFSOCK;
-                    break;
-
-                case IO_REPARSE_TAG_LX_FIFO:
-                    sbuf->st_mode = _S_IFIFO;
-                    break;
-
-                case IO_REPARSE_TAG_LX_CHR:
-                    sbuf->st_mode = _S_IFCHR;
-                    break;
-
-                case IO_REPARSE_TAG_LX_BLK:
-                    sbuf->st_mode = _S_IFBLK;
-                    break;
-
-                default:
-                    /* Is there anything else we can do here? */
-                    errno = EINVAL;
-                    return -1;
-                }
+        if (reparse_type) {
+          /* https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
+             describes all of these as WSL only, but the AF_UNIX tag
+             is known to be used for AF_UNIX sockets without WSL.
+          */
+          switch (reparse_type) {
+            case IO_REPARSE_TAG_AF_UNIX: {
+              sbuf->st_mode = _S_IFSOCK;
+              break;
             }
-            else if (bhi.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                sbuf->st_mode = _S_IFDIR | _S_IREAD | _S_IEXEC;
-                /* duplicate the logic from the end of the old win32_stat() */
-                if (!(bhi.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-                    sbuf->st_mode |= S_IWRITE;
-                }
+            case IO_REPARSE_TAG_LX_FIFO: {
+              sbuf->st_mode = _S_IFIFO;
+              break;
             }
-            else {
-                WCHAR path_buf_tmp_w[MAX_PATH+1];
-                sbuf->st_mode = _S_IFREG;
-                
-                const char* path = NULL;
-                len = GetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
-                if (len > 0) {
-                  int32_t scope_id = env->enter_scope(env, stack);
-                  
-                  WCHAR* path_buf_w = env->new_memory_block(env, stack, sizeof(WCHAR) * (len + 1));
-                  
-                  len = GetFinalPathNameByHandleW(handle, path_buf_w, len + 1, 0);
-                  
-                  assert(len > 0);
-                  
-                  int32_t error_id = 0;
-                  
-                  path = spvm_sys_windows_win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
-                  
-                  env->free_memory_block(env, stack, path_buf_w);
-                  
-                  assert(error_id == 0);
-                  
-                  env->leave_scope(env, stack, scope_id);
-                }
-
-                if (path && len > 4 &&
-                    (_stricmp(path + len - 4, ".exe") == 0 ||
-                     _stricmp(path + len - 4, ".bat") == 0 ||
-                     _stricmp(path + len - 4, ".cmd") == 0 ||
-                     _stricmp(path + len - 4, ".com") == 0)) {
-                    sbuf->st_mode |= _S_IEXEC;
-                }
-                if (!(bhi.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-                    sbuf->st_mode |= _S_IWRITE;
-                }
-                sbuf->st_mode |= _S_IREAD;
+            case IO_REPARSE_TAG_LX_CHR: {
+              sbuf->st_mode = _S_IFCHR;
+              break;
             }
+            case IO_REPARSE_TAG_LX_BLK: {
+              sbuf->st_mode = _S_IFBLK;
+              break;
+            }
+            default: {
+              /* Is there anything else we can do here? */
+              errno = EINVAL;
+              return -1;
+            }
+          }
+        }
+        else if (bhi.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+          sbuf->st_mode = _S_IFDIR | _S_IREAD | _S_IEXEC;
+          /* duplicate the logic from the end of the old win32_stat() */
+          if (!(bhi.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
+            sbuf->st_mode |= S_IWRITE;
+          }
         }
         else {
-            spvm_sys_windows_win_last_error_to_errno(EINVAL);
-            return -1;
-        }
-        break;
+          WCHAR path_buf_tmp_w[MAX_PATH+1];
+          sbuf->st_mode = _S_IFREG;
+          
+          const char* path = NULL;
+          len = GetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
+          if (len > 0) {
+            int32_t scope_id = env->enter_scope(env, stack);
+            
+            WCHAR* path_buf_w = env->new_memory_block(env, stack, sizeof(WCHAR) * (len + 1));
+            
+            len = GetFinalPathNameByHandleW(handle, path_buf_w, len + 1, 0);
+            
+            assert(len > 0);
+            
+            int32_t error_id = 0;
+            
+            path = spvm_sys_windows_win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
+            
+            env->free_memory_block(env, stack, path_buf_w);
+            
+            assert(error_id == 0);
+            
+            env->leave_scope(env, stack, scope_id);
+          }
 
+          if (path && len > 4 &&
+            (_stricmp(path + len - 4, ".exe") == 0 ||
+             _stricmp(path + len - 4, ".bat") == 0 ||
+             _stricmp(path + len - 4, ".cmd") == 0 ||
+             _stricmp(path + len - 4, ".com") == 0)) {
+            sbuf->st_mode |= _S_IEXEC;
+          }
+          if (!(bhi.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
+              sbuf->st_mode |= _S_IWRITE;
+          }
+          sbuf->st_mode |= _S_IREAD;
+        }
+      }
+      else {
+        spvm_sys_windows_win_last_error_to_errno(EINVAL);
+        return -1;
+      }
+      break;
+    }
     case FILE_TYPE_CHAR:
     case FILE_TYPE_PIPE:
-        sbuf->st_mode = (type == FILE_TYPE_CHAR) ? _S_IFCHR : _S_IFIFO;
-        if (handle == GetStdHandle(STD_INPUT_HANDLE) ||
-            handle == GetStdHandle(STD_OUTPUT_HANDLE) ||
-            handle == GetStdHandle(STD_ERROR_HANDLE)) {
-            sbuf->st_mode |= _S_IWRITE | _S_IREAD;
-        }
-        break;
-
-    default:
-        return -1;
+    {
+      sbuf->st_mode = (type == FILE_TYPE_CHAR) ? _S_IFCHR : _S_IFIFO;
+      if (handle == GetStdHandle(STD_INPUT_HANDLE) ||
+        handle == GetStdHandle(STD_OUTPUT_HANDLE) ||
+        handle == GetStdHandle(STD_ERROR_HANDLE)) {
+        sbuf->st_mode |= _S_IWRITE | _S_IREAD;
+      }
+      break;
     }
-
-    /* owner == user == group */
-    sbuf->st_mode |= (sbuf->st_mode & 0700) >> 3;
-    sbuf->st_mode |= (sbuf->st_mode & 0700) >> 6;
-
-    return 0;
+    default: {
+      return -1;
+    }
+  }
+  
+  /* owner == user == group */
+  sbuf->st_mode |= (sbuf->st_mode & 0700) >> 3;
+  sbuf->st_mode |= (sbuf->st_mode & 0700) >> 6;
+  
+  return 0;
 }
 
 static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
