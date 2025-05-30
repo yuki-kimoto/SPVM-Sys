@@ -96,7 +96,7 @@ static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *oldpath_
   }
   
   if (!CreateSymbolicLinkW(newpath_w, oldpath_w, create_flags)) {
-    win_last_error_to_errno();
+    spvm_sys_windows_win_last_error_to_errno();
     return -1;
   }
   
@@ -122,7 +122,7 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -146,7 +146,7 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
     == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
-         && is_symlink(path_w))
+         && spvm_sys_windows_is_symlink(path_w))
   {
     status = _wrmdir(path_w);
   }
@@ -188,12 +188,12 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
-  WCHAR* oldpath_w = utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* oldpath_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  WCHAR* newpath_w = utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* newpath_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -263,13 +263,13 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
-  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     goto END_OF_FUNC;
   }
   DWORD fileattr = GetFileAttributesW(path_w);
   if (fileattr == INVALID_FILE_ATTRIBUTES) {
-    win_last_error_to_errno();
+    spvm_sys_windows_win_last_error_to_errno();
     env->die(env, stack, "[System Error]GetFileAttributesW() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);    
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
@@ -279,27 +279,27 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   DWORD linkdata_returned;
   HANDLE handle = NULL;
   if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
-    handle = CreateFileW_reparse_point_for_read(path_w);
+    handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
-      win_last_error_to_errno();
+      spvm_sys_windows_win_last_error_to_errno();
       env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
     
     if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
-      win_last_error_to_errno();
+      spvm_sys_windows_win_last_error_to_errno();
       env->die(env, stack, "[System Error]DeviceIoControl() failed(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
   }
   else {
-    handle = CreateFileW_for_read(path_w);
+    handle = spvm_sys_windows_CreateFileW_for_read(path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
-      win_last_error_to_errno();
+      spvm_sys_windows_win_last_error_to_errno();
       env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path=\"%s\".", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
@@ -420,12 +420,12 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
-  WCHAR* oldpath_w = utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* oldpath_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  WCHAR* newpath_w = utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* newpath_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -477,15 +477,15 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
   
-  WCHAR* resolved_link_text_w = utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* resolved_link_text_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  HANDLE handle = CreateFileW_reparse_point_for_read(resolved_link_text_w);
+  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(resolved_link_text_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
-    win_last_error_to_errno();
+    spvm_sys_windows_win_last_error_to_errno();
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
@@ -509,7 +509,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  char* resolved_path_tmp = (char*)win_wchar_to_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
+  char* resolved_path_tmp = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -573,12 +573,12 @@ int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  int32_t ret = is_symlink(path_w);
+  int32_t ret = spvm_sys_windows_is_symlink(path_w);
   
   stack[0].ival = ret;
   

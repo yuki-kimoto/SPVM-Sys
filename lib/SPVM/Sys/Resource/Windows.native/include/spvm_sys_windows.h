@@ -88,7 +88,7 @@ typedef struct {
   } Data;
 } MY_REPARSE_DATA_BUFFER;
 
-static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+static void* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   *error_id = 0;
   
@@ -130,7 +130,7 @@ static void* utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf
   return utf16le_string;
 }
 
-static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+static const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   if (utf16le_string == NULL) {
     return NULL;
@@ -176,7 +176,7 @@ static const char* win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* ut
 }
 
 // The logic is the same as Perl's translcate_to_errno in Win32.c
-static void win_last_error_to_errno(void) {
+static void spvm_sys_windows_win_last_error_to_errno(void) {
   /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
      both permissions errors and if the source is a directory, while
      POSIX wants EACCES and EPERM respectively.
@@ -224,7 +224,7 @@ static void win_last_error_to_errno(void) {
   }
 }
 
-static HANDLE CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
+static HANDLE spvm_sys_windows_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
 
   HANDLE handle = CreateFileW(path_w, GENERIC_READ,
     FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
@@ -234,23 +234,23 @@ static HANDLE CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag
   return handle;
 }
 
-static HANDLE CreateFileW_for_read(const WCHAR* path_w) {
+static HANDLE spvm_sys_windows_CreateFileW_for_read(const WCHAR* path_w) {
   
-  return CreateFileW_for_read_common(path_w, 0);
+  return spvm_sys_windows_CreateFileW_for_read_common(path_w, 0);
 }
 
-static HANDLE CreateFileW_reparse_point_for_read(const WCHAR* path_w) {
+static HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(const WCHAR* path_w) {
 
-  return CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
+  return spvm_sys_windows_CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
 }
 
-static int32_t is_symlink_by_handle(HANDLE handle) {
+static int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle) {
   
   int32_t is_sym = 0;
   
   MY_REPARSE_DATA_BUFFER linkdata;
   if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
-    win_last_error_to_errno();
+    spvm_sys_windows_win_last_error_to_errno();
     goto END_OF_FUNC;
   }
   
@@ -263,18 +263,18 @@ static int32_t is_symlink_by_handle(HANDLE handle) {
   return is_sym;
 }
 
-static int32_t is_symlink(const WCHAR* path_w) {
+static int32_t spvm_sys_windows_is_symlink(const WCHAR* path_w) {
   
   int32_t is_sym = 0;
   
-  HANDLE handle = CreateFileW_reparse_point_for_read(path_w);
+  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(path_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
-    win_last_error_to_errno();
+    spvm_sys_windows_win_last_error_to_errno();
     goto END_OF_FUNC;
   }
   
-  is_sym = is_symlink_by_handle(handle);
+  is_sym = spvm_sys_windows_is_symlink_by_handle(handle);
   
   END_OF_FUNC:
   

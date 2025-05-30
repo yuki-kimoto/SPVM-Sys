@@ -380,7 +380,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   assert(argv[args_length] == NULL);
   
 #if defined(_WIN32)
-  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -388,7 +388,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   WCHAR** argv_w = env->new_memory_block(env, stack, sizeof(WCHAR*) * (args_length + 1));
   for (int32_t i = 0; i < args_length; i++) {
     char* arg = argv[i];
-    WCHAR* arg_w = utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
+    WCHAR* arg_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       return error_id;
     }

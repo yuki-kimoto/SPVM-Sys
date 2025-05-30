@@ -57,7 +57,7 @@ static time_t file_time_to_epoch(FILETIME file_time) {
   time_t epoch = -1;
   
   if (!FileTimeToSystemTime(&file_time, &system_time)) {
-    win_last_error_to_errno();
+    spvm_sys_windows_win_last_error_to_errno();
     goto END_OF_FUNC;
   }
   
@@ -162,7 +162,7 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
                   
                   int32_t error_id = 0;
                   
-                  path = win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
+                  path = spvm_sys_windows_win_wchar_to_utf8(env, stack, path_buf_w, &error_id, __func__, FILE_NAME, __LINE__);
                   
                   env->free_memory_block(env, stack, path_buf_w);
                   
@@ -185,7 +185,7 @@ static int win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, 
             }
         }
         else {
-            win_last_error_to_errno();
+            spvm_sys_windows_win_last_error_to_errno();
             return -1;
         }
         break;
@@ -219,7 +219,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -243,15 +243,15 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     }
     const char* resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
     
-    WCHAR* resolved_link_text_w = utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
+    WCHAR* resolved_link_text_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       return error_id;
     }
     
-    handle = CreateFileW_reparse_point_for_read(resolved_link_text_w);
+    handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(resolved_link_text_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
-      win_last_error_to_errno();
+      spvm_sys_windows_win_last_error_to_errno();
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
@@ -296,14 +296,14 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  WCHAR* path_w = utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     goto END_OF_FUNC;
   }
   
-  HANDLE handle = CreateFileW_reparse_point_for_read(path_w);
+  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(path_w);
   if (handle == INVALID_HANDLE_VALUE) {
-    win_last_error_to_errno();
+    spvm_sys_windows_win_last_error_to_errno();
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
@@ -315,7 +315,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     goto END_OF_FUNC;
   }
   
-  int32_t is_sym = is_symlink_by_handle(handle);
+  int32_t is_sym = spvm_sys_windows_is_symlink_by_handle(handle);
   
   if (is_sym) {
     void* obj_link_text = NULL;
