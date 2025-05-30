@@ -88,8 +88,6 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
     type = FILE_TYPE_DISK;
   }
   
-  type &= ~FILE_TYPE_REMOTE;
-  
   switch (type) {
     case FILE_TYPE_DISK: {
       if (GetFileInformationByHandle(handle, &file_info)) {
