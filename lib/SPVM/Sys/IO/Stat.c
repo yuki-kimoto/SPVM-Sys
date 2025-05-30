@@ -79,9 +79,8 @@ static time_t file_time_to_epoch(FILETIME file_time) {
 static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *st_stat, DWORD reparse_type) {
   
   int32_t status = -1;
-  DWORD type = GetFileType(handle);
   
-  BY_HANDLE_FILE_INFORMATION file_info = {0};
+  DWORD type = GetFileType(handle);
   
   if (reparse_type) {
     /* Lie to get to the right place */
@@ -90,6 +89,7 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
   
   switch (type) {
     case FILE_TYPE_DISK: {
+      BY_HANDLE_FILE_INFORMATION file_info = {0};
       if (GetFileInformationByHandle(handle, &file_info)) {
         st_stat->st_dev = file_info.dwVolumeSerialNumber;
         st_stat->st_ino = file_info.nFileIndexHigh;
