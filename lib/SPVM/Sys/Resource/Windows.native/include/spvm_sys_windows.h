@@ -1,17 +1,13 @@
-#ifndef SPVM__SYS__WINDOWS__H
-#define SPVM__SYS__WINDOWS__H
+#ifndef SPVM_SYS_WINDOWS_H
+#define SPVM_SYS_WINDOWS_H
 
 #if defined(_WIN32)
 
 // For SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
-#define MY_TARGET_WIN_VERSION 0x0A00 // Windows 10 (10.0)
-#ifndef _WIN32_WINNT
-  #define _WIN32_WINNT MY_TARGET_WIN_VERSION
-#else
-  #if _WIN32_WINNT < MY_TARGET_WIN_VERSION
-    #undef _WIN32_WINNT
-    #define _WIN32_WINNT MY_TARGET_WIN_VERSION
-  #endif
+#define SPVM_SYS_WINDOWS_TARGET_WIN_VERSION 0x0A00 // Windows 10 (10.0)
+#if !defined(_WIN32_WINNT) || _WIN32_WINNT < SPVM_SYS_WINDOWS_TARGET_WIN_VERSION
+  #undef _WIN32_WINNT
+  #define _WIN32_WINNT SPVM_SYS_WINDOWS_TARGET_WIN_VERSION
 #endif
 
 #include <windows.h>
@@ -108,4 +104,4 @@ int32_t spvm_sys_windows_is_symlink(const WCHAR* path_w);
 
 #endif // defined(_WIN32)
 
-#endif // SPVM__SYS__WINDOWS__H
+#endif // SPVM_SYS_WINDOWS_H
