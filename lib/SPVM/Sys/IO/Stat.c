@@ -76,7 +76,7 @@ static time_t file_time_to_epoch(FILETIME file_time) {
 }
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
-static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, int32_t len, Stat_t *st_stat, DWORD reparse_type) {
+static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, Stat_t *st_stat, DWORD reparse_type) {
   
   int32_t status = -1;
   DWORD type = GetFileType(handle);
@@ -149,7 +149,7 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
           st_stat->st_mode = _S_IFREG;
           
           const char* path = NULL;
-          len = GetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
+          int32_t len = GetFinalPathNameByHandleW(handle, path_buf_tmp_w, sizeof(path_buf_tmp_w), 0);
           if (len > 0) {
             int32_t scope_id = env->enter_scope(env, stack);
             
@@ -179,7 +179,7 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
             st_stat->st_mode |= _S_IEXEC;
           }
           if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-              st_stat->st_mode |= _S_IWRITE;
+            st_stat->st_mode |= _S_IWRITE;
           }
           st_stat->st_mode |= _S_IREAD;
         }
@@ -271,7 +271,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     }
   }
   
-  int32_t result = win_fstat_by_handle(env, stack, handle, 0, st_stat, ReparseTag);
+  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat, ReparseTag);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -315,7 +315,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     goto END_OF_FUNC;
   }
   
-  int32_t result = win_fstat_by_handle(env, stack, handle, 0, st_stat, 0);
+  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat, 0);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -480,7 +480,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   HANDLE handle = (HANDLE)_get_osfhandle(fd);
-  int32_t status = win_fstat_by_handle(env, stack, handle, 0, stat_buf, 0);
+  int32_t status = win_fstat_by_handle(env, stack, handle, stat_buf, 0);
 #else
   int32_t status = fstat(fd, stat_buf);
 #endif
