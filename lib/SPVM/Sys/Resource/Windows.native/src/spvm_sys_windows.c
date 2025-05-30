@@ -162,8 +162,13 @@ int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle) {
   
   SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata;
   if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
-    spvm_sys_windows_win_last_error_to_errno(EINVAL);
-    goto END_OF_FUNC;
+    if (GetLastError() == ERROR_NOT_A_REPARSE_POINT) {
+      goto END_OF_FUNC;
+    }
+    else {
+      spvm_sys_windows_win_last_error_to_errno(EINVAL);
+      goto END_OF_FUNC;
+    }
   }
   
   if (linkdata.ReparseTag == IO_REPARSE_TAG_SYMLINK || linkdata.ReparseTag == IO_REPARSE_TAG_MOUNT_POINT) {
