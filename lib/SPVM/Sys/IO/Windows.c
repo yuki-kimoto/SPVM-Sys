@@ -15,7 +15,7 @@ static inline int32_t is_path_separator(WCHAR ch_w) {
 
 #endif // _WIN32
 
-// This logic is the same as Perl's win32_unlink in Win32.c, and UTF-8 arguments are supported.
+// This logic is the same as Perl's win32_unlink in win32.c, and UTF-8 arguments are supported.
 int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   env->die(env, stack, "Sys::IO::Windows#unlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -77,7 +77,7 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-// This logic is the same as Perl's win32_rename in Win32.c, and UTF-8 arguments are supported.
+// This logic is the same as Perl's win32_rename in win32.c, and UTF-8 arguments are supported.
 int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   env->die(env, stack, "Sys::IO::Windows#rename method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -278,6 +278,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
+// The logic is the same as Perl's win32_symlink in win32.c
 int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   env->die(env, stack, "Sys::IO::Windows#symlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
