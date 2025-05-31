@@ -9,111 +9,9 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #include "spvm_sys_windows.h"
 
-#define isSLASHW(c) ((c) == L'/' || (c) == L'\\')
-
-// The logic is the same as Perl's win32_symlink in Win32.c, and supports UTF-8 arugments.
-static int win32_symlink(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR *oldpath_w, const WCHAR *newpath_w) {
-  
-  // Win32 (or perhaps NTFS) won't follow symlinks containing /, so replace any with \\.
-  int32_t oldpath_w_length = wcslen(oldpath_w);
-  for (int32_t i = 0; i < oldpath_w_length; i++) {
-    if (oldpath_w[i] == L'/') {
-      oldpath_w[i] = L'\\';
-    }
-  }
-  
-  DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
-  /* are we linking to a directory?
-     CreateSymlinkW() needs to know if the target is a directory,
-     If it looks like a directory name:
-      - ends in slash
-      - is just . or ..
-      - ends in /. or /.. (with either slash)
-      - is a simple drive letter
-     assume it's a directory.
-     Otherwise if the oldpath_w is relative we need to make a relative path
-     based on the newpath_w to check if the target is a directory.
-  */
-  int32_t oldpath_is_dir = 0;
-  if (oldpath_w_length >= 1 && isSLASHW(oldpath_w[oldpath_w_length - 1])) {
-    oldpath_is_dir = 1;
-  }
-  else if (wcscmp(oldpath_w, L"..") == 0) {
-    oldpath_is_dir = 1;
-  }
-  else if (wcscmp(oldpath_w, L".") == 0) {
-    oldpath_is_dir = 1;
-  }
-  else if (oldpath_w_length >= 2 && isSLASHW(oldpath_w[oldpath_w_length - 2]) && oldpath_w[oldpath_w_length - 1] == L'.') {
-    oldpath_is_dir = 1;
-  }
-  else if (oldpath_w_length >= 3 && wcscmp(oldpath_w+oldpath_w_length - 3, L"\\..") == 0) {
-    oldpath_is_dir = 1;
-  }
-  else if (oldpath_w_length == 2 && oldpath_w[1] == L':') {
-    oldpath_is_dir = 1;
-  }
-  
-  if (oldpath_is_dir) {
-    create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
-  }
-  else {
-    const WCHAR *resolved_path_w = NULL;
-    WCHAR *resolved_path_w_tmp = NULL;
-    
-    int32_t oldpath_is_abs = 0;
-    if (oldpath_w_length >= 3 && oldpath_w[1] == L':') {
-      /* relative to current directory on a drive, or absolute */
-      oldpath_is_abs = 1;
-    }
-    else if (oldpath_w[0] == L'\\') {
-      oldpath_is_abs = 1;
-    }
-    
-    if (oldpath_is_abs) {
-      resolved_path_w = oldpath_w;
-    }
-    else {
-      int32_t last_sep_index = -1;
-      size_t newpath_w_length = wcslen(newpath_w);
-      for (int32_t i = newpath_w_length - 1; i >= 0; i--) {
-        char ch = newpath_w[i];
-        if (ch == '\\' || ch == '/') {
-          last_sep_index = i;
-          break;
-        }
-      }
-      
-      if (last_sep_index >= 0) {
-        resolved_path_w_tmp = env->new_memory_block(env, stack, (last_sep_index + 1 + oldpath_w_length + 1) * sizeof(WCHAR));
-        memcpy(resolved_path_w_tmp, newpath_w, sizeof(WCHAR) * (last_sep_index + 1));
-        memcpy(resolved_path_w_tmp + (last_sep_index + 1), oldpath_w, oldpath_w_length);
-        resolved_path_w = resolved_path_w_tmp;
-      }
-      else {
-        /* newpath_w is just a filename */
-        resolved_path_w = oldpath_w;
-      }
-    }
-    
-    DWORD dest_attr = GetFileAttributesW(resolved_path_w);
-    if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
-      create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
-    }
-    
-    if (resolved_path_w_tmp) {
-      env->free_memory_block(env, stack, resolved_path_w_tmp);
-    }
-  }
-  
-  int32_t success = CreateSymbolicLinkW(newpath_w, oldpath_w, create_flags);
-  int32_t status = success ? 0 : -1;
-  if (status == -1) {
-    spvm_sys_windows_win_last_error_to_errno(EINVAL);
-  }
-  
-  return status;
-}
+static inline int32_t is_path_separator(WCHAR ch_w) {
+  return (ch_w == L'/' || ch_w == L'\\');
+};
 
 #endif // _WIN32
 
@@ -411,11 +309,106 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  errno = 0;
-  int32_t status = win32_symlink(env, stack, oldpath_w, newpath_w);
+  // Win32 (or perhaps NTFS) won't follow symlinks containing /, so replace any with \\.
+  int32_t oldpath_w_length = wcslen(oldpath_w);
+  for (int32_t i = 0; i < oldpath_w_length; i++) {
+    if (oldpath_w[i] == L'/') {
+      oldpath_w[i] = L'\\';
+    }
+  }
+  
+  DWORD create_flags = SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE;
+  /* are we linking to a directory?
+     CreateSymlinkW() needs to know if the target is a directory,
+     If it looks like a directory name:
+      - ends in slash
+      - is just . or ..
+      - ends in /. or /.. (with either slash)
+      - is a simple drive letter
+     assume it's a directory.
+     Otherwise if the oldpath_w is relative we need to make a relative path
+     based on the newpath_w to check if the target is a directory.
+  */
+  int32_t oldpath_is_dir = 0;
+  if (oldpath_w_length >= 1 && is_path_separator(oldpath_w[oldpath_w_length - 1])) {
+    oldpath_is_dir = 1;
+  }
+  else if (wcscmp(oldpath_w, L"..") == 0) {
+    oldpath_is_dir = 1;
+  }
+  else if (wcscmp(oldpath_w, L".") == 0) {
+    oldpath_is_dir = 1;
+  }
+  else if (oldpath_w_length >= 2 && is_path_separator(oldpath_w[oldpath_w_length - 2]) && oldpath_w[oldpath_w_length - 1] == L'.') {
+    oldpath_is_dir = 1;
+  }
+  else if (oldpath_w_length >= 3 && wcscmp(oldpath_w+oldpath_w_length - 3, L"\\..") == 0) {
+    oldpath_is_dir = 1;
+  }
+  else if (oldpath_w_length == 2 && oldpath_w[1] == L':') {
+    oldpath_is_dir = 1;
+  }
+  
+  if (oldpath_is_dir) {
+    create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+  }
+  else {
+    const WCHAR *resolved_path_w = NULL;
+    WCHAR *resolved_path_w_tmp = NULL;
+    
+    int32_t oldpath_is_abs = 0;
+    if (oldpath_w_length >= 3 && oldpath_w[1] == L':') {
+      /* relative to current directory on a drive, or absolute */
+      oldpath_is_abs = 1;
+    }
+    else if (oldpath_w[0] == L'\\') {
+      oldpath_is_abs = 1;
+    }
+    
+    if (oldpath_is_abs) {
+      resolved_path_w = oldpath_w;
+    }
+    else {
+      int32_t last_sep_index = -1;
+      size_t newpath_w_length = wcslen(newpath_w);
+      for (int32_t i = newpath_w_length - 1; i >= 0; i--) {
+        char ch = newpath_w[i];
+        if (ch == '\\' || ch == '/') {
+          last_sep_index = i;
+          break;
+        }
+      }
+      
+      if (last_sep_index >= 0) {
+        resolved_path_w_tmp = env->new_memory_block(env, stack, (last_sep_index + 1 + oldpath_w_length + 1) * sizeof(WCHAR));
+        memcpy(resolved_path_w_tmp, newpath_w, sizeof(WCHAR) * (last_sep_index + 1));
+        memcpy(resolved_path_w_tmp + (last_sep_index + 1), oldpath_w, oldpath_w_length);
+        resolved_path_w = resolved_path_w_tmp;
+      }
+      else {
+        /* newpath_w is just a filename */
+        resolved_path_w = oldpath_w;
+      }
+    }
+    
+    DWORD dest_attr = GetFileAttributesW(resolved_path_w);
+    if (dest_attr != (DWORD)-1 && (dest_attr & FILE_ATTRIBUTE_DIRECTORY)) {
+      create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
+    }
+    
+    if (resolved_path_w_tmp) {
+      env->free_memory_block(env, stack, resolved_path_w_tmp);
+    }
+  }
+  
+  int32_t success = CreateSymbolicLinkW(newpath_w, oldpath_w, create_flags);
+  int32_t status = success ? 0 : -1;
+  if (status == -1) {
+    spvm_sys_windows_win_last_error_to_errno(EINVAL);
+  }
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]win32_symlink() failed(%d: %s). $oldpath=\"%s\", $newpath=\"%s\".", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]CreateSymbolicLinkW() failed(%d: %s). $oldpath=\"%s\", $newpath=\"%s\".", errno, env->strerror_nolen(env, stack, errno), oldpath, newpath, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
