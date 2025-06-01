@@ -1800,3 +1800,51 @@ int32_t SPVM__Sys__IO__Constant__O_TEXT(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 }
 
+int32_t SPVM__Sys__IO__Constant___S_IFDIR(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _S_IFDIR
+  stack[0].ival = _S_IFDIR;
+  return 0;
+#else
+  env->die(env, stack, "_S_IFDIR is not defined in this system.", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Constant___S_IFCHR(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _S_IFCHR
+  stack[0].ival = _S_IFCHR;
+  return 0;
+#else
+  env->die(env, stack, "_S_IFCHR is not defined in this system.", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Constant___S_IFIFO(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _S_IFIFO
+  stack[0].ival = _S_IFIFO;
+  return 0;
+#else
+  env->die(env, stack, "_S_IFIFO is not defined in this system.", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#endif
+
+}
+
+int32_t SPVM__Sys__IO__Constant___S_IFBLK(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef _S_IFBLK
+  stack[0].ival = _S_IFBLK;
+  return 0;
+#else
+  env->die(env, stack, "_S_IFBLK is not defined in this system.", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#endif
+
+}
+

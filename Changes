@@ -1,3 +1,16 @@
+0.546 2025-06-02
+  [New Features]
+    * Add the following methods to Sys::IO::Constant.
+    
+      static method _S_IFDIR : int ();
+      
+      static method _S_IFCHR : int ();
+      
+      static method _S_IFIFO : int ();
+      
+      static method _S_IFBLK : int ();
+    
+  
 0.545 2025-05-30
   [Bug Fix]
     * Fix potential bugs related to Windows API, such as Sys#lstat, Sys#stat, Sys#fstat, Sys#l.
