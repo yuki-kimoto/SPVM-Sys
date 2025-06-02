@@ -141,7 +141,11 @@ my $test_tmp_dir = File::Temp->newdir;
     ok(SPVM::TestCase::Sys->M);
     is(sprintf("%.14g", SPVM::Sys->M($file_empty)), sprintf("%.14g", -M $file_empty));
   }
-  {
+  
+  if (SPVM::Sys::OS->is_windows) {
+    warn "[Test Skip]Sys#O method is not supported in this system"
+  }
+  else {
     ok(SPVM::TestCase::Sys->O);
     is(!!SPVM::Sys->O($file_not_exists), !!-O $file_not_exists);
     is(!!SPVM::Sys->O($file_empty), !!-O $file_empty);
@@ -187,13 +191,19 @@ my $test_tmp_dir = File::Temp->newdir;
     is(!!SPVM::Sys->f($file_empty), !!-f $file_empty);
     is(!!SPVM::Sys->f($file_bytes8), !!-f $file_bytes8);
   }
-  {
+  if (SPVM::Sys::OS->is_windows) {
+    warn "[Test Skip]Sys#g method is not supported in this system"
+  }
+  else {
     ok(SPVM::TestCase::Sys->g);
     is(!!SPVM::Sys->g($file_not_exists), !!-g $file_not_exists);
     is(!!SPVM::Sys->g($file_empty), !!-g $file_empty);
     is(!!SPVM::Sys->g($file_bytes8), !!-g $file_bytes8);
   }
-  {
+  if (SPVM::Sys::OS->is_windows) {
+    warn "[Test Skip]Sys#k method is not supported in this system"
+  }
+  else {
     ok(SPVM::TestCase::Sys->k);
     is(!!SPVM::Sys->k($file_not_exists), !!-k $file_not_exists);
     is(!!SPVM::Sys->k($file_empty), !!-k $file_empty);
@@ -205,7 +215,10 @@ my $test_tmp_dir = File::Temp->newdir;
     is(!!SPVM::Sys->b($file_empty), !!-b $file_empty);
     is(!!SPVM::Sys->b($file_bytes8), !!-b $file_bytes8);
   }
-  {
+  if (SPVM::Sys::OS->is_windows) {
+    warn "[Test Skip]Sys#o method is not supported in this system"
+  }
+  else {
     ok(SPVM::TestCase::Sys->o);
     is(!!SPVM::Sys->o($file_not_exists), !!-o $file_not_exists);
     is(!!SPVM::Sys->o($file_empty), !!-o $file_empty);
@@ -228,7 +241,10 @@ my $test_tmp_dir = File::Temp->newdir;
     is(!!SPVM::Sys->s($file_empty), !!-s $file_empty);
     is(!!SPVM::Sys->s($file_bytes8), !!-s $file_bytes8);
   }
-  {
+  if (SPVM::Sys::OS->is_windows) {
+    warn "[Test Skip]Sys#u method is not supported in this system"
+  }
+  else {
     ok(SPVM::TestCase::Sys->u);
     is(!!SPVM::Sys->u($file_not_exists), !!-u $file_not_exists);
     is(!!SPVM::Sys->u($file_empty), !!-u $file_empty);

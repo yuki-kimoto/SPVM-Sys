@@ -92,16 +92,13 @@ class Sys::IO::Stat : pointer {
   
   method O : int () {
     
-    my $ok = 0;
     if (Sys::OS->is_windows) {
-      if ($self->st_uid == 0) {
-        $ok = 1;
-      }
+      die Error::NotSupported "Sys::IO::Stat#O method is not supported in this system.";
     }
-    else {
-      if ($self->st_uid == Sys::User->getuid) {
-        $ok = 1;
-      }
+    
+    my $ok = 0;
+    if ($self->st_uid == Sys::User->getuid) {
+      $ok = 1;
     }
     
     return $ok;
@@ -168,11 +165,13 @@ class Sys::IO::Stat : pointer {
   
   method g : int () {
     
+    if (Sys::OS->is_windows) {
+      die Error::NotSupported "Sys::IO::Stat#g method is not supported in this system.";
+    }
+    
     my $ok = 0;
-    unless (Sys::OS->is_windows) {
-      if ($self->st_mode & IO->S_ISGID) {
-        $ok = 1;
-      }
+    if ($self->st_mode & IO->S_ISGID) {
+      $ok = 1;
     }
     
     return $ok;
@@ -180,11 +179,13 @@ class Sys::IO::Stat : pointer {
   
   method k : int () {
     
+    if (Sys::OS->is_windows) {
+      die Error::NotSupported "Sys::IO::Stat#k method is not supported in this system.";
+    }
+    
     my $ok = 0;
-    unless (Sys::OS->is_windows) {
-      if ($self->st_mode & IO->S_ISVTX) {
-        $ok = 1;
-      }
+    if ($self->st_mode & IO->S_ISVTX) {
+      $ok = 1;
     }
     
     return $ok;
@@ -203,13 +204,14 @@ class Sys::IO::Stat : pointer {
   
   method o : int () {
     if (Sys::OS->is_windows) {
-      return $self->O;
+      die Error::NotSupported "Sys::IO::Stat#o method is not supported in this system.";
     }
     
     my $ok = 0;
     if ($self->st_uid == Sys::User->geteuid) {
       $ok = 1;
     }
+    
     return $ok;
   }
   
@@ -233,12 +235,13 @@ class Sys::IO::Stat : pointer {
   
   method u : int () {
     
-    # Character device
+    if (Sys::OS->is_windows) {
+      die Error::NotSupported "Sys::IO::Stat#u method is not supported in this system.";
+    }
+    
     my $ok = 0;
-    unless (Sys::OS->is_windows) {
-      if ($self->st_mode & IO->S_ISUID) {
-        $ok = 1;
-      }
+    if ($self->st_mode & IO->S_ISUID) {
+      $ok = 1;
     }
     
     return $ok;

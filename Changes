@@ -5,6 +5,10 @@
     * Require SPVM 0.990059.
   [Incompatible Changes]
     * Sys::IO::Constant#S_IFSOCK method returns a value.
+    * Sys#O method throw an exception in Windows.
+    * Sys#o method throw an exception in Windows.
+    * The each following method throws an exception in Windows.
+      
 0.545 2025-05-30
   [Bug Fix]
     * Fix potential bugs related to Windows API, such as Sys#lstat, Sys#stat, Sys#fstat, Sys#l.
