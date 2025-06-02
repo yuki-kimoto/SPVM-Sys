@@ -1,15 +1,4 @@
 0.546 2025-06-02
-  [New Features]
-    * Add the following methods to Sys::IO::Constant.
-    
-      static method _S_IFDIR : int ();
-      
-      static method _S_IFCHR : int ();
-      
-      static method _S_IFIFO : int ();
-      
-      static method _S_IFBLK : int ();
-    
   [New Features with Incompatibe Changes]
     * Sys->S returns a correct value in Windows.
   [Requirement Changes]

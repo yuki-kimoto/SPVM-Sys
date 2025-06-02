@@ -928,29 +928,6 @@ C<static method O_TEXT : int ();>
 
 Gets the value of C<O_TEXT>. If the value is not defined in this system, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
-=head2 _S_IFDIR
-
-C<static method _S_IFDIR : int ();>
-
-Gets the value of C<_S_IFDIR>. If the value is not defined in this system, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 _S_IFCHR
-
-C<static method _S_IFCHR : int ();>
-
-Gets the value of C<_S_IFCHR>. If the value is not defined in this system, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 _S_IFIFO
-
-C<static method _S_IFIFO : int ();>
-
-Gets the value of C<_S_IFIFO>. If the value is not defined in this system, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
-
-=head2 _S_IFBLK
-
-C<static method _S_IFBLK : int ();>
-
-Gets the value of C<_S_IFBLK>. If the value is not defined in this system, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head1 Copyright & License
 

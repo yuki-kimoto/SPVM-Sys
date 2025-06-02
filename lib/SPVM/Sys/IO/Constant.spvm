@@ -264,12 +264,4 @@ class Sys::IO::Constant {
   
   native static method O_TEXT : int ();
 
-  native static method _S_IFDIR : int ();
-
-  native static method _S_IFCHR : int ();
-
-  native static method _S_IFIFO : int ();
-
-  native static method _S_IFBLK : int ();
-
 }

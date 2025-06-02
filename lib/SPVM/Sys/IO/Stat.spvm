@@ -111,7 +111,7 @@ class Sys::IO::Stat : pointer {
     my $ok = 0;
     # Unix domain socket
     if (Sys::OS->is_windows) {
-      if (($self->st_mode & IO->S_IFMT) == (IO->_S_IFDIR | IO->_S_IFIFO)) {
+      if (($self->st_mode & IO->S_IFMT) == (IO->S_IFDIR | IO->S_IFIFO)) {
         $ok = 1;
       }
     }
