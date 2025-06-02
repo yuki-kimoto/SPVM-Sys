@@ -8,6 +8,11 @@
     * Sys#O method throw an exception in Windows.
     * Sys#o method throw an exception in Windows.
     * The each following method throws an exception in Windows.
+      Sys#O method
+      Sys#g method
+      Sys#k method
+      Sys#o method 
+      Sys#u method
       
 0.545 2025-05-30
   [Bug Fix]
