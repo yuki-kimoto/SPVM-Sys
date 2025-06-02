@@ -163,7 +163,9 @@ class TestCase::Sys {
       {
         my $file = "t/ftest/file_empty.txt";
         my $ok = Sys->S($file);
-        warn "[Test Output]Sys->S:$ok";
+        if ($ok) {
+          return 0;
+        }
       }
     }
     
@@ -181,6 +183,27 @@ class TestCase::Sys {
         unless (Errno->errno > 0) {
           return 0;
         }
+      }
+    }
+    
+    {
+      my $socket = Sys::Socket->socket(SOCKET->AF_UNIX, SOCKET->SOCK_STREAM, 0);
+      
+      Fn->defer([$socket : int] method :void () {
+        Sys::Socket->close($socket);
+      });
+      
+      my $socket_file = "$TEST_TMP_DIR/S_socket";
+      my $sockaddr = Sys::Socket::Sockaddr::Un->new;
+      $sockaddr->set_sun_family(SOCKET->AF_UNIX);
+      $sockaddr->set_sun_path($socket_file);
+      
+      Sys->bind($socket, $sockaddr);
+      
+      my $ok = Sys->S($socket_file);
+      
+      unless ($ok) {
+        return 0;
       }
     }
     
