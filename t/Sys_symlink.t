@@ -61,6 +61,7 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
     is(!!SPVM::Sys->l($file_not_exists), !!-l $file_not_exists);
     is(!!SPVM::Sys->l($file_empty), !!-l $file_empty);
     is(!!SPVM::Sys->l($file_bytes8), !!-l $file_bytes8);
+    is(!!SPVM::Sys->lstat($file_empty)->l, !!-l $file_bytes8);
   }
 }
 
@@ -81,6 +82,7 @@ ok(SPVM::Sys->l($tmpfile2), "-l sees it as a symlink");
 {
   my $lstat = SPVM::Sys->lstat($tmpfile2);
   is($lstat->st_size, length Encode::encode('UTF-8', SPVM::Sys->readlink($tmpfile2)));
+  ok($lstat->l);
 }
 SPVM::Sys->unlink($tmpfile2);
 
@@ -96,6 +98,7 @@ check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
 {
   my $lstat = SPVM::Sys->lstat($tmpfile2);
   is($lstat->st_size, length Encode::encode('UTF-8', SPVM::Sys->readlink($tmpfile2)));
+  ok($lstat->l);
 }
 
 # _realpath
