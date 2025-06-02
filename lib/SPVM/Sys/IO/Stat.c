@@ -132,15 +132,15 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
               break;
             }
             case IO_REPARSE_TAG_LX_FIFO: {
-              st_stat->st_mode = _S_IFIFO;
+              st_stat->st_mode = S_IFIFO;
               break;
             }
             case IO_REPARSE_TAG_LX_CHR: {
-              st_stat->st_mode = _S_IFCHR;
+              st_stat->st_mode = S_IFCHR;
               break;
             }
             case IO_REPARSE_TAG_LX_BLK: {
-              st_stat->st_mode = _S_IFBLK;
+              st_stat->st_mode = S_IFBLK;
               break;
             }
             case IO_REPARSE_TAG_SYMLINK:
