@@ -12,11 +12,11 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
   
-  // Exactly same as Perl's one in Win32.h
-  #define _S_IFLNK ((unsigned)(S_IFDIR | S_IFCHR))
+  # undef S_IFLNK
+  #define S_IFLNK 00120000
   
-  // Exactly same as Perl's one in Win32.h
-  #define _S_IFSOCK ((unsigned)(S_IFDIR | S_IFIFO))
+  # undef S_IFSOCK
+  #define S_IFSOCK 00140000
   
   // Exactly same as Perl's one in Win32.h
   typedef DWORD Dev_t;
@@ -128,7 +128,7 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
           st_stat->st_mode = 0;
           switch (reparse_type) {
             case IO_REPARSE_TAG_AF_UNIX: {
-              st_stat->st_mode = _S_IFSOCK;
+              st_stat->st_mode = S_IFSOCK;
               break;
             }
             case IO_REPARSE_TAG_LX_FIFO: {
@@ -347,7 +347,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     
     int32_t link_text_length = env->length(env, stack, obj_link_text);
     
-    st_stat->st_mode = (st_stat->st_mode & ~S_IFMT) | _S_IFLNK;
+    st_stat->st_mode = (st_stat->st_mode & ~S_IFMT) | S_IFLNK;
     st_stat->st_size = link_text_length;
   }
   

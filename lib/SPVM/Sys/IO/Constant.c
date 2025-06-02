@@ -18,9 +18,11 @@
 #endif
 
 #if defined(_WIN32)
-#  ifndef S_IFLNK
-#    define S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
-#  endif
+  # undef S_IFLNK
+  #define S_IFLNK 00120000
+  
+  # undef S_IFSOCK
+  #define S_IFSOCK 00140000
 #endif
 
 static const char* FILE_NAME = "Sys/IO/Constant.c";

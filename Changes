@@ -3,6 +3,8 @@
     * Sys->S returns a correct value in Windows.
   [Requirement Changes]
     * Require SPVM 0.990059.
+  [Incompatible Changes]
+    * Sys::IO::Constant#S_IFSOCK method returns a value.
 0.545 2025-05-30
   [Bug Fix]
     * Fix potential bugs related to Windows API, such as Sys#lstat, Sys#stat, Sys#fstat, Sys#l.
