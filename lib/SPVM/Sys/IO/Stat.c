@@ -13,10 +13,10 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
   #include "spvm_sys_windows.h"
   
   // Exactly same as Perl's one in Win32.h
-  #define _S_IFLNK ((unsigned)(_S_IFDIR | _S_IFCHR))
+  #define _S_IFLNK ((unsigned)(S_IFDIR | S_IFCHR))
   
   // Exactly same as Perl's one in Win32.h
-  #define _S_IFSOCK ((unsigned)(_S_IFDIR | _S_IFIFO))
+  #define _S_IFSOCK ((unsigned)(S_IFDIR | S_IFIFO))
   
   // Exactly same as Perl's one in Win32.h
   typedef DWORD Dev_t;
@@ -158,7 +158,7 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
         
         if (st_stat->st_mode == 0) {
           if (file_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            st_stat->st_mode = _S_IFDIR | _S_IREAD | _S_IEXEC;
+            st_stat->st_mode = S_IFDIR | S_IREAD | S_IEXEC;
             /* duplicate the logic from the end of the old win32_stat() */
             if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
               st_stat->st_mode |= S_IWRITE;
@@ -185,7 +185,7 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
                  _wcsicmp(path_w + len - 4, L".cmd") == 0 ||
                  _wcsicmp(path_w + len - 4, L".com") == 0))
               {
-                st_stat->st_mode |= _S_IEXEC;
+                st_stat->st_mode |= S_IEXEC;
               }
             }
             
@@ -197,9 +197,9 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
             }
             
             if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-              st_stat->st_mode |= _S_IWRITE;
+              st_stat->st_mode |= S_IWRITE;
             }
-            st_stat->st_mode |= _S_IREAD;
+            st_stat->st_mode |= S_IREAD;
           }
         }
       }
@@ -212,11 +212,11 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
     case FILE_TYPE_CHAR:
     case FILE_TYPE_PIPE:
     {
-      st_stat->st_mode = (type == FILE_TYPE_CHAR) ? _S_IFCHR : _S_IFIFO;
+      st_stat->st_mode = (type == FILE_TYPE_CHAR) ? S_IFCHR : S_IFIFO;
       if (handle == GetStdHandle(STD_INPUT_HANDLE) ||
         handle == GetStdHandle(STD_OUTPUT_HANDLE) ||
         handle == GetStdHandle(STD_ERROR_HANDLE)) {
-        st_stat->st_mode |= _S_IWRITE | _S_IREAD;
+        st_stat->st_mode |= S_IWRITE | S_IREAD;
       }
       break;
     }
@@ -347,7 +347,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     
     int32_t link_text_length = env->length(env, stack, obj_link_text);
     
-    st_stat->st_mode = (st_stat->st_mode & ~_S_IFMT) | _S_IFLNK;
+    st_stat->st_mode = (st_stat->st_mode & ~S_IFMT) | _S_IFLNK;
     st_stat->st_size = link_text_length;
   }
   
