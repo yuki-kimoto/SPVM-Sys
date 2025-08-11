@@ -63,7 +63,7 @@ sub new_echo_server_ipv4_tcp {
   
   my $port = $self->{port};
   unless (defined $port) {
-    Carp::confess("\"port\" option must be defined.");
+    Carp::confess("'port' option must be defined.");
   }
   
   my $listen_backlog = $self->{listen_backlog};
@@ -109,7 +109,7 @@ sub new_echo_server_ipv6_tcp {
   
   my $port = $self->{port};
   unless (defined $port) {
-    Carp::confess("\"port\" option must be defined.");
+    Carp::confess("'port' option must be defined.");
   }
   
   my $listen_backlog = $self->{listen_backlog};
@@ -154,7 +154,7 @@ sub new_echo_server_unix_tcp {
   
   my $path = $self->{path};
   unless (defined $path) {
-    Carp::confess("\"path\" option must be defined.");
+    Carp::confess("'path' option must be defined.");
   }
   
   my $listen_backlog = $self->{listen_backlog};

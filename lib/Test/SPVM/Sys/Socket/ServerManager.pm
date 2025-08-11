@@ -57,7 +57,7 @@ sub init_fields {
   # code field
   my $code = $options{code};
   unless (defined $code) {
-    Carp::confess("\"code\" option must be deinfed.") ;
+    Carp::confess("'code' option must be deinfed.") ;
   }
   $self->{code} = $code;
   

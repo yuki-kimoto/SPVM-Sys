@@ -1,3 +1,8 @@
+0.547 2025-08-11
+  [Document Improvement]
+    * Add Sys class links to the documents.
+  [Exception Message Changes]
+    * Use ' instead of " for quotes.
 0.546 2025-06-02
   [New Features with Incompatibe Changes]
     * Sys->S returns a correct value in Windows.

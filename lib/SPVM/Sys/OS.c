@@ -238,7 +238,7 @@ int32_t SPVM__Sys__OS__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
 #   endif
   }
   else {
-    return env->die(env, stack, "The macro name \"%s\" is not supported.", macro_name, __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The macro name '%s' is not supported.", macro_name, __func__, FILE_NAME, __LINE__);
   }
   
   if (obj_value_ref) {

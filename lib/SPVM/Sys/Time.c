@@ -369,7 +369,7 @@ int32_t SPVM__Sys__Time__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t status = utime(filename, st_times);
   if (status == -1) {
-    env->die(env, stack, "[System Error]utime() failed(%d: %s). $filename=\"%s\".", errno, env->strerror_nolen(env, stack, errno), filename, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]utime() failed(%d: %s). $filename='%s'.", errno, env->strerror_nolen(env, stack, errno), filename, __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

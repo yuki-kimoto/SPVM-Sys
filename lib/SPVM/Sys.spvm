@@ -486,7 +486,7 @@ class Sys {
       $type = "rb";
     }
     else {
-      die "The open mode \"$open_mode\" is not available.";
+      die "The open mode '$open_mode' is not available.";
     }
     
     my $stream = (Sys::IO::FileStream)undef;
@@ -1264,7 +1264,7 @@ class Sys {
       $handler = Sys::Signal->SIG_DFL;
     }
     else {
-      die "\$handler_name \"$handler_name\" is not available.";
+      die "\$handler_name '$handler_name' is not available.";
     }
     
     my $old_handler = Sys::Signal->signal($signal_number, $handler);
@@ -1589,7 +1589,7 @@ class Sys {
         die "The first character of the \$drive must be [a-zA-Z]";
       }
       unless ($drive->[1]) {
-        die "The second character of the \$drive must be \":\"";
+        die "The second character of the \$drive must be ':'";
       }
       
       my $drive_upper = Fn->ucfirst($drive);
