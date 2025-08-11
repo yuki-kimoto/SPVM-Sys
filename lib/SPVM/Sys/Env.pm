@@ -76,6 +76,14 @@ If _putenv_s failed, an exception is thrown and C<eval_error_id> is set to the b
 
 In OSs ohter than Windows the following exception is thrown. _putenv_s is not supported in this system(!defined(_WIN32)).
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

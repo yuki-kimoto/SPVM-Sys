@@ -64,6 +64,14 @@ C<method set_tv_nsec : void ($ts_nsec : long);>
 
 Sets C<tv_nsec>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

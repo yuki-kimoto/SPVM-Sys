@@ -262,6 +262,14 @@ C<static method WIFCONTINUED : int ($wstatus : int);>
 
 Calls the L<WIFCONTINUED|https://linux.die.net/man/2/waitpid> function and returns its return value.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

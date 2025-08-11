@@ -82,6 +82,14 @@ C<method set_tms_cstime : void ($tms_cstime : long);>
 
 Sets C<tms_cstime>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

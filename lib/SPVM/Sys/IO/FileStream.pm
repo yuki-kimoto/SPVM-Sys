@@ -52,6 +52,14 @@ If the L<"closed"> field is a false value, the file is closed.
 
 If the the L</"is_pipe"> field is a true value, the file is closed by the C<pclose> function, otherwise closed by the C<fclose> function.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

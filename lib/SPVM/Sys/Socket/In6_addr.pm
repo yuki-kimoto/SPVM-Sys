@@ -52,6 +52,14 @@ The address must be defined. Otherwise an exception is thrown.
 
 The length of the address must be less than or equal to 16. Otherwise an exception is thrown.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

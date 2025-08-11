@@ -169,6 +169,14 @@ C<method remove : void ($index : int);>
 
 Removes an C<struct pollfd> data at the index $index.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

@@ -95,6 +95,14 @@ C<native method set_l_pid : void ($pid : int);>
 
 Sets C<l_pid>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

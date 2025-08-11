@@ -1342,6 +1342,14 @@ C<static method ICMP_TIME_EXCEEDED : int ();>
 
 Gets the value of C<ICMP_TIME_EXCEEDED>. If the value is not defined in this system, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

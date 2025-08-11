@@ -58,6 +58,14 @@ C<method set_tv_usec : void ($tv_usec : long);>
 
 Sets C<tv_usec>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

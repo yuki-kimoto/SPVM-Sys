@@ -73,6 +73,8 @@ Returns C<d_type>.
 
 =item * L<opendir|SPVM::Sys::IO/"opendir"> in Sys::IO.
 
+=item * L<Sys|SPVM::Sys>
+
 =back
 
 =head1 Copyright & License

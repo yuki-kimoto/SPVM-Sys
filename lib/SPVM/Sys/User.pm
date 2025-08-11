@@ -254,6 +254,14 @@ If the getgrnam function failed, an exception is thrown with C<eval_error_id> se
 
 In Windows the following exception is thrown. getgrnam is not supported in this system(defined(_WIN32)).
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

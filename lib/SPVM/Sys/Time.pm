@@ -182,6 +182,14 @@ Calls the L<utimes|https://linux.die.net/man/2/utimes> function, and returns its
 
 The utime() system call changes the access and modification times of the inode specified by filename to the actime and modtime fields of times respectively.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

@@ -28,6 +28,14 @@ C<method to_array : L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo>[]> ();>
 
 Converts this instance to the array of the L<Sys::Socket::Addrinfo|SPVM::Sys::Socket::Addrinfo> class and returns it.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

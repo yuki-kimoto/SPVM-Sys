@@ -66,6 +66,14 @@ C<method set_modtime : long ($modtime : long);>
 
 Set C<modtime>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

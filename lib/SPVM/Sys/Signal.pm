@@ -117,7 +117,9 @@ Do not use this method because this method is prepared to implement the L<Go::OS
 
 =over 2
 
-L<Go::OS::Signal|SPVM::Go::OS::Signal>
+=item * L<Go::OS::Signal|SPVM::Go::OS::Signal>
+
+=item * L<Sys|SPVM::Sys>
 
 =back
 

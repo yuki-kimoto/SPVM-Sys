@@ -102,6 +102,14 @@ C<static method is_windows : int ();>
 
 If the OS is Windows(C<_WIN32> is defined), returns 1, otherwise returns 0.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

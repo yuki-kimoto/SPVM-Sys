@@ -26,6 +26,14 @@ See the L<poll|https://linux.die.net/man/2/poll> function in Linux.
 
 The file discritors are a L<Sys::Poll::PollfdArray|SPVM::Sys::Poll::PollfdArray> object.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

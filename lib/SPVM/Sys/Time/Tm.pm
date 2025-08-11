@@ -163,6 +163,14 @@ C<method set_tm_isdst : void ($tm_isdst : int);>
 
 Sets C<tm_isdst>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

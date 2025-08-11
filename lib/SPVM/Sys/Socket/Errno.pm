@@ -389,6 +389,14 @@ Calls L<Errno#WSAEREMOTE|SPVM::Errno/"WSAEREMOTE"> method in Windows,
 or L<Errno#EREMOTE|SPVM::Errno/"EREMOTE"> method in other OSs,
 and returns its return value.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

@@ -94,6 +94,14 @@ C<method ai_canonname : string ();>
 
 Copies C<ai_canonname> and returns it.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

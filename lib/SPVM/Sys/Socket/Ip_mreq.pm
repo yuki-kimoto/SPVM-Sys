@@ -60,6 +60,14 @@ C<method set_imr_interface : void ($interface : L<Sys::Socket::In_addr|SPVM::Sys
 
 Sets C<imr_interface>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

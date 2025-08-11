@@ -58,6 +58,14 @@ C<method set_ipv6mr_interface : void ($interface : int);>
 
 Sets C<ipv6mr_interface>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

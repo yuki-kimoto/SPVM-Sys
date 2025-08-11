@@ -28,6 +28,14 @@ $handler1 must be defined. Otherwise an exception is thrown.
 
 $handler2 must be defined. Otherwise an exception is thrown.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

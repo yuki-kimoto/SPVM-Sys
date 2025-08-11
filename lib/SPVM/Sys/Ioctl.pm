@@ -46,6 +46,14 @@ Exceptions:
 
 If the ioctlsocket function failed, an exception is thrown with C<eval_error_id> is set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

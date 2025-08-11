@@ -56,6 +56,14 @@ C<method set_tz_dsttime : void ($tz_dsttime : int);>
 
 Sets C<tz_dsttime>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

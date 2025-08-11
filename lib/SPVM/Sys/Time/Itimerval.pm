@@ -56,6 +56,14 @@ C<method set_it_value : void ($it_value : L<Sys::Time::Timeval|SPVM::Sys::Time::
 
 Sets C<it_value>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto

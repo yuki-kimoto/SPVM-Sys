@@ -50,6 +50,14 @@ C<method set_s_addr : void ($s_addr : int)>
 
 Sets C<s_addr>.
 
+=head1 See Also
+
+=over 2
+
+=item * L<Sys|SPVM::Sys>
+
+=back
+
 =head1 Copyright & License
 
 Copyright (c) 2023 Yuki Kimoto
