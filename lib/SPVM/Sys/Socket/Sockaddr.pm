@@ -49,12 +49,6 @@ If the address famil is not available, an exception is thrown.
 
 =head1 Instance Methods
 
-=head2 DESTROY
-
-C<method DESTROY : void ();>
-
-The destructor.
-
 =head2 sa_family
 
 C<method sa_family : int ()>
@@ -99,6 +93,12 @@ according to L</"sa_family">.
 Exceptions:
 
 If the address family is not available, an exception is thrown.
+
+=head2 DESTROY
+
+C<method DESTROY : void ();>
+
+The destructor.
 
 =head1 Well Known Child Classes
 

@@ -32,12 +32,6 @@ Creates a new L<Sys::Socket::Sockaddr::Un|SPVM::Sys::Socket::Sockaddr::Un> objec
 
 =head1 Instance Methods
 
-=head2 DESTROY
-
-C<method DESTROY : void ();>
-
-The destructor.
-
 =head2 sa_family
 
 C<method sa_family : int ()>
@@ -80,9 +74,17 @@ C<method clone : L<Sys::Socket::Sockaddr::Un|SPVM::Sys::Socket::Sockaddr::Un> ()
 
 Clones this instance and returns it.
 
+=head2 DESTROY
+
+C<method DESTROY : void ();>
+
+The destructor.
+
 =head1 See Also
 
 =over 2
+
+=item * L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr>
 
 =item * L<Sys|SPVM::Sys>
 
