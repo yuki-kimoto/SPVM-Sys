@@ -64,6 +64,7 @@ class TestCase::Sys::IO {
       Sys::IO->close($fd);
     }
     
+    IO->O_ACCMODE;
     
     return 1;
   }

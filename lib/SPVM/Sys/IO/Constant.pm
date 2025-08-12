@@ -928,6 +928,11 @@ C<static method O_TEXT : int ();>
 
 Gets the value of C<O_TEXT>. If the value is not defined in this system, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
+=head2 O_ACCMODE
+
+C<static method O_ACCMODE : int ();>
+
+Gets the value of C<O_ACCMODE>. If the value is not defined in this system, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
 
 =head1 See Also
 

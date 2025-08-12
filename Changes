@@ -1,3 +1,6 @@
+0.550 2025-08-12
+  [New Features]
+    * Add Sys::IO::Constant#O_ACCMODE method.
 0.549 2025-08-12
   [New Features]
     * Add Sys::IO#dup method.

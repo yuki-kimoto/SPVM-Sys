@@ -263,5 +263,7 @@ class Sys::IO::Constant {
   native static method O_BINARY : int ();
   
   native static method O_TEXT : int ();
+  
+  native static method O_ACCMODE : int ();
 
 }
