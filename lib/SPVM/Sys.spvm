@@ -1122,12 +1122,6 @@ class Sys {
     $$socket_fd1_ref = $pair->[0];
     
     $$socket_fd2_ref = $pair->[1];
-    
-    unless (Sys::OS->is_windows) {
-      Sys->fcntl($$socket_fd1_ref, IO->F_SETFD, IO->FD_CLOEXEC);
-      
-      Sys->fcntl($$socket_fd2_ref, IO->F_SETFD, IO->FD_CLOEXEC);
-    }
   }
   
   static method setsockopt : void ($socket_fd : int, $level : int, $option_name : int, $option_value : object of string|Int) {

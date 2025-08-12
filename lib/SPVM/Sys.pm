@@ -1244,8 +1244,6 @@ The opened writing file descripor is set to the value referenced by $socket_fd2_
 
 This method calls L<Sys::Socket#socketpair|SPVM::Sys::Socket/"socketpair"> method .
 
-If available, C<FD_CLOEXEC> is set to the file descriptor of the value referenced by $socket_fd1_ref and the value referenced by $socket_fd2_ref.
-
 Exceptions:
 
 Exceptions thrown by L<Sys::Socket#socketpair|SPVM::Sys::Socket/"socketpair"> method could be thrown.
