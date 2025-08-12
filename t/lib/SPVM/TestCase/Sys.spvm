@@ -909,6 +909,12 @@ class TestCase::Sys {
     # Restore
     Sys->umask($old_mask);
     
+    {
+      unless (Sys->umask == $old_mask) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 

@@ -948,11 +948,11 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__umask(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t mode = stack[0].ival;
+  int32_t perms = stack[0].ival;
   
-  int32_t old_mode = umask(mode);
+  int32_t cur_perms = umask(perms);
   
-  stack[0].ival = old_mode;
+  stack[0].ival = cur_perms;
   
   return 0;
 }

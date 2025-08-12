@@ -340,9 +340,11 @@ Exceptions thrown by L<Sys::IO#mkdir|SPVM::Sys::IO/"mkdir"> method could be thro
 
 =head2 umask
 
-C<static method umask : int ($mode : int);>
+C<static method umask : int ($perms : int = -1);>
 
-Sets the umask for the process to the mode $mode and returns the previous value.
+Sets the umask for the process to the mode $perms and returns the previous value.
+
+If $perms is a negative value, this method returns the current umask permission without setting.
 
 Exceptions:
 

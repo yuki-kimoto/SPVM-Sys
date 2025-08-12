@@ -326,10 +326,22 @@ class Sys {
     Sys::IO->mkdir($dir, $mode);
   }
   
-  static method umask : int ($mode : int) {
-    my $current_umask = Sys::IO->umask($mode);
+  static method umask : int ($perms : int = -1) {
     
-    return $current_umask;
+    # Get
+    unless ($perms > 0) {
+      my $cur_perms = Sys::IO->umask(022);
+      
+      if ($cur_perms != 022) {
+        Sys::IO->umask($cur_perms);
+      }
+      
+      return $cur_perms;
+    }
+    
+    my $cur_perms = Sys::IO->umask($perms);
+    
+    return $cur_perms;
   }
   
   static method rmdir : void ($dir : string) {

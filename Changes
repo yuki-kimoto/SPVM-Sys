@@ -1,7 +1,12 @@
 0.548 2025-08-12
   [Document Improvement]
     * Improve argument names of Sys#sysopen method.
-  
+  [New Features]
+    * The first argument of Sys#umask method becomes an optional argument.
+      This allows you to get the current umask value without setting.
+    
+      static method umask : int ($perms : int = -1);
+      
 0.547 2025-08-11
   [Document Improvement]
     * Add Sys class links to the documents.

@@ -502,7 +502,7 @@ If the mkdir(or _mkdir) function failed, an exception is thrown with C<eval_erro
 
 =head2 umask
 
-C<static method umask : int ($mode : int);>
+C<static method umask : int ($perms : int);>
 
 Calls the L<umask|https://linux.die.net/man/2/umask> function and return its return value.
 
