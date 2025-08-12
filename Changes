@@ -10,6 +10,7 @@
   [Incompatible Changes]
     * Remove FD_CLOEXEC flag from the file descriptors created by Sys#pipe method.
     * Remove FD_CLOEXEC flag from the file descriptors created by Sys#socketpair method.
+    * Remove FD_CLOEXEC flag from the file descriptors created by Sys#popen method.
 0.547 2025-08-11
   [Document Improvement]
     * Add Sys class links to the documents.

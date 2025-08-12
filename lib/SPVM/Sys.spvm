@@ -511,7 +511,6 @@ class Sys {
     }
     else {
       $stream = Sys::IO->popen($command, $type);
-      Sys->fcntl(Sys->fileno($stream), IO->F_SETFD, IO->FD_CLOEXEC);
     }
     
     $stream_ref->[0] = $stream;
