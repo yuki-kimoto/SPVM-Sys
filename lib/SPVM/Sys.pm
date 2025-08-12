@@ -256,11 +256,13 @@ Exceptions thrown by L<Sys::IO#ftell|SPVM::Sys::IO/"ftell"> method could be thro
 
 =head2 sysopen
 
-C<static method sysopen : void ($fd_ref : int*, $file : string, $int_mode : int, $perms : int = 0);>
+C<static method sysopen : void ($fd_ref : int*, $file : string, $int_mode : int, $perms : int = -1);>
 
 Opens a file given, the file path $file, the integer open mode $int_mode and the permissions $perms.
 
 The file descriptor of the opened file is set to the value reffered by $fd_ref.
+
+If $perms is a negative value, it is set to C<0644 & ~Sys->umask>.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the flags $int_mode and the mode $perms.
 

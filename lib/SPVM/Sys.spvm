@@ -281,7 +281,11 @@ class Sys {
     return $current_position;
   }
   
-  static method sysopen : void ($fd_ref : int*, $file : string, $int_mode : int, $perms : int = 0) {
+  static method sysopen : void ($fd_ref : int*, $file : string, $int_mode : int, $perms : int = -1) {
+    
+    unless ($perms > -1) {
+      $perms = 0666 & ~&umask();
+    }
     
     my $fd = Sys::IO->open($file, $int_mode, $perms);
     

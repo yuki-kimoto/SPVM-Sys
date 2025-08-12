@@ -6,7 +6,8 @@
       This allows you to get the current umask value without setting.
     
       static method umask : int ($perms : int = -1);
-      
+    * If the permissions argument of Sys#sysopen method is omitted, it is set to 0666 & ~Sys->umask.
+    
 0.547 2025-08-11
   [Document Improvement]
     * Add Sys class links to the documents.
