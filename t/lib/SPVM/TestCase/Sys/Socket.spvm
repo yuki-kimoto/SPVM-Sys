@@ -794,6 +794,8 @@ class TestCase::Sys::Socket {
     
     Sys::Socket->listen($server_socket, SOCKET->SOMAXCONN);
     
+    my $warned = 0;
+    
     while (1) {
       my $client_socket = -1;
       my $peer_address = Sys->accept(\$client_socket, $server_socket);

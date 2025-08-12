@@ -97,6 +97,61 @@ class TestCase::Sys {
     return 1;
   }
   
+  static method pipe : int () {
+    
+    {
+      my $write_fd = -1;
+      my $read_fd = -1;
+      Sys->pipe(\$write_fd, \$read_fd);
+      
+      unless ($write_fd > 0) {
+        return 0;
+      }
+      
+      unless ($read_fd > 0) {
+        return 0;
+      }
+      
+      if (Sys::OS->is_windows) {
+        warn "[Test Skip]pipe:FD_CLOEXEC:write_fd";
+      }
+      else {
+        my $value = Sys->fcntl($write_fd, IO->F_GETFD, IO->FD_CLOEXEC);
+        
+        if ($value) {
+          return 0;
+        }
+      }
+      
+      if (Sys::OS->is_windows) {
+        warn "[Test Skip]pipe:FD_CLOEXEC:read_fd";
+      }
+      else {
+        my $value = Sys->fcntl($read_fd, IO->F_GETFD, IO->FD_CLOEXEC);
+        
+        if ($value) {
+          return 0;
+        }
+      }
+      
+      unless (Sys::OS->is_windows) {
+        my $flag0 = Sys->fcntl($write_fd, IO->F_GETFD);
+        
+        if ($flag0 & IO->FD_CLOEXEC) {
+          return 0;
+        }
+        
+        my $flag1 = Sys->fcntl($read_fd, IO->F_GETFD);
+        
+        if ($flag1 & IO->FD_CLOEXEC) {
+          return 0;
+        }
+      }
+    }
+    
+    return 1;
+  }
+  
   static method A : int () {
     
     {

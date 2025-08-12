@@ -36,6 +36,8 @@ my $test_tmp_dir = File::Temp->newdir;
 {
   ok(SPVM::TestCase::Sys->open);
   ok(SPVM::TestCase::Sys->sysopen);
+  ok(SPVM::TestCase::Sys->socket);
+  ok(SPVM::TestCase::Sys->pipe);
 }
 
 # osname
