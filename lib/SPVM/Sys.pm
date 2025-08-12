@@ -72,7 +72,7 @@ The open mode $open_mode is replaced to a representation of the L<fopen|https://
   +>             w+b
   +>>            a+b
 
-If the system supports C<FD_CLOEXEC>, this flag is set to the opened file's file descriptor using L</"fcntl">.
+If the system supports C<FD_CLOEXEC>, this flag is set to the opened file descriptor using L</"fcntl">.
 
 Exceptions:
 
@@ -265,6 +265,8 @@ The file descriptor of the opened file is set to the value reffered by $fd_ref.
 If $perms is a negative value, it is set to C<0644 & ~Sys->umask>.
 
 See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the flags $int_mode and the mode $perms.
+
+If the system supports C<FD_CLOEXEC>, this flag is set to the opened file descriptor using L</"fcntl">.
 
 Exceptions:
 

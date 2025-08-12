@@ -289,6 +289,10 @@ class Sys {
     
     my $fd = Sys::IO->open($file, $int_mode, $perms);
     
+    unless (Sys::OS->is_windows) {
+      Sys->fcntl($fd, IO->F_SETFD, IO->FD_CLOEXEC);
+    }
+    
     $$fd_ref = $fd;
   }
   
