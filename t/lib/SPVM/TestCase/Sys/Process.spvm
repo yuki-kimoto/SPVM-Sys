@@ -330,13 +330,13 @@ class TestCase::Sys::Process {
       unless (Sys::OS->is_windows) {
         my $flag0 = Sys->fcntl($write_fd, IO->F_GETFD);
         
-        unless ($flag0 & IO->FD_CLOEXEC) {
+        if ($flag0 & IO->FD_CLOEXEC) {
           return 0;
         }
         
         my $flag1 = Sys->fcntl($read_fd, IO->F_GETFD);
         
-        unless ($flag1 & IO->FD_CLOEXEC) {
+        if ($flag1 & IO->FD_CLOEXEC) {
           return 0;
         }
       }

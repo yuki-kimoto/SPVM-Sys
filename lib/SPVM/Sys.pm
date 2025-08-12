@@ -1439,8 +1439,6 @@ C<static method pipe : void ($read_fd_ref : int*, $write_fd_ref : int*);>
 
 Opens a pair of pipes.
 
-If the system supports C<FD_CLOEXEC>, this flag is set to the value referenced by $read_fd_ref and the value referenced by $write_fd_ref using L</"fcntl">.
-
 =head2 getpgrp
 
 C<static method getpgrp : int ($process_id : int);>

@@ -7,7 +7,8 @@
     
       static method umask : int ($perms : int = -1);
     * If the permissions argument of Sys#sysopen method is omitted, it is set to 0666 & ~Sys->umask.
-    
+  [Incompatible Changes]
+    * Remove FD_CLOEXEC flag from the file descriptors created by Sys#pipe method.
 0.547 2025-08-11
   [Document Improvement]
     * Add Sys class links to the documents.

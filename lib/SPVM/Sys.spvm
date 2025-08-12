@@ -1366,10 +1366,6 @@ class Sys {
     }
     else {
       Sys::Process->pipe($pipe_fds);
-      
-      Sys->fcntl($pipe_fds->[0], IO->F_SETFD, IO->FD_CLOEXEC);
-      
-      Sys->fcntl($pipe_fds->[1], IO->F_SETFD, IO->FD_CLOEXEC);
     }
     
     $$read_fd_ref = $pipe_fds->[0];
