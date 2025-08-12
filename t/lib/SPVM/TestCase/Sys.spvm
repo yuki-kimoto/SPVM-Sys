@@ -14,6 +14,54 @@ class TestCase::Sys {
   
   static method TEST_DIR_FTEST : string () { return "$TEST_DIR/ftest"; }
   
+  static method open : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    my $file = "$test_dir_ftest/file_empty.txt";
+    {
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], "<", $file);
+      my $stream = $_->[0];
+      
+      unless ($stream) {
+        return 0;
+      }
+      
+      my $value = Sys->fcntl(Sys->fileno($stream), IO->F_GETFD, IO->FD_CLOEXEC);
+      
+      unless ($value) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+  
+  static method sysopen : int () {
+    
+    my $test_dir_ftest = &TEST_DIR_FTEST;
+    
+    {
+      my $file = "$test_dir_ftest/file_empty.txt";
+      my $fd = -1;
+      Sys->sysopen(\$fd, $file, IO->O_RDONLY, 0644);
+      
+      my $value = Sys->fcntl($fd, IO->F_GETFD, IO->FD_CLOEXEC);
+      
+      unless ($value) {
+        return 0;
+      }
+    }
+    
+    {
+      my $file = "$TEST_TMP_DIR/create_no_perms.txt";
+      my $fd = -1;
+      Sys->sysopen(\$fd, $file, IO->O_WRONLY|IO->O_CREAT);
+    }
+    
+    return 1;
+  }
+  
   static method A : int () {
     
     {

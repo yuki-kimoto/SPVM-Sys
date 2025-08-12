@@ -32,6 +32,12 @@ my $test_tmp_dir = File::Temp->newdir;
   SPVM::TestCase::Sys->SET_TEST_TMP_DIR("$test_tmp_dir");
 }
 
+# open
+{
+  ok(SPVM::TestCase::Sys->open);
+  ok(SPVM::TestCase::Sys->sysopen);
+}
+
 # osname
 {
   is(SPVM::Sys->osname, $^O);
