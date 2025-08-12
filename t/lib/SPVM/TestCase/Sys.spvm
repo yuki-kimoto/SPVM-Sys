@@ -61,12 +61,16 @@ class TestCase::Sys {
           return 0;
         }
       }
+      
+      Sys::IO->close($fd);
     }
     
     {
       my $file = "$TEST_TMP_DIR/create_no_perms.txt";
       my $fd = -1;
       Sys->sysopen(\$fd, $file, IO->O_WRONLY|IO->O_CREAT);
+      
+      Sys::IO->close($fd);
     }
     
     return 1;
@@ -1052,6 +1056,8 @@ class TestCase::Sys {
         return 0;
       }
     }
+    
+    warn;
     
     return 1;
   }

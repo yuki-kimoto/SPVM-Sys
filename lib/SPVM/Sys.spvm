@@ -337,7 +337,7 @@ class Sys {
   static method umask : int ($perms : int = -1) {
     
     # Get
-    unless ($perms > 0) {
+    unless ($perms > -1) {
       my $cur_perms = Sys::IO->umask(022);
       
       if ($cur_perms != 022) {
