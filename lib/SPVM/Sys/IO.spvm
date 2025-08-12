@@ -195,4 +195,8 @@ class Sys::IO {
   
   native private static method INIT_SPVM_STDERR : Sys::IO::FileStream ();
   
+  native static method dup : int ($fd : int);
+  
+  native static method dup2 : void ($fd : int, $fd_to : int);
+  
 }

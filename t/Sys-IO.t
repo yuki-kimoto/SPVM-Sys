@@ -253,6 +253,8 @@ ok(SPVM::TestCase::Sys::IO->freopen);
 }
 
 ok(SPVM::TestCase::Sys::IO->access);
+ok(SPVM::TestCase::Sys::IO->dup);
+ok(SPVM::TestCase::Sys::IO->dup2);
 
 SPVM::TestCase::Sys::IO->SET_TEST_DIR(undef);
 

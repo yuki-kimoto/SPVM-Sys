@@ -794,6 +794,26 @@ $stream must be defined. Otherwise an exception is thrown.
 
 If the _pclose function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+=head2 dup
+
+C<static method dup : int ($fd : int);>
+
+Calls the L<dup|https://linux.die.net/man/2/dup> function given the arguments, and return its return value.
+
+Exceptions:
+
+If dup function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 dup2
+
+C<static method dup2 : void ($fd : int, $fd_to : int);>
+
+Calls L<dup2|https://linux.die.net/man/2/dup2> function.
+
+Exceptions:
+
+If dup2 function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head1 See Also
 
 =over 2

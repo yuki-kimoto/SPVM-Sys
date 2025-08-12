@@ -3093,4 +3093,36 @@ class TestCase::Sys::IO {
     return 1;
   }
   
+  static method dup : int () {
+    
+    my $fd = Sys->fileno(Sys->STDERR);
+    
+    my $fd_clone = Sys::IO->dup($fd);
+    
+    Fn->defer([$fd_clone : int] method : void () {
+      Sys::IO->close($fd_clone);
+    });
+    
+    unless ($fd_clone > -1 && $fd_clone != $fd) {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
+  static method dup2 : int () {
+    
+    my $fd = Sys->fileno(Sys->STDERR);
+    
+    my $fd_clone = Sys::IO->dup($fd);
+    
+    Fn->defer([$fd_clone : int] method : void () {
+      Sys::IO->close($fd_clone);
+    });
+    
+    Sys::IO->dup2($fd, $fd_clone);
+    
+    return 1;
+  }
+  
 }

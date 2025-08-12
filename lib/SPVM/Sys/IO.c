@@ -1778,3 +1778,39 @@ int32_t SPVM__Sys__IO__INIT_SPVM_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
+
+int32_t SPVM__Sys__IO__dup(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t fd_to = dup(fd);
+  
+  if (fd_to == -1) {
+    env->die(env, stack, "[System Error]dup() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = fd_to;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__dup2(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t fd_to = stack[1].ival;
+  
+  int32_t status = dup2(fd, fd_to);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]dup2() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  return 0;
+}
