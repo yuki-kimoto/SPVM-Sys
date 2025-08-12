@@ -110,7 +110,7 @@ $new_value must be defined. Otherwise an exception is thrown.
 
 If the clock_getres function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System>.
 
-In Windows the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. setitimer is not supported in this system(defined(_WIN32)).
+In Windows the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. setitimer is not supported in this system(defined(_WIN32)).
 
 =head2 getitimer
 
@@ -126,7 +126,7 @@ $curr_value must be defined. Otherwise an exception is thrown.
 
 If the getitimer function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System>.
 
-In Windows the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. getitimer is not supported in this system(defined(_WIN32)).
+In Windows the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. getitimer is not supported in this system(defined(_WIN32)).
 
 =head2 times
 
@@ -140,7 +140,7 @@ $tms must be defined. Otherwise an exception is thrown.
 
 If the times function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System>.
 
-In Windows the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. times is not supported in this system(defined(_WIN32)).
+In Windows the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. times is not supported in this system(defined(_WIN32)).
 
 =head2 clock_nanosleep
 
@@ -154,7 +154,7 @@ Exceptions:
 
 $request must be defined. Otherwise an exception is thrown.
 
-In Mac the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. clock_nanosleep is not supported in this system(__APPLE__).
+In Mac the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. clock_nanosleep is not supported in this system(__APPLE__).
 
 =head2 nanosleep
 

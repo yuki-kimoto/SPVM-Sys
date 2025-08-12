@@ -40,7 +40,7 @@ Exceptions:
 
 If the fork function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. fork is not supported in this system(defined(_WIN32)).
+In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. fork is not supported in this system(defined(_WIN32)).
 
 =head2 getpriority
 
@@ -54,7 +54,7 @@ Exceptions:
 
 If the getpriority function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. getpriority is not supported in this system(defined(_WIN32)).
+In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. getpriority is not supported in this system(defined(_WIN32)).
 
 =head2 setpriority
 
@@ -68,7 +68,7 @@ Exceptions:
 
 If the setpriority function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. setpriority is not supported in this system(defined(_WIN32)).
+In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. setpriority is not supported in this system(defined(_WIN32)).
 
 =head2 sleep
 
@@ -94,7 +94,7 @@ Exceptions:
 
 If the wait function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. wait is not supported in this system(defined(_WIN32)).
+In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. wait is not supported in this system(defined(_WIN32)).
 
 =head2 waitpid
 
@@ -110,7 +110,7 @@ The reference of the output wait status $wstatus_ref must be defined. Otherwise 
 
 If the waitpid function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. waitpid is not supported in this system(defined(_WIN32)).
+In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. waitpid is not supported in this system(defined(_WIN32)).
 
 =head2 system
 
@@ -144,7 +144,7 @@ The length of $pipefds must 2. Otherwise an exception is thrown.
 
 If the pipe function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. pipe is not supported in this system(defined(_WIN32)).
+In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. pipe is not supported in this system(defined(_WIN32)).
 
 =head2 _pipe
 
@@ -160,7 +160,7 @@ The length of $pipefds must 2. Otherwise an exception is thrown.
 
 If the _pipe function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-In OSs other than Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. _pipe is not supported in this system(!defined(_WIN32)).
+In OSs other than Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. _pipe is not supported in this system(!defined(_WIN32)).
 
 =head2 getpgid
 
@@ -172,7 +172,7 @@ Exceptions:
 
 If the getpgid function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. getpgid is not supported in this system(defined(_WIN32)).
+In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. getpgid is not supported in this system(defined(_WIN32)).
 
 =head2 setpgid
 
@@ -184,7 +184,7 @@ Exceptions:
 
 If the setpgid function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class. setpgid is not supported in this system(defined(_WIN32)).
+In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. setpgid is not supported in this system(defined(_WIN32)).
 
 =head2 getpid
 
