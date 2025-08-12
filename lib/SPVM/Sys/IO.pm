@@ -322,11 +322,11 @@ $size is C<BUFSIZ>.
 
 =head2 open
 
-C<static method open : int ($path : string, $flags : int, $mode : int = 0);>
+C<static method open : int ($path : string, $int_mode : int, $perms : int = 0);>
 
 Calls the L<open|https://linux.die.net/man/2/open> function and returns its return value.
 
-See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the flags $flags and the mode $mode.
+See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to the interger open mode $int_mode and the permissions $perms.
 
 Exceptions:
 

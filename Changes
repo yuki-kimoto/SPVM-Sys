@@ -1,3 +1,7 @@
+0.548 2025-08-12
+  [Document Improvement]
+    * Improve argument names of Sys#sysopen method.
+  
 0.547 2025-08-11
   [Document Improvement]
     * Add Sys class links to the documents.

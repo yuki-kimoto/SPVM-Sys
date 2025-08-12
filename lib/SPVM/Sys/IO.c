@@ -555,9 +555,9 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_path = stack[0].oval;
   
-  int32_t flags = stack[1].ival;
+  int32_t intmode = stack[1].ival;
   
-  int32_t mode = stack[2].ival;
+  int32_t perms = stack[2].ival;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -571,9 +571,9 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  int32_t fd = _wopen(path_w, flags, mode);
+  int32_t fd = _wopen(path_w, intmode, perms);
 #else
-  int32_t fd = open(path, flags, mode);
+  int32_t fd = open(path, intmode, perms);
 #endif
 
   if (fd == -1) {
