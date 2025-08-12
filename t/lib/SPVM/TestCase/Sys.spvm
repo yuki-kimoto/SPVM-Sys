@@ -52,7 +52,7 @@ class TestCase::Sys {
       Sys->sysopen(\$fd, $file, IO->O_RDONLY, 0644);
       
       if (Sys::OS->is_windows) {
-        warn "[Test Skip]open:FD_CLOEXEC";
+        warn "[Test Skip]sysopen:FD_CLOEXEC";
       }
       else {
         my $value = Sys->fcntl($fd, IO->F_GETFD, IO->FD_CLOEXEC);
@@ -67,6 +67,31 @@ class TestCase::Sys {
       my $file = "$TEST_TMP_DIR/create_no_perms.txt";
       my $fd = -1;
       Sys->sysopen(\$fd, $file, IO->O_WRONLY|IO->O_CREAT);
+    }
+    
+    return 1;
+  }
+  
+  static method socket : int () {
+    
+    {
+      my $socket = -1;
+      Sys->socket(\$socket, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+      
+      unless ($socket > 0) {
+        return 0;
+      }
+      
+      if (Sys::OS->is_windows) {
+        warn "[Test Skip]socket:FD_CLOEXEC";
+      }
+      else {
+        my $value = Sys->fcntl($socket, IO->F_GETFD, IO->FD_CLOEXEC);
+        
+        unless ($value) {
+          return 0;
+        }
+      }
     }
     
     return 1;

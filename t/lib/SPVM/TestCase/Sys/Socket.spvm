@@ -374,7 +374,7 @@ class TestCase::Sys::Socket {
     }
     return 1;
   }
-
+  
   static method sockaddr : int ($port : int) {
     
     # IPv4
