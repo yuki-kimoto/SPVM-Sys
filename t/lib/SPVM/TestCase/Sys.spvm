@@ -27,10 +27,15 @@ class TestCase::Sys {
         return 0;
       }
       
-      my $value = Sys->fcntl(Sys->fileno($stream), IO->F_GETFD, IO->FD_CLOEXEC);
-      
-      unless ($value) {
-        return 0;
+      if (Sys::OS->is_windows) {
+        warn "[Test Skip]open:FD_CLOEXEC";
+      }
+      else {
+        my $value = Sys->fcntl(Sys->fileno($stream), IO->F_GETFD, IO->FD_CLOEXEC);
+        
+        unless ($value) {
+          return 0;
+        }
       }
     }
     
@@ -46,10 +51,15 @@ class TestCase::Sys {
       my $fd = -1;
       Sys->sysopen(\$fd, $file, IO->O_RDONLY, 0644);
       
-      my $value = Sys->fcntl($fd, IO->F_GETFD, IO->FD_CLOEXEC);
-      
-      unless ($value) {
-        return 0;
+      if (Sys::OS->is_windows) {
+        warn "[Test Skip]open:FD_CLOEXEC";
+      }
+      else {
+        my $value = Sys->fcntl($fd, IO->F_GETFD, IO->FD_CLOEXEC);
+        
+        unless ($value) {
+          return 0;
+        }
       }
     }
     
