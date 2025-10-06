@@ -281,7 +281,10 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
   }
   
-  int32_t* list = env->get_elems_int(env, stack, obj_list);
+  int32_t* list = NULL;
+  if (obj_list) {
+    list = env->get_elems_int(env, stack, obj_list);
+  }
   
   assert(sizeof(gid_t) == sizeof(int32_t));
   
