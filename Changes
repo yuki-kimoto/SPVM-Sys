@@ -1,3 +1,7 @@
+0.552 2025-10-06
+  [Bug Fix]
+    * Fix Sys#_getdcwd bug.
+    
 0.551 2025-10-06
   [Bug Fix]
     * Fix a potential bug of Sys::User#getgroups method.

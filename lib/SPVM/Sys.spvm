@@ -1603,7 +1603,7 @@ class Sys {
       
       my $drive_upper = Fn->ucfirst($drive);
       
-      $drive_id = $drive_char - 'A' + 1;
+      $drive_id = $drive_upper - 'A' + 1;
     }
     
     my $cwd = Sys::IO->_getdcwd($drive_id, undef, 1);
