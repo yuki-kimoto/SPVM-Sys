@@ -386,14 +386,15 @@ if (SPVM::Sys::OS->is_windows) {
   }
   
   {
+    my $expected = Cwd::getdcwd('C:');
+    is(SPVM::Sys->_getdcwd('C:'), $expected);
+  }
+  
+  {
     my $expected = Cwd::getdcwd('c:');
     is(SPVM::Sys->_getdcwd('c:'), $expected);
   }
   
-  {
-    my $expected = Cwd::getdcwd('C:');
-    is(SPVM::Sys->_getdcwd('C:'), $expected);
-  }
 }
 
 # _realpath
