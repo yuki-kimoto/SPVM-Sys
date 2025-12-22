@@ -54,4 +54,7 @@ class Sys::Process {
   native static method WSTOPSIG : int ($wstatus : int);
   
   native static method WIFCONTINUED : int ($wstatus : int);
+  
+  native static method setsid : int ();
+  
 }

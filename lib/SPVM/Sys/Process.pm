@@ -262,6 +262,12 @@ C<static method WIFCONTINUED : int ($wstatus : int);>
 
 Calls the L<WIFCONTINUED|https://linux.die.net/man/2/waitpid> function and returns its return value.
 
+=head2 setsid
+
+C<static method setsid : int ();>
+
+Calls the L<WIFCONTINUED|https://linux.die.net/man/2/setsid> function and returns its return value.
+
 =head1 See Also
 
 =over 2

@@ -441,5 +441,25 @@ class TestCase::Sys::Process {
     
     return 1;
   }
-
+  
+  static method setsid : int () {
+    
+    my $child_pid = Sys::Process->fork;
+    
+    # Parent
+    if ($child_pid) {
+      # Do nothing
+    }
+    # Child
+    else {
+      my $session_id = Sys::Process->setsid;
+      
+      diag "[Test Output]setsid:$session_id";
+      
+      Sys::Process->exit(0);
+    }
+    
+    return 1;
+  }
+  
 }

@@ -1,3 +1,6 @@
+0.553 2025-12-22
+  [New Features]
+    * Add Sys::Process#setsid method.
 0.552 2025-10-16
   [Bug Fix]
     * Fix Sys#_getdcwd bug.

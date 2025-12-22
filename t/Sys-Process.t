@@ -94,6 +94,14 @@ else {
   ok(SPVM::TestCase::Sys::Process->setpgid);
 }
 
+if ($^O eq 'MSWin32') {
+  eval { SPVM::Sys::Process->setsid };
+  like($@, qr/not supported/);
+}
+else {
+  ok(SPVM::TestCase::Sys::Process->setsid);
+}
+
 {
   ok(SPVM::TestCase::Sys::Process->getpid);
   is($$, SPVM::Sys::Process->getpid);
