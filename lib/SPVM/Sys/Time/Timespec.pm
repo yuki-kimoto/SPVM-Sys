@@ -24,6 +24,14 @@ Sys::Time::Timespec class in L<SPVM> represents L<struct timespec|https://linux.
   my $ts_nsec = $ts->tv_nsec;
   $ts->set_tv_nsec(34);
 
+=head1 Interfaces
+
+=over 2
+
+=item * L<Cloneable|SPVM::Cloneable>
+
+=back
+
 =head1 Class Methods
 
 =head2 new
@@ -63,6 +71,14 @@ Returns C<tv_nsec>.
 C<method set_tv_nsec : void ($ts_nsec : long);>
 
 Sets C<tv_nsec>.
+
+=head2 clone
+
+C<method clone : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> ();>
+
+Creates a new L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object that is a copy of the current instance.
+
+The new object will have the same L</"tv_sec"> and L</"tv_nsec"> values as the original.
 
 =head1 See Also
 

@@ -4,6 +4,8 @@
 class Sys::Time::Timespec : pointer {
   version_from Sys;
   
+  interface Cloneable;
+  
   # Class Methods
   native static method new : Sys::Time::Timespec ($tv_sec : long = 0, $tv_nsec : long = 0);
   
@@ -17,4 +19,11 @@ class Sys::Time::Timespec : pointer {
   native method set_tv_sec : void ($tv_sec : long);
   
   native method set_tv_nsec : void ($tv_nsec : long);
+  
+  method clone : Sys::Time::Timespec () {
+    
+    my $clone = Sys::Time::Timespec->new($self->tv_sec, $self->tv_nsec);
+    
+    return $clone;
+  }
 }

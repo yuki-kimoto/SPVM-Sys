@@ -328,4 +328,51 @@ class TestCase::Sys::Time {
     return 1;
   }
   
+  static method timespec : int () {
+    
+    # clone
+    {
+      # 1. Basic clone test
+      {
+        my $ts = Sys::Time::Timespec->new;
+        $ts->set_tv_sec(123456789L);
+        $ts->set_tv_nsec(987654321L);
+        
+        # Perform clone
+        my $ts_clone = $ts->clone;
+        
+        # Check if field values are identical
+        unless ($ts_clone->tv_sec == $ts->tv_sec) {
+          return 0;
+        }
+        unless ($ts_clone->tv_nsec == $ts->tv_nsec) {
+          return 0;
+        }
+        
+        # Check if it's a different object (not the same memory address)
+        # In SPVM, comparing objects with == checks identity
+        if ($ts_clone == $ts) {
+          return 0;
+        }
+      }
+      
+      # 2. Independence test (Modifying original should not affect clone)
+      {
+        my $ts = Sys::Time::Timespec->new;
+        $ts->set_tv_sec(100L);
+        
+        my $ts_clone = $ts->clone;
+        
+        # Modify original
+        $ts->set_tv_sec(200L);
+        
+        # The clone's value must remain unchanged
+        unless ($ts_clone->tv_sec == 100L) {
+          return 0;
+        }
+      }
+    }
+    
+    return 1;
+  }
 }
