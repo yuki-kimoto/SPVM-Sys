@@ -5,6 +5,7 @@ class Sys::Time::Util {
   version_from Sys;
   use Sys::Time::Timespec;
   use Sys::Time::Timeval;
+  use Math;
   
   static method nanoseconds_to_timespec : Sys::Time::Timespec ($nanoseconds : long) {
     
@@ -91,20 +92,21 @@ class Sys::Time::Util {
   }
   
   static method float_seconds_to_timespec : Sys::Time::Timespec ($float_seconds : double) {
+      
+    my $NANO_PER_SEC = 1_000_000_000L;
     
-    unless ($float_seconds >= 0) {
-      die "\$float_seconds must be greater than or equal to 0.";
+    my $sec_floor = (long)Math->floor($float_seconds);
+    
+    my $nsec = (long)Math->round(($float_seconds - $sec_floor) * $NANO_PER_SEC);
+    
+    if ($nsec == $NANO_PER_SEC) {
+      $sec_floor++;
+      $nsec = 0L;
     }
     
-    my $sec = (long)$float_seconds;
-    
-    my $nsec = (long)(($float_seconds - $sec) * 1_000_000_000);
-    
     my $ts = Sys::Time::Timespec->new;
-    
-    $ts->set_tv_sec($sec);
-    
-    $ts->set_tv_nsec($nsec);
+    $ts->set_tv_sec($sec_floor);
+    $ts->set_tv_nsec((int)$nsec);
     
     return $ts;
   }
@@ -117,15 +119,7 @@ class Sys::Time::Util {
     
     my $tv_sec = $ts->tv_sec;
     
-    unless ($tv_sec >= 0) {
-      die "\$ts->tv_sec must be greater than or equal to 0.";
-    }
-    
     my $tv_nsec = $ts->tv_nsec;
-    
-    unless ($tv_nsec >= 0) {
-      die "\$ts->tv_nsec must be greater than or equal to 0.";
-    }
     
     my $float_seconds = $tv_sec + (double)$tv_nsec / 1_000_000_000;
     

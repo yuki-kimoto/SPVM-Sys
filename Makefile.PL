@@ -78,6 +78,7 @@ WriteMakefile(
   PREREQ_PM         => {
     %configure_and_runtime_requires,
     'SPVM::Errno' => '0.06',
+    'SPVM::Math' => '1.006',
   },
 );
 

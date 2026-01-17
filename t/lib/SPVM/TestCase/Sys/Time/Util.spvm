@@ -81,13 +81,26 @@ class TestCase::Sys::Time::Util {
   
   static method timespec_to_float_seconds : int () {
     
-    my $float_seconds = 1.5;
-    my $ts = Sys::Time::Util->float_seconds_to_timespec($float_seconds);
+    {
+      my $float_seconds = 1.5;
+      my $ts = Sys::Time::Util->float_seconds_to_timespec($float_seconds);
+      
+      my $float_seconds_again = Sys::Time::Util->timespec_to_float_seconds($ts);
+      
+      unless ($float_seconds_again == 1.5) {
+        return 0;
+      }
+    }
     
-    my $float_seconds_again = Sys::Time::Util->timespec_to_float_seconds($ts);
-    
-    unless ($float_seconds_again == 1.5) {
-      return 0;
+    {
+      my $float_seconds = -1.5;
+      my $ts = Sys::Time::Util->float_seconds_to_timespec($float_seconds);
+      
+      my $float_seconds_again = Sys::Time::Util->timespec_to_float_seconds($ts);
+      
+      unless ($float_seconds_again == -1.5) {
+        return 0;
+      }
     }
     
     return 1;

@@ -7,6 +7,12 @@
     * Add Sys::Time::Timeval#clone method.
     * Add Sys::Time::Timespec#check method.
     * Add Sys::Time::Timeval#check method.
+  [Requirement Changes]
+    * Require SPVM::Math 1.006.
+  [Bug Fix]
+    * Fixed a bug where Sys::Time::Util#float_seconds_to_timespec method could not correctly handle negative seconds.
+    * Fixed a bug where Sys::Time::Util#timespec_to_float_seconds method could not correctly handle negative seconds.
+    
 0.553 2025-12-22
   [New Features]
     * Add Sys::Process#setsid method.
