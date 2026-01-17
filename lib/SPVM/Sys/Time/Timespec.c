@@ -9,9 +9,30 @@
 
 static const char* FILE_NAME = "Sys/Time/Timespec.c";
 
+int32_t SPVM__Sys__Time__Timespec__check(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  // Get arguments from stack
+  // stack[0]: tv_sec (long)
+  // stack[1]: tv_nsec (long)
+  int64_t tv_sec = stack[0].lval;
+  int64_t tv_nsec = stack[1].lval;
+
+  // Validation:
+  // tv_nsec must be in the range [0, 999,999,999].
+  if (!(tv_nsec >= 0 && tv_nsec <= 999999999L)) {
+    return env->die(env, stack, "The tv_nsec must be greater than or equal to 0 and less than or equal to 999,999,999.", __func__, FILE_NAME, __LINE__);
+  }
+
+  // Return void (implicitly returns 0 in SPVM native if no error)
+  return 0;
+}
+
 int32_t SPVM__Sys__Time__Timespec__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t error_id = 0;
+  
+  error_id = SPVM__Sys__Time__Timespec__check(env, stack);
+  if (error_id) { return error_id; }
   
   struct timespec* ts = env->new_memory_block(env, stack, sizeof(struct timespec));
   

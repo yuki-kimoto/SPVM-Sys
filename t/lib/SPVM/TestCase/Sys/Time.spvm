@@ -330,6 +330,25 @@ class TestCase::Sys::Time {
   
   static method timespec : int () {
     
+    # new
+    {
+      # check
+      {
+        
+        # Valid values
+        eval { Sys::Time::Timespec->new(100L, 500L); };
+        if ($@) { return 0; }
+        
+        # Invalid tv_nsec (too small)
+        eval { Sys::Time::Timespec->new(100L, -1L); };
+        unless ($@) { return 0; }
+        
+        # Invalid tv_nsec (too large)
+        eval { Sys::Time::Timespec->new(100L, 1_000_000_000L); };
+        unless ($@) { return 0; }
+      }
+    }
+    
     # clone
     {
       # 1. Basic clone test
@@ -373,10 +392,52 @@ class TestCase::Sys::Time {
       }
     }
     
+    # check
+    {
+      
+      # Valid values
+      eval { Sys::Time::Timespec->check(100L, 500L); };
+      if ($@) { return 0; }
+      
+      # Invalid tv_nsec (too small)
+      eval { Sys::Time::Timespec->check(100L, -1L); };
+      unless ($@) { return 0; }
+      
+      # Invalid tv_nsec (too large)
+      eval { Sys::Time::Timespec->check(100L, 1_000_000_000L); };
+      unless ($@) { return 0; }
+    }
+    
     return 1;
   }
   
   static method timeval : int () {
+    
+    # new
+    {
+      
+      # Valid object creation
+      {
+        my $tv = Sys::Time::Timeval->new(123456789L, 999999L);
+        unless ($tv->tv_sec == 123456789L) { return 0; }
+        unless ($tv->tv_usec == 999999L) { return 0; }
+      }
+      
+      # Exception on invalid arguments (verify it calls check internally)
+      {
+        eval { Sys::Time::Timeval->new(0L, -1L); };
+        unless ($@) { return 0; }
+        
+        eval { Sys::Time::Timeval->new(0L, 1_000_000L); };
+        unless ($@) { return 0; }
+      }
+      
+      # Default values
+      {
+        my $tv = Sys::Time::Timeval->new;
+        unless ($tv->tv_sec == 0L && $tv->tv_usec == 0L) { return 0; }
+      }
+    }
     
     # clone
     {
@@ -417,6 +478,27 @@ class TestCase::Sys::Time {
         unless ($tv_clone->tv_sec == 100L) {
           return 0;
         }
+      }
+    }
+    
+    # check
+    {
+      # Valid values
+      {
+        eval { Sys::Time::Timeval->check(100L, 500L); };
+        if ($@) { return 0; }
+      }
+      
+      # Invalid tv_usec (too small)
+      {
+        eval { Sys::Time::Timeval->check(100L, -1L); };
+        unless ($@) { return 0; }
+      }
+      
+      # Invalid tv_usec (too large)
+      {
+        eval { Sys::Time::Timeval->check(100L, 1_000_000L); };
+        unless ($@) { return 0; }
       }
     }
     

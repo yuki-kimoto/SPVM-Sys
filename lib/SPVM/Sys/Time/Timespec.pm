@@ -38,15 +38,25 @@ Sys::Time::Timespec class in L<SPVM> represents L<struct timespec|https://linux.
 
 C<static method new : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> ($tv_sec : long = 0, $tv_nsec : long = 0);>
 
-Creates a new L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object.
+Creates a new L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object with the given L</"tv_sec"> and L</"tv_nsec">.
+
+Before creating the object, this method calls L</"check"> to validate the range of the arguments. If the arguments are invalid (e.g., L</"tv_nsec"> is out of the range [0, 999,999,999]), an exception is thrown.
+
+The internal L<struct timespec|https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/time.h.html> is allocated in memory and managed by this object.
+
+Example:
+
+  my $ts = Sys::Time::Timespec->new(1737158400L, 500L);
+  
+=head2 check
+
+C<static method check : void ($tv_sec : long, $tv_nsec : long);>
+
+Validates the range of the given L</"tv_sec"> and L</"tv_nsec">.
+
+If L</"tv_nsec"> is not greater than or equal to 0 and less than or equal to 999,999,999, an exception is thrown.
 
 =head1 Instance Methods
-
-=head2 DESTROY
-
-C<native method DESTROY : void ();>
-
-The destructor.
 
 =head2 tv_sec
 
@@ -79,6 +89,12 @@ C<method clone : L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> ();>
 Creates a new L<Sys::Time::Timespec|SPVM::Sys::Time::Timespec> object that is a copy of the current instance.
 
 The new object will have the same L</"tv_sec"> and L</"tv_nsec"> values as the original.
+
+=head2 DESTROY
+
+C<native method DESTROY : void ();>
+
+The destructor.
 
 =head1 See Also
 

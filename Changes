@@ -1,7 +1,12 @@
 0.554 2026-01-18
+  [Incompatible Changes]
+    * Sys::Time::Timespec#new method now throws an exception if the arguments are invalid by calling the L</"check"> method.
+    * Sys::Time::Timeval#new method now throws an exception if the arguments are invalid by calling the L</"check"> method.
   [New Features]
     * Add Sys::Time::Timespec#clone method.
     * Add Sys::Time::Timeval#clone method.
+    * Add Sys::Time::Timespec#check method.
+    * Add Sys::Time::Timeval#check method.
 0.553 2025-12-22
   [New Features]
     * Add Sys::Process#setsid method.

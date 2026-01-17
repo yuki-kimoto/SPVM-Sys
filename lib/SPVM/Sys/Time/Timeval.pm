@@ -30,7 +30,17 @@ Sys::Time::Timeval class in L<SPVM> represents L<struct timeval|https://linux.di
 
 C<static method new : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> ($tv_sec : long = 0, $tv_usec : long = 0);>
 
-Creates a new C<Sys::Time::Timeval> object.
+Creates a new L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object with the given L</"tv_sec"> and L</"tv_usec">.
+
+Before creating the object, this method calls L</"check"> to validate the range of the arguments. If the arguments are invalid, an exception is thrown.
+
+=head2 check
+
+C<static method check : void ($tv_sec : long, $tv_usec : long);>
+
+Validates the range of the given L</"tv_sec"> and L</"tv_usec">.
+
+If L</"tv_usec"> is not greater than or equal to 0 and less than or equal to 999,999, an exception is thrown.
 
 =head1 Instance Methods
 

@@ -9,6 +9,8 @@ class Sys::Time::Timespec : pointer {
   # Class Methods
   native static method new : Sys::Time::Timespec ($tv_sec : long = 0, $tv_nsec : long = 0);
   
+  native static method check : void ($tv_sec : long, $tv_nsec : long);
+  
   # Instance Methods
   native method DESTROY : void ();
   

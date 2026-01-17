@@ -8,9 +8,28 @@
 
 static const char* FILE_NAME = "Sys/Time/Timeval.c";
 
+int32_t SPVM__Sys__Time__Timeval__check(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+  // Get arguments from stack
+  int64_t tv_sec = stack[0].lval;
+  int64_t tv_usec = stack[1].lval;
+
+  // Validation:
+  // tv_usec must be in the range [0, 999,999].
+  if (!(tv_usec >= 0 && tv_usec <= 999999L)) {
+    return env->die(env, stack, "The tv_usec must be greater than or equal to 0 and less than or equal to 999,999.", __func__, FILE_NAME, __LINE__);
+  }
+
+  return 0;
+}
+
 int32_t SPVM__Sys__Time__Timeval__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
+  
+  // Call check before allocation
+  error_id = SPVM__Sys__Time__Timeval__check(env, stack);
+  if (error_id) { return error_id; }
   
   struct timeval* tv = env->new_memory_block(env, stack, sizeof(struct timeval));
   
