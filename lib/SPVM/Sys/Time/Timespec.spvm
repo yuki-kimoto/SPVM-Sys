@@ -26,4 +26,5 @@ class Sys::Time::Timespec : pointer {
     
     return $clone;
   }
+  
 }

@@ -375,4 +375,52 @@ class TestCase::Sys::Time {
     
     return 1;
   }
+  
+  static method timeval : int () {
+    
+    # clone
+    {
+      # 1. Basic clone test
+      {
+        my $tv = Sys::Time::Timeval->new;
+        $tv->set_tv_sec(123456789L);
+        $tv->set_tv_usec(987654L); # Microseconds
+        
+        # Perform clone
+        my $tv_clone = $tv->clone;
+        
+        # Check if field values are identical
+        unless ($tv_clone->tv_sec == $tv->tv_sec) {
+          return 0;
+        }
+        unless ($tv_clone->tv_usec == $tv->tv_usec) {
+          return 0;
+        }
+        
+        # Check if it's a different object (not the same memory address)
+        if ($tv_clone == $tv) {
+          return 0;
+        }
+      }
+      
+      # 2. Independence test (Modifying original should not affect clone)
+      {
+        my $tv = Sys::Time::Timeval->new;
+        $tv->set_tv_sec(100L);
+        
+        my $tv_clone = $tv->clone;
+        
+        # Modify original
+        $tv->set_tv_sec(200L);
+        
+        # The clone's value must remain unchanged
+        unless ($tv_clone->tv_sec == 100L) {
+          return 0;
+        }
+      }
+    }
+    
+    return 1;
+  }
+  
 }

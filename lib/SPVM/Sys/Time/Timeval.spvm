@@ -4,13 +4,25 @@
 class Sys::Time::Timeval : pointer {
   version_from Sys;
   
+  interface Cloneable;
+  
   native static method new : Sys::Time::Timeval ($tv_sec : long = 0, $tv_usec : long = 0);
-
+  
   native method DESTROY : void ();
   
   native method tv_sec : long ();
+  
   native method tv_usec : long ();
-
+  
   native method set_tv_sec : void ($tv_sec : long);
+  
   native method set_tv_usec : void ($tv_usec : long);
+  
+  method clone : Sys::Time::Timeval () {
+    
+    # Create a new Timeval object with the same seconds and microseconds.
+    my $clone = Sys::Time::Timeval->new($self->tv_sec, $self->tv_usec);
+    
+    return $clone;
+  }
 }

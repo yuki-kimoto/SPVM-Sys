@@ -58,6 +58,14 @@ C<method set_tv_usec : void ($tv_usec : long);>
 
 Sets C<tv_usec>.
 
+=head2 clone
+
+C<method clone : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> ();>
+
+Creates a new L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object that is a copy of the current instance.
+
+The new object will have the same L</"tv_sec"> and L</"tv_usec"> values as the original.
+
 =head1 See Also
 
 =over 2
