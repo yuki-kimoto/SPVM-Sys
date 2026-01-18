@@ -9,13 +9,18 @@ class Sys::Time::Util {
   
   static method nanoseconds_to_timespec : Sys::Time::Timespec ($nanoseconds : long) {
     
-    unless ($nanoseconds >= 0) {
-      die "\$nanoseconds must be greater than or equal to 0.";
+    my $NANO_PER_SEC = 1_000_000_000L;
+    
+    my $sec = 0L;
+    my $nsec = 0L;
+    if ($nanoseconds >= 0) {
+      $sec = $nanoseconds / $NANO_PER_SEC;
+      $nsec = $nanoseconds % $NANO_PER_SEC;
     }
-    
-    my $sec = $nanoseconds / 1_000_000_000;
-    
-    my $nsec = $nanoseconds - $sec * 1_000_000_000;
+    else {
+      $sec = ($nanoseconds - ($NANO_PER_SEC - 1)) / $NANO_PER_SEC;
+      $nsec = $nanoseconds - $sec * $NANO_PER_SEC;
+    }
     
     my $ts = Sys::Time::Timespec->new;
     
@@ -26,23 +31,27 @@ class Sys::Time::Util {
     return $ts;
   }
   
+  private static method check_timespec_to_nanoseconds : void ($timespec : Sys::Time::Timespec) {
+    
+    my $max_duration_sec = (Fn->LONG_MAX / 1_000_000_000) - 1;
+    
+    unless ($timespec->tv_sec > -$max_duration_sec && $timespec->tv_sec < $max_duration_sec) {
+      die "Sys::Time::Timespec \$timespec tv_sec must be greater than -$max_duration_sec and less than $max_duration_sec.";
+    }
+    
+  }
+  
   static method timespec_to_nanoseconds : long ($ts : Sys::Time::Timespec) {
     
     unless ($ts) {
       die "\$ts must be defined.";
     }
     
+    &check_timespec_to_nanoseconds($ts);
+    
     my $tv_sec = $ts->tv_sec;
     
-    unless ($tv_sec >= 0) {
-      die "\$ts->tv_sec must be greater than or equal to 0.";
-    }
-    
     my $tv_nsec = $ts->tv_nsec;
-    
-    unless ($tv_nsec >= 0) {
-      die "\$ts->tv_nsec must be greater than or equal to 0.";
-    }
     
     my $nanoseconds = $ts->tv_sec * 1_000_000_000 + $ts->tv_nsec;
     

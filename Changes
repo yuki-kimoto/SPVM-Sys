@@ -2,6 +2,7 @@
   [Incompatible Changes]
     * Sys::Time::Timespec#new method now throws an exception if the arguments are invalid by calling the L</"check"> method.
     * Sys::Time::Timeval#new method now throws an exception if the arguments are invalid by calling the L</"check"> method.
+    * Sys::Time::Util#timespec_to_nanoseconds method now throws an exception if the timespec cannot be converted to nanoseconds due to overflow.
   [New Features]
     * Add Sys::Time::Timespec#clone method.
     * Add Sys::Time::Timeval#clone method.
@@ -12,6 +13,8 @@
   [Bug Fix]
     * Fixed a bug where Sys::Time::Util#float_seconds_to_timespec method could not correctly handle negative seconds.
     * Fixed a bug where Sys::Time::Util#timespec_to_float_seconds method could not correctly handle negative seconds.
+    * Fixed a bug where Sys::Time::Util#timespec_to_nanoseconds method could not correctly handle negative seconds.
+    * Fixed a bug where Sys::Time::Util#nanoseconds_to_timespec method could not correctly handle negative seconds.
     
 0.553 2025-12-22
   [New Features]

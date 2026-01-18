@@ -19,14 +19,64 @@ class TestCase::Sys::Time::Util {
   
   static method timespec_to_nanoseconds : int () {
     
-    my $nanoseconds = 1_000_000_200;
+    {
+      my $nanoseconds = 1_000_000_200;
+      
+      my $ts = Sys::Time::Util->nanoseconds_to_timespec($nanoseconds);
+      
+      my $nanoseconds_again = Sys::Time::Util->timespec_to_nanoseconds($ts);
+      
+      unless ($nanoseconds_again == 1_000_000_200) {
+        return 0;
+      }
+    }
     
-    my $ts = Sys::Time::Util->nanoseconds_to_timespec($nanoseconds);
+    {
+      my $nanoseconds = -1_000_000_200;
+      
+      my $ts = Sys::Time::Util->nanoseconds_to_timespec($nanoseconds);
+      
+      my $nanoseconds_again = Sys::Time::Util->timespec_to_nanoseconds($ts);
+      
+      unless ($nanoseconds_again == -1_000_000_200) {
+        return 0;
+      }
+    }
     
-    my $nanoseconds_again = Sys::Time::Util->timespec_to_nanoseconds($ts);
-    
-    unless ($nanoseconds_again == 1_000_000_200) {
-      return 0;
+    {
+      my $max_duration_sec = (Fn->LONG_MAX / 1_000_000_000L) - 1;
+      
+      # 1. Boundary test (Maximum safe value)
+      {
+        my $ts = Sys::Time::Timespec->new($max_duration_sec - 1, 999_999_999);
+        eval { Sys::Time::Util->timespec_to_nanoseconds($ts); };
+        if ($@) {
+          diag;
+          return 0;
+        }
+      }
+      
+      # 2. Overflow test (Too large positive)
+      {
+        my $ts = Sys::Time::Timespec->new($max_duration_sec + 2, 0);
+        eval { Sys::Time::Util->timespec_to_nanoseconds($ts); };
+        unless ($@) {
+          # Should throw an exception because it's over the limit
+          diag;
+          return 0;
+        }
+      }
+      
+      # 3. Overflow test (Too large negative)
+      {
+        my $ts = Sys::Time::Timespec->new(-$max_duration_sec - 2, 0);
+        eval { Sys::Time::Util->timespec_to_nanoseconds($ts); };
+        unless ($@) {
+          # Should throw an exception
+          diag;
+          return 0;
+        }
+      }
     }
     
     return 1;
