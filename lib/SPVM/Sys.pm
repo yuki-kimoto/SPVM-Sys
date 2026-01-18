@@ -1,6 +1,6 @@
 package SPVM::Sys;
 
-our $VERSION = "0.553";
+our $VERSION = "0.554";
 
 1;
 
