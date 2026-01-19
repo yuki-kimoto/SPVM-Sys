@@ -41,7 +41,7 @@ class TestCase::Sys::Time {
     }
     
     unless (Sys::OS->is_windows) {
-      my $tm = Sys->localtime(-(86_400 * 2), 1);
+      my $tm = Sys->localtime(-(86_400 * 2));
       
       unless ($tm->tm_year + 1900 == 1969) {
         return 0;
@@ -75,7 +75,7 @@ class TestCase::Sys::Time {
     }
     
     unless (Sys::OS->is_windows) {
-      my $tm = Sys->gmtime(-(86_400 * 2), 1);
+      my $tm = Sys->gmtime(-(86_400 * 2));
       
       unless ($tm->tm_year + 1900 == 1969) {
         return 0;
