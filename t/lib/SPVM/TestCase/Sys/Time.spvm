@@ -48,6 +48,54 @@ class TestCase::Sys::Time {
       }
     }
     
+    # with TZ
+    {
+      
+      # Get the current epoch time and fix it to avoid a 1-second deviation
+      my $now = Sys->time;
+      
+      # 1. Test for JST (Japan Standard Time: UTC+9)
+      {
+        # Set C<TZ> environment variable to JST-9
+        Sys->set_env("TZ", "JST-9");
+        
+        # Get localtime (JST) and gmtime (UTC) using the same epoch time
+        my $lt_jst = Sys->localtime($now);
+        my $gt = Sys->gmtime($now);
+        
+        # Calculate the difference in seconds within a day
+        my $jst_seconds = $lt_jst->tm_hour * 3600 + $lt_jst->tm_min * 60 + $lt_jst->tm_sec;
+        my $gm_seconds = $gt->tm_hour * 3600 + $gt->tm_min * 60 + $gt->tm_sec;
+        
+        my $diff = $jst_seconds - $gm_seconds;
+        
+        # Adjust for cases where the date changes
+        if ($diff < 0) {
+          $diff += 86400;
+        }
+        
+        # Check if the difference is exactly 9 hours (32400 seconds)
+        unless ($diff == 32400) {
+          return 0;
+        }
+      }
+      
+      # 2. Test for UTC (UTC+0)
+      {
+        # Set C<TZ> environment variable to UTC0
+        Sys->set_env("TZ", "UTC0");
+        
+        my $lt_utc = Sys->localtime($now);
+        my $gt = Sys->gmtime($now);
+        
+        # Check if localtime matches gmtime under UTC0
+        unless ($lt_utc->tm_hour == $gt->tm_hour && $lt_utc->tm_min == $gt->tm_min && $lt_utc->tm_sec == $gt->tm_sec) {
+          return 0;
+        }
+      }
+      
+    }
+    
     return 1;
   }
   
