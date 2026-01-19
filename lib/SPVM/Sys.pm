@@ -40,19 +40,19 @@ Windows internally manages filenames using UTF-16LE encoding. In contrast, SPVM 
 
 C<static method STDIN : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Returns the L<stdin|SPVM::Document::NativeAPI/"spvm_stdin"> opened by the SPVM language.
+Returns L<stdin|SPVM::Document::NativeAPI/"spvm_stdin"> opened by the SPVM language.
 
 =head2 STDOUT
 
 C<static method STDOUT : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Returns the L<stdout|SPVM::Document::NativeAPI/"spvm_stdout"> opened by the SPVM language.
+Returns L<stdout|SPVM::Document::NativeAPI/"spvm_stdout"> opened by the SPVM language.
 
 =head2 STDERR
 
 C<static method STDERR : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ();>
 
-Returns the L<stderr|SPVM::Document::NativeAPI/"spvm_stderr"> opened by the SPVM language.
+Returns L<stderr|SPVM::Document::NativeAPI/"spvm_stderr"> opened by the SPVM language.
 
 =head2 open
 
@@ -62,7 +62,7 @@ Opens a file given the open mode $open_mode and the file name $file.
 
 The opened file stream is set to $stream_ref at index 0.
 
-The open mode $open_mode is replaced to a representation of the L<fopen|https://linux.die.net/man/3/fopen> function before calling the L<fopen|https://linux.die.net/man/3/fopen> function.
+The open mode $open_mode is replaced to a representation of L<fopen|https://linux.die.net/man/3/fopen> function before calling L<fopen|https://linux.die.net/man/3/fopen> function.
 
   [$open_mode]   [The mode of the fopen function]
   <              rb
@@ -152,7 +152,7 @@ The file stream $stream must be defined. Otherwise an exception is thrown.
 
 If the file stream $stream is already closed,  an exception is thrown.
 
-Exceptions thrown by the L</"getc"> method could be thrown.
+Exceptions thrown by L</"getc"> method could be thrown.
 
 =head2 getc
 
@@ -192,7 +192,7 @@ C<static method printf : void ($stream, $format : string, $args : object[])>
 
 Prints the format string $string given the arguments $args to the file stream $stream.
 
-Exceptions thrown by the L<"print"> method class could be thrown.
+Exceptions thrown by L<"print"> method class could be thrown.
 
 =head2 say
 
@@ -202,7 +202,7 @@ Prints the string $string and "\n" to the file stream $stream.
 
 Exceptions:
 
-Exceptions thrown by the L<"print"> method class could be thrown.
+Exceptions thrown by L<"print"> method class could be thrown.
 
 =head2 close
 
@@ -364,7 +364,7 @@ In Windows, this method calls L<Sys::IO::Windows#unlink|SPVM::Sys::IO::Windows/"
 
 Exceptions:
 
-Exceptions thrown by the L<Sys::IO::Windows#unlink|SPVM::Sys::IO::Windows/"unlink"> method or L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method could be thrown.
+Exceptions thrown by L<Sys::IO::Windows#unlink|SPVM::Sys::IO::Windows/"unlink"> method or L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method could be thrown.
 
 =head2 rename
 
@@ -376,7 +376,7 @@ In Windows, this method calls L<Sys::IO::Windows#rename|SPVM::Sys::IO::Windows/"
 
 Exceptions:
 
-Exceptions thrown by the L<Sys::IO::Windows#rename|SPVM::Sys::IO::Windows/"rename"> method or L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method could be thrown.
+Exceptions thrown by L<Sys::IO::Windows#rename|SPVM::Sys::IO::Windows/"rename"> method or L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method could be thrown.
 
 =head2 rmdir
 
@@ -548,7 +548,7 @@ Opens a file stream that joins a process by creating a pipe given the command $c
 
 The opened file stream is set to $stream_ref at index 0.
 
-The open mode $open_mode is replaced to a representation of the L<fopen|https://linux.die.net/man/3/fopen> function before calling the L<fopen|https://linux.die.net/man/3/fopen> function.
+The open mode $open_mode is replaced to a representation of L<fopen|https://linux.die.net/man/3/fopen> function before calling L<fopen|https://linux.die.net/man/3/fopen> function.
 
   [$open_mode]   [The mode of the fopen function]
   |-             wb
@@ -562,7 +562,7 @@ Exceptions thrown by L<Sys::IO#popen|SPVM::Sys::IO/"popen"> method or L<Sys::IO#
 
 C<static method pclose : void ($stream : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream>);>
 
-Closes the file stream $stream created by the L</"popen"> method.
+Closes the file stream $stream created by L</"popen"> method.
 
 This method calls L<Sys::IO#pclose|SPVM::Sys::IO/"pclose"> method or L<Sys::IO#_pclose|SPVM::Sys::IO/"_pclose">.
 
@@ -602,7 +602,7 @@ Calls L<Sys::Ioctl#ioctl|SPVM::Sys::Ioctl/"ioctl"> method and returns its return
 
 Exceptions:
 
-Exceptions thrown by the L<Sys::Ioctl#ioctl|SPVM::Sys::Ioctl/"ioctl"> method or L<Sys::Ioctl#ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method could be thrown.
+Exceptions thrown by L<Sys::Ioctl#ioctl|SPVM::Sys::Ioctl/"ioctl"> method or L<Sys::Ioctl#ioctlsocket|SPVM::Sys::Ioctl/"ioctlsocket"> method could be thrown.
 
 =head2 A
 
@@ -816,7 +816,7 @@ $file must be defined. Otherwise an exception is thrown.
 
 C<static method l : int ($file : string);>
 
-If If the file doesn't exist or can't be examined(These checks are done by the L</"lstat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
+If If the file doesn't exist or can't be examined(These checks are done by L</"lstat"> method), returns 0 and L<errno|SPVM::Errno/"errno"> is set to a positive value.
 
 Otherwise if the file $file is a symbolic link (false if symlinks aren't supported by the file system), returns 1, otherwise returns 0.
 
@@ -1136,7 +1136,7 @@ The client address for output and the size of the client address are automatical
 
 $$client_fd_ref is set to the return value.
 
-The client address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
+The client address is upgraded to a child class of L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
 
 If the system supports C<FD_CLOEXEC>, The file descriptor flag of $$client_fd_ref is set to C<FD_CLOEXEC> using L</"fcntl"> method.
 
@@ -1224,7 +1224,7 @@ Returns the packed sockaddr address of the other end of the socket connection $s
 
 This method calls L<Sys::Socket#getpeername|SPVM::Sys::Socket/"getpeername"> method.
 
-The returned packed sockaddr address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
+The returned packed sockaddr address is upgraded to a child class of L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
 
 Exceptions:
 
@@ -1238,7 +1238,7 @@ Returns the packed sockaddr address of this end of the socket connection $socket
             
 Thie method calls L<Sys::Socket#getsockname|SPVM::Sys::Socket/"getsockname"> method.
 
-The returned packed sockaddr address is upgraded to a child class of the L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
+The returned packed sockaddr address is upgraded to a child class of L<Sys::Socket::Sockaddr|SPVM::Sys::Socket::Sockaddr> using L<upgrade|SPVM::Sys::Socket::Sockaddr/"upgrade"> method.
 
 Exceptions:
 
@@ -1425,7 +1425,7 @@ Exceptions thrown by L<Sys::Process#wait|SPVM::Sys::Process/"wait"> method could
 
 C<static method waitpid : int ($process_id : in, $options : int, $wstatus_ref : int*);>
 
-Same as the L</"wait"> method, but can give the process ID $process_id and the options $options.
+Same as L</"wait"> method, but can give the process ID $process_id and the options $options.
 
 See L<Sys::Process::Constant|SPVM::Sys::Process::Constant> about constant values given to $options.
 
@@ -1437,7 +1437,7 @@ Exceptions thrown by L<Sys::Process#waitpid|SPVM::Sys::Process/"waitpid"> method
 
 C<static method system : int ($command : string);>
 
-Executes a command specified in command using shell and return the L</"wait"> status.
+Executes a command specified in command using shell and return L</"wait"> status.
 
 =head2 exit
 
