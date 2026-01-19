@@ -946,19 +946,33 @@ Returns the current epoch time.
 
 =head2 localtime
 
-C<static method localtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($epoch : long = -1, $allow_minus = 0);>
+C<static method localtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($epoch : long = 0);>
 
-Converts the epoch time $epoch to a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object, and returns it.
+Converts the calendar time $epoch to a broken-down time, expressed relative to the user's specified time zone.
 
-The return value is localized for the local time zone.
+If $epoch is not specified, the current time is used.
 
-If $allow_minus is 0 and $epoch is less than 0, $epoch is set to the current epoch time.
+This method calls C<tzset> internally to update time conversion information from the environment variable C<TZ>.
+
+Returns a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object.
+
+Exceptions:
+
+If the conversion fails, an exception is thrown.
 
 =head2 gmtime
 
-C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($epoch : long = -1, $allow_minus = 0);>
+C<static method gmtime : L<Sys::Time::Tm|SPVM::Sys::Time::Tm> ($epoch : long = 0);>
 
-Works just like L</"localtime">, but the returned values are for the UTC time zone.
+Converts the calendar time $epoch to a broken-down time, expressed in Coordinated Universal Time (UTC).
+
+If $epoch is not specified, the current time is used.
+
+Returns a L<Sys::Time::Tm|SPVM::Sys::Time::Tm> object.
+
+Exceptions:
+
+If the conversion fails, an exception is thrown.
 
 =head2 utime
 
