@@ -424,3 +424,11 @@ int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 #endif
 }
+
+int32_t SPVM__Sys__Time__tzset(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  tzset();
+  
+  return 0;
+}
+

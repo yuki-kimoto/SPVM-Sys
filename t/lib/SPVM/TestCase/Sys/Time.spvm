@@ -505,4 +505,12 @@ class TestCase::Sys::Time {
     return 1;
   }
   
+  static method tzset : int () {
+    
+    {
+      Sys::Time->tzset;
+    }
+    
+    return 1;
+  }
 }

@@ -38,4 +38,6 @@ class Sys::Time {
   native static method utime : int ($filename : string, $times : Sys::Time::Utimbuf);
   
   native static method utimes : int ($filename : string, $times : Sys::Time::Timeval[]);
+  
+  native static method tzset : void ();
 }

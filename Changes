@@ -1,3 +1,7 @@
+0.555 2026-01-19
+  [New Features]
+    * Add Sys::Time#tzset method.
+  
 0.554 2026-01-18
   [Incompatible Changes]
     * Sys::Time::Timespec#new method now throws an exception if the arguments are invalid by calling the L</"check"> method.

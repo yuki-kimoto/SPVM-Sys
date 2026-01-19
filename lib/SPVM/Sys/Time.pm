@@ -182,6 +182,14 @@ Calls the L<utimes|https://linux.die.net/man/2/utimes> function, and returns its
 
 The utime() system call changes the access and modification times of the inode specified by filename to the actime and modtime fields of times respectively.
 
+=head2 tzset
+
+C<static method tzset : void ();>
+
+Initializes time conversion information from the environment variable B<TZ>. 
+
+See L<tzset|https://pubs.opengroup.org/onlinepubs/9699919799/functions/tzset.html> function in the POSIX branch of the Single UNIX Specification.
+
 =head1 See Also
 
 =over 2
