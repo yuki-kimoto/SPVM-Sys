@@ -80,7 +80,7 @@ int32_t SPVM__Sys__Poll__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
   if (ready_count == -1) {
-    env->die(env, stack, "[System Error]poll() failed(%d: %s)", socket_strerror(env, stack, socket_errno(), 0), __func__, FILE_NAME, __LINE__);
+    env->die_v2(env, stack, "[System Error]poll() failed(%d: %s)", __func__, FILE_NAME, __LINE__, socket_errno(), socket_strerror(env, stack, socket_errno(), 0));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

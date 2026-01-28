@@ -181,7 +181,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
         break;
       }
       default : {
-        return env->die(env, stack, "ai_addr->sa_family is an unknown address family.", __func__, FILE_NAME, __LINE__);
+        return env->die_v2(env, stack, "ai_addr->sa_family is an unknown address family.", __func__, FILE_NAME, __LINE__);
       }
     }
     

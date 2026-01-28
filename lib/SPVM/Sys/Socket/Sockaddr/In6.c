@@ -132,7 +132,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__In6__set_sin6_addr(SPVM_ENV* env, SPVM_VALU
   void* obj_address = stack[1].oval;
 
   if (!obj_address) {
-    return env->die(env, stack, "The address must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die_v2(env, stack, "The address must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   struct in6_addr* address = env->get_pointer(env, stack, obj_address);

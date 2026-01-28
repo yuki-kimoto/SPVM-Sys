@@ -20,7 +20,7 @@ int32_t SPVM__Sys__Time__Timespec__check(SPVM_ENV* env, SPVM_VALUE* stack) {
   // Validation:
   // tv_nsec must be in the range [0, 999,999,999].
   if (!(tv_nsec >= 0 && tv_nsec <= 999999999L)) {
-    return env->die(env, stack, "The tv_nsec must be greater than or equal to 0 and less than or equal to 999,999,999.", __func__, FILE_NAME, __LINE__);
+    return env->die_v2(env, stack, "The tv_nsec must be greater than or equal to 0 and less than or equal to 999,999,999.", __func__, FILE_NAME, __LINE__);
   }
 
   // Return void (implicitly returns 0 in SPVM native if no error)
