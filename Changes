@@ -1,3 +1,6 @@
+0.556 2026-01-28
+  [Requirement Changes]
+    * Require SPVM 0.990119.
 0.555 2026-01-19
   [New Features]
     * Add Sys::Time#tzset method.
