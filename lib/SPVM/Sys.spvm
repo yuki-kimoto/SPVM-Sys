@@ -2,7 +2,7 @@
 # MIT License
 
 class Sys {
-  version "0.555";
+  version "0.556";
   
   use Resource::SocketUtil;
   
