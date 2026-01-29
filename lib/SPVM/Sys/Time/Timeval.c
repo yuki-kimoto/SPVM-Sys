@@ -17,7 +17,7 @@ int32_t SPVM__Sys__Time__Timeval__check(SPVM_ENV* env, SPVM_VALUE* stack) {
   // Validation:
   // tv_usec must be in the range [0, 999,999].
   if (!(tv_usec >= 0 && tv_usec <= 999999L)) {
-    return env->die_v2(env, stack, "The tv_usec must be greater than or equal to 0 and less than or equal to 999,999.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The tv_usec must be greater than or equal to 0 and less than or equal to 999,999.", __func__, FILE_NAME, __LINE__);
   }
 
   return 0;

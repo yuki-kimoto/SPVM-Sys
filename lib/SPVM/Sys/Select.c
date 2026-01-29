@@ -28,7 +28,7 @@ int32_t SPVM__Sys__Select__FD_ZERO(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_set = stack[0].oval;
   
   if (!obj_set) {
-    return env->die_v2(env, stack, "The fd_set data structure $set must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The fd_set data structure $set must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   fd_set* set = env->get_pointer(env, stack, obj_set);
@@ -45,15 +45,15 @@ int32_t SPVM__Sys__Select__FD_SET(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_set = stack[1].oval;
   
   if (!(fd >= 0)) {
-    return env->die_v2(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   if (!(fd <= FD_SETSIZE)) {
-    return env->die_v2(env, stack, "The file descriptor $fd must be less than FD_SETSIZE.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The file descriptor $fd must be less than FD_SETSIZE.", __func__, FILE_NAME, __LINE__);
   }
   
   if (!obj_set) {
-    return env->die_v2(env, stack, "The fd_set data structure $set must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The fd_set data structure $set must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   fd_set* set = env->get_pointer(env, stack, obj_set);
@@ -70,15 +70,15 @@ int32_t SPVM__Sys__Select__FD_CLR(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_set = stack[1].oval;
   
   if (!(fd >= 0)) {
-    return env->die_v2(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   if (!(fd <= FD_SETSIZE)) {
-    return env->die_v2(env, stack, "The file descriptor $fd must be less than FD_SETSIZE.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The file descriptor $fd must be less than FD_SETSIZE.", __func__, FILE_NAME, __LINE__);
   }
   
   if (!obj_set) {
-    return env->die_v2(env, stack, "The fd_set data structure $set must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The fd_set data structure $set must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   fd_set* set = env->get_pointer(env, stack, obj_set);
@@ -95,15 +95,15 @@ int32_t SPVM__Sys__Select__FD_ISSET(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_set = stack[1].oval;
   
   if (!(fd >= 0)) {
-    return env->die_v2(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
   if (!(fd <= FD_SETSIZE)) {
-    return env->die_v2(env, stack, "The file descriptor $fd must be less than FD_SETSIZE.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The file descriptor $fd must be less than FD_SETSIZE.", __func__, FILE_NAME, __LINE__);
   }
   
   if (!obj_set) {
-    return env->die_v2(env, stack, "The fd_set data structure $set must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The fd_set data structure $set must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
   fd_set* set = env->get_pointer(env, stack, obj_set);
@@ -122,10 +122,10 @@ int32_t SPVM__Sys__Select__select(SPVM_ENV* env, SPVM_VALUE* stack) {
   void* obj_readfds = stack[1].oval;
   
   if (!(fd >= 0)) {
-    return env->die_v2(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   if (!(fd <= FD_SETSIZE)) {
-    return env->die_v2(env, stack, "The file descriptor $fd must be less than FD_SETSIZE.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The file descriptor $fd must be less than FD_SETSIZE.", __func__, FILE_NAME, __LINE__);
   }
   
   fd_set* readfds = NULL;
@@ -154,7 +154,7 @@ int32_t SPVM__Sys__Select__select(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t updated_fds_count = select(fd, readfds, writefds, exceptfds, timeout);
   
   if (updated_fds_count == -1) {
-    env->die_v2(env, stack, "[System Error]select() failed(%d: %s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
+    env->die(env, stack, "[System Error]select() failed(%d: %s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
