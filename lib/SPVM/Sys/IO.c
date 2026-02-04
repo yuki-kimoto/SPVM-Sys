@@ -1556,7 +1556,7 @@ int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* stream = popen(command, type);
   
   if (!stream) {
-    env->die(env, stack, "[System Error]popen() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), command);
+    env->die(env, stack, "[System Error]popen() failed(%d: %s). $command='%s'", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), command);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1596,7 +1596,7 @@ int32_t SPVM__Sys__IO___popen(SPVM_ENV* env, SPVM_VALUE* stack) {
   FILE* stream = _popen(command, type);
   
   if (!stream) {
-    env->die(env, stack, "[System Error]_popen() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), command, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]_popen() failed(%d: %s). $command='%s'", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), command);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1628,7 +1628,7 @@ int32_t SPVM__Sys__IO__pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = pclose(stream);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), stream);
+    env->die(env, stack, "[System Error]pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1654,7 +1654,7 @@ int32_t SPVM__Sys__IO___pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = _pclose(stream);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]_pclose() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno), stream, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]_pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
