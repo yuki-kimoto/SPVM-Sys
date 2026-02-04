@@ -1,7 +1,8 @@
 0.558 2026-02-04
   [Bug Fix]
     * Fix argument order in env->die calls within spvm_sys_windows.c to resolve pointer conversion errors on Windows
-
+    * Fix argument order in env->die calls within win_stat and win_lstat to match format strings in SPVM::Sys::IO::Stat
+    
 0.557 2026-01-30
   [Requirement Changes]
     * Require SPVM 0.990120.

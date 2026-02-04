@@ -298,7 +298,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   if (error_id) {
     if (errno) {
-      env->die(env, stack, "[System Error]win_stat() failed(%d: %s). $path='%s'.", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]win_stat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     }
     
     return error_id;
@@ -359,7 +359,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   if (error_id) {
     if (errno) {
-      env->die(env, stack, "[System Error]win_lstat() failed(%d: %s). $path='%s'.", errno, env->strerror_nolen(env, stack, errno), path, __func__, FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]win_lstat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     }
     
     return error_id;
