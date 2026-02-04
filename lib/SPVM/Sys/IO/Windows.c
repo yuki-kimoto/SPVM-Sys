@@ -185,7 +185,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
     else {
       errno = EINVAL;
-      env->die(env, stack, "[System Error]This file is not a reparse point. $path='%s'.", path, __func__, FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]This file is not a reparse point. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
@@ -200,7 +200,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
         &linkdata.Data.SymbolicLinkReparseBuffer;
       if (linkdata_returned < offsetof(SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
         errno = ENOMEM;
-        env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path='%s'.", path, __func__, FILE_NAME, __LINE__);
+        env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
         error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
         goto END_OF_FUNC;
       }
@@ -216,7 +216,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
         &linkdata.Data.MountPointReparseBuffer;
       if (linkdata_returned < offsetof(SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
         errno = ENOMEM;
-        env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path='%s'.", path, __func__, FILE_NAME, __LINE__);
+        env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
         error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
         goto END_OF_FUNC;
       }
@@ -228,7 +228,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
     default: {
       errno = EINVAL;
-      env->die(env, stack, "[System Error]The type of the reparse point must be IO_REPARSE_TAG_SYMLINK or IO_REPARSE_TAG_MOUNT_POINT. $path='%s'.", path, __func__, FILE_NAME, __LINE__);
+      env->die(env, stack, "[System Error]The type of the reparse point must be IO_REPARSE_TAG_SYMLINK or IO_REPARSE_TAG_MOUNT_POINT. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
@@ -241,7 +241,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
                         NULL, 0, NULL, NULL);
                         
   if (bytes_out == 0) {
-    env->die(env, stack, "[System Error]WideCharToMultiByte() failed. $path='%s'.", path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]WideCharToMultiByte() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
     errno = EILSEQ;
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
@@ -256,7 +256,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
                         PrintNameLength/2,
                         link_text, bytes_out, NULL, NULL);
   if (bytes_out == 0) {
-    env->die(env, stack, "[System Error]WideCharToMultiByte() failed. $path='%s'.", path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]WideCharToMultiByte() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
     errno = EILSEQ;
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
@@ -468,7 +468,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t needed_len = GetFinalPathNameByHandleW(handle, NULL, 0, 0);
   
   if (needed_len == 0) {
-    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path='%s'.", path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
@@ -479,7 +479,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t len = GetFinalPathNameByHandleW(handle, resolved_path_w, needed_len, 0);
   
   if (len == 0) {
-    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path='%s'.", path, __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
