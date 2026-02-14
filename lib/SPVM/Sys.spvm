@@ -1609,47 +1609,35 @@ class Sys {
     return $cwd;
   }
   
-  static method set_tcp_keepidle : void ($socket_fd : int, $keepidle_sec : int) {
-  
-    my $level = Sys::Socket::Constant->IPPROTO_TCP;
-    my $option_name = -1;
-    
-    if (Sys::OS->defined("__APPLE__")) {
-      $option_name = Sys::Socket::Constant->TCP_KEEPALIVE;
-    }
-    else {
-      $option_name = Sys::Socket::Constant->TCP_KEEPIDLE;
-    }
-    
-    Sys->setsockopt($socket_fd, $level, $option_name, $keepidle_sec);
-  }
-  
-  static method get_tcp_keepidle : int ($socket_fd : int) {
-    
-    my $level = Sys::Socket::Constant->IPPROTO_TCP;
-    my $option_name = -1;
-    
-    if (Sys::OS->defined("__APPLE__")) {
-      $option_name = Sys::Socket::Constant->TCP_KEEPALIVE;
-    }
-    else {
-      $option_name = Sys::Socket::Constant->TCP_KEEPIDLE;
-    }
-    
-    my $binary = Sys->getsockopt($socket_fd, $level, $option_name);
-    my $objects = Fn->unpack("l", $binary);
-    my $keepidle_sec = $objects->[0]->(int);
-    
-    return $keepidle_sec;
-  }
-  
-  static method set_tcp_keepidle_portable : void ($socket_fd : int, $keepidle_sec : int) {
+  static method set_tcp_keepalive : void ($socket_fd : int, $onoff : int, $keepidle_sec : int) {
     
     if (Sys::OS->is_windows) {
-      Sys::Socket->win_set_tcp_keepalive($socket_fd, 1, $keepidle_sec * 1000, 1000);
+      # Windows: Set onoff, IDLE(ms), and INTVL(ms) via WSAIoctl.
+      # Following Go's approach, use the same value for both idle and interval.
+      Sys::Socket->win_set_tcp_keepalive($socket_fd, $onoff, $keepidle_sec * 1000, $keepidle_sec * 1000);
     }
     else {
-      &set_tcp_keepidle($socket_fd, $keepidle_sec);
+      # Others: Enable/Disable SO_KEEPALIVE
+      Sys->setsockopt($socket_fd, Sys::Socket::Constant->SOL_SOCKET, Sys::Socket::Constant->SO_KEEPALIVE, $onoff);
+      
+      # If enabled, set IDLE and INTVL
+      if ($onoff) {
+        my $level = Sys::Socket::Constant->IPPROTO_TCP;
+        
+        # Set IDLE (TCP_KEEPIDLE or TCP_KEEPALIVE)
+        my $idle_option = -1;
+        if (Sys::OS->defined("__APPLE__")) {
+          $idle_option = Sys::Socket::Constant->TCP_KEEPALIVE;
+        }
+        else {
+          $idle_option = Sys::Socket::Constant->TCP_KEEPIDLE;
+        }
+        Sys->setsockopt($socket_fd, $level, $idle_option, $keepidle_sec);
+        
+        # Set INTVL (TCP_KEEPINTVL) - Using the same value as IDLE
+        my $intvl_option = Sys::Socket::Constant->TCP_KEEPINTVL;
+        Sys->setsockopt($socket_fd, $level, $intvl_option, $keepidle_sec);
+      }
     }
   }
   

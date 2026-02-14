@@ -1057,8 +1057,6 @@ class TestCase::Sys {
       }
     }
     
-    warn;
-    
     return 1;
   }
 
@@ -1675,7 +1673,7 @@ class TestCase::Sys {
     return 1;
   }
   
-  static method set_tcp_keepidle : int () {
+  static method set_tcp_keepalive : int () {
     
     # Create a TCP socket for testing
     my $domain = Sys::Socket::Constant->AF_INET;
@@ -1693,20 +1691,52 @@ class TestCase::Sys {
       Sys::Socket->close($socket_fd);
     });
     
-    # Test value: 123 seconds
-    my $setting_value = 123;
+    # Test values: 1 (ON), 123s (IDLE & INTVL)
+    my $onoff = 1;
+    my $idle_setting = 123;
     
-    # Set the value using the portable method
-    Sys->set_tcp_keepidle_portable($socket_fd, $setting_value);
+    # 1. Set the values using the portable method
+    # This method now sets both IDLE and INTVL to the same value ($idle_setting)
+    Sys->set_tcp_keepalive($socket_fd, $onoff, $idle_setting);
     
-    # Verify (Skip get-check on Windows because WSAIoctl settings are write-only)
-    unless (Sys::OS->is_windows) {
-      # Get the value back
-      my $getting_value = Sys->get_tcp_keepidle($socket_fd);
+    # 2. Verify SO_KEEPALIVE (onoff) - Works on ALL platforms including Windows
+    {
+      my $sol_socket = Sys::Socket::Constant->SOL_SOCKET;
+      my $so_keepalive = Sys::Socket::Constant->SO_KEEPALIVE;
+      my $onoff_binary = Sys->getsockopt($socket_fd, $sol_socket, $so_keepalive);
+      my $onoff_got_array = Fn->unpack("l", $onoff_binary);
+      my $onoff_got = $onoff_got_array->[0]->(int);
       
-      # Verify
-      unless ($getting_value == $setting_value) {
-        diag "TCP keep-idle value mismatch: set $setting_value, but got $getting_value";
+      # Check if on/off state matches (0 vs non-zero)
+      unless ($onoff ? $onoff_got != 0 : $onoff_got == 0) {
+        diag "SO_KEEPALIVE mismatch: expected $onoff, but got $onoff_got";
+        return 0;
+      }
+    }
+
+    # 3. Verify Time settings - Skip on Windows
+    unless (Sys::OS->is_windows) {
+      my $level = Sys::Socket::Constant->IPPROTO_TCP;
+      
+      # Verify IDLE (TCP_KEEPIDLE or TCP_KEEPALIVE)
+      my $idle_opt = Sys::OS->defined("__APPLE__") 
+                     ? Sys::Socket::Constant->TCP_KEEPALIVE 
+                     : Sys::Socket::Constant->TCP_KEEPIDLE;
+      my $idle_binary = Sys->getsockopt($socket_fd, $level, $idle_opt);
+      my $idle_got = Fn->unpack("l", $idle_binary)->[0]->(int);
+      
+      unless ($idle_got == $idle_setting) {
+        diag "TCP keep-idle mismatch: set $idle_setting, but got $idle_got";
+        return 0;
+      }
+
+      # Verify INTVL (Should be the same as IDLE)
+      my $intvl_opt = Sys::Socket::Constant->TCP_KEEPINTVL;
+      my $intvl_binary = Sys->getsockopt($socket_fd, $level, $intvl_opt);
+      my $intvl_got = Fn->unpack("l", $intvl_binary)->[0]->(int);
+      
+      unless ($intvl_got == $idle_setting) {
+        diag "TCP keep-intvl mismatch: set $idle_setting, but got $intvl_got";
         return 0;
       }
     }
