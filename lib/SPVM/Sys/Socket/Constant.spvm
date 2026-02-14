@@ -446,4 +446,7 @@ class Sys::Socket::Constant {
   native static method ICMP_TIMESTAMP : int ();
 
   native static method ICMP_TIME_EXCEEDED : int ();
+  
+  native static method TCP_KEEPALIVE : int ();
+  
 }

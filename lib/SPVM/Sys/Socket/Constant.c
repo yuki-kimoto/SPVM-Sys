@@ -2682,4 +2682,16 @@ int32_t SPVM__Sys__Socket__Constant__ICMP_TIME_EXCEEDED(SPVM_ENV* env, SPVM_VALU
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #endif
 
+int32_t SPVM__Sys__Socket__Constant__TCP_KEEPALIVE(SPVM_ENV* env, SPVM_VALUE* stack) {
+
+#ifdef TCP_KEEPALIVE
+  stack[0].ival = TCP_KEEPALIVE;
+  return 0;
+#else
+  env->die(env, stack, "TCP_KEEPALIVE is not defined in this system.", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#endif
+
+}
+
 }

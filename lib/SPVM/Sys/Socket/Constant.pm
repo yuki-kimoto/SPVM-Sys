@@ -1342,6 +1342,12 @@ C<static method ICMP_TIME_EXCEEDED : int ();>
 
 Gets the value of C<ICMP_TIME_EXCEEDED>. If the value is not defined in this system, an L<Error::NotSupported|SPVM::Error::NotSupported> exception is thrown.
 
+=head2 TCP_KEEPALIVE
+
+C<static method TCP_KEEPALIVE : int ();>
+
+Gets the value of C<TCP_KEEPALIVE>. If the value is not defined in this system, an L<Error::NotSupported|SPVM::Error::NotSupported> exception is thrown.
+
 =head1 See Also
 
 =over 2
