@@ -1,4 +1,4 @@
-0.559 2026-02-14
+0.560 2026-02-14
   [Internal Changes]
     * Remove set_tcp_keepidle_portable, set_tcp_keepidle, get_tcp_keepidle methods and add set_tcp_keepalive method.
 0.559 2026-02-14
