@@ -86,4 +86,6 @@ class Sys::Socket {
   
   native static method sockatmark : int ($sockfd : int);
   
+  native static method win_set_tcp_keepalive : int ($sockfd : int, $onoff : int, $keepalivetime_ms : int, $keepaliveinterval_ms : int);
+  
 }

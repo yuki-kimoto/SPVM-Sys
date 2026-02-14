@@ -11,6 +11,8 @@
 #include <assert.h>
 
 #if defined(_WIN32)
+  #include <winsock2.h>
+  #include <mstcpip.h>
 #else
   #include <sys/un.h>
 #endif
@@ -894,6 +896,43 @@ int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__Socket__win_set_tcp_keepalive(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  env->die(env, stack, "Sys::Socket#win_set_tcp_keepalive method is not supported in this system.", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  
+  int32_t sockfd = stack[0].ival;
+  int32_t onoff = stack[1].ival;
+  int32_t keepalivetime_ms = stack[2].ival;
+  int32_t keepaliveinterval_ms = stack[3].ival;
+
+  struct tcp_keepalive settings;
+  settings.onoff = (u_long)onoff;
+  settings.keepalivetime = (u_long)keepalivetime_ms;
+  settings.keepaliveinterval = (u_long)keepaliveinterval_ms;
+
+  DWORD bytes_returned = 0;
+  int status = WSAIoctl(
+    (SOCKET)sockfd, 
+    SIO_KEEPALIVE_VALS, 
+    &settings, sizeof(settings), 
+    NULL, 0, 
+    &bytes_returned, 
+    NULL, NULL
+  );
+
+  if (status == SOCKET_ERROR) {
+    env->die(env, stack, "[System Error]WSAIoctl() failed(%d: %s).", __func__, FILE_NAME, __LINE__, WSAGetLastError(), spvm_socket_strerror(env, stack, WSAGetLastError(), 0));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = 0;
   
   return 0;
 #endif

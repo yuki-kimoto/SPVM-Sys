@@ -391,6 +391,24 @@ Excepsions:
 
 If the sockatmark function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+=head2 win_set_tcp_keepalive
+
+C<static method win_set_tcp_keepalive : int ($sockfd : int, $onoff : int, $keepalivetime_ms : int, $keepaliveinterval_ms : int);>
+
+Sets the TCP keep-alive settings (C<SIO_KEEPALIVE_VALS>) on Windows. This method calls the L<WSAIoctl|https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-wsaioctl> function with the C<SIO_KEEPALIVE_VALS> control code.
+
+For more information about the parameters, see the L<tcp_keepalive structure|https://learn.microsoft.com/en-us/windows/win32/api/mstcpip/ns-mstcpip-tcp_keepalive>.
+
+Return Value:
+
+If the function succeeds, the return value is 0.
+
+Exceptions:
+
+This method is only supported on Windows. If it is called on other systems, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::NotSupported|SPVM::Error::NotSupported> class.
+
+If the WSAIoctl function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head1 See Also
 
 =over 2
