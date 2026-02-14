@@ -333,6 +333,8 @@ my $test_tmp_dir = File::Temp->newdir;
 
 ok(SPVM::TestCase::Sys->ioctl);
 
+ok(SPVM::TestCase::Sys->set_tcp_keepidle);
+
 ok(SPVM::TestCase::Sys->env);
 
 ok(SPVM::TestCase::Sys->set_env);

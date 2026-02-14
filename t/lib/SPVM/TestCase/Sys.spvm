@@ -1675,4 +1675,40 @@ class TestCase::Sys {
     return 1;
   }
   
+  static method set_tcp_keepidle : int () {
+    
+    # Create a TCP socket for testing
+    my $domain = Sys::Socket::Constant->AF_INET;
+    my $type = Sys::Socket::Constant->SOCK_STREAM;
+    my $protocol = 0;
+    my $socket_fd = Sys::Socket->socket($domain, $type, $protocol);
+    
+    if ($socket_fd < 0) {
+      warn "Failed to create socket for testing";
+      return 0;
+    }
+    
+    # Ensure socket is closed at the end
+    Fn->defer([$socket_fd : int] method : void () {
+      Sys::Socket->close($socket_fd);
+    });
+    
+    # Test value: 123 seconds
+    my $setting_value = 123;
+    
+    # Set the value
+    Sys->set_tcp_keepidle($socket_fd, $setting_value);
+    
+    # Get the value back
+    my $getting_value = Sys->get_tcp_keepidle($socket_fd);
+    
+    # Verify
+    unless ($getting_value == $setting_value) {
+      diag "TCP keep-idle value mismatch: set $setting_value, but got $getting_value";
+      return 0;
+    }
+    
+    return 1;
+  }
+  
 }
