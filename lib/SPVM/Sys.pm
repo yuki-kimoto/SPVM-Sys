@@ -1685,6 +1685,30 @@ Exceptions:
 
 Exceptions thrown by L<Fn#rand|SPVM::Fn/"rand"> method could be thrown.
 
+=head2 set_tcp_keepidle
+
+C<static method set_tcp_keepidle : void ($socket_fd : int, $keepidle_sec : int);>
+
+Sets the TCP keep-alive idle time (C<TCP_KEEPIDLE> or C<TCP_KEEPALIVE> on macOS) in seconds.
+
+Notes:
+
+This method calls L<Sys#setsockopt|SPVM::Sys/"setsockopt"> to set the socket option at the C<IPPROTO_TCP> level.
+
+On macOS, this method uses the C<TCP_KEEPALIVE> constant instead of C<TCP_KEEPIDLE>.
+
+=head2 get_tcp_keepidle
+
+C<static method get_tcp_keepidle : int ($socket_fd : int);>
+
+Gets the current TCP keep-alive idle time (C<TCP_KEEPIDLE> or C<TCP_KEEPALIVE> on macOS) in seconds.
+
+Notes:
+
+This method calls L<Sys#getsockopt|SPVM::Sys/"getsockopt"> at the C<IPPROTO_TCP> level and returns the result as an integer.
+
+On macOS, this method uses the C<TCP_KEEPALIVE> constant instead of C<TCP_KEEPIDLE>.
+
 =head1 Modules
 
 =over 2
