@@ -1,4 +1,7 @@
 0.559 2026-02-14
+  [Internal Changes]
+    * Remove set_tcp_keepidle_portable, set_tcp_keepidle, get_tcp_keepidle methods and add set_tcp_keepalive method.
+0.559 2026-02-14
   [New Features]
     * Add TCP_KEEPALIVE constant to Sys::Socket::Constant class.
     * Add set_tcp_keepidle_portable method to the Sys class to set the TCP keep-alive idle time in a portable way across Windows, Linux, and macOS.
