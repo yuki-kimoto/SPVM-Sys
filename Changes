@@ -1,3 +1,7 @@
+0.559 2026-02-14
+  [New Features]
+    * Add TCP_KEEPALIVE constant to Sys::Socket::Constant class.
+    
 0.558 2026-02-04
   [Bug Fix]
     * Fix argument order in env->die calls within native classes on Windows
