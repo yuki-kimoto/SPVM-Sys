@@ -1696,16 +1696,19 @@ class TestCase::Sys {
     # Test value: 123 seconds
     my $setting_value = 123;
     
-    # Set the value
-    Sys->set_tcp_keepidle($socket_fd, $setting_value);
+    # Set the value using the portable method
+    Sys->set_tcp_keepidle_portable($socket_fd, $setting_value);
     
-    # Get the value back
-    my $getting_value = Sys->get_tcp_keepidle($socket_fd);
-    
-    # Verify
-    unless ($getting_value == $setting_value) {
-      diag "TCP keep-idle value mismatch: set $setting_value, but got $getting_value";
-      return 0;
+    # Verify (Skip get-check on Windows because WSAIoctl settings are write-only)
+    unless (Sys::OS->is_windows) {
+      # Get the value back
+      my $getting_value = Sys->get_tcp_keepidle($socket_fd);
+      
+      # Verify
+      unless ($getting_value == $setting_value) {
+        diag "TCP keep-idle value mismatch: set $setting_value, but got $getting_value";
+        return 0;
+      }
     }
     
     return 1;

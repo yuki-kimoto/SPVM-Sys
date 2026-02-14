@@ -1709,6 +1709,20 @@ This method calls L<Sys#getsockopt|SPVM::Sys/"getsockopt"> at the C<IPPROTO_TCP>
 
 On macOS, this method uses the C<TCP_KEEPALIVE> constant instead of C<TCP_KEEPIDLE>.
 
+=head2 set_tcp_keepidle_portable
+
+C<static method set_tcp_keepidle_portable : void ($socket_fd : int, $keepidle_sec : int);>
+
+Sets the TCP keep-alive idle time in seconds in a portable way.
+
+Notes:
+
+On Windows, this method calls L<Sys::Socket#win_set_tcp_keepalive|SPVM::Sys::Socket/"win_set_tcp_keepalive"> via C<WSAIoctl> with the C<SIO_KEEPALIVE_VALS> control code. It also enables keep-alive (C<onoff = 1>) and sets the retry interval to 1 second (1000ms).
+
+On other systems, this method calls L<set_tcp_keepidle|/"set_tcp_keepidle">.
+
+See also L<set_tcp_keepidle|/"set_tcp_keepidle"> and L<Sys::Socket#win_set_tcp_keepalive|SPVM::Sys::Socket/"win_set_tcp_keepalive">.
+
 =head1 Modules
 
 =over 2

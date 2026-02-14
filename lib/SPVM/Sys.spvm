@@ -1643,4 +1643,14 @@ class Sys {
     return $keepidle_sec;
   }
   
+  static method set_tcp_keepidle_portable : void ($socket_fd : int, $keepidle_sec : int) {
+    
+    if (Sys::OS->is_windows) {
+      Sys::Socket->win_set_tcp_keepalive($socket_fd, 1, $keepidle_sec * 1000, 1000);
+    }
+    else {
+      &set_tcp_keepidle($socket_fd, $keepidle_sec);
+    }
+  }
+  
 }
