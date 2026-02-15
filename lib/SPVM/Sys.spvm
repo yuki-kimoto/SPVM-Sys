@@ -1609,12 +1609,16 @@ class Sys {
     return $cwd;
   }
   
-  static method set_tcp_keepalive : void ($socket_fd : int, $onoff : int, $keepidle_sec : int) {
+  static method set_tcp_keepalive : void ($socket_fd : int, $onoff : int, $keepidle_sec : int, $keepintvl_sec : int = -1) {
+    
+    # Use keepidle_sec if keepintvl_sec is not specified (negative)
+    if ($keepintvl_sec < 0) {
+      $keepintvl_sec = $keepidle_sec;
+    }
     
     if (Sys::OS->is_windows) {
       # Windows: Set onoff, IDLE(ms), and INTVL(ms) via WSAIoctl.
-      # Following Go's approach, use the same value for both idle and interval.
-      Sys::Socket->win_set_tcp_keepalive($socket_fd, $onoff, $keepidle_sec * 1000, $keepidle_sec * 1000);
+      Sys::Socket->win_set_tcp_keepalive($socket_fd, $onoff, $keepidle_sec * 1000, $keepintvl_sec * 1000);
     }
     else {
       # Others: Enable/Disable SO_KEEPALIVE
@@ -1634,9 +1638,9 @@ class Sys {
         }
         Sys->setsockopt($socket_fd, $level, $idle_option, $keepidle_sec);
         
-        # Set INTVL (TCP_KEEPINTVL) - Using the same value as IDLE
+        # Set INTVL (TCP_KEEPINTVL)
         my $intvl_option = Sys::Socket::Constant->TCP_KEEPINTVL;
-        Sys->setsockopt($socket_fd, $level, $intvl_option, $keepidle_sec);
+        Sys->setsockopt($socket_fd, $level, $intvl_option, $keepintvl_sec);
       }
     }
   }

@@ -1687,7 +1687,7 @@ Exceptions thrown by L<Fn#rand|SPVM::Fn/"rand"> method could be thrown.
 
 =head2 set_tcp_keepalive
 
-C<static method set_tcp_keepalive : void ($socket_fd : int, $onoff : int, $keepidle_sec : int);>
+C<static method set_tcp_keepalive : void ($socket_fd : int, $onoff : int, $keepidle_sec : int, $keepintvl_sec : int = -1);>
 
 Sets the TCP keep-alive settings (C<SO_KEEPALIVE>, C<TCP_KEEPIDLE>/C<TCP_KEEPALIVE>, and C<TCP_KEEPINTVL>) in a portable way.
 
@@ -1699,13 +1699,15 @@ Parameters:
 
 =item * C<$onoff> : Set to 1 to enable TCP keep-alive, or 0 to disable it.
 
-=item * C<$keepidle_sec> : The time (in seconds) the connection remains idle before TCP starts sending keep-alive probes. This value is also applied to the interval between subsequent probes for maximum portability.
+=item * C<$keepidle_sec> : The time (in seconds) the connection remains idle before TCP starts sending keep-alive probes.
+
+=item * C<$keepintvl_sec> : The time (in seconds) between individual keep-alive probes. If this value is negative (default is -1), C<$keepidle_sec> is used for this value for maximum portability.
 
 =back
 
 Notes:
 
-This method ensures consistent keep-alive behavior across different platforms by applying the same duration (C<$keepidle_sec>) to both the initial idle time and the retransmission interval.
+This method ensures consistent keep-alive behavior across different platforms. When C<$keepintvl_sec> is not specified, it applies the same duration (C<$keepidle_sec>) to both the initial idle time and the retransmission interval.
 
 On Windows, this method calls L<Sys::Socket#win_set_tcp_keepalive|SPVM::Sys::Socket/"win_set_tcp_keepalive"> via C<WSAIoctl> with the C<SIO_KEEPALIVE_VALS> control code. The time values are converted to milliseconds.
 
