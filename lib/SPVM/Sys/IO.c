@@ -1,10 +1,7 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
-/* Enable POSIX.1-2008 standard functions */
-#define _POSIX_C_SOURCE 200809L
-
-/* Enable X/Open System Interfaces (SUSv4) functions */
+/* Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions */
 #define _XOPEN_SOURCE 700
 
 #include "spvm_native.h"
@@ -861,7 +858,7 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t flags = stack[3].ival;
   
-  // Required: _POSIX_C_SOURCE 200809L on Linux/MacOS
+  // Required: _XOPEN_SOURCE 700 on Linux/MacOS
   int32_t status = faccessat(dirfd, pathname, mode, flags);
   
   if (status == -1) {
