@@ -21,8 +21,6 @@ use SPVM 'Sys::Socket::Constant';
 
 my $api = SPVM::api();
 
-my $start_memory_blocks_count = $api->get_memory_blocks_count;
-
 my $ipv6_available = Test::SPVM::Sys::Socket::Util::can_bind('::1');
 
 unless ($ipv6_available) {
