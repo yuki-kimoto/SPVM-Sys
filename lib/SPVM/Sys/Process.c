@@ -1,6 +1,12 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+#define _XOPEN_SOURCE 700
+
+// Enable BSD and System V extensions
+#define _DEFAULT_SOURCE
+
 #include "spvm_native.h"
 
 #include <unistd.h>
@@ -8,6 +14,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <time.h>
 
 #if defined(_WIN32)
   // None
@@ -104,10 +111,16 @@ int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int64_t usec = stack[0].lval;
   
-  int32_t status = usleep(usec);
+  // Emulate usleep using nanosleep for better POSIX compliance
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
+  struct timespec ts;
+  ts.tv_sec = usec / 1000000;
+  ts.tv_nsec = (usec % 1000000) * 1000;
+  
+  int32_t status = nanosleep(&ts, NULL);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]usleep() failed.", __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]nanosleep() failed.", __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -288,6 +301,7 @@ int32_t SPVM__Sys__Process__getpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t pid = stack[0].ival;
   
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t process_group_id = getpgid(pid);
   
   if (process_group_id == -1) {
@@ -415,7 +429,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Process__WIFEXITED(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-#ifdef WCONTINUED
+#ifdef WIFEXITED
   stack[0].ival = WIFEXITED(stack[0].ival);
   return 0;
 #else
@@ -464,6 +478,7 @@ int32_t SPVM__Sys__Process__WTERMSIG(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Process__WCOREDUMP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef WCOREDUMP
+  // _DEFAULT_SOURCE is required when _XOPEN_SOURCE is defined to 700.
   stack[0].ival = WCOREDUMP(stack[0].ival);
   return 0;
 #else
