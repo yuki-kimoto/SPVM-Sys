@@ -1,10 +1,10 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
-// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions on Linux and macOS
 #define _XOPEN_SOURCE 700
 
-// Enable BSD and System V extensions
+// Enable BSD and System V extensions on Linux
 #define _DEFAULT_SOURCE
 
 // Windows 8.1+
@@ -95,7 +95,6 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   int32_t status = inet_pton(AF_INET, cp, st_in_addr);
 #else
-  // _DEFAULT_SOURCE is required when _XOPEN_SOURCE is defined to 700.
   int32_t status = inet_aton(cp, st_in_addr);
 #endif
 
@@ -796,7 +795,6 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct addrinfo *res = NULL;
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t status = getaddrinfo(node, service, hints, &res);
   
   if (status == 0) {
@@ -853,7 +851,6 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
     serv = (char*)env->get_chars(env, stack, obj_serv);
   }
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t status = getnameinfo(sa, salen, host, hostlen, serv, servlen, flags);
   
   if (!(status == 0)) {
@@ -874,7 +871,6 @@ int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t errcode = stack[0].ival;
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   const char* error_string = gai_strerror(errcode);
   
   if (error_string) {
@@ -898,7 +894,6 @@ int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t status = sockatmark(sockfd);
   
   if (status == -1) {

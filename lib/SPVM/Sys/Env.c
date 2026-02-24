@@ -1,8 +1,11 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
-// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions on Linux and macOS
 #define _XOPEN_SOURCE 700
+
+// Enable BSD and System V extensions on Linux
+#define _DEFAULT_SOURCE
 
 #include "spvm_native.h"
 
@@ -57,7 +60,6 @@ int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t overwrite = stack[2].ival;
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t status = setenv(name, value, overwrite);
   
   if (status == -1) {
@@ -82,7 +84,6 @@ int32_t SPVM__Sys__Env__unsetenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* name = env->get_chars(env, stack, obj_name);
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t status = unsetenv(name);
   
   if (status == -1) {

@@ -1,10 +1,10 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
-// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions on Linux and macOS
 #define _XOPEN_SOURCE 700
 
-// Enable BSD and System V extensions
+// Enable BSD and System V extensions on Linux
 #define _DEFAULT_SOURCE
 
 #include "spvm_native.h"
@@ -106,7 +106,6 @@ int32_t SPVM__Sys__User__seteuid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t euid = stack[0].ival;
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t status = seteuid(euid);
   
   if (status == -1) {
@@ -148,7 +147,6 @@ int32_t SPVM__Sys__User__setegid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t egid = stack[0].ival;
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t status = setegid(egid);
 
   if (status == -1) {
@@ -168,7 +166,6 @@ int32_t SPVM__Sys__User__setpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::User#setpwent method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   setpwent();
   
   return 0;
@@ -183,7 +180,6 @@ int32_t SPVM__Sys__User__endpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   endpwent();
   
   return 0;
@@ -200,7 +196,6 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   errno = 0;
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   struct passwd* pwent = getpwent();
   
   if (errno != 0) {
@@ -228,7 +223,6 @@ int32_t SPVM__Sys__User__setgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   setgrent();
   
   return 0;
@@ -242,7 +236,6 @@ int32_t SPVM__Sys__User__endgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   endgrent();
   
   return 0;
@@ -259,7 +252,6 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   errno = 0;
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   struct group* grent = getgrent();
   
   if (errno != 0) {
@@ -309,7 +301,6 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   assert(sizeof(gid_t) == sizeof(int32_t));
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t list_length = getgroups(size, (gid_t*)list);
   if (list_length == -1) {
     env->die(env, stack, "[System Error]getgroups() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -341,7 +332,6 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   assert(sizeof(gid_t) == sizeof(int32_t));
   
-  // _DEFAULT_SOURCE is required when _XOPEN_SOURCE is defined to 700.
   int32_t status = setgroups(groups_length, (gid_t*)groups);
   if (status == -1) {
     env->die(env, stack, "[System Error]setgroups() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));

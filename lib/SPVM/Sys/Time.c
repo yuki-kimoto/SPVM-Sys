@@ -1,8 +1,11 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
-// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions on Linux and macOS
 #define _XOPEN_SOURCE 700
+
+// Enable BSD and System V extensions on Linux
+#define _DEFAULT_SOURCE
 
 #include "spvm_native.h"
 
@@ -305,7 +308,6 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
     st_remain = env->get_pointer(env, stack, obj_remain);
   }
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t ret_errno = clock_nanosleep(clockid, flags, st_request, st_remain);
   
   if (ret_errno != 0) {

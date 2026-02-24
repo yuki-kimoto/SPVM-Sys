@@ -1,11 +1,10 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
-// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
-// This is essential for POLLRDBAND, POLLWRBAND, etc.
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions on Linux and macOS
 #define _XOPEN_SOURCE 700
 
-// Enable BSD and System V extensions
+// Enable BSD and System V extensions on Linux
 #define _DEFAULT_SOURCE
 
 // Windows 8.1+

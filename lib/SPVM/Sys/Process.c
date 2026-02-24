@@ -297,7 +297,6 @@ int32_t SPVM__Sys__Process__getpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t pid = stack[0].ival;
   
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t process_group_id = getpgid(pid);
   
   if (process_group_id == -1) {
@@ -474,7 +473,6 @@ int32_t SPVM__Sys__Process__WTERMSIG(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__Process__WCOREDUMP(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 #ifdef WCOREDUMP
-  // _DEFAULT_SOURCE is required when _XOPEN_SOURCE is defined to 700.
   stack[0].ival = WCOREDUMP(stack[0].ival);
   return 0;
 #else
