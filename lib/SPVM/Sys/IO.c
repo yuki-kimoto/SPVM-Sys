@@ -1,6 +1,12 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+/* Enable POSIX.1-2008 standard functions */
+#define _POSIX_C_SOURCE 200809L
+
+/* Enable X/Open System Interfaces (SUSv4) functions */
+#define _XOPEN_SOURCE 700
+
 #include "spvm_native.h"
 
 // File IO
@@ -855,6 +861,7 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t flags = stack[3].ival;
   
+  // Required: _POSIX_C_SOURCE 200809L on Linux/MacOS
   int32_t status = faccessat(dirfd, pathname, mode, flags);
   
   if (status == -1) {
@@ -898,6 +905,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
     close(fd);
   }
 #else
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t status = truncate(path, length);
 #endif
 
@@ -1313,6 +1321,7 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* newpath = env->get_chars(env, stack, obj_newpath);
   
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t status = symlink(oldpath, newpath);
   if (status == -1) {
     env->die(env, stack, "[System Error]symlink() failed(%d: %s). $oldpath='%s', $newpath='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), oldpath, newpath);
@@ -1355,6 +1364,7 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The buffer size $bufsiz must be less than or equal to the length of $buf.", __func__, FILE_NAME, __LINE__);
   }
   
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int32_t placed_length = readlink(path, buf, bufsiz);
   if (placed_length == -1) {
     env->die(env, stack, "[System Error]readlink() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
@@ -1494,6 +1504,7 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   int64_t offset = _wtelldir(dirp);
 #else
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   int64_t offset = telldir(dirp);
 #endif
 
@@ -1526,6 +1537,7 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   _wseekdir(dirp, offset);
 #else
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   seekdir(dirp, offset);
 #endif
 
