@@ -1,10 +1,10 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
-// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions on Linux and macOS
 #define _XOPEN_SOURCE 700
 
-// Enable BSD and System V extensions
+// Enable BSD and System V extensions on Linux
 #define _DEFAULT_SOURCE
 
 #include "spvm_native.h"
@@ -109,18 +109,14 @@ int32_t SPVM__Sys__Process__sleep(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  // The usec argument is unsigned int (usually 32-bit), 
+  // but we receive it as int64_t from SPVM to prevent overflow during passing.
   int64_t usec = stack[0].lval;
   
-  // Emulate usleep using nanosleep for better POSIX compliance
-  // Required: _XOPEN_SOURCE 700 on Linux and macOS
-  struct timespec ts;
-  ts.tv_sec = usec / 1000000;
-  ts.tv_nsec = (usec % 1000000) * 1000;
-  
-  int32_t status = nanosleep(&ts, NULL);
+  int32_t status = usleep((useconds_t)usec);
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]nanosleep() failed.", __func__, FILE_NAME, __LINE__);
+    env->die(env, stack, "[System Error]usleep() failed.", __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
