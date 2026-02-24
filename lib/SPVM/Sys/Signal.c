@@ -1,6 +1,12 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+#define _XOPEN_SOURCE 700
+
+// Enable BSD and System V extensions. Required for struct timezone.
+#define _DEFAULT_SOURCE
+
 #include "spvm_native.h"
 
 #include <unistd.h>
@@ -76,6 +82,7 @@ int32_t SPVM__Sys__Signal__ualarm(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t interval = stack[1].ival;
   
+  // _DEFAULT_SOURCE is required when _XOPEN_SOURCE is defined to 700.
   int32_t rest_usecs = ualarm(usecs, interval);
   
   if (rest_usecs == -1) {
