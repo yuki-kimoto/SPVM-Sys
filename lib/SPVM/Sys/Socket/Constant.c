@@ -1,6 +1,12 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+#define _XOPEN_SOURCE 700
+
+// Enable BSD and System V extensions
+#define _DEFAULT_SOURCE
+
 // Windows 8.1+
 #define _WIN32_WINNT 0x0603
 
