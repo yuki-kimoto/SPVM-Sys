@@ -1,6 +1,9 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+#define _XOPEN_SOURCE 700
+
 // Windows 8.1+
 #define _WIN32_WINNT 0x0603
 
@@ -24,6 +27,7 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__DESTROY(SPVM_ENV* env, SPVM_VALUE
   
   void* obj_addrinfo = stack[0].oval;
   
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_addrinfo);
   
   if (st_addrinfo) {
@@ -41,6 +45,7 @@ int32_t SPVM__Sys__Socket__AddrinfoLinkedList__to_array(SPVM_ENV* env, SPVM_VALU
   
   void* obj_addrinfo = stack[0].oval;
   
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_addrinfo);
   
   int32_t length = 0;

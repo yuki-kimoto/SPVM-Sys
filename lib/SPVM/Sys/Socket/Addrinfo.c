@@ -1,6 +1,9 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
+#define _XOPEN_SOURCE 700
+
 #include "spvm_native.h"
 #include "spvm_socket_util.h"
 #include <assert.h>
@@ -11,6 +14,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
+  // Required: _XOPEN_SOURCE 700 on Linux and macOS
   struct addrinfo* addrinfo = env->new_memory_block(env, stack, sizeof(struct addrinfo));
   
   void* obj_addrinfo = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Addrinfo", addrinfo, &error_id, __func__, FILE_NAME, __LINE__);
