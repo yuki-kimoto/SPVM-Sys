@@ -1,6 +1,13 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions on Linux and macOS
+#define _XOPEN_SOURCE 700
+
+// Enable BSD and System V extensions on Linux
+#define _DEFAULT_SOURCE
+
+
 #include "spvm_native.h"
 
 // The maximum number of sockets that a Windows Sockets application can use is not affected by the manifest constant FD_SETSIZE

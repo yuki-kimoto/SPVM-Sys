@@ -1,3 +1,10 @@
+// Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions on Linux and macOS
+#define _XOPEN_SOURCE 700
+
+// Enable BSD and System V extensions on Linux
+#define _DEFAULT_SOURCE
+
+
 #if defined(_WIN32)
 
 #include "spvm_sys_windows.h"
