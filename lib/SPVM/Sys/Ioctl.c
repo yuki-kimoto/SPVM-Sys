@@ -37,7 +37,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t ret;
 
-  void* obj_request_arg_ref = stack[2].oval;
+  SPVM_OBJ* obj_request_arg_ref = stack[2].oval;
   
   if (!obj_request_arg_ref) {
     ret = ioctl(fd, request, NULL);
@@ -108,7 +108,7 @@ int32_t SPVM__Sys__Ioctl__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t ret;
   
-  void* obj_request_arg_ref = stack[2].oval;
+  SPVM_OBJ* obj_request_arg_ref = stack[2].oval;
   
   if (!obj_request_arg_ref) {
     ret = ioctlsocket(fd, request, NULL);

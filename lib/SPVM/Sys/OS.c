@@ -32,9 +32,9 @@ int32_t SPVM__Sys__OS__is_windows(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__OS__defined(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_macro_name = stack[0].oval;
+  SPVM_OBJ* obj_macro_name = stack[0].oval;
   
-  void* obj_value_ref = stack[1].oval;
+  SPVM_OBJ* obj_value_ref = stack[1].oval;
   
   if (!obj_macro_name) {
     return env->die(env, stack, "The macro name $macro_name must be defined.", __func__, FILE_NAME, __LINE__);

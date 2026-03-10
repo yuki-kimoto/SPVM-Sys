@@ -187,7 +187,7 @@ int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Process__system(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_command = stack[0].oval;
+  SPVM_OBJ* obj_command = stack[0].oval;
   
   const char* command = NULL;
   if (obj_command) {
@@ -221,7 +221,7 @@ int32_t SPVM__Sys__Process__pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_pipefds = stack[0].oval;
+  SPVM_OBJ* obj_pipefds = stack[0].oval;
   
   if (!obj_pipefds) {
     return env->die(env, stack, "The pipe file descriptors $pipefds must be defined.", __func__, FILE_NAME, __LINE__);
@@ -257,7 +257,7 @@ int32_t SPVM__Sys__Process___pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_pipefds = stack[0].oval;
+  SPVM_OBJ* obj_pipefds = stack[0].oval;
   
   unsigned int psize = (uint32_t)stack[1].ival;
   
@@ -362,9 +362,9 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
-  void* obj_args = stack[1].oval;
+  SPVM_OBJ* obj_args = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The command path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -378,7 +378,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t args_length = env->length(env, stack, obj_args);
   char** argv = env->new_memory_block(env, stack, sizeof(char*) * (args_length + 1));
   for (int32_t i = 0; i < args_length; i++) {
-    void* obj_arg = env->get_elem_object(env, stack, obj_args, i);
+    SPVM_OBJ* obj_arg = env->get_elem_object(env, stack, obj_args, i);
     
     if (!obj_arg) {
       return env->die(env, stack, "The %dth element of the command arguments $args must be defined.", __func__, FILE_NAME, __LINE__, i);

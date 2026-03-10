@@ -21,7 +21,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct addrinfo* addrinfo = env->new_memory_block(env, stack, sizeof(struct addrinfo));
   
-  void* obj_addrinfo = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Addrinfo", addrinfo, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_addrinfo = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Addrinfo", addrinfo, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_addrinfo;
@@ -31,7 +31,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__Addrinfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  void* obj_addrinfo = stack[0].oval;
+  SPVM_OBJ* obj_addrinfo = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_addrinfo);
   
@@ -46,7 +46,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__Addrinfo__ai_flags(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -57,7 +57,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_flags(SPVM_ENV* env, SPVM_VALUE* stack) 
 
 int32_t SPVM__Sys__Socket__Addrinfo__set_ai_flags(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -68,7 +68,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__set_ai_flags(SPVM_ENV* env, SPVM_VALUE* sta
 
 int32_t SPVM__Sys__Socket__Addrinfo__ai_family(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -79,7 +79,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_family(SPVM_ENV* env, SPVM_VALUE* stack)
 
 int32_t SPVM__Sys__Socket__Addrinfo__set_ai_family(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -90,7 +90,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__set_ai_family(SPVM_ENV* env, SPVM_VALUE* st
 
 int32_t SPVM__Sys__Socket__Addrinfo__ai_socktype(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -101,7 +101,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_socktype(SPVM_ENV* env, SPVM_VALUE* stac
 
 int32_t SPVM__Sys__Socket__Addrinfo__set_ai_socktype(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -112,7 +112,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__set_ai_socktype(SPVM_ENV* env, SPVM_VALUE* 
 
 int32_t SPVM__Sys__Socket__Addrinfo__ai_protocol(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -123,7 +123,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_protocol(SPVM_ENV* env, SPVM_VALUE* stac
 
 int32_t SPVM__Sys__Socket__Addrinfo__set_ai_protocol(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -134,7 +134,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__set_ai_protocol(SPVM_ENV* env, SPVM_VALUE* 
 
 int32_t SPVM__Sys__Socket__Addrinfo__ai_addrlen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -145,7 +145,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_addrlen(SPVM_ENV* env, SPVM_VALUE* stack
 
 int32_t SPVM__Sys__Socket__Addrinfo__set_ai_addrlen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
@@ -158,13 +158,13 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error = 0;
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
   struct sockaddr* ai_addr = st_addrinfo->ai_addr;
   
-  void* obj_ai_addr_clone = NULL;
+  SPVM_OBJ* obj_ai_addr_clone = NULL;
   void* tmp_ai_addr = NULL;
   if (ai_addr) {
     const char* sockaddr_class_name = NULL;
@@ -195,7 +195,7 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
     
     // Calls the clone method.
     {
-      void* obj_ai_addr = env->new_pointer_object_by_name(env, stack, sockaddr_class_name, tmp_ai_addr, &error, __func__, FILE_NAME, __LINE__);
+      SPVM_OBJ* obj_ai_addr = env->new_pointer_object_by_name(env, stack, sockaddr_class_name, tmp_ai_addr, &error, __func__, FILE_NAME, __LINE__);
       if (error) { return error; }
       
       stack[0].oval = obj_ai_addr;
@@ -213,13 +213,13 @@ int32_t SPVM__Sys__Socket__Addrinfo__ai_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__Addrinfo__ai_canonname(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct addrinfo* st_addrinfo = env->get_pointer(env, stack, obj_self);
   
   char* ai_canonname = st_addrinfo->ai_canonname;
   
-  void* obj_ai_canonname = NULL;
+  SPVM_OBJ* obj_ai_canonname = NULL;
   if (ai_canonname) {
     obj_ai_canonname = env->new_string(env, stack, ai_canonname, strlen(ai_canonname));
   }

@@ -78,9 +78,9 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
-  void* obj_cp = stack[0].oval;
+  SPVM_OBJ* obj_cp = stack[0].oval;
   
-  void* obj_inp = stack[1].oval;
+  SPVM_OBJ* obj_inp = stack[1].oval;
   
   if (!obj_cp) {
     return env->die(env, stack, "The address string $cp must be defined.", __func__, FILE_NAME, __LINE__);
@@ -116,7 +116,7 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_in = stack[0].oval;
+  SPVM_OBJ* obj_in = stack[0].oval;
   
   if (!obj_in) {
     return env->die(env, stack, "The address data structure $in must be defined.", __func__, FILE_NAME, __LINE__);
@@ -131,7 +131,7 @@ int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  void* obj_output_address;
+  SPVM_OBJ* obj_output_address;
   if (output_address) {
     obj_output_address = env->new_string(env, stack, output_address, strlen(output_address));
   }
@@ -159,9 +159,9 @@ int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t af = stack[0].ival;
   
-  void* obj_src = stack[1].oval;
+  SPVM_OBJ* obj_src = stack[1].oval;
   
-  void* obj_dst = stack[2].oval;
+  SPVM_OBJ* obj_dst = stack[2].oval;
   
   if (!(af == AF_INET || af == AF_INET6)) {
     return env->die(env, stack, "The address family $af must be AF_INET or AF_INET6.", __func__, FILE_NAME, __LINE__);
@@ -213,9 +213,9 @@ int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t af = stack[0].ival;
   
-  void* obj_src = stack[1].oval;
+  SPVM_OBJ* obj_src = stack[1].oval;
   
-  void* obj_dst = stack[2].oval;
+  SPVM_OBJ* obj_dst = stack[2].oval;
   
   int32_t size = stack[3].ival;
   
@@ -269,7 +269,7 @@ int32_t SPVM__Sys__Socket__connect(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  void* obj_addr = stack[1].oval;
+  SPVM_OBJ* obj_addr = stack[1].oval;
   
   if (!obj_addr) {
     return env->die(env, stack, "The socket address $addr must be defined.", __func__, FILE_NAME, __LINE__);
@@ -295,7 +295,7 @@ int32_t SPVM__Sys__Socket__bind(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  void* obj_addr = stack[1].oval;
+  SPVM_OBJ* obj_addr = stack[1].oval;
   
   if (!obj_addr) {
     return env->die(env, stack, "The socket address $addr must be defined.", __func__, FILE_NAME, __LINE__);
@@ -321,7 +321,7 @@ int32_t SPVM__Sys__Socket__accept(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  void* obj_addr = stack[1].oval;
+  SPVM_OBJ* obj_addr = stack[1].oval;
   
   int32_t* addrlen_ref = stack[2].iref;
   
@@ -411,7 +411,7 @@ int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  void* obj_buf = stack[1].oval;
+  SPVM_OBJ* obj_buf = stack[1].oval;
   
   if (!obj_buf) {
     return env->die(env, stack, "The buffer $buf must be defined.", __func__, FILE_NAME, __LINE__);
@@ -445,13 +445,13 @@ int32_t SPVM__Sys__Socket__recvfrom(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  void* obj_buf = stack[1].oval;
+  SPVM_OBJ* obj_buf = stack[1].oval;
   
   int32_t len = stack[2].ival;
   
   int32_t flags = stack[3].ival;
   
-  void* obj_src_addr = stack[4].oval;
+  SPVM_OBJ* obj_src_addr = stack[4].oval;
   
   int32_t* addrlen_ref = stack[5].iref;
   
@@ -496,7 +496,7 @@ int32_t SPVM__Sys__Socket__send(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  void* obj_buf = stack[1].oval;
+  SPVM_OBJ* obj_buf = stack[1].oval;
   
   int32_t len = stack[2].ival;
   
@@ -530,13 +530,13 @@ int32_t SPVM__Sys__Socket__sendto(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  void* obj_buf = stack[1].oval;
+  SPVM_OBJ* obj_buf = stack[1].oval;
   
   int32_t len = stack[2].ival;
   
   int32_t flags = stack[3].ival;
   
-  void* obj_addr = stack[4].oval;
+  SPVM_OBJ* obj_addr = stack[4].oval;
   
   if (!obj_buf) {
     return env->die(env, stack, "The buffer $buf must be defined.", __func__, FILE_NAME, __LINE__);
@@ -574,7 +574,7 @@ int32_t SPVM__Sys__Socket__getpeername(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  void* obj_addr = stack[1].oval;
+  SPVM_OBJ* obj_addr = stack[1].oval;
   
   int32_t* addrlen_ref = stack[2].iref;
   
@@ -608,7 +608,7 @@ int32_t SPVM__Sys__Socket__getsockname(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
-  void* obj_addr = stack[1].oval;
+  SPVM_OBJ* obj_addr = stack[1].oval;
   
   int32_t* addrlen_ref = stack[2].iref;
   
@@ -646,7 +646,7 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t optname = stack[2].ival;
   
-  void* obj_optval = stack[3].oval;
+  SPVM_OBJ* obj_optval = stack[3].oval;
   
   int32_t* optlen_ref = stack[4].iref;
   
@@ -687,7 +687,7 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t optname = stack[2].ival;
   
-  void* obj_optval = stack[3].oval;
+  SPVM_OBJ* obj_optval = stack[3].oval;
   
   socklen_t optlen = stack[4].ival;
   
@@ -729,7 +729,7 @@ int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t protocol = stack[2].ival;
   
-  void* obj_sv = stack[3].oval;
+  SPVM_OBJ* obj_sv = stack[3].oval;
   
   if (!obj_sv) {
     return env->die(env, stack, "The socket pair $sv must be defined.", __func__, FILE_NAME, __LINE__);
@@ -764,13 +764,13 @@ int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack);
 int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
-  void* obj_node = stack[0].oval;
+  SPVM_OBJ* obj_node = stack[0].oval;
   
-  void* obj_service = stack[1].oval;
+  SPVM_OBJ* obj_service = stack[1].oval;
   
-  void* obj_hints = stack[2].oval;
+  SPVM_OBJ* obj_hints = stack[2].oval;
   
-  void* obj_res_array = stack[3].oval;
+  SPVM_OBJ* obj_res_array = stack[3].oval;
   
   const char* node = NULL;
   if (obj_node) {
@@ -801,14 +801,14 @@ int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (status == 0) {
     int32_t fields_length = 1;
-    void* obj_res = env->new_pointer_object_by_name(env, stack, "Sys::Socket::AddrinfoLinkedList", res, &error_id, __func__, FILE_NAME, __LINE__);
+    SPVM_OBJ* obj_res = env->new_pointer_object_by_name(env, stack, "Sys::Socket::AddrinfoLinkedList", res, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) { return error_id; }
     env->set_elem_object(env, stack, obj_res_array, 0, obj_res);
   }
   else {
     stack[0].ival = status;
     SPVM__Sys__Socket__gai_strerror(env, stack);
-    void* obj_gai_strerror = stack[0].oval;
+    SPVM_OBJ* obj_gai_strerror = stack[0].oval;
     const char* ch_gai_strerror = env->get_chars(env, stack, obj_gai_strerror);
     env->die(env, stack, "[System Error]getaddrinfo() failed(%d: %s).", __func__, FILE_NAME, __LINE__, status, ch_gai_strerror);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -823,15 +823,15 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_sa = stack[0].oval;
+  SPVM_OBJ* obj_sa = stack[0].oval;
   
   int32_t salen = stack[1].ival;
   
-  void* obj_host = stack[2].oval;
+  SPVM_OBJ* obj_host = stack[2].oval;
   
   int32_t hostlen = stack[3].ival;
   
-  void* obj_serv = stack[4].oval;
+  SPVM_OBJ* obj_serv = stack[4].oval;
   
   int32_t servlen = stack[5].ival;
   
@@ -858,7 +858,7 @@ int32_t SPVM__Sys__Socket__getnameinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!(status == 0)) {
     stack[0].ival = status;
     SPVM__Sys__Socket__gai_strerror(env, stack);
-    void* obj_gai_strerror = stack[0].oval;
+    SPVM_OBJ* obj_gai_strerror = stack[0].oval;
     const char* ch_gai_strerror = env->get_chars(env, stack, obj_gai_strerror);
     env->die(env, stack, "[System Error]getnameinfo() failed(%d: %s).", __func__, FILE_NAME, __LINE__, status, ch_gai_strerror);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -877,7 +877,7 @@ int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (error_string) {
     int32_t error_string_length = strlen(error_string);
-    void* obj_error_string = env->new_string(env, stack, error_string, error_string_length);
+    SPVM_OBJ* obj_error_string = env->new_string(env, stack, error_string, error_string_length);
     stack[0].oval = obj_error_string;
   }
   else {

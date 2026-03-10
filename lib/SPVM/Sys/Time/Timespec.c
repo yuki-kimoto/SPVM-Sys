@@ -49,7 +49,7 @@ int32_t SPVM__Sys__Time__Timespec__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   ts->tv_nsec = stack[1].lval;
   
-  void* obj_ts = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timespec", ts, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_ts = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timespec", ts, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_ts;
@@ -59,7 +59,7 @@ int32_t SPVM__Sys__Time__Timespec__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Timespec__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_ts = stack[0].oval;
+  SPVM_OBJ* obj_ts = stack[0].oval;
   
   struct timespec* ts = env->get_pointer(env, stack, obj_ts);
   
@@ -72,7 +72,7 @@ int32_t SPVM__Sys__Time__Timespec__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Timespec__tv_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_ts = stack[0].oval;
+  SPVM_OBJ* obj_ts = stack[0].oval;
   
   struct timespec* ts = env->get_pointer(env, stack, obj_ts);
   
@@ -83,7 +83,7 @@ int32_t SPVM__Sys__Time__Timespec__tv_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Timespec__set_tv_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_ts = stack[0].oval;
+  SPVM_OBJ* obj_ts = stack[0].oval;
   
   int64_t tv_sec = stack[1].lval;
   
@@ -96,7 +96,7 @@ int32_t SPVM__Sys__Time__Timespec__set_tv_sec(SPVM_ENV* env, SPVM_VALUE* stack) 
 
 int32_t SPVM__Sys__Time__Timespec__tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_ts = stack[0].oval;
+  SPVM_OBJ* obj_ts = stack[0].oval;
   
   struct timespec* ts = env->get_pointer(env, stack, obj_ts);
   
@@ -107,7 +107,7 @@ int32_t SPVM__Sys__Time__Timespec__tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Timespec__set_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_ts = stack[0].oval;
+  SPVM_OBJ* obj_ts = stack[0].oval;
   
   int64_t tv_nsec = stack[1].lval;
   

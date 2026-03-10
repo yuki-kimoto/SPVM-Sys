@@ -2492,7 +2492,7 @@ int32_t SPVM__Sys__Socket__Constant__IN6ADDR_ANY(SPVM_ENV* env, SPVM_VALUE* stac
   struct in6_addr* address = env->new_memory_block(env, stack, sizeof(struct in6_addr));
   
   int32_t error_id = 0;
-  void* obj_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In6_addr", address, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In6_addr", address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_address;
@@ -2512,7 +2512,7 @@ int32_t SPVM__Sys__Socket__Constant__IN6ADDR_LOOPBACK(SPVM_ENV* env, SPVM_VALUE*
   struct in6_addr* address = env->new_memory_block(env, stack, sizeof(struct in6_addr));
   
   int32_t error_id = 0;
-  void* obj_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In6_addr", address, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In6_addr", address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_address;

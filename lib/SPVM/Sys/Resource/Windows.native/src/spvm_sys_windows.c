@@ -11,7 +11,7 @@
 
 #include "spvm_sys_windows.h"
 
-void* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   *error_id = 0;
   
@@ -33,7 +33,7 @@ void* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const
     return NULL;
   }
   
-  void* obj_utf16le_string = env->new_short_array(env, stack, utf16le_string_length);
+  SPVM_OBJ* obj_utf16le_string = env->new_short_array(env, stack, utf16le_string_length);
   WCHAR* utf16le_string = env->get_elems_short(env, stack, obj_utf16le_string);
   
   utf16le_string_length = MultiByteToWideChar(
@@ -75,7 +75,7 @@ const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack,
     return NULL;
   }
   
-  void* obj_utf8_string = env->new_string(env, stack, NULL, utf8_string_length);
+  SPVM_OBJ* obj_utf8_string = env->new_string(env, stack, NULL, utf8_string_length);
   
   char* utf8_string = (char*)env->get_chars(env, stack, obj_utf8_string);
   

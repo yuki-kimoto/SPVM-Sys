@@ -250,7 +250,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   const char* path = env->get_chars(env, stack, obj_path);
   
@@ -266,9 +266,9 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   int32_t ReparseTag = 0;
   if (handle == INVALID_HANDLE_VALUE) {
-    void* obj_resolved_link_text = NULL;
+    SPVM_OBJ* obj_resolved_link_text = NULL;
     {
-      void* obj_link_text = NULL;
+      SPVM_OBJ* obj_link_text = NULL;
       stack[0].oval = obj_path;
       env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) {
@@ -320,7 +320,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   const char* path = env->get_chars(env, stack, obj_path);
   
@@ -346,7 +346,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   int32_t is_sym = spvm_sys_windows_is_symlink_by_handle(handle);
   
   if (is_sym) {
-    void* obj_link_text = NULL;
+    SPVM_OBJ* obj_link_text = NULL;
     stack[0].oval = obj_path;
     env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
@@ -385,7 +385,7 @@ int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   Stat_t* st_stat = env->new_memory_block(env, stack, sizeof(Stat_t));
   
-  void* obj_stat = env->new_pointer_object_by_name(env, stack, "Sys::IO::Stat", st_stat, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stat = env->new_pointer_object_by_name(env, stack, "Sys::IO::Stat", st_stat, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stat;
@@ -395,7 +395,7 @@ int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -412,9 +412,9 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
-  void* obj_stat = stack[1].oval;
+  SPVM_OBJ* obj_stat = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -450,9 +450,9 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
-  void* obj_lstat = stack[1].oval;
+  SPVM_OBJ* obj_lstat = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -490,7 +490,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
-  void* obj_stat = stack[1].oval;
+  SPVM_OBJ* obj_stat = stack[1].oval;
   
   if (!obj_stat) {
     return env->die(env, stack, "The stat object $stat must be defined.", __func__, FILE_NAME, __LINE__);
@@ -518,7 +518,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_dev(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -529,7 +529,7 @@ int32_t SPVM__Sys__IO__Stat__st_dev(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_ino(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -540,7 +540,7 @@ int32_t SPVM__Sys__IO__Stat__st_ino(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_mode(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -550,7 +550,7 @@ int32_t SPVM__Sys__IO__Stat__st_mode(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__Stat__st_nlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -561,7 +561,7 @@ int32_t SPVM__Sys__IO__Stat__st_nlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_size(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -575,7 +575,7 @@ int32_t SPVM__Sys__IO__Stat__st_blksize(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO::Stat#st_blksize method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -590,7 +590,7 @@ int32_t SPVM__Sys__IO__Stat__st_blocks(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO::Stat#st_blocks method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -602,7 +602,7 @@ int32_t SPVM__Sys__IO__Stat__st_blocks(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_uid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -613,7 +613,7 @@ int32_t SPVM__Sys__IO__Stat__st_uid(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_gid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -624,7 +624,7 @@ int32_t SPVM__Sys__IO__Stat__st_gid(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_rdev(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -635,7 +635,7 @@ int32_t SPVM__Sys__IO__Stat__st_rdev(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_atime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -650,7 +650,7 @@ int32_t SPVM__Sys__IO__Stat__st_atime(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_mtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -665,7 +665,7 @@ int32_t SPVM__Sys__IO__Stat__st_mtime(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__Stat__st_ctime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -686,7 +686,7 @@ int32_t SPVM__Sys__IO__Stat__st_atim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO::Stat#st_atim_tv_nsec method is not supported in this system(__solaris or __sun).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
 
@@ -708,7 +708,7 @@ int32_t SPVM__Sys__IO__Stat__st_mtim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO::Stat#st_mtim_tv_nsec method is not supported in this system(__solaris or __sun).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   
@@ -730,7 +730,7 @@ int32_t SPVM__Sys__IO__Stat__st_ctim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO::Stat#st_ctim_tv_nsec method is not supported in this system(__solaris or __sun).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_stat = stack[0].oval;
+  SPVM_OBJ* obj_stat = stack[0].oval;
   
   Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
   

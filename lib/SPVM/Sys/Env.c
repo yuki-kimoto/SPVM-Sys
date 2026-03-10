@@ -18,7 +18,7 @@ static const char* FILE_NAME = "Sys/Env.c";
 
 int32_t SPVM__Sys__Env__getenv(SPVM_ENV* env, SPVM_VALUE* stack) {
 
-  void* obj_name = stack[0].oval;
+  SPVM_OBJ* obj_name = stack[0].oval;
   
   if (!obj_name) {
     return env->die(env, stack, "The environment variable name $name must be defined.", __func__, FILE_NAME, __LINE__);
@@ -28,7 +28,7 @@ int32_t SPVM__Sys__Env__getenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   char* value = getenv(name);
   
-  void* obj_value;
+  SPVM_OBJ* obj_value;
   if (value) {
     obj_value = env->new_string(env, stack, value, strlen(value));
   }
@@ -46,9 +46,9 @@ int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::Env#setenv method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_name = stack[0].oval;
+  SPVM_OBJ* obj_name = stack[0].oval;
   
-  void* obj_value = stack[1].oval;
+  SPVM_OBJ* obj_value = stack[1].oval;
   
   if (!obj_name) {
     return env->die(env, stack, "The environment variable name $name must be defined.", __func__, FILE_NAME, __LINE__);
@@ -80,7 +80,7 @@ int32_t SPVM__Sys__Env__unsetenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::Env#unsetenv method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_name = stack[0].oval;
+  SPVM_OBJ* obj_name = stack[0].oval;
   if (!obj_name) {
     return env->die(env, stack, "The environment variable name $name must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -104,9 +104,9 @@ int32_t SPVM__Sys__Env___putenv_s(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::Env#_putenv_s method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_name = stack[0].oval;
+  SPVM_OBJ* obj_name = stack[0].oval;
   
-  void* obj_value = stack[1].oval;
+  SPVM_OBJ* obj_value = stack[1].oval;
   
   if (!obj_name) {
     return env->die(env, stack, "The environment variable name $name must be defined.", __func__, FILE_NAME, __LINE__);

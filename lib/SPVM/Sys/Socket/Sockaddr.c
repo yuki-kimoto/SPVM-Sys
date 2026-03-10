@@ -22,7 +22,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct sockaddr* socket_address = env->new_memory_block(env, stack, sizeof(struct sockaddr_storage));
   
-  void* obj_socket_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr", socket_address, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_socket_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr", socket_address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_socket_address;
@@ -32,7 +32,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__Sockaddr__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_socket_address = stack[0].oval;
+  SPVM_OBJ* obj_socket_address = stack[0].oval;
   
   struct sockaddr* socket_address = env->get_pointer(env, stack, obj_socket_address);
   
@@ -46,7 +46,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__Sockaddr__sa_family(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct sockaddr* socket_address = env->get_pointer(env, stack, obj_self);
   
@@ -57,7 +57,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__sa_family(SPVM_ENV* env, SPVM_VALUE* stack)
 
 int32_t SPVM__Sys__Socket__Sockaddr__set_sa_family(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct sockaddr* socket_address = env->get_pointer(env, stack, obj_self);
   
@@ -69,7 +69,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__set_sa_family(SPVM_ENV* env, SPVM_VALUE* st
 int32_t SPVM__Sys__Socket__Sockaddr__upgrade(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t error_id = 0;
   
-  void* obj_addr = stack[0].oval;
+  SPVM_OBJ* obj_addr = stack[0].oval;
   
   if (!obj_addr) {
     return env->die(env, stack, "The address $addr must be defined.", __func__, FILE_NAME, __LINE__);
@@ -79,7 +79,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__upgrade(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sa_family = addr->sa_family;
   
-  void* obj_addr_child = NULL;
+  SPVM_OBJ* obj_addr_child = NULL;
   
   switch (sa_family) {
     case AF_INET: {

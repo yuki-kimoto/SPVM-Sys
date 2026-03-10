@@ -22,7 +22,7 @@ int32_t SPVM__Sys__Time__Tm__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct tm* st_tm = env->new_memory_block(env, stack, sizeof(struct tm));
   
-  void* obj_tm = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_tm = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_tm;
@@ -32,7 +32,7 @@ int32_t SPVM__Sys__Time__Tm__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   env->free_memory_block(env, stack, st_tm);
@@ -42,7 +42,7 @@ int32_t SPVM__Sys__Time__Tm__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__tm_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
@@ -53,7 +53,7 @@ int32_t SPVM__Sys__Time__Tm__tm_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__tm_min(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
@@ -63,7 +63,7 @@ int32_t SPVM__Sys__Time__Tm__tm_min(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 int32_t SPVM__Sys__Time__Tm__tm_hour(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
@@ -74,7 +74,7 @@ int32_t SPVM__Sys__Time__Tm__tm_hour(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__tm_mday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
@@ -85,7 +85,7 @@ int32_t SPVM__Sys__Time__Tm__tm_mday(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__tm_mon(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
@@ -96,7 +96,7 @@ int32_t SPVM__Sys__Time__Tm__tm_mon(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__tm_year(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
@@ -107,7 +107,7 @@ int32_t SPVM__Sys__Time__Tm__tm_year(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__tm_wday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
@@ -118,7 +118,7 @@ int32_t SPVM__Sys__Time__Tm__tm_wday(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__tm_yday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
@@ -129,7 +129,7 @@ int32_t SPVM__Sys__Time__Tm__tm_yday(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__tm_isdst(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   struct tm* st_tm = env->get_pointer(env, stack, obj_tm);
   
@@ -140,7 +140,7 @@ int32_t SPVM__Sys__Time__Tm__tm_isdst(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__set_tm_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   int32_t tm_sec = stack[1].ival;
   
@@ -153,7 +153,7 @@ int32_t SPVM__Sys__Time__Tm__set_tm_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__set_tm_min(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   int32_t tm_min = stack[1].ival;
   
@@ -166,7 +166,7 @@ int32_t SPVM__Sys__Time__Tm__set_tm_min(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__set_tm_hour(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   int32_t tm_hour = stack[1].ival;
   
@@ -179,7 +179,7 @@ int32_t SPVM__Sys__Time__Tm__set_tm_hour(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__set_tm_mday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   int32_t tm_mday = stack[1].ival;
   
@@ -192,7 +192,7 @@ int32_t SPVM__Sys__Time__Tm__set_tm_mday(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__set_tm_mon(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   int32_t tm_mon = stack[1].ival;
   
@@ -205,7 +205,7 @@ int32_t SPVM__Sys__Time__Tm__set_tm_mon(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__set_tm_year(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   int32_t tm_year = stack[1].ival;
   
@@ -218,7 +218,7 @@ int32_t SPVM__Sys__Time__Tm__set_tm_year(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__set_tm_wday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   int32_t tm_wday = stack[1].ival;
   
@@ -231,7 +231,7 @@ int32_t SPVM__Sys__Time__Tm__set_tm_wday(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__set_tm_yday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   int32_t tm_yday = stack[1].ival;
   
@@ -244,7 +244,7 @@ int32_t SPVM__Sys__Time__Tm__set_tm_yday(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__Tm__set_tm_isdst(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tm = stack[0].oval;
+  SPVM_OBJ* obj_tm = stack[0].oval;
   
   int32_t tm_isdst = stack[1].ival;
   

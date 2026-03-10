@@ -51,7 +51,7 @@ int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   localtime_r(&time, st_tm);
 #endif
   
-  void* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_time_info;
@@ -79,7 +79,7 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   gmtime_r(&time, st_tm);
 #endif
   
-  void* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_time_info;
@@ -89,9 +89,9 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_tv = stack[0].oval;
+  SPVM_OBJ* obj_tv = stack[0].oval;
   
-  void* obj_tz = stack[1].oval;
+  SPVM_OBJ* obj_tz = stack[1].oval;
   
   struct timeval* st_tv = NULL;
   if (obj_tv) {
@@ -133,7 +133,7 @@ int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t clk_id = stack[0].ival;
   
-  void* obj_tp = stack[1].oval;
+  SPVM_OBJ* obj_tp = stack[1].oval;
   
   struct timespec* st_tp = NULL;
   if (obj_tp) {
@@ -159,7 +159,7 @@ int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t clk_id = stack[0].ival;
   
-  void* obj_res = stack[1].oval;
+  SPVM_OBJ* obj_res = stack[1].oval;
   
   struct timespec* st_res = NULL;
   if (obj_res) {
@@ -189,9 +189,9 @@ int32_t SPVM__Sys__Time__setitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t which = stack[0].ival;
   
-  void* obj_new_value = stack[1].oval;
+  SPVM_OBJ* obj_new_value = stack[1].oval;
   
-  void* obj_old_value = stack[2].oval;
+  SPVM_OBJ* obj_old_value = stack[2].oval;
   
   struct itimerval* st_new_value = NULL;
   if (obj_new_value) {
@@ -227,7 +227,7 @@ int32_t SPVM__Sys__Time__getitimer(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t which = stack[0].ival;
   
-  void* obj_curr_value = stack[1].oval;
+  SPVM_OBJ* obj_curr_value = stack[1].oval;
   
   struct itimerval* st_curr_value = NULL;
   if (obj_curr_value) {
@@ -255,7 +255,7 @@ int32_t SPVM__Sys__Time__times(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::User#times method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_tms = stack[0].oval;
+  SPVM_OBJ* obj_tms = stack[0].oval;
   
   if (!obj_tms) {
     return env->die(env, stack, "$tms must be defined.", __func__, FILE_NAME, __LINE__);
@@ -293,7 +293,7 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t flags = stack[1].ival;
   
-  void* obj_request = stack[2].oval;
+  SPVM_OBJ* obj_request = stack[2].oval;
   
   struct timespec* st_request = NULL;
   if (obj_request) {
@@ -303,7 +303,7 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The request time $request must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  void* obj_remain = stack[3].oval;
+  SPVM_OBJ* obj_remain = stack[3].oval;
   
   struct timespec* st_remain = NULL;
   if (obj_remain) {
@@ -325,9 +325,9 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_rqtp = stack[0].oval;
+  SPVM_OBJ* obj_rqtp = stack[0].oval;
   
-  void* obj_rmtp = stack[1].oval;
+  SPVM_OBJ* obj_rmtp = stack[1].oval;
   
   struct timespec* st_rqtp = NULL;
   if (obj_rqtp) {
@@ -358,9 +358,9 @@ int32_t SPVM__Sys__Time__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_filename = stack[0].oval;
+  SPVM_OBJ* obj_filename = stack[0].oval;
   
-  void* obj_times = stack[1].oval;
+  SPVM_OBJ* obj_times = stack[1].oval;
   
   if (!obj_filename) {
     return env->die(env, stack, "The file path $filename must be defined.", __func__, FILE_NAME, __LINE__);
@@ -393,9 +393,9 @@ int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_filename = stack[0].oval;
+  SPVM_OBJ* obj_filename = stack[0].oval;
   
-  void* obj_times = stack[1].oval;
+  SPVM_OBJ* obj_times = stack[1].oval;
   
   if (!obj_filename) {
     return env->die(env, stack, "The file path $filename must be defined.", __func__, FILE_NAME, __LINE__);
@@ -412,10 +412,10 @@ int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The length of the utime infomation $times must be 2.", __func__, FILE_NAME, __LINE__);
   }
   
-  void* obj_times0 = env->get_elem_object(env, stack, obj_times, 0);
+  SPVM_OBJ* obj_times0 = env->get_elem_object(env, stack, obj_times, 0);
   struct timeval* times0 = env->get_pointer(env, stack, obj_times0);
   
-  void* obj_times1 = env->get_elem_object(env, stack, obj_times, 1);
+  SPVM_OBJ* obj_times1 = env->get_elem_object(env, stack, obj_times, 1);
   struct timeval* times1 = env->get_pointer(env, stack, obj_times1);
   
   const struct timeval times[2] = {*times0, *times1};

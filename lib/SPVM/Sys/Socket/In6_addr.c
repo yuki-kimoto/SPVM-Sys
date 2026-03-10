@@ -23,7 +23,7 @@ int32_t SPVM__Sys__Socket__In6_addr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct in6_addr* address = env->new_memory_block(env, stack, sizeof(struct in6_addr));
   
-  void* obj_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In6_addr", address, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In6_addr", address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_address;
@@ -33,7 +33,7 @@ int32_t SPVM__Sys__Socket__In6_addr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__In6_addr__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_address = stack[0].oval;
+  SPVM_OBJ* obj_address = stack[0].oval;
   
   struct in6_addr* address = env->get_pointer(env, stack, obj_address);
   
@@ -47,13 +47,13 @@ int32_t SPVM__Sys__Socket__In6_addr__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__In6_addr__s6_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_address = stack[0].oval;
+  SPVM_OBJ* obj_address = stack[0].oval;
   
   struct in6_addr* address = env->get_pointer(env, stack, obj_address);
   
   assert(address);
   
-  void* obj_s6_addr = env->new_string(env, stack, (char*)&address->s6_addr, 16);
+  SPVM_OBJ* obj_s6_addr = env->new_string(env, stack, (char*)&address->s6_addr, 16);
   
   stack[0].oval = obj_s6_addr;
   
@@ -62,13 +62,13 @@ int32_t SPVM__Sys__Socket__In6_addr__s6_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__In6_addr__set_s6_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_address = stack[0].oval;
+  SPVM_OBJ* obj_address = stack[0].oval;
   
   struct in6_addr* address = env->get_pointer(env, stack, obj_address);
   
   assert(address);
   
-  void* obj_s6_addr = stack[1].oval;
+  SPVM_OBJ* obj_s6_addr = stack[1].oval;
   
   if (!obj_s6_addr) {
     return env->die(env, stack, "The address $address must be defined.", __func__, FILE_NAME, __LINE__);

@@ -34,7 +34,7 @@ static const char* FILE_NAME = "Sys/Select.c";
 
 int32_t SPVM__Sys__Select__FD_ZERO(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_set = stack[0].oval;
+  SPVM_OBJ* obj_set = stack[0].oval;
   
   if (!obj_set) {
     return env->die(env, stack, "The fd_set data structure $set must be defined.", __func__, FILE_NAME, __LINE__);
@@ -51,7 +51,7 @@ int32_t SPVM__Sys__Select__FD_SET(SPVM_ENV* env, SPVM_VALUE* stack) {
  
   int32_t fd = stack[0].ival;
   
-  void* obj_set = stack[1].oval;
+  SPVM_OBJ* obj_set = stack[1].oval;
   
   if (!(fd >= 0)) {
     return env->die(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
@@ -76,7 +76,7 @@ int32_t SPVM__Sys__Select__FD_CLR(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t fd = stack[0].ival;
   
-  void* obj_set = stack[1].oval;
+  SPVM_OBJ* obj_set = stack[1].oval;
   
   if (!(fd >= 0)) {
     return env->die(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
@@ -101,7 +101,7 @@ int32_t SPVM__Sys__Select__FD_ISSET(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t fd = stack[0].ival;
   
-  void* obj_set = stack[1].oval;
+  SPVM_OBJ* obj_set = stack[1].oval;
   
   if (!(fd >= 0)) {
     return env->die(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
@@ -128,7 +128,7 @@ int32_t SPVM__Sys__Select__select(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
-  void* obj_readfds = stack[1].oval;
+  SPVM_OBJ* obj_readfds = stack[1].oval;
   
   if (!(fd >= 0)) {
     return env->die(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
@@ -142,19 +142,19 @@ int32_t SPVM__Sys__Select__select(SPVM_ENV* env, SPVM_VALUE* stack) {
     readfds = env->get_pointer(env, stack, obj_readfds);
   }
   
-  void* obj_writefds = stack[2].oval;
+  SPVM_OBJ* obj_writefds = stack[2].oval;
   fd_set* writefds = NULL;
   if (obj_writefds) {
     writefds = env->get_pointer(env, stack, obj_writefds);
   }
   
-  void* obj_exceptfds = stack[3].oval;
+  SPVM_OBJ* obj_exceptfds = stack[3].oval;
   fd_set* exceptfds = NULL;
   if (obj_exceptfds) {
     exceptfds = env->get_pointer(env, stack, obj_exceptfds);
   }
   
-  void* obj_timeout = stack[4].oval;
+  SPVM_OBJ* obj_timeout = stack[4].oval;
   struct timeval* timeout = NULL;
   if (obj_timeout) {
     timeout = env->get_pointer(env, stack, obj_timeout);

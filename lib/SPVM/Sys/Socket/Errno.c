@@ -36,7 +36,7 @@ int32_t SPVM__Sys__Socket__Errno__strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t length = stack[1].ival;
   
-  void* obj_socket_strerror = spvm_socket_strerror_string(env, stack, error_number, length);
+  SPVM_OBJ* obj_socket_strerror = spvm_socket_strerror_string(env, stack, error_number, length);
   
   stack[0].oval = obj_socket_strerror;
   

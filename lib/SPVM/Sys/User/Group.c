@@ -26,7 +26,7 @@ int32_t SPVM__Sys__User__Group__gr_name(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::User::Group#gr_name method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_group = stack[0].oval;
+  SPVM_OBJ* obj_group = stack[0].oval;
   
   struct group* st_group = env->get_pointer(env, stack, obj_group);
   
@@ -42,7 +42,7 @@ int32_t SPVM__Sys__User__Group__gr_passwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::User::Group#gr_passwd method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_group = stack[0].oval;
+  SPVM_OBJ* obj_group = stack[0].oval;
   
   struct group* st_group = env->get_pointer(env, stack, obj_group);
   
@@ -57,7 +57,7 @@ int32_t SPVM__Sys__User__Group__gr_gid(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::User::Group#gr_gid method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_group = stack[0].oval;
+  SPVM_OBJ* obj_group = stack[0].oval;
   
   struct group* st_group = env->get_pointer(env, stack, obj_group);
   
@@ -73,7 +73,7 @@ int32_t SPVM__Sys__User__Group__gr_mem(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::User::Group#gr_mem method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_group = stack[0].oval;
+  SPVM_OBJ* obj_group = stack[0].oval;
   
   struct group* st_group = env->get_pointer(env, stack, obj_group);
   
@@ -87,11 +87,11 @@ int32_t SPVM__Sys__User__Group__gr_mem(SPVM_ENV* env, SPVM_VALUE* stack) {
     gr_mem++;
   }
   
-  void* obj_gr_mems = env->new_string_array(env, stack, gr_mem_length);
+  SPVM_OBJ* obj_gr_mems = env->new_string_array(env, stack, gr_mem_length);
   
   for (int32_t i = 0; i < gr_mem_length; i++) {
     char* gr_mem = gr_mems[i];
-    void* obj_gr_mem = env->new_string(env, stack, gr_mem, strlen(gr_mem));
+    SPVM_OBJ* obj_gr_mem = env->new_string(env, stack, gr_mem, strlen(gr_mem));
     env->set_elem_object(env, stack, obj_gr_mems, i, obj_gr_mem);
   }
   

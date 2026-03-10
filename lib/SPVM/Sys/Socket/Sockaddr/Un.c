@@ -22,7 +22,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct sockaddr_un* socket_address = env->new_memory_block(env, stack, sizeof(struct sockaddr_un));
   
-  void* obj_socket_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr::Un", socket_address, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_socket_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::Sockaddr::Un", socket_address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_socket_address;
@@ -32,7 +32,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__Sockaddr__Un__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_socket_address = stack[0].oval;
+  SPVM_OBJ* obj_socket_address = stack[0].oval;
   
   struct sockaddr_un* socket_address = env->get_pointer(env, stack, obj_socket_address);
   
@@ -46,7 +46,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__DESTROY(SPVM_ENV* env, SPVM_VALUE* stac
 
 int32_t SPVM__Sys__Socket__Sockaddr__Un__sun_family(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct sockaddr_un* socket_address = env->get_pointer(env, stack, obj_self);
   
@@ -57,7 +57,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__sun_family(SPVM_ENV* env, SPVM_VALUE* s
 
 int32_t SPVM__Sys__Socket__Sockaddr__Un__set_sun_family(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct sockaddr_un* socket_address = env->get_pointer(env, stack, obj_self);
   
@@ -68,11 +68,11 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__set_sun_family(SPVM_ENV* env, SPVM_VALU
 
 int32_t SPVM__Sys__Socket__Sockaddr__Un__sun_path(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct sockaddr_un* socket_address = env->get_pointer(env, stack, obj_self);
   
-  void* obj_path;
+  SPVM_OBJ* obj_path;
   
   obj_path = env->new_string(env, stack, socket_address->sun_path, strlen(socket_address->sun_path));
   
@@ -83,11 +83,11 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__sun_path(SPVM_ENV* env, SPVM_VALUE* sta
 
 int32_t SPVM__Sys__Socket__Sockaddr__Un__set_sun_path(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct sockaddr_un* socket_address = env->get_pointer(env, stack, obj_self);
   
-  void* obj_path = stack[1].oval;
+  SPVM_OBJ* obj_path = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $sun_path must be be defined.", __func__, FILE_NAME, __LINE__);
@@ -104,7 +104,7 @@ int32_t SPVM__Sys__Socket__Sockaddr__Un__set_sun_path(SPVM_ENV* env, SPVM_VALUE*
 
 int32_t SPVM__Sys__Socket__Sockaddr__Un__size(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   stack[0].ival = sizeof(struct sockaddr_un);
   

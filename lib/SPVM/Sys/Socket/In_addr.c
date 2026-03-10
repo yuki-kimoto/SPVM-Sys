@@ -23,7 +23,7 @@ int32_t SPVM__Sys__Socket__In_addr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct in_addr* address = env->new_memory_block(env, stack, sizeof(struct in_addr));
   
-  void* obj_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In_addr", address, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_address = env->new_pointer_object_by_name(env, stack, "Sys::Socket::In_addr", address, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_address;
@@ -33,7 +33,7 @@ int32_t SPVM__Sys__Socket__In_addr__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__In_addr__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_address = stack[0].oval;
+  SPVM_OBJ* obj_address = stack[0].oval;
   
   struct in_addr* address = env->get_pointer(env, stack, obj_address);
   
@@ -47,7 +47,7 @@ int32_t SPVM__Sys__Socket__In_addr__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__In_addr__s_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_address = stack[0].oval;
+  SPVM_OBJ* obj_address = stack[0].oval;
   
   struct in_addr* address = env->get_pointer(env, stack, obj_address);
   
@@ -60,7 +60,7 @@ int32_t SPVM__Sys__Socket__In_addr__s_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Socket__In_addr__set_s_addr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_address = stack[0].oval;
+  SPVM_OBJ* obj_address = stack[0].oval;
   
   struct in_addr* address = env->get_pointer(env, stack, obj_address);
   

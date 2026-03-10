@@ -30,7 +30,7 @@ int32_t SPVM__Sys__Time__Tms__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct tms* st_tms = env->new_memory_block(env, stack, sizeof(struct tms));
   
-  void* obj_st_tms = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tms", st_tms, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_st_tms = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tms", st_tms, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_st_tms;
@@ -45,7 +45,7 @@ int32_t SPVM__Sys__Time__Tms__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   
@@ -62,7 +62,7 @@ int32_t SPVM__Sys__Time__Tms__tms_utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   
@@ -77,7 +77,7 @@ int32_t SPVM__Sys__Time__Tms__set_tms_utime(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::Time::Tms#set_tms_utime method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   
@@ -94,7 +94,7 @@ int32_t SPVM__Sys__Time__Tms__tms_stime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   
@@ -109,7 +109,7 @@ int32_t SPVM__Sys__Time__Tms__set_tms_stime(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::Time::Tms#set_tms_stime method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   
@@ -126,7 +126,7 @@ int32_t SPVM__Sys__Time__Tms__tms_cutime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   
@@ -141,7 +141,7 @@ int32_t SPVM__Sys__Time__Tms__set_tms_cutime(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::Time::Tms#set_tms_cutime method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   
@@ -158,7 +158,7 @@ int32_t SPVM__Sys__Time__Tms__tms_cstime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   
@@ -173,7 +173,7 @@ int32_t SPVM__Sys__Time__Tms__set_tms_cstime(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::Time::Tms#set_tms_cstime method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_self = stack[0].oval;
+  SPVM_OBJ* obj_self = stack[0].oval;
   
   struct tms* st_tms = env->get_pointer(env, stack, obj_self);
   

@@ -31,7 +31,7 @@ static const char* FILE_NAME = "Sys/IO/Dirent.c";
 
 int32_t SPVM__Sys__IO__Dirent__d_ino(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_dirent = stack[0].oval;
+  SPVM_OBJ* obj_dirent = stack[0].oval;
   
   MY_DIRENT* st_dirent = env->get_pointer(env, stack, obj_dirent);
   
@@ -44,7 +44,7 @@ int32_t SPVM__Sys__IO__Dirent__d_name(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_dirent = stack[0].oval;
+  SPVM_OBJ* obj_dirent = stack[0].oval;
   
   MY_DIRENT* st_dirent = env->get_pointer(env, stack, obj_dirent);
   
@@ -60,7 +60,7 @@ int32_t SPVM__Sys__IO__Dirent__d_name(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t d_name_length = strlen(d_name);
   
-  void* obj_d_name = env->new_string(env, stack, d_name, d_name_length);
+  SPVM_OBJ* obj_d_name = env->new_string(env, stack, d_name, d_name_length);
   
   stack[0].oval = obj_d_name;
   
@@ -73,7 +73,7 @@ int32_t SPVM__Sys__IO__Dirent__d_reclen(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_dirent = stack[0].oval;
+  SPVM_OBJ* obj_dirent = stack[0].oval;
   
   MY_DIRENT* st_dirent = env->get_pointer(env, stack, obj_dirent);
   
@@ -89,7 +89,7 @@ int32_t SPVM__Sys__IO__Dirent__d_type(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_dirent = stack[0].oval;
+  SPVM_OBJ* obj_dirent = stack[0].oval;
   
   MY_DIRENT* st_dirent = env->get_pointer(env, stack, obj_dirent);
   
@@ -110,7 +110,7 @@ int32_t SPVM__Sys__IO__Dirent__d_off(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO::Dirent#d_off method is not supported in this system(defined(__APPLE__)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_dirent = stack[0].oval;
+  SPVM_OBJ* obj_dirent = stack[0].oval;
   
   MY_DIRENT* st_dirent = env->get_pointer(env, stack, obj_dirent);
   

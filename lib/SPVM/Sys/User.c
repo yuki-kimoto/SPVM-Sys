@@ -209,7 +209,7 @@ int32_t SPVM__Sys__User__getpwent(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = NULL;
   }
   else {
-    void* obj_sys_ent_passwd = env->new_pointer_object_by_name(env, stack, "Sys::User::Passwd", pwent, &error_id, __func__, FILE_NAME, __LINE__);
+    SPVM_OBJ* obj_sys_ent_passwd = env->new_pointer_object_by_name(env, stack, "Sys::User::Passwd", pwent, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) { return error_id; }
     stack[0].oval = obj_sys_ent_passwd;
   }
@@ -265,7 +265,7 @@ int32_t SPVM__Sys__User__getgrent(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = NULL;
   }
   else {
-    void* obj_sys_ent_group = env->new_pointer_object_by_name(env, stack, "Sys::User::Group", grent, &error_id, __func__, FILE_NAME, __LINE__);
+    SPVM_OBJ* obj_sys_ent_group = env->new_pointer_object_by_name(env, stack, "Sys::User::Group", grent, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) { return error_id; }
     stack[0].oval = obj_sys_ent_group;
   }
@@ -283,7 +283,7 @@ int32_t SPVM__Sys__User__getgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t size = stack[0].ival;
   
-  void* obj_list = stack[1].oval;
+  SPVM_OBJ* obj_list = stack[1].oval;
   
   if (!(size >= 0)) {
     return env->die(env, stack, "The size $size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
@@ -324,7 +324,7 @@ int32_t SPVM__Sys__User__setgroups(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   assert(sizeof(gid_t) == sizeof(int32_t));
   
-  void* obj_groups = stack[0].oval;
+  SPVM_OBJ* obj_groups = stack[0].oval;
   if (!obj_groups) {
     return env->die(env, stack, "The groups $groups must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -365,7 +365,7 @@ int32_t SPVM__Sys__User__getpwuid(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = NULL;
   }
   else {
-    void* obj_sys_ent_passwd = env->new_pointer_object_by_name(env, stack, "Sys::User::Passwd", pwent, &error_id, __func__, FILE_NAME, __LINE__);
+    SPVM_OBJ* obj_sys_ent_passwd = env->new_pointer_object_by_name(env, stack, "Sys::User::Passwd", pwent, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) { return error_id; }
     stack[0].oval = obj_sys_ent_passwd;
   }
@@ -382,7 +382,7 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_pwnam = stack[0].oval;
+  SPVM_OBJ* obj_pwnam = stack[0].oval;
   
   if (!obj_pwnam) {
     return env->die(env, stack, "The user name $pwnam must be defined.", __func__, FILE_NAME, __LINE__);
@@ -401,7 +401,7 @@ int32_t SPVM__Sys__User__getpwnam(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = NULL;
   }
   else {
-    void* obj_sys_ent_passwd = env->new_pointer_object_by_name(env, stack, "Sys::User::Passwd", pwent, &error_id, __func__, FILE_NAME, __LINE__);
+    SPVM_OBJ* obj_sys_ent_passwd = env->new_pointer_object_by_name(env, stack, "Sys::User::Passwd", pwent, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) { return error_id; }
     stack[0].oval = obj_sys_ent_passwd;
   }
@@ -432,7 +432,7 @@ int32_t SPVM__Sys__User__getgrgid(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = NULL;
   }
   else {
-    void* obj_sys_ent_group = env->new_pointer_object_by_name(env, stack, "Sys::User::Group", grent, &error_id, __func__, FILE_NAME, __LINE__);
+    SPVM_OBJ* obj_sys_ent_group = env->new_pointer_object_by_name(env, stack, "Sys::User::Group", grent, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) { return error_id; }
     stack[0].oval = obj_sys_ent_group;
   }
@@ -449,7 +449,7 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_grnam = stack[0].oval;
+  SPVM_OBJ* obj_grnam = stack[0].oval;
   
   if (!obj_grnam) {
     return env->die(env, stack, "The group name $grnam must be defined.", __func__, FILE_NAME, __LINE__);
@@ -468,7 +468,7 @@ int32_t SPVM__Sys__User__getgrnam(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = NULL;
   }
   else {
-    void* obj_sys_ent_group = env->new_pointer_object_by_name(env, stack, "Sys::User::Group", grent, &error_id, __func__, FILE_NAME, __LINE__);
+    SPVM_OBJ* obj_sys_ent_group = env->new_pointer_object_by_name(env, stack, "Sys::User::Group", grent, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) { return error_id; }
     stack[0].oval = obj_sys_ent_group;
   }

@@ -48,9 +48,9 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
-  void* obj_mode = stack[1].oval;
+  SPVM_OBJ* obj_mode = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -83,7 +83,7 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
@@ -97,7 +97,7 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
-  void* obj_mode = stack[1].oval;
+  SPVM_OBJ* obj_mode = stack[1].oval;
   
   if (!(fd >= 0)) {
     return env->die(env, stack, "The file descriptor $fd must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
@@ -115,7 +115,7 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;
@@ -125,7 +125,7 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -148,7 +148,7 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_ptr = stack[0].oval;
+  SPVM_OBJ* obj_ptr = stack[0].oval;
   
   int32_t size = stack[1].ival;
   
@@ -167,7 +167,7 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The data count $nmemb must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  void* obj_stream = stack[3].oval;
+  SPVM_OBJ* obj_stream = stack[3].oval;
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -195,7 +195,7 @@ int32_t SPVM__Sys__IO__fread(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__feof(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -212,7 +212,7 @@ int32_t SPVM__Sys__IO__feof(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__ferror(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -229,7 +229,7 @@ int32_t SPVM__Sys__IO__ferror(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__clearerr(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -246,7 +246,7 @@ int32_t SPVM__Sys__IO__getc(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -272,7 +272,7 @@ int32_t SPVM__Sys__IO__ungetc(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t c = stack[0].ival;
   
-  void* obj_stream = stack[1].oval;
+  SPVM_OBJ* obj_stream = stack[1].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -294,7 +294,7 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_s = stack[0].oval;
+  SPVM_OBJ* obj_s = stack[0].oval;
   
   int32_t size = stack[1].ival;
   
@@ -308,7 +308,7 @@ int32_t SPVM__Sys__IO__fgets(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The size $size must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  void* obj_stream = stack[2].oval;
+  SPVM_OBJ* obj_stream = stack[2].oval;
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -337,7 +337,7 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_ptr = stack[0].oval;
+  SPVM_OBJ* obj_ptr = stack[0].oval;
   
   int32_t size = stack[1].ival;
   
@@ -356,7 +356,7 @@ int32_t SPVM__Sys__IO__fwrite(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The data count $nmemb must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  void* obj_stream = stack[3].oval;
+  SPVM_OBJ* obj_stream = stack[3].oval;
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -386,7 +386,7 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -410,7 +410,7 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
   int64_t offset = stack[1].lval;
   
@@ -439,7 +439,7 @@ int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -460,7 +460,7 @@ int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -483,9 +483,9 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
-  void* obj_mode = stack[1].oval;
+  SPVM_OBJ* obj_mode = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -497,7 +497,7 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* mode = env->get_chars(env, stack, obj_mode);
   
-  void* obj_stream = stack[2].oval;
+  SPVM_OBJ* obj_stream = stack[2].oval;
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -517,9 +517,9 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   
-  void* obj_buf = stack[1].oval;
+  SPVM_OBJ* obj_buf = stack[1].oval;
   
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
@@ -561,7 +561,7 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   int32_t intmode = stack[1].ival;
   
@@ -600,7 +600,7 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
-  void* obj_buf = stack[1].oval;
+  SPVM_OBJ* obj_buf = stack[1].oval;
   if (!obj_buf) {
     return env->die(env, stack, "The buffer $buf must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -634,7 +634,7 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
-  void* obj_buf = stack[1].oval;
+  SPVM_OBJ* obj_buf = stack[1].oval;
   
   if (!obj_buf) {
     return env->die(env, stack, "The buffer $buf must be defined.", __func__, FILE_NAME, __LINE__);
@@ -740,7 +740,7 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t ret = -1;
   
-  void* obj_command_arg = stack[2].oval;
+  SPVM_OBJ* obj_command_arg = stack[2].oval;
   
   if (!obj_command_arg) {
     ret = fcntl(fd, command, NULL);
@@ -813,7 +813,7 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_pathname = stack[0].oval;
+  SPVM_OBJ* obj_pathname = stack[0].oval;
   
   int32_t mode = stack[1].ival;
   
@@ -852,7 +852,7 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t dirfd = stack[0].ival;
   
-  void* obj_pathname = stack[1].oval;
+  SPVM_OBJ* obj_pathname = stack[1].oval;
   
   if (!obj_pathname) {
     return env->die(env, stack, "The path $pathname must be defined.", __func__, FILE_NAME, __LINE__);
@@ -881,7 +881,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   int64_t length = stack[1].lval;
   
@@ -923,7 +923,7 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   int32_t mode = stack[1].ival;
   
@@ -969,7 +969,7 @@ int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1000,7 +1000,7 @@ int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_pathname = stack[0].oval;
+  SPVM_OBJ* obj_pathname = stack[0].oval;
   
   if (!obj_pathname) {
     return env->die(env, stack, "The path $pathname must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1023,9 +1023,9 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_oldpath = stack[0].oval;
+  SPVM_OBJ* obj_oldpath = stack[0].oval;
   
-  void* obj_newpath = stack[1].oval;
+  SPVM_OBJ* obj_newpath = stack[1].oval;
   
   if (!obj_oldpath) {
     return env->die(env, stack, "The old path $oldpath must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1054,7 +1054,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_buf = stack[0].oval;
+  SPVM_OBJ* obj_buf = stack[0].oval;
   
   int32_t size = stack[1].ival;
   
@@ -1066,12 +1066,10 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The size $size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
-  void* free_object = NULL;
-  
 #if defined(_WIN32)
   
   WCHAR* ret_w = _wgetcwd(NULL, size);
-  free_object = ret_w;
+  WCHAR* free_object = ret_w;
   
   char* ret = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
   
@@ -1080,7 +1078,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
 #else
   char* ret = getcwd(NULL, size);
-  free_object = ret;
+  char* free_object = ret;
 #endif
 
   if (!ret) {
@@ -1093,7 +1091,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   ;
   
-  void* obj_ret = NULL;
+  SPVM_OBJ* obj_ret = NULL;
   
   if (ret) {
     obj_ret = env->new_string(env, stack, ret, strlen(ret));
@@ -1121,7 +1119,7 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t drive = stack[0].ival;
   
-  void* obj_buffer = stack[1].oval;
+  SPVM_OBJ* obj_buffer = stack[1].oval;
   
   if (obj_buffer) {
     return env->die(env, stack, "The buffer $buffer must be undef.", __func__, FILE_NAME, __LINE__);
@@ -1135,7 +1133,7 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   WCHAR* ret_w = _wgetdcwd(drive, NULL, maxlen);
   
-  void* free_object = ret_w;
+  WCHAR* free_object = ret_w;
   
   char* ret = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
   
@@ -1158,7 +1156,7 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  void* obj_ret = env->new_string(env, stack, ret, strlen(ret));
+  SPVM_OBJ* obj_ret = env->new_string(env, stack, ret, strlen(ret));
   
   stack[0].oval = obj_ret;
   
@@ -1172,9 +1170,9 @@ int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
-  void* obj_resolved_path = stack[1].oval;
+  SPVM_OBJ* obj_resolved_path = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1210,7 +1208,7 @@ int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -1241,7 +1239,7 @@ int32_t SPVM__Sys__IO__chmod(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   int32_t mode = stack[1].ival;
   
@@ -1277,7 +1275,7 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO#chown method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   int32_t owner = stack[1].ival;
   
@@ -1307,9 +1305,9 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_oldpath = stack[0].oval;
+  SPVM_OBJ* obj_oldpath = stack[0].oval;
   
-  void* obj_newpath = stack[1].oval;
+  SPVM_OBJ* obj_newpath = stack[1].oval;
   
   if (!obj_oldpath) {
     return env->die(env, stack, "The old $oldpath must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1340,9 +1338,9 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
-  void* obj_buf = stack[1].oval;
+  SPVM_OBJ* obj_buf = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1379,7 +1377,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_dir = stack[0].oval;
+  SPVM_OBJ* obj_dir = stack[0].oval;
   if (!obj_dir) {
     return env->die(env, stack, "The directory $dir must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -1401,7 +1399,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  void* obj_dir_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::DirStream", dir_stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_dir_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::DirStream", dir_stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_dir_stream;
@@ -1413,7 +1411,7 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_dirp = stack[0].oval;
+  SPVM_OBJ* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
     return env->die(env, stack, "The directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -1442,7 +1440,7 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_dirp = stack[0].oval;
+  SPVM_OBJ* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
     return env->die(env, stack, "The directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -1461,7 +1459,7 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (dirent) {
-    void* obj_dirent = env->new_pointer_object_by_name(env, stack, "Sys::IO::Dirent", dirent, &error_id, __func__, FILE_NAME, __LINE__);
+    SPVM_OBJ* obj_dirent = env->new_pointer_object_by_name(env, stack, "Sys::IO::Dirent", dirent, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) { return error_id; }
     stack[0].oval = obj_dirent;
   }
@@ -1474,7 +1472,7 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_dirp = stack[0].oval;
+  SPVM_OBJ* obj_dirp = stack[0].oval;
   
   if (!obj_dirp) {
     return env->die(env, stack, "The directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1493,7 +1491,7 @@ int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_dirp = stack[0].oval;
+  SPVM_OBJ* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
     return env->die(env, stack, "The directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -1517,7 +1515,7 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  void* obj_dirp = stack[0].oval;
+  SPVM_OBJ* obj_dirp = stack[0].oval;
   
   int64_t offset = stack[1].lval;
   
@@ -1547,9 +1545,9 @@ int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_command = stack[0].oval;
+  SPVM_OBJ* obj_command = stack[0].oval;
   
-  void* obj_type = stack[1].oval;
+  SPVM_OBJ* obj_type = stack[1].oval;
   
   if (!obj_command) {
     return env->die(env, stack, "The command $command must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1568,7 +1566,7 @@ int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   env->set_field_byte_by_name(env, stack, obj_stream, "is_pipe", 1, &error_id, __func__, FILE_NAME, __LINE__);
@@ -1587,9 +1585,9 @@ int32_t SPVM__Sys__IO___popen(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_command = stack[0].oval;
+  SPVM_OBJ* obj_command = stack[0].oval;
   
-  void* obj_type = stack[1].oval;
+  SPVM_OBJ* obj_type = stack[1].oval;
   
   if (!obj_command) {
     return env->die(env, stack, "The command $command must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1608,7 +1606,7 @@ int32_t SPVM__Sys__IO___popen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   env->set_field_byte_by_name(env, stack, obj_stream, "is_pipe", 1, &error_id, __func__, FILE_NAME, __LINE__);
@@ -1627,7 +1625,7 @@ int32_t SPVM__Sys__IO__pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -1653,7 +1651,7 @@ int32_t SPVM__Sys__IO___pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_stream = stack[0].oval;
+  SPVM_OBJ* obj_stream = stack[0].oval;
   if (!obj_stream) {
     return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -1678,7 +1676,7 @@ int32_t SPVM__Sys__IO__INIT_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = stdin;
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
@@ -1695,7 +1693,7 @@ int32_t SPVM__Sys__IO__INIT_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = stdout;
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
@@ -1712,7 +1710,7 @@ int32_t SPVM__Sys__IO__INIT_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = stderr;
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
@@ -1727,13 +1725,13 @@ int32_t SPVM__Sys__IO__INIT_SPVM_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* runtime = env->runtime;
+  SPVM_NATIVE_RUNTIME* runtime = env->runtime;
   
   FILE* spvm_stdin = env->api->runtime->get_spvm_stdin(runtime);
   
   FILE* stream = spvm_stdin;
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
@@ -1748,13 +1746,13 @@ int32_t SPVM__Sys__IO__INIT_SPVM_STDOUT(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* runtime = env->runtime;
+  SPVM_NATIVE_RUNTIME* runtime = env->runtime;
   
   FILE* spvm_stdout = env->api->runtime->get_spvm_stdout(runtime);
   
   FILE* stream = spvm_stdout;
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   env->set_field_byte_by_name(env, stack, obj_stream, "no_destroy", 1, &error_id, __func__, FILE_NAME, __LINE__);
@@ -1769,13 +1767,13 @@ int32_t SPVM__Sys__IO__INIT_SPVM_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* runtime = env->runtime;
+  SPVM_NATIVE_RUNTIME* runtime = env->runtime;
   
   FILE* spvm_stderr = env->api->runtime->get_spvm_stderr(runtime);
   
   FILE* stream = spvm_stderr;
   
-  void* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   

@@ -33,7 +33,7 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -95,13 +95,13 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_oldpath = stack[0].oval;
+  SPVM_OBJ* obj_oldpath = stack[0].oval;
   if (!obj_oldpath) {
     return env->die(env, stack, "The old path $oldpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* oldpath = env->get_chars(env, stack, obj_oldpath);
   
-  void* obj_newpath = stack[1].oval;
+  SPVM_OBJ* obj_newpath = stack[1].oval;
   if (!obj_newpath) {
     return env->die(env, stack, "The new path $newpath must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -145,7 +145,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
 
   int32_t error_id = 0;
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -256,7 +256,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  void* obj_link_text = env->new_string(env, stack, NULL, bytes_out);
+  SPVM_OBJ* obj_link_text = env->new_string(env, stack, NULL, bytes_out);
   char* link_text = (char*)env->get_chars(env, stack, obj_link_text);
   
   bytes_out =
@@ -295,9 +295,9 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  void* obj_oldpath = stack[0].oval;
+  SPVM_OBJ* obj_oldpath = stack[0].oval;
   
-  void* obj_newpath = stack[1].oval;
+  SPVM_OBJ* obj_newpath = stack[1].oval;
   
   if (!obj_oldpath) {
     return env->die(env, stack, "The old path $oldpath must be defined.", __func__, FILE_NAME, __LINE__);
@@ -435,9 +435,9 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
-  void* obj_resolved_path_tmp = stack[1].oval;
+  SPVM_OBJ* obj_resolved_path_tmp = stack[1].oval;
   
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
@@ -449,9 +449,9 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  void* obj_resolved_link_text = NULL;
+  SPVM_OBJ* obj_resolved_link_text = NULL;
   {
-    void* obj_link_text = NULL;
+    SPVM_OBJ* obj_link_text = NULL;
     stack[0].oval = obj_path;
     env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
@@ -482,7 +482,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  void* obj_resolved_path_w = env->new_short_array(env, stack, needed_len);
+  SPVM_OBJ* obj_resolved_path_w = env->new_short_array(env, stack, needed_len);
   WCHAR* resolved_path_w = (WCHAR*)env->get_elems_short(env, stack, obj_resolved_path_w);
   
   int32_t len = GetFinalPathNameByHandleW(handle, resolved_path_w, needed_len, 0);
@@ -498,7 +498,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  void* obj_resolved_path = env->new_string(env, stack, resolved_path_tmp, strlen(resolved_path_tmp));
+  SPVM_OBJ* obj_resolved_path = env->new_string(env, stack, resolved_path_tmp, strlen(resolved_path_tmp));
   char* resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
   
   int32_t resolved_path_length = env->length(env, stack, obj_resolved_path);
@@ -550,7 +550,7 @@ int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  void* obj_path = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
