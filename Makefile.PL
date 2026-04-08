@@ -25,7 +25,7 @@ WriteMakefile(
   LICENSE           => 'mit',
   ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
     (ABSTRACT_FROM  => 'lib/SPVM/Sys.pm',
-     AUTHOR         => 'USER_NAME<USER_MAIL>') : ()),
+     AUTHOR         => 'Yuki Kimoto<kimoto.yuki@gmail.com>') : ()),
   test => {TESTS => 't/*.t'},
   clean => {FILES => ['.spvm_build', 't/.spvm_build']},
   META_MERGE => {
@@ -62,57 +62,62 @@ sub MY::postamble {
     local @INC = @INC;
     unshift @INC, 'lib';
     
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_precompile('Sys');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Windows');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Constant');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::FileStream');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::DirStream');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Dirent');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Flock');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Process');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Process::Constant');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User::Passwd');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::User::Group');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Errno');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Constant');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Addrinfo');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::AddrinfoLinkedList');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Sockaddr');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Sockaddr::In');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Sockaddr::In6');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Sockaddr::Un');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Sockaddr::Storage');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::In_addr');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::In6_addr');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ipv6_mreq');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ip_mreq_source');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Socket::Ip_mreq');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Constant');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timeval');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timespec');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Timezone');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Itimerval');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Tm');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Tms');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Time::Utimbuf');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Select');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Select::Fd_set');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::PollfdArray');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ioctl');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Ioctl::Constant');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal::Handler');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Signal::Constant');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::OS');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Env');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Select::Constant');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::Poll::Constant');
-    $make_rule .= SPVM::Builder::Util::API::create_make_rule_native('Sys::IO::Stat');
+    my $options = {};
+    
+    $options->{native_classes} = [qw(
+      Sys::IO
+      Sys::IO::Windows
+      Sys::IO::Constant
+      Sys::IO::FileStream
+      Sys::IO::DirStream
+      Sys::IO::Dirent
+      Sys::IO::Flock
+      Sys::IO::Stat
+      Sys::Process
+      Sys::Process::Constant
+      Sys::User
+      Sys::User::Passwd
+      Sys::User::Group
+      Sys::Socket
+      Sys::Socket::Errno
+      Sys::Socket::Constant
+      Sys::Socket::Addrinfo
+      Sys::Socket::AddrinfoLinkedList
+      Sys::Socket::Sockaddr
+      Sys::Socket::Sockaddr::In
+      Sys::Socket::Sockaddr::In6
+      Sys::Socket::Sockaddr::Un
+      Sys::Socket::Sockaddr::Storage
+      Sys::Socket::In_addr
+      Sys::Socket::In6_addr
+      Sys::Socket::Ipv6_mreq
+      Sys::Socket::Ip_mreq_source
+      Sys::Socket::Ip_mreq
+      Sys::Time
+      Sys::Time::Constant
+      Sys::Time::Timeval
+      Sys::Time::Timespec
+      Sys::Time::Timezone
+      Sys::Time::Itimerval
+      Sys::Time::Tm
+      Sys::Time::Tms
+      Sys::Time::Utimbuf
+      Sys::Select
+      Sys::Select::Fd_set
+      Sys::Select::Constant
+      Sys::Poll
+      Sys::Poll::PollfdArray
+      Sys::Poll::Constant
+      Sys::Ioctl
+      Sys::Ioctl::Constant
+      Sys::Signal
+      Sys::Signal::Handler
+      Sys::Signal::Constant
+      Sys::OS
+      Sys::Env
+    )];
+    
+    $make_rule .= SPVM::Builder::Util::API::create_make_rule_parallel($options);
   }
   
   return $make_rule;
