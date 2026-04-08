@@ -14,39 +14,8 @@ if ($meta) {
   $no_build_spvm_modules = 1;
 }
 
-# Check supported environment
-{
-  # Do not support 32bit systems
-  if ($Config{ptrsize} == 4) {
-    warn "SPVM::Sys does not support 32bit systems.";
-    die "OS unsupported\n";
-  }
-  
-  my $myuname = $Config{myuname};
-  # Free BSD myyname examples
-  # "freebsd www3301.sakura.ne.jp 9.1-release-p24 freebsd 9.1-release-p24 #0: thu feb 5 10:03:29 jst 2015 root@www3304.sakura.ne.jp:usrobjusrsrcsyssakura17 amd64"
-  # "freebsd cloud2.bbbike.org 14.0-current freebsd 14.0-current #1 main-n249154-312f5f8a4fb9: sat sep 4 21:10:11 utc 2021 root@cloud2.bbbike.org:usrobjusrhomeprojectsfreebsdamd64.amd64sysgeneric amd64"
-  if ($myuname =~ /\bfreebsd\b/i) {
-    my ($major_version, $minor_version);
-    if ($myuname =~ /\bfreebsd\s+(\d+)\.(\d+)/) {
-      $major_version = $1;
-      $minor_version = $2;
-    }
-    unless ($major_version >= 10) {
-      warn "SPVM::Sys only supports FreeBSD 10+ because the following tests are hard to fix for us. http://www.cpantesters.org/cpan/report/b26888fa-55bd-11ed-9ef0-b2246e8775ea.";
-      die "OS unsupported\n";
-    }
-  }
-  elsif ($myuname =~ /\bopenbsd\b/i) {
-    warn "SPVM::Sys dose not support OpenBSD because the following tests are hard to fix for us. http://www.cpantesters.org/cpan/report/fa34e08c-5cf9-11ed-aba6-9a79f339625c.";
-    die "OS unsupported\n";
-  }
-}
-
-# http://www.cpantesters.org/cpan/report/b26888fa-55bd-11ed-9ef0-b2246e8775ea
-
 my %configure_and_runtime_requires = (
-  'SPVM' => '0.990143',
+  'SPVM' => '0.990155',
   'SPVM::Resource::SocketUtil' => '1.002',
 );
 
