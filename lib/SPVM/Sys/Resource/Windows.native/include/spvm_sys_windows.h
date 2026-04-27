@@ -10,14 +10,19 @@
   #define _WIN32_WINNT SPVM_SYS_WINDOWS_TARGET_WIN_VERSION
 #endif
 
+// Core Windows API
 #include <windows.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <windows.h>
-#include <errno.h>
-#include <winbase.h>
-#include <fcntl.h>
+
+// File and Directory operations for Windows
+#include <io.h>
 #include <direct.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+/* Standard C library */
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 #include <time.h>
 #include <assert.h>
 
