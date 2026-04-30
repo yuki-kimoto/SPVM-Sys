@@ -1,4 +1,4 @@
-0.564 2026-05-01
+0.565 2026-05-01
   [New Features]
     * Add Sys#glob method.
     * Add Sys::IO::Glob#bsd_glob method by copying File::Glob#glob method.
