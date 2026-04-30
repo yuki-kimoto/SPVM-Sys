@@ -1717,6 +1717,16 @@ Note that Windows does not support retrieving these time settings via C<getsocko
 
 See also L<Sys::Socket#win_set_tcp_keepalive|SPVM::Sys::Socket/"win_set_tcp_keepalive">.
 
+=head2 glob
+
+C<static method glob : string[] ($pattern : string);>
+
+Perl's L<bsd_glob|https://metacpan.org/pod/File::Glob#bsd_glob> porting.
+
+This method calls L<Sys::IO::Glob#bsd_glob|SPVM::Sys::IO::Glob/"bsd_glob"> method internally.
+
+See L<Sys::IO::Glob#bsd_glob|SPVM::Sys::IO::Glob/"bsd_glob"> in detail.
+
 =head1 Modules
 
 =over 2

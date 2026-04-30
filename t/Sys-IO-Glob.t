@@ -6,6 +6,7 @@ use File::Spec;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
+use SPVM 'Sys';
 use SPVM 'Sys::IO::Glob';
 use SPVM 'TestCase::Sys::IO::Glob';
 
@@ -20,5 +21,7 @@ is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$test_dir/?oo")->to_strings, [glob("$te
 is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$test_dir/foo*")->to_strings, [glob("$test_dir/foo*")]);
 
 is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$test_dir/*")->to_strings, [glob("$test_dir/*")]);
+
+is_deeply(SPVM::Sys->glob("$test_dir/*")->to_strings, [glob("$test_dir/*")]);
 
 done_testing;
