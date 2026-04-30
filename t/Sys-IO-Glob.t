@@ -10,7 +10,7 @@ use SPVM 'Sys';
 use SPVM 'Sys::IO::Glob';
 use SPVM 'TestCase::Sys::IO::Glob';
 
-my $test_dir = File::Spec->rel2abs("t/ftest/glob/basic");
+my $test_dir = "t/ftest/glob/basic";
 
 is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$test_dir/foo.txt")->to_strings, [glob("$test_dir/foo.txt")]);
 
