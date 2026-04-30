@@ -4,5 +4,5 @@
 class Sys::IO::Glob {
   version_from Sys;
   
-  native static method glob : string[] ($pattern : string);
+  native static method bsd_glob : string[] ($pattern : string);
 }

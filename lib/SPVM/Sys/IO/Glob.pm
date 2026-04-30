@@ -4,25 +4,27 @@ package SPVM::Sys::IO::Glob;
 
 =head1 Name
 
-SPVM::Sys::IO::Glob - BSD glob Porting
+SPVM::Sys::IO::Glob - BSD bsd_glob Porting
 
 =head1 Description
 
-L<Sys::IO::Glob> class in L<SPVM> is a port of BSD C<glob> function.
+L<Sys::IO::Glob> class in L<SPVM> is a port of BSD C<bsd_glob> function.
 
 =head1 Usage
 
   use Sys::IO::Glob;
   
-  my $files = Sys::IO::Glob->glob("path/*");
+  my $files = Sys::IO::Glob->bsd_glob("path/*");
   
-  my $files = Sys::IO::Glob->glob("path/?oo");
+  my $files = Sys::IO::Glob->bsd_glob("path/?oo");
 
 =head1 Class Methods
 
-C<static method glob : string[] ($pattern : string);>
+=head2 bsd_glob
 
-The L<bsd_glob|https://metacpan.org/pod/Sys::IO::Glob#bsd_glob> porting.
+C<static method bsd_glob : string[] ($pattern : string);>
+
+Perl's L<bsd_glob|https://metacpan.org/pod/File::Glob#bsd_glob> porting.
 
 The C<~> expansion is not supported.
 

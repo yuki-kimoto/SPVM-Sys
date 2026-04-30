@@ -13,7 +13,7 @@
 
 static const char* FILE_NAME = "Sys/IO/Glob.c";
 
-int32_t SPVM__Sys__IO__Glob__glob(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   void* obj_pattern = stack[0].oval;
   if (!obj_pattern) {
