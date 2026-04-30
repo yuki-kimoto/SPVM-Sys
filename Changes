@@ -1,3 +1,8 @@
+0.564 2026-05-01
+  [New Features]
+    * Add Sys#glob method.
+    * Add Sys::IO::Glob#bsd_glob method by copying File::Glob#glob method.
+  
 0.564 2026-04-08
   [Requirement Changes]
     * Require SPVM 0.990155.

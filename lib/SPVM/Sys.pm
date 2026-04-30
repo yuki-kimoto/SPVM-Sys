@@ -1749,6 +1749,8 @@ See L<Sys::IO::Glob#bsd_glob|SPVM::Sys::IO::Glob/"bsd_glob"> in detail.
 
 =item * L<Sys::IO::Flock|SPVM::Sys::IO::Flock>
 
+=item * L<Sys::IO::Glob|SPVM::Sys::IO::Glob>
+
 =item * L<Sys::IO::Stat|SPVM::Sys::IO::Stat>
 
 =item * L<Sys::IO::Windows|SPVM::Sys::IO::Windows>
