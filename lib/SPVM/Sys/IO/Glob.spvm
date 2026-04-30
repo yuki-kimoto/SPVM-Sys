@@ -1,0 +1,8 @@
+# Copyright (c) 2026 Yuki Kimoto
+# MIT License
+
+class Sys::IO::Glob {
+  version_from Sys;
+  
+  native static method glob : string[] ($pattern : string);
+}

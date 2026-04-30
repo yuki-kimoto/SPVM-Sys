@@ -36,6 +36,15 @@ lib/SPVM/Sys/IO/Flock.c
 lib/SPVM/Sys/IO/Flock.config
 lib/SPVM/Sys/IO/Flock.pm
 lib/SPVM/Sys/IO/Flock.spvm
+lib/SPVM/Sys/IO/Glob.c
+lib/SPVM/Sys/IO/Glob.config
+lib/SPVM/Sys/IO/Glob.native/include/.gitkeep
+lib/SPVM/Sys/IO/Glob.native/include/SPVM__Sys__IO__Glob__charclass.h
+lib/SPVM/Sys/IO/Glob.native/include/SPVM__Sys__IO__Glob__glob.c
+lib/SPVM/Sys/IO/Glob.native/include/SPVM__Sys__IO__Glob__glob.h
+lib/SPVM/Sys/IO/Glob.native/src/.gitkeep
+lib/SPVM/Sys/IO/Glob.pm
+lib/SPVM/Sys/IO/Glob.spvm
 lib/SPVM/Sys/IO/Stat.c
 lib/SPVM/Sys/IO/Stat.config
 lib/SPVM/Sys/IO/Stat.pm
@@ -246,6 +255,10 @@ t/ftest/file_bytes8.txt
 t/ftest/file_empty.txt
 t/ftest/file_new_lines.txt
 t/ftest/foo.txt
+t/ftest/glob/basic/boo.txt
+t/ftest/glob/basic/boo/.gitkeep
+t/ftest/glob/basic/foo.txt
+t/ftest/glob/basic/foo/.gitkeep
 t/ftest/myexe.bat
 t/ftest/myexe.cmd
 t/ftest/myexe.exe
@@ -256,6 +269,7 @@ t/ftest/readline_long_lines.txt
 t/ftest/utime.txt
 t/lib/SPVM/TestCase/Sys.spvm
 t/lib/SPVM/TestCase/Sys/IO.spvm
+t/lib/SPVM/TestCase/Sys/IO/Glob.spvm
 t/lib/SPVM/TestCase/Sys/IO/Stat.spvm
 t/lib/SPVM/TestCase/Sys/Ioctl.spvm
 t/lib/SPVM/TestCase/Sys/Poll.spvm
@@ -268,6 +282,7 @@ t/lib/SPVM/TestCase/Sys/Time.spvm
 t/lib/SPVM/TestCase/Sys/Time/Util.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
 t/print_hello.pl
+t/Sys-IO-Glob.t
 t/Sys-IO-Stat.t
 t/Sys-IO.t
 t/Sys-Ioctl.t
