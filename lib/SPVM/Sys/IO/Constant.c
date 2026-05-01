@@ -9,25 +9,8 @@
   #define _DEFAULT_SOURCE
 #endif
 
-// Windows 8.1+
-#define _WIN32_WINNT 0x0603
-
-#include "spvm_native.h"
-
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <errno.h>
-#include <stdlib.h>
-
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
-  
-  #undef S_IFLNK
-  #define S_IFLNK 00120000
-  
-  #undef S_IFSOCK
-  #define S_IFSOCK 00140000
 #else
   #include <unistd.h>
   #include <sys/fcntl.h>
@@ -35,6 +18,14 @@
   #include <sys/ioctl.h>
   #include <sys/types.h>
 #endif
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <stdlib.h>
+
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/IO/Constant.c";
 

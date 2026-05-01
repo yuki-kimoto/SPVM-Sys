@@ -41,6 +41,46 @@
 
 #include "spvm_native.h"
 
+/* File type mask */
+#ifndef S_IFMT
+  #define S_IFMT 0170000
+#endif
+
+/* Directory */
+#ifndef S_IFDIR
+  #define S_IFDIR 0040000
+#endif
+
+/* Character device */
+#ifndef S_IFCHR
+  #define S_IFCHR 0020000
+#endif
+
+/* Block device (Windows doesn't have, but for portability) */
+#ifndef S_IFBLK
+  #define S_IFBLK 0060000
+#endif
+
+/* Regular file */
+#ifndef S_IFREG
+  #define S_IFREG 0100000
+#endif
+
+/* FIFO */
+#ifndef S_IFIFO
+  #define S_IFIFO 0010000
+#endif
+
+/* Symbolic link (Manually defined for Windows) */
+#ifndef S_IFLNK
+  #define S_IFLNK 0120000
+#endif
+
+/* Socket (Manually defined for Windows) */
+#ifndef S_IFSOCK
+  #define S_IFSOCK 0140000
+#endif
+
 // Exactly same as Perl's one in sys/errno2.h
 #ifndef EDQUOT
 #  define EDQUOT WSAEDQUOT
