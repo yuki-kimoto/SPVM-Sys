@@ -10,8 +10,32 @@
   #define _WIN32_WINNT SPVM_SYS_WINDOWS_TARGET_WIN_VERSION
 #endif
 
+/*
+ * Minimize macro pollution from windows.h
+ * 
+ * NOMINMAX:
+ *   Prevent defining min/max macros to avoid conflicts with 
+ *   variable names or standard libraries.
+ * 
+ * WIN32_LEAN_AND_MEAN:
+ *   Exclude rarely-used APIs to speed up build time 
+ *   and keep the namespace clean.
+ */
+#ifndef NOMINMAX
+  #define NOMINMAX
+#endif
+#ifndef WIN32_LEAN_AND_MEAN
+  #define WIN32_LEAN_AND_MEAN
+#endif
+
 // Core Windows API
 #include <windows.h>
+
+/*
+ * Explicitly include winioctl.h for reparse point constants 
+ * (e.g., FSCTL_GET_REPARSE_POINT) which are excluded by WIN32_LEAN_AND_MEAN.
+ */
+#include <winioctl.h>
 
 // File and Directory operations for Windows
 #include <io.h>
