@@ -497,4 +497,14 @@ int spvm_sys_windows_ftruncate(int fd, int64_t length) {
   return _chsize_s(fd, length);
 }
 
+unsigned int spvm_sys_windows_sleep(unsigned int seconds) {
+  Sleep(seconds * 1000);
+  return 0;
+}
+
+int spvm_sys_windows_usleep(unsigned int usec) {
+  Sleep(usec / 1000);
+  return 0;
+}
+
 #endif // defined(_WIN32)

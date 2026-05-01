@@ -38,6 +38,7 @@
 #include <winioctl.h>
 #include <io.h>
 #include <direct.h>
+#include <process.h>
 
 #include "spvm_native.h"
 
@@ -204,6 +205,10 @@ long spvm_sys_windows_telldir (SPVM_SYS_WINDOWS_DIR * dirp);
 void spvm_sys_windows_seekdir (SPVM_SYS_WINDOWS_DIR * dirp, long lPos);
 
 int spvm_sys_windows_ftruncate(int fd, int64_t length);
+
+unsigned int spvm_sys_windows_sleep(unsigned int seconds);
+
+int spvm_sys_windows_usleep(unsigned int usec);
 
 #endif // defined(_WIN32)
 

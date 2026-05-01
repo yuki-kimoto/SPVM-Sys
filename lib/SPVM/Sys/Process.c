@@ -9,26 +9,21 @@
   #define _DEFAULT_SOURCE
 #endif
 
-#include "spvm_native.h"
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+#else
+  #include <unistd.h>
+  #include <sys/resource.h>
+  #include <sys/wait.h>
+#endif
 
-#include <unistd.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
 
-#if defined(_WIN32)
-  // None
-#else
-  #include <sys/types.h>
-  #include <sys/resource.h>
-  #include <sys/wait.h>
-#endif
-
-#if defined(_WIN32)
-  #include "spvm_sys_windows.h"
-#endif
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Process.c";
 
@@ -102,8 +97,12 @@ int32_t SPVM__Sys__Process__sleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t seconds = stack[0].ival;
   
+#if defined(_WIN32)
+  int32_t rest_time = spvm_sys_windows_sleep(seconds);
+#else
   int32_t rest_time = sleep(seconds);
-  
+#endif
+
   stack[0].ival = rest_time;
   
   return 0;
@@ -115,8 +114,12 @@ int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   // but we receive it as int64_t from SPVM to prevent overflow during passing.
   int64_t usec = stack[0].lval;
   
+#if defined(_WIN32)
+  int32_t status = spvm_sys_windows_usleep((useconds_t)usec);
+#else
   int32_t status = usleep((useconds_t)usec);
-  
+#endif
+
   if (status == -1) {
     env->die(env, stack, "[System Error]usleep() failed.", __func__, FILE_NAME, __LINE__);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -337,8 +340,12 @@ int32_t SPVM__Sys__Process__setpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Process__getpid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+#if defined(_WIN32)
+  int32_t process_id = _getpid();
+#else
   int32_t process_id = getpid();
-  
+#endif
+
   stack[0].ival = process_id;
   
   return 0;
