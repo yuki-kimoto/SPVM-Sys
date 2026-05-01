@@ -73,6 +73,7 @@ sub MY::postamble {
       Sys::IO::Dirent
       Sys::IO::Flock
       Sys::IO::Stat
+      Sys::IO::Glob
       Sys::Process
       Sys::Process::Constant
       Sys::User
