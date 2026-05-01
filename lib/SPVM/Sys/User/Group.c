@@ -9,14 +9,11 @@
   #define _DEFAULT_SOURCE
 #endif
 
+#ifndef _WIN32
+  #include <grp.h>
+#endif
 
 #include "spvm_native.h"
-
-#ifndef _WIN32
-
-#include <grp.h>
-
-#endif
 
 static const char* FILE_NAME = "Sys/User/Group.c";
 

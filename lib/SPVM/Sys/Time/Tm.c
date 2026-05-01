@@ -9,10 +9,9 @@
   #define _DEFAULT_SOURCE
 #endif
 
+#include <time.h>
 
 #include "spvm_native.h"
-
-#include <time.h>
 
 static const char* FILE_NAME = "Sys/Time/Tm.c";
 

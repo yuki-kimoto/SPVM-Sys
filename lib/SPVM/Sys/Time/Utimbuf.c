@@ -9,11 +9,15 @@
   #define _DEFAULT_SOURCE
 #endif
 
-
-#include "spvm_native.h"
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+#else
+  #include <utime.h>
+#endif
 
 #include <assert.h>
-#include <utime.h>
+
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Time/Utimbuf.c";
 

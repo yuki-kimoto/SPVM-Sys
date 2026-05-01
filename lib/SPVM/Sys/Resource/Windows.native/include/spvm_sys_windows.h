@@ -39,6 +39,8 @@
 #include <io.h>
 #include <direct.h>
 #include <process.h>
+#include <sys/utime.h>
+#include <winsock2.h>
 
 #include "spvm_native.h"
 
@@ -209,6 +211,13 @@ int spvm_sys_windows_ftruncate(int fd, int64_t length);
 unsigned int spvm_sys_windows_sleep(unsigned int seconds);
 
 int spvm_sys_windows_usleep(unsigned int usec);
+
+typedef struct {
+  int tz_minuteswest; /* minutes west of Greenwich */
+  int tz_dsttime;      /* type of dst correction */
+} SPVM_SYS_WINDOWS_TIMEZONE;
+
+int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
 
 #endif // defined(_WIN32)
 

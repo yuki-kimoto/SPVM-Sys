@@ -12,10 +12,12 @@
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
   #include <sys/utime.h>
+  typedef SPVM_SYS_WINDOWS_TIMEZONE MY_TIMEZONE;
 #else
   #include <sys/time.h>
   #include <sys/times.h>
   #include <utime.h>
+  typedef struct timezone MY_TIMEZONE;
 #endif
 
 #include <time.h>
@@ -101,13 +103,17 @@ int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
     st_tv = env->get_pointer(env, stack, obj_tv);
   }
   
-  struct timezone* st_tz = NULL;
+  MY_TIMEZONE* st_tz = NULL;
   if (obj_tz) {
     st_tz = env->get_pointer(env, stack, obj_tz);
   }
-  
+
+#ifdef _WIN32
+  int32_t status = spvm_sys_windows_gettimeofday(st_tv, st_tz);
+#else
   int32_t status = gettimeofday(st_tv, st_tz);
-  
+#endif
+
   if (status == -1) {
     env->die(env, stack, "[System Error]gettimeofday() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;

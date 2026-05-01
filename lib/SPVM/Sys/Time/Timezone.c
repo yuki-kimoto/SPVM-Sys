@@ -9,10 +9,17 @@
   #define _DEFAULT_SOURCE
 #endif
 
-#include "spvm_native.h"
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+  typedef SPVM_SYS_WINDOWS_TIMEZONE MY_TIMEZONE;
+#else
+  #include <sys/time.h>
+  typedef struct timezone MY_TIMEZONE;
+#endif
 
-#include <sys/time.h>
 #include <assert.h>
+
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Time/Timezone.c";
 
@@ -20,7 +27,7 @@ int32_t SPVM__Sys__Time__Timezone__new(SPVM_ENV* env, SPVM_VALUE* stack) {
 
   int32_t error_id = 0;
   
-  struct timezone* st_tz = env->new_memory_block(env, stack, sizeof(struct timezone));
+  MY_TIMEZONE* st_tz = env->new_memory_block(env, stack, sizeof(MY_TIMEZONE));
   
   SPVM_OBJ* obj_tz = env->new_pointer_object_by_name(env, stack, "Sys::Time::Timezone", st_tz, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -34,7 +41,7 @@ int32_t SPVM__Sys__Time__Timezone__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_tz = stack[0].oval;
   
-  struct timezone* st_tz = env->get_pointer(env, stack, obj_tz);
+  MY_TIMEZONE* st_tz = env->get_pointer(env, stack, obj_tz);
   
   assert(st_tz);
   
@@ -47,7 +54,7 @@ int32_t SPVM__Sys__Time__Timezone__tz_minuteswest(SPVM_ENV* env, SPVM_VALUE* sta
   
   SPVM_OBJ* obj_tz = stack[0].oval;
   
-  struct timezone* st_tz = env->get_pointer(env, stack, obj_tz);
+  MY_TIMEZONE* st_tz = env->get_pointer(env, stack, obj_tz);
   
   stack[0].ival = st_tz->tz_minuteswest;
   
@@ -60,7 +67,7 @@ int32_t SPVM__Sys__Time__Timezone__set_tz_minuteswest(SPVM_ENV* env, SPVM_VALUE*
   
   int32_t tz_minuteswest = stack[1].ival;
   
-  struct timezone* st_tz = env->get_pointer(env, stack, obj_tz);
+  MY_TIMEZONE* st_tz = env->get_pointer(env, stack, obj_tz);
   
   st_tz->tz_minuteswest = tz_minuteswest;
   
@@ -71,7 +78,7 @@ int32_t SPVM__Sys__Time__Timezone__tz_dsttime(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   SPVM_OBJ* obj_tz = stack[0].oval;
   
-  struct timezone* st_tz = env->get_pointer(env, stack, obj_tz);
+  MY_TIMEZONE* st_tz = env->get_pointer(env, stack, obj_tz);
   
   stack[0].ival = st_tz->tz_dsttime;
   
@@ -84,7 +91,7 @@ int32_t SPVM__Sys__Time__Timezone__set_tz_dsttime(SPVM_ENV* env, SPVM_VALUE* sta
   
   int32_t tz_dsttime = stack[1].ival;
   
-  struct timezone* st_tz = env->get_pointer(env, stack, obj_tz);
+  MY_TIMEZONE* st_tz = env->get_pointer(env, stack, obj_tz);
   
   st_tz->tz_dsttime = tz_dsttime;
   
