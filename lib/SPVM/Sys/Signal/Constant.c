@@ -9,11 +9,15 @@
   #define _DEFAULT_SOURCE
 #endif
 
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+#else
+  #include <unistd.h>
+#endif
+
+#include <signal.h>
 
 #include "spvm_native.h"
-
-#include <unistd.h>
-#include <signal.h>
 
 static const char* FILE_NAME = "Sys/Signal/Constant.c";
 
