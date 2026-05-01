@@ -9,21 +9,19 @@
   #define _DEFAULT_SOURCE
 #endif
 
-
-#include "spvm_native.h"
-
-#include <assert.h>
-#include <stdio.h>
-#include <errno.h>
-#include <dirent.h>
-
-#undef MY_DIR
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
   typedef SPVM_SYS_WINDOWS_DIR MY_DIR;
 #else
+  #include <dirent.h>
   typedef DIR MY_DIR;
 #endif
+
+#include <assert.h>
+#include <stdio.h>
+#include <errno.h>
+
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/IO/DirStream.c";
 
@@ -42,7 +40,7 @@ int32_t SPVM__Sys__IO__DirStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (!closed) {
 #if defined(_WIN32)
-    int32_t status = _wclosedir((_WDIR*)dir_stream);
+    int32_t status = spvm_sys_windows_closedir(dir_stream);
 #else
     int32_t status = closedir(dir_stream);
 #endif

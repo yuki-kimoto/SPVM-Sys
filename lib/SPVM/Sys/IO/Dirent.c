@@ -9,17 +9,15 @@
   #define _DEFAULT_SOURCE
 #endif
 
-
-#include "spvm_native.h"
-
-#include <dirent.h>
-
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
   typedef SPVM_SYS_WINDOWS_WDIRENT MY_DIRENT;
 #else
+  #include <dirent.h>
   typedef struct dirent MY_DIRENT;
 #endif
+
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/IO/Dirent.c";
 
