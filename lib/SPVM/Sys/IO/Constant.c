@@ -14,23 +14,26 @@
 
 #include "spvm_native.h"
 
-
-#include <unistd.h>
 #include <stdio.h>
-#include <sys/fcntl.h>
+#include <fcntl.h>
 #include <sys/stat.h>
-#include <sys/file.h>
-
-#if !defined(_WIN32)
-  #include <sys/ioctl.h>
-#endif
+#include <errno.h>
+#include <stdlib.h>
 
 #if defined(_WIN32)
-  # undef S_IFLNK
+  #include "spvm_sys_windows.h"
+  
+  #undef S_IFLNK
   #define S_IFLNK 00120000
   
-  # undef S_IFSOCK
+  #undef S_IFSOCK
   #define S_IFSOCK 00140000
+#else
+  #include <unistd.h>
+  #include <sys/fcntl.h>
+  #include <sys/file.h>
+  #include <sys/ioctl.h>
+  #include <sys/types.h>
 #endif
 
 static const char* FILE_NAME = "Sys/IO/Constant.c";
