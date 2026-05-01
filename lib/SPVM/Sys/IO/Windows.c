@@ -1,30 +1,22 @@
-// Copyright (c) 2023 Yuki Kimoto
-// MIT License
-
-#ifdef __linux__
-  // Enable X/Open System Interfaces (SUSv4) functions and POSIX.1-2008 standard functions
-  #define _XOPEN_SOURCE 700
-
-  // Enable BSD and System V extensions
-  #define _DEFAULT_SOURCE
-#endif
-
-
-#include "spvm_native.h"
-
-static const char* FILE_NAME = "Sys/IO/Windows.c";
-
 #if defined(_WIN32)
 
 #include "spvm_sys_windows.h"
 
 #include <direct.h>
 
+#endif // _WIN32
+
+#include "spvm_native.h"
+
+#if defined(_WIN32)
+
 static inline int32_t is_path_separator(WCHAR ch_w) {
   return (ch_w == L'/' || ch_w == L'\\');
 };
 
 #endif // _WIN32
+
+static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 // This logic is the same as Perl's win32_unlink in win32.c, and UTF-8 arguments are supported.
 int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
