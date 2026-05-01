@@ -14,17 +14,18 @@
 
 #include <dirent.h>
 
-#undef MY_DIR
-#undef MY_DIRENT
-
-#undef MY_DIRENT
-
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
   
-  #define MY_DIRENT struct _wdirent
+  // Copied from https://github.com/msys2-contrib/mingw-w64/blob/master/mingw-w64-headers/crt/dirent.h
+  typedef struct {
+    long    d_ino;    /* Always zero. */
+    unsigned short  d_reclen; /* Always zero. */
+    unsigned short  d_namlen; /* Length of name in d_name. */
+    wchar_t   d_name[260]; /* [FILENAME_MAX] */ /* File name. */
+  } MY_DIRENT;
 #else
-  #define MY_DIRENT struct dirent
+  typedef struct dirent MY_DIRENT;
 #endif
 
 static const char* FILE_NAME = "Sys/IO/Dirent.c";
