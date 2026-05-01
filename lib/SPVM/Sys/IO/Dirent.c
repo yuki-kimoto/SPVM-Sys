@@ -16,14 +16,7 @@
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
-  
-  // Copied from https://github.com/msys2-contrib/mingw-w64/blob/master/mingw-w64-headers/crt/dirent.h
-  typedef struct {
-    long    d_ino;    /* Always zero. */
-    unsigned short  d_reclen; /* Always zero. */
-    unsigned short  d_namlen; /* Length of name in d_name. */
-    wchar_t   d_name[260]; /* [FILENAME_MAX] */ /* File name. */
-  } MY_DIRENT;
+  typedef SPVM_SYS_WINDOWS_WDIRENT MY_DIRENT;
 #else
   typedef struct dirent MY_DIRENT;
 #endif
