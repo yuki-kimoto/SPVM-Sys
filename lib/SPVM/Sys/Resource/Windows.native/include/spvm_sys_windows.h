@@ -43,13 +43,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-/* Standard C library */
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <time.h>
-#include <assert.h>
-
 #include "spvm_native.h"
 
 // Exactly same as Perl's one in sys/errno2.h

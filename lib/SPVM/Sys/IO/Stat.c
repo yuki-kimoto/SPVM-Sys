@@ -17,6 +17,7 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 #include <assert.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <time.h>
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
