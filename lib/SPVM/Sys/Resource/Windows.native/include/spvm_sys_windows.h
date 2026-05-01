@@ -36,6 +36,7 @@
  * (e.g., FSCTL_GET_REPARSE_POINT) which are excluded by WIN32_LEAN_AND_MEAN.
  */
 #include <winioctl.h>
+#include <io.h>
 
 #include "spvm_native.h"
 
@@ -124,19 +125,10 @@ typedef struct {
   wchar_t   d_name[260]; /* [FILENAME_MAX] */ /* File name. */
 } SPVM_SYS_WINDOWS_WDIRENT;
 
-typedef struct {
-  unsigned attrib;
-  int64_t time_create;
-  int64_t time_access;
-  int64_t time_write;
-  int64_t size;
-  wchar_t name[260];
-} SPVM_SYS_WINDOWS_WFINDDATA_T;
-
 // Copied from https://github.com/msys2-contrib/mingw-w64/blob/master/mingw-w64-headers/crt/dirent.h
 typedef struct {
   /* disk transfer area for this dir */
-  SPVM_SYS_WINDOWS_WFINDDATA_T dd_dta;
+  struct _wfinddata64_t dd_dta;
 
   /* dirent struct to return from dir (NOTE: this makes this thread
    * safe as long as only one thread uses a particular DIR struct at
