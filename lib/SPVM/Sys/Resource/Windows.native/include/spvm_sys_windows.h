@@ -105,6 +105,26 @@ int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle);
 
 int32_t spvm_sys_windows_is_symlink(const WCHAR* path_w);
 
+// Originally copied from struct direct in Perl's win32/include/dirent.h
+typedef struct
+{
+  int64_t d_ino;
+  int32_t d_namlen;
+  WCHAR d_name[257];
+} SPVM_SYS_WINDOWS_WDIRENT;
+
+// Originally copied from struct _dir_struc in Perl's win32/include/dirent.h
+typedef struct
+{
+  HANDLE handle;
+  WCHAR* start;
+  WCHAR* end;
+  WCHAR* curr;
+  int64_t size;
+  SPVM_SYS_WINDOWS_WDIRENT dirstr;
+  int64_t nfiles;
+} SPVM_SYS_WINDOWS_DIR;
+
 #endif // defined(_WIN32)
 
 #endif // SPVM_SYS_WINDOWS_H
