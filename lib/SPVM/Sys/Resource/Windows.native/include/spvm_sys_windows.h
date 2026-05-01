@@ -150,6 +150,18 @@ typedef struct {
   wchar_t     dd_name[1];
 } SPVM_SYS_WINDOWS_DIR;
 
+SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const wchar_t *szPath);
+
+SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_SYS_WINDOWS_DIR * dirp);
+
+int spvm_sys_windows_closedir (SPVM_SYS_WINDOWS_DIR * dirp);
+
+void spvm_sys_windows_rewinddir (SPVM_SYS_WINDOWS_DIR * dirp);
+
+long spvm_sys_windows_telldir (SPVM_SYS_WINDOWS_DIR * dirp);
+
+void spvm_sys_windows_seekdir (SPVM_SYS_WINDOWS_DIR * dirp, long lPos);
+
 #endif // defined(_WIN32)
 
 #endif // SPVM_SYS_WINDOWS_H

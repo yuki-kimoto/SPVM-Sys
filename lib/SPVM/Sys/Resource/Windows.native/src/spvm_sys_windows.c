@@ -220,9 +220,7 @@ int32_t spvm_sys_windows_is_symlink(const WCHAR* path_w) {
  * Returns a pointer to a DIR structure appropriately filled in to begin
  * searching a directory.
  */
-SPVM_SYS_WINDOWS_DIR *
-spvm_sys_windows_opendir (const wchar_t *szPath)
-{
+SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const wchar_t *szPath) {
   SPVM_SYS_WINDOWS_DIR *nd;
   unsigned int rc;
   wchar_t szFullPath[MAX_PATH];
@@ -312,9 +310,7 @@ spvm_sys_windows_opendir (const wchar_t *szPath)
  * Return a pointer to a dirent structure filled with the information on the
  * next entry in the directory.
  */
-SPVM_SYS_WINDOWS_WDIRENT *
-spvm_sys_windows_readdir (SPVM_SYS_WINDOWS_DIR * dirp)
-{
+SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_SYS_WINDOWS_DIR * dirp) {
   errno = 0;
 
   /* Check for valid DIR struct. */
@@ -389,9 +385,7 @@ spvm_sys_windows_readdir (SPVM_SYS_WINDOWS_DIR * dirp)
  *
  * Frees up resources allocated by opendir.
  */
-int
-spvm_sys_windows_closedir (SPVM_SYS_WINDOWS_DIR * dirp)
-{
+int spvm_sys_windows_closedir (SPVM_SYS_WINDOWS_DIR * dirp) {
   int rc;
 
   errno = 0;
@@ -420,9 +414,7 @@ spvm_sys_windows_closedir (SPVM_SYS_WINDOWS_DIR * dirp)
  * Return to the beginning of the directory "stream". We simply call findclose
  * and then reset things like an opendir.
  */
-void
-spvm_sys_windows_rewinddir (SPVM_SYS_WINDOWS_DIR * dirp)
-{
+void spvm_sys_windows_rewinddir (SPVM_SYS_WINDOWS_DIR * dirp) {
   errno = 0;
 
   if (!dirp)
@@ -446,9 +438,7 @@ spvm_sys_windows_rewinddir (SPVM_SYS_WINDOWS_DIR * dirp)
  * Returns the "position" in the "directory stream" which can be used with
  * seekdir to go back to an old entry. We simply return the value in stat.
  */
-long
-spvm_sys_windows_telldir (SPVM_SYS_WINDOWS_DIR * dirp)
-{
+long spvm_sys_windows_telldir (SPVM_SYS_WINDOWS_DIR * dirp) {
   errno = 0;
 
   if (!dirp)
@@ -468,9 +458,7 @@ spvm_sys_windows_telldir (SPVM_SYS_WINDOWS_DIR * dirp)
  * have changed while we weren't looking. But that is probably the case with
  * any such system.
  */
-void
-spvm_sys_windows_seekdir (SPVM_SYS_WINDOWS_DIR * dirp, long lPos)
-{
+void spvm_sys_windows_seekdir (SPVM_SYS_WINDOWS_DIR * dirp, long lPos) {
   errno = 0;
 
   if (!dirp)
