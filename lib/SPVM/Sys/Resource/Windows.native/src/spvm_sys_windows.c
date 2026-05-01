@@ -493,4 +493,8 @@ void spvm_sys_windows_seekdir (SPVM_SYS_WINDOWS_DIR * dirp, long lPos) {
     }
 }
 
+int spvm_sys_windows_ftruncate(int fd, int64_t length) {
+  return _chsize_s(fd, length);
+}
+
 #endif // defined(_WIN32)

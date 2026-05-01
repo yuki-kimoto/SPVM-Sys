@@ -37,6 +37,7 @@
  */
 #include <winioctl.h>
 #include <io.h>
+#include <direct.h>
 
 #include "spvm_native.h"
 
@@ -161,6 +162,8 @@ void spvm_sys_windows_rewinddir (SPVM_SYS_WINDOWS_DIR * dirp);
 long spvm_sys_windows_telldir (SPVM_SYS_WINDOWS_DIR * dirp);
 
 void spvm_sys_windows_seekdir (SPVM_SYS_WINDOWS_DIR * dirp, long lPos);
+
+int spvm_sys_windows_ftruncate(int fd, int64_t length);
 
 #endif // defined(_WIN32)
 
