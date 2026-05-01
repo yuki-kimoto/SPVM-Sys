@@ -9,11 +9,15 @@
   #define _DEFAULT_SOURCE
 #endif
 
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+#else
+  #include <sys/time.h>
+#endif
+
+#include <assert.h>
 
 #include "spvm_native.h"
-
-#include <sys/time.h>
-#include <assert.h>
 
 static const char* FILE_NAME = "Sys/Time/Timeval.c";
 
