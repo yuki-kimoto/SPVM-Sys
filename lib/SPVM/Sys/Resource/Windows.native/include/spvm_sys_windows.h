@@ -37,9 +37,6 @@
  */
 #include <winioctl.h>
 
-// File and Directory operations for Windows
-#include <io.h>
-
 #include "spvm_native.h"
 
 // Exactly same as Perl's one in sys/errno2.h
