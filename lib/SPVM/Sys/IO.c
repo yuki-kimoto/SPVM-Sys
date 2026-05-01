@@ -11,23 +11,24 @@
 
 #include "spvm_native.h"
 
-// File IO
 #include <stdio.h>
-
-// Files and directories
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/file.h>
-#include <dirent.h>
 #include <fcntl.h>
-#if defined(_WIN32)
-  #include <direct.h>
-#endif
-
-// Utilities
 #include <errno.h>
 #include <stdlib.h>
+
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+  typedef SPVM_SYS_WINDOWS_DIR MY_DIR;
+  typedef SPVM_SYS_WINDOWS_WDIRENT MY_DIRENT;
+#else
+  #include <unistd.h>
+  #include <sys/file.h>
+  #include <dirent.h>
+  #define MY_DIR DIR
+  #define MY_DIRENT struct dirent
+#endif
 
 static const char* FILE_NAME = "Sys/IO.c";
 
