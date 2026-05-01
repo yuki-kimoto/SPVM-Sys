@@ -9,18 +9,18 @@
   #define _DEFAULT_SOURCE
 #endif
 
-#include "spvm_native.h"
-
-#include <unistd.h>
-#include <assert.h>
-#include <errno.h>
-
 #if defined(_WIN32)
-  
+  #include "spvm_sys_windows.h"
 #else
+  #include <unistd.h>
   #include <pwd.h>
   #include <grp.h>
 #endif
+
+#include <assert.h>
+#include <errno.h>
+
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/User.c";
 
