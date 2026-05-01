@@ -9,15 +9,6 @@
   #define _DEFAULT_SOURCE
 #endif
 
-#include "spvm_native.h"
-
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <stdlib.h>
-
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
   typedef SPVM_SYS_WINDOWS_DIR MY_DIR;
@@ -30,16 +21,16 @@
   #define MY_DIRENT struct dirent
 #endif
 
-static const char* FILE_NAME = "Sys/IO.c";
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <stdlib.h>
 
-#if defined(_WIN32)
-  #include "spvm_sys_windows.h"
-  typedef SPVM_SYS_WINDOWS_DIR MY_DIR;
-  typedef SPVM_SYS_WINDOWS_WDIRENT MY_DIRENT;
-#else
-  #define MY_DIR DIR
-  #define MY_DIRENT struct dirent
-#endif
+#include "spvm_native.h"
+
+static const char* FILE_NAME = "Sys/IO.c";
 
 int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   

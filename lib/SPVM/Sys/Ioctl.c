@@ -9,11 +9,8 @@
   #define _DEFAULT_SOURCE
 #endif
 
-
-#include "spvm_native.h"
-#include "spvm_socket_util.h"
-
 #if defined(_WIN32)
+  #include "spvm_sys_windows.h"
   #include <winsock2.h>
   #define ioctl ioctlsocket
 #else
@@ -21,6 +18,9 @@
 #endif
 
 #include <errno.h>
+
+#include "spvm_socket_util.h"
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Ioctl.c";
 

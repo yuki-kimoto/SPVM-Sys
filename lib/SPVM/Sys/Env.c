@@ -9,10 +9,10 @@
   #define _DEFAULT_SOURCE
 #endif
 
-#include "spvm_native.h"
-
 #include <stdlib.h>
 #include <errno.h>
+
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Env.c";
 

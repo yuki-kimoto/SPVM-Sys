@@ -9,16 +9,19 @@
   #define _DEFAULT_SOURCE
 #endif
 
-#include "spvm_native.h"
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+  #include <sys/utime.h>
+#else
+  #include <sys/time.h>
+  #include <sys/times.h>
+  #include <utime.h>
+#endif
 
 #include <time.h>
-#include <sys/time.h>
-#include <utime.h>
 #include <errno.h>
 
-#ifndef _WIN32
-  #include <sys/times.h>
-#endif
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Time.c";
 

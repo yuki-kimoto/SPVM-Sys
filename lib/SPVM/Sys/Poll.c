@@ -9,21 +9,17 @@
   #define _DEFAULT_SOURCE
 #endif
 
-
-// Windows 8.1+
-#define _WIN32_WINNT 0x0603
-
-#include "spvm_native.h"
-#include "spvm_socket_util.h"
-
 #if defined(_WIN32)
+  #include "spvm_sys_windows.h"
   #include <winsock2.h>
-  #include <winerror.h>
 #else
   #include <poll.h>
 #endif
 
 #include <errno.h>
+
+#include "spvm_socket_util.h"
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Poll.c";
 

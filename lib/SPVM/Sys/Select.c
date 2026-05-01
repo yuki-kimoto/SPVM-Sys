@@ -10,9 +10,8 @@
 #endif
 
 
-#include "spvm_native.h"
-
 #include "spvm_socket_util.h"
+#include "spvm_native.h"
 
 // The maximum number of sockets that a Windows Sockets application can use is not affected by the manifest constant FD_SETSIZE
 // See https://learn.microsoft.com/en-us/windows/win32/winsock/maximum-number-of-sockets-supported-2
