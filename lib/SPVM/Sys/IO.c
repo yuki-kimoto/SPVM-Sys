@@ -31,14 +31,10 @@
 
 static const char* FILE_NAME = "Sys/IO.c";
 
-#undef MY_DIR
-#undef MY_DIRENT
-
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
-  
-  #define MY_DIR _WDIR
-  #define MY_DIRENT struct _wdirent
+  typedef SPVM_SYS_WINDOWS_DIR MY_DIR;
+  typedef SPVM_SYS_WINDOWS_WDIRENT MY_DIRENT;
 #else
   #define MY_DIR DIR
   #define MY_DIRENT struct dirent
@@ -1389,7 +1385,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  MY_DIR* dir_stream = _wopendir(dir_w);
+  MY_DIR* dir_stream = (MY_DIR*)_wopendir(dir_w);
 #else
   MY_DIR* dir_stream = opendir(dir);
 #endif
@@ -1418,7 +1414,7 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
-  int32_t status = _wclosedir(dirp);
+  int32_t status = _wclosedir((_WDIR*)dirp);
 #else
   int32_t status = closedir(dirp);
 #endif
@@ -1448,7 +1444,7 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   errno = 0;
 #if defined(_WIN32)
-  MY_DIRENT* dirent = _wreaddir(dirp);
+  MY_DIRENT* dirent = (MY_DIRENT *)_wreaddir((_WDIR*)dirp);
 #else
   MY_DIRENT* dirent = readdir(dirp);
 #endif
@@ -1481,7 +1477,7 @@ int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
-  _wrewinddir(dirp);
+  _wrewinddir((_WDIR*)dirp);
 #else
   rewinddir(dirp);
 #endif
@@ -1498,7 +1494,7 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
-  int64_t offset = _wtelldir(dirp);
+  int64_t offset = _wtelldir((_WDIR*)dirp);
 #else
   int64_t offset = telldir(dirp);
 #endif
@@ -1530,7 +1526,7 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
 #if defined(_WIN32)
-  _wseekdir(dirp, offset);
+  _wseekdir((_WDIR*)dirp, offset);
 #else
   seekdir(dirp, offset);
 #endif

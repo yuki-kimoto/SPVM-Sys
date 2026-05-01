@@ -19,9 +19,10 @@
 
 #undef MY_DIR
 #if defined(_WIN32)
-  #define MY_DIR _WDIR
+  #include "spvm_sys_windows.h"
+  typedef SPVM_SYS_WINDOWS_DIR MY_DIR;
 #else
-  #define MY_DIR DIR
+  typedef DIR MY_DIR;
 #endif
 
 static const char* FILE_NAME = "Sys/IO/DirStream.c";
