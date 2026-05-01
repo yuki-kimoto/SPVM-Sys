@@ -116,24 +116,46 @@ int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle);
 
 int32_t spvm_sys_windows_is_symlink(const WCHAR* path_w);
 
-// Originally copied from struct direct in Perl's win32/include/dirent.h
-typedef struct
-{
-  int64_t d_ino;
-  int32_t d_namlen;
-  WCHAR d_name[257];
+// Copied from https://github.com/msys2-contrib/mingw-w64/blob/master/mingw-w64-headers/crt/dirent.h
+typedef struct {
+  long    d_ino;    /* Always zero. */
+  unsigned short  d_reclen; /* Always zero. */
+  unsigned short  d_namlen; /* Length of name in d_name. */
+  wchar_t   d_name[260]; /* [FILENAME_MAX] */ /* File name. */
 } SPVM_SYS_WINDOWS_WDIRENT;
 
-// Originally copied from struct _dir_struc in Perl's win32/include/dirent.h
-typedef struct
-{
-  HANDLE handle;
-  WCHAR* start;
-  WCHAR* end;
-  WCHAR* curr;
+typedef struct {
+  unsigned attrib;
+  int64_t time_create;
+  int64_t time_access;
+  int64_t time_write;
   int64_t size;
-  SPVM_SYS_WINDOWS_WDIRENT dirstr;
-  int64_t nfiles;
+  wchar_t name[260];
+} SPVM_SYS_WINDOWS_WFINDDATA_T;
+
+// Copied from https://github.com/msys2-contrib/mingw-w64/blob/master/mingw-w64-headers/crt/dirent.h
+typedef struct {
+  /* disk transfer area for this dir */
+  SPVM_SYS_WINDOWS_WFINDDATA_T dd_dta;
+
+  /* dirent struct to return from dir (NOTE: this makes this thread
+   * safe as long as only one thread uses a particular DIR struct at
+   * a time) */
+  SPVM_SYS_WINDOWS_WDIRENT   dd_dir;
+
+  /* _findnext handle */
+  intptr_t    dd_handle;
+
+  /*
+   * Status of search:
+   *   0 = not started yet (next entry to read is first entry)
+   *  -1 = off the end
+   *   positive = 0 based index of next entry
+   */
+  int     dd_stat;
+
+  /* given path for dir with search pattern (struct is extended) */
+  wchar_t     dd_name[1];
 } SPVM_SYS_WINDOWS_DIR;
 
 #endif // defined(_WIN32)
