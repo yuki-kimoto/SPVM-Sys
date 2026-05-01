@@ -9,15 +9,19 @@
   #define _DEFAULT_SOURCE
 #endif
 
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+#else
+  #include <unistd.h>
+#endif
 
-#include "spvm_native.h"
-
-#include <unistd.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <assert.h>
+
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Signal/Handler.c";
 
