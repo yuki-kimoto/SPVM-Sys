@@ -18,6 +18,8 @@ static const char* FILE_NAME = "Sys/IO/Windows.c";
 
 #include "spvm_sys_windows.h"
 
+#include <direct.h>
+
 static inline int32_t is_path_separator(WCHAR ch_w) {
   return (ch_w == L'/' || ch_w == L'\\');
 };

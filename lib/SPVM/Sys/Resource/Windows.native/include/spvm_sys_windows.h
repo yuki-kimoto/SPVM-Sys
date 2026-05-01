@@ -39,9 +39,6 @@
 
 // File and Directory operations for Windows
 #include <io.h>
-#include <direct.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 #include "spvm_native.h"
 
