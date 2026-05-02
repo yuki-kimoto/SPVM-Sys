@@ -149,20 +149,6 @@ typedef struct {
   } Data;
 } SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER;
 
-WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
-
-const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
-
-void spvm_sys_windows_win_last_error_to_errno(int32_t default_errno);
-
-HANDLE spvm_sys_windows_CreateFileW_for_read(const WCHAR* path_w);
-
-HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(const WCHAR* path_w);
-
-int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle);
-
-int32_t spvm_sys_windows_is_symlink(const WCHAR* path_w);
-
 // Copied from https://github.com/msys2-contrib/mingw-w64/blob/master/mingw-w64-headers/crt/dirent.h
 typedef struct {
   long    d_ino;    /* Always zero. */
@@ -196,6 +182,29 @@ typedef struct {
   wchar_t     dd_name[1];
 } SPVM_SYS_WINDOWS_DIR;
 
+typedef struct {
+  int tz_minuteswest; /* minutes west of Greenwich */
+  int tz_dsttime;      /* type of dst correction */
+} SPVM_SYS_WINDOWS_TIMEZONE;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
+
+const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
+
+void spvm_sys_windows_win_last_error_to_errno(int32_t default_errno);
+
+HANDLE spvm_sys_windows_CreateFileW_for_read(const WCHAR* path_w);
+
+HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(const WCHAR* path_w);
+
+int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle);
+
+int32_t spvm_sys_windows_is_symlink(const WCHAR* path_w);
+
 SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const wchar_t *szPath);
 
 SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_SYS_WINDOWS_DIR * dirp);
@@ -214,12 +223,11 @@ unsigned int spvm_sys_windows_sleep(unsigned int seconds);
 
 int spvm_sys_windows_usleep(unsigned int usec);
 
-typedef struct {
-  int tz_minuteswest; /* minutes west of Greenwich */
-  int tz_dsttime;      /* type of dst correction */
-} SPVM_SYS_WINDOWS_TIMEZONE;
-
 int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif // defined(_WIN32)
 

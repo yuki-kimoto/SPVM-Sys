@@ -1,8 +1,8 @@
 #if defined(_WIN32)
 
-extern "C" {
-
 #include "spvm_sys_windows.h"
+
+extern "C" {
 
 #define SUFFIX	L"*"
 #define	SLASH	L"\\"
