@@ -41,6 +41,8 @@
 #include <process.h>
 #include <sys/utime.h>
 #include <winsock2.h>
+#include <time.h>
+#include <errno.h>
 
 #include "spvm_native.h"
 
