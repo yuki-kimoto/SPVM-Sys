@@ -41,8 +41,15 @@
 #include <process.h>
 #include <sys/utime.h>
 #include <winsock2.h>
-#include <time.h>
 #include <errno.h>
+
+#include <time.h>
+#ifndef CLOCK_REALTIME
+#define CLOCK_REALTIME 0
+#endif
+#ifndef CLOCK_MONOTONIC
+#define CLOCK_MONOTONIC 1
+#endif
 
 #include "spvm_native.h"
 
@@ -224,6 +231,8 @@ unsigned int spvm_sys_windows_sleep(unsigned int seconds);
 int spvm_sys_windows_usleep(unsigned int usec);
 
 int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
+
+int spvm_sys_windows_clock_gettime(int clk_id, struct timespec *ts);
 
 #ifdef __cplusplus
 } // extern "C"

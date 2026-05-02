@@ -568,6 +568,39 @@ int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE 
   return 0;
 }
 
+int spvm_sys_windows_clock_gettime(int clk_id, struct timespec *ts) {
+  /* Check null pointer */
+  if (ts == nullptr) {
+    errno = EINVAL;
+    return -1;
+  }
+
+  std::chrono::nanoseconds duration;
+
+  /* clk_id is int32_t, so logic is identical on all compilers */
+  if (clk_id == CLOCK_MONOTONIC) {
+    /* Monotonic time */
+    duration = std::chrono::steady_clock::now().time_since_epoch();
+  } else if (clk_id == CLOCK_REALTIME) {
+    /* Wall clock time */
+    duration = std::chrono::system_clock::now().time_since_epoch();
+  } else {
+    /* Unsupported ID */
+    errno = EINVAL;
+    return -1;
+  }
+  
+  /* Convert to seconds and nanoseconds */
+  auto sec = std::chrono::duration_cast<std::chrono::seconds>(duration);
+  auto nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - sec);
+
+  /* Set to C struct */
+  ts->tv_sec = static_cast<time_t>(sec.count());
+  ts->tv_nsec = static_cast<long>(nsec.count());
+
+  return 0;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)
