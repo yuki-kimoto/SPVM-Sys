@@ -1,5 +1,8 @@
 #if defined(_WIN32)
 
+// C++ headers
+#include <chrono>
+
 #include "spvm_sys_windows.h"
 
 extern "C" {
