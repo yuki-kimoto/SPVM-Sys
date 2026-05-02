@@ -89,7 +89,7 @@ lib/SPVM/Sys/Resource/Windows.config
 lib/SPVM/Sys/Resource/Windows.native/include/.gitkeep
 lib/SPVM/Sys/Resource/Windows.native/include/spvm_sys_windows.h
 lib/SPVM/Sys/Resource/Windows.native/src/.gitkeep
-lib/SPVM/Sys/Resource/Windows.native/src/spvm_sys_windows.c
+lib/SPVM/Sys/Resource/Windows.native/src/spvm_sys_windows.cpp
 lib/SPVM/Sys/Resource/Windows.pm
 lib/SPVM/Sys/Resource/Windows.spvm
 lib/SPVM/Sys/Select.c

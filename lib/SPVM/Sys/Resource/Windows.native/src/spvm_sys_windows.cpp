@@ -9,6 +9,8 @@
 
 #if defined(_WIN32)
 
+extern "C" {
+
 #include "spvm_sys_windows.h"
 
 #define SUFFIX	L"*"
@@ -37,7 +39,7 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
   }
   
   SPVM_OBJ* obj_utf16le_string = env->new_short_array(env, stack, utf16le_string_length);
-  WCHAR* utf16le_string = env->get_elems_short(env, stack, obj_utf16le_string);
+  WCHAR* utf16le_string = (WCHAR*)env->get_elems_short(env, stack, obj_utf16le_string);
   
   utf16le_string_length = MultiByteToWideChar(
     CP_UTF8,
@@ -571,5 +573,7 @@ int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE 
   p->tv_usec=(tp.tv_nsec/1000);
   return 0;
 }
+
+} // extern "C"
 
 #endif // defined(_WIN32)
