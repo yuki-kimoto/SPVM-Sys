@@ -40,8 +40,9 @@
 #include <direct.h>
 #include <process.h>
 #include <sys/utime.h>
-#include <winsock2.h>
 #include <errno.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
 
 #include <time.h>
 #ifndef CLOCK_REALTIME
@@ -210,7 +211,7 @@ HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(const WCHAR* path_w);
 
 int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle);
 
-int32_t spvm_sys_windows_is_symlink(const WCHAR* path_w);
+int spvm_sys_windows_is_symlink(const WCHAR* path_w);
 
 SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const wchar_t *szPath);
 

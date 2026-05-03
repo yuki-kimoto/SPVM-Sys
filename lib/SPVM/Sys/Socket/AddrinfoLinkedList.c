@@ -9,22 +9,18 @@
   #define _DEFAULT_SOURCE
 #endif
 
-// Windows 8.1+
-#define _WIN32_WINNT 0x0603
-
-#include "spvm_native.h"
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+#else
+  #include <sys/types.h>
+  #include <sys/socket.h>
+  #include <netdb.h>
+  #include <unistd.h>
+#endif
 
 #include <assert.h>
 
-#if defined(_WIN32)
-  #include <ws2tcpip.h>
-  #include <winsock2.h>
-  #include <io.h>
-#else
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#endif
+#include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Socket/AddrinfoLinkedList.c";
 
