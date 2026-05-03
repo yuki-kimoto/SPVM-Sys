@@ -14,6 +14,30 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <errno.h>
+#include <stdlib.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <dirent.h>
+#include <ctype.h>
+#include <errno.h>
+#include <limits.h>
+#if 0
+  #include <pwd.h>
+#endif
+#include <stdlib.h>
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif
+#include <string.h>
+#include <unistd.h>
+
+#include "SPVM__Sys__IO__Glob__glob.h"
+
+#include "SPVM__Sys__IO__Glob__charclass.h"
+
 # define glob_t _ssh_compat_glob_t
 # define glob(a, b, c, d)  _ssh__compat_glob(a, b, c, d)
 # define globfree(a)  _ssh__compat_globfree(a)

@@ -28,11 +28,6 @@
  *	Number of matches in the current invocation of glob.
  */
 
-#include <errno.h>
-#include <stdlib.h>
-
-#include "SPVM__Sys__IO__Glob__glob.h"
-
 #if defined(_WIN32)
   #undef S_ISLNK
   #define S_ISLNK(mode) (0)
@@ -104,29 +99,10 @@ my_reallocarray(void *optr, size_t nmemb, size_t size)
 	return realloc(optr, size * nmemb);
 }
 
-#include <sys/types.h>
-#include <sys/stat.h>
-
-#include <dirent.h>
-#include <ctype.h>
-#include <errno.h>
-#include <limits.h>
-#if 0
-  #include <pwd.h>
-#endif
-#include <stdlib.h>
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
-#include <string.h>
-#include <unistd.h>
-
 #if !defined(HAVE_GLOB) || !defined(GLOB_HAS_ALTDIRFUNC) || \
     !defined(GLOB_HAS_GL_MATCHC) || !defined(GLOB_HAS_GL_STATV) || \
     !defined(HAVE_DECL_GLOB_NOMATCH) || HAVE_DECL_GLOB_NOMATCH == 0 || \
     defined(BROKEN_GLOB)
-
-#include "SPVM__Sys__IO__Glob__charclass.h"
 
 #ifdef TILDE
 # undef TILDE
