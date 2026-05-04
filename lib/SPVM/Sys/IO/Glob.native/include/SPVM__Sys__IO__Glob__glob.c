@@ -28,6 +28,8 @@
  *	Number of matches in the current invocation of glob.
  */
 
+#include "SPVM__Sys__IO__Glob__glob.h"
+
 #if defined(_WIN32)
   #undef S_ISLNK
   #define S_ISLNK(mode) (0)

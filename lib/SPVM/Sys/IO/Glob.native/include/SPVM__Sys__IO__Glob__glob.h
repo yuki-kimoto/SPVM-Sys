@@ -34,8 +34,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "SPVM__Sys__IO__Glob__glob.h"
-
 #include "SPVM__Sys__IO__Glob__charclass.h"
 
 # define glob_t _ssh_compat_glob_t
