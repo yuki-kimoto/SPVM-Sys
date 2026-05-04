@@ -178,7 +178,7 @@ struct glob_path_stat {
 static int	 compare(const void *, const void *);
 static int	 compare_gps(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, size_t);
-static int	 g_lstat(Char *, struct stat *, glob_t *);
+static int	 g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, struct stat *, glob_t *);
 static DIR	*g_opendir(Char *, glob_t *);
 static Char	*g_strchr(const Char *, int);
 static int	 g_strncmp(const Char *, const char *, size_t);
@@ -682,7 +682,7 @@ glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 				*pathend = EOS;
 				return(GLOB_NOSPACE);
 			}
-			if (g_lstat(pathbuf, &sb, pglob))
+			if (g_lstat(env, stack, pathbuf, &sb, pglob))
 				return(0);
 
 			if (((pglob->gl_flags & GLOB_MARK) &&
@@ -1043,14 +1043,14 @@ g_opendir(Char *str, glob_t *pglob)
 }
 
 static int
-g_lstat(Char *fn, struct stat *sb, glob_t *pglob)
+g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, struct stat *sb, glob_t *pglob)
 {
 	char buf[PATH_MAX];
 
 	if (g_Ctoc(fn, buf, sizeof(buf)))
 		return(-1);
 	if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-		return((*pglob->gl_lstat)(buf, sb));
+		return((*pglob->gl_lstat)(env, stack, buf, sb));
 #if defined(_WIN32)
 	return(stat(buf, sb));
 #else

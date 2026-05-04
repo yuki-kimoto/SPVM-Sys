@@ -61,7 +61,7 @@ typedef struct {
 	void (*gl_closedir)(void *);
 	struct dirent *(*gl_readdir)(void *);	
 	void *(*gl_opendir)(const char *);
-	int (*gl_lstat)(const char *, struct stat *);
+	int (*gl_lstat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, struct stat *);
 	int (*gl_stat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, struct stat *);
 } glob_t;
 
