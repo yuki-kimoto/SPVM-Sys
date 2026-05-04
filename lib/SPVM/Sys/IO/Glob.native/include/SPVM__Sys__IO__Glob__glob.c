@@ -182,19 +182,19 @@ static int	 g_lstat(Char *, struct stat *, glob_t *);
 static DIR	*g_opendir(Char *, glob_t *);
 static Char	*g_strchr(const Char *, int);
 static int	 g_strncmp(const Char *, const char *, size_t);
-static int	 g_stat(Char *, struct stat *, glob_t *);
-static int	 glob0(const Char *, glob_t *, struct glob_lim *);
-static int	 glob1(Char *, Char *, glob_t *, struct glob_lim *);
-static int	 glob2(Char *, Char *, Char *, Char *, Char *, Char *,
+static int	 g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, struct stat *, glob_t *);
+static int	 glob0(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, glob_t *, struct glob_lim *);
+static int	 glob1(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, glob_t *, struct glob_lim *);
+static int	 glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, Char *, Char *, Char *, Char *,
 		    glob_t *, struct glob_lim *);
-static int	 glob3(Char *, Char *, Char *, Char *, Char *,
+static int	 glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, Char *, Char *, Char *,
 		    Char *, Char *, glob_t *, struct glob_lim *);
 static int	 globextend(const Char *, glob_t *, struct glob_lim *,
 		    struct stat *);
 static const Char *
 		 globtilde(const Char *, Char *, size_t, glob_t *);
-static int	 globexp1(const Char *, glob_t *, struct glob_lim *);
-static int	 globexp2(const Char *, const Char *, glob_t *,
+static int	 globexp1(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, glob_t *, struct glob_lim *);
+static int	 globexp2(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, const Char *, glob_t *,
 		    struct glob_lim *);
 static int	 match(Char *, Char *, Char *);
 #ifdef DEBUG
@@ -202,7 +202,7 @@ static void	 qprintf(const char *, Char *);
 #endif
 
 int
-glob(const char *pattern, int flags, int (*errfunc)(const char *, int),
+glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, int flags, int (*errfunc)(const char *, int),
     glob_t *pglob)
 {
 	const unsigned char *patnext;
@@ -249,9 +249,9 @@ glob(const char *pattern, int flags, int (*errfunc)(const char *, int),
 	*bufnext = EOS;
 
 	if (flags & GLOB_BRACE)
-		return globexp1(patbuf, pglob, &limit);
+		return globexp1(env, stack, patbuf, pglob, &limit);
 	else
-		return glob0(patbuf, pglob, &limit);
+		return glob0(env, stack, patbuf, pglob, &limit);
 }
 
 /*
@@ -260,18 +260,18 @@ glob(const char *pattern, int flags, int (*errfunc)(const char *, int),
  * characters
  */
 static int
-globexp1(const Char *pattern, glob_t *pglob, struct glob_lim *limitp)
+globexp1(SPVM_ENV* env, SPVM_VALUE* stack, const Char *pattern, glob_t *pglob, struct glob_lim *limitp)
 {
 	const Char* ptr = pattern;
 
 	/* Protect a single {}, for find(1), like csh */
 	if (pattern[0] == LBRACE && pattern[1] == RBRACE && pattern[2] == EOS)
-		return glob0(pattern, pglob, limitp);
+		return glob0(env, stack, pattern, pglob, limitp);
 
 	if ((ptr = (const Char *) g_strchr(ptr, LBRACE)) != NULL)
-		return globexp2(ptr, pattern, pglob, limitp);
+		return globexp2(env, stack, ptr, pattern, pglob, limitp);
 
-	return glob0(pattern, pglob, limitp);
+	return glob0(env, stack, pattern, pglob, limitp);
 }
 
 
@@ -281,7 +281,7 @@ globexp1(const Char *pattern, glob_t *pglob, struct glob_lim *limitp)
  * If it fails then it tries to glob the rest of the pattern and returns.
  */
 static int
-globexp2(const Char *ptr, const Char *pattern, glob_t *pglob,
+globexp2(SPVM_ENV* env, SPVM_VALUE* stack, const Char *ptr, const Char *pattern, glob_t *pglob,
     struct glob_lim *limitp)
 {
 	int     i, rv;
@@ -318,7 +318,7 @@ globexp2(const Char *ptr, const Char *pattern, glob_t *pglob,
 
 	/* Non matching braces; just glob the pattern */
 	if (i != 0 || *pe == EOS)
-		return glob0(patbuf, pglob, limitp);
+		return glob0(env, stack, patbuf, pglob, limitp);
 
 	for (i = 0, pl = pm = ptr; pm <= pe; pm++) {
 		switch (*pm) {
@@ -364,7 +364,7 @@ globexp2(const Char *ptr, const Char *pattern, glob_t *pglob,
 #ifdef DEBUG
 				qprintf("globexp2:", patbuf);
 #endif
-				rv = globexp1(patbuf, pglob, limitp);
+				rv = globexp1(env, stack, patbuf, pglob, limitp);
 				if (rv && rv != GLOB_NOMATCH)
 					return rv;
 
@@ -498,7 +498,7 @@ g_charclass(const Char **patternp, Char **bufnextp)
  * to find no matches.
  */
 static int
-glob0(const Char *pattern, glob_t *pglob, struct glob_lim *limitp)
+glob0(SPVM_ENV* env, SPVM_VALUE* stack, const Char *pattern, glob_t *pglob, struct glob_lim *limitp)
 {
 	const Char *qpatnext;
 	int c, err;
@@ -580,7 +580,7 @@ glob0(const Char *pattern, glob_t *pglob, struct glob_lim *limitp)
 	qprintf("glob0:", patbuf);
 #endif
 
-	if ((err = glob1(patbuf, patbuf+PATH_MAX-1, pglob, limitp)) != 0)
+	if ((err = glob1(env, stack, patbuf, patbuf+PATH_MAX-1, pglob, limitp)) != 0)
 		return(err);
 
 	/*
@@ -642,14 +642,14 @@ compare_gps(const void *_p, const void *_q)
 }
 
 static int
-glob1(Char *pattern, Char *pattern_last, glob_t *pglob, struct glob_lim *limitp)
+glob1(SPVM_ENV* env, SPVM_VALUE* stack, Char *pattern, Char *pattern_last, glob_t *pglob, struct glob_lim *limitp)
 {
 	Char pathbuf[PATH_MAX];
 
 	/* A null pathname is invalid -- POSIX 1003.1 sect. 2.4. */
 	if (*pattern == EOS)
 		return(0);
-	return(glob2(pathbuf, pathbuf+PATH_MAX-1,
+	return(glob2(env, stack, pathbuf, pathbuf+PATH_MAX-1,
 	    pathbuf, pathbuf+PATH_MAX-1,
 	    pattern, pattern_last, pglob, limitp));
 }
@@ -660,7 +660,7 @@ glob1(Char *pattern, Char *pattern_last, glob_t *pglob, struct glob_lim *limitp)
  * meta characters.
  */
 static int
-glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
+glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
     Char *pattern, Char *pattern_last, glob_t *pglob, struct glob_lim *limitp)
 {
 	struct stat sb;
@@ -688,7 +688,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 			if (((pglob->gl_flags & GLOB_MARK) &&
 			    pathend[-1] != SEP) && (S_ISDIR(sb.st_mode) ||
 			    (S_ISLNK(sb.st_mode) &&
-			    (g_stat(pathbuf, &sb, pglob) == 0) &&
+			    (g_stat(env, stack, pathbuf, &sb, pglob) == 0) &&
 			    S_ISDIR(sb.st_mode)))) {
 				if (pathend+1 > pathend_last)
 					return (1);
@@ -720,7 +720,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 			}
 		} else
 			/* Need expansion, recurse. */
-			return(glob3(pathbuf, pathbuf_last, pathend,
+			return(glob3(env, stack, pathbuf, pathbuf_last, pathend,
 			    pathend_last, pattern, p, pattern_last,
 			    pglob, limitp));
 	}
@@ -728,7 +728,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 }
 
 static int
-glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
+glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
     Char *pattern, Char *restpattern, Char *restpattern_last, glob_t *pglob,
     struct glob_lim *limitp)
 {
@@ -799,7 +799,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 			*pathend = EOS;
 			continue;
 		}
-		err = glob2(pathbuf, pathbuf_last, --dc, pathend_last,
+		err = glob2(env, stack, pathbuf, pathbuf_last, --dc, pathend_last,
 		    restpattern, restpattern_last, pglob, limitp);
 		if (err)
 			break;
@@ -1059,14 +1059,14 @@ g_lstat(Char *fn, struct stat *sb, glob_t *pglob)
 }
 
 static int
-g_stat(Char *fn, struct stat *sb, glob_t *pglob)
+g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, struct stat *sb, glob_t *pglob)
 {
 	char buf[PATH_MAX];
 
 	if (g_Ctoc(fn, buf, sizeof(buf)))
 		return(-1);
 	if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-		return((*pglob->gl_stat)(buf, sb));
+		return((*pglob->gl_stat)(env, stack, buf, sb));
 	return(stat(buf, sb));
 }
 

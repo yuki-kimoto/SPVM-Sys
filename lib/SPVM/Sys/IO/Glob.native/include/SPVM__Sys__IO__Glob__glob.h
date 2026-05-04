@@ -39,7 +39,7 @@
 #include "spvm_native.h"
 
 # define glob_t _ssh_compat_glob_t
-# define glob(a, b, c, d)  _ssh__compat_glob(a, b, c, d)
+# define glob(env, stack, a, b, c, d)  _ssh__compat_glob(env, stack, a, b, c, d)
 # define globfree(a)  _ssh__compat_globfree(a)
 
 struct stat;
@@ -62,7 +62,7 @@ typedef struct {
 	struct dirent *(*gl_readdir)(void *);	
 	void *(*gl_opendir)(const char *);
 	int (*gl_lstat)(const char *, struct stat *);
-	int (*gl_stat)(const char *, struct stat *);
+	int (*gl_stat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, struct stat *);
 } glob_t;
 
 #define	GLOB_APPEND	0x0001	/* Append to output from previous call. */
@@ -88,7 +88,7 @@ typedef struct {
 #define	GLOB_KEEPSTAT	0x4000	/* Retain stat data for paths in gl_statv. */
 #define GLOB_ABEND	GLOB_ABORTED /* backward compatibility */
 
-int	glob(const char *, int, int (*)(const char *, int), glob_t *);
+int	glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int, int (*)(const char *, int), glob_t *);
 void	globfree(glob_t *);
 
 #endif /* !_GLOB_H_ */
