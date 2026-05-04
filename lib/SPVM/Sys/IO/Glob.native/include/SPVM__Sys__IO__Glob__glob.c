@@ -202,7 +202,7 @@ static void	 qprintf(const char *, Char *);
 #endif
 
 int
-glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, int flags, int (*errfunc)(const char *, int),
+glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, int flags, int (*errfunc)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int),
     glob_t *pglob)
 {
 	const unsigned char *patnext;
@@ -760,7 +760,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 		if (pglob->gl_errfunc) {
 			if (g_Ctoc(pathbuf, buf, sizeof(buf)))
 				return(GLOB_ABORTED);
-			if (pglob->gl_errfunc(buf, errno) ||
+			if (pglob->gl_errfunc(env, stack, buf, errno) ||
 			    pglob->gl_flags & GLOB_ERR)
 				return(GLOB_ABORTED);
 		}

@@ -51,7 +51,7 @@ typedef struct {
 	char **gl_pathv;	/* List of paths matching pattern. */
 	struct stat **gl_statv;	/* Stat entries corresponding to gl_pathv */
 				/* Copy of errfunc parameter to glob. */
-	int (*gl_errfunc)(const char *, int);
+	int (*gl_errfunc)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int);
 
 	/*
 	 * Alternate filesystem access methods for glob; replacement
@@ -88,7 +88,7 @@ typedef struct {
 #define	GLOB_KEEPSTAT	0x4000	/* Retain stat data for paths in gl_statv. */
 #define GLOB_ABEND	GLOB_ABORTED /* backward compatibility */
 
-int	glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int, int (*)(const char *, int), glob_t *);
+int	glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int, int (*)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int), glob_t *);
 void	globfree(glob_t *);
 
 #endif /* !_GLOB_H_ */
