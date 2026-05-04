@@ -179,7 +179,7 @@ static int	 compare(const void *, const void *);
 static int	 compare_gps(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, size_t);
 static int	 g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, struct stat *, glob_t *);
-static DIR	*g_opendir(Char *, glob_t *);
+static DIR	*g_opendir(SPVM_ENV* env, SPVM_VALUE* stack, Char *, glob_t *);
 static Char	*g_strchr(const Char *, int);
 static int	 g_strncmp(const Char *, const char *, size_t);
 static int	 g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, struct stat *, glob_t *);
@@ -750,7 +750,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 	*pathend = EOS;
 	errno = 0;
 
-	if ((dirp = g_opendir(pathbuf, pglob)) == NULL) {
+	if ((dirp = g_opendir(env, stack, pathbuf, pglob)) == NULL) {
 		/* TODO: don't call for ENOENT or ENOTDIR? */
 		if (pglob->gl_errfunc) {
 			if (g_Ctoc(pathbuf, buf, sizeof(buf)))
@@ -1025,7 +1025,7 @@ globfree(glob_t *pglob)
 }
 
 static DIR *
-g_opendir(Char *str, glob_t *pglob)
+g_opendir(SPVM_ENV* env, SPVM_VALUE* stack, Char *str, glob_t *pglob)
 {
 	char buf[PATH_MAX];
 
@@ -1037,7 +1037,7 @@ g_opendir(Char *str, glob_t *pglob)
 	}
 
 	if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-		return((*pglob->gl_opendir)(buf));
+		return((*pglob->gl_opendir)(env, stack, buf));
 
 	return(opendir(buf));
 }
