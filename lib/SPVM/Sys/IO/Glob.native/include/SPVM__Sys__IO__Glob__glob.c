@@ -727,6 +727,11 @@ glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 	/* NOTREACHED */
 }
 
+static struct dirent *
+default_readdir(SPVM_ENV* env, SPVM_VALUE* stack, void *dirp) {
+    return readdir((DIR*)dirp);
+}
+
 static int
 glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
     Char *pattern, Char *restpattern, Char *restpattern_last, glob_t *pglob,
@@ -743,7 +748,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 	 * and dirent.h as taking pointers to differently typed opaque
 	 * structures.
 	 */
-	struct dirent *(*readdirfunc)(void *);
+	struct dirent *(*readdirfunc)(SPVM_ENV* env, SPVM_VALUE* stack, void *);
 
 	if (pathend > pathend_last)
 		return (1);
@@ -768,8 +773,8 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 	if (pglob->gl_flags & GLOB_ALTDIRFUNC)
 		readdirfunc = pglob->gl_readdir;
 	else
-		readdirfunc = (struct dirent *(*)(void *))readdir;
-	while ((dp = (*readdirfunc)(dirp))) {
+		readdirfunc = (struct dirent *(*)(SPVM_ENV* env, SPVM_VALUE* stack, void *))default_readdir;
+	while ((dp = (*readdirfunc)(env, stack, dirp))) {
 		unsigned char *sc;
 		Char *dc;
 
