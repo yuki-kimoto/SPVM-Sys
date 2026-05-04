@@ -806,7 +806,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 	}
 
 	if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-		(*pglob->gl_closedir)(dirp);
+		(*pglob->gl_closedir)(env, stack, dirp);
 	else
 		closedir(dirp);
 	return(err);
