@@ -36,6 +36,8 @@
 
 #include "SPVM__Sys__IO__Glob__charclass.h"
 
+#include "spvm_native.h"
+
 # define glob_t _ssh_compat_glob_t
 # define glob(a, b, c, d)  _ssh__compat_glob(a, b, c, d)
 # define globfree(a)  _ssh__compat_globfree(a)
