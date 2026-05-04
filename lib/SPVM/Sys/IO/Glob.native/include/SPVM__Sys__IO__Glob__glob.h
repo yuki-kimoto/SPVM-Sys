@@ -3,11 +3,6 @@
 
 // This code is originally copied from the File::Glob module of Perl.
 
-#if !defined(HAVE_GLOB_H) || !defined(GLOB_HAS_ALTDIRFUNC) || \
-    !defined(GLOB_HAS_GL_MATCHC) || !defined(GLOB_HAS_GL_STATV) || \
-    !defined(HAVE_DECL_GLOB_NOMATCH) || HAVE_DECL_GLOB_NOMATCH == 0 || \
-    defined(BROKEN_GLOB)
-
 #ifndef _COMPAT_GLOB_H_
 #define	_COMPAT_GLOB_H_
 
@@ -91,7 +86,4 @@ typedef struct {
 int	glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int, int (*)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int), glob_t *);
 void	globfree(glob_t *);
 
-#endif /* !_GLOB_H_ */
-
-#endif /* !defined(HAVE_GLOB_H) || !defined(GLOB_HAS_ALTDIRFUNC)  ||
-	  !defined(GLOB_HAS_GL_MATCHC) || !defined(GLOH_HAS_GL_STATV) */
+#endif
