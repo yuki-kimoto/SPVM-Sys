@@ -3,8 +3,8 @@
 
 // This code is originally copied from the File::Glob module of Perl.
 
-#ifndef _COMPAT_GLOB_H_
-#define	_COMPAT_GLOB_H_
+#ifndef SPVM__SYS__IO__GLOB__GLOB_H
+#define	SPVM__SYS__IO__GLOB__GLOB_H
 
 #include <sys/stat.h>
 #include <sys/types.h>
