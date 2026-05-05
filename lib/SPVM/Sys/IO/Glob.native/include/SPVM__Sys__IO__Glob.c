@@ -101,7 +101,7 @@ static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
  *	order
  */
 
-#include "SPVM__Sys__IO__Glob__glob.h"
+#include "SPVM__Sys__IO__Glob.h"
 
 #ifdef I_PWD
 #	include <pwd.h>
