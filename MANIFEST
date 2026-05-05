@@ -39,7 +39,6 @@ lib/SPVM/Sys/IO/Flock.spvm
 lib/SPVM/Sys/IO/Glob.c
 lib/SPVM/Sys/IO/Glob.config
 lib/SPVM/Sys/IO/Glob.native/include/.gitkeep
-lib/SPVM/Sys/IO/Glob.native/include/SPVM__Sys__IO__Glob__charclass.h
 lib/SPVM/Sys/IO/Glob.native/include/SPVM__Sys__IO__Glob__glob.c
 lib/SPVM/Sys/IO/Glob.native/include/SPVM__Sys__IO__Glob__glob.h
 lib/SPVM/Sys/IO/Glob.native/src/.gitkeep
