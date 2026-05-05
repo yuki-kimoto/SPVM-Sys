@@ -29,9 +29,15 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t flags = 0;
   void* errfunc = NULL;
   
+  flags |= GLOB_BRACE | GLOB_NOMAGIC | GLOB_QUOTE | GLOB_TILDE | GLOB_ALPHASORT;
+  
+#ifdef WIN32
+  flags |= GLOB_NOCASE;
+#endif
+  
   memset(&pglob, 0, sizeof(glob_t));
   
-  int32_t status = glob(env, stack, pattern, flags, errfunc, &pglob);
+  int32_t status = bsd_glob(pattern, flags, errfunc, &pglob);
   
   int32_t e = 0;
   if (!(status == 0)) {
@@ -53,7 +59,7 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = obj_paths;
   }
   
-  globfree(&pglob);
+  bsd_globfree(&pglob);
   
   return e;
 }

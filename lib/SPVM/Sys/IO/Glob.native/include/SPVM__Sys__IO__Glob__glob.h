@@ -73,18 +73,18 @@ typedef struct {
         int gl_flags;		/* Copy of flags parameter to glob. */
         char **gl_pathv;	/* List of paths matching pattern. */
                                 /* Copy of errfunc parameter to glob. */
-        int (*gl_errfunc)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int);
+        int (*gl_errfunc)(const char *, int);
 
         /*
          * Alternate filesystem access methods for glob; replacement
          * versions of closedir(3), readdir(3), opendir(3), stat(2)
          * and lstat(2).
          */
-        void (*gl_closedir)(SPVM_ENV* env, SPVM_VALUE* stack, void *);
-        struct dirent *(*gl_readdir)(SPVM_ENV* env, SPVM_VALUE* stack, void *); 
-        void *(*gl_opendir)(SPVM_ENV* env, SPVM_VALUE* stack, const char *);
-        int (*gl_lstat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, struct stat *);
-        int (*gl_stat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, struct stat *);
+        void (*gl_closedir)(void *);
+        struct dirent *(*gl_readdir)(void *); 
+        void *(*gl_opendir)(const char *);
+        int (*gl_lstat)(const char *, struct stat *);
+        int (*gl_stat)(const char *, struct stat *);
         
         // Remove these members in the future
         struct stat **gl_statv;
@@ -110,6 +110,38 @@ typedef struct {
 
 #define GLOB_NOSPACE    (-1)    /* Malloc call failed. */
 #define GLOB_ABEND      (-2)    /* Unignored error. */
+
+// Types defined in perl.h
+typedef size_t STRLEN;
+typedef struct stat Stat_t;
+typedef uint16_t U16;
+typedef uint8_t U8;
+typedef struct dirent Direntry_t;
+
+// Functions defined in perl.h
+#define PerlEnv_getenv(name) getenv(name)
+#define PerlDir_close(dh) closedir(dh)
+#define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
+#define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
+#define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
+#define PerlDir_open(dir) opendir(dir)
+#define PerlLIO_stat(file, stat_info) stat(file, stat_info)
+
+// Functions defined in perl.h
+// [TODO]Must support Unicode folding in the future
+#define toFOLD(ch) tolower((unsigned char)(ch))
+
+// Functions defined in perl.h
+// [TODO]Must support real symbolic link check in the future
+#if defined(_WIN32)
+  #undef S_ISLNK
+  #define S_ISLNK(mode) (0)
+#endif
+
+// Functions defined in perl.h
+// [TODO]Must support Unicode folding in the future
+#define toFOLD(ch) tolower((unsigned char)(ch))
+
 
 // Remove these macros in the future
 #define	GLOB_NOMATCH	(-3)	/* No match and GLOB_NOCHECK not set. */
