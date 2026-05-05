@@ -30,6 +30,8 @@
 
 #include "SPVM__Sys__IO__Glob__glob.h"
 
+#include "SPVM__Sys__IO__Glob__charclass.h"
+
 #if defined(_WIN32)
   #undef S_ISLNK
   #define S_ISLNK(mode) (0)
