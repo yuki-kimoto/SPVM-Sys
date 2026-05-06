@@ -64,6 +64,37 @@
 #include <string.h>
 #include <unistd.h>
 
+// Types defined in perl.h
+typedef size_t STRLEN;
+typedef struct stat Stat_t;
+typedef uint16_t U16;
+typedef uint8_t U8;
+typedef struct dirent Direntry_t;
+
+// Functions defined in perl.h
+#define PerlEnv_getenv(name) getenv(name)
+#define PerlDir_close(dh) closedir(dh)
+#define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
+#define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
+#define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
+#define PerlDir_open(dir) opendir(dir)
+#define PerlLIO_stat(file, stat_info) stat(file, stat_info)
+
+// Functions defined in perl.h
+// [TODO]Must support Unicode folding in the future
+#define toFOLD(ch) tolower((unsigned char)(ch))
+
+// Functions defined in perl.h
+// [TODO]Must support real symbolic link check in the future
+#if defined(_WIN32)
+  #undef S_ISLNK
+  #define S_ISLNK(mode) (0)
+#endif
+
+// Functions defined in perl.h
+// [TODO]Must support Unicode folding in the future
+#define toFOLD(ch) tolower((unsigned char)(ch))
+
 /* #include <sys/cdefs.h> */
 
 typedef struct {
@@ -107,37 +138,6 @@ typedef struct {
 
 #define GLOB_NOSPACE    (-1)    /* Malloc call failed. */
 #define GLOB_ABEND      (-2)    /* Unignored error. */
-
-// Types defined in perl.h
-typedef size_t STRLEN;
-typedef struct stat Stat_t;
-typedef uint16_t U16;
-typedef uint8_t U8;
-typedef struct dirent Direntry_t;
-
-// Functions defined in perl.h
-#define PerlEnv_getenv(name) getenv(name)
-#define PerlDir_close(dh) closedir(dh)
-#define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
-#define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
-#define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
-#define PerlDir_open(dir) opendir(dir)
-#define PerlLIO_stat(file, stat_info) stat(file, stat_info)
-
-// Functions defined in perl.h
-// [TODO]Must support Unicode folding in the future
-#define toFOLD(ch) tolower((unsigned char)(ch))
-
-// Functions defined in perl.h
-// [TODO]Must support real symbolic link check in the future
-#if defined(_WIN32)
-  #undef S_ISLNK
-  #define S_ISLNK(mode) (0)
-#endif
-
-// Functions defined in perl.h
-// [TODO]Must support Unicode folding in the future
-#define toFOLD(ch) tolower((unsigned char)(ch))
 
 int	bsd_glob(const char *, int, int (*)(const char *, int), glob_t *);
 void	bsd_globfree(glob_t *);
