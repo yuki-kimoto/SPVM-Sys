@@ -1,3 +1,14 @@
+0.566 2026-05-07
+  [New Feautres]
+    * Add Sys#glob method.
+    * Add Sys::IO::Glob#bsd_glob method.
+  
+  [Internal Changes]
+    * Reduce MinGW dependencies for MSVC support in the future.
+    * Use Sys::Resource::Windows in all config files.
+    * spvm_sys_windows is compiled with C++ compiler.
+    * Add spvm_sys_windows_clock_gettime to spvm_sys_windows.c
+    
 0.565 2026-05-01
   [New Features]
     * Add Sys#glob method.
