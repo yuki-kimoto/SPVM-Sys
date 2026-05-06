@@ -58,36 +58,3 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return error_id;
 }
-
-#if 0
-
-// Originally copied from https://github.com/Perl/perl5/blob/v5.42.2/ext/File-Glob/Glob.xs 
-
-void
-bsd_glob(pattern_sv,...)
-    SV *pattern_sv
-PREINIT:
-    int flags = 0;
-    char *pattern;
-    STRLEN len;
-PPCODE:
-    {
-        pattern = SvPV(pattern_sv, len);
-        if (!IS_SAFE_SYSCALL(pattern, len, "pattern", "bsd_glob"))
-            XSRETURN(0);
-	/* allow for optional flags argument */
-	if (items > 1) {
-	    flags = (int) SvIV(ST(1));
-	    /* remove unsupported flags */
-	    flags &= ~(GLOB_APPEND | GLOB_DOOFFS | GLOB_ALTDIRFUNC | GLOB_MAGCHAR);
-	} else {
-	    SV * flags_sv = get_sv("File::Glob::DEFAULT_FLAGS", GV_ADD);
-	    flags = (int)SvIV(flags_sv);
-	}
-	
-	PUTBACK;
-	doglob(aTHX_ pattern, flags);
-	SPAGAIN;
-    }
-
-#endif
