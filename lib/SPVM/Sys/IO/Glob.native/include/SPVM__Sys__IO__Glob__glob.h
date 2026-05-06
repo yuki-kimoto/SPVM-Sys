@@ -114,8 +114,8 @@ typedef struct {
         void (*gl_closedir)(void *);
         Direntry_t *(*gl_readdir)(void *); 
         void *(*gl_opendir)(const char *);
-        int (*gl_lstat)(const char *, struct stat *);
-        int (*gl_stat)(const char *, struct stat *);
+        int (*gl_lstat)(const char *, Stat_t *);
+        int (*gl_stat)(const char *, Stat_t *);
 } glob_t;
 
 #define GLOB_APPEND     0x0001  /* Append to output from previous call. */
