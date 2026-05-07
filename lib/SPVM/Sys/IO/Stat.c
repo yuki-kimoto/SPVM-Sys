@@ -9,22 +9,21 @@
   #define _DEFAULT_SOURCE
 #endif
 
-
-#include "spvm_native.h"
-
-static const char* FILE_NAME = "Sys/IO/Stat.c";
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+  typedef struct spvm_sys_windows_stat Stat_t;
+#else
+  #include <sys/stat.h>
+  typedef struct stat Stat_t;
+#endif
 
 #include <assert.h>
 #include <errno.h>
 #include <time.h>
 
-#if defined(_WIN32)
-  #include "spvm_sys_windows.h"
-  typedef struct spvm_sys_windows_stat_t Stat_t;
-#else // defined(_WIN32)
-  #include <sys/stat.h>
-  typedef struct stat Stat_t;
-#endif
+#include "spvm_native.h"
+
+static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
