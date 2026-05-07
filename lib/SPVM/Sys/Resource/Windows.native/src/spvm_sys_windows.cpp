@@ -801,13 +801,9 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
   return status;
 }
 
-int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_STAT *st_stat) {
+int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat) {
   
   int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_path = stack[0].oval;
-  
-  const char* path = env->get_chars(env, stack, obj_path);
   
   WCHAR* path_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, __FILE__, __LINE__);
   if (error_id) {
@@ -824,7 +820,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
     SPVM_OBJ* obj_resolved_link_text = NULL;
     {
       SPVM_OBJ* obj_link_text = NULL;
-      stack[0].oval = obj_path;
+      stack[0].oval = env->new_string(env, stack, path, strlen(path));
       env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, __FILE__, __LINE__);
       if (error_id) {
         goto END_OF_FUNC;
