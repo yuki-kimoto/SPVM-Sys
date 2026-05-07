@@ -59,7 +59,7 @@ int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
     == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
-         && spvm_sys_windows_is_symlinkW(path_w))
+         && spvm_sys_windows_is_symlinkW(env, stack, path_w))
   {
     status = _wrmdir(path_w);
   }
@@ -161,7 +161,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   DWORD linkdata_returned;
   HANDLE handle = NULL;
   if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
-    handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(path_w);
+    handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(env, stack, path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_win_last_error_to_errno(EINVAL);
@@ -178,7 +178,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
   }
   else {
-    handle = spvm_sys_windows_CreateFileW_for_read(path_w);
+    handle = spvm_sys_windows_CreateFileW_for_read(env, stack, path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_win_last_error_to_errno(EINVAL);
@@ -460,7 +460,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(resolved_link_text_w);
+  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(env, stack, resolved_link_text_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
     spvm_sys_windows_win_last_error_to_errno(EINVAL);
@@ -556,7 +556,7 @@ int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  int32_t ret = spvm_sys_windows_is_symlinkW(path_w);
+  int32_t ret = spvm_sys_windows_is_symlinkW(env, stack, path_w);
   
   stack[0].ival = ret;
   

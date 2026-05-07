@@ -40,7 +40,7 @@ int32_t SPVM__Sys__IO__DirStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (!closed) {
 #if defined(_WIN32)
-    int32_t status = spvm_sys_windows_closedir(dir_stream);
+    int32_t status = spvm_sys_windows_closedir(env, stack, dir_stream);
 #else
     int32_t status = closedir(dir_stream);
 #endif

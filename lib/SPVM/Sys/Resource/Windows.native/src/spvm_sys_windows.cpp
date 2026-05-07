@@ -146,7 +146,7 @@ void spvm_sys_windows_win_last_error_to_errno(int32_t default_errno) {
   }
 }
 
-static HANDLE spvm_sys_windows_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
+static HANDLE spvm_sys_windows_CreateFileW_for_read_common(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w, int32_t file_flag) {
 
   HANDLE handle = CreateFileW(path_w, GENERIC_READ,
     FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
@@ -156,17 +156,17 @@ static HANDLE spvm_sys_windows_CreateFileW_for_read_common(const WCHAR* path_w, 
   return handle;
 }
 
-HANDLE spvm_sys_windows_CreateFileW_for_read(const WCHAR* path_w) {
+HANDLE spvm_sys_windows_CreateFileW_for_read(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w) {
   
-  return spvm_sys_windows_CreateFileW_for_read_common(path_w, 0);
+  return spvm_sys_windows_CreateFileW_for_read_common(env, stack, path_w, 0);
 }
 
-HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(const WCHAR* path_w) {
+HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w) {
 
-  return spvm_sys_windows_CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
+  return spvm_sys_windows_CreateFileW_for_read_common(env, stack, path_w, FILE_FLAG_OPEN_REPARSE_POINT);
 }
 
-int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle) {
+int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle) {
   
   int32_t is_sym = 0;
   
@@ -190,18 +190,18 @@ int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle) {
   return is_sym;
 }
 
-int32_t spvm_sys_windows_is_symlinkW(const WCHAR* path_w) {
+int32_t spvm_sys_windows_is_symlinkW(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w) {
   
   int32_t is_sym = 0;
   
-  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(path_w);
+  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(env, stack, path_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
     spvm_sys_windows_win_last_error_to_errno(EINVAL);
     goto END_OF_FUNC;
   }
   
-  is_sym = spvm_sys_windows_is_symlink_by_handle(handle);
+  is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
   
   END_OF_FUNC:
   
@@ -218,7 +218,7 @@ int32_t spvm_sys_windows_is_symlinkW(const WCHAR* path_w) {
  * Returns a pointer to a DIR structure appropriately filled in to begin
  * searching a directory.
  */
-SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendirW (const WCHAR *szPath) {
+SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendirW (SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *szPath) {
   SPVM_SYS_WINDOWS_DIR *nd;
   unsigned int rc;
   WCHAR szFullPath[MAX_PATH];
@@ -308,7 +308,7 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendirW (const WCHAR *szPath) {
  * Return a pointer to a dirent structure filled with the information on the
  * next entry in the directory.
  */
-SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_SYS_WINDOWS_DIR * dirp) {
+SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
   errno = 0;
 
   /* Check for valid DIR struct. */
@@ -383,7 +383,7 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_SYS_WINDOWS_DIR * dirp)
  *
  * Frees up resources allocated by opendir.
  */
-int spvm_sys_windows_closedir (SPVM_SYS_WINDOWS_DIR * dirp) {
+int spvm_sys_windows_closedir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
   int rc;
 
   errno = 0;
@@ -412,7 +412,7 @@ int spvm_sys_windows_closedir (SPVM_SYS_WINDOWS_DIR * dirp) {
  * Return to the beginning of the directory "stream". We simply call findclose
  * and then reset things like an opendir.
  */
-void spvm_sys_windows_rewinddir (SPVM_SYS_WINDOWS_DIR * dirp) {
+void spvm_sys_windows_rewinddir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
   errno = 0;
 
   if (!dirp)
@@ -436,7 +436,7 @@ void spvm_sys_windows_rewinddir (SPVM_SYS_WINDOWS_DIR * dirp) {
  * Returns the "position" in the "directory stream" which can be used with
  * seekdir to go back to an old entry. We simply return the value in stat.
  */
-long spvm_sys_windows_telldir (SPVM_SYS_WINDOWS_DIR * dirp) {
+long spvm_sys_windows_telldir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
   errno = 0;
 
   if (!dirp)
@@ -456,7 +456,7 @@ long spvm_sys_windows_telldir (SPVM_SYS_WINDOWS_DIR * dirp) {
  * have changed while we weren't looking. But that is probably the case with
  * any such system.
  */
-void spvm_sys_windows_seekdir (SPVM_SYS_WINDOWS_DIR * dirp, long lPos) {
+void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp, long lPos) {
   errno = 0;
 
   if (!dirp)
@@ -484,14 +484,14 @@ void spvm_sys_windows_seekdir (SPVM_SYS_WINDOWS_DIR * dirp, long lPos) {
   else
     {
       /* Rewind and read forward to the appropriate index. */
-      spvm_sys_windows_rewinddir (dirp);
+      spvm_sys_windows_rewinddir (env, stack, dirp);
 
-      while ((dirp->dd_stat < lPos) && spvm_sys_windows_readdir (dirp))
+      while ((dirp->dd_stat < lPos) && spvm_sys_windows_readdir(env, stack, dirp))
 	;
     }
 }
 
-int spvm_sys_windows_ftruncate(int fd, int64_t length) {
+int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t length) {
   return _chsize_s(fd, length);
 }
 
@@ -604,7 +604,7 @@ int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clk_id,
 }
 
 // The output is the same as Perl's spvm_sys_windows_file_time_to_epoch in Win32.c
-static time_t spvm_sys_windows_file_time_to_epoch(FILETIME file_time) {
+static time_t spvm_sys_windows_file_time_to_epoch(SPVM_ENV* env, SPVM_VALUE* stack, FILETIME file_time) {
   SYSTEMTIME system_time;
   struct tm st_tm = {0};
   
@@ -673,9 +673,9 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
           st_stat->st_size <<= 32;
           st_stat->st_size |= file_info.nFileSizeLow;
           
-          st_stat->st_atime = spvm_sys_windows_file_time_to_epoch(file_info.ftLastAccessTime);
-          st_stat->st_mtime = spvm_sys_windows_file_time_to_epoch(file_info.ftLastWriteTime);
-          st_stat->st_ctime = spvm_sys_windows_file_time_to_epoch(file_info.ftCreationTime);
+          st_stat->st_atime = spvm_sys_windows_file_time_to_epoch(env, stack, file_info.ftLastAccessTime);
+          st_stat->st_mtime = spvm_sys_windows_file_time_to_epoch(env, stack, file_info.ftLastWriteTime);
+          st_stat->st_ctime = spvm_sys_windows_file_time_to_epoch(env, stack, file_info.ftCreationTime);
           
           if (reparse_type) {
             /* https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
@@ -841,7 +841,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
       return error_id;
     }
     
-    handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(resolved_link_text_w);
+    handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(env, stack, resolved_link_text_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_win_last_error_to_errno(EINVAL);
@@ -892,7 +892,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
   }
   
   {
-    handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(path_w);
+    handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(env, stack, path_w);
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_win_last_error_to_errno(EINVAL);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -908,7 +908,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
       }
       
       {
-        int32_t is_sym = spvm_sys_windows_is_symlink_by_handle(handle);
+        int32_t is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
         
         if (is_sym) {
           SPVM_OBJ* obj_link_text = NULL;

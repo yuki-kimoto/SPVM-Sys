@@ -764,7 +764,7 @@ int32_t SPVM__Sys__IO__ftruncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   int64_t length = stack[1].lval;
   
 #if defined(_WIN32)
-  int32_t ret_errno = spvm_sys_windows_ftruncate(fd, length);
+  int32_t ret_errno = spvm_sys_windows_ftruncate(env, stack, fd, length);
   if (!(ret_errno == 0)) {
     env->die(env, stack, "[System Error]ftruncate() failed(%d: %s).", __func__, FILE_NAME, __LINE__, ret_errno, env->strerror_nolen(env, stack, ret_errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -897,7 +897,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   int32_t fd = _wopen(path_w, O_WRONLY);
-  int32_t ret_errno = spvm_sys_windows_ftruncate(fd, length);
+  int32_t ret_errno = spvm_sys_windows_ftruncate(env, stack, fd, length);
   if (!(fd == -1)) {
     close(fd);
   }
@@ -1388,7 +1388,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  MY_DIR* dir_stream = spvm_sys_windows_opendirW(dir_w);
+  MY_DIR* dir_stream = spvm_sys_windows_opendirW(env, stack, dir_w);
 #else
   MY_DIR* dir_stream = opendir(dir);
 #endif
@@ -1417,7 +1417,7 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
-  int32_t status = spvm_sys_windows_closedir(dirp);
+  int32_t status = spvm_sys_windows_closedir(env, stack, dirp);
 #else
   int32_t status = closedir(dirp);
 #endif
@@ -1447,7 +1447,7 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   errno = 0;
 #if defined(_WIN32)
-  MY_DIRENT* dirent = spvm_sys_windows_readdir(dirp);
+  MY_DIRENT* dirent = spvm_sys_windows_readdir(env, stack, dirp);
 #else
   MY_DIRENT* dirent = readdir(dirp);
 #endif
@@ -1480,7 +1480,7 @@ int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
-  spvm_sys_windows_rewinddir(dirp);
+  spvm_sys_windows_rewinddir(env, stack, dirp);
 #else
   rewinddir(dirp);
 #endif
@@ -1497,7 +1497,7 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
-  int64_t offset = spvm_sys_windows_telldir(dirp);
+  int64_t offset = spvm_sys_windows_telldir(env, stack, dirp);
 #else
   int64_t offset = telldir(dirp);
 #endif
@@ -1529,7 +1529,7 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
 #if defined(_WIN32)
-  spvm_sys_windows_seekdir(dirp, offset);
+  spvm_sys_windows_seekdir(env, stack, dirp, offset);
 #else
   seekdir(dirp, offset);
 #endif
