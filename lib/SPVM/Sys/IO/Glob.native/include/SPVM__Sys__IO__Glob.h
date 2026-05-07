@@ -109,7 +109,7 @@ typedef struct {
         int gl_flags;		/* Copy of flags parameter to glob. */
         char **gl_pathv;	/* List of paths matching pattern. */
                                 /* Copy of errfunc parameter to glob. */
-        int (*gl_errfunc)(const char *, int);
+        int (*gl_errfunc)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int);
 
         /*
          * Alternate filesystem access methods for glob; replacement
@@ -147,7 +147,7 @@ typedef struct {
 #define GLOB_NOSPACE    (-1)    /* Malloc call failed. */
 #define GLOB_ABEND      (-2)    /* Unignored error. */
 
-int	bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int, int (*)(const char *, int), glob_t *);
+int	bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int, int (*)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int), glob_t *);
 void	bsd_globfree(glob_t *);
 
 #endif // SPVM__SYS__IO__GLOB__GLOB_H

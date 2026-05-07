@@ -245,7 +245,7 @@ my_readdir(MY_DIR *d)
 
 int
 bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, int flags,
-         int (*errfunc)(const char *, int), glob_t *pglob)
+         int (*errfunc)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int), glob_t *pglob)
 {
         const U8 *patnext;
         int c;
@@ -814,7 +814,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
                 if (pglob->gl_errfunc) {
                         if (g_Ctoc(pathbuf, buf, sizeof(buf)))
                                 return (GLOB_ABEND);
-                        if (pglob->gl_errfunc(buf, errno) ||
+                        if (pglob->gl_errfunc(env, stack, buf, errno) ||
                             (pglob->gl_flags & GLOB_ERR))
                                 return (GLOB_ABEND);
                 }
