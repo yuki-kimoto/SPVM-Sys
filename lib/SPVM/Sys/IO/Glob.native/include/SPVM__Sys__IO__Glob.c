@@ -194,10 +194,10 @@ typedef U8 Char;
 static int	 compare(const void *, const void *);
 static int	 ci_compare(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, STRLEN);
-static int	 g_lstat(Char *, Stat_t *, glob_t *);
+static int	 g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Stat_t *, glob_t *);
 static MY_DIR	*g_opendir(SPVM_ENV* env, SPVM_VALUE* stack, Char *, glob_t *);
 static Char	*g_strchr(Char *, int);
-static int	 g_stat(Char *, Stat_t *, glob_t *);
+static int	 g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Stat_t *, glob_t *);
 static int	 glob0(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, glob_t *);
 static int	 glob1(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, glob_t *, size_t *);
 static int	 glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, Char *, Char *, Char *, Char *,
@@ -703,7 +703,7 @@ glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
         for (anymeta = 0;;) {
                 if (*pattern == BG_EOS) {		/* End of pattern? */
                         *pathend = BG_EOS;
-                        if (g_lstat(pathbuf, &sb, pglob))
+                        if (g_lstat(env, stack, pathbuf, &sb, pglob))
                                 return(0);
 
                         if (((pglob->gl_flags & GLOB_MARK) &&
@@ -713,7 +713,7 @@ glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 #endif
                             ) && (S_ISDIR(sb.st_mode) ||
                                   (S_ISLNK(sb.st_mode) &&
-                            (g_stat(pathbuf, &sb, pglob) == 0) &&
+                            (g_stat(env, stack, pathbuf, &sb, pglob) == 0) &&
                             S_ISDIR(sb.st_mode)))) {
                                 if (pathend+1 > pathend_last)
                                         return (1);
@@ -1062,31 +1062,31 @@ g_opendir(SPVM_ENV* env, SPVM_VALUE* stack, Char *str, glob_t *pglob)
 }
 
 static int
-g_lstat(Char *fn, Stat_t *sb, glob_t *pglob)
+g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, Stat_t *sb, glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 
         if (g_Ctoc(fn, buf, sizeof(buf)))
                 return(-1);
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                return((*pglob->gl_lstat)(buf, sb));
+                return((*pglob->gl_lstat)(env, stack, buf, sb));
 #ifdef HAS_LSTAT
-        return(PerlLIO_lstat(buf, sb));
+        return(PerlLIO_lstat(env, stack, buf, sb));
 #else
-        return(PerlLIO_stat(buf, sb));
+        return(PerlLIO_stat(env, stack, buf, sb));
 #endif /* HAS_LSTAT */
 }
 
 static int
-g_stat(Char *fn, Stat_t *sb, glob_t *pglob)
+g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, Stat_t *sb, glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 
         if (g_Ctoc(fn, buf, sizeof(buf)))
                 return(-1);
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                return((*pglob->gl_stat)(buf, sb));
-        return(PerlLIO_stat(buf, sb));
+                return((*pglob->gl_stat)(env, stack, buf, sb));
+        return(PerlLIO_stat(env, stack, buf, sb));
 }
 
 static Char *
