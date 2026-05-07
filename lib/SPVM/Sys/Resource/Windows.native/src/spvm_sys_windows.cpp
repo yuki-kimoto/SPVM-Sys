@@ -190,26 +190,26 @@ int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle) {
   return is_sym;
 }
 
-int spvm_sys_windows_is_symlinkW (const WCHAR* path_w) {
-  std::error_code var_error_code;
-  std::filesystem::path var_path(path_w);
+int32_t spvm_sys_windows_is_symlinkW(const WCHAR* path_w) {
   
-  std::filesystem::file_status var_file_status = std::filesystem::symlink_status(var_path, var_error_code);
+  int32_t is_sym = 0;
   
-  if (var_error_code) {
-    SetLastError(var_error_code.value());
+  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(path_w);
+  
+  if (handle == INVALID_HANDLE_VALUE) {
     spvm_sys_windows_win_last_error_to_errno(EINVAL);
-    return 0;
+    goto END_OF_FUNC;
   }
   
-  WIN32_FILE_ATTRIBUTE_DATA var_data;
-  if (GetFileAttributesExW(path_w, GetFileExInfoStandard, &var_data)) {
-    if (var_data.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) {
-      return 1;
-    }
+  is_sym = spvm_sys_windows_is_symlink_by_handle(handle);
+  
+  END_OF_FUNC:
+  
+  if (!(handle == INVALID_HANDLE_VALUE)) {
+    CloseHandle(handle);
   }
   
-  return 0;
+  return is_sym;
 }
 
 /*
