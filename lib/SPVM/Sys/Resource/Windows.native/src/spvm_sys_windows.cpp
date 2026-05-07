@@ -495,12 +495,12 @@ int spvm_sys_windows_ftruncate(int fd, int64_t length) {
   return _chsize_s(fd, length);
 }
 
-unsigned int spvm_sys_windows_sleep(unsigned int seconds) {
+unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int seconds) {
   Sleep(seconds * 1000);
   return 0;
 }
 
-int spvm_sys_windows_usleep(unsigned int usec) {
+int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec) {
   Sleep(usec / 1000);
   return 0;
 }
@@ -508,7 +508,7 @@ int spvm_sys_windows_usleep(unsigned int usec) {
 #define FILETIME_1970 116444736000000000ull /* seconds between 1/1/1601 and 1/1/1970 */
 #define HECTONANOSEC_PER_SEC 10000000ull
 
-static int getntptimeofday (struct timespec *tp, SPVM_SYS_WINDOWS_TIMEZONE *z)
+static int getntptimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct timespec *tp, SPVM_SYS_WINDOWS_TIMEZONE *z)
 {
   int res = 0;
   union {
@@ -559,11 +559,11 @@ static int getntptimeofday (struct timespec *tp, SPVM_SYS_WINDOWS_TIMEZONE *z)
   return res;
 }
 
-int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z)
+int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z)
 {
   struct timespec tp;
 
-  if (getntptimeofday (&tp, z))
+  if (getntptimeofday (env, stack, &tp, z))
     return -1;
   p->tv_sec=tp.tv_sec;
   p->tv_usec=(tp.tv_nsec/1000);

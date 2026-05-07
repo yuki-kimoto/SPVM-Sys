@@ -98,7 +98,7 @@ int32_t SPVM__Sys__Process__sleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t seconds = stack[0].ival;
   
 #if defined(_WIN32)
-  int32_t rest_time = spvm_sys_windows_sleep(seconds);
+  int32_t rest_time = spvm_sys_windows_sleep(env, stack, seconds);
 #else
   int32_t rest_time = sleep(seconds);
 #endif
@@ -115,7 +115,7 @@ int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   int64_t usec = stack[0].lval;
   
 #if defined(_WIN32)
-  int32_t status = spvm_sys_windows_usleep((useconds_t)usec);
+  int32_t status = spvm_sys_windows_usleep(env, stack, (useconds_t)usec);
 #else
   int32_t status = usleep((useconds_t)usec);
 #endif

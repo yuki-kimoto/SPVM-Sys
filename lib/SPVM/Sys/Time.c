@@ -109,7 +109,7 @@ int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
 
 #ifdef _WIN32
-  int32_t status = spvm_sys_windows_gettimeofday(st_tv, st_tz);
+  int32_t status = spvm_sys_windows_gettimeofday(env, stack, st_tv, st_tz);
 #else
   int32_t status = gettimeofday(st_tv, st_tz);
 #endif
