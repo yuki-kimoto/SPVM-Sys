@@ -11,7 +11,7 @@
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
-  typedef struct spvm_sys_windows_stat MY_STAT;
+  typedef SPVM_SYS_WINDOWS_STAT MY_STAT;
 #else
   #include <sys/stat.h>
   typedef struct stat MY_STAT;

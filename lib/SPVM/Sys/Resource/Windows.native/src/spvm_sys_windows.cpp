@@ -632,7 +632,7 @@ static time_t spvm_sys_windows_file_time_to_epoch(FILETIME file_time) {
 }
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
-int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, MY_STAT *st_stat) {
+int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT *st_stat) {
   
   int32_t status = -1;
   DWORD type = GetFileType(handle);
@@ -801,7 +801,7 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
   return status;
 }
 
-int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, MY_STAT *st_stat) {
+int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_STAT *st_stat) {
   
   int32_t error_id = 0;
   
@@ -876,7 +876,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, MY_STAT *st_stat
   return 0;
 }
 
-int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, MY_STAT *st_stat) {   
+int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_STAT *st_stat) {   
   
   int32_t error_id = 0;
   

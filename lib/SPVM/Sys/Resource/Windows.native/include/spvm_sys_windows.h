@@ -206,7 +206,7 @@ typedef unsigned __int64 Ino_t;
 typedef uint64_t Off_t;
 
 // Exactly same as Perl's one in Win32.h
-struct spvm_sys_windows_stat {
+typedef struct {
   Dev_t st_dev;
   Ino_t st_ino;
   unsigned short st_mode;
@@ -218,9 +218,7 @@ struct spvm_sys_windows_stat {
   time_t st_atime;
   time_t st_mtime;
   time_t st_ctime;
-};
-
-typedef struct spvm_sys_windows_stat MY_STAT;
+} SPVM_SYS_WINDOWS_STAT;
 
 #ifdef __cplusplus
 extern "C" {
@@ -262,11 +260,11 @@ int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE 
 
 int spvm_sys_windows_clock_gettime(int clk_id, struct timespec *ts);
 
-int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, MY_STAT *st_stat);
+int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT *st_stat);
 
-int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, MY_STAT *st_stat);
+int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_STAT *st_stat);
 
-int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, MY_STAT *st_stat);
+int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_STAT *st_stat);
 
 #ifdef __cplusplus
 } // extern "C"
