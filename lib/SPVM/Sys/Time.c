@@ -152,8 +152,12 @@ int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "$tp must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
+#if defined(_WIN32)
+  int32_t status = spvm_sys_windows_clock_gettime(env, stack, clk_id, st_tp);
+#else
   int32_t status = clock_gettime(clk_id, st_tp);
-  
+#endif
+
   if (status == -1) {
     env->die(env, stack, "[System Error]clock_gettime() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
