@@ -195,6 +195,30 @@ typedef struct {
   int tz_dsttime;      /* type of dst correction */
 } SPVM_SYS_WINDOWS_TIMEZONE;
 
+// Exactly same as Perl's one in Win32.h
+typedef DWORD Dev_t;
+
+// Exactly same as Perl's one in Win32.h
+typedef unsigned __int64 Ino_t;
+
+// This is different from Perl's ones, but it must be defined well
+typedef uint64_t Off_t;
+
+// Exactly same as Perl's one in Win32.h
+struct w32_stat {
+  Dev_t st_dev;
+  Ino_t st_ino;
+  unsigned short st_mode;
+  DWORD st_nlink;
+  short st_uid;
+  short st_gid;
+  Dev_t st_rdev;
+  Off_t st_size;
+  time_t st_atime;
+  time_t st_mtime;
+  time_t st_ctime;
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif

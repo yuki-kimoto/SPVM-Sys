@@ -21,37 +21,6 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
-  
-  # undef S_IFLNK
-  #define S_IFLNK 00120000
-  
-  # undef S_IFSOCK
-  #define S_IFSOCK 00140000
-  
-  // Exactly same as Perl's one in Win32.h
-  typedef DWORD Dev_t;
-  
-  // Exactly same as Perl's one in Win32.h
-  typedef unsigned __int64 Ino_t;
-  
-  // This is different from Perl's ones, but it must be defined well
-  typedef uint64_t Off_t;
-  
-  // Exactly same as Perl's one in Win32.h
-  struct w32_stat {
-    Dev_t st_dev;
-    Ino_t st_ino;
-    unsigned short st_mode;
-    DWORD st_nlink;
-    short st_uid;
-    short st_gid;
-    Dev_t st_rdev;
-    Off_t st_size;
-    time_t st_atime;
-    time_t st_mtime;
-    time_t st_ctime;
-  };
-  
   typedef struct w32_stat Stat_t;
 #else // defined(_WIN32)
   typedef struct stat Stat_t;
