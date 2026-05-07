@@ -162,7 +162,7 @@ typedef struct {
   long    d_ino;    /* Always zero. */
   unsigned short  d_reclen; /* Always zero. */
   unsigned short  d_namlen; /* Length of name in d_name. */
-  wchar_t   d_name[260]; /* [FILENAME_MAX] */ /* File name. */
+  WCHAR   d_name[260]; /* [FILENAME_MAX] */ /* File name. */
 } SPVM_SYS_WINDOWS_WDIRENT;
 
 // Copied from https://github.com/msys2-contrib/mingw-w64/blob/master/mingw-w64-headers/crt/dirent.h
@@ -187,7 +187,7 @@ typedef struct {
   int     dd_stat;
 
   /* given path for dir with search pattern (struct is extended) */
-  wchar_t     dd_name[1];
+  WCHAR     dd_name[1];
 } SPVM_SYS_WINDOWS_DIR;
 
 typedef struct {
@@ -213,7 +213,7 @@ int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle);
 
 int spvm_sys_windows_is_symlink(const WCHAR* path_w);
 
-SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const wchar_t *szPath);
+SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const WCHAR *szPath);
 
 SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_SYS_WINDOWS_DIR * dirp);
 

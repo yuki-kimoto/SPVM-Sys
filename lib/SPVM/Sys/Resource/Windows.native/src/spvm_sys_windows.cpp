@@ -92,7 +92,7 @@ const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack,
   );
   
   if (utf8_string_length == 0) {
-    *error_id = env->die(env, stack,  "win_wchar_to_utf8 failed:Error converting UTF-16LE to UTF-8: %lu.", func_name, file, line, GetLastError());
+    *error_id = env->die(env, stack,  "win_WCHARo_utf8 failed:Error converting UTF-16LE to UTF-8: %lu.", func_name, file, line, GetLastError());
     return NULL;
   }
   
@@ -218,10 +218,10 @@ int spvm_sys_windows_is_symlink(const WCHAR* path_w) {
  * Returns a pointer to a DIR structure appropriately filled in to begin
  * searching a directory.
  */
-SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const wchar_t *szPath) {
+SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const WCHAR *szPath) {
   SPVM_SYS_WINDOWS_DIR *nd;
   unsigned int rc;
-  wchar_t szFullPath[MAX_PATH];
+  WCHAR szFullPath[MAX_PATH];
 
   errno = 0;
 
@@ -260,7 +260,7 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const wchar_t *szPath) {
   nd = (SPVM_SYS_WINDOWS_DIR *) malloc (sizeof (SPVM_SYS_WINDOWS_DIR) + (wcslen (szFullPath)
 					   + wcslen (SLASH)
 					   + wcslen (SUFFIX) + 1)
-					  * sizeof (wchar_t));
+					  * sizeof (WCHAR));
 
   if (!nd)
     {
