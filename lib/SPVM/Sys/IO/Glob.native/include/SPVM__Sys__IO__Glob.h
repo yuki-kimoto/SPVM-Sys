@@ -64,6 +64,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "spvm_native.h"
+
 // Types defined for abstrucing directory handles
 typedef DIR MY_DIR;
 
