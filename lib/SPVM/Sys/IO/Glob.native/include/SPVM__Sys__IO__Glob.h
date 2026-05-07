@@ -58,10 +58,6 @@
 typedef DIR MY_DIR;
 typedef struct dirent MY_DIRENT;
 typedef struct stat MY_STAT;
-#define PerlDir_open(env, stack, dir) opendir(dir)
-#define PerlDir_close(env, stack, dh) closedir(dh)
-#define PerlDir_read(env, stack, dh) readdir(dh)
-#define PerlLIO_stat(env, stack, file, stat_info) stat(file, stat_info)
 
 // Types defined in perl.h
 typedef size_t STRLEN;
@@ -130,7 +126,13 @@ typedef struct {
 #define GLOB_NOSPACE    (-1)    /* Malloc call failed. */
 #define GLOB_ABEND      (-2)    /* Unignored error. */
 
-int	bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int, int (*)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int), glob_t *);
-void	bsd_globfree(glob_t *);
+static void my_closedir(SPVM_ENV* env, SPVM_VALUE* stack, void* dirp);
+static MY_DIRENT* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, void* dirp);
+static void* my_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* dirname);
+static int my_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, MY_STAT* st);
+static int my_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, MY_STAT* st);
+
+int bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int, int (*)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int), glob_t *);
+void bsd_globfree(glob_t *);
 
 #endif // SPVM__SYS__IO__GLOB__GLOB_H

@@ -214,12 +214,31 @@ static int	 match(Char *, Char *, Char *, int);
 static void	 qprintf(const char *, Char *);
 #endif /* GLOB_DEBUG */
 
-static MY_DIRENT *	my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR*);
+static void my_closedir(SPVM_ENV* env, SPVM_VALUE* stack, void* dirp) {
+  /* Use the standard closedir or a Windows-specific equivalent */
+  if (dirp) {
+    closedir((DIR*)dirp);
+  }
+}
 
-static MY_DIRENT *
-my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR *d)
-{
-    return PerlDir_read(env, stack, d);
+static MY_DIRENT* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, void* dirp) {
+  return (MY_DIRENT*)readdir((DIR*)dirp);
+}
+
+static void* my_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* dirname) {
+  return (void*)opendir(dirname);
+}
+
+static int my_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, MY_STAT* st) {
+#ifdef _WIN32
+  return stat(path, (struct stat*)st);
+#else
+  return lstat(path, (struct stat*)st);
+#endif
+}
+
+static int my_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, MY_STAT* st) {
+  return stat(path, (struct stat*)st);
 }
 
 int
@@ -838,7 +857,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
                 (*pglob->gl_closedir)(env, stack, dirp);
         else
-                PerlDir_close(env, stack, dirp);
+                my_closedir(env, stack, dirp);
         return(err);
 }
 
@@ -1037,7 +1056,7 @@ g_opendir(SPVM_ENV* env, SPVM_VALUE* stack, Char *str, glob_t *pglob)
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
                 return((MY_DIR*)(*pglob->gl_opendir)(env, stack, buf));
 
-        return(PerlDir_open(env, stack, buf));
+        return(my_opendir(env, stack, buf));
 }
 
 static int
@@ -1050,9 +1069,9 @@ g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, MY_STAT *sb, glob_t *pglob)
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
                 return((*pglob->gl_lstat)(env, stack, buf, sb));
 #ifdef HAS_LSTAT
-        return(PerlLIO_lstat(env, stack, buf, sb));
+        return(my_lstat(env, stack, buf, sb));
 #else
-        return(PerlLIO_stat(env, stack, buf, sb));
+        return(my_stat(env, stack, buf, sb));
 #endif /* HAS_LSTAT */
 }
 
@@ -1065,7 +1084,7 @@ g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, MY_STAT *sb, glob_t *pglob)
                 return(-1);
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
                 return((*pglob->gl_stat)(env, stack, buf, sb));
-        return(PerlLIO_stat(env, stack, buf, sb));
+        return(my_stat(env, stack, buf, sb));
 }
 
 static Char *
