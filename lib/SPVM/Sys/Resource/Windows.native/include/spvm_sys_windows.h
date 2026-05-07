@@ -43,6 +43,7 @@
 #include <errno.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <sys/stat.h>
 
 #include <time.h>
 #ifndef CLOCK_REALTIME
@@ -219,6 +220,8 @@ struct w32_stat {
   time_t st_ctime;
 };
 
+typedef struct w32_stat Stat_t;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -258,6 +261,12 @@ int spvm_sys_windows_usleep(unsigned int usec);
 int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
 
 int spvm_sys_windows_clock_gettime(int clk_id, struct timespec *ts);
+
+int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, Stat_t *st_stat);
+
+int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat);
+
+int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat);
 
 #ifdef __cplusplus
 } // extern "C"
