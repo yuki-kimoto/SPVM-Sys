@@ -815,7 +815,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
   }
   
   HANDLE handle =
-      CreateFileA(path, FILE_READ_ATTRIBUTES,
+      CreateFileW(path_w, FILE_READ_ATTRIBUTES,
                   FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
                   NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
   
