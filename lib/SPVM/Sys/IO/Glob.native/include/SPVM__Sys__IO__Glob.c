@@ -214,19 +214,19 @@ static int	 match(Char *, Char *, Char *, int);
 static void	 qprintf(const char *, Char *);
 #endif /* GLOB_DEBUG */
 
-static void my_closedir(SPVM_ENV* env, SPVM_VALUE* stack, void* dirp) {
+static void my_closedir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp) {
   /* Use the standard closedir or a Windows-specific equivalent */
   if (dirp) {
     closedir((DIR*)dirp);
   }
 }
 
-static MY_DIRENT* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, void* dirp) {
+static MY_DIRENT* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp) {
   return (MY_DIRENT*)readdir((DIR*)dirp);
 }
 
-static void* my_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* dirname) {
-  return (void*)opendir(dirname);
+static MY_DIR* my_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* dirname) {
+  return (MY_DIR*)opendir(dirname);
 }
 
 static int my_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, MY_STAT* st) {
