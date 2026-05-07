@@ -66,25 +66,25 @@
 
 #include "spvm_native.h"
 
-// Types defined for abstrucing directory handles
+// Types and function defined for abstrucing directory handles
 typedef DIR MY_DIR;
+typedef struct dirent Direntry_t;
+typedef struct stat Stat_t;
+#define PerlDir_open(env, stack, dir) opendir(dir)
+#define PerlDir_close(env, stack, dh) closedir(dh)
+#define PerlDir_read(env, stack, dh) readdir(dh)
+#define PerlLIO_stat(env, stack, file, stat_info) stat(file, stat_info)
 
 // Types defined in perl.h
 typedef size_t STRLEN;
-typedef struct stat Stat_t;
 typedef uint16_t U16;
 typedef uint8_t U8;
-typedef struct dirent Direntry_t;
 
 // Functions defined in perl.h
 #define PerlEnv_getenv(name) getenv(name)
-#define PerlDir_close(env, stack, dh) closedir(dh)
 #define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
 #define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
 #define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
-#define PerlDir_open(env, stack, dir) opendir(dir)
-#define PerlDir_read(env, stack, dh) readdir(dh)
-#define PerlLIO_stat(env, stack, file, stat_info) stat(file, stat_info)
 
 // Functions defined in perl.h
 // [TODO]Must support Unicode folding in the future
@@ -96,12 +96,6 @@ typedef struct dirent Direntry_t;
   #undef S_ISLNK
   #define S_ISLNK(mode) (0)
 #endif
-
-// Functions defined in perl.h
-// [TODO]Must support Unicode folding in the future
-#define toFOLD(ch) tolower((unsigned char)(ch))
-
-/* #include <sys/cdefs.h> */
 
 typedef struct {
         int gl_pathc;		/* Count of total paths so far. */
