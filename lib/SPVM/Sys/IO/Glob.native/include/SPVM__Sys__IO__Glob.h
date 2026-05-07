@@ -43,26 +43,14 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
-
-#include <errno.h>
 #include <stdlib.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-
-#include <dirent.h>
 #include <ctype.h>
 #include <errno.h>
 #include <limits.h>
-#if 0
-  #include <pwd.h>
-#endif
-#include <stdlib.h>
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
 #include <string.h>
+
 #include <unistd.h>
+#include <dirent.h>
 
 #include "spvm_native.h"
 
