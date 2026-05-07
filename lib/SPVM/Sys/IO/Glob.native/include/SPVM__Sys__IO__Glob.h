@@ -145,13 +145,6 @@ typedef struct dirent Direntry_t;
 // [TODO]Must support Unicode folding in the future
 #define toFOLD(ch) tolower((unsigned char)(ch))
 
-
-// Remove these macros in the future
-#define	GLOB_NOMATCH	(-3)	/* No match and GLOB_NOCHECK not set. */
-#define	GLOB_NOESCAPE	0x1000	/* Disable backslash escaping. */
-#define	GLOB_ABORTED	(-2)	/* Unignored error. */
-#define	GLOB_KEEPSTAT	0x4000	/* Retain stat data for paths in gl_statv. */
-
 int	bsd_glob(const char *, int, int (*)(const char *, int), glob_t *);
 void	bsd_globfree(glob_t *);
 
