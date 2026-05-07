@@ -111,6 +111,9 @@ typedef struct {
 #define GLOB_NOSPACE    (-1)    /* Malloc call failed. */
 #define GLOB_ABEND      (-2)    /* Unignored error. */
 
+// Types defined for abstrucing directory handles
+typedef DIR MY_DIR;
+
 // Types defined in perl.h
 typedef size_t STRLEN;
 typedef struct stat Stat_t;

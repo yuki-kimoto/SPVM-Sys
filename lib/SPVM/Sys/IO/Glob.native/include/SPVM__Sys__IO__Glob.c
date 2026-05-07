@@ -195,7 +195,7 @@ static int	 compare(const void *, const void *);
 static int	 ci_compare(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, STRLEN);
 static int	 g_lstat(Char *, Stat_t *, glob_t *);
-static DIR	*g_opendir(Char *, glob_t *);
+static MY_DIR	*g_opendir(Char *, glob_t *);
 static Char	*g_strchr(Char *, int);
 static int	 g_stat(Char *, Stat_t *, glob_t *);
 static int	 glob0(const Char *, glob_t *);
@@ -215,10 +215,10 @@ static void	 qprintf(const char *, Char *);
 #endif /* GLOB_DEBUG */
 
 #ifdef MULTIPLICITY
-static Direntry_t *	my_readdir(DIR*);
+static Direntry_t *	my_readdir(MY_DIR*);
 
 static Direntry_t *
-my_readdir(DIR *d)
+my_readdir(MY_DIR *d)
 {
     return PerlDir_read(d);
 }
@@ -228,10 +228,10 @@ my_readdir(DIR *d)
  * in LFS-mode to be a 64-bit version of readdir.  */
 
 #   ifdef sinix
-static Direntry_t *    my_readdir(DIR*);
+static Direntry_t *    my_readdir(MY_DIR*);
 
 static Direntry_t *
-my_readdir(DIR *d)
+my_readdir(MY_DIR *d)
 {
     return readdir(d);
 }
@@ -771,7 +771,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
       Char *restpattern, Char *restpattern_last, glob_t *pglob, size_t *limitp)
 {
         Direntry_t *dp;
-        DIR *dirp;
+        MY_DIR *dirp;
         int err;
         int nocase;
         char buf[MAXPATHLEN];
@@ -782,7 +782,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
          * and dirent.h as taking pointers to differently typed opaque
          * structures.
          */
-        Direntry_t *(*readdirfunc)(DIR*);
+        Direntry_t *(*readdirfunc)(MY_DIR*);
 
         assert(pattern < restpattern_last);
         assert(restpattern < restpattern_last);
@@ -826,9 +826,9 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 
         /* Search directory for matching names. */
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                readdirfunc = (Direntry_t *(*)(DIR *))pglob->gl_readdir;
+                readdirfunc = (Direntry_t *(*)(MY_DIR *))pglob->gl_readdir;
         else
-                readdirfunc = (Direntry_t *(*)(DIR *))my_readdir;
+                readdirfunc = (Direntry_t *(*)(MY_DIR *))my_readdir;
         while ((dp = (*readdirfunc)(dirp))) {
                 U8 *sc;
                 Char *dc;
@@ -1043,7 +1043,7 @@ bsd_globfree(glob_t *pglob)
         }
 }
 
-static DIR *
+static MY_DIR *
 g_opendir(Char *str, glob_t *pglob)
 {
         char buf[MAXPATHLEN];
@@ -1056,7 +1056,7 @@ g_opendir(Char *str, glob_t *pglob)
         }
 
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                return((DIR*)(*pglob->gl_opendir)(buf));
+                return((MY_DIR*)(*pglob->gl_opendir)(buf));
 
         return(PerlDir_open(buf));
 }
