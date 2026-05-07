@@ -194,10 +194,10 @@ typedef U8 Char;
 static int	 compare(const void *, const void *);
 static int	 ci_compare(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, STRLEN);
-static int	 g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Stat_t *, glob_t *);
+static int	 g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, MY_STAT *, glob_t *);
 static MY_DIR	*g_opendir(SPVM_ENV* env, SPVM_VALUE* stack, Char *, glob_t *);
 static Char	*g_strchr(Char *, int);
-static int	 g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Stat_t *, glob_t *);
+static int	 g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *, MY_STAT *, glob_t *);
 static int	 glob0(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, glob_t *);
 static int	 glob1(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, glob_t *, size_t *);
 static int	 glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, Char *, Char *, Char *, Char *,
@@ -669,7 +669,7 @@ static int
 glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
       Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
 {
-        Stat_t sb;
+        MY_STAT sb;
         Char *p, *q;
         int anymeta;
 
@@ -1041,7 +1041,7 @@ g_opendir(SPVM_ENV* env, SPVM_VALUE* stack, Char *str, glob_t *pglob)
 }
 
 static int
-g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, Stat_t *sb, glob_t *pglob)
+g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, MY_STAT *sb, glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 
@@ -1057,7 +1057,7 @@ g_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, Stat_t *sb, glob_t *pglob)
 }
 
 static int
-g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, Stat_t *sb, glob_t *pglob)
+g_stat(SPVM_ENV* env, SPVM_VALUE* stack, Char *fn, MY_STAT *sb, glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 

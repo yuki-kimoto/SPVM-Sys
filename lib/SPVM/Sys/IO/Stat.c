@@ -11,10 +11,10 @@
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
-  typedef struct spvm_sys_windows_stat Stat_t;
+  typedef struct spvm_sys_windows_stat MY_STAT;
 #else
   #include <sys/stat.h>
-  typedef struct stat Stat_t;
+  typedef struct stat MY_STAT;
 #endif
 
 #include <assert.h>
@@ -29,7 +29,7 @@ int32_t SPVM__Sys__IO__Stat__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  Stat_t* st_stat = env->new_memory_block(env, stack, sizeof(Stat_t));
+  MY_STAT* st_stat = env->new_memory_block(env, stack, sizeof(MY_STAT));
   
   SPVM_OBJ* obj_stat = env->new_pointer_object_by_name(env, stack, "Sys::IO::Stat", st_stat, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
@@ -43,7 +43,7 @@ int32_t SPVM__Sys__IO__Stat__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   assert(st_stat);
   
@@ -71,7 +71,7 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The stat object $stat must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
 #if defined(_WIN32)
   stack[0].oval = obj_path;
@@ -109,7 +109,7 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The stat object $lstat must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_lstat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_lstat);
   
 #if defined(_WIN32)
   stack[0].oval = obj_path;
@@ -142,7 +142,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The stat object $stat must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   
 #if defined(_WIN32)
@@ -166,7 +166,7 @@ int32_t SPVM__Sys__IO__Stat__st_dev(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].lval = st_stat->st_dev;
   
@@ -177,7 +177,7 @@ int32_t SPVM__Sys__IO__Stat__st_ino(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].lval = st_stat->st_ino;
   
@@ -188,7 +188,7 @@ int32_t SPVM__Sys__IO__Stat__st_mode(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].ival = st_stat->st_mode;
   
@@ -198,7 +198,7 @@ int32_t SPVM__Sys__IO__Stat__st_mode(SPVM_ENV* env, SPVM_VALUE* stack) {
 int32_t SPVM__Sys__IO__Stat__st_nlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].lval = st_stat->st_nlink;
   
@@ -209,7 +209,7 @@ int32_t SPVM__Sys__IO__Stat__st_size(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].lval = st_stat->st_size;
   
@@ -223,7 +223,7 @@ int32_t SPVM__Sys__IO__Stat__st_blksize(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].lval = st_stat->st_blksize;
   
@@ -238,7 +238,7 @@ int32_t SPVM__Sys__IO__Stat__st_blocks(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].lval = st_stat->st_blocks;
   
@@ -250,7 +250,7 @@ int32_t SPVM__Sys__IO__Stat__st_uid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].ival = st_stat->st_uid;
   
@@ -261,7 +261,7 @@ int32_t SPVM__Sys__IO__Stat__st_gid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].ival = st_stat->st_gid;
   
@@ -272,7 +272,7 @@ int32_t SPVM__Sys__IO__Stat__st_rdev(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
   stack[0].lval = st_stat->st_rdev;
   
@@ -283,7 +283,7 @@ int32_t SPVM__Sys__IO__Stat__st_atime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
 #ifdef __APPLE__
   stack[0].lval = st_stat->st_atimespec.tv_sec;
@@ -298,7 +298,7 @@ int32_t SPVM__Sys__IO__Stat__st_mtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
 #ifdef __APPLE__
   stack[0].lval = st_stat->st_mtimespec.tv_sec;
@@ -313,7 +313,7 @@ int32_t SPVM__Sys__IO__Stat__st_ctime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
 #ifdef __APPLE__
   stack[0].lval = st_stat->st_ctimespec.tv_sec;
@@ -334,7 +334,7 @@ int32_t SPVM__Sys__IO__Stat__st_atim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
 
 #ifdef __APPLE__
   stack[0].lval = st_stat->st_atimespec.tv_nsec;
@@ -356,7 +356,7 @@ int32_t SPVM__Sys__IO__Stat__st_mtim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
 #ifdef __APPLE__
   stack[0].lval = st_stat->st_mtimespec.tv_nsec;
@@ -378,7 +378,7 @@ int32_t SPVM__Sys__IO__Stat__st_ctim_tv_nsec(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   SPVM_OBJ* obj_stat = stack[0].oval;
   
-  Stat_t* st_stat = env->get_pointer(env, stack, obj_stat);
+  MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
 #ifdef __APPLE__
   stack[0].lval = st_stat->st_ctimespec.tv_nsec;

@@ -57,7 +57,7 @@
 // Types and function defined for abstrucing directory handles
 typedef DIR MY_DIR;
 typedef struct dirent Direntry_t;
-typedef struct stat Stat_t;
+typedef struct stat MY_STAT;
 #define PerlDir_open(env, stack, dir) opendir(dir)
 #define PerlDir_close(env, stack, dh) closedir(dh)
 #define PerlDir_read(env, stack, dh) readdir(dh)
@@ -102,11 +102,11 @@ typedef struct {
         void (*gl_closedir)(SPVM_ENV* env, SPVM_VALUE* stack, void *);
         Direntry_t *(*gl_readdir)(SPVM_ENV* env, SPVM_VALUE* stack, void *); 
         void *(*gl_opendir)(SPVM_ENV* env, SPVM_VALUE* stack, const char *);
-        int (*gl_lstat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, Stat_t *);
-        int (*gl_stat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, Stat_t *);
+        int (*gl_lstat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, MY_STAT *);
+        int (*gl_stat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, MY_STAT *);
         
         // Remove these members in the future
-        Stat_t **gl_statv;
+        MY_STAT **gl_statv;
 } glob_t;
 
 #define GLOB_APPEND     0x0001  /* Append to output from previous call. */
