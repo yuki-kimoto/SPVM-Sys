@@ -214,9 +214,9 @@ static int	 match(Char *, Char *, Char *, int);
 static void	 qprintf(const char *, Char *);
 #endif /* GLOB_DEBUG */
 
-static Direntry_t *	my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR*);
+static MY_DIRENT *	my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR*);
 
-static Direntry_t *
+static MY_DIRENT *
 my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR *d)
 {
     return PerlDir_read(env, stack, d);
@@ -749,7 +749,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
       Char *pattern,
       Char *restpattern, Char *restpattern_last, glob_t *pglob, size_t *limitp)
 {
-        Direntry_t *dp;
+        MY_DIRENT *dp;
         MY_DIR *dirp;
         int err;
         int nocase;
@@ -761,7 +761,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
          * and dirent.h as taking pointers to differently typed opaque
          * structures.
          */
-        Direntry_t *(*readdirfunc)(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR*);
+        MY_DIRENT *(*readdirfunc)(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR*);
 
         assert(pattern < restpattern_last);
         assert(restpattern < restpattern_last);
@@ -805,9 +805,9 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 
         /* Search directory for matching names. */
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                readdirfunc = (Direntry_t *(*)(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR *))pglob->gl_readdir;
+                readdirfunc = (MY_DIRENT *(*)(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR *))pglob->gl_readdir;
         else
-                readdirfunc = (Direntry_t *(*)(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR *))my_readdir;
+                readdirfunc = (MY_DIRENT *(*)(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR *))my_readdir;
         while ((dp = (*readdirfunc)(env, stack, dirp))) {
                 U8 *sc;
                 Char *dc;
