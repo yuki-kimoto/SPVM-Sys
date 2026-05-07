@@ -59,8 +59,8 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 #if defined(_WIN32)
 
-// The output is the same as Perl's file_time_to_epoch in Win32.c
-static time_t file_time_to_epoch(FILETIME file_time) {
+// The output is the same as Perl's spvm_sys_windows_file_time_to_epoch in Win32.c
+static time_t spvm_sys_windows_file_time_to_epoch(FILETIME file_time) {
   SYSTEMTIME system_time;
   struct tm st_tm = {0};
   
@@ -86,7 +86,7 @@ static time_t file_time_to_epoch(FILETIME file_time) {
 }
 
 // The output data is the same as Perl's win32_stat_low in Win32.c.
-static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, Stat_t *st_stat) {
+static int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, Stat_t *st_stat) {
   
   int32_t status = -1;
   DWORD type = GetFileType(handle);
@@ -126,9 +126,9 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
         st_stat->st_size <<= 32;
         st_stat->st_size |= file_info.nFileSizeLow;
         
-        st_stat->st_atime = file_time_to_epoch(file_info.ftLastAccessTime);
-        st_stat->st_mtime = file_time_to_epoch(file_info.ftLastWriteTime);
-        st_stat->st_ctime = file_time_to_epoch(file_info.ftCreationTime);
+        st_stat->st_atime = spvm_sys_windows_file_time_to_epoch(file_info.ftLastAccessTime);
+        st_stat->st_mtime = spvm_sys_windows_file_time_to_epoch(file_info.ftLastWriteTime);
+        st_stat->st_ctime = spvm_sys_windows_file_time_to_epoch(file_info.ftCreationTime);
         
         if (reparse_type) {
           /* https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
@@ -247,7 +247,7 @@ static int32_t win_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE hand
   return status;
 }
 
-static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
+static int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   int32_t error_id = 0;
   
@@ -293,7 +293,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     }
   }
   
-  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat);
+  int32_t result = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -308,7 +308,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   if (error_id) {
     if (errno) {
-      env->die(env, stack, "[System Error]win_stat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]spvm_sys_windows_stat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     }
     
     return error_id;
@@ -317,7 +317,7 @@ static int32_t win_stat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   return 0;
 }
 
-static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {   
+static int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {   
   
   int32_t error_id = 0;
   
@@ -337,7 +337,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
     goto END_OF_FUNC;
   }
   
-  int32_t result = win_fstat_by_handle(env, stack, handle, st_stat);
+  int32_t result = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
   
   if (result == -1) {
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -369,7 +369,7 @@ static int32_t win_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat) {
   
   if (error_id) {
     if (errno) {
-      env->die(env, stack, "[System Error]win_lstat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]spvm_sys_windows_lstat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     }
     
     return error_id;
@@ -430,7 +430,7 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   stack[0].oval = obj_path;
-  error_id = win_stat(env, stack, st_stat);
+  error_id = spvm_sys_windows_stat(env, stack, st_stat);
   int32_t status = error_id ? -1 : 0;
 #else
   int32_t status = stat(path, st_stat);
@@ -468,7 +468,7 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   stack[0].oval = obj_path;
-  error_id = win_lstat(env, stack, st_stat);
+  error_id = spvm_sys_windows_lstat(env, stack, st_stat);
   int32_t status = error_id ? -1 : 0;
 #else
   int32_t status = lstat(path, st_stat);
@@ -502,7 +502,7 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   HANDLE handle = (HANDLE)_get_osfhandle(fd);
-  int32_t status = win_fstat_by_handle(env, stack, handle, st_stat);
+  int32_t status = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
 #else
   int32_t status = fstat(fd, st_stat);
 #endif
