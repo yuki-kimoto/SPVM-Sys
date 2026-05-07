@@ -876,13 +876,9 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
   return 0;
 }
 
-int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_STAT *st_stat) {   
+int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat) {   
   
   int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_path = stack[0].oval;
-  
-  const char* path = env->get_chars(env, stack, obj_path);
   
   HANDLE handle = NULL;
   
@@ -912,7 +908,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
         
         if (is_sym) {
           SPVM_OBJ* obj_link_text = NULL;
-          stack[0].oval = obj_path;
+          stack[0].oval = env->new_string(env, stack, path, strlen(path));
           env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, __FILE__, __LINE__);
           if (error_id) {
             goto END_OF_FUNC;

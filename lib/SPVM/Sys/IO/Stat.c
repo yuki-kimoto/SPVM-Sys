@@ -112,8 +112,7 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_STAT* st_stat = env->get_pointer(env, stack, obj_lstat);
   
 #if defined(_WIN32)
-  stack[0].oval = obj_path;
-  error_id = spvm_sys_windows_lstat(env, stack, st_stat);
+  error_id = spvm_sys_windows_lstat(env, stack, path, st_stat);
   int32_t status = error_id ? -1 : 0;
 #else
   int32_t status = lstat(path, st_stat);
