@@ -214,34 +214,13 @@ static int	 match(Char *, Char *, Char *, int);
 static void	 qprintf(const char *, Char *);
 #endif /* GLOB_DEBUG */
 
-#ifdef MULTIPLICITY
-static Direntry_t *	my_readdir(MY_DIR*);
+static Direntry_t *	my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR*);
 
 static Direntry_t *
-my_readdir(MY_DIR *d)
+my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR *d)
 {
-    return PerlDir_read(d);
+    return PerlDir_read(env, stack, d);
 }
-#else
-
-/* ReliantUNIX (OS formerly known as SINIX) defines readdir
- * in LFS-mode to be a 64-bit version of readdir.  */
-
-#   ifdef sinix
-static Direntry_t *    my_readdir(MY_DIR*);
-
-static Direntry_t *
-my_readdir(MY_DIR *d)
-{
-    return readdir(d);
-}
-#   else
-
-#       define my_readdir       readdir
-
-#   endif
-
-#endif
 
 int
 bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, int flags,
@@ -782,7 +761,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
          * and dirent.h as taking pointers to differently typed opaque
          * structures.
          */
-        Direntry_t *(*readdirfunc)(MY_DIR*);
+        Direntry_t *(*readdirfunc)(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR*);
 
         assert(pattern < restpattern_last);
         assert(restpattern < restpattern_last);
@@ -826,10 +805,10 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char 
 
         /* Search directory for matching names. */
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                readdirfunc = (Direntry_t *(*)(MY_DIR *))pglob->gl_readdir;
+                readdirfunc = (Direntry_t *(*)(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR *))pglob->gl_readdir;
         else
-                readdirfunc = (Direntry_t *(*)(MY_DIR *))my_readdir;
-        while ((dp = (*readdirfunc)(dirp))) {
+                readdirfunc = (Direntry_t *(*)(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR *))my_readdir;
+        while ((dp = (*readdirfunc)(env, stack, dirp))) {
                 U8 *sc;
                 Char *dc;
 

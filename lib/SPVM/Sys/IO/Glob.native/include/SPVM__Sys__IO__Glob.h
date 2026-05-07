@@ -83,6 +83,7 @@ typedef struct dirent Direntry_t;
 #define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
 #define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
 #define PerlDir_open(env, stack, dir) opendir(dir)
+#define PerlDir_read(env, stack, dh) readdir(dh)
 #define PerlLIO_stat(env, stack, file, stat_info) stat(file, stat_info)
 
 // Functions defined in perl.h
@@ -117,7 +118,7 @@ typedef struct {
          * and lstat(2).
          */
         void (*gl_closedir)(SPVM_ENV* env, SPVM_VALUE* stack, void *);
-        Direntry_t *(*gl_readdir)(void *); 
+        Direntry_t *(*gl_readdir)(SPVM_ENV* env, SPVM_VALUE* stack, void *); 
         void *(*gl_opendir)(SPVM_ENV* env, SPVM_VALUE* stack, const char *);
         int (*gl_lstat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, Stat_t *);
         int (*gl_stat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, Stat_t *);
