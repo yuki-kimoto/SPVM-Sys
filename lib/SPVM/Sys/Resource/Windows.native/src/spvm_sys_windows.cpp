@@ -866,7 +866,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
       env->die(env, stack, "[System Error]spvm_sys_windows_stat() failed(%d: %s). $path='%s'.", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     }
     
-    return error_id;
+    return -1;
   }
   
   return 0;
@@ -934,7 +934,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
       env->die(env, stack, "[System Error]spvm_sys_windows_lstat() failed(%d: %s). $path='%s'.", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     }
     
-    return error_id;
+    return -1;
   }
   
   return 0;
