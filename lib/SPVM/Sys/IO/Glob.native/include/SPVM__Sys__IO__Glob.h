@@ -78,7 +78,7 @@ typedef struct dirent Direntry_t;
 
 // Functions defined in perl.h
 #define PerlEnv_getenv(name) getenv(name)
-#define PerlDir_close(dh) closedir(dh)
+#define PerlDir_close(env, stack, dh) closedir(dh)
 #define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
 #define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
 #define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
@@ -116,7 +116,7 @@ typedef struct {
          * versions of closedir(3), readdir(3), opendir(3), stat(2)
          * and lstat(2).
          */
-        void (*gl_closedir)(void *);
+        void (*gl_closedir)(SPVM_ENV* env, SPVM_VALUE* stack, void *);
         Direntry_t *(*gl_readdir)(void *); 
         void *(*gl_opendir)(SPVM_ENV* env, SPVM_VALUE* stack, const char *);
         int (*gl_lstat)(SPVM_ENV* env, SPVM_VALUE* stack, const char *, Stat_t *);
