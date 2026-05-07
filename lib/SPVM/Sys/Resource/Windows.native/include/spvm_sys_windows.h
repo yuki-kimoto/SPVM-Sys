@@ -236,19 +236,19 @@ HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(SPVM_ENV* env, SPVM_V
 
 int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle);
 
-int spvm_sys_windows_is_symlinkW (SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w);
+int spvm_sys_windows_is_symlinkW(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w);
 
-SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendirW (SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *szPath);
+SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendirW(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *szPath);
 
-SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
+SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
 
-int spvm_sys_windows_closedir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
+int spvm_sys_windows_closedir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
 
-void spvm_sys_windows_rewinddir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
+void spvm_sys_windows_rewinddir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
 
-long spvm_sys_windows_telldir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
+long spvm_sys_windows_telldir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
 
-void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp, long lPos);
+void spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp, long lPos);
 
 int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t length);
 
@@ -256,7 +256,7 @@ unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned i
 
 int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec);
 
-int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
+int spvm_sys_windows_gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack, struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
 
 int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clk_id, struct timespec *ts);
 
