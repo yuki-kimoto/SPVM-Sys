@@ -1388,7 +1388,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  MY_DIR* dir_stream = spvm_sys_windows_opendir(dir_w);
+  MY_DIR* dir_stream = spvm_sys_windows_opendirW(dir_w);
 #else
   MY_DIR* dir_stream = opendir(dir);
 #endif

@@ -190,7 +190,7 @@ int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle) {
   return is_sym;
 }
 
-int spvm_sys_windows_is_symlink(const WCHAR* path_w) {
+int spvm_sys_windows_is_symlinkW (const WCHAR* path_w) {
   std::error_code var_error_code;
   std::filesystem::path var_path(path_w);
   
@@ -218,7 +218,7 @@ int spvm_sys_windows_is_symlink(const WCHAR* path_w) {
  * Returns a pointer to a DIR structure appropriately filled in to begin
  * searching a directory.
  */
-SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const WCHAR *szPath) {
+SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendirW (const WCHAR *szPath) {
   SPVM_SYS_WINDOWS_DIR *nd;
   unsigned int rc;
   WCHAR szFullPath[MAX_PATH];
