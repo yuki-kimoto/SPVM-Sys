@@ -20,7 +20,7 @@ static const char* FILE_NAME = "Sys/IO/Stat.c";
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
-  typedef struct w32_stat Stat_t;
+  typedef struct spvm_sys_windows_stat_t Stat_t;
 #else // defined(_WIN32)
   #include <sys/stat.h>
   typedef struct stat Stat_t;

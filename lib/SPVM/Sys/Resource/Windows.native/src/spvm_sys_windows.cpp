@@ -884,8 +884,9 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, Stat_t *st_stat
   
   const char* path = env->get_chars(env, stack, obj_path);
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, __FILE__, __LINE__);
   HANDLE handle = NULL;
+  
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, __FILE__, __LINE__);
   if (error_id) {
     goto END_OF_FUNC;
   }

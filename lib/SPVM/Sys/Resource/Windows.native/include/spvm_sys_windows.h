@@ -206,7 +206,7 @@ typedef unsigned __int64 Ino_t;
 typedef uint64_t Off_t;
 
 // Exactly same as Perl's one in Win32.h
-struct w32_stat {
+struct spvm_sys_windows_stat_t {
   Dev_t st_dev;
   Ino_t st_ino;
   unsigned short st_mode;
@@ -220,7 +220,7 @@ struct w32_stat {
   time_t st_ctime;
 };
 
-typedef struct w32_stat Stat_t;
+typedef struct spvm_sys_windows_stat_t Stat_t;
 
 #ifdef __cplusplus
 extern "C" {
