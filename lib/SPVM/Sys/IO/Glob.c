@@ -33,7 +33,7 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   glob_t pglob = {0};
   
-  int32_t status = bsd_glob(pattern, flags, errfunc, &pglob);
+  int32_t status = bsd_glob(env, stack, pattern, flags, errfunc, &pglob);
   
   if (!(status == 0)) {
     env->die(env, stack, "[System Error]bsd_glob failed:(%d:%s). $pattern='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror(env, stack, errno, 0), pattern);

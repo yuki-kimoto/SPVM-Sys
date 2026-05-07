@@ -82,7 +82,7 @@ typedef struct dirent Direntry_t;
 #define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
 #define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
 #define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
-#define PerlDir_open(dir) opendir(dir)
+#define PerlDir_open(env, stack, dir) opendir(dir)
 #define PerlLIO_stat(file, stat_info) stat(file, stat_info)
 
 // Functions defined in perl.h
@@ -118,7 +118,7 @@ typedef struct {
          */
         void (*gl_closedir)(void *);
         Direntry_t *(*gl_readdir)(void *); 
-        void *(*gl_opendir)(const char *);
+        void *(*gl_opendir)(SPVM_ENV* env, SPVM_VALUE* stack, const char *);
         int (*gl_lstat)(const char *, Stat_t *);
         int (*gl_stat)(const char *, Stat_t *);
         
@@ -147,7 +147,7 @@ typedef struct {
 #define GLOB_NOSPACE    (-1)    /* Malloc call failed. */
 #define GLOB_ABEND      (-2)    /* Unignored error. */
 
-int	bsd_glob(const char *, int, int (*)(const char *, int), glob_t *);
+int	bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *, int, int (*)(const char *, int), glob_t *);
 void	bsd_globfree(glob_t *);
 
 #endif // SPVM__SYS__IO__GLOB__GLOB_H

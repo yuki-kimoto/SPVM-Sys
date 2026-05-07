@@ -195,20 +195,20 @@ static int	 compare(const void *, const void *);
 static int	 ci_compare(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, STRLEN);
 static int	 g_lstat(Char *, Stat_t *, glob_t *);
-static MY_DIR	*g_opendir(Char *, glob_t *);
+static MY_DIR	*g_opendir(SPVM_ENV* env, SPVM_VALUE* stack, Char *, glob_t *);
 static Char	*g_strchr(Char *, int);
 static int	 g_stat(Char *, Stat_t *, glob_t *);
-static int	 glob0(const Char *, glob_t *);
-static int	 glob1(Char *, Char *, glob_t *, size_t *);
-static int	 glob2(Char *, Char *, Char *, Char *, Char *, Char *,
+static int	 glob0(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, glob_t *);
+static int	 glob1(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, glob_t *, size_t *);
+static int	 glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, Char *, Char *, Char *, Char *,
                        glob_t *, size_t *);
-static int	 glob3(Char *, Char *, Char *, Char *, Char *,
+static int	 glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *, Char *, Char *, Char *, Char *,
                        Char *, Char *, glob_t *, size_t *);
-static int	 globextend(const Char *, glob_t *, size_t *);
+static int	 globextend(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, glob_t *, size_t *);
 static const Char *
-                 globtilde(const Char *, Char *, size_t, glob_t *);
-static int	 globexp1(const Char *, glob_t *);
-static int	 globexp2(const Char *, const Char *, glob_t *, int *);
+                 globtilde(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, Char *, size_t, glob_t *);
+static int	 globexp1(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, glob_t *);
+static int	 globexp2(SPVM_ENV* env, SPVM_VALUE* stack, const Char *, const Char *, glob_t *, int *);
 static int	 match(Char *, Char *, Char *, int);
 #ifdef GLOB_DEBUG
 static void	 qprintf(const char *, Char *);
@@ -244,7 +244,7 @@ my_readdir(MY_DIR *d)
 #endif
 
 int
-bsd_glob(const char *pattern, int flags,
+bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, int flags,
          int (*errfunc)(const char *, int), glob_t *pglob)
 {
         const U8 *patnext;
@@ -318,9 +318,9 @@ bsd_glob(const char *pattern, int flags,
         *bufnext = BG_EOS;
 
         if (flags & GLOB_BRACE)
-            return globexp1(patbuf, pglob);
+            return globexp1(env, stack, patbuf, pglob);
         else
-            return glob0(patbuf, pglob);
+            return glob0(env, stack, patbuf, pglob);
 }
 
 /*
@@ -329,20 +329,20 @@ bsd_glob(const char *pattern, int flags,
  * characters
  */
 static int
-globexp1(const Char *pattern, glob_t *pglob)
+globexp1(SPVM_ENV* env, SPVM_VALUE* stack, const Char *pattern, glob_t *pglob)
 {
         const Char* ptr = pattern;
         int rv;
 
         /* Protect a single {}, for find(1), like csh */
         if (pattern[0] == BG_LBRACE && pattern[1] == BG_RBRACE && pattern[2] == BG_EOS)
-                return glob0(pattern, pglob);
+                return glob0(env, stack, pattern, pglob);
 
         while ((ptr = (const Char *) g_strchr((Char *) ptr, BG_LBRACE)) != NULL)
-                if (!globexp2(ptr, pattern, pglob, &rv))
+                if (!globexp2(env, stack, ptr, pattern, pglob, &rv))
                         return rv;
 
-        return glob0(pattern, pglob);
+        return glob0(env, stack, pattern, pglob);
 }
 
 
@@ -352,7 +352,7 @@ globexp1(const Char *pattern, glob_t *pglob)
  * If it fails then it tries to glob the rest of the pattern and returns.
  */
 static int
-globexp2(const Char *ptr, const Char *pattern,
+globexp2(SPVM_ENV* env, SPVM_VALUE* stack, const Char *ptr, const Char *pattern,
          glob_t *pglob, int *rv)
 {
         int     i;
@@ -389,7 +389,7 @@ globexp2(const Char *ptr, const Char *pattern,
 
         /* Non matching braces; just glob the pattern */
         if (i != 0 || *pe == BG_EOS) {
-                *rv = glob0(patbuf, pglob);
+                *rv = glob0(env, stack, patbuf, pglob);
                 return 0;
         }
 
@@ -437,7 +437,7 @@ globexp2(const Char *ptr, const Char *pattern,
 #ifdef GLOB_DEBUG
                                 qprintf("globexp2:", patbuf);
 #endif /* GLOB_DEBUG */
-                                *rv = globexp1(patbuf, pglob);
+                                *rv = globexp1(env, stack, patbuf, pglob);
 
                                 /* move after the comma, to the next string */
                                 pl = pm + 1;
@@ -458,7 +458,7 @@ globexp2(const Char *ptr, const Char *pattern,
  * expand tilde from the passwd file.
  */
 static const Char *
-globtilde(const Char *pattern, Char *patbuf, size_t patbuf_len, glob_t *pglob)
+globtilde(SPVM_ENV* env, SPVM_VALUE* stack, const Char *pattern, Char *patbuf, size_t patbuf_len, glob_t *pglob)
 {
         char *h;
         const Char *p;
@@ -541,14 +541,14 @@ globtilde(const Char *pattern, Char *patbuf, size_t patbuf_len, glob_t *pglob)
  * to find no matches.
  */
 static int
-glob0(const Char *pattern, glob_t *pglob)
+glob0(SPVM_ENV* env, SPVM_VALUE* stack, const Char *pattern, glob_t *pglob)
 {
         const Char *qpat, *qpatnext;
         int c, err, oldflags, oldpathc;
         Char *bufnext, patbuf[MAXPATHLEN];
         size_t limit = 0;
 
-        qpat = globtilde(pattern, patbuf, MAXPATHLEN, pglob);
+        qpat = globtilde(env, stack, pattern, patbuf, MAXPATHLEN, pglob);
         qpatnext = qpat;
         oldflags = pglob->gl_flags;
         oldpathc = pglob->gl_pathc;
@@ -610,7 +610,7 @@ glob0(const Char *pattern, glob_t *pglob)
         qprintf("glob0:", patbuf);
 #endif /* GLOB_DEBUG */
 
-        if ((err = glob1(patbuf, patbuf+MAXPATHLEN-1, pglob, &limit)) != 0) {
+        if ((err = glob1(env, stack, patbuf, patbuf+MAXPATHLEN-1, pglob, &limit)) != 0) {
                 pglob->gl_flags = oldflags;
                 return(err);
         }
@@ -630,7 +630,7 @@ glob0(const Char *pattern, glob_t *pglob)
                 printf("calling globextend from glob0\n");
 #endif /* GLOB_DEBUG */
                 pglob->gl_flags = oldflags;
-                return(globextend(qpat, pglob, &limit));
+                return(globextend(env, stack, qpat, pglob, &limit));
         }
         else if (!(pglob->gl_flags & GLOB_NOSORT))
             if (pglob->gl_pathv)
@@ -667,7 +667,7 @@ compare(const void *p, const void *q)
 }
 
 static int
-glob1(Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
+glob1(SPVM_ENV* env, SPVM_VALUE* stack, Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
 {
         Char pathbuf[MAXPATHLEN];
 
@@ -676,7 +676,7 @@ glob1(Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
         /* A null pathname is invalid -- POSIX 1003.1 sect. 2.4. */
         if (*pattern == BG_EOS)
                 return(0);
-        return(glob2(pathbuf, pathbuf+MAXPATHLEN-1,
+        return(glob2(env, stack, pathbuf, pathbuf+MAXPATHLEN-1,
                      pathbuf, pathbuf+MAXPATHLEN-1,
                      pattern, pattern_last, pglob, limitp));
 }
@@ -687,7 +687,7 @@ glob1(Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
  * meta characters.
  */
 static int
-glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
+glob2(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
       Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
 {
         Stat_t sb;
@@ -724,7 +724,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 #ifdef GLOB_DEBUG
                         printf("calling globextend from glob2\n");
 #endif /* GLOB_DEBUG */
-                        return(globextend(pathbuf, pglob, limitp));
+                        return(globextend(env, stack, pathbuf, pglob, limitp));
                 }
 
                 /* Find end of next segment, copy tentatively to pathend. */
@@ -758,7 +758,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
                         }
                 } else
                         /* Need expansion, recurse. */
-                        return(glob3(pathbuf, pathbuf_last, pathend,
+                        return(glob3(env, stack, pathbuf, pathbuf_last, pathend,
                                      pathend_last, pattern,
                                      p, pattern_last, pglob, limitp));
         }
@@ -766,7 +766,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 }
 
 static int
-glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
+glob3(SPVM_ENV* env, SPVM_VALUE* stack, Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
       Char *pattern,
       Char *restpattern, Char *restpattern_last, glob_t *pglob, size_t *limitp)
 {
@@ -809,7 +809,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
         }
 #endif
 
-        if ((dirp = g_opendir(pathbuf, pglob)) == NULL) {
+        if ((dirp = g_opendir(env, stack, pathbuf, pglob)) == NULL) {
                 /* TODO: don't call for ENOENT or ENOTDIR? */
                 if (pglob->gl_errfunc) {
                         if (g_Ctoc(pathbuf, buf, sizeof(buf)))
@@ -850,7 +850,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
                         *pathend = BG_EOS;
                         continue;
                 }
-                err = glob2(pathbuf, pathbuf_last, --dc, pathend_last,
+                err = glob2(env, stack, pathbuf, pathbuf_last, --dc, pathend_last,
                             restpattern, restpattern_last, pglob, limitp);
                 if (err)
                         break;
@@ -879,7 +879,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
  *	gl_pathv points to (gl_offs + gl_pathc + 1) items.
  */
 static int
-globextend(const Char *path, glob_t *pglob, size_t *limitp)
+globextend(SPVM_ENV* env, SPVM_VALUE* stack, const Char *path, glob_t *pglob, size_t *limitp)
 {
         char **pathv;
         int i;
@@ -1044,7 +1044,7 @@ bsd_globfree(glob_t *pglob)
 }
 
 static MY_DIR *
-g_opendir(Char *str, glob_t *pglob)
+g_opendir(SPVM_ENV* env, SPVM_VALUE* stack, Char *str, glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 
@@ -1056,9 +1056,9 @@ g_opendir(Char *str, glob_t *pglob)
         }
 
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                return((MY_DIR*)(*pglob->gl_opendir)(buf));
+                return((MY_DIR*)(*pglob->gl_opendir)(env, stack, buf));
 
-        return(PerlDir_open(buf));
+        return(PerlDir_open(env, stack, buf));
 }
 
 static int
