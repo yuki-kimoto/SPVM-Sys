@@ -258,7 +258,7 @@ int spvm_sys_windows_usleep(unsigned int usec);
 
 int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
 
-int spvm_sys_windows_clock_gettime(int clk_id, struct timespec *ts);
+int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clk_id, struct timespec *ts);
 
 int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT *st_stat);
 

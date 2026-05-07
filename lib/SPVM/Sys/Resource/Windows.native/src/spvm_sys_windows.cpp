@@ -570,7 +570,7 @@ int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE 
   return 0;
 }
 
-int spvm_sys_windows_clock_gettime(int clk_id, struct timespec *ts) {
+int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clk_id, struct timespec *ts) {
   /* Check null pointer */
   if (ts == nullptr) {
     errno = EINVAL;
