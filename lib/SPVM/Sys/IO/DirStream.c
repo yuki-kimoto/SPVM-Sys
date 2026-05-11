@@ -42,7 +42,11 @@ int32_t SPVM__Sys__IO__DirStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
     int32_t status = spvm_sys_windows_closedir(env, stack, dir_stream);
     if (status == -1) {
-      return env->get_error_id(env, stack);
+      error_id = env->get_error_id(env, stack);
+      if (error_id == 0) {
+        error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      }
+      return error_id;
     }
 #else
     int32_t status = closedir(dir_stream);

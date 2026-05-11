@@ -75,15 +75,21 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   int32_t status = spvm_sys_windows_stat(env, stack, path, st_stat);
+  if (status == -1) {
+    error_id = env->get_error_id(env, stack);
+    if (error_id == 0) {
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    }
+    return error_id;
+  }
 #else
   int32_t status = stat(path, st_stat);
-#endif
-  
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
     env->die(env, stack, "[System Error]stat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+#endif
   
   stack[0].ival = status;
   
@@ -111,16 +117,22 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   int32_t status = spvm_sys_windows_lstat(env, stack, path, st_stat);
+  if (status == -1) {
+    error_id = env->get_error_id(env, stack);
+    if (error_id == 0) {
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    }
+    return error_id;
+  }
 #else
   int32_t status = lstat(path, st_stat);
-#endif
-
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
     env->die(env, stack, "[System Error]lstat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
+#endif
+
   stack[0].ival = status;
   
   return 0;
@@ -144,15 +156,21 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   HANDLE handle = (HANDLE)_get_osfhandle(fd);
   int32_t status = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
+  if (status == -1) {
+    error_id = env->get_error_id(env, stack);
+    if (error_id == 0) {
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    }
+    return error_id;
+  }
 #else
   int32_t status = fstat(fd, st_stat);
-#endif
-
   if (status == -1) {
     env->die(env, stack, "[System Error]fstat() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
+#endif
+
   stack[0].ival = status;
   
   return 0;
