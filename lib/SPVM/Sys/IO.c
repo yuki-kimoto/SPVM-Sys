@@ -1529,6 +1529,8 @@ int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t error_id = 0;
+  
   SPVM_OBJ* obj_dirp = stack[0].oval;
   if (!obj_dirp) {
     return env->die(env, stack, "The directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__);
@@ -1536,16 +1538,23 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   int64_t offset = spvm_sys_windows_telldir(env, stack, dirp);
+  env->pop_caller_stack(env, stack);
+  
+  if (offset == -1) {
+    error_id = env->get_error_id(env, stack);
+    assert(error_id);
+    return error_id;
+  }
 #else
   int64_t offset = telldir(dirp);
-#endif
-
   if (offset == -1) {
     env->die(env, stack, "[System Error]telldir() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
+#endif
+
   stack[0].lval = offset;
   
   return 0;

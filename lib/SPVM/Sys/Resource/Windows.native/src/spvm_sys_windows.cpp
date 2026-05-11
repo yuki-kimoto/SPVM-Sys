@@ -477,6 +477,7 @@ long spvm_sys_windows_telldir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
   if (!dirp)
     {
       errno = EFAULT;
+      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, __FILE__, __LINE__));
       return -1;
     }
   return dirp->dd_stat;
