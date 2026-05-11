@@ -1580,7 +1580,10 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   errno = 0;
 #if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   spvm_sys_windows_seekdir(env, stack, dirp, offset);
+  env->pop_caller_stack(env, stack);
+  
   if (errno != 0) {
     error_id = env->get_error_id(env, stack);
     assert(error_id);

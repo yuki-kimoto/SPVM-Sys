@@ -190,24 +190,62 @@ int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, 
   return is_sym;
 }
 
-int32_t spvm_sys_windows_is_symlinkW(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w) {
+int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
+  
+  int32_t error_id = 0;
+  
+  int32_t my_errno = 0;
   
   int32_t is_sym = 0;
   
-  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(env, stack, path_w);
+  HANDLE handle = NULL;
   
-  if (handle == INVALID_HANDLE_VALUE) {
-    spvm_sys_windows_win_last_error_to_errno(EINVAL);
+  if (!path) {
+    my_errno = EFAULT;
+    env->set_error_id(env, stack, env->die(env, stack, "The path $path must be defined.", __func__, __FILE__, __LINE__));
     goto END_OF_FUNC;
   }
   
-  is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
+  {
+    WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, __FILE__, __LINE__);
+    if (error_id) {
+      my_errno = EILSEQ;
+      env->set_error_id(env, stack, error_id);
+      goto END_OF_FUNC;
+    }
+    
+    {
+      env->push_caller_stack(env, stack, __func__, __FILE__, __LINE__ + 1);
+      handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(env, stack, path_w);
+      env->pop_caller_stack(env, stack);
+      
+      if (handle == INVALID_HANDLE_VALUE) {
+        spvm_sys_windows_win_last_error_to_errno(EINVAL);
+        my_errno = errno;
+        goto END_OF_FUNC;
+      }
+      
+      {
+        errno = 0;
+        env->push_caller_stack(env, stack, __func__, __FILE__, __LINE__ + 1);
+        is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
+        env->pop_caller_stack(env, stack);
+        if (errno) {
+          my_errno = errno;
+          goto END_OF_FUNC;
+        }
+      }
+    }
+  }
   
   END_OF_FUNC:
   
   if (!(handle == INVALID_HANDLE_VALUE)) {
+    // No error check because of read-only file handle
     CloseHandle(handle);
   }
+  
+  errno = my_errno;
   
   return is_sym;
 }
