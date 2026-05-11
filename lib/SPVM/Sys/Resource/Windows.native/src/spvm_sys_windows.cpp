@@ -492,27 +492,33 @@ long spvm_sys_windows_telldir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
  * have changed while we weren't looking. But that is probably the case with
  * any such system.
  */
-void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp, long lPos) {
+void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp, long offset) {
   errno = 0;
 
   if (!dirp)
     {
       errno = EFAULT;
+      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, __FILE__, __LINE__));
       return;
     }
 
-  if (lPos < -1)
+  if (offset < -1)
     {
       /* Seeking to an invalid position. */
       errno = EINVAL;
+      env->set_error_id(env, stack, env->die(env, stack, "Invalid directory position $offset.", __func__, __FILE__, __LINE__));
       return;
     }
-  else if (lPos == -1)
+  else if (offset == -1)
     {
       /* Seek past end. */
       if (dirp->dd_handle != -1)
 	{
-	  _findclose (dirp->dd_handle);
+	  if (_findclose (dirp->dd_handle) == -1)
+            {
+              env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+              env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
+            }
 	}
       dirp->dd_handle = -1;
       dirp->dd_stat = -1;
@@ -522,7 +528,7 @@ void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
       /* Rewind and read forward to the appropriate index. */
       spvm_sys_windows_rewinddir (env, stack, dirp);
 
-      while ((dirp->dd_stat < lPos) && spvm_sys_windows_readdir(env, stack, dirp))
+      while ((dirp->dd_stat < offset) && spvm_sys_windows_readdir(env, stack, dirp))
 	;
     }
 }

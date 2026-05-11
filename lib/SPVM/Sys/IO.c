@@ -1562,6 +1562,8 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t error_id = 0;
+  
   SPVM_OBJ* obj_dirp = stack[0].oval;
   
   int64_t offset = stack[1].lval;
@@ -1576,8 +1578,14 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The offset $offset must be less than or equal to 0.", __func__, FILE_NAME, __LINE__);
   }
   
+  errno = 0;
 #if defined(_WIN32)
   spvm_sys_windows_seekdir(env, stack, dirp, offset);
+  if (errno != 0) {
+    error_id = env->get_error_id(env, stack);
+    assert(error_id);
+    return error_id;
+  }
 #else
   seekdir(dirp, offset);
 #endif
