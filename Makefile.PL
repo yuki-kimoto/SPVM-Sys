@@ -8,10 +8,16 @@ use Getopt::Long 'GetOptions';
 GetOptions(
   'meta' => \my $meta,
   'no-build-spvm-modules' => \my $no_build_spvm_modules,
+  'debug' => \my $debug,
+  'build-type=s' => \my $build_type,
 );
 
 if ($meta) {
   $no_build_spvm_modules = 1;
+}
+
+if ($debug) {
+  $build_type = 'Debug';
 }
 
 my %configure_and_runtime_requires = (
@@ -63,6 +69,9 @@ sub MY::postamble {
     unshift @INC, 'lib';
     
     my $options = {};
+    if (defined $build_type) {
+      $options->{build_type} = $build_type;
+    }
     
     $options->{native_classes} = [qw(
       Sys::IO
