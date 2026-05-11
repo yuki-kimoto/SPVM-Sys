@@ -402,26 +402,32 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
  * Frees up resources allocated by opendir.
  */
 int spvm_sys_windows_closedir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
-  int rc;
+  int status;
 
   errno = 0;
-  rc = 0;
+  status = 0;
 
   if (!dirp)
     {
       errno = EFAULT;
+      env->die(env, stack, "Directry stream $dirp must be defined.", __func__, __FILE__, __LINE__);
+      env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
       return -1;
     }
 
   if (dirp->dd_handle != -1)
     {
-      rc = _findclose (dirp->dd_handle);
+      status = _findclose (dirp->dd_handle);
+      if (status == -1) {
+        env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+        env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
+      }
     }
 
   /* Delete the dir structure. */
   free (dirp);
 
-  return rc;
+  return status;
 }
 
 /*

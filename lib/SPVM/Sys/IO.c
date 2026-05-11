@@ -1431,15 +1431,22 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   int32_t status = spvm_sys_windows_closedir(env, stack, dirp);
+  env->pop_caller_stack(env, stack);
+  
+  if (status == -1) {
+    error_id = env->get_error_id(env, stack);
+    assert(error_id);
+    return error_id;
+  }
 #else
   int32_t status = closedir(dirp);
-#endif
-
   if (status == -1) {
     env->die(env, stack, "[System Error]closedir() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+#endif
   
   env->set_field_byte_by_name(env, stack, obj_dirp, "closed", 1, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
