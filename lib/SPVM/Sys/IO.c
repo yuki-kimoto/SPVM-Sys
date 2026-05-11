@@ -1468,16 +1468,23 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   errno = 0;
 #if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   MY_DIRENT* dirent = spvm_sys_windows_readdir(env, stack, dirp);
+  env->pop_caller_stack(env, stack);
+  
+  if (errno != 0) {
+    error_id = env->get_error_id(env, stack);
+    assert(error_id);
+    return error_id;
+  }
 #else
   MY_DIRENT* dirent = readdir(dirp);
-#endif
-
   if (errno != 0) {
     env->die(env, stack, "[System Error]readdir() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
+#endif
+
   if (dirent) {
     SPVM_OBJ* obj_dirent = env->new_pointer_object_by_name(env, stack, "Sys::IO::Dirent", dirent, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) { return error_id; }

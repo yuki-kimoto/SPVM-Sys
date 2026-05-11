@@ -333,6 +333,7 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
   if (!dirp)
     {
       errno = EFAULT;
+      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, __FILE__, __LINE__));
       return (SPVM_SYS_WINDOWS_WDIRENT *) 0;
     }
 
@@ -368,8 +369,13 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
 	     _findnext sets errno to ENOENT if no more file
 	     Undo this. */
 	  DWORD winerr = GetLastError ();
-	  if (winerr == ERROR_NO_MORE_FILES)
-	    errno = 0;
+	  if (winerr == ERROR_NO_MORE_FILES) {
+      errno = 0;
+    } else {
+      errno = EIO;
+      env->die(env, stack, "[System Error]_wfindnext64() failed(%d: %s). Windows Error Code: %d.", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno), winerr);
+      env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
+    }
 	  _findclose (dirp->dd_handle);
 	  dirp->dd_handle = -1;
 	  dirp->dd_stat = -1;
