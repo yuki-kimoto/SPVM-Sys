@@ -1395,21 +1395,23 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* dir = env->get_chars(env, stack, obj_dir);
   
 #if defined(_WIN32)
-  WCHAR* dir_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, dir, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  MY_DIR* dir_stream = spvm_sys_windows_opendir(env, stack, dir);
+  env->pop_caller_stack(env, stack);
+  
+  if (!dir_stream) {
+    error_id = env->get_error_id(env, stack);
+    assert(error_id);
     return error_id;
   }
-  
-  MY_DIR* dir_stream = spvm_sys_windows_opendirW(env, stack, dir_w);
 #else
   MY_DIR* dir_stream = opendir(dir);
-#endif
-
   if (!dir_stream) {
     env->die(env, stack, "[System Error]opendir() failed(%d: %s). $dir='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), dir);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
+#endif
+
   SPVM_OBJ* obj_dir_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::DirStream", dir_stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   

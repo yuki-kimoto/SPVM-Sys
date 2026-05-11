@@ -238,7 +238,7 @@ int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, 
 
 int spvm_sys_windows_is_symlinkW(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w);
 
-SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendirW(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR *szPath);
+SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* szPath);
 
 SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
 
