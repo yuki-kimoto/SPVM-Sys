@@ -161,7 +161,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   DWORD linkdata_returned;
   HANDLE handle = NULL;
   if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
-    handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(env, stack, path_w);
+    handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
@@ -178,7 +178,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
   }
   else {
-    handle = spvm_sys_windows_util_CreateFileW_for_read(env, stack, path_w);
+    handle = spvm_sys_windows_util_CreateFileW_for_read(path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
@@ -460,7 +460,7 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  HANDLE handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(env, stack, resolved_link_text_w);
+  HANDLE handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(resolved_link_text_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
     spvm_sys_windows_util_win_last_error_to_errno(EINVAL);

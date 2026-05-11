@@ -149,7 +149,7 @@ int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
     
     {
       env->push_caller_stack(env, stack, __func__, __FILE__, __LINE__ + 1);
-      handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(env, stack, path_w);
+      handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
       env->pop_caller_stack(env, stack);
       
       if (handle == INVALID_HANDLE_VALUE) {
@@ -861,7 +861,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
       return error_id;
     }
     
-    handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(env, stack, resolved_link_text_w);
+    handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(resolved_link_text_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
@@ -908,7 +908,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
   }
   
   {
-    handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(env, stack, path_w);
+    handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -964,7 +964,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
   return 0;
 }
 
-HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w, int32_t file_flag) {
+HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
 
   HANDLE handle = CreateFileW(path_w, GENERIC_READ,
     FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
@@ -974,14 +974,14 @@ HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(SPVM_ENV* env, SPVM_VAL
   return handle;
 }
 
-HANDLE spvm_sys_windows_util_CreateFileW_for_read(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w) {
+HANDLE spvm_sys_windows_util_CreateFileW_for_read(const WCHAR* path_w) {
   
-  return spvm_sys_windows_util_CreateFileW_for_read_common(env, stack, path_w, 0);
+  return spvm_sys_windows_util_CreateFileW_for_read_common(path_w, 0);
 }
 
-HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w) {
+HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* path_w) {
 
-  return spvm_sys_windows_util_CreateFileW_for_read_common(env, stack, path_w, FILE_FLAG_OPEN_REPARSE_POINT);
+  return spvm_sys_windows_util_CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
 }
 
 void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno) {
