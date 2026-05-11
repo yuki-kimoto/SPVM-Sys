@@ -224,15 +224,9 @@ typedef struct {
 extern "C" {
 #endif
 
-void spvm_sys_windows_win_last_error_to_errno(int32_t default_errno);
-
 WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
 const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
-
-HANDLE spvm_sys_windows_CreateFileW_for_read(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w);
-
-HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w);
 
 int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle);
 
@@ -265,6 +259,15 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
 int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat);
 
 int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat);
+
+// Utilitiies
+HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w, int32_t file_flag);
+
+HANDLE spvm_sys_windows_util_CreateFileW_for_read(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w);
+
+HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* path_w);
+
+void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno);
 
 #ifdef __cplusplus
 } // extern "C"

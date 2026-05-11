@@ -121,7 +121,7 @@ int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = success ? 0 : -1;
   
   if (status == -1) {
-    spvm_sys_windows_win_last_error_to_errno(EACCES);
+    spvm_sys_windows_util_win_last_error_to_errno(EACCES);
     env->die(env, stack, "[System Error]MoveFileExW() for renaming failed(%d: %s). $oldpath='%s', $newpath='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), oldpath, newpath);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
@@ -151,7 +151,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   DWORD fileattr = GetFileAttributesW(path_w);
   if (fileattr == INVALID_FILE_ATTRIBUTES) {
-    spvm_sys_windows_win_last_error_to_errno(EINVAL);
+    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
     env->die(env, stack, "[System Error]GetFileAttributesW() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);    
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
@@ -161,27 +161,27 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   DWORD linkdata_returned;
   HANDLE handle = NULL;
   if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
-    handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(env, stack, path_w);
+    handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(env, stack, path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
-      spvm_sys_windows_win_last_error_to_errno(EINVAL);
+      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
       env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
     
     if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
-      spvm_sys_windows_win_last_error_to_errno(EINVAL);
+      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
       env->die(env, stack, "[System Error]DeviceIoControl() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
   }
   else {
-    handle = spvm_sys_windows_CreateFileW_for_read(env, stack, path_w);
+    handle = spvm_sys_windows_util_CreateFileW_for_read(env, stack, path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
-      spvm_sys_windows_win_last_error_to_errno(EINVAL);
+      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
       env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
@@ -408,7 +408,7 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t success = CreateSymbolicLinkW(newpath_w, oldpath_w, create_flags);
   int32_t status = success ? 0 : -1;
   if (status == -1) {
-    spvm_sys_windows_win_last_error_to_errno(EINVAL);
+    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
   }
   
   if (status == -1) {
@@ -460,10 +460,10 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  HANDLE handle = spvm_sys_windows_CreateFileW_reparse_point_for_read(env, stack, resolved_link_text_w);
+  HANDLE handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(env, stack, resolved_link_text_w);
   
   if (handle == INVALID_HANDLE_VALUE) {
-    spvm_sys_windows_win_last_error_to_errno(EINVAL);
+    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
