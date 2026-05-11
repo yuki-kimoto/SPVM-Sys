@@ -448,12 +448,17 @@ void spvm_sys_windows_rewinddir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WIND
   if (!dirp)
     {
       errno = EFAULT;
+      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, __FILE__, __LINE__));
       return;
     }
 
   if (dirp->dd_handle != -1)
     {
-      _findclose (dirp->dd_handle);
+      if (_findclose (dirp->dd_handle) == -1)
+        {
+          env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+          env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
+        }
     }
 
   dirp->dd_handle = -1;
