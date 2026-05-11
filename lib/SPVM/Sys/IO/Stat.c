@@ -74,7 +74,10 @@ int32_t SPVM__Sys__IO__Stat__stat(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
 #if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   int32_t status = spvm_sys_windows_stat(env, stack, path, st_stat);
+  env->pop_caller_stack(env, stack);
+  
   if (status == -1) {
     error_id = env->get_error_id(env, stack);
     if (error_id == 0) {
@@ -116,7 +119,10 @@ int32_t SPVM__Sys__IO__Stat__lstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_STAT* st_stat = env->get_pointer(env, stack, obj_lstat);
   
 #if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   int32_t status = spvm_sys_windows_lstat(env, stack, path, st_stat);
+  env->pop_caller_stack(env, stack);
+  
   if (status == -1) {
     error_id = env->get_error_id(env, stack);
     if (error_id == 0) {
@@ -155,7 +161,10 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   HANDLE handle = (HANDLE)_get_osfhandle(fd);
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   int32_t status = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
+  env->pop_caller_stack(env, stack);
+  
   if (status == -1) {
     error_id = env->get_error_id(env, stack);
     if (error_id == 0) {

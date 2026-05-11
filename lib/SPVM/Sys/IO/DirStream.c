@@ -40,7 +40,10 @@ int32_t SPVM__Sys__IO__DirStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   if (!closed) {
 #if defined(_WIN32)
+    env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
     int32_t status = spvm_sys_windows_closedir(env, stack, dir_stream);
+    env->pop_caller_stack(env, stack);
+    
     if (status == -1) {
       error_id = env->get_error_id(env, stack);
       if (error_id == 0) {
