@@ -492,7 +492,18 @@ void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
 }
 
 int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t length) {
-  return _chsize_s(fd, length);
+  
+  int32_t ret_errno = _chsize_s(fd, length);
+  
+  int status = 0;
+  if (!(ret_errno == 0)) {
+    errno = ret_errno;
+    status = -1;
+    env->die(env, stack, "[System Error]spvm_sys_windows_ftruncate() failed(%d: %s).", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
+  }
+  
+  return status;
 }
 
 unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int seconds) {

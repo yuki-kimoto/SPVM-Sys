@@ -759,27 +759,31 @@ int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__ftruncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  int32_t error_id = 0;
+  
   int32_t fd = stack[0].ival;
   
   int64_t length = stack[1].lval;
   
 #if defined(_WIN32)
-  int32_t ret_errno = spvm_sys_windows_ftruncate(env, stack, fd, length);
-  if (!(ret_errno == 0)) {
-    env->die(env, stack, "[System Error]ftruncate() failed(%d: %s).", __func__, FILE_NAME, __LINE__, ret_errno, env->strerror_nolen(env, stack, ret_errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  int32_t status = spvm_sys_windows_ftruncate(env, stack, fd, length);
+  env->pop_caller_stack(env, stack);
+  if (status == -1) {
+    error_id = env->get_error_id(env, stack);
+    assert(error_id);
+    return error_id;
   }
-  stack[0].ival = ret_errno;
-  
 #else
   int32_t status = ftruncate(fd, length);
   if (status == -1) {
     env->die(env, stack, "[System Error]ftruncate() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  stack[0].ival = status;
 #endif
-
+  
+  stack[0].ival = status;
+  
   return 0;
 }
 
