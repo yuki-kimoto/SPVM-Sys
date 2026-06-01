@@ -183,19 +183,19 @@ typedef uint8_t Char;
 static int	 compare(const void *, const void *);
 static int	 ci_compare(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, size_t);
-static int	 g_lstat(Char *, MY_STAT *, glob_t *);
-static DIR	*g_opendir(Char *, glob_t *);
+static int	 g_lstat(Char *, MY_STAT *, spvm_sys_io_glob_glob_t *);
+static DIR	*g_opendir(Char *, spvm_sys_io_glob_glob_t *);
 static Char	*g_strchr(Char *, int);
-static int	 g_stat(Char *, MY_STAT *, glob_t *);
-static int	 glob0(const Char *, glob_t *);
-static int	 glob1(Char *, Char *, glob_t *, size_t *);
+static int	 g_stat(Char *, MY_STAT *, spvm_sys_io_glob_glob_t *);
+static int	 glob0(const Char *, spvm_sys_io_glob_glob_t *);
+static int	 glob1(Char *, Char *, spvm_sys_io_glob_glob_t *, size_t *);
 static int	 glob2(Char *, Char *, Char *, Char *, Char *, Char *,
-                       glob_t *, size_t *);
+                       spvm_sys_io_glob_glob_t *, size_t *);
 static int	 glob3(Char *, Char *, Char *, Char *, Char *,
-                       Char *, Char *, glob_t *, size_t *);
-static int	 globextend(const Char *, glob_t *, size_t *);
-static int	 globexp1(const Char *, glob_t *);
-static int	 globexp2(const Char *, const Char *, glob_t *, int *);
+                       Char *, Char *, spvm_sys_io_glob_glob_t *, size_t *);
+static int	 globextend(const Char *, spvm_sys_io_glob_glob_t *, size_t *);
+static int	 globexp1(const Char *, spvm_sys_io_glob_glob_t *);
+static int	 globexp2(const Char *, const Char *, spvm_sys_io_glob_glob_t *, int *);
 static int	 match(Char *, Char *, Char *, int);
 #ifdef SPVM_SYS_IO_GLOB_C_DEBUG
 static void	 qprintf(const char *, Char *);
@@ -207,7 +207,7 @@ MY_DIR* PerlDir_read(MY_DIR* dirp) {
 
 int
 spvm_sys_io_glob_bsd_glob(const char *pattern, int flags,
-         int (*errfunc)(const char *, int), glob_t *pglob)
+         int (*errfunc)(const char *, int), spvm_sys_io_glob_glob_t *pglob)
 {
         const uint8_t *patnext;
         int c;
@@ -284,9 +284,9 @@ spvm_sys_io_glob_bsd_glob(const char *pattern, int flags,
             return glob0(patbuf, pglob);
 }
 
-/* Free allocated data belonging to a glob_t structure. */
+/* Free allocated data belonging to a spvm_sys_io_glob_glob_t structure. */
 void
-spvm_sys_io_glob_bsd_globfree(glob_t *pglob)
+spvm_sys_io_glob_bsd_globfree(spvm_sys_io_glob_glob_t *pglob)
 {
         int i;
         char **pp;
@@ -307,7 +307,7 @@ spvm_sys_io_glob_bsd_globfree(glob_t *pglob)
  * characters
  */
 static int
-globexp1(const Char *pattern, glob_t *pglob)
+globexp1(const Char *pattern, spvm_sys_io_glob_glob_t *pglob)
 {
         const Char* ptr = pattern;
         int rv;
@@ -331,7 +331,7 @@ globexp1(const Char *pattern, glob_t *pglob)
  */
 static int
 globexp2(const Char *ptr, const Char *pattern,
-         glob_t *pglob, int *rv)
+         spvm_sys_io_glob_glob_t *pglob, int *rv)
 {
         int     i;
         Char   *lm, *ls;
@@ -438,7 +438,7 @@ globexp2(const Char *ptr, const Char *pattern,
  * to find no matches.
  */
 static int
-glob0(const Char *pattern, glob_t *pglob)
+glob0(const Char *pattern, spvm_sys_io_glob_glob_t *pglob)
 {
         const Char *qpat, *qpatnext;
         int c, err, oldflags, oldpathc;
@@ -564,7 +564,7 @@ compare(const void *p, const void *q)
 }
 
 static int
-glob1(Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
+glob1(Char *pattern, Char *pattern_last, spvm_sys_io_glob_glob_t *pglob, size_t *limitp)
 {
         Char pathbuf[MAXPATHLEN];
 
@@ -585,7 +585,7 @@ glob1(Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
  */
 static int
 glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
-      Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
+      Char *pattern, Char *pattern_last, spvm_sys_io_glob_glob_t *pglob, size_t *limitp)
 {
         MY_STAT sb;
         Char *p, *q;
@@ -665,7 +665,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 static int
 glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
       Char *pattern,
-      Char *restpattern, Char *restpattern_last, glob_t *pglob, size_t *limitp)
+      Char *restpattern, Char *restpattern_last, spvm_sys_io_glob_glob_t *pglob, size_t *limitp)
 {
         MY_DIR *dp;
         DIR *dirp;
@@ -749,7 +749,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 
 
 /*
- * Extend the gl_pathv member of a glob_t structure to accommodate a new item,
+ * Extend the gl_pathv member of a spvm_sys_io_glob_glob_t structure to accommodate a new item,
  * add the new item, and update gl_pathc.
  *
  * This assumes the BSD realloc, which only copies the block when its size
@@ -758,12 +758,12 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
  *
  * Return 0 if new item added, error code if memory couldn't be allocated.
  *
- * Invariant of the glob_t structure:
+ * Invariant of the spvm_sys_io_glob_glob_t structure:
  *	Either gl_pathc is zero and gl_pathv is NULL; or gl_pathc > 0 and
  *	gl_pathv points to (gl_offs + gl_pathc + 1) items.
  */
 static int
-globextend(const Char *path, glob_t *pglob, size_t *limitp)
+globextend(const Char *path, spvm_sys_io_glob_glob_t *pglob, size_t *limitp)
 {
         char **pathv;
         int i;
@@ -911,7 +911,7 @@ match(Char *name, Char *pat, Char *patend, int nocase)
 }
 
 static DIR *
-g_opendir(Char *str, glob_t *pglob)
+g_opendir(Char *str, spvm_sys_io_glob_glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 
@@ -926,7 +926,7 @@ g_opendir(Char *str, glob_t *pglob)
 }
 
 static int
-g_lstat(Char *fn, MY_STAT *sb, glob_t *pglob)
+g_lstat(Char *fn, MY_STAT *sb, spvm_sys_io_glob_glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 
@@ -940,7 +940,7 @@ g_lstat(Char *fn, MY_STAT *sb, glob_t *pglob)
 }
 
 static int
-g_stat(Char *fn, MY_STAT *sb, glob_t *pglob)
+g_stat(Char *fn, MY_STAT *sb, spvm_sys_io_glob_glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 
