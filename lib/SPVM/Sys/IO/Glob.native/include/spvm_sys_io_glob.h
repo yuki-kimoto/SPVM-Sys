@@ -91,7 +91,6 @@ typedef struct {
 #define GLOB_ABEND      (-2)    /* Unignored error. */
 
 // Types defined in perl.h
-typedef size_t STRLEN;
 typedef struct stat Stat_t;
 typedef struct dirent Direntry_t;
 
