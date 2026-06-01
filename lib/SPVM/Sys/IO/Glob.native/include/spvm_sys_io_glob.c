@@ -88,8 +88,6 @@ static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
  * GLOB_NOMAGIC:
  *	Same as GLOB_NOCHECK, but it will only append pattern if it did
  *	not contain any magic characters.  [Used in csh style globbing]
- * GLOB_ALTDIRFUNC:
- *	Use alternately specified directory access functions.
  * GLOB_TILDE:
  *	expand ~user/foo to the /home/dir/of/user/foo
  * GLOB_BRACE:
@@ -708,10 +706,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
         nocase = ((pglob->gl_flags & GLOB_NOCASE) != 0);
 
         /* Search directory for matching names. */
-        if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                readdirfunc = (Direntry_t *(*)(DIR *))pglob->gl_readdir;
-        else
-                readdirfunc = (Direntry_t *(*)(DIR *))PerlDir_read;
+        readdirfunc = (Direntry_t *(*)(DIR *))PerlDir_read;
         while ((dp = (*readdirfunc)(dirp))) {
                 U8 *sc;
                 Char *dc;
@@ -739,10 +734,8 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
                         break;
         }
 
-        if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                (*pglob->gl_closedir)(dirp);
-        else
-                PerlDir_close(dirp);
+        PerlDir_close(dirp);
+        
         return(err);
 }
 
@@ -938,9 +931,6 @@ g_opendir(Char *str, glob_t *pglob)
                         return(NULL);
         }
 
-        if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                return((DIR*)(*pglob->gl_opendir)(buf));
-
         return(PerlDir_open(buf));
 }
 
@@ -951,8 +941,6 @@ g_lstat(Char *fn, Stat_t *sb, glob_t *pglob)
 
         if (g_Ctoc(fn, buf, sizeof(buf)))
                 return(-1);
-        if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                return((*pglob->gl_lstat)(buf, sb));
 #ifdef HAS_LSTAT
         return(PerlLIO_lstat(buf, sb));
 #else
@@ -967,8 +955,6 @@ g_stat(Char *fn, Stat_t *sb, glob_t *pglob)
 
         if (g_Ctoc(fn, buf, sizeof(buf)))
                 return(-1);
-        if (pglob->gl_flags & GLOB_ALTDIRFUNC)
-                return((*pglob->gl_stat)(buf, sb));
         return(PerlLIO_stat(buf, sb));
 }
 

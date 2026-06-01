@@ -71,17 +71,6 @@ typedef struct {
         char **gl_pathv;	/* List of paths matching pattern. */
                                 /* Copy of errfunc parameter to glob. */
         int (*gl_errfunc)(const char *, int);
-
-        /*
-         * Alternate filesystem access methods for glob; replacement
-         * versions of closedir(3), readdir(3), opendir(3), stat(2)
-         * and lstat(2).
-         */
-        void (*gl_closedir)(void *);
-        struct dirent *(*gl_readdir)(void *); 
-        void *(*gl_opendir)(const char *);
-        int (*gl_lstat)(const char *, struct stat *);
-        int (*gl_stat)(const char *, struct stat *);
 } glob_t;
 
 #define GLOB_APPEND     0x0001  /* Append to output from previous call. */
@@ -91,12 +80,12 @@ typedef struct {
 #define GLOB_NOCHECK    0x0010  /* Return pattern itself if nothing matches. */
 #define GLOB_NOSORT     0x0020  /* Don't sort. */
 
-#define GLOB_ALTDIRFUNC 0x0040  /* Use alternately specified directory funcs. */
+#define GLOB_ALTDIRFUNC 0x0040  /* Use alternately specified directory funcs. (Not Supported in SPVM::Sys::IO::Glob) */
 #define GLOB_BRACE      0x0080  /* Expand braces ala csh. */
 #define GLOB_MAGCHAR    0x0100  /* Pattern had globbing characters. */
 #define GLOB_NOMAGIC    0x0200  /* GLOB_NOCHECK without magic chars (csh). */
 #define GLOB_QUOTE      0x0400  /* Quote special chars with \. */
-#define GLOB_TILDE      0x0800  /* Expand tilde names from the passwd file. */
+#define GLOB_TILDE      0x0800  /* Expand tilde names from the passwd file. (Not Supported in SPVM::Sys::IO::Glob)*/
 #define GLOB_NOCASE     0x1000  /* Treat filenames without regard for case. */
 #define GLOB_ALPHASORT  0x2000  /* Alphabetic, not ASCII sort, like csh. */
 #define GLOB_LIMIT      0x4000  /* Limit pattern match output to ARG_MAX
