@@ -80,21 +80,21 @@ static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
  *
  * Optional extra services, controlled by flags not defined by POSIX:
  *
- * GLOB_QUOTE:
+ * SPVM_SYS_IO_GLOB_C_QUOTE:
  *	Escaping convention: \ inhibits any special meaning the following
  *	character might have (except \ at end of string is retained).
- * GLOB_MAGCHAR:
+ * SPVM_SYS_IO_GLOB_C_MAGCHAR:
  *	Set in gl_flags if pattern contained a globbing character.
- * GLOB_NOMAGIC:
- *	Same as GLOB_NOCHECK, but it will only append pattern if it did
+ * SPVM_SYS_IO_GLOB_C_NOMAGIC:
+ *	Same as SPVM_SYS_IO_GLOB_C_NOCHECK, but it will only append pattern if it did
  *	not contain any magic characters.  [Used in csh style globbing]
- * GLOB_TILDE:
+ * SPVM_SYS_IO_GLOB_C_TILDE:
  *	expand ~user/foo to the /home/dir/of/user/foo
- * GLOB_BRACE:
+ * SPVM_SYS_IO_GLOB_C_BRACE:
  *	expand {1,2}{a,b} to 1a 1b 2a 2b
  * gl_matchc:
  *	Number of matches in the current invocation of glob.
- * GLOB_ALPHASORT:
+ * SPVM_SYS_IO_GLOB_C_ALPHASORT:
  *	sort alphabetically like csh (case doesn't matter) instead of in ASCII
  *	order
  */
@@ -148,7 +148,7 @@ static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
 #define BG_SLASH        '/'
 #define BG_COMMA        ','
 
-#ifndef GLOB_DEBUG
+#ifndef SPVM_SYS_IO_GLOB_C_DEBUG
 
 #define M_QUOTE         0x8000
 #define M_PROTECT       0x4000
@@ -166,7 +166,7 @@ typedef uint16_t Char;
 
 typedef uint8_t Char;
 
-#endif /* !GLOB_DEBUG */
+#endif /* !SPVM_SYS_IO_GLOB_C_DEBUG */
 
 
 #define CHAR(c)         ((Char)((c)&M_ASCII))
@@ -197,9 +197,9 @@ static int	 globextend(const Char *, glob_t *, size_t *);
 static int	 globexp1(const Char *, glob_t *);
 static int	 globexp2(const Char *, const Char *, glob_t *, int *);
 static int	 match(Char *, Char *, Char *, int);
-#ifdef GLOB_DEBUG
+#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
 static void	 qprintf(const char *, Char *);
-#endif /* GLOB_DEBUG */
+#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
 
 MY_DIR* PerlDir_read(MY_DIR* dirp) {
   return readdir((DIR*)dirp);
@@ -213,12 +213,12 @@ spvm_sys_io_glob_bsd_glob(const char *pattern, int flags,
         int c;
         Char *bufnext, *bufend, patbuf[MAXPATHLEN];
         patnext = (uint8_t *) pattern;
-        /* TODO: GLOB_APPEND / GLOB_DOOFFS aren't supported yet */
+        /* TODO: SPVM_SYS_IO_GLOB_C_APPEND / SPVM_SYS_IO_GLOB_C_DOOFFS aren't supported yet */
 #if 0
-        if (!(flags & GLOB_APPEND)) {
+        if (!(flags & SPVM_SYS_IO_GLOB_C_APPEND)) {
                 pglob->gl_pathc = 0;
                 pglob->gl_pathv = NULL;
-                if (!(flags & GLOB_DOOFFS))
+                if (!(flags & SPVM_SYS_IO_GLOB_C_DOOFFS))
                         pglob->gl_offs = 0;
         }
 #else
@@ -226,7 +226,7 @@ spvm_sys_io_glob_bsd_glob(const char *pattern, int flags,
         pglob->gl_pathv = NULL;
         pglob->gl_offs = 0;
 #endif
-        pglob->gl_flags = flags & ~GLOB_MAGCHAR;
+        pglob->gl_flags = flags & ~SPVM_SYS_IO_GLOB_C_MAGCHAR;
         pglob->gl_matchc = 0;
 
         bufnext = patbuf;
@@ -251,7 +251,7 @@ spvm_sys_io_glob_bsd_glob(const char *pattern, int flags,
         }
 #endif
 
-        if (flags & GLOB_QUOTE) {
+        if (flags & SPVM_SYS_IO_GLOB_C_QUOTE) {
                 /* Protect the quoted characters. */
                 while (bufnext < bufend && (c = *patnext++) != BG_EOS)
                         if (c == BG_QUOTE) {
@@ -278,7 +278,7 @@ spvm_sys_io_glob_bsd_glob(const char *pattern, int flags,
                         *bufnext++ = c;
         *bufnext = BG_EOS;
 
-        if (flags & GLOB_BRACE)
+        if (flags & SPVM_SYS_IO_GLOB_C_BRACE)
             return globexp1(patbuf, pglob);
         else
             return glob0(patbuf, pglob);
@@ -412,9 +412,9 @@ globexp2(const Char *ptr, const Char *pattern,
                                         ;
 
                                 /* Expand the current pattern */
-#ifdef GLOB_DEBUG
+#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
                                 qprintf("globexp2:", patbuf);
-#endif /* GLOB_DEBUG */
+#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
                                 *rv = globexp1(patbuf, pglob);
 
                                 /* move after the comma, to the next string */
@@ -478,15 +478,15 @@ glob0(const Char *pattern, glob_t *pglob)
                                         qpatnext += 2;
                                 }
                         } while ((c = *qpatnext++) != BG_RBRACKET);
-                        pglob->gl_flags |= GLOB_MAGCHAR;
+                        pglob->gl_flags |= SPVM_SYS_IO_GLOB_C_MAGCHAR;
                         *bufnext++ = M_END;
                         break;
                 case BG_QUESTION:
-                        pglob->gl_flags |= GLOB_MAGCHAR;
+                        pglob->gl_flags |= SPVM_SYS_IO_GLOB_C_MAGCHAR;
                         *bufnext++ = M_ONE;
                         break;
                 case BG_STAR:
-                        pglob->gl_flags |= GLOB_MAGCHAR;
+                        pglob->gl_flags |= SPVM_SYS_IO_GLOB_C_MAGCHAR;
                         /* Collapse adjacent stars to one.
                          * This is required to ensure that a pattern like
                          * "a**" matches a name like "a", as without this
@@ -503,9 +503,9 @@ glob0(const Char *pattern, glob_t *pglob)
                 }
         }
         *bufnext = BG_EOS;
-#ifdef GLOB_DEBUG
+#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
         qprintf("glob0:", patbuf);
-#endif /* GLOB_DEBUG */
+#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
 
         if ((err = glob1(patbuf, patbuf+MAXPATHLEN-1, pglob, &limit)) != 0) {
                 pglob->gl_flags = oldflags;
@@ -514,26 +514,26 @@ glob0(const Char *pattern, glob_t *pglob)
 
         /*
          * If there was no match we are going to append the pattern
-         * if GLOB_NOCHECK was specified or if GLOB_NOMAGIC was specified
+         * if SPVM_SYS_IO_GLOB_C_NOCHECK was specified or if SPVM_SYS_IO_GLOB_C_NOMAGIC was specified
          * and the pattern did not contain any magic characters
-         * GLOB_NOMAGIC is there just for compatibility with csh.
+         * SPVM_SYS_IO_GLOB_C_NOMAGIC is there just for compatibility with csh.
          */
         if (pglob->gl_pathc == oldpathc &&
-            ((pglob->gl_flags & GLOB_NOCHECK) ||
-              ((pglob->gl_flags & GLOB_NOMAGIC) &&
-               !(pglob->gl_flags & GLOB_MAGCHAR))))
+            ((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_NOCHECK) ||
+              ((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_NOMAGIC) &&
+               !(pglob->gl_flags & SPVM_SYS_IO_GLOB_C_MAGCHAR))))
         {
-#ifdef GLOB_DEBUG
+#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
                 printf("calling globextend from glob0\n");
-#endif /* GLOB_DEBUG */
+#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
                 pglob->gl_flags = oldflags;
                 return(globextend(qpat, pglob, &limit));
         }
-        else if (!(pglob->gl_flags & GLOB_NOSORT))
+        else if (!(pglob->gl_flags & SPVM_SYS_IO_GLOB_C_NOSORT))
             if (pglob->gl_pathv)
                 qsort(pglob->gl_pathv + pglob->gl_offs + oldpathc,
                     pglob->gl_pathc - oldpathc, sizeof(char *),
-                    (pglob->gl_flags & (GLOB_ALPHASORT|GLOB_NOCASE))
+                    (pglob->gl_flags & (SPVM_SYS_IO_GLOB_C_ALPHASORT|SPVM_SYS_IO_GLOB_C_NOCASE))
                         ? ci_compare : compare);
         pglob->gl_flags = oldflags;
         return(0);
@@ -603,7 +603,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
                         if (g_lstat(pathbuf, &sb, pglob))
                                 return(0);
 
-                        if (((pglob->gl_flags & GLOB_MARK) &&
+                        if (((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_MARK) &&
                             pathend[-1] != BG_SEP
 #ifdef DOSISH
                             && pathend[-1] != BG_SEP2
@@ -618,9 +618,9 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
                                 *pathend = BG_EOS;
                         }
                         ++pglob->gl_matchc;
-#ifdef GLOB_DEBUG
+#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
                         printf("calling globextend from glob2\n");
-#endif /* GLOB_DEBUG */
+#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
                         return(globextend(pathbuf, pglob, limitp));
                 }
 
@@ -711,7 +711,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
         }
 
         err = 0;
-        nocase = ((pglob->gl_flags & GLOB_NOCASE) != 0);
+        nocase = ((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_NOCASE) != 0);
 
         /* Search directory for matching names. */
         readdirfunc = (MY_DIR *(*)(DIR *))PerlDir_read;
@@ -771,12 +771,12 @@ globextend(const Char *path, glob_t *pglob, size_t *limitp)
         char *copy;
         const Char *p;
 
-#ifdef GLOB_DEBUG
+#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
         printf("Adding ");
         for (p = path; *p; p++)
                 (void)printf("%c", CHAR(*p));
         printf("\n");
-#endif /* GLOB_DEBUG */
+#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
 
         newsize = sizeof(*pathv) * (2 + pglob->gl_pathc + pglob->gl_offs);
         if (pglob->gl_pathv)
@@ -788,7 +788,7 @@ globextend(const Char *path, glob_t *pglob, size_t *limitp)
                         Safefree(pglob->gl_pathv);
                         pglob->gl_pathv = NULL;
                 }
-                return(GLOB_NOSPACE);
+                return(SPVM_SYS_IO_GLOB_C_NOSPACE);
         }
 
         if (pglob->gl_pathv == NULL && pglob->gl_offs > 0) {
@@ -807,19 +807,19 @@ globextend(const Char *path, glob_t *pglob, size_t *limitp)
         if (copy != NULL) {
                 if (g_Ctoc(path, copy, len)) {
                         Safefree(copy);
-                        return(GLOB_NOSPACE);
+                        return(SPVM_SYS_IO_GLOB_C_NOSPACE);
                 }
                 pathv[pglob->gl_offs + pglob->gl_pathc++] = copy;
         }
         pathv[pglob->gl_offs + pglob->gl_pathc] = NULL;
 
-        if ((pglob->gl_flags & GLOB_LIMIT) &&
+        if ((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_LIMIT) &&
             newsize + *limitp >= (unsigned long)ARG_MAX) {
                 errno = 0;
-                return(GLOB_NOSPACE);
+                return(SPVM_SYS_IO_GLOB_C_NOSPACE);
         }
 
-        return(copy == NULL ? GLOB_NOSPACE : 0);
+        return(copy == NULL ? SPVM_SYS_IO_GLOB_C_NOSPACE : 0);
 }
 
 
@@ -969,7 +969,7 @@ g_Ctoc(const Char *str, char *buf, size_t len)
         return (1);
 }
 
-#ifdef GLOB_DEBUG
+#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
 static void
 qprintf(const char *str, Char *s)
 {
@@ -986,4 +986,4 @@ qprintf(const char *str, Char *s)
                 (void)printf("%c", ismeta(*p) ? '_' : ' ');
         (void)printf("\n");
 }
-#endif /* GLOB_DEBUG */
+#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */

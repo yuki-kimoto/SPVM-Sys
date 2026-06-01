@@ -69,25 +69,23 @@ typedef struct {
 } glob_t;
 
 enum {
-  GLOB_APPEND     = 0x0001,  /* Append to output from previous call. */
-  GLOB_DOOFFS     = 0x0002,  /* Use gl_offs. */
-  GLOB_ERR        = 0x0004,  /* Return on error. */
-  GLOB_MARK       = 0x0008,  /* Append / to matching directories. */
-  GLOB_NOCHECK    = 0x0010,  /* Return pattern itself if nothing matches. */
-  GLOB_NOSORT     = 0x0020,  /* Don't sort. */
-
-  GLOB_ALTDIRFUNC = 0x0040,  /* Use alternately specified directory funcs. (Not Supported in SPVM::Sys::IO::Glob) */
-  GLOB_BRACE      = 0x0080,  /* Expand braces ala csh. */
-  GLOB_MAGCHAR    = 0x0100,  /* Pattern had globbing characters. */
-  GLOB_NOMAGIC    = 0x0200,  /* GLOB_NOCHECK without magic chars (csh). */
-  GLOB_QUOTE      = 0x0400,  /* Quote special chars with \. */
-  GLOB_TILDE      = 0x0800,  /* Expand tilde names from the passwd file. (Not Supported in SPVM::Sys::IO::Glob)*/
-  GLOB_NOCASE     = 0x1000,  /* Treat filenames without regard for case. */
-  GLOB_ALPHASORT  = 0x2000,  /* Alphabetic, not ASCII sort, like csh. */
-  GLOB_LIMIT      = 0x4000,  /* Limit pattern match output to ARG_MAX
-                                     (usually from limits.h). */
-  GLOB_NOSPACE    = -1,    /* Malloc call failed. */
-  GLOB_ABEND      = -2,    /* Unignored error. */
+  SPVM_SYS_IO_GLOB_C_APPEND    = 0x0001,  /* Append to output from previous call. */
+  SPVM_SYS_IO_GLOB_C_DOOFFS    = 0x0002,  /* Use gl_offs. */
+  SPVM_SYS_IO_GLOB_C_ERR       = 0x0004,  /* Return on error. */
+  SPVM_SYS_IO_GLOB_C_MARK      = 0x0008,  /* Append / to matching directories. */
+  SPVM_SYS_IO_GLOB_C_NOCHECK   = 0x0010,  /* Return pattern itself if nothing matches. */
+  SPVM_SYS_IO_GLOB_C_NOSORT    = 0x0020,  /* Don't sort. */
+  SPVM_SYS_IO_GLOB_C_ALTDIRFUNC= 0x0040,  /* Use alternately specified directory funcs. */
+  SPVM_SYS_IO_GLOB_C_BRACE     = 0x0080,  /* Expand braces ala csh. */
+  SPVM_SYS_IO_GLOB_C_MAGCHAR   = 0x0100,  /* Pattern had globbing characters. */
+  SPVM_SYS_IO_GLOB_C_NOMAGIC   = 0x0200,  /* GLOB_NOCHECK without magic chars (csh). */
+  SPVM_SYS_IO_GLOB_C_QUOTE     = 0x0400,  /* Quote special chars with \. */
+  SPVM_SYS_IO_GLOB_C_TILDE     = 0x0800,  /* Expand tilde names from the passwd file. */
+  SPVM_SYS_IO_GLOB_C_NOCASE    = 0x1000,  /* Treat filenames without regard for case. */
+  SPVM_SYS_IO_GLOB_C_ALPHASORT = 0x2000,  /* Alphabetic, not ASCII sort, like csh. */
+  SPVM_SYS_IO_GLOB_C_LIMIT     = 0x4000,  /* Limit pattern match output to ARG_MAX. */
+  SPVM_SYS_IO_GLOB_C_NOSPACE   = -1,      /* Malloc call failed. */
+  SPVM_SYS_IO_GLOB_C_ABEND     = -2       /* Unignored error. */
 };
 
 typedef struct stat MY_STAT;

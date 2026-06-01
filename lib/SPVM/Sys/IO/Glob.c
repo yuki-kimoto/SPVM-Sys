@@ -29,10 +29,10 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t flags = 0;
   void* errfunc = NULL;
   
-  flags |= GLOB_BRACE | GLOB_NOMAGIC | GLOB_QUOTE | GLOB_TILDE | GLOB_ALPHASORT;
+  flags |= SPVM_SYS_IO_GLOB_C_BRACE | SPVM_SYS_IO_GLOB_C_NOMAGIC | SPVM_SYS_IO_GLOB_C_QUOTE | SPVM_SYS_IO_GLOB_C_TILDE | SPVM_SYS_IO_GLOB_C_ALPHASORT;
   
 #ifdef WIN32
-  flags |= GLOB_NOCASE;
+  flags |= SPVM_SYS_IO_GLOB_C_NOCASE;
 #endif
   
   memset(&pglob, 0, sizeof(glob_t));
