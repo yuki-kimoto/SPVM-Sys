@@ -82,9 +82,6 @@ typedef struct {
         void *(*gl_opendir)(const char *);
         int (*gl_lstat)(const char *, struct stat *);
         int (*gl_stat)(const char *, struct stat *);
-        
-        // Remove these members in the future
-        struct stat **gl_statv;
 } glob_t;
 
 #define GLOB_APPEND     0x0001  /* Append to output from previous call. */
@@ -141,7 +138,6 @@ Direntry_t* PerlDir_read(Direntry_t* dirp);
 #define	GLOB_NOMATCH	(-3)	/* No match and GLOB_NOCHECK not set. */
 #define	GLOB_NOESCAPE	0x1000	/* Disable backslash escaping. */
 #define	GLOB_ABORTED	(-2)	/* Unignored error. */
-#define	GLOB_KEEPSTAT	0x4000	/* Retain stat data for paths in gl_statv. */
 
 int	bsd_glob(const char *, int, int (*)(const char *, int), glob_t *);
 void	bsd_globfree(glob_t *);
