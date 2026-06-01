@@ -249,8 +249,7 @@ MY_DIR* PerlDir_read(MY_DIR* dirp) {
 }
 
 int
-spvm_sys_io_glob_bsd_glob(const char *pattern, int flags,
-         int (*errfunc)(const char *, int), SPVM_SYS_IO_GLOB_GLOB_T *pglob)
+spvm_sys_io_glob_bsd_glob(const char *pattern, int flags, SPVM_SYS_IO_GLOB_GLOB_T *pglob)
 {
         const uint8_t *patnext;
         int c;
