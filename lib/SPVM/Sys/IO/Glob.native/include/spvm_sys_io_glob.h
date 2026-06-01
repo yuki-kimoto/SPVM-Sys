@@ -88,32 +88,6 @@ enum {
   SPVM_SYS_IO_GLOB_C_ABEND     = -2       /* Unignored error. */
 };
 
-typedef struct stat MY_STAT;
-typedef struct dirent MY_DIR;
-
-// Functions defined in perl.h
-#define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
-#define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
-#define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
-
-#define PerlDir_close(dh) closedir(dh)
-#define PerlDir_open(dir) opendir(dir)
-#define PerlLIO_stat(file, stat_info) stat(file, stat_info)
-
-MY_DIR* PerlDir_read(MY_DIR* dirp);
-
-// Functions defined in perl.h
-// [TODO]Must support Unicode folding in the future
-#define toFOLD(ch) tolower((unsigned char)(ch))
-
-#ifndef S_IFLNK
-#  define S_IFLNK 0120000
-#endif
-
-#ifndef S_ISLNK
-#  define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
-#endif
-
 int spvm_sys_io_glob_bsd_glob(const char *, int, int (*)(const char *, int), spvm_sys_io_glob_glob_t *);
 void spvm_sys_io_glob_bsd_globfree(spvm_sys_io_glob_glob_t *);
 
