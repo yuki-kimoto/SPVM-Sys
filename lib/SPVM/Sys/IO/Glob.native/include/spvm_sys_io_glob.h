@@ -138,11 +138,6 @@ typedef struct dirent Direntry_t;
   #define S_ISLNK(mode) (0)
 #endif
 
-// Functions defined in perl.h
-// [TODO]Must support Unicode folding in the future
-#define toFOLD(ch) tolower((unsigned char)(ch))
-
-
 // Remove these macros in the future
 #define	GLOB_NOMATCH	(-3)	/* No match and GLOB_NOCHECK not set. */
 #define	GLOB_NOESCAPE	0x1000	/* Disable backslash escaping. */
