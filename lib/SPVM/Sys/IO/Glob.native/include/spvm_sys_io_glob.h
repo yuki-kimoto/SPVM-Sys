@@ -41,24 +41,6 @@
 #ifndef SPVM_SYS_IO_GLOB_H
 #define SPVM_SYS_IO_GLOB_H
 
-#include <sys/stat.h>
-#include <sys/types.h>
-
-#include <errno.h>
-#include <stdlib.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-
-#include <dirent.h>
-#include <ctype.h>
-#include <errno.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-#include <unistd.h>
-
 typedef struct {
   int gl_pathc;   /* Count of total paths so far. */
   int gl_matchc;    /* Count of paths matching pattern. */

@@ -1,6 +1,24 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#include <errno.h>
+#include <stdlib.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <dirent.h>
+#include <ctype.h>
+#include <errno.h>
+#include <limits.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include <unistd.h>
+
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters
  * will be copied.  Always NUL terminates (unless siz == 0).
