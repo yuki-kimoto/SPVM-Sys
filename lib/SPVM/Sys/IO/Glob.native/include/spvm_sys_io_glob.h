@@ -109,11 +109,12 @@ Direntry_t* PerlDir_read(Direntry_t* dirp);
 // [TODO]Must support Unicode folding in the future
 #define toFOLD(ch) tolower((unsigned char)(ch))
 
-// Functions defined in perl.h
-// [TODO]Must support real symbolic link check in the future
-#if defined(_WIN32)
-  #undef S_ISLNK
-  #define S_ISLNK(mode) (0)
+#ifndef S_IFLNK
+#  define S_IFLNK 0120000
+#endif
+
+#ifndef S_ISLNK
+#  define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
 #endif
 
 int	bsd_glob(const char *, int, int (*)(const char *, int), glob_t *);
