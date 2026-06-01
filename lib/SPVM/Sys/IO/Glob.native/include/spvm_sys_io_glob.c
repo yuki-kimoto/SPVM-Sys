@@ -206,7 +206,7 @@ MY_DIR* PerlDir_read(MY_DIR* dirp) {
 }
 
 int
-bsd_glob(const char *pattern, int flags,
+spvm_sys_io_glob_bsd_glob(const char *pattern, int flags,
          int (*errfunc)(const char *, int), glob_t *pglob)
 {
         const uint8_t *patnext;
@@ -282,6 +282,23 @@ bsd_glob(const char *pattern, int flags,
             return globexp1(patbuf, pglob);
         else
             return glob0(patbuf, pglob);
+}
+
+/* Free allocated data belonging to a glob_t structure. */
+void
+spvm_sys_io_glob_bsd_globfree(glob_t *pglob)
+{
+        int i;
+        char **pp;
+
+        if (pglob->gl_pathv != NULL) {
+                pp = pglob->gl_pathv + pglob->gl_offs;
+                for (i = pglob->gl_pathc; i--; ++pp)
+                        if (*pp)
+                                Safefree(*pp);
+                Safefree(pglob->gl_pathv);
+                pglob->gl_pathv = NULL;
+        }
 }
 
 /*
@@ -891,23 +908,6 @@ match(Char *name, Char *pat, Char *patend, int nocase)
                 goto redo;
         }
         return 0;
-}
-
-/* Free allocated data belonging to a glob_t structure. */
-void
-bsd_globfree(glob_t *pglob)
-{
-        int i;
-        char **pp;
-
-        if (pglob->gl_pathv != NULL) {
-                pp = pglob->gl_pathv + pglob->gl_offs;
-                for (i = pglob->gl_pathc; i--; ++pp)
-                        if (*pp)
-                                Safefree(*pp);
-                Safefree(pglob->gl_pathv);
-                pglob->gl_pathv = NULL;
-        }
 }
 
 static DIR *

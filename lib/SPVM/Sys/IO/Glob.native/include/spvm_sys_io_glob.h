@@ -116,7 +116,7 @@ MY_DIR* PerlDir_read(MY_DIR* dirp);
 #  define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
 #endif
 
-int	bsd_glob(const char *, int, int (*)(const char *, int), glob_t *);
-void	bsd_globfree(glob_t *);
+int spvm_sys_io_glob_bsd_glob(const char *, int, int (*)(const char *, int), glob_t *);
+void spvm_sys_io_glob_bsd_globfree(glob_t *);
 
 #endif // SPVM_SYS_IO_GLOB_H
