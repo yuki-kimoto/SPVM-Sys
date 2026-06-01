@@ -93,8 +93,6 @@ typedef struct {
 // Types defined in perl.h
 typedef size_t STRLEN;
 typedef struct stat Stat_t;
-typedef uint16_t U16;
-typedef uint8_t U8;
 typedef struct dirent Direntry_t;
 
 // Functions defined in perl.h

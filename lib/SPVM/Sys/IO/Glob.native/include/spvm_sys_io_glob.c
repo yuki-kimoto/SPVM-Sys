@@ -155,7 +155,7 @@ static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
 #define M_MASK          0xffff
 #define M_ASCII         0x00ff
 
-typedef U16 Char;
+typedef uint16_t Char;
 
 #else
 
@@ -164,7 +164,7 @@ typedef U16 Char;
 #define M_MASK          0xff
 #define M_ASCII         0x7f
 
-typedef U8 Char;
+typedef uint8_t Char;
 
 #endif /* !GLOB_DEBUG */
 
@@ -209,10 +209,10 @@ int
 bsd_glob(const char *pattern, int flags,
          int (*errfunc)(const char *, int), glob_t *pglob)
 {
-        const U8 *patnext;
+        const uint8_t *patnext;
         int c;
         Char *bufnext, *bufend, patbuf[MAXPATHLEN];
-        patnext = (U8 *) pattern;
+        patnext = (uint8_t *) pattern;
         /* TODO: GLOB_APPEND / GLOB_DOOFFS aren't supported yet */
 #if 0
         if (!(flags & GLOB_APPEND)) {
@@ -708,14 +708,14 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
         /* Search directory for matching names. */
         readdirfunc = (Direntry_t *(*)(DIR *))PerlDir_read;
         while ((dp = (*readdirfunc)(dirp))) {
-                U8 *sc;
+                uint8_t *sc;
                 Char *dc;
 
                 /* Initial BG_DOT must be matched literally. */
                 if (dp->d_name[0] == BG_DOT && *pattern != BG_DOT)
                         continue;
                 dc = pathend;
-                sc = (U8 *) dp->d_name;
+                sc = (uint8_t *) dp->d_name;
                 while (dc < pathend_last && (*dc++ = *sc++) != BG_EOS)
                         ;
                 if (dc >= pathend_last) {
