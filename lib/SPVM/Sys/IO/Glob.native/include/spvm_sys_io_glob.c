@@ -183,10 +183,10 @@ typedef uint8_t Char;
 static int	 compare(const void *, const void *);
 static int	 ci_compare(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, size_t);
-static int	 g_lstat(Char *, Stat_t *, glob_t *);
+static int	 g_lstat(Char *, MY_STAT *, glob_t *);
 static DIR	*g_opendir(Char *, glob_t *);
 static Char	*g_strchr(Char *, int);
-static int	 g_stat(Char *, Stat_t *, glob_t *);
+static int	 g_stat(Char *, MY_STAT *, glob_t *);
 static int	 glob0(const Char *, glob_t *);
 static int	 glob1(Char *, Char *, glob_t *, size_t *);
 static int	 glob2(Char *, Char *, Char *, Char *, Char *, Char *,
@@ -571,7 +571,7 @@ static int
 glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
       Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)
 {
-        Stat_t sb;
+        MY_STAT sb;
         Char *p, *q;
         int anymeta;
 
@@ -935,7 +935,7 @@ g_opendir(Char *str, glob_t *pglob)
 }
 
 static int
-g_lstat(Char *fn, Stat_t *sb, glob_t *pglob)
+g_lstat(Char *fn, MY_STAT *sb, glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 
@@ -949,7 +949,7 @@ g_lstat(Char *fn, Stat_t *sb, glob_t *pglob)
 }
 
 static int
-g_stat(Char *fn, Stat_t *sb, glob_t *pglob)
+g_stat(Char *fn, MY_STAT *sb, glob_t *pglob)
 {
         char buf[MAXPATHLEN];
 

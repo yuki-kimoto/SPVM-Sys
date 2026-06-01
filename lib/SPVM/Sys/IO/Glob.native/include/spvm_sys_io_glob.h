@@ -90,8 +90,7 @@ typedef struct {
 #define GLOB_NOSPACE    (-1)    /* Malloc call failed. */
 #define GLOB_ABEND      (-2)    /* Unignored error. */
 
-// Types defined in perl.h
-typedef struct stat Stat_t;
+typedef struct stat MY_STAT;
 typedef struct dirent Direntry_t;
 
 // Functions defined in perl.h
