@@ -55,13 +55,9 @@
 #include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
-#ifdef HAVE_STDINT_H
 #include <stdint.h>
-#endif
 #include <string.h>
 #include <unistd.h>
-
-/* #include <sys/cdefs.h> */
 
 typedef struct {
         int gl_pathc;		/* Count of total paths so far. */
@@ -122,11 +118,6 @@ Direntry_t* PerlDir_read(Direntry_t* dirp);
   #undef S_ISLNK
   #define S_ISLNK(mode) (0)
 #endif
-
-// Remove these macros in the future
-#define	GLOB_NOMATCH	(-3)	/* No match and GLOB_NOCHECK not set. */
-#define	GLOB_NOESCAPE	0x1000	/* Disable backslash escaping. */
-#define	GLOB_ABORTED	(-2)	/* Unignored error. */
 
 int	bsd_glob(const char *, int, int (*)(const char *, int), glob_t *);
 void	bsd_globfree(glob_t *);
