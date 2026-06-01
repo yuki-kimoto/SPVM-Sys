@@ -205,8 +205,6 @@ static int	 glob2(Char *, Char *, Char *, Char *, Char *, Char *,
 static int	 glob3(Char *, Char *, Char *, Char *, Char *,
                        Char *, Char *, glob_t *, size_t *);
 static int	 globextend(const Char *, glob_t *, size_t *);
-static const Char *
-                 globtilde(const Char *, Char *, size_t, glob_t *);
 static int	 globexp1(const Char *, glob_t *);
 static int	 globexp2(const Char *, const Char *, glob_t *, int *);
 static int	 match(Char *, Char *, Char *, int);
@@ -427,87 +425,6 @@ globexp2(const Char *ptr, const Char *pattern,
         return 0;
 }
 
-
-
-/*
- * expand tilde from the passwd file.
- */
-static const Char *
-globtilde(const Char *pattern, Char *patbuf, size_t patbuf_len, glob_t *pglob)
-{
-        char *h;
-        const Char *p;
-        Char *b, *eb;
-
-        if (*pattern != BG_TILDE || !(pglob->gl_flags & GLOB_TILDE))
-                return pattern;
-
-        /* Copy up to the end of the string or / */
-        eb = &patbuf[patbuf_len - 1];
-        for (p = pattern + 1, h = (char *) patbuf;
-             h < (char*)eb && *p && *p != BG_SLASH; *h++ = (char)*p++)
-                ;
-
-        *h = BG_EOS;
-
-#if 0
-        if (h == (char *)eb)
-                return what;
-#endif
-
-        if (((char *) patbuf)[0] == BG_EOS) {
-                /*
-                 * handle a plain ~ or ~/ by expanding $HOME
-                 * first and then trying the password file
-                 * or $USERPROFILE on DOSISH systems
-                 */
-                if ((h = PerlEnv_getenv("HOME")) == NULL) {
-#ifdef HAS_PASSWD
-                        struct passwd *pwd;
-                        if ((pwd = getpwuid(getuid())) == NULL)
-                                return pattern;
-                        else
-                                h = pwd->pw_dir;
-#elif DOSISH
-                        /*
-                         * When no passwd file, fallback to the USERPROFILE
-                         * environment variable on DOSish systems.
-                         */
-                        if ((h = PerlEnv_getenv("USERPROFILE")) == NULL) {
-                            return pattern;
-                        }
-#else
-                        return pattern;
-#endif
-                }
-        } else {
-                /*
-                 * Expand a ~user
-                 */
-#ifdef HAS_PASSWD
-                struct passwd *pwd;
-                if ((pwd = getpwnam((char*) patbuf)) == NULL)
-                        return pattern;
-                else
-                        h = pwd->pw_dir;
-#else
-                return pattern;
-#endif
-        }
-
-        /* Copy the home directory */
-        for (b = patbuf; b < eb && *h; *b++ = *h++)
-                ;
-
-        /* Append the rest of the pattern */
-        while (b < eb && (*b++ = *p++) != BG_EOS)
-                ;
-        *b = BG_EOS;
-
-        return patbuf;
-}
-
-
 /*
  * The main glob() routine: compiles the pattern (optionally processing
  * quotes), calls glob1() to do the real pattern matching, and finally
@@ -523,7 +440,7 @@ glob0(const Char *pattern, glob_t *pglob)
         Char *bufnext, patbuf[MAXPATHLEN];
         size_t limit = 0;
 
-        qpat = globtilde(pattern, patbuf, MAXPATHLEN, pglob);
+        qpat = pattern;
         qpatnext = qpat;
         oldflags = pglob->gl_flags;
         oldpathc = pglob->gl_pathc;
