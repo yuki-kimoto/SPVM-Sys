@@ -8,8 +8,8 @@
 
 #include "spvm_native.h"
 
-#include "SPVM__Sys__IO__Glob.h"
-#include "SPVM__Sys__IO__Glob.c"
+#include "spvm_sys_io_glob.h"
+#include "spvm_sys_io_glob.c"
 
 static const char* FILE_NAME = "Sys/IO/Glob.c";
 

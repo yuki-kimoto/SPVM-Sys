@@ -38,8 +38,8 @@
  *	[lots of perl-specific changes since then--see bsd_glob.c]
  */
 
-#ifndef SPVM__SYS__IO__GLOB__GLOB_H
-#define SPVM__SYS__IO__GLOB__GLOB_H
+#ifndef SPVM_SYS_IO_GLOB_H
+#define SPVM_SYS_IO_GLOB_H
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -152,4 +152,4 @@ typedef struct dirent Direntry_t;
 int	bsd_glob(const char *, int, int (*)(const char *, int), glob_t *);
 void	bsd_globfree(glob_t *);
 
-#endif // SPVM__SYS__IO__GLOB__GLOB_H
+#endif // SPVM_SYS_IO_GLOB_H
