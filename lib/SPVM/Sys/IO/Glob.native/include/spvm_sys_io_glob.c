@@ -1,6 +1,9 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
+typedef struct stat MY_STAT;
+typedef struct dirent MY_DIR;
+
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters
  * will be copied.  Always NUL terminates (unless siz == 0).
