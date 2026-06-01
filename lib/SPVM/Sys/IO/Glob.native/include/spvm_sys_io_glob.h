@@ -120,10 +120,11 @@ typedef struct dirent Direntry_t;
 
 // Functions defined in perl.h
 #define PerlEnv_getenv(name) getenv(name)
-#define PerlDir_close(dh) closedir(dh)
 #define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
 #define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
 #define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
+
+#define PerlDir_close(dh) closedir(dh)
 #define PerlDir_open(dir) opendir(dir)
 #define PerlLIO_stat(file, stat_info) stat(file, stat_info)
 

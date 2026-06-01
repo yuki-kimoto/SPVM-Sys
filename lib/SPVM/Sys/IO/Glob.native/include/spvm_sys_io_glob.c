@@ -214,34 +214,7 @@ static int	 match(Char *, Char *, Char *, int);
 static void	 qprintf(const char *, Char *);
 #endif /* GLOB_DEBUG */
 
-#ifdef MULTIPLICITY
-static Direntry_t *	my_readdir(DIR*);
-
-static Direntry_t *
-my_readdir(DIR *d)
-{
-    return PerlDir_read(d);
-}
-#else
-
-/* ReliantUNIX (OS formerly known as SINIX) defines readdir
- * in LFS-mode to be a 64-bit version of readdir.  */
-
-#   ifdef sinix
-static Direntry_t *    my_readdir(DIR*);
-
-static Direntry_t *
-my_readdir(DIR *d)
-{
-    return readdir(d);
-}
-#   else
-
-#       define my_readdir       readdir
-
-#   endif
-
-#endif
+#define my_readdir readdir
 
 int
 bsd_glob(const char *pattern, int flags,
