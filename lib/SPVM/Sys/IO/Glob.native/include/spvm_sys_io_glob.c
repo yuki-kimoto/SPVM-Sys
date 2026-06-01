@@ -214,7 +214,9 @@ static int	 match(Char *, Char *, Char *, int);
 static void	 qprintf(const char *, Char *);
 #endif /* GLOB_DEBUG */
 
-#define my_readdir readdir
+Direntry_t* PerlDir_read(Direntry_t* dirp) {
+  return readdir((DIR*)dirp);
+}
 
 int
 bsd_glob(const char *pattern, int flags,
@@ -801,7 +803,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
         if (pglob->gl_flags & GLOB_ALTDIRFUNC)
                 readdirfunc = (Direntry_t *(*)(DIR *))pglob->gl_readdir;
         else
-                readdirfunc = (Direntry_t *(*)(DIR *))my_readdir;
+                readdirfunc = (Direntry_t *(*)(DIR *))PerlDir_read;
         while ((dp = (*readdirfunc)(dirp))) {
                 U8 *sc;
                 Char *dc;

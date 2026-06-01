@@ -128,6 +128,8 @@ typedef struct dirent Direntry_t;
 #define PerlDir_open(dir) opendir(dir)
 #define PerlLIO_stat(file, stat_info) stat(file, stat_info)
 
+Direntry_t* PerlDir_read(Direntry_t* dirp);
+
 // Functions defined in perl.h
 // [TODO]Must support Unicode folding in the future
 #define toFOLD(ch) tolower((unsigned char)(ch))
