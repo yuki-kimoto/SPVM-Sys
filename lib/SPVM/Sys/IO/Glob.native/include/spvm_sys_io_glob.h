@@ -91,7 +91,7 @@ typedef struct {
 #define GLOB_ABEND      (-2)    /* Unignored error. */
 
 typedef struct stat MY_STAT;
-typedef struct dirent Direntry_t;
+typedef struct dirent MY_DIR;
 
 // Functions defined in perl.h
 #define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
@@ -102,7 +102,7 @@ typedef struct dirent Direntry_t;
 #define PerlDir_open(dir) opendir(dir)
 #define PerlLIO_stat(file, stat_info) stat(file, stat_info)
 
-Direntry_t* PerlDir_read(Direntry_t* dirp);
+MY_DIR* PerlDir_read(MY_DIR* dirp);
 
 // Functions defined in perl.h
 // [TODO]Must support Unicode folding in the future

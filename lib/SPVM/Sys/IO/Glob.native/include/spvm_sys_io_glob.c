@@ -201,7 +201,7 @@ static int	 match(Char *, Char *, Char *, int);
 static void	 qprintf(const char *, Char *);
 #endif /* GLOB_DEBUG */
 
-Direntry_t* PerlDir_read(Direntry_t* dirp) {
+MY_DIR* PerlDir_read(MY_DIR* dirp) {
   return readdir((DIR*)dirp);
 }
 
@@ -651,7 +651,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
       Char *pattern,
       Char *restpattern, Char *restpattern_last, glob_t *pglob, size_t *limitp)
 {
-        Direntry_t *dp;
+        MY_DIR *dp;
         DIR *dirp;
         int err;
         int nocase;
@@ -663,7 +663,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
          * and dirent.h as taking pointers to differently typed opaque
          * structures.
          */
-        Direntry_t *(*readdirfunc)(DIR*);
+        MY_DIR *(*readdirfunc)(DIR*);
 
         assert(pattern < restpattern_last);
         assert(restpattern < restpattern_last);
@@ -706,7 +706,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
         nocase = ((pglob->gl_flags & GLOB_NOCASE) != 0);
 
         /* Search directory for matching names. */
-        readdirfunc = (Direntry_t *(*)(DIR *))PerlDir_read;
+        readdirfunc = (MY_DIR *(*)(DIR *))PerlDir_read;
         while ((dp = (*readdirfunc)(dirp))) {
                 uint8_t *sc;
                 Char *dc;
