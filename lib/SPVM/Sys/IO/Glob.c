@@ -25,7 +25,7 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The \"~\" expansion is not supported", __func__, FILE_NAME, __LINE__);
   }
   
-  spvm_sys_io_glob_glob_t pglob;
+  SPVM_SYS_IO_GLOB_GLOB_T pglob;
   int32_t flags = 0;
   void* errfunc = NULL;
   
@@ -35,7 +35,7 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
   flags |= SPVM_SYS_IO_GLOB_C_NOCASE;
 #endif
   
-  memset(&pglob, 0, sizeof(spvm_sys_io_glob_glob_t));
+  memset(&pglob, 0, sizeof(SPVM_SYS_IO_GLOB_GLOB_T));
   
   int32_t status = spvm_sys_io_glob_bsd_glob(pattern, flags, errfunc, &pglob);
   
