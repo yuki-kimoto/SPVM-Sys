@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
-typedef struct stat MY_STAT;
-typedef struct dirent MY_DIR;
-
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters
  * will be copied.  Always NUL terminates (unless siz == 0).
@@ -230,7 +227,6 @@ bsd_glob(const char *pattern, int flags,
         pglob->gl_offs = 0;
 #endif
         pglob->gl_flags = flags & ~GLOB_MAGCHAR;
-        pglob->gl_errfunc = errfunc;
         pglob->gl_matchc = 0;
 
         bufnext = patbuf;
@@ -694,14 +690,6 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 #endif
 
         if ((dirp = g_opendir(pathbuf, pglob)) == NULL) {
-                /* TODO: don't call for ENOENT or ENOTDIR? */
-                if (pglob->gl_errfunc) {
-                        if (g_Ctoc(pathbuf, buf, sizeof(buf)))
-                                return (GLOB_ABEND);
-                        if (pglob->gl_errfunc(buf, errno) ||
-                            (pglob->gl_flags & GLOB_ERR))
-                                return (GLOB_ABEND);
-                }
                 return(0);
         }
 
