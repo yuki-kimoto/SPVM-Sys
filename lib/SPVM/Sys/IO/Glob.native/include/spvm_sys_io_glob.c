@@ -103,15 +103,6 @@ static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
 
 #include "spvm_sys_io_glob.h"
 
-#ifdef I_PWD
-#	include <pwd.h>
-#else
-#if defined(HAS_PASSWD) && !defined(VMS)
-        struct passwd *getpwnam(char *);
-        struct passwd *getpwuid(Uid_t);
-#endif
-#endif
-
 #ifndef MAXPATHLEN
 #  ifdef PATH_MAX
 #    define MAXPATHLEN  PATH_MAX

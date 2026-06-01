@@ -54,9 +54,6 @@
 #include <ctype.h>
 #include <errno.h>
 #include <limits.h>
-#if 0
-  #include <pwd.h>
-#endif
 #include <stdlib.h>
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
