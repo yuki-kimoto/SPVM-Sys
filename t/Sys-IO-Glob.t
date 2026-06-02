@@ -108,6 +108,17 @@ my $tmp_dir = File::Temp->newdir;
   is_deeply($got, $expected);
 }
 
+# [a-z]
+{
+  my $pattern = "$test_dir/[a-z]oo.txt";
+  
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+  
+  is(@$got, 2);
+  is_deeply($got, $expected);
+}
+
 # Quote special chars
 {
   my $special_file = "$tmp_dir/foo-bar.txt";
