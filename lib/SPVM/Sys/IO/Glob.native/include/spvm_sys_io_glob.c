@@ -152,23 +152,23 @@
 typedef struct stat MY_STAT;
 typedef struct dirent MY_DIR;
 
-static void* Renew_v2(void* ptr, size_t n, size_t size);
+static void* my_realloc(void* ptr, size_t n, size_t size);
 
-static void* Newx_v2(size_t n, size_t size);
+static void* my_malloc(size_t n, size_t size);
 
-static void Safefree_v2(void* ptr);
+static void my_free(void* ptr);
 
-static MY_DIR* PerlDir_open_v2(const char* dir);
+static MY_DIR* my_opendir(const char* dir);
 
-static int32_t PerlDir_close_v2(MY_DIR* dir_stream);
+static int32_t my_closedir(MY_DIR* dir_stream);
 
-static int32_t PerlLIO_stat_v2(const char* file, MY_STAT* stat_info);
+static int32_t my_stat(const char* file, MY_STAT* stat_info);
 
-static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info);
+static int32_t my_lstat(const char* file, MY_STAT* stat_info);
 
 MY_DIR* PerlDir_read(MY_DIR* dirp);
 
-static char toFOLD_v2(char ch);
+static char my_tolower(char ch);
 
 static int   compare(const void *, const void *);
 static int   ci_compare(const void *, const void *);
@@ -273,8 +273,8 @@ void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB* pglob) {
                 pp = pglob->gl_pathv + pglob->gl_offs;
                 for (i = pglob->gl_pathc; i--; ++pp)
                         if (*pp)
-                                Safefree_v2(*pp);
-                Safefree_v2(pglob->gl_pathv);
+                                my_free(*pp);
+                my_free(pglob->gl_pathv);
                 pglob->gl_pathv = NULL;
         }
 }
@@ -550,12 +550,12 @@ ci_compare(const void *p, const void *q)
         const char *qq = *(const char **)q;
         int32_t ci;
         while (*pp && *qq) {
-                if (toFOLD_v2(*pp) != toFOLD_v2(*qq))
+                if (my_tolower(*pp) != my_tolower(*qq))
                         break;
                 ++pp;
                 ++qq;
         }
-        ci = toFOLD_v2(*pp) - toFOLD_v2(*qq);
+        ci = my_tolower(*pp) - my_tolower(*qq);
         if (ci == 0)
                 return compare(p, q);
         return ci;
@@ -726,7 +726,7 @@ glob3(char *pathbuf, char *pathbuf_last, char *pathend, char *pathend_last,
                         break;
         }
 
-        PerlDir_close_v2((MY_DIR*)dirp);
+        my_closedir((MY_DIR*)dirp);
         
         return(err);
 }
@@ -757,12 +757,12 @@ globextend(const char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
 
         newsize = sizeof(*pathv) * (2 + pglob->gl_pathc + pglob->gl_offs);
         if (pglob->gl_pathv)
-                pathv = Renew_v2(pglob->gl_pathv,newsize,sizeof(char*));
+                pathv = my_realloc(pglob->gl_pathv,newsize,sizeof(char*));
         else
-                pathv = Newx_v2(newsize,sizeof(char*));
+                pathv = my_malloc(newsize,sizeof(char*));
         if (pathv == NULL) {
                 if (pglob->gl_pathv) {
-                        Safefree_v2(pglob->gl_pathv);
+                        my_free(pglob->gl_pathv);
                         pglob->gl_pathv = NULL;
                 }
                 return(SPVM_SYS_IO_GLOB_C_NOSPACE);
@@ -780,10 +780,10 @@ globextend(const char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
                 ;
         len = (size_t)(p - path);
         *limitp += len;
-        copy = Newx_v2(p-path, sizeof(char));
+        copy = my_malloc(p-path, sizeof(char));
         if (copy != NULL) {
                 if (g_Ctoc(path, copy, len)) {
-                        Safefree_v2(copy);
+                        my_free(copy);
                         return(SPVM_SYS_IO_GLOB_C_NOSPACE);
                 }
                 pathv[pglob->gl_offs + pglob->gl_pathc++] = copy;
@@ -899,7 +899,7 @@ g_opendir(char *str, SPVM_SYS_IO_GLOB *pglob)
                         return(NULL);
         }
 
-        return(PerlDir_open_v2(buf));
+        return(my_opendir(buf));
 }
 
 static int
@@ -909,7 +909,7 @@ g_lstat(char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
 
         if (g_Ctoc(fn, buf, sizeof(buf)))
                 return(-1);
-        return(PerlLIO_lstat_v2(buf, sb));
+        return(my_lstat(buf, sb));
 }
 
 static int
@@ -919,7 +919,7 @@ g_stat(char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
 
         if (g_Ctoc(fn, buf, sizeof(buf)))
                 return(-1);
-        return(PerlLIO_stat_v2(buf, sb));
+        return(my_stat(buf, sb));
 }
 
 static char *
@@ -942,36 +942,36 @@ g_Ctoc(const char *str, char *buf, size_t len)
         return (1);
 }
 
-static void* Renew_v2(void* ptr, size_t n, size_t size) {
+static void* my_realloc(void* ptr, size_t n, size_t size) {
   return realloc(ptr, n * size);
 }
 
-static void* Newx_v2(size_t n, size_t size) {
+static void* my_malloc(size_t n, size_t size) {
   return malloc(n * size);
 }
 
-static void Safefree_v2(void* ptr) {
+static void my_free(void* ptr) {
   if (ptr) {
     free(ptr);
   }
 }
 
-static MY_DIR* PerlDir_open_v2(const char* dir) {
+static MY_DIR* my_opendir(const char* dir) {
   
   return (MY_DIR*)opendir(dir);
 }
 
-static int32_t PerlDir_close_v2(MY_DIR* dir_stream) {
+static int32_t my_closedir(MY_DIR* dir_stream) {
   
   return closedir((DIR*)dir_stream);
 }
 
-static int32_t PerlLIO_stat_v2(const char* file, MY_STAT* stat_info) {
+static int32_t my_stat(const char* file, MY_STAT* stat_info) {
   
   return stat(file, stat_info);
 }
 
-static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info) {
+static int32_t my_lstat(const char* file, MY_STAT* stat_info) {
   
 #ifdef _WIN32
   return stat(file, stat_info);
@@ -980,6 +980,6 @@ static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info) {
 #endif
 }
 
-static char toFOLD_v2(char ch) {
+static char my_tolower(char ch) {
   return tolower((unsigned char)(ch));
 }
