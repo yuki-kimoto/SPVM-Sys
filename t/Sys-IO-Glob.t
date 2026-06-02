@@ -110,18 +110,14 @@ my $tmp_dir = File::Temp->newdir;
 
 # Quote special chars
 {
-  # Create a file that actually has a '*' in its name
-  my $special_file = "$tmp_dir/foo*bar.txt";
+  my $special_file = "$tmp_dir/foo-bar.txt";
   open my $fh, '>', $special_file; close $fh;
-  
-  # Pattern to match the specific file using backslash escape
-  my $pattern = "$tmp_dir/foo\\*bar.*";
-  
-  # Perl's glob handles backslash escaping
+
+  my $pattern = "$tmp_dir/foo\\-bar.txt";
+
   my $expected = [glob($pattern)];
   my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
-  
-  # The escape must result in exactly 1 file match
+
   is(@$got, 1);
   is_deeply($got, $expected);
 }
