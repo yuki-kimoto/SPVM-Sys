@@ -126,26 +126,12 @@
 #define BG_SLASH        '/'
 #define BG_COMMA        ','
 
-#ifndef SPVM_SYS_IO_GLOB_C_DEBUG
-
-#define M_QUOTE         0x8000
-#define M_PROTECT       0x4000
-#define M_MASK          0xffff
-#define M_ASCII         0x00ff
-
-typedef uint16_t Char;
-
-#else
-
 #define M_QUOTE         0x80
 #define M_PROTECT       0x40
 #define M_MASK          0xff
 #define M_ASCII         0x7f
 
 typedef uint8_t Char;
-
-#endif /* !SPVM_SYS_IO_GLOB_C_DEBUG */
-
 
 #define CHAR(c)         ((Char)((c)&M_ASCII))
 #define META(c)         ((Char)((c)|M_QUOTE))
@@ -200,9 +186,6 @@ static int	 globextend(const Char *, SPVM_SYS_IO_GLOB *, size_t *);
 static int	 globexp1(const Char *, SPVM_SYS_IO_GLOB *);
 static int	 globexp2(const Char *, const Char *, SPVM_SYS_IO_GLOB *, int32_t *);
 static int	 match(Char *, Char *, Char *, int);
-#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
-static void	 qprintf(const char *, Char *);
-#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
 
 int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB* pglob) {
         const uint8_t *patnext;
@@ -441,9 +424,6 @@ globexp2(const Char *ptr, const Char *pattern,
                                         ;
 
                                 /* Expand the current pattern */
-#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
-                                qprintf("globexp2:", patbuf);
-#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
                                 *rv = globexp1(patbuf, pglob);
 
                                 /* move after the comma, to the next string */
@@ -532,9 +512,6 @@ glob0(const Char *pattern, SPVM_SYS_IO_GLOB *pglob)
                 }
         }
         *bufnext = BG_EOS;
-#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
-        qprintf("glob0:", patbuf);
-#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
 
         if ((err = glob1(patbuf, patbuf+MAXPATHLEN-1, pglob, &limit)) != 0) {
                 pglob->gl_flags = oldflags;
@@ -552,9 +529,6 @@ glob0(const Char *pattern, SPVM_SYS_IO_GLOB *pglob)
               ((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_NOMAGIC) &&
                !(pglob->gl_flags & SPVM_SYS_IO_GLOB_C_MAGCHAR))))
         {
-#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
-                printf("calling globextend from glob0\n");
-#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
                 pglob->gl_flags = oldflags;
                 return(globextend(qpat, pglob, &limit));
         }
@@ -647,9 +621,6 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
                                 *pathend = BG_EOS;
                         }
                         ++pglob->gl_matchc;
-#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
-                        printf("calling globextend from glob2\n");
-#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
                         return(globextend(pathbuf, pglob, limitp));
                 }
 
@@ -782,13 +753,6 @@ globextend(const Char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
         size_t newsize, len;
         char *copy;
         const Char *p;
-
-#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
-        printf("Adding ");
-        for (p = path; *p; p++)
-                (void)printf("%c", CHAR(*p));
-        printf("\n");
-#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
 
         newsize = sizeof(*pathv) * (2 + pglob->gl_pathc + pglob->gl_offs);
         if (pglob->gl_pathv)
@@ -981,21 +945,3 @@ g_Ctoc(const Char *str, char *buf, size_t len)
         return (1);
 }
 
-#ifdef SPVM_SYS_IO_GLOB_C_DEBUG
-static void
-qprintf(const char *str, Char *s)
-{
-        Char *p;
-
-        (void)printf("%s:\n", str);
-        for (p = s; *p; p++)
-                (void)printf("%c", CHAR(*p));
-        (void)printf("\n");
-        for (p = s; *p; p++)
-                (void)printf("%c", *p & M_PROTECT ? '"' : ' ');
-        (void)printf("\n");
-        for (p = s; *p; p++)
-                (void)printf("%c", ismeta(*p) ? '_' : ' ');
-        (void)printf("\n");
-}
-#endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
