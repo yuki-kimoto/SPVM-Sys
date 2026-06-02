@@ -174,6 +174,11 @@ static MY_DIR* PerlDir_open_v2(const char* dir) {
 
 #define PerlDir_open(dir) opendir(dir)
 
+static int32_t PerlDir_close_v2(MY_DIR* dir_stream) {
+  
+  return closedir((DIR*)dir_stream);
+}
+
 #define PerlDir_close(dh) closedir(dh)
 
 #define PerlLIO_stat(file, stat_info) stat(file, stat_info)
@@ -196,7 +201,7 @@ static int	 compare(const void *, const void *);
 static int	 ci_compare(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, size_t);
 static int	 g_lstat(Char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
-static DIR	*g_opendir(Char *, SPVM_SYS_IO_GLOB *);
+static MY_DIR	*g_opendir(Char *, SPVM_SYS_IO_GLOB *);
 static Char	*g_strchr(Char *, int);
 static int	 g_stat(Char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
 static int	 glob0(const Char *, SPVM_SYS_IO_GLOB *);
@@ -712,7 +717,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
         *pathend = BG_EOS;
         errno = 0;
 
-        if ((dirp = g_opendir(pathbuf, pglob)) == NULL) {
+        if ((dirp = (DIR*)g_opendir(pathbuf, pglob)) == NULL) {
                 return(0);
         }
 
@@ -748,7 +753,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
                         break;
         }
 
-        PerlDir_close(dirp);
+        PerlDir_close_v2((MY_DIR*)dirp);
         
         return(err);
 }
@@ -909,7 +914,7 @@ match(Char *name, Char *pat, Char *patend, int32_t nocase)
         return 0;
 }
 
-static DIR *
+static MY_DIR*
 g_opendir(Char *str, SPVM_SYS_IO_GLOB *pglob)
 {
         char buf[MAXPATHLEN];
@@ -921,7 +926,7 @@ g_opendir(Char *str, SPVM_SYS_IO_GLOB *pglob)
                         return(NULL);
         }
 
-        return(PerlDir_open(buf));
+        return(PerlDir_open_v2(buf));
 }
 
 static int
