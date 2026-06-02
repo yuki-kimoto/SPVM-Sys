@@ -41,11 +41,13 @@
 #ifndef SPVM_SYS_IO_GLOB_H
 #define SPVM_SYS_IO_GLOB_H
 
+#include <stdint.h>
+
 typedef struct {
-  int gl_pathc;   /* Count of total paths so far. */
-  int gl_matchc;    /* Count of paths matching pattern. */
-  int gl_offs;    /* Reserved at beginning of gl_pathv. */
-  int gl_flags;   /* Copy of flags parameter to glob. */
+  int32_t gl_pathc;   /* Count of total paths so far. */
+  int32_t gl_matchc;    /* Count of paths matching pattern. */
+  int32_t gl_offs;    /* Reserved at beginning of gl_pathv. */
+  int32_t gl_flags;   /* Copy of flags parameter to glob. */
   char **gl_pathv;  /* List of paths matching pattern. */
                           /* Copy of errfunc parameter to glob. */
 } SPVM_SYS_IO_GLOB_GLOB_T;
@@ -70,7 +72,7 @@ enum {
   SPVM_SYS_IO_GLOB_C_ABEND     = -2       /* Unignored error. */
 };
 
-int spvm_sys_io_glob_bsd_glob(const char* pattern, int flags, SPVM_SYS_IO_GLOB_GLOB_T* pglob);
+int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB_GLOB_T* pglob);
 void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB_GLOB_T* pglob);
 
 #endif // SPVM_SYS_IO_GLOB_H

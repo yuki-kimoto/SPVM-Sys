@@ -58,7 +58,7 @@ static char sccsid[] = "@(#)glob.c	8.3 (Berkeley) 10/13/93";
 /* most changes between the version above and the one below have been ported:
 static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
  */
-#endif /* LIBC_SCCS and not lint */
+#endif /* LIBC_SCCS and not lint32_t */
 
 /*
  * glob(3) -- a superset of the one defined in POSIX 1003.2.
@@ -207,15 +207,15 @@ static int	 glob3(Char *, Char *, Char *, Char *, Char *,
                        Char *, Char *, SPVM_SYS_IO_GLOB_GLOB_T *, size_t *);
 static int	 globextend(const Char *, SPVM_SYS_IO_GLOB_GLOB_T *, size_t *);
 static int	 globexp1(const Char *, SPVM_SYS_IO_GLOB_GLOB_T *);
-static int	 globexp2(const Char *, const Char *, SPVM_SYS_IO_GLOB_GLOB_T *, int *);
+static int	 globexp2(const Char *, const Char *, SPVM_SYS_IO_GLOB_GLOB_T *, int32_t *);
 static int	 match(Char *, Char *, Char *, int);
 #ifdef SPVM_SYS_IO_GLOB_C_DEBUG
 static void	 qprintf(const char *, Char *);
 #endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
 
-int spvm_sys_io_glob_bsd_glob(const char* pattern, int flags, SPVM_SYS_IO_GLOB_GLOB_T* pglob) {
+int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB_GLOB_T* pglob) {
         const uint8_t *patnext;
-        int c;
+        int32_t c;
         Char *bufnext, *bufend, patbuf[MAXPATHLEN];
         patnext = (uint8_t *) pattern;
         /* TODO: SPVM_SYS_IO_GLOB_C_APPEND / SPVM_SYS_IO_GLOB_C_DOOFFS aren't supported yet */
@@ -291,7 +291,7 @@ int spvm_sys_io_glob_bsd_glob(const char* pattern, int flags, SPVM_SYS_IO_GLOB_G
 
 /* Free allocated data belonging to a SPVM_SYS_IO_GLOB_GLOB_T structure. */
 void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB_GLOB_T* pglob) {
-        int i;
+        int32_t i;
         char **pp;
 
         if (pglob->gl_pathv != NULL) {
@@ -348,7 +348,7 @@ static int
 globexp1(const Char *pattern, SPVM_SYS_IO_GLOB_GLOB_T *pglob)
 {
         const Char* ptr = pattern;
-        int rv;
+        int32_t rv;
 
         /* Protect a single {}, for find(1), like csh */
         if (pattern[0] == BG_LBRACE && pattern[1] == BG_RBRACE && pattern[2] == BG_EOS)
@@ -369,9 +369,9 @@ globexp1(const Char *pattern, SPVM_SYS_IO_GLOB_GLOB_T *pglob)
  */
 static int
 globexp2(const Char *ptr, const Char *pattern,
-         SPVM_SYS_IO_GLOB_GLOB_T *pglob, int *rv)
+         SPVM_SYS_IO_GLOB_GLOB_T *pglob, int32_t *rv)
 {
-        int     i;
+        int32_t     i;
         Char   *lm, *ls;
         const Char *pe, *pm, *pm1, *pl;
         Char    patbuf[MAXPATHLEN];
@@ -479,7 +479,7 @@ static int
 glob0(const Char *pattern, SPVM_SYS_IO_GLOB_GLOB_T *pglob)
 {
         const Char *qpat, *qpatnext;
-        int c, err, oldflags, oldpathc;
+        int32_t c, err, oldflags, oldpathc;
         Char *bufnext, patbuf[MAXPATHLEN];
         size_t limit = 0;
 
@@ -530,7 +530,7 @@ glob0(const Char *pattern, SPVM_SYS_IO_GLOB_GLOB_T *pglob)
                          * "a**" matches a name like "a", as without this
                          * check when the first star matched everything it would
                          * cause the second star to return a match fail.
-                         * As long ** is folded here this does not happen.
+                         * As int64_t ** is folded here this does not happen.
                          */
                         if (bufnext == patbuf || bufnext[-1] != M_ALL)
                                 *bufnext++ = M_ALL;
@@ -582,7 +582,7 @@ ci_compare(const void *p, const void *q)
 {
         const char *pp = *(const char **)p;
         const char *qq = *(const char **)q;
-        int ci;
+        int32_t ci;
         while (*pp && *qq) {
                 if (toFOLD(*pp) != toFOLD(*qq))
                         break;
@@ -627,7 +627,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 {
         MY_STAT sb;
         Char *p, *q;
-        int anymeta;
+        int32_t anymeta;
 
         assert(pattern < pattern_last);
 
@@ -707,8 +707,8 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 {
         MY_DIR *dp;
         DIR *dirp;
-        int err;
-        int nocase;
+        int32_t err;
+        int32_t nocase;
         char buf[MAXPATHLEN];
 
         /*
@@ -804,7 +804,7 @@ static int
 globextend(const Char *path, SPVM_SYS_IO_GLOB_GLOB_T *pglob, size_t *limitp)
 {
         char **pathv;
-        int i;
+        int32_t i;
         size_t newsize, len;
         char *copy;
         const Char *p;
@@ -879,9 +879,9 @@ globextend(const Char *path, SPVM_SYS_IO_GLOB_GLOB_T *pglob, size_t *limitp)
  *
  */
 static int
-match(Char *name, Char *pat, Char *patend, int nocase)
+match(Char *name, Char *pat, Char *patend, int32_t nocase)
 {
-        int ok, negate_range;
+        int32_t ok, negate_range;
         Char c, k;
         Char *nextp = NULL;
         Char *nextn = NULL;
@@ -988,7 +988,7 @@ g_stat(Char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB_GLOB_T *pglob)
 }
 
 static Char *
-g_strchr(Char *str, int ch)
+g_strchr(Char *str, int32_t ch)
 {
         do {
                 if (*str == ch)
