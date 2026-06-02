@@ -160,6 +160,20 @@ if ($^O eq 'MSWin32') {
     is_deeply($got, $expected);
   }
   
+  # ASCII nocase test
+  {
+    my $tmp_dir = File::Temp->newdir;
+    
+    my $file = "$tmp_dir/foo.txt";
+    { open my $fh, '>', $file; close $fh; } # create file
+
+    my $pattern = "$tmp_dir/FOO.*";
+    my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+
+    is(scalar @$got, 1);
+    is($got->[0], $file);
+  }
+
 }
 else {
   diag("[Test Skip]Skipping Windows-specific separator tests on $^O");
