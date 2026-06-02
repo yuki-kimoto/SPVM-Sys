@@ -23,6 +23,7 @@ if ($debug) {
 my %configure_and_runtime_requires = (
   'SPVM' => '0.990155',
   'SPVM::Resource::SocketUtil' => '1.002',
+  'SPVM::Resource::Utf8proc' => '0.004',
 );
 
 WriteMakefile(
