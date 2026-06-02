@@ -36,7 +36,7 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   memset(&st_glob, 0, sizeof(SPVM_SYS_IO_GLOB));
   
-  int32_t status = spvm_sys_io_glob_bsd_glob(pattern, flags, &st_glob);
+  int32_t status = spvm_sys_io_glob_bsd_glob(env, stack, pattern, flags, &st_glob);
   
   int32_t e = 0;
   if (!(status == 0)) {
@@ -58,7 +58,7 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = obj_paths;
   }
   
-  spvm_sys_io_glob_bsd_globfree(&st_glob);
+  spvm_sys_io_glob_bsd_globfree(env, stack, &st_glob);
   
   return e;
 }

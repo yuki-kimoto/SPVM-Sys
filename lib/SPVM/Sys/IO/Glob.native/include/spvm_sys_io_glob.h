@@ -8,6 +8,8 @@
 
 #include <stdint.h>
 
+#include "spvm_native.h"
+
 typedef struct {
   int32_t gl_pathc;   /* Count of total paths so far. */
   int32_t gl_matchc;    /* Count of paths matching pattern. */
@@ -37,7 +39,7 @@ enum {
   SPVM_SYS_IO_GLOB_C_ABEND     = -2       /* Unignored error. */
 };
 
-int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB* pglob);
-void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB* pglob);
+int32_t spvm_sys_io_glob_bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB* pglob);
+void spvm_sys_io_glob_bsd_globfree(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_IO_GLOB* pglob);
 
 #endif // SPVM_SYS_IO_GLOB_H

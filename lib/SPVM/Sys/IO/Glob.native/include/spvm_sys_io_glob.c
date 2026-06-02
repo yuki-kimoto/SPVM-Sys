@@ -165,7 +165,7 @@ static int   globexp1(const char *, SPVM_SYS_IO_GLOB *);
 static int   globexp2(const char *, const char *, SPVM_SYS_IO_GLOB *, int32_t *);
 static int   match(char *, char *, char *, int);
 
-int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB* pglob) {
+int32_t spvm_sys_io_glob_bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack, const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB* pglob) {
         const uint8_t *patnext;
         int32_t c;
         char *bufnext, *bufend, patbuf[MAXPATHLEN];
@@ -232,7 +232,7 @@ int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_I
 }
 
 /* Free allocated data belonging to a SPVM_SYS_IO_GLOB structure. */
-void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB* pglob) {
+void spvm_sys_io_glob_bsd_globfree(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_IO_GLOB* pglob) {
         int32_t i;
         char **pp;
 
