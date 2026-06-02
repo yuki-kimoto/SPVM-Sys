@@ -167,8 +167,15 @@ static void Safefree_v2(void* ptr) {
 
 #define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
 
-#define PerlDir_close(dh) closedir(dh)
+static MY_DIR* PerlDir_open_v2(const char* dir) {
+  
+  return (MY_DIR*)opendir(dir);
+}
+
 #define PerlDir_open(dir) opendir(dir)
+
+#define PerlDir_close(dh) closedir(dh)
+
 #define PerlLIO_stat(file, stat_info) stat(file, stat_info)
 
 MY_DIR* PerlDir_read(MY_DIR* dirp);
