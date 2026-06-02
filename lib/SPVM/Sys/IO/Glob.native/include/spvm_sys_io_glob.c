@@ -159,6 +159,11 @@ static void* Newx_v2(size_t n, size_t size) {
   return malloc(n * size);
 }
 
+static void Safefree_v2(void* ptr) {
+  if (ptr) {
+    free(ptr);
+  }
+}
 
 #define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
 
@@ -283,8 +288,8 @@ void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB* pglob) {
                 pp = pglob->gl_pathv + pglob->gl_offs;
                 for (i = pglob->gl_pathc; i--; ++pp)
                         if (*pp)
-                                Safefree(*pp);
-                Safefree(pglob->gl_pathv);
+                                Safefree_v2(*pp);
+                Safefree_v2(pglob->gl_pathv);
                 pglob->gl_pathv = NULL;
         }
 }
@@ -772,7 +777,7 @@ globextend(const Char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
                 pathv = Newx_v2(newsize,sizeof(char*));
         if (pathv == NULL) {
                 if (pglob->gl_pathv) {
-                        Safefree(pglob->gl_pathv);
+                        Safefree_v2(pglob->gl_pathv);
                         pglob->gl_pathv = NULL;
                 }
                 return(SPVM_SYS_IO_GLOB_C_NOSPACE);
@@ -793,7 +798,7 @@ globextend(const Char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
         copy = Newx_v2(p-path, sizeof(char));
         if (copy != NULL) {
                 if (g_Ctoc(path, copy, len)) {
-                        Safefree(copy);
+                        Safefree_v2(copy);
                         return(SPVM_SYS_IO_GLOB_C_NOSPACE);
                 }
                 pathv[pglob->gl_offs + pglob->gl_pathc++] = copy;
