@@ -89,22 +89,6 @@
 #  endif
 #endif
 
-#ifndef ARG_MAX
-#  ifdef _SC_ARG_MAX
-#    define     ARG_MAX         (sysconf(_SC_ARG_MAX))
-#  else
-#    ifdef _POSIX_ARG_MAX
-#      define   ARG_MAX         _POSIX_ARG_MAX
-#    else
-#      ifdef WIN32
-#        define ARG_MAX         14500   /* from VC's limits.h */
-#      else
-#        define ARG_MAX         4096    /* from POSIX, be conservative */
-#      endif
-#    endif
-#  endif
-#endif
-
 #define BG_DOLLAR       '$'
 #define BG_DOT          '.'
 #define BG_EOS          '\0'
