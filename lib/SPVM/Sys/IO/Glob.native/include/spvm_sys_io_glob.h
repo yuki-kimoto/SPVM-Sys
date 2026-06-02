@@ -50,7 +50,7 @@ typedef struct {
   int32_t gl_flags;   /* Copy of flags parameter to glob. */
   char **gl_pathv;  /* List of paths matching pattern. */
                           /* Copy of errfunc parameter to glob. */
-} SPVM_SYS_IO_GLOB_GLOB_T;
+} SPVM_SYS_IO_GLOB;
 
 enum {
   SPVM_SYS_IO_GLOB_C_APPEND    = 0x0001,  /* Append to output from previous call. */
@@ -72,7 +72,7 @@ enum {
   SPVM_SYS_IO_GLOB_C_ABEND     = -2       /* Unignored error. */
 };
 
-int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB_GLOB_T* pglob);
-void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB_GLOB_T* pglob);
+int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB* pglob);
+void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB* pglob);
 
 #endif // SPVM_SYS_IO_GLOB_H

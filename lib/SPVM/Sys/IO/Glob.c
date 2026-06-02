@@ -25,7 +25,7 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The \"~\" expansion is not supported", __func__, FILE_NAME, __LINE__);
   }
   
-  SPVM_SYS_IO_GLOB_GLOB_T pglob;
+  SPVM_SYS_IO_GLOB st_glob;
   int32_t flags = 0;
   
   flags |= SPVM_SYS_IO_GLOB_C_BRACE | SPVM_SYS_IO_GLOB_C_NOMAGIC | SPVM_SYS_IO_GLOB_C_QUOTE | SPVM_SYS_IO_GLOB_C_TILDE | SPVM_SYS_IO_GLOB_C_ALPHASORT;
@@ -34,9 +34,9 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
   flags |= SPVM_SYS_IO_GLOB_C_NOCASE;
 #endif
   
-  memset(&pglob, 0, sizeof(SPVM_SYS_IO_GLOB_GLOB_T));
+  memset(&st_glob, 0, sizeof(SPVM_SYS_IO_GLOB));
   
-  int32_t status = spvm_sys_io_glob_bsd_glob(pattern, flags, &pglob);
+  int32_t status = spvm_sys_io_glob_bsd_glob(pattern, flags, &st_glob);
   
   int32_t e = 0;
   if (!(status == 0)) {
@@ -44,12 +44,12 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
     e = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   else {
-    int32_t paths_length = pglob.gl_pathc;
+    int32_t paths_length = st_glob.gl_pathc;
     
     void* obj_paths = env->new_string_array(env, stack, paths_length);
     
-    for (int i = 0; i < pglob.gl_pathc; i++) {
-      const char* path = pglob.gl_pathv[i];
+    for (int i = 0; i < st_glob.gl_pathc; i++) {
+      const char* path = st_glob.gl_pathv[i];
       int32_t path_length = strlen(path);
       void* obj_path = env->new_string(env, stack, path, path_length);
       env->set_elem_object(env, stack, obj_paths, i, obj_path);
@@ -58,7 +58,7 @@ int32_t SPVM__Sys__IO__Glob__bsd_glob(SPVM_ENV* env, SPVM_VALUE* stack) {
     stack[0].oval = obj_paths;
   }
   
-  spvm_sys_io_glob_bsd_globfree(&pglob);
+  spvm_sys_io_glob_bsd_globfree(&st_glob);
   
   return e;
 }
