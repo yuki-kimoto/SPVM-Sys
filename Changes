@@ -1,3 +1,17 @@
+0.567 2026-06-02
+  [Bug Fix]
+    * Fix Sys#glob bugs.
+  [Changes]
+    * Rewrite Sys#glob logic for MSVC.
+    * Support UTF-8 in Sys#glob.
+    * Support Unicode case foloding in Windows in Sys#glob.
+  [Requirement Changes]
+    * Require SPVM::Resource::Utf8proc 0.004.
+  [Internal Changes]
+    * Move stat functions from Stat.c to spvm_sys_windows.c
+    * Add IS_S macro functions for MSVC to spvm_sys_windows.h.
+  [Makefile.PL Changes]
+    Support --debug option.
 0.566 2026-05-07
   [New Feautres]
     * Add Sys#glob method.
