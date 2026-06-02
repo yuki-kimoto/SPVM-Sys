@@ -144,14 +144,9 @@
 typedef struct stat MY_STAT;
 typedef struct dirent MY_DIR;
 
-// Functions defined in perl.h
-#define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
-
 static void* Renew_v2(void* ptr, size_t n, size_t size) {
   return realloc(ptr, n * size);
 }
-
-#define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
 
 static void* Newx_v2(size_t n, size_t size) {
   return malloc(n * size);
@@ -163,28 +158,20 @@ static void Safefree_v2(void* ptr) {
   }
 }
 
-#define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
-
 static MY_DIR* PerlDir_open_v2(const char* dir) {
   
   return (MY_DIR*)opendir(dir);
 }
-
-#define PerlDir_open(dir) opendir(dir)
 
 static int32_t PerlDir_close_v2(MY_DIR* dir_stream) {
   
   return closedir((DIR*)dir_stream);
 }
 
-#define PerlDir_close(dh) closedir(dh)
-
 static int32_t PerlLIO_stat_v2(const char* file, MY_STAT* stat_info) {
   
   return stat(file, stat_info);
 }
-
-#define PerlLIO_stat(file, stat_info) stat(file, stat_info)
 
 static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info) {
   
@@ -200,8 +187,6 @@ MY_DIR* PerlDir_read(MY_DIR* dirp);
 static char toFOLD_v2(char ch) {
   return tolower((unsigned char)(ch));
 }
-
-#define toFOLD(ch) tolower((unsigned char)(ch))
 
 #ifndef S_IFLNK
 #  define S_IFLNK 0120000
