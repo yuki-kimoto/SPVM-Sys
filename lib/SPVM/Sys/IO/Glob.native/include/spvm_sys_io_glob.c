@@ -128,7 +128,13 @@
 #define M_SET           META('[')
 #define ismeta(c)       (((c)&M_QUOTE) != 0)
 
-typedef struct stat MY_STAT;
+#if defined(_WIN32)
+  typedef SPVM_SYS_WINDOWS_STAT MY_STAT;
+#else
+  #include <sys/stat.h>
+  typedef struct stat MY_STAT;
+#endif
+
 typedef struct dirent MY_DIR;
 
 static void* my_realloc(SPVM_ENV* env, SPVM_VALUE* stack, void* ptr, size_t n, size_t size);
@@ -905,14 +911,17 @@ MY_DIR* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp) {
 }
 
 static int32_t my_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* file, MY_STAT* stat_info) {
-  
+#ifdef _WIN32
+  return spvm_sys_windows_stat(env, stack, file, stat_info);
+#else 
   return stat(file, stat_info);
+#endif
 }
 
 static int32_t my_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* file, MY_STAT* stat_info) {
   
 #ifdef _WIN32
-  return stat(file, stat_info);
+  return spvm_sys_windows_lstat(env, stack, file, stat_info);
 #else 
   return lstat(file, stat_info);
 #endif
