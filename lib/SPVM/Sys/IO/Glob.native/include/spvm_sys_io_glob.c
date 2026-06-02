@@ -131,10 +131,8 @@
 #define M_MASK          0xff
 #define M_ASCII         0x7f
 
-typedef uint8_t Char;
-
-#define CHAR(c)         ((Char)((c)&M_ASCII))
-#define META(c)         ((Char)((c)|M_QUOTE))
+#define CHAR(c)         ((uint8_t)((c)&M_ASCII))
+#define META(c)         ((uint8_t)((c)|M_QUOTE))
 #define M_ALL           META('*')
 #define M_END           META(']')
 #define M_NOT           META('!')
@@ -199,26 +197,26 @@ MY_DIR* PerlDir_read(MY_DIR* dirp);
 
 static int	 compare(const void *, const void *);
 static int	 ci_compare(const void *, const void *);
-static int	 g_Ctoc(const Char *, char *, size_t);
-static int	 g_lstat(Char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
-static MY_DIR	*g_opendir(Char *, SPVM_SYS_IO_GLOB *);
-static Char	*g_strchr(Char *, int);
-static int	 g_stat(Char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
-static int	 glob0(const Char *, SPVM_SYS_IO_GLOB *);
-static int	 glob1(Char *, Char *, SPVM_SYS_IO_GLOB *, size_t *);
-static int	 glob2(Char *, Char *, Char *, Char *, Char *, Char *,
+static int	 g_Ctoc(const char *, char *, size_t);
+static int	 g_lstat(char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
+static MY_DIR	*g_opendir(char *, SPVM_SYS_IO_GLOB *);
+static char	*g_strchr(char *, int);
+static int	 g_stat(char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
+static int	 glob0(const char *, SPVM_SYS_IO_GLOB *);
+static int	 glob1(char *, char *, SPVM_SYS_IO_GLOB *, size_t *);
+static int	 glob2(char *, char *, char *, char *, char *, char *,
                        SPVM_SYS_IO_GLOB *, size_t *);
-static int	 glob3(Char *, Char *, Char *, Char *, Char *,
-                       Char *, Char *, SPVM_SYS_IO_GLOB *, size_t *);
-static int	 globextend(const Char *, SPVM_SYS_IO_GLOB *, size_t *);
-static int	 globexp1(const Char *, SPVM_SYS_IO_GLOB *);
-static int	 globexp2(const Char *, const Char *, SPVM_SYS_IO_GLOB *, int32_t *);
-static int	 match(Char *, Char *, Char *, int);
+static int	 glob3(char *, char *, char *, char *, char *,
+                       char *, char *, SPVM_SYS_IO_GLOB *, size_t *);
+static int	 globextend(const char *, SPVM_SYS_IO_GLOB *, size_t *);
+static int	 globexp1(const char *, SPVM_SYS_IO_GLOB *);
+static int	 globexp2(const char *, const char *, SPVM_SYS_IO_GLOB *, int32_t *);
+static int	 match(char *, char *, char *, int);
 
 int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB* pglob) {
         const uint8_t *patnext;
         int32_t c;
-        Char *bufnext, *bufend, patbuf[MAXPATHLEN];
+        char *bufnext, *bufend, patbuf[MAXPATHLEN];
         patnext = (uint8_t *) pattern;
         /* TODO: SPVM_SYS_IO_GLOB_C_APPEND / SPVM_SYS_IO_GLOB_C_DOOFFS aren't supported yet */
 #if 0
@@ -347,16 +345,16 @@ my_strlcpy(char *dst, const char *src, size_t siz)
  * characters
  */
 static int
-globexp1(const Char *pattern, SPVM_SYS_IO_GLOB *pglob)
+globexp1(const char *pattern, SPVM_SYS_IO_GLOB *pglob)
 {
-        const Char* ptr = pattern;
+        const char* ptr = pattern;
         int32_t rv;
 
         /* Protect a single {}, for find(1), like csh */
         if (pattern[0] == BG_LBRACE && pattern[1] == BG_RBRACE && pattern[2] == BG_EOS)
                 return glob0(pattern, pglob);
 
-        while ((ptr = (const Char *) g_strchr((Char *) ptr, BG_LBRACE)) != NULL)
+        while ((ptr = (const char *) g_strchr((char *) ptr, BG_LBRACE)) != NULL)
                 if (!globexp2(ptr, pattern, pglob, &rv))
                         return rv;
 
@@ -370,13 +368,13 @@ globexp1(const Char *pattern, SPVM_SYS_IO_GLOB *pglob)
  * If it fails then it tries to glob the rest of the pattern and returns.
  */
 static int
-globexp2(const Char *ptr, const Char *pattern,
+globexp2(const char *ptr, const char *pattern,
          SPVM_SYS_IO_GLOB *pglob, int32_t *rv)
 {
         int32_t     i;
-        Char   *lm, *ls;
-        const Char *pe, *pm, *pm1, *pl;
-        Char    patbuf[MAXPATHLEN];
+        char   *lm, *ls;
+        const char *pe, *pm, *pm1, *pl;
+        char    patbuf[MAXPATHLEN];
 
         /* copy part up to the brace */
         for (lm = patbuf, pm = pattern; pm != ptr; *lm++ = *pm++)
@@ -475,11 +473,11 @@ globexp2(const Char *ptr, const Char *pattern,
  * to find no matches.
  */
 static int
-glob0(const Char *pattern, SPVM_SYS_IO_GLOB *pglob)
+glob0(const char *pattern, SPVM_SYS_IO_GLOB *pglob)
 {
-        const Char *qpat, *qpatnext;
+        const char *qpat, *qpatnext;
         int32_t c, err, oldflags, oldpathc;
-        Char *bufnext, patbuf[MAXPATHLEN];
+        char *bufnext, patbuf[MAXPATHLEN];
         size_t limit = 0;
 
         qpat = pattern;
@@ -496,7 +494,7 @@ glob0(const Char *pattern, SPVM_SYS_IO_GLOB *pglob)
                         if (c == BG_NOT)
                                 ++qpatnext;
                         if (*qpatnext == BG_EOS ||
-                            g_strchr((Char *) qpatnext+1, BG_RBRACKET) == NULL) {
+                            g_strchr((char *) qpatnext+1, BG_RBRACKET) == NULL) {
                                 *bufnext++ = BG_LBRACKET;
                                 if (c == BG_NOT)
                                         --qpatnext;
@@ -595,9 +593,9 @@ compare(const void *p, const void *q)
 }
 
 static int
-glob1(Char *pattern, Char *pattern_last, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
+glob1(char *pattern, char *pattern_last, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
 {
-        Char pathbuf[MAXPATHLEN];
+        char pathbuf[MAXPATHLEN];
 
         assert(pattern < pattern_last);
 
@@ -615,11 +613,11 @@ glob1(Char *pattern, Char *pattern_last, SPVM_SYS_IO_GLOB *pglob, size_t *limitp
  * meta characters.
  */
 static int
-glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
-      Char *pattern, Char *pattern_last, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
+glob2(char *pathbuf, char *pathbuf_last, char *pathend, char *pathend_last,
+      char *pattern, char *pattern_last, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
 {
         MY_STAT sb;
-        Char *p, *q;
+        char *p, *q;
         int32_t anymeta;
 
         assert(pattern < pattern_last);
@@ -691,9 +689,9 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 }
 
 static int
-glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
-      Char *pattern,
-      Char *restpattern, Char *restpattern_last, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
+glob3(char *pathbuf, char *pathbuf_last, char *pathend, char *pathend_last,
+      char *pattern,
+      char *restpattern, char *restpattern_last, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
 {
         MY_DIR *dp;
         DIR *dirp;
@@ -728,7 +726,7 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
         readdirfunc = (MY_DIR *(*)(DIR *))PerlDir_read;
         while ((dp = (*readdirfunc)(dirp))) {
                 uint8_t *sc;
-                Char *dc;
+                char *dc;
 
                 /* Initial BG_DOT must be matched literally. */
                 if (dp->d_name[0] == BG_DOT && *pattern != BG_DOT)
@@ -774,13 +772,13 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
  *	gl_pathv points to (gl_offs + gl_pathc + 1) items.
  */
 static int
-globextend(const Char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
+globextend(const char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
 {
         char **pathv;
         int32_t i;
         size_t newsize, len;
         char *copy;
-        const Char *p;
+        const char *p;
 
         newsize = sizeof(*pathv) * (2 + pglob->gl_pathc + pglob->gl_offs);
         if (pglob->gl_pathv)
@@ -845,12 +843,12 @@ globextend(const Char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
  *
  */
 static int
-match(Char *name, Char *pat, Char *patend, int32_t nocase)
+match(char *name, char *pat, char *patend, int32_t nocase)
 {
         int32_t ok, negate_range;
-        Char c, k;
-        Char *nextp = NULL;
-        Char *nextn = NULL;
+        char c, k;
+        char *nextp = NULL;
+        char *nextn = NULL;
 
     redo:
         while (pat < patend) {
@@ -915,7 +913,7 @@ match(Char *name, Char *pat, Char *patend, int32_t nocase)
 }
 
 static MY_DIR*
-g_opendir(Char *str, SPVM_SYS_IO_GLOB *pglob)
+g_opendir(char *str, SPVM_SYS_IO_GLOB *pglob)
 {
         char buf[MAXPATHLEN];
 
@@ -930,7 +928,7 @@ g_opendir(Char *str, SPVM_SYS_IO_GLOB *pglob)
 }
 
 static int
-g_lstat(Char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
+g_lstat(char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
 {
         char buf[MAXPATHLEN];
 
@@ -944,7 +942,7 @@ g_lstat(Char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
 }
 
 static int
-g_stat(Char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
+g_stat(char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
 {
         char buf[MAXPATHLEN];
 
@@ -953,8 +951,8 @@ g_stat(Char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
         return(PerlLIO_stat(buf, sb));
 }
 
-static Char *
-g_strchr(Char *str, int32_t ch)
+static char *
+g_strchr(char *str, int32_t ch)
 {
         do {
                 if (*str == ch)
@@ -964,7 +962,7 @@ g_strchr(Char *str, int32_t ch)
 }
 
 static int
-g_Ctoc(const Char *str, char *buf, size_t len)
+g_Ctoc(const char *str, char *buf, size_t len)
 {
         while (len--) {
                 if ((*buf++ = (char)*str++) == BG_EOS)
