@@ -12,19 +12,76 @@ use SPVM 'TestCase::Sys::IO::Glob';
 
 my $test_dir = "t/ftest/glob/basic";
 
-is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$test_dir/foo.txt")->to_strings, [glob("$test_dir/foo.txt")]);
+# Exact match file
+{
+  my $pattern = "$test_dir/foo.txt";
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+  
+  is(@$got, 1);
+  is_deeply($got, $expected);
+}
 
-is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$test_dir/foo")->to_strings, [glob("$test_dir/foo")]);
+# Path without extension
+{
+  my $pattern = "$test_dir/foo";
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+  
+  is(@$got, 1);
+  is_deeply($got, $expected);
+}
 
-is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$test_dir/?oo")->to_strings, [glob("$test_dir/?oo")]);
+# Wildcard '?'
+{
+  my $pattern = "$test_dir/?oo.txt";
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+  
+  is(@$got, 2); # foo.txt and boo.txt
+  is_deeply($got, $expected);
+}
 
-is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$test_dir/foo*")->to_strings, [glob("$test_dir/foo*")]);
+# Wildcard '*' at end
+{
+  my $pattern = "$test_dir/foo*";
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+  
+  is(@$got, 2);
+  is_deeply($got, $expected);
+}
 
-is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$test_dir/*")->to_strings, [glob("$test_dir/*")]);
+# Wildcard '*' all
+{
+  my $pattern = "$test_dir/*";
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+  
+  # Ensure we have at least 2 files (foo.txt, boo.txt)
+  ok(@$got >= 2);
+  is_deeply($got, $expected);
+}
 
-is_deeply(SPVM::Sys->glob("$test_dir/*")->to_strings, [glob("$test_dir/*")]);
+# Sys glob method
+{
+  my $pattern = "$test_dir/*";
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys->glob($pattern)->to_strings;
+  
+  ok(@$got >= 2);
+  is_deeply($got, $expected);
+}
 
-is_deeply(SPVM::Sys->glob("$test_dir/not_exists.txt")->to_strings, [glob("$test_dir/not_exists.txt")]);
+# Non-existent file (No meta-chars)
+{
+  my $pattern = "$test_dir/not_exists.txt";
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys->glob($pattern)->to_strings;
+  
+  is(@$got, 1);
+  is_deeply($got, $expected);
+}
 
 {
   my $pattern = "$test_dir/{f,b}oo.txt";
