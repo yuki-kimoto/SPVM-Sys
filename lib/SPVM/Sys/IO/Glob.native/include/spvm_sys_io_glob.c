@@ -131,11 +131,21 @@
 #if defined(_WIN32)
   typedef SPVM_SYS_WINDOWS_STAT MY_STAT;
 #else
-  #include <sys/stat.h>
   typedef struct stat MY_STAT;
 #endif
 
-typedef struct dirent MY_DIR;
+#if defined(_WIN32)
+  typedef SPVM_SYS_WINDOWS_DIR MY_DIR;
+#else
+  typedef DIR MY_DIR;
+#endif
+
+#if defined(_WIN32)
+  typedef SPVM_SYS_WINDOWS_WDIRENT MY_DIRENT;
+#else
+  #include <dirent.h>
+  typedef struct dirent MY_DIRENT;
+#endif
 
 static void* my_realloc(SPVM_ENV* env, SPVM_VALUE* stack, void* ptr, size_t n, size_t size);
 
@@ -147,7 +157,7 @@ static MY_DIR* my_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* dir);
 
 static int32_t my_closedir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dir_stream);
 
-MY_DIR* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp);
+static MY_DIRENT* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp);
 
 static int32_t my_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* file, MY_STAT* stat_info);
 
@@ -623,8 +633,10 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, char *pathbuf, char *pathbuf_last, char 
       char *pattern,
       char *restpattern, char *restpattern_last, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
 {
-        MY_DIR *dp;
-        DIR *dirp;
+        int32_t error_id = 0;
+        
+        MY_DIRENT *dp;
+        MY_DIR *dirp;
         int32_t err;
         int32_t nocase;
         char buf[MAXPATHLEN];
@@ -637,7 +649,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, char *pathbuf, char *pathbuf_last, char 
         *pathend = BG_EOS;
         errno = 0;
 
-        if ((dirp = (DIR*)g_opendir(env, stack, pathbuf, pglob)) == NULL) {
+        if ((dirp = (MY_DIR*)g_opendir(env, stack, pathbuf, pglob)) == NULL) {
                 return(0);
         }
 
@@ -649,11 +661,21 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, char *pathbuf, char *pathbuf_last, char 
                 uint8_t *sc;
                 char *dc;
 
+#if defined(_WIN32)
+                const WCHAR* d_name_w = dp->d_name;
+                const char* d_name = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, (WCHAR*)d_name_w, &error_id, __func__, __FILE__, __LINE__);
+                if (error_id) {
+                  break;
+                }
+#else
+                const char* d_name = dp->d_name;
+#endif
+
                 /* Initial BG_DOT must be matched literally. */
-                if (dp->d_name[0] == BG_DOT && *pattern != BG_DOT)
+                if (d_name[0] == BG_DOT && *pattern != BG_DOT)
                         continue;
                 dc = pathend;
-                sc = (uint8_t *) dp->d_name;
+                sc = (uint8_t *) d_name;
                 while (dc < pathend_last && (*dc++ = *sc++) != BG_EOS)
                         ;
                 if (dc >= pathend_last) {
@@ -897,17 +919,27 @@ static void my_free(SPVM_ENV* env, SPVM_VALUE* stack, void* ptr) {
 }
 
 static MY_DIR* my_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* dir) {
-  
-  return (MY_DIR*)opendir(dir);
+#ifdef _WIN32
+  return spvm_sys_windows_opendir(env, stack, dir);
+#else 
+  return opendir(dir);
+#endif
 }
 
 static int32_t my_closedir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dir_stream) {
-  
-  return closedir((DIR*)dir_stream);
+#ifdef _WIN32
+  return spvm_sys_windows_closedir(env, stack, dir_stream);
+#else 
+  return closedir(dir_stream);
+#endif
 }
 
-MY_DIR* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp) {
-  return readdir((DIR*)dirp);
+static MY_DIRENT* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp) {
+#ifdef _WIN32
+  return spvm_sys_windows_readdir(env, stack, dirp);
+#else 
+  return readdir(dirp);
+#endif
 }
 
 static int32_t my_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* file, MY_STAT* stat_info) {
