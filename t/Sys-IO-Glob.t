@@ -174,6 +174,10 @@ if ($^O eq 'MSWin32') {
     is($got->[0], $file);
   }
 
+  {
+    my $tmp_dir = File::Temp->newdir;
+    ok(SPVM::TestCase::Sys::IO::Glob->unicode_folding("$tmp_dir"));
+  }
 }
 else {
   diag("[Test Skip]Skipping Windows-specific separator tests on $^O");

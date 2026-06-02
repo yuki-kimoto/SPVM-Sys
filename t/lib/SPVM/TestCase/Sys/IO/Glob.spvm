@@ -1,3 +1,36 @@
 class TestCase::Sys::IO::Glob {
-
+  use Sys::IO::Glob;
+  use Fn;
+  
+  static method unicode_folding : int ($tmp_dir : string) {
+    my $file = "$tmp_dir/Straße.txt";
+    
+    Fn->defer([$file : string] method : void () {
+      eval { Sys->unlink($file); }
+    });
+    
+    Sys->open(my $_ = new Sys::IO::FileStream[1], ">", $file);
+    Sys->close($_->[0]);
+    
+    {
+      my $pattern = "$tmp_dir/STRAẞE.TXT";
+      my $results = Sys::IO::Glob->bsd_glob($pattern);
+      
+      unless (@$results == 1) {
+        diag;
+        return 0;
+      }
+    }
+    
+    {
+      my $pattern = "$tmp_dir/strasse.txt";
+      my $results = Sys::IO::Glob->bsd_glob($pattern);
+      unless (@$results == 1) {
+        diag;
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }
