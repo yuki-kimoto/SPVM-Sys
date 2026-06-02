@@ -2,6 +2,8 @@ use Test::More;
 
 use strict;
 use warnings;
+use utf8;
+
 use File::Spec;
 use FindBin;
 use lib "$FindBin::Bin/lib";
@@ -12,8 +14,6 @@ use SPVM 'Sys::IO::Glob';
 use SPVM 'TestCase::Sys::IO::Glob';
 
 my $test_dir = "t/ftest/glob/basic";
-
-my $tmp_dir = File::Temp->newdir;
 
 # Exact match file
 {
@@ -121,6 +121,8 @@ my $tmp_dir = File::Temp->newdir;
 
 # Quote special chars
 {
+  my $tmp_dir = File::Temp->newdir;
+
   my $special_file = "$tmp_dir/foo-bar.txt";
   open my $fh, '>', $special_file; close $fh;
 
@@ -134,21 +136,28 @@ my $tmp_dir = File::Temp->newdir;
 }
 
 if ($^O eq 'MSWin32') {
-  my $win_test_dir = $test_dir;
-  $win_test_dir =~ s/\//\\/g;
-  
-  is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$win_test_dir\\foo.txt")->to_strings, [glob("$win_test_dir\\foo.txt")]);
-  is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$win_test_dir\\*")->to_strings, [glob("$win_test_dir\\*")]);
-  
   {
-    my $results = SPVM::Sys::IO::Glob->bsd_glob("$win_test_dir\\f*.txt")->to_strings;
-    my @expected = grep { $_ =~ /^foo\.txt$/i } map { s/.*\\//r } glob("$win_test_dir\\*");
-    ok(scalar @$results > 0);
+    my $pattern = "$test_dir\\foo*";
+    my $expected = [glob($pattern)];
+    my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+    
+    is(@$got, 2);
+    is_deeply($got, $expected);
   }
   
+  # Special characters quote test
   {
-    my $results = SPVM::Sys::IO::Glob->bsd_glob("$win_test_dir\\FOO.txt")->to_strings;
-    ok(scalar @$results > 0);
+    my $tmp_dir = File::Temp->newdir;
+    
+    my $special_file = "$tmp_dir/foo-bar.txt";
+    { open my $fh, '>', $special_file; close $fh; } # create file
+
+    my $pattern = "$tmp_dir/foo\\-bar.txt";
+    my $expected = [glob($pattern)];
+    my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+
+    is(@$got, 1);
+    is_deeply($got, $expected);
   }
   
 }
