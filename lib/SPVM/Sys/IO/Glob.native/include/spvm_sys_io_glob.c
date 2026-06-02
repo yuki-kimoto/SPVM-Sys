@@ -115,7 +115,7 @@
 #define BG_RANGE        '-'
 #define BG_RBRACKET     ']'
 #define BG_SEP  '/'
-#ifdef DOSISH
+#ifdef _WIN32
 #define BG_SEP2		'\\'
 #endif
 #define BG_STAR         '*'
@@ -227,7 +227,7 @@ int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_I
 
         bufnext = patbuf;
         bufend = bufnext + MAXPATHLEN - 1;
-#ifdef DOSISH
+#ifdef _WIN32
         /* Nasty hack to treat patterns like "C:*" correctly. In this
          * case, the * should match any file in the current directory
          * on the C: drive. However, the glob code does not treat the
@@ -251,7 +251,7 @@ int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_I
                 /* Protect the quoted characters. */
                 while (bufnext < bufend && (c = *patnext++) != BG_EOS)
                         if (c == BG_QUOTE) {
-#ifdef DOSISH
+#ifdef _WIN32
                                     /* To avoid backslashitis on Win32,
                                      * we only treat \ as a quoting character
                                      * if it precedes one of the
@@ -634,7 +634,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 
                         if (((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_MARK) &&
                             pathend[-1] != BG_SEP
-#ifdef DOSISH
+#ifdef _WIN32
                             && pathend[-1] != BG_SEP2
 #endif
                             ) && (S_ISDIR(sb.st_mode) ||
@@ -657,7 +657,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
                 q = pathend;
                 p = pattern;
                 while (*p != BG_EOS && *p != BG_SEP
-#ifdef DOSISH
+#ifdef _WIN32
                        && *p != BG_SEP2
 #endif
                        ) {
@@ -673,7 +673,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
                         pathend = q;
                         pattern = p;
                         while (*pattern == BG_SEP
-#ifdef DOSISH
+#ifdef _WIN32
                                || *pattern == BG_SEP2
 #endif
                                ) {
