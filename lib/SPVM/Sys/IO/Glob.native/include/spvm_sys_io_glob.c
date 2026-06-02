@@ -168,8 +168,6 @@ static int32_t my_lstat(const char* file, MY_STAT* stat_info);
 
 MY_DIR* PerlDir_read(MY_DIR* dirp);
 
-static char my_tolower(char ch);
-
 static int   compare(const void *, const void *);
 static int   ci_compare(const void *, const void *);
 static int   g_Ctoc(const char *, char *, size_t);
@@ -550,12 +548,12 @@ ci_compare(const void *p, const void *q)
         const char *qq = *(const char **)q;
         int32_t ci;
         while (*pp && *qq) {
-                if (my_tolower(*pp) != my_tolower(*qq))
+                if (tolower(*pp) != tolower(*qq))
                         break;
                 ++pp;
                 ++qq;
         }
-        ci = my_tolower(*pp) - my_tolower(*qq);
+        ci = tolower(*pp) - tolower(*qq);
         if (ci == 0)
                 return compare(p, q);
         return ci;
@@ -980,6 +978,3 @@ static int32_t my_lstat(const char* file, MY_STAT* stat_info) {
 #endif
 }
 
-static char my_tolower(char ch) {
-  return tolower((unsigned char)(ch));
-}
