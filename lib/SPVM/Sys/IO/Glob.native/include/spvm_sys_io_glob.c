@@ -1,24 +1,6 @@
 // Copyright (c) 2023 Yuki Kimoto
 // MIT License
 
-#include <sys/stat.h>
-#include <sys/types.h>
-
-#include <errno.h>
-#include <stdlib.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-
-#include <dirent.h>
-#include <ctype.h>
-#include <errno.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-#include <unistd.h>
-
 // Originally copied from https://github.com/Perl/perl5/blob/v5.42.2/ext/File-Glob/bsd_glob.c
 
 /*
@@ -53,13 +35,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char sccsid[] = "@(#)glob.c	8.3 (Berkeley) 10/13/93";
-/* most changes between the version above and the one below have been ported:
-static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
- */
-#endif /* LIBC_SCCS and not lint32_t */
-
 /*
  * glob(3) -- a superset of the one defined in POSIX 1003.2.
  *
@@ -86,6 +61,24 @@ static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
  *	order
  */
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#include <errno.h>
+#include <stdlib.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <dirent.h>
+#include <ctype.h>
+#include <errno.h>
+#include <limits.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include <unistd.h>
+
 #include "spvm_sys_io_glob.h"
 
 #ifndef MAXPATHLEN
@@ -95,8 +88,6 @@ static char sscsid[]=  "$OpenBSD: glob.c,v 1.8.10.1 2001/04/10 jason Exp $";
 #    define MAXPATHLEN  1024
 #  endif
 #endif
-
-#include <limits.h>
 
 #ifndef ARG_MAX
 #  ifdef _SC_ARG_MAX
