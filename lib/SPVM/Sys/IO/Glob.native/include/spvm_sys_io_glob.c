@@ -197,8 +197,10 @@ static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info) {
 
 MY_DIR* PerlDir_read(MY_DIR* dirp);
 
-// Functions defined in perl.h
-// [TODO]Must support Unicode folding in the future
+static char toFOLD_v2(char ch) {
+  return tolower((unsigned char)(ch));
+}
+
 #define toFOLD(ch) tolower((unsigned char)(ch))
 
 #ifndef S_IFLNK
@@ -589,12 +591,12 @@ ci_compare(const void *p, const void *q)
         const char *qq = *(const char **)q;
         int32_t ci;
         while (*pp && *qq) {
-                if (toFOLD(*pp) != toFOLD(*qq))
+                if (toFOLD_v2(*pp) != toFOLD_v2(*qq))
                         break;
                 ++pp;
                 ++qq;
         }
-        ci = toFOLD(*pp) - toFOLD(*qq);
+        ci = toFOLD_v2(*pp) - toFOLD_v2(*qq);
         if (ci == 0)
                 return compare(p, q);
         return ci;
