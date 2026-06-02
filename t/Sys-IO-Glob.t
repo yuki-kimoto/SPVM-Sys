@@ -26,6 +26,16 @@ is_deeply(SPVM::Sys->glob("$test_dir/*")->to_strings, [glob("$test_dir/*")]);
 
 is_deeply(SPVM::Sys->glob("$test_dir/not_exists.txt")->to_strings, [glob("$test_dir/not_exists.txt")]);
 
+{
+  my $pattern = "$test_dir/{f,b}oo.txt";
+  
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+  
+  is(@$got, 2);
+  is_deeply($got, $expected);
+}
+
 if ($^O eq 'MSWin32') {
   my $win_test_dir = $test_dir;
   $win_test_dir =~ s/\//\\/g;
