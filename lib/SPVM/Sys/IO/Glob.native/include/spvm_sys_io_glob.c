@@ -595,20 +595,6 @@ glob2(char *pathbuf, char *pathbuf_last, char *pathend, char *pathend_last,
                         if (g_lstat(pathbuf, &sb, pglob))
                                 return(0);
 
-                        if (((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_MARK) &&
-                            pathend[-1] != BG_SEP
-#ifdef _WIN32
-                            && pathend[-1] != BG_SEP2
-#endif
-                            ) && (S_ISDIR(sb.st_mode) ||
-                                  (S_ISLNK(sb.st_mode) &&
-                            (g_stat(pathbuf, &sb, pglob) == 0) &&
-                            S_ISDIR(sb.st_mode)))) {
-                                if (pathend+1 > pathend_last)
-                                        return (1);
-                                *pathend++ = BG_SEP;
-                                *pathend = BG_EOS;
-                        }
                         ++pglob->gl_matchc;
                         return(globextend(pathbuf, pglob, limitp));
                 }
