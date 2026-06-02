@@ -238,7 +238,7 @@ int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_I
                                         c = BG_QUOTE;
                                         --patnext;
                                 }
-                                *bufnext++ = c | M_PROTECT;
+                                *bufnext++ = c;
                         } else
                                 *bufnext++ = c;
         } else

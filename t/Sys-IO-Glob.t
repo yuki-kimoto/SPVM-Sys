@@ -5,12 +5,15 @@ use warnings;
 use File::Spec;
 use FindBin;
 use lib "$FindBin::Bin/lib";
+use File::Temp;
 
 use SPVM 'Sys';
 use SPVM 'Sys::IO::Glob';
 use SPVM 'TestCase::Sys::IO::Glob';
 
 my $test_dir = "t/ftest/glob/basic";
+
+my $tmp_dir = File::Temp->newdir;
 
 # Exact match file
 {
@@ -90,6 +93,24 @@ my $test_dir = "t/ftest/glob/basic";
   my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
   
   is(@$got, 2);
+  is_deeply($got, $expected);
+}
+
+# Quote special chars
+{
+  # Create a file that actually has a '*' in its name
+  my $special_file = "$tmp_dir/foo*bar.txt";
+  open my $fh, '>', $special_file; close $fh;
+  
+  # Pattern to match the specific file using backslash escape
+  my $pattern = "$tmp_dir/foo\\*bar.*";
+  
+  # Perl's glob handles backslash escaping
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+  
+  # The escape must result in exactly 1 file match
+  is(@$got, 1);
   is_deeply($got, $expected);
 }
 
