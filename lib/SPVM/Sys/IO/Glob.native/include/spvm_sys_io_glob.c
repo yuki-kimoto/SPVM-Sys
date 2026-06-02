@@ -781,74 +781,97 @@ globextend(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, SPVM_SYS_IO_GLOB 
  *  ("a" x 100) . "x"
  *
  */
-static int
-match(SPVM_ENV* env, SPVM_VALUE* stack, char *name, char *pat, char *patend, int32_t nocase)
+#include <utf8proc.h>
+
+#include <utf8proc.h>
+
+static int match(SPVM_ENV* env, SPVM_VALUE* stack, char *name, char *pat, char *patend, int32_t nocase)
 {
-        int32_t ok, negate_range;
-        char c, k;
-        char *nextp = NULL;
-        char *nextn = NULL;
+  char *name_start = name;
+  char *pat_start = pat;
 
-    redo:
-        while (pat < patend) {
-                c = *pat++;
-                switch (c & M_MASK) {
-                case M_ALL:
-                        if (pat == patend)
-                                return(1);
-                        if (*name == BG_EOS)
-                                return 0;
-                        nextn = name + 1;
-                        nextp = pat - 1;
-                        break;
-                case M_ONE:
-                        /* since * matches leftmost-shortest first   *
-                         * if we encounter the EOS then backtracking *
-                         * will not help, so we can exit early here. */
-                        if (*name++ == BG_EOS)
-                                return 0;
-                        break;
-                case M_SET:
-                        ok = 0;
-                        /* since * matches leftmost-shortest first   *
-                         * if we encounter the EOS then backtracking *
-                         * will not help, so we can exit early here. */
-                        if ((k = *name++) == BG_EOS)
-                                return 0;
-                        if ((negate_range = ((*pat & M_MASK) == M_NOT)) != BG_EOS)
-                                ++pat;
-                        while (((c = *pat++) & M_MASK) != M_END)
-                                if ((*pat & M_MASK) == M_RNG) {
-                                        if (nocase) {
-                                                if (tolower(c) <= tolower(k) && tolower(k) <= tolower(pat[1]))
-                                                        ok = 1;
-                                        } else {
-                                                if (c <= k && k <= pat[1])
-                                                        ok = 1;
-                                        }
-                                        pat += 2;
-                                } else if (nocase ? (tolower(c) == tolower(k)) : (c == k))
-                                        ok = 1;
-                        if (ok == negate_range)
-                                goto fail;
-                        break;
-                default:
-                        k = *name++;
-                        if (nocase ? (tolower(k) != tolower(c)) : (k != c))
-                                goto fail;
-                        break;
-                }
-        }
-        if (*name == BG_EOS)
-                return 1;
+  // Track backtracking positions
+  char *nextn = NULL;
+  char *nextp = NULL;
 
-    fail:
-        if (nextn) {
-                pat = nextp;
-                name = nextn;
-                goto redo;
+  while (1) {
+    if (pat >= patend) {
+      if (*name == BG_EOS) return 1;
+      goto fail;
+    }
+
+    char c = *pat++;
+    switch (c & M_MASK) {
+      case M_ALL:
+        // Match 0 or more characters
+        nextn = name;
+        nextp = pat;
+        continue;
+
+      case M_ONE: {
+        utf8proc_int32_t cp;
+        utf8proc_ssize_t size = utf8proc_iterate((const utf8proc_uint8_t*)name, -1, &cp);
+        if (size <= 0 || cp == 0) goto fail;
+        name += size;
+        continue;
+      }
+
+      case M_SET: {
+        utf8proc_int32_t cp_name;
+        utf8proc_ssize_t size = utf8proc_iterate((const utf8proc_uint8_t*)name, -1, &cp_name);
+        if (size <= 0 || cp_name == 0) goto fail;
+        
+        int ok = 0;
+        int negate = ((*pat & M_MASK) == M_NOT);
+        if (negate) pat++;
+
+        utf8proc_int32_t cp_name_lower = nocase ? utf8proc_tolower(cp_name) : cp_name;
+
+        while (((c = *pat++) & M_MASK) != M_END) {
+          utf8proc_int32_t cp_c = (utf8proc_uint8_t)c;
+          if ((*pat & M_MASK) == M_RNG) {
+            utf8proc_int32_t cp_next = (utf8proc_uint8_t)pat[1];
+            if (nocase) {
+              if (utf8proc_tolower(cp_c) <= cp_name_lower && cp_name_lower <= utf8proc_tolower(cp_next)) ok = 1;
+            } else {
+              if (cp_c <= cp_name && cp_name <= cp_next) ok = 1;
+            }
+            pat += 2;
+          } else {
+            if (nocase ? (utf8proc_tolower(cp_c) == cp_name_lower) : (cp_c == cp_name)) ok = 1;
+          }
         }
-        return 0;
+        if (ok == negate) goto fail;
+        name += size;
+        continue;
+      }
+
+      default: {
+        utf8proc_int32_t cp_name;
+        utf8proc_ssize_t size = utf8proc_iterate((const utf8proc_uint8_t*)name, -1, &cp_name);
+        if (size <= 0) goto fail;
+        
+        utf8proc_int32_t cp_pat = (utf8proc_uint8_t)c;
+        if (nocase ? (utf8proc_tolower(cp_name) != utf8proc_tolower(cp_pat)) : (cp_name != cp_pat)) goto fail;
+        
+        name += size;
+        continue;
+      }
+    }
+
+  fail:
+    if (nextn != NULL && *nextn != BG_EOS) {
+      // Backtrack: skip one character in the name and try again
+      utf8proc_int32_t cp;
+      utf8proc_ssize_t size = utf8proc_iterate((const utf8proc_uint8_t*)nextn, -1, &cp);
+      if (size <= 0) return 0;
+      nextn += size;
+      name = nextn;
+      pat = nextp;
+      continue;
+    }
+    return 0;
+  }
 }
 
 static MY_DIR*

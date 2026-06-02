@@ -139,6 +139,18 @@ if ($^O eq 'MSWin32') {
   
   is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$win_test_dir\\foo.txt")->to_strings, [glob("$win_test_dir\\foo.txt")]);
   is_deeply(SPVM::Sys::IO::Glob->bsd_glob("$win_test_dir\\*")->to_strings, [glob("$win_test_dir\\*")]);
+  
+  {
+    my $results = SPVM::Sys::IO::Glob->bsd_glob("$win_test_dir\\f*.txt")->to_strings;
+    my @expected = grep { $_ =~ /^foo\.txt$/i } map { s/.*\\//r } glob("$win_test_dir\\*");
+    ok(scalar @$results > 0);
+  }
+  
+  {
+    my $results = SPVM::Sys::IO::Glob->bsd_glob("$win_test_dir\\FOO.txt")->to_strings;
+    ok(scalar @$results > 0);
+  }
+  
 }
 else {
   diag("[Test Skip]Skipping Windows-specific separator tests on $^O");
