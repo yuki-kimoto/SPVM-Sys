@@ -126,14 +126,6 @@
 #define M_SET           META('[')
 #define ismeta(c)       (((c)&M_QUOTE) != 0)
 
-#ifndef S_IFLNK
-#  define S_IFLNK 0120000
-#endif
-
-#ifndef S_ISLNK
-#  define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
-#endif
-
 typedef struct stat MY_STAT;
 typedef struct dirent MY_DIR;
 

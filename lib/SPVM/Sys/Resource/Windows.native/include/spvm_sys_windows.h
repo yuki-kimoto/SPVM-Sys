@@ -90,7 +90,10 @@
   #define S_IFLNK 0120000
 #endif
 
-/* Socket (Manually defined for Windows) */
+#ifndef S_ISLNK
+#  define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
+#endif
+
 #ifndef S_IFSOCK
   #define S_IFSOCK 0140000
 #endif
