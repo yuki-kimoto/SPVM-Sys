@@ -43,6 +43,7 @@
 #include <errno.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <sys/stat.h>
 
 #include <time.h>
 #ifndef CLOCK_REALTIME
@@ -162,7 +163,7 @@ typedef struct {
   long    d_ino;    /* Always zero. */
   unsigned short  d_reclen; /* Always zero. */
   unsigned short  d_namlen; /* Length of name in d_name. */
-  wchar_t   d_name[260]; /* [FILENAME_MAX] */ /* File name. */
+  WCHAR   d_name[260]; /* [FILENAME_MAX] */ /* File name. */
 } SPVM_SYS_WINDOWS_WDIRENT;
 
 // Copied from https://github.com/msys2-contrib/mingw-w64/blob/master/mingw-w64-headers/crt/dirent.h
@@ -187,13 +188,37 @@ typedef struct {
   int     dd_stat;
 
   /* given path for dir with search pattern (struct is extended) */
-  wchar_t     dd_name[1];
+  WCHAR     dd_name[1];
 } SPVM_SYS_WINDOWS_DIR;
 
 typedef struct {
   int tz_minuteswest; /* minutes west of Greenwich */
   int tz_dsttime;      /* type of dst correction */
 } SPVM_SYS_WINDOWS_TIMEZONE;
+
+// Exactly same as Perl's one in Win32.h
+typedef DWORD Dev_t;
+
+// Exactly same as Perl's one in Win32.h
+typedef unsigned __int64 Ino_t;
+
+// This is different from Perl's ones, but it must be defined well
+typedef uint64_t Off_t;
+
+// Exactly same as Perl's one in Win32.h
+typedef struct {
+  Dev_t st_dev;
+  Ino_t st_ino;
+  unsigned short st_mode;
+  DWORD st_nlink;
+  short st_uid;
+  short st_gid;
+  Dev_t st_rdev;
+  Off_t st_size;
+  time_t st_atime;
+  time_t st_mtime;
+  time_t st_ctime;
+} SPVM_SYS_WINDOWS_STAT;
 
 #ifdef __cplusplus
 extern "C" {
@@ -203,37 +228,46 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
 
 const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
-void spvm_sys_windows_win_last_error_to_errno(int32_t default_errno);
+int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle);
 
-HANDLE spvm_sys_windows_CreateFileW_for_read(const WCHAR* path_w);
+int spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path);
 
-HANDLE spvm_sys_windows_CreateFileW_reparse_point_for_read(const WCHAR* path_w);
+SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* szPath);
 
-int32_t spvm_sys_windows_is_symlink_by_handle(HANDLE handle);
+SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
 
-int spvm_sys_windows_is_symlink(const WCHAR* path_w);
+int spvm_sys_windows_closedir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
 
-SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir (const wchar_t *szPath);
+void spvm_sys_windows_rewinddir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
 
-SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_SYS_WINDOWS_DIR * dirp);
+long spvm_sys_windows_telldir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp);
 
-int spvm_sys_windows_closedir (SPVM_SYS_WINDOWS_DIR * dirp);
+void spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp, long lPos);
 
-void spvm_sys_windows_rewinddir (SPVM_SYS_WINDOWS_DIR * dirp);
+int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t length);
 
-long spvm_sys_windows_telldir (SPVM_SYS_WINDOWS_DIR * dirp);
+unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int seconds);
 
-void spvm_sys_windows_seekdir (SPVM_SYS_WINDOWS_DIR * dirp, long lPos);
+int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec);
 
-int spvm_sys_windows_ftruncate(int fd, int64_t length);
+int spvm_sys_windows_gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack, struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
 
-unsigned int spvm_sys_windows_sleep(unsigned int seconds);
+int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clk_id, struct timespec *ts);
 
-int spvm_sys_windows_usleep(unsigned int usec);
+int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT *st_stat);
 
-int spvm_sys_windows_gettimeofday (struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
+int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat);
 
-int spvm_sys_windows_clock_gettime(int clk_id, struct timespec *ts);
+int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat);
+
+// Utilitiies
+HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag);
+
+HANDLE spvm_sys_windows_util_CreateFileW_for_read(const WCHAR* path_w);
+
+HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* path_w);
+
+void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno);
 
 #ifdef __cplusplus
 } // extern "C"
