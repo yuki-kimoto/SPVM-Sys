@@ -80,6 +80,8 @@
 // Removed future release for MSVC
 #include <dirent.h>
 
+#include "spvm_native.h"
+
 #include "spvm_sys_io_glob.h"
 
 #ifndef MAXPATHLEN
