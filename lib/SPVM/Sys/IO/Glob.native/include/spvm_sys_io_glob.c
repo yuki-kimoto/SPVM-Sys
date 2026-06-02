@@ -186,6 +186,15 @@ static int32_t PerlLIO_stat_v2(const char* file, MY_STAT* stat_info) {
 
 #define PerlLIO_stat(file, stat_info) stat(file, stat_info)
 
+static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info) {
+  
+#ifdef _WIN32
+  return stat(file, stat_info);
+#else 
+  return lstat(file, stat_info);
+#endif
+}
+
 MY_DIR* PerlDir_read(MY_DIR* dirp);
 
 // Functions defined in perl.h
@@ -939,11 +948,7 @@ g_lstat(char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
 
         if (g_Ctoc(fn, buf, sizeof(buf)))
                 return(-1);
-#ifdef HAS_LSTAT
-        return(PerlLIO_lstat(buf, sb));
-#else
-        return(PerlLIO_stat_v2(buf, sb));
-#endif /* HAS_LSTAT */
+        return(PerlLIO_lstat_v2(buf, sb));
 }
 
 static int
