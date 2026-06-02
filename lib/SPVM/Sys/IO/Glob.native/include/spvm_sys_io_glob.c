@@ -61,23 +61,24 @@
  *	order
  */
 
-#include <sys/stat.h>
-#include <sys/types.h>
-
-#include <errno.h>
-#include <stdlib.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-
-#include <dirent.h>
+#include <stdint.h>
 #include <ctype.h>
-#include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
-#include <stdint.h>
+#include <errno.h>
 #include <string.h>
-#include <unistd.h>
+
+#if defined(_WIN32)
+  #include "spvm_sys_windows.h"
+#else
+  #include <sys/types.h>
+  #include <sys/stat.h>
+  #include <dirent.h>
+  #include <unistd.h>
+#endif
+
+// Removed future release for MSVC
+#include <dirent.h>
 
 #include "spvm_sys_io_glob.h"
 
