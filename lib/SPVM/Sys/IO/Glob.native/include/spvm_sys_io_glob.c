@@ -191,19 +191,9 @@ int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_I
         int32_t c;
         char *bufnext, *bufend, patbuf[MAXPATHLEN];
         patnext = (uint8_t *) pattern;
-        /* TODO: SPVM_SYS_IO_GLOB_C_APPEND / SPVM_SYS_IO_GLOB_C_DOOFFS aren't supported yet */
-#if 0
-        if (!(flags & SPVM_SYS_IO_GLOB_C_APPEND)) {
-                pglob->gl_pathc = 0;
-                pglob->gl_pathv = NULL;
-                if (!(flags & SPVM_SYS_IO_GLOB_C_DOOFFS))
-                        pglob->gl_offs = 0;
-        }
-#else
         pglob->gl_pathc = 0;
         pglob->gl_pathv = NULL;
         pglob->gl_offs = 0;
-#endif
         pglob->gl_flags = flags & ~SPVM_SYS_IO_GLOB_C_MAGCHAR;
         pglob->gl_matchc = 0;
 
