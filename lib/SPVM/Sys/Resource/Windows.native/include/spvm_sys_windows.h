@@ -85,17 +85,41 @@
   #define S_IFIFO 0010000
 #endif
 
+#ifndef S_IFSOCK
+  #define S_IFSOCK 0140000
+#endif
+
 /* Symbolic link (Manually defined for Windows) */
 #ifndef S_IFLNK
   #define S_IFLNK 0120000
 #endif
 
-#ifndef S_ISLNK
-#  define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
+#ifndef S_ISDIR
+  #define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
 #endif
 
-#ifndef S_IFSOCK
-  #define S_IFSOCK 0140000
+#ifndef S_ISCHR
+  #define S_ISCHR(m) (((m) & S_IFMT) == S_IFCHR)
+#endif
+
+#ifndef S_ISBLK
+  #define S_ISBLK(m) (((m) & S_IFMT) == S_IFBLK)
+#endif
+
+#ifndef S_ISREG
+  #define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
+#endif
+
+#ifndef S_ISFIFO
+  #define S_ISFIFO(m) (((m) & S_IFMT) == S_IFIFO)
+#endif
+
+#ifndef S_ISSOCK
+  #define S_ISSOCK(m) (((m) & S_IFMT) == S_IFSOCK)
+#endif
+
+#ifndef S_ISLNK
+  #define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
 #endif
 
 // Exactly same as Perl's one in sys/errno2.h
