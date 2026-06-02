@@ -154,6 +154,12 @@ static void* Renew_v2(void* ptr, size_t n, size_t size) {
 }
 
 #define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
+
+static void* Newx_v2(size_t n, size_t size) {
+  return malloc(n * size);
+}
+
+
 #define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
 
 #define PerlDir_close(dh) closedir(dh)
@@ -763,7 +769,7 @@ globextend(const Char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
         if (pglob->gl_pathv)
                 pathv = Renew_v2(pglob->gl_pathv,newsize,sizeof(char*));
         else
-                Newx(pathv,newsize,char*);
+                pathv = Newx_v2(newsize,sizeof(char*));
         if (pathv == NULL) {
                 if (pglob->gl_pathv) {
                         Safefree(pglob->gl_pathv);
@@ -784,7 +790,7 @@ globextend(const Char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
                 ;
         len = (size_t)(p - path);
         *limitp += len;
-        Newx(copy, p-path, char);
+        copy = Newx_v2(p-path, sizeof(char));
         if (copy != NULL) {
                 if (g_Ctoc(path, copy, len)) {
                         Safefree(copy);
