@@ -764,12 +764,6 @@ globextend(const char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
         }
         pathv[pglob->gl_offs + pglob->gl_pathc] = NULL;
 
-        if ((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_LIMIT) &&
-            newsize + *limitp >= (unsigned long)ARG_MAX) {
-                errno = 0;
-                return(SPVM_SYS_IO_GLOB_C_NOSPACE);
-        }
-
         return(copy == NULL ? SPVM_SYS_IO_GLOB_C_NOSPACE : 0);
 }
 

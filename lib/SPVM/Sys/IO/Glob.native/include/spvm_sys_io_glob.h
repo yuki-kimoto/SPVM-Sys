@@ -32,7 +32,7 @@ enum {
   SPVM_SYS_IO_GLOB_C_TILDE     = 0x0800,  /* Expand tilde names from the passwd file. (Not supported) */
   SPVM_SYS_IO_GLOB_C_NOCASE    = 0x1000,  /* Treat filenames without regard for case. */
   SPVM_SYS_IO_GLOB_C_ALPHASORT = 0x2000,  /* Alphabetic, not ASCII sort, like csh. */
-  SPVM_SYS_IO_GLOB_C_LIMIT     = 0x4000,  /* Limit pattern match output to ARG_MAX. */
+  SPVM_SYS_IO_GLOB_C_LIMIT     = 0x4000,  /* Limit pattern match output to ARG_MAX.  (Not supported) */
   SPVM_SYS_IO_GLOB_C_NOSPACE   = -1,      /* Malloc call failed. */
   SPVM_SYS_IO_GLOB_C_ABEND     = -2       /* Unignored error. */
 };
