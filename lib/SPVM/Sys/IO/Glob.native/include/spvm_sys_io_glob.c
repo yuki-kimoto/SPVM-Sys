@@ -141,11 +141,11 @@ static MY_DIR* my_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* dir);
 
 static int32_t my_closedir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dir_stream);
 
+MY_DIR* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp);
+
 static int32_t my_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* file, MY_STAT* stat_info);
 
 static int32_t my_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* file, MY_STAT* stat_info);
-
-MY_DIR* PerlDir_read(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp);
 
 static int   compare(const void *, const void *);
 static int   ci_compare(const void *, const void *);
@@ -244,10 +244,6 @@ void spvm_sys_io_glob_bsd_globfree(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_IO
                 my_free(env, stack, pglob->gl_pathv);
                 pglob->gl_pathv = NULL;
         }
-}
-
-MY_DIR* PerlDir_read(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp) {
-  return readdir((DIR*)dirp);
 }
 
 /*
@@ -643,7 +639,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, char *pathbuf, char *pathbuf_last, char 
         nocase = ((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_NOCASE) != 0);
 
         /* Search directory for matching names. */
-        while ((dp = PerlDir_read(env, stack, (MY_DIR*)dirp))) {
+        while ((dp = my_readdir(env, stack, (MY_DIR*)dirp))) {
                 uint8_t *sc;
                 char *dc;
 
@@ -902,6 +898,10 @@ static MY_DIR* my_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* dir) {
 static int32_t my_closedir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dir_stream) {
   
   return closedir((DIR*)dir_stream);
+}
+
+MY_DIR* my_readdir(SPVM_ENV* env, SPVM_VALUE* stack, MY_DIR* dirp) {
+  return readdir((DIR*)dirp);
 }
 
 static int32_t my_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* file, MY_STAT* stat_info) {
