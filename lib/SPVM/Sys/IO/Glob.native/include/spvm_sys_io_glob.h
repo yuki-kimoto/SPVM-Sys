@@ -70,7 +70,7 @@ enum {
   SPVM_SYS_IO_GLOB_C_ABEND     = -2       /* Unignored error. */
 };
 
-int spvm_sys_io_glob_bsd_glob(const char *, int, SPVM_SYS_IO_GLOB_GLOB_T *);
-void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB_GLOB_T *);
+int spvm_sys_io_glob_bsd_glob(const char* pattern, int flags, SPVM_SYS_IO_GLOB_GLOB_T* pglob);
+void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB_GLOB_T* pglob);
 
 #endif // SPVM_SYS_IO_GLOB_H

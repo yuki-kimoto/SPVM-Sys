@@ -19,37 +19,6 @@
 #include <string.h>
 #include <unistd.h>
 
-/*
- * Copy src to string dst of size siz.  At most siz-1 characters
- * will be copied.  Always NUL terminates (unless siz == 0).
- * Returns strlen(src); if retval >= siz, truncation occurred.
- */
-static size_t
-my_strlcpy(char *dst, const char *src, size_t siz)
-{
-  char *d = dst;
-  const char *s = src;
-  size_t n = siz;
-
-  /* Copy as many bytes as will fit */
-  if (n != 0) {
-    while (--n != 0) {
-      if ((*d++ = *s++) == '\0')
-        break;
-    }
-  }
-
-  /* Not enough room in dst, add NUL and traverse rest of src */
-  if (n == 0) {
-    if (siz != 0)
-      *d = '\0';    /* NUL-terminate dst */
-    while (*s++)
-      ;
-  }
-
-  return(s - src - 1);  /* count does not include NUL */
-}
-
 // Originally copied from https://github.com/Perl/perl5/blob/v5.42.2/ext/File-Glob/bsd_glob.c
 
 /*
@@ -244,13 +213,7 @@ static int	 match(Char *, Char *, Char *, int);
 static void	 qprintf(const char *, Char *);
 #endif /* SPVM_SYS_IO_GLOB_C_DEBUG */
 
-MY_DIR* PerlDir_read(MY_DIR* dirp) {
-  return readdir((DIR*)dirp);
-}
-
-int
-spvm_sys_io_glob_bsd_glob(const char *pattern, int flags, SPVM_SYS_IO_GLOB_GLOB_T *pglob)
-{
+int spvm_sys_io_glob_bsd_glob(const char* pattern, int flags, SPVM_SYS_IO_GLOB_GLOB_T* pglob) {
         const uint8_t *patnext;
         int c;
         Char *bufnext, *bufend, patbuf[MAXPATHLEN];
@@ -327,9 +290,7 @@ spvm_sys_io_glob_bsd_glob(const char *pattern, int flags, SPVM_SYS_IO_GLOB_GLOB_
 }
 
 /* Free allocated data belonging to a SPVM_SYS_IO_GLOB_GLOB_T structure. */
-void
-spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB_GLOB_T *pglob)
-{
+void spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB_GLOB_T* pglob) {
         int i;
         char **pp;
 
@@ -341,6 +302,41 @@ spvm_sys_io_glob_bsd_globfree(SPVM_SYS_IO_GLOB_GLOB_T *pglob)
                 Safefree(pglob->gl_pathv);
                 pglob->gl_pathv = NULL;
         }
+}
+
+MY_DIR* PerlDir_read(MY_DIR* dirp) {
+  return readdir((DIR*)dirp);
+}
+
+/*
+ * Copy src to string dst of size siz.  At most siz-1 characters
+ * will be copied.  Always NUL terminates (unless siz == 0).
+ * Returns strlen(src); if retval >= siz, truncation occurred.
+ */
+static size_t
+my_strlcpy(char *dst, const char *src, size_t siz)
+{
+  char *d = dst;
+  const char *s = src;
+  size_t n = siz;
+
+  /* Copy as many bytes as will fit */
+  if (n != 0) {
+    while (--n != 0) {
+      if ((*d++ = *s++) == '\0')
+        break;
+    }
+  }
+
+  /* Not enough room in dst, add NUL and traverse rest of src */
+  if (n == 0) {
+    if (siz != 0)
+      *d = '\0';    /* NUL-terminate dst */
+    while (*s++)
+      ;
+  }
+
+  return(s - src - 1);  /* count does not include NUL */
 }
 
 /*
