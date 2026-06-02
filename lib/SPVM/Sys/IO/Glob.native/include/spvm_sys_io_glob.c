@@ -148,6 +148,11 @@ typedef struct dirent MY_DIR;
 
 // Functions defined in perl.h
 #define Renew(ptr, n, type) ((ptr) = (type*)realloc((ptr), (size_t)((n) * sizeof(type))))
+
+static void* Renew_v2(void* ptr, size_t n, size_t size) {
+  return realloc(ptr, n * size);
+}
+
 #define Newx(ptr, n, type) ((ptr) = (type*)malloc((size_t)((n) * sizeof(type))))
 #define Safefree(ptr) ((ptr) ? (void)free((ptr)), (ptr) = NULL : (void)0)
 
@@ -756,7 +761,7 @@ globextend(const Char *path, SPVM_SYS_IO_GLOB *pglob, size_t *limitp)
 
         newsize = sizeof(*pathv) * (2 + pglob->gl_pathc + pglob->gl_offs);
         if (pglob->gl_pathv)
-                pathv = Renew(pglob->gl_pathv,newsize,char*);
+                pathv = Renew_v2(pglob->gl_pathv,newsize,sizeof(char*));
         else
                 Newx(pathv,newsize,char*);
         if (pathv == NULL) {
