@@ -168,65 +168,25 @@ static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info);
 
 MY_DIR* PerlDir_read(MY_DIR* dirp);
 
-static void* Renew_v2(void* ptr, size_t n, size_t size) {
-  return realloc(ptr, n * size);
-}
+static char toFOLD_v2(char ch);
 
-static void* Newx_v2(size_t n, size_t size) {
-  return malloc(n * size);
-}
-
-static void Safefree_v2(void* ptr) {
-  if (ptr) {
-    free(ptr);
-  }
-}
-
-static MY_DIR* PerlDir_open_v2(const char* dir) {
-  
-  return (MY_DIR*)opendir(dir);
-}
-
-static int32_t PerlDir_close_v2(MY_DIR* dir_stream) {
-  
-  return closedir((DIR*)dir_stream);
-}
-
-static int32_t PerlLIO_stat_v2(const char* file, MY_STAT* stat_info) {
-  
-  return stat(file, stat_info);
-}
-
-static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info) {
-  
-#ifdef _WIN32
-  return stat(file, stat_info);
-#else 
-  return lstat(file, stat_info);
-#endif
-}
-
-static char toFOLD_v2(char ch) {
-  return tolower((unsigned char)(ch));
-}
-
-static int	 compare(const void *, const void *);
-static int	 ci_compare(const void *, const void *);
-static int	 g_Ctoc(const char *, char *, size_t);
-static int	 g_lstat(char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
-static MY_DIR	*g_opendir(char *, SPVM_SYS_IO_GLOB *);
-static char	*g_strchr(char *, int);
-static int	 g_stat(char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
-static int	 glob0(const char *, SPVM_SYS_IO_GLOB *);
-static int	 glob1(char *, char *, SPVM_SYS_IO_GLOB *, size_t *);
-static int	 glob2(char *, char *, char *, char *, char *, char *,
+static int   compare(const void *, const void *);
+static int   ci_compare(const void *, const void *);
+static int   g_Ctoc(const char *, char *, size_t);
+static int   g_lstat(char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
+static MY_DIR *g_opendir(char *, SPVM_SYS_IO_GLOB *);
+static char *g_strchr(char *, int);
+static int   g_stat(char *, MY_STAT *, SPVM_SYS_IO_GLOB *);
+static int   glob0(const char *, SPVM_SYS_IO_GLOB *);
+static int   glob1(char *, char *, SPVM_SYS_IO_GLOB *, size_t *);
+static int   glob2(char *, char *, char *, char *, char *, char *,
                        SPVM_SYS_IO_GLOB *, size_t *);
-static int	 glob3(char *, char *, char *, char *, char *,
+static int   glob3(char *, char *, char *, char *, char *,
                        char *, char *, SPVM_SYS_IO_GLOB *, size_t *);
-static int	 globextend(const char *, SPVM_SYS_IO_GLOB *, size_t *);
-static int	 globexp1(const char *, SPVM_SYS_IO_GLOB *);
-static int	 globexp2(const char *, const char *, SPVM_SYS_IO_GLOB *, int32_t *);
-static int	 match(char *, char *, char *, int);
+static int   globextend(const char *, SPVM_SYS_IO_GLOB *, size_t *);
+static int   globexp1(const char *, SPVM_SYS_IO_GLOB *);
+static int   globexp2(const char *, const char *, SPVM_SYS_IO_GLOB *, int32_t *);
+static int   match(char *, char *, char *, int);
 
 int32_t spvm_sys_io_glob_bsd_glob(const char* pattern, int32_t flags, SPVM_SYS_IO_GLOB* pglob) {
         const uint8_t *patnext;
@@ -982,3 +942,44 @@ g_Ctoc(const char *str, char *buf, size_t len)
         return (1);
 }
 
+static void* Renew_v2(void* ptr, size_t n, size_t size) {
+  return realloc(ptr, n * size);
+}
+
+static void* Newx_v2(size_t n, size_t size) {
+  return malloc(n * size);
+}
+
+static void Safefree_v2(void* ptr) {
+  if (ptr) {
+    free(ptr);
+  }
+}
+
+static MY_DIR* PerlDir_open_v2(const char* dir) {
+  
+  return (MY_DIR*)opendir(dir);
+}
+
+static int32_t PerlDir_close_v2(MY_DIR* dir_stream) {
+  
+  return closedir((DIR*)dir_stream);
+}
+
+static int32_t PerlLIO_stat_v2(const char* file, MY_STAT* stat_info) {
+  
+  return stat(file, stat_info);
+}
+
+static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info) {
+  
+#ifdef _WIN32
+  return stat(file, stat_info);
+#else 
+  return lstat(file, stat_info);
+#endif
+}
+
+static char toFOLD_v2(char ch) {
+  return tolower((unsigned char)(ch));
+}
