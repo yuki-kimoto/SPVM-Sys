@@ -179,6 +179,11 @@ static int32_t PerlDir_close_v2(MY_DIR* dir_stream) {
 
 #define PerlDir_close(dh) closedir(dh)
 
+static int32_t PerlLIO_stat_v2(const char* file, MY_STAT* stat_info) {
+  
+  return stat(file, stat_info);
+}
+
 #define PerlLIO_stat(file, stat_info) stat(file, stat_info)
 
 MY_DIR* PerlDir_read(MY_DIR* dirp);
@@ -937,7 +942,7 @@ g_lstat(char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
 #ifdef HAS_LSTAT
         return(PerlLIO_lstat(buf, sb));
 #else
-        return(PerlLIO_stat(buf, sb));
+        return(PerlLIO_stat_v2(buf, sb));
 #endif /* HAS_LSTAT */
 }
 
@@ -948,7 +953,7 @@ g_stat(char *fn, MY_STAT *sb, SPVM_SYS_IO_GLOB *pglob)
 
         if (g_Ctoc(fn, buf, sizeof(buf)))
                 return(-1);
-        return(PerlLIO_stat(buf, sb));
+        return(PerlLIO_stat_v2(buf, sb));
 }
 
 static char *
