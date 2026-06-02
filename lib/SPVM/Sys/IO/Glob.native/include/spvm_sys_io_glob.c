@@ -141,8 +141,32 @@
 #define M_SET           META('[')
 #define ismeta(c)       (((c)&M_QUOTE) != 0)
 
+#ifndef S_IFLNK
+#  define S_IFLNK 0120000
+#endif
+
+#ifndef S_ISLNK
+#  define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
+#endif
+
 typedef struct stat MY_STAT;
 typedef struct dirent MY_DIR;
+
+static void* Renew_v2(void* ptr, size_t n, size_t size);
+
+static void* Newx_v2(size_t n, size_t size);
+
+static void Safefree_v2(void* ptr);
+
+static MY_DIR* PerlDir_open_v2(const char* dir);
+
+static int32_t PerlDir_close_v2(MY_DIR* dir_stream);
+
+static int32_t PerlLIO_stat_v2(const char* file, MY_STAT* stat_info);
+
+static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info);
+
+MY_DIR* PerlDir_read(MY_DIR* dirp);
 
 static void* Renew_v2(void* ptr, size_t n, size_t size) {
   return realloc(ptr, n * size);
@@ -182,19 +206,9 @@ static int32_t PerlLIO_lstat_v2(const char* file, MY_STAT* stat_info) {
 #endif
 }
 
-MY_DIR* PerlDir_read(MY_DIR* dirp);
-
 static char toFOLD_v2(char ch) {
   return tolower((unsigned char)(ch));
 }
-
-#ifndef S_IFLNK
-#  define S_IFLNK 0120000
-#endif
-
-#ifndef S_ISLNK
-#  define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
-#endif
 
 static int	 compare(const void *, const void *);
 static int	 ci_compare(const void *, const void *);
