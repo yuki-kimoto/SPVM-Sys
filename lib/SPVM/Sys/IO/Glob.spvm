@@ -4,5 +4,7 @@
 class Sys::IO::Glob {
   version_from Sys;
   
+  use Resource::Utf8proc;
+  
   native static method bsd_glob : string[] ($pattern : string);
 }

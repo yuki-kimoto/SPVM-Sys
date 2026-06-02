@@ -77,6 +77,8 @@
   #include <unistd.h>
 #endif
 
+#include <utf8proc.h>
+
 // Removed future release for MSVC
 #include <dirent.h>
 
