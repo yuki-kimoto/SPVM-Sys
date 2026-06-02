@@ -86,8 +86,20 @@ my $tmp_dir = File::Temp->newdir;
   is_deeply($got, $expected);
 }
 
+# {fo,bo}
 {
-  my $pattern = "$test_dir/{f,b}oo.txt";
+  my $pattern = "$test_dir/{fo,bo}o.txt";
+  
+  my $expected = [glob($pattern)];
+  my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
+  
+  is(@$got, 2);
+  is_deeply($got, $expected);
+}
+
+# [fb]
+{
+  my $pattern = "$test_dir/[fb]oo.txt";
   
   my $expected = [glob($pattern)];
   my $got = SPVM::Sys::IO::Glob->bsd_glob($pattern)->to_strings;
