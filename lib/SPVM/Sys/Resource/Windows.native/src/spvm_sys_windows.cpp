@@ -546,68 +546,24 @@ int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec)
   return 0;
 }
 
-#define FILETIME_1970 116444736000000000ull /* seconds between 1/1/1601 and 1/1/1970 */
-#define HECTONANOSEC_PER_SEC 10000000ull
-
-static int getntptimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct timespec *tp, SPVM_SYS_WINDOWS_TIMEZONE *z)
-{
-  int res = 0;
-  union {
-    unsigned long long ns100; /*time since 1 Jan 1601 in 100ns units */
-    FILETIME ft;
-  }  _now;
-  TIME_ZONE_INFORMATION  TimeZoneInformation;
-  DWORD tzi;
-
-  if (z != NULL)
-    {
-      if ((tzi = GetTimeZoneInformation(&TimeZoneInformation)) != TIME_ZONE_ID_INVALID) {
-	z->tz_minuteswest = TimeZoneInformation.Bias;
-	if (tzi == TIME_ZONE_ID_DAYLIGHT)
-	  z->tz_dsttime = 1;
-	else
-	  z->tz_dsttime = 0;
-      }
-    else
-      {
-	z->tz_minuteswest = 0;
-	z->tz_dsttime = 0;
-      }
-    }
-
-  if (tp != NULL) {
-    typedef void (WINAPI * GetSystemTimeAsFileTime_t)(LPFILETIME);
-    static GetSystemTimeAsFileTime_t GetSystemTimeAsFileTime_p /* = 0 */;
-
-    /* Set function pointer during first call */
-    GetSystemTimeAsFileTime_t get_time =
-      __atomic_load_n (&GetSystemTimeAsFileTime_p, __ATOMIC_RELAXED);
-    if (get_time == NULL) {
-      /* Use GetSystemTimePreciseAsFileTime() if available (Windows 8 or later) */
-      get_time = (GetSystemTimeAsFileTime_t)(intptr_t) GetProcAddress (
-        GetModuleHandle ("kernel32.dll"),
-        "GetSystemTimePreciseAsFileTime"); /* <1us precision on Windows 10 */
-      if (get_time == NULL)
-        get_time = GetSystemTimeAsFileTime; /* >15ms precision on Windows 10 */
-      __atomic_store_n (&GetSystemTimeAsFileTime_p, get_time, __ATOMIC_RELAXED);
-    }
-
-    get_time (&_now.ft);	/* 100 nano-seconds since 1-1-1601 */
-    _now.ns100 -= FILETIME_1970;	/* 100 nano-seconds since 1-1-1970 */
-    tp->tv_sec = _now.ns100 / HECTONANOSEC_PER_SEC;	/* seconds since 1-1-1970 */
-    tp->tv_nsec = (long) (_now.ns100 % HECTONANOSEC_PER_SEC) * 100; /* nanoseconds */
+int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z) {
+  auto now = std::chrono::system_clock::now();
+  
+  auto duration = now.time_since_epoch();
+  
+  auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
+  auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration - seconds);
+  
+  if (p != NULL) {
+    p->tv_sec = static_cast<long>(seconds.count());
+    p->tv_usec = static_cast<long>(microseconds.count());
   }
-  return res;
-}
-
-int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z)
-{
-  struct timespec tp;
-
-  if (getntptimeofday (env, stack, &tp, z))
-    return -1;
-  p->tv_sec=tp.tv_sec;
-  p->tv_usec=(tp.tv_nsec/1000);
+  
+  if (z != NULL) {
+    z->tz_minuteswest = 0;
+    z->tz_dsttime = 0;
+  }
+  
   return 0;
 }
 
