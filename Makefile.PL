@@ -38,14 +38,8 @@ my $config_global_file = '.spvm_build/global.config';
   msvc => $msvc,
 });
 
-if ($debug) {
-  $build_type = 'Debug';
-}
-
 my $asan_logs_dir = ".tmp/asan_logs";
 if ($asan_on_linux) {
-  push @ccflags, "-fsanitize=address", "-fno-omit-frame-pointer";
-  push @ldflags, "-fsanitize=address";
   rmtree $asan_logs_dir;
   mkpath $asan_logs_dir;
 }
