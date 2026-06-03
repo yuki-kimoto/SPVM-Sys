@@ -51,6 +51,9 @@ WriteMakefile(
     'SPVM::Resource::SocketUtil' => '1.002',
     'SPVM::Resource::Utf8proc' => '0.004',
   },
+  TEST_REQUIRES => {
+  },
+  NORECURS => 1,
 );
 
 sub MY::postamble {
