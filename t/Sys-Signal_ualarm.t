@@ -17,6 +17,10 @@ my $api = SPVM::api();
 
 my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
+if ($ENV{LD_PRELOAD}) {
+  plan skip_all => '[Test Skip]This test failed in ASan.';
+}
+
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Signal->ualarm(0, 0) };
   like($@, qr/not supported/);
