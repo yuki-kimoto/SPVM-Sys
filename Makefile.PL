@@ -20,12 +20,6 @@ if ($debug) {
   $build_type = 'Debug';
 }
 
-my %configure_and_runtime_requires = (
-  'SPVM' => '0.990155',
-  'SPVM::Resource::SocketUtil' => '1.002',
-  'SPVM::Resource::Utf8proc' => '0.004',
-);
-
 WriteMakefile(
   NAME              => 'SPVM::Sys',
   VERSION_FROM      => 'lib/SPVM/Sys.pm',
@@ -49,12 +43,13 @@ WriteMakefile(
     },
   },
   CONFIGURE_REQUIRES => {
-    %configure_and_runtime_requires,
+    'SPVM' => '0.990155',
   },
   PREREQ_PM         => {
-    %configure_and_runtime_requires,
     'SPVM::Errno' => '0.06',
     'SPVM::Math' => '1.006',
+    'SPVM::Resource::SocketUtil' => '1.002',
+    'SPVM::Resource::Utf8proc' => '0.004',
   },
 );
 
