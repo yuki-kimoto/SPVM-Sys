@@ -38,7 +38,7 @@ my $config_global_file = '.spvm_build/global.config';
   msvc => $msvc,
 });
 
-my $asan_logs_dir = ".tmp/asan_logs";
+my $asan_logs_dir = ".spvm_build/asan_logs";
 if ($asan_on_linux) {
   rmtree $asan_logs_dir;
   mkpath $asan_logs_dir;
