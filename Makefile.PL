@@ -65,10 +65,6 @@ sub MY::postamble {
   unless ($no_build_spvm_modules) {
     require SPVM::Builder::Util::API;
     
-    # For loading resources
-    local @INC = @INC;
-    unshift @INC, 'lib';
-    
     my $options = {};
     if (defined $build_type) {
       $options->{build_type} = $build_type;
