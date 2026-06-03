@@ -91,16 +91,12 @@ WriteMakefile(
     $asan_on_linux ? ('override FULLPERL' => qq|LD_PRELOAD=\$\$($Config{cc} -print-file-name=libasan.so) ASAN_OPTIONS="log_path=$asan_logs_dir/asan.log:exitcode=0" $^X|) : (),
   },
   NORECURS => 1,
-  CONFIGURE_REQUIRES => {
+  PREREQ_PM => {
     'SPVM' => '0.990155',
-  },
-  PREREQ_PM         => {
     'SPVM::Errno' => '0.06',
     'SPVM::Math' => '1.006',
     'SPVM::Resource::SocketUtil' => '1.002',
     'SPVM::Resource::Utf8proc' => '0.004',
-  },
-  TEST_REQUIRES => {
   },
 );
 
