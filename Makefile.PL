@@ -168,6 +168,10 @@ sub MY::postamble {
       Sys::Env
     )];
     
+    $options->{precompile_classes} = [qw(
+      Sys
+    )];
+    
     $make_rule .= SPVM::Builder::Util::API::create_make_rule_parallel($options);
   }
   
