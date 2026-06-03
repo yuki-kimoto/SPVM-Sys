@@ -536,13 +536,13 @@ int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t
   return status;
 }
 
-unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int seconds) {
-  Sleep(seconds * 1000);
+unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, uint64_t seconds) {
+  std::this_thread::sleep_for(std::chrono::seconds(seconds));
   return 0;
 }
 
-int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec) {
-  Sleep(usec / 1000);
+int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, uint64_t usec) {
+  std::this_thread::sleep_for(std::chrono::microseconds(usec));
   return 0;
 }
 
