@@ -16,6 +16,10 @@ if ($meta) {
   $no_build_spvm_modules = 1;
 }
 
+unless ($meta) {
+  require SPVM::Builder::Util::API;
+}
+
 if ($debug) {
   $build_type = 'Debug';
 }
@@ -61,8 +65,6 @@ sub MY::postamble {
   my $make_rule = '';
   
   unless ($no_build_spvm_modules) {
-    require SPVM::Builder::Util::API;
-    
     my $options = {};
     if (defined $build_type) {
       $options->{build_type} = $build_type;
