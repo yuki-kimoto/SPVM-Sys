@@ -290,7 +290,7 @@ int32_t SPVM__Sys__Poll__PollfdArray__remove(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t move_length = length_field - index - 1;
   
-  memcpy((void*)(pollfds + index), (void*)(pollfds + index + 1), sizeof (struct pollfd) * move_length);
+  memmove((void*)(pollfds + index), (void*)(pollfds + index + 1), sizeof (struct pollfd) * move_length); 
   
   memset(&pollfds[length_field - 1], 0, sizeof(struct pollfd));
   
