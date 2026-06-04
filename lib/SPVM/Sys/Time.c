@@ -11,7 +11,6 @@
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
-  #include <sys/utime.h>
   typedef SPVM_SYS_WINDOWS_TIMEZONE MY_TIMEZONE;
 #else
   #include <sys/time.h>
@@ -22,6 +21,10 @@
 
 #include <time.h>
 #include <errno.h>
+
+// C++ headers
+#include <thread>
+#include <chrono>
 
 #include "spvm_native.h"
 
@@ -203,8 +206,12 @@ int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The resolution time $res must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
+#ifdef _WIN32
+  int32_t status = sys_windows_clock_getres(clk_id, st_res);
+#else
   int32_t status = clock_getres(clk_id, st_res);
-  
+#endif
+
   if (status == -1) {
     env->die(env, stack, "[System Error]clock_getres() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -344,7 +351,11 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
     st_remain = env->get_pointer(env, stack, obj_remain);
   }
   
+#ifdef _WIN32
+  int32_t ret_errno = spvm_sys_windows_clock_nanosleep(clockid, flags, st_request, st_remain);
+#else
   int32_t ret_errno = clock_nanosleep(clockid, flags, st_request, st_remain);
+#endif
   
   if (ret_errno != 0) {
     env->die(env, stack, "[System Error]clock_nanosleep() failed(%d: %s).", __func__, FILE_NAME, __LINE__, ret_errno, env->strerror_nolen(env, stack, ret_errno));
@@ -376,7 +387,11 @@ int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
     st_rmtp = env->get_pointer(env, stack, obj_rmtp);
   }
   
+#ifdef _WIN32
+  int32_t status = spvm_sys_windows_nanosleep(st_rqtp, st_rmtp);
+#else
   int32_t status = nanosleep(st_rqtp, st_rmtp);
+#endif
   
   if (status == -1) {
     env->die(env, stack, "[System Error]nanosleep() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));

@@ -1005,6 +1005,51 @@ void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno) {
   }
 }
 
+#ifndef TIMER_ABSTIME
+  #define TIMER_ABSTIME 1
+#endif
+
+int spvm_sys_windows_clock_getres(struct timespec* res) {
+  if (res) {
+    res->tv_sec = 0;
+    res->tv_nsec = 1;
+  }
+  return 0;
+}
+
+int spvm_sys_windows_clock_nanosleep(int flags, const struct timespec* request, struct timespec* remain) {
+  if (!request) return -1;
+
+  std::chrono::nanoseconds duration;
+
+  if (flags & TIMER_ABSTIME) {
+    auto now = std::chrono::system_clock::now();
+    std::chrono::nanoseconds since_epoch(request->tv_sec * 1000000000LL + request->tv_nsec);
+    
+    // /* Cast to system_clock duration to ensure type compatibility */
+    auto target = std::chrono::system_clock::time_point(
+      std::chrono::duration_cast<std::chrono::system_clock::duration>(since_epoch)
+    );
+    duration = target - now;
+  } else {
+    duration = std::chrono::seconds(request->tv_sec) + std::chrono::nanoseconds(request->tv_nsec);
+  }
+
+  if (duration.count() > 0) {
+    std::this_thread::sleep_for(duration);
+  }
+
+  if (remain) {
+    remain->tv_sec = 0;
+    remain->tv_nsec = 0;
+  }
+
+  return 0;
+}
+int spvm_sys_windows_nanosleep(const struct timespec* req, struct timespec* rem) {
+  return spvm_sys_windows_clock_nanosleep(0, req, rem);
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)
