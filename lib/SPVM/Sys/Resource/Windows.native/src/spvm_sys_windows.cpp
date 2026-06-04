@@ -1016,7 +1016,7 @@ static inline int lc_set_errno(int result)
 
 #define POW10_9                 1000000000
 
-int spvm_sys_windows_clock_getres(int32_t clock_id, struct timespec *res)
+int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, struct timespec *res)
 {
     int32_t id = clock_id;
 
@@ -1057,7 +1057,7 @@ int spvm_sys_windows_clock_getres(int32_t clock_id, struct timespec *res)
     return lc_set_errno(EINVAL);
 }
 
-int spvm_sys_windows_nanosleep(const struct timespec* req, struct timespec* rem) {
+int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct timespec* req, struct timespec* rem) {
   
   assert(req);
   

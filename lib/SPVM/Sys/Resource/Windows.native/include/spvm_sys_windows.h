@@ -348,9 +348,9 @@ HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* pat
 
 void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno);
 
-int spvm_sys_windows_clock_getres(int32_t clock_id, struct timespec *res);
+int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, struct timespec *res);
 
-int spvm_sys_windows_nanosleep(const struct timespec* req, struct timespec* rem);
+int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct timespec* req, struct timespec* rem);
 
 #ifdef __cplusplus
 } // extern "C"

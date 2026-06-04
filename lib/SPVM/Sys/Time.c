@@ -204,7 +204,7 @@ int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 
 #if defined(_WIN32)
-  int32_t status = spvm_sys_windows_clock_getres(clk_id, st_res);
+  int32_t status = spvm_sys_windows_clock_getres(env, stack, clk_id, st_res);
 #else
   int32_t status = clock_getres(clk_id, st_res);
 #endif
@@ -381,7 +381,7 @@ int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
 #if defined(_WIN32)
-  int32_t status = spvm_sys_windows_nanosleep(st_rqtp, st_rmtp);
+  int32_t status = spvm_sys_windows_nanosleep(env, stack, st_rqtp, st_rmtp);
 #else
   int32_t status = nanosleep(st_rqtp, st_rmtp);
 #endif
