@@ -1005,6 +1005,58 @@ void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno) {
   }
 }
 
+static inline int lc_set_errno(int result)
+{
+    if (result != 0) {
+        errno = result;
+        return -1;
+    }
+    return 0;
+}
+
+#define POW10_9                 1000000000
+
+int spvm_sys_windows_clock_getres(int32_t clock_id, struct timespec *res)
+{
+    int32_t id = clock_id;
+
+    switch(id) {
+    case CLOCK_REALTIME:
+    case CLOCK_MONOTONIC:
+        {
+            LARGE_INTEGER pf;
+
+            if (QueryPerformanceFrequency(&pf) == 0)
+                return lc_set_errno(EINVAL);
+
+            res->tv_sec = 0;
+            res->tv_nsec = (int) ((POW10_9 + (pf.QuadPart >> 1)) / pf.QuadPart);
+            if (res->tv_nsec < 1)
+                res->tv_nsec = 1;
+
+            return 0;
+        }
+
+    case CLOCK_REALTIME_COARSE:
+    case CLOCK_PROCESS_CPUTIME_ID:
+    case CLOCK_THREAD_CPUTIME_ID:
+        {
+            DWORD   timeAdjustment, timeIncrement;
+            BOOL    isTimeAdjustmentDisabled;
+
+            (void) GetSystemTimeAdjustment(&timeAdjustment, &timeIncrement, &isTimeAdjustmentDisabled);
+            res->tv_sec = 0;
+            res->tv_nsec = timeIncrement * 100;
+
+            return 0;
+        }
+    default:
+        break;
+    }
+
+    return lc_set_errno(EINVAL);
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)
