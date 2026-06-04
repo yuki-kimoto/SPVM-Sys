@@ -22,10 +22,6 @@
 #include <time.h>
 #include <errno.h>
 
-// C++ headers
-#include <thread>
-#include <chrono>
-
 #include "spvm_native.h"
 
 static const char* FILE_NAME = "Sys/Time.c";
