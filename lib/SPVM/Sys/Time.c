@@ -11,7 +11,6 @@
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
-  #include <sys/utime.h>
   typedef SPVM_SYS_WINDOWS_TIMEZONE MY_TIMEZONE;
 #else
   #include <sys/time.h>
