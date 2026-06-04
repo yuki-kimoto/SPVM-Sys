@@ -114,7 +114,10 @@ else {
   
   my $obj_major_version_ref = $api->new_int_array([0]);
 
-  if (SPVM::Sys::OS->defined('__APPLE__')) {
+  if (SPVM::Sys::OS->defined('_WIN32')) {
+    $clock_nanosleep_supported = 0;
+  }
+  elsif (SPVM::Sys::OS->defined('__APPLE__')) {
     $clock_nanosleep_supported = 0;
   }
   elsif (SPVM::Sys::OS->defined('__FreeBSD__', $obj_major_version_ref)) {
