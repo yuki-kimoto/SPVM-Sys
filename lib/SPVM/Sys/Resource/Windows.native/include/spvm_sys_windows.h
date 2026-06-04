@@ -122,6 +122,58 @@
   #define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
 #endif
 
+#ifndef S_IRUSR
+  #define S_IRUSR _S_IREAD
+#endif
+
+#ifndef S_IWUSR
+  #define S_IWUSR _S_IWRITE
+#endif
+
+#ifndef S_IXUSR
+  #define S_IXUSR _S_IEXEC
+#endif
+
+#ifndef S_IRGRP
+  #define S_IRGRP 0
+#endif
+
+#ifndef S_IWGRP
+  #define S_IWGRP 0
+#endif
+
+#ifndef S_IROTH
+  #define S_IROTH 0
+#endif
+
+#ifndef S_IWOTH
+  #define S_IWOTH 0
+#endif
+
+#ifndef O_RDONLY
+  #define O_RDONLY _O_RDONLY
+#endif
+
+#ifndef O_WRONLY
+  #define O_WRONLY _O_WRONLY
+#endif
+
+#ifndef O_RDWR
+  #define O_RDWR _O_RDWR
+#endif
+
+#ifndef O_ACCMODE
+  #define O_ACCMODE (_O_RDONLY | _O_WRONLY | _O_RDWR)
+#endif
+
+#ifndef O_CREAT
+  #define O_CREAT _O_CREAT
+#endif
+
+#ifndef O_APPEND
+  #define O_APPEND _O_APPEND
+#endif
+
 // Exactly same as Perl's one in sys/errno2.h
 #ifndef EDQUOT
 #  define EDQUOT WSAEDQUOT
