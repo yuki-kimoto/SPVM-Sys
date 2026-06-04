@@ -380,8 +380,12 @@ int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
     st_rmtp = env->get_pointer(env, stack, obj_rmtp);
   }
   
+#if defined(_WIN32)
+  int32_t status = spvm_sys_windows_nanosleep(st_rqtp, st_rmtp);
+#else
   int32_t status = nanosleep(st_rqtp, st_rmtp);
-  
+#endif
+
   if (status == -1) {
     env->die(env, stack, "[System Error]nanosleep() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
