@@ -16,6 +16,14 @@
 #include <stdio.h>
 #include <errno.h>
 
+static int my_pclose(FILE* stream) {
+#ifdef _WIN32
+  return _pclose(stream);
+#else
+  return pclose(stream);
+#endif
+}
+
 static const char* FILE_NAME = "Sys/IO/FileStream.c";
 
 int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -40,7 +48,7 @@ int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
       if (error_id) { return error_id; }
       
       if (is_pipe) {
-        int32_t status = pclose(fh);
+        int32_t status = my_pclose(fh);
         if (status == -1) {
           env->die(env, stack, "[System Error]pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
           return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
