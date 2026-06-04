@@ -325,9 +325,9 @@ void spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
 
 int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t length);
 
-unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, uint64_t seconds);
+unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int seconds);
 
-int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, uint64_t usec);
+int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec);
 
 int spvm_sys_windows_gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack, struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
 
