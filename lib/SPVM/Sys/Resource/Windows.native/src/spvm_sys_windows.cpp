@@ -1089,28 +1089,6 @@ int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct ti
   return 0;
 }
 
-int spvm_sys_windows_clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, int flags, const struct timespec *request, struct timespec *remain) {
-    struct timespec tp;
-
-    if (clock_id != CLOCK_REALTIME)
-        return lc_set_errno(EINVAL);
-
-    if (flags == 0)
-        return spvm_sys_windows_nanosleep(env, stack, request, remain);
-
-    /* TIMER_ABSTIME = 1 */
-    spvm_sys_windows_clock_gettime(env, stack, CLOCK_REALTIME, &tp);
-
-    tp.tv_sec = request->tv_sec - tp.tv_sec;
-    tp.tv_nsec = request->tv_nsec - tp.tv_nsec;
-    if (tp.tv_nsec < 0) {
-        tp.tv_nsec += POW10_9;
-        tp.tv_sec --;
-    }
-
-    return spvm_sys_windows_nanosleep(env, stack, &tp, remain);
-}
-
 } // extern "C"
 
 #endif // defined(_WIN32)
