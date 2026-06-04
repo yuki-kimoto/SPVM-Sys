@@ -46,12 +46,6 @@
 #include <sys/stat.h>
 
 #include <time.h>
-#ifndef CLOCK_REALTIME
-#define CLOCK_REALTIME 0
-#endif
-#ifndef CLOCK_MONOTONIC
-#define CLOCK_MONOTONIC 1
-#endif
 
 #include "spvm_native.h"
 
@@ -202,6 +196,28 @@
 // Exactly same as Perl's one in Win32.c
 #ifndef IO_REPARSE_TAG_LX_BLK
 #  define IO_REPARSE_TAG_LX_BLK  0x80000026
+#endif
+
+#ifndef CLOCK_REALTIME
+  #define CLOCK_REALTIME 0
+#endif
+#ifndef CLOCK_MONOTONIC
+  #define CLOCK_MONOTONIC 1
+#endif
+#ifndef CLOCK_PROCESS_CPUTIME_ID
+  #define CLOCK_PROCESS_CPUTIME_ID 2
+#endif
+#ifndef CLOCK_THREAD_CPUTIME_ID
+  #define CLOCK_THREAD_CPUTIME_ID 3
+#endif
+#ifndef CLOCK_MONOTONIC_RAW
+  #define CLOCK_MONOTONIC_RAW 4
+#endif
+#ifndef CLOCK_REALTIME_COARSE
+  #define CLOCK_REALTIME_COARSE 5
+#endif
+#ifndef CLOCK_MONOTONIC_COARSE
+  #define CLOCK_MONOTONIC_COARSE 6
 #endif
 
 // Exactly same as Perl's one in Win32.c
