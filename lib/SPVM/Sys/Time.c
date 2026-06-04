@@ -201,9 +201,14 @@ int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
   else {
     return env->die(env, stack, "The resolution time $res must be defined.", __func__, FILE_NAME, __LINE__);
   }
-  
+
+
+#if defined(_WIN32)
+  int32_t status = spvm_sys_windows_clock_getres(clk_id, st_res);
+#else
   int32_t status = clock_getres(clk_id, st_res);
-  
+#endif
+
   if (status == -1) {
     env->die(env, stack, "[System Error]clock_getres() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
