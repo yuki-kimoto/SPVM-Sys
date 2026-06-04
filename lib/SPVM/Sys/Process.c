@@ -118,7 +118,7 @@ int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  int32_t status = spvm_sys_windows_usleep(env, stack, (useconds_t)usec);
+  int32_t status = spvm_sys_windows_usleep(env, stack, usec);
   env->pop_caller_stack(env, stack);
   
   if (status == -1) {
