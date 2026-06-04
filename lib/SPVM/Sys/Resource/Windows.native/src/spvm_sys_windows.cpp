@@ -1057,6 +1057,38 @@ int spvm_sys_windows_clock_getres(int32_t clock_id, struct timespec *res)
     return lc_set_errno(EINVAL);
 }
 
+int spvm_sys_windows_nanosleep(const struct timespec* req, struct timespec* rem) {
+  
+  assert(req);
+  
+  if (!req || req->tv_nsec < 0 || req->tv_nsec >= 1000000000) {
+    errno = EINVAL;
+    return -1;
+  }
+  
+  auto duration = std::chrono::seconds(req->tv_sec) + std::chrono::nanoseconds(req->tv_nsec);
+  
+  auto start = std::chrono::steady_clock::now();
+  std::this_thread::sleep_for(duration);
+  auto elapsed = std::chrono::steady_clock::now() - start;
+  
+  if (elapsed < duration) {
+    if (rem) {
+      auto remaining = duration - elapsed;
+      auto rem_sec = std::chrono::duration_cast<std::chrono::seconds>(remaining);
+      auto rem_nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(remaining - rem_sec);
+      
+      rem->tv_sec = (time_t)rem_sec.count();
+      rem->tv_nsec = (long)rem_nsec.count();
+    }
+    
+    errno = EINTR;
+    return -1;
+  }
+  
+  return 0;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)

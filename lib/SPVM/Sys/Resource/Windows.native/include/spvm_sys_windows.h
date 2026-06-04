@@ -350,6 +350,8 @@ void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno);
 
 int spvm_sys_windows_clock_getres(int32_t clock_id, struct timespec *res);
 
+int spvm_sys_windows_nanosleep(const struct timespec* req, struct timespec* rem);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
