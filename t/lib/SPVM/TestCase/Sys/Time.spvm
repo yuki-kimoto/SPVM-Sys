@@ -28,6 +28,7 @@ class TestCase::Sys::Time {
       my $tm = Sys->localtime(0);
       
       unless ($tm->tm_year + 1900 == 1970) {
+        diag;
         return 0;
       }
     }
@@ -36,6 +37,7 @@ class TestCase::Sys::Time {
       my $tm = Sys->localtime;
       
       unless ($tm->tm_year + 1900 > 1970) {
+        diag;
         return 0;
       }
     }
@@ -44,6 +46,7 @@ class TestCase::Sys::Time {
       my $tm = Sys->localtime(-(86_400 * 2));
       
       unless ($tm->tm_year + 1900 == 1969) {
+        diag;
         return 0;
       }
     }
@@ -76,6 +79,7 @@ class TestCase::Sys::Time {
         
         # Check if the difference is exactly 9 hours (32400 seconds)
         unless ($diff == 32400) {
+          diag;
           return 0;
         }
       }
@@ -85,11 +89,19 @@ class TestCase::Sys::Time {
         # Set C<TZ> environment variable to UTC0
         Sys->set_env("TZ", "UTC0");
         
+        warn Sys->env("TZ");
+        
         my $lt_utc = Sys->localtime($now);
         my $gt = Sys->gmtime($now);
         
         # Check if localtime matches gmtime under UTC0
         unless ($lt_utc->tm_hour == $gt->tm_hour && $lt_utc->tm_min == $gt->tm_min && $lt_utc->tm_sec == $gt->tm_sec) {
+          diag $lt_utc->tm_hour;
+          diag $gt->tm_hour;
+          diag $lt_utc->tm_min;
+          diag $gt->tm_min;
+          diag $lt_utc->tm_sec;
+          diag $gt->tm_sec;
           return 0;
         }
       }

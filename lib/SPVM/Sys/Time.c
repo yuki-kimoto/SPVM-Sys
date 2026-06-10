@@ -50,9 +50,9 @@ int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct tm* st_tm = env->new_memory_block(env, stack, sizeof(struct tm));
   
 #ifdef _WIN32
-  localtime_s(st_tm, &time);
+  env->api->cfunc->c_localtime_s(env, stack, st_tm, (const SPVM_NATIVE_CTYPE_TIME_T*)&time);
 #else
-  localtime_r(&time, st_tm);
+  env->api->cfunc->c_localtime_r(env, stack, (const SPVM_NATIVE_CTYPE_TIME_T*)&time, st_tm);
 #endif
   
   SPVM_OBJ* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
@@ -78,9 +78,9 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct tm* st_tm = env->new_memory_block(env, stack, sizeof(struct tm));
   
 #ifdef _WIN32
-  gmtime_s(st_tm, &time);
+  env->api->cfunc->c_gmtime_s(env, stack, st_tm, (const SPVM_NATIVE_CTYPE_TIME_T*)&time);
 #else
-  gmtime_r(&time, st_tm);
+  env->api->cfunc->c_gmtime_r(env, stack, (const SPVM_NATIVE_CTYPE_TIME_T*)&time, st_tm);
 #endif
   
   SPVM_OBJ* obj_time_info = env->new_pointer_object_by_name(env, stack, "Sys::Time::Tm", st_tm, &error_id, __func__, FILE_NAME, __LINE__);
@@ -480,7 +480,7 @@ int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__tzset(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  tzset();
+  env->api->cfunc->c_tzset(env, stack);
   
   return 0;
 }

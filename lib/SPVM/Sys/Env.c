@@ -26,7 +26,7 @@ int32_t SPVM__Sys__Env__getenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* name = env->get_chars(env, stack, obj_name);
   
-  char* value = getenv(name);
+  char* value = env->api->cfunc->c_getenv(env, stack, name);
   
   SPVM_OBJ* obj_value;
   if (value) {
@@ -62,7 +62,7 @@ int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t overwrite = stack[2].ival;
   
-  int32_t status = setenv(name, value, overwrite);
+  int32_t status = env->api->cfunc->c_setenv(env, stack, name, value, overwrite);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]setenv() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -86,7 +86,7 @@ int32_t SPVM__Sys__Env__unsetenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* name = env->get_chars(env, stack, obj_name);
   
-  int32_t status = unsetenv(name);
+  int32_t status = env->api->cfunc->c_unsetenv(env, stack, name);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]unsetenv() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -118,7 +118,7 @@ int32_t SPVM__Sys__Env___putenv_s(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* value = env->get_chars(env, stack, obj_value);
   
-  int32_t status = _putenv_s(name, value);
+  int32_t status = env->api->cfunc->c__putenv_s(env, stack, name, value);
   
   if (!(status == 0)) {
     env->die(env, stack, "[System Error]_putenv_s() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
