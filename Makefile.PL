@@ -98,7 +98,7 @@ WriteMakefile(
   },
   NORECURS => 1,
   PREREQ_PM => {
-    'SPVM' => '0.990155',
+    'SPVM' => '0.990186',
     'SPVM::Errno' => '0.06',
     'SPVM::Math' => '1.006',
     'SPVM::Resource::SocketUtil' => '1.002',
