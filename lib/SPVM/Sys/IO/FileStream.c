@@ -41,9 +41,9 @@ int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
       
       if (is_pipe) {
 #ifdef _WIN32
-        int32_t status = _pclose(fh);
+        int32_t status = env->api->cfunc->c__pclose(env, stack, fh);
 #else
-        int32_t status = pclose(fh);
+        int32_t status = env->api->cfunc->c_pclose(env, stack, fh);
 #endif
         if (status == -1) {
           env->die(env, stack, "[System Error]pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -51,7 +51,7 @@ int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
         }
       }
       else {
-        int32_t status = fclose(fh);
+        int32_t status = env->api->cfunc->c_fclose(env, stack, fh);
         if (status == EOF) {
           env->die(env, stack, "[System Error]fclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
           return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;

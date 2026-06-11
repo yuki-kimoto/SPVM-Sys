@@ -61,9 +61,9 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  FILE* stream = _wfopen(path_w, mode_w);
+  FILE* stream = env->api->cfunc->c__wfopen(env, stack, (SPVM_NATIVE_CTYPE_WCHAR_T*)path_w, (SPVM_NATIVE_CTYPE_WCHAR_T*)mode_w);
 #else
-  FILE* stream = fopen(path, mode);
+  FILE* stream = env->api->cfunc->c_fopen(env, stack, path, mode);
 #endif
 
   if (!stream) {
@@ -97,7 +97,7 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* mode = env->get_chars(env, stack, obj_mode);
   
-  FILE* stream = fdopen(fd, mode);
+  FILE* stream = env->api->cfunc->c_fdopen(env, stack, fd, mode);
   if (!stream) {
     env->die(env, stack, "[System Error]fdopen() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -382,7 +382,7 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  int32_t status = fclose(stream);
+  int32_t status = env->api->cfunc->c_fclose(env, stack, stream);
   if (status == EOF) {
     env->die(env, stack, "[System Error]fclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -1617,7 +1617,7 @@ int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* type = env->get_chars(env, stack, obj_type);
   
-  FILE* stream = popen(command, type);
+  FILE* stream = env->api->cfunc->c_popen(env, stack, command, type);
   
   if (!stream) {
     env->die(env, stack, "[System Error]popen() failed(%d: %s). $command='%s'", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), command);
@@ -1657,6 +1657,7 @@ int32_t SPVM__Sys__IO___popen(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* type = env->get_chars(env, stack, obj_type);
   
+  // TODO use env->api->cfunc->c__popen
   FILE* stream = _popen(command, type);
   
   if (!stream) {
@@ -1689,7 +1690,7 @@ int32_t SPVM__Sys__IO__pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  int32_t status = pclose(stream);
+  int32_t status = env->api->cfunc->c_pclose(env, stack, stream);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -1715,7 +1716,7 @@ int32_t SPVM__Sys__IO___pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-  int32_t status = _pclose(stream);
+  int32_t status = env->api->cfunc->c__pclose(env, stack, stream);
   
   if (status == -1) {
     env->die(env, stack, "[System Error]_pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
