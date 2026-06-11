@@ -50,7 +50,7 @@ int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct tm* st_tm = env->new_memory_block(env, stack, sizeof(struct tm));
   
 #ifdef _WIN32
-  env->api->cfunc->c_localtime_s(env, stack, st_tm, (const SPVM_NATIVE_CTYPE_TIME_T*)&time);
+  env->api->cfunc->c_localtime_s(env, stack, (SPVM_NATIVE_CTYPE_TM*)st_tm, (const SPVM_NATIVE_CTYPE_TIME_T*)&time);
 #else
   env->api->cfunc->c_localtime_r(env, stack, (const SPVM_NATIVE_CTYPE_TIME_T*)&time, st_tm);
 #endif
@@ -78,7 +78,7 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   struct tm* st_tm = env->new_memory_block(env, stack, sizeof(struct tm));
   
 #ifdef _WIN32
-  env->api->cfunc->c_gmtime_s(env, stack, st_tm, (const SPVM_NATIVE_CTYPE_TIME_T*)&time);
+  env->api->cfunc->c_gmtime_s(env, stack, (SPVM_NATIVE_CTYPE_TM*)st_tm, (const SPVM_NATIVE_CTYPE_TIME_T*)&time);
 #else
   env->api->cfunc->c_gmtime_r(env, stack, (const SPVM_NATIVE_CTYPE_TIME_T*)&time, st_tm);
 #endif
