@@ -220,6 +220,16 @@
   #define CLOCK_MONOTONIC_COARSE 6
 #endif
 
+#ifndef STDIN_FILENO
+  #define STDIN_FILENO 0
+#endif
+#ifndef STDOUT_FILENO
+  #define STDOUT_FILENO 1
+#endif
+#ifndef STDERR_FILENO
+  #define STDERR_FILENO 2
+#endif
+
 // Exactly same as Perl's one in Win32.c
 typedef struct {
     USHORT SubstituteNameOffset;
