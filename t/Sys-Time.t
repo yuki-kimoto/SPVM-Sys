@@ -113,8 +113,6 @@ ok(SPVM::TestCase::Sys::Time->timeval);
 
 ok(SPVM::TestCase::Sys::Time->tzset);
 
-=pod
-
 {
   my $clock_nanosleep_supported;
   
@@ -147,15 +145,13 @@ ok(SPVM::TestCase::Sys::Time->tzset);
   }
 }
 
-=cut
+ok(SPVM::TestCase::Sys::Time->nanosleep);
 
-# ok(SPVM::TestCase::Sys::Time->nanosleep);
+ok(SPVM::TestCase::Sys::Time->clock_getres);
 
-# ok(SPVM::TestCase::Sys::Time->clock_getres);
+ok(SPVM::TestCase::Sys::Time->clock_gettime);
 
-# ok(SPVM::TestCase::Sys::Time->clock_gettime);
-
-# ok(SPVM::TestCase::Sys::Time->gettimeofday);
+ok(SPVM::TestCase::Sys::Time->gettimeofday);
 
 SPVM::Fn->destroy_runtime_permanent_vars;
 
