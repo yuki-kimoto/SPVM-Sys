@@ -257,7 +257,12 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
 
   /* Make an absolute pathname.  */
   _wfullpath (szFullPath, dir_w, MAX_PATH);
-
+  
+  size_t full_path_len = wcslen(szFullPath);
+  size_t slash_len = wcslen(SLASH);
+  size_t suffix_len = wcslen(SUFFIX);
+  size_t total_len = full_path_len + slash_len + suffix_len + 1;
+  
   /* Allocate enough space to store DIR structure and the complete
    * directory path given. */
   nd = (SPVM_SYS_WINDOWS_DIR *) malloc (sizeof (SPVM_SYS_WINDOWS_DIR) + (wcslen (szFullPath)
@@ -275,18 +280,18 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
     }
 
   /* Create the search expression. */
-  wcscpy (nd->dd_name, szFullPath);
+  wcscpy_s(nd->dd_name, total_len, szFullPath);
 
   /* Add on a slash if the path does not end with one. */
   if (nd->dd_name[0] != L'\0' &&
       nd->dd_name[wcslen (nd->dd_name) - 1] != L'/' &&
       nd->dd_name[wcslen (nd->dd_name) - 1] != L'\\')
     {
-      wcscat (nd->dd_name, SLASH);
+      wcscat_s(nd->dd_name, total_len, SLASH);
     }
 
   /* Add on the search pattern */
-  wcscat (nd->dd_name, SUFFIX);
+  wcscat_s(nd->dd_name, total_len, SUFFIX);
 
   /* Initialize handle to -1 so that a premature closedir doesn't try
    * to call _findclose on it. */
