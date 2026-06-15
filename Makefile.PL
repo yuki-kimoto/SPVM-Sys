@@ -9,8 +9,10 @@ use File::Path 'mkpath', 'rmtree';
 GetOptions(
   'meta' => \my $meta,
   'no-build-spvm-modules' => \my $no_build_spvm_modules,
+  'cc=s' => \my $cc,
   'ccflag=s' => \my @ccflags,
   'define=s' => \my @defines,
+  'ld=s' => \my $ld,
   'ldflag=s' => \my @ldflags,
   'debug' => \my $debug,
   'build-type=s' => \my $build_type,
@@ -33,8 +35,10 @@ mkpath $build_dir;
 
 my $config_global_file = '.spvm_build/global.config';
 &generate_config_global_file($config_global_file, {
+  cc            => $cc,
   ccflags       => \@ccflags,
   defines       => \@defines,
+  ld            => $ld,
   ldflags       => \@ldflags,
   debug         => $debug,
   build_type    => $build_type,
@@ -183,14 +187,17 @@ sub MY::postamble {
 sub generate_config_global_file {
   my ($config_global_file, $options) = @_;
   
-  my $ccflags        = $options->{ccflags} // [];
-  my $defines        = $options->{defines} // [];
-  my $ldflags        = $options->{ldflags} // [];
-  my $build_type     = $options->{build_type};
-  my $debug          = $options->{debug};
+  my $cc            = $options->{cc};
+  my $ccflags       = $options->{ccflags} // [];
+  my $defines       = $options->{defines} // [];
+  my $ld            = $options->{ld};
+  my $ldflags       = $options->{ldflags} // [];
+  my $build_type    = $options->{build_type};
+  my $debug         = $options->{debug};
   my $asan_on_linux = $options->{asan_on_linux};
   my $msvc = $options->{msvc};
   
+  # --- Handle options ---
   if ($debug) {
     $build_type = 'Debug';
   }
@@ -200,6 +207,7 @@ sub generate_config_global_file {
     push @$ldflags, "-fsanitize=address";
   }
   
+  # --- Generate content ---
   my $config_global_content = '';
   
   $config_global_content .= <<"EOS";
@@ -219,6 +227,12 @@ EOS
 EOS
   }
   
+  if (defined $cc) {
+    $config_global_content .= <<"EOS";
+\$config_global->build_rule_any({'cc' => '$cc'}); # set cc
+EOS
+  }
+  
   for my $ccflag (@$ccflags) {
     $config_global_content .= <<"EOS";
 \$config_global->build_rule_any({'+ccflags' => ['$ccflag']});
@@ -228,6 +242,12 @@ EOS
   for my $define (@$defines) {
     $config_global_content .= <<"EOS";
 \$config_global->build_rule_any({'+defines' => ['$define']});
+EOS
+  }
+  
+  if (defined $ld) {
+    $config_global_content .= <<"EOS";
+\$config_global->build_rule_any({'ld' => '$ld'}); # set ld
 EOS
   }
   
@@ -241,6 +261,7 @@ EOS
 \$config_global;
 EOS
   
+  # --- Write to file ---
   open my $fh, '>', $config_global_file or die "Can't open file '$config_global_file': $!";
   print $fh $config_global_content;
 }
