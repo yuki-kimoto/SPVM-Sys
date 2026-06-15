@@ -386,7 +386,7 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
        * already appropriately filled in except the length of the
        * file name. */
       dirp->dd_dir.d_namlen = wcslen (dirp->dd_dta.name);
-      wcscpy (dirp->dd_dir.d_name, dirp->dd_dta.name);
+      wcscpy_s(dirp->dd_dir.d_name, 260, dirp->dd_dta.name);
       return &dirp->dd_dir;
     }
 
