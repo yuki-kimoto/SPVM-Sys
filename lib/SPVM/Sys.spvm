@@ -7,6 +7,7 @@ class Sys {
   use Resource::SocketUtil;
   
   use Format;
+  use Fn;
   use Sys::IO;
   use Sys::IO::FileStream;
   use Sys::IO::Stat;
@@ -1195,7 +1196,7 @@ class Sys {
   }
   
   static method env : string ($name : string) {
-    my $env_value = Sys::Env->getenv($name);
+    my $env_value = Fn->env($name);
     return $env_value;
   }
   
