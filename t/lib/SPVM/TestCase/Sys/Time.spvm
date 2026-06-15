@@ -142,9 +142,8 @@ class TestCase::Sys::Time {
   static method gettimeofday : int () {
     
     my $tv = Sys::Time::Timeval->new;
-    my $tz = Sys::Time::Timezone->new;
     
-    my $status = Sys::Time->gettimeofday($tv, $tz);
+    my $status = Sys::Time->gettimeofday($tv, undef);
     
     unless ($status == 0) {
       return 0;
@@ -160,7 +159,6 @@ class TestCase::Sys::Time {
   static method clock : int () {
     
     my $tv = Sys::Time::Timeval->new;
-    my $tz = Sys::Time::Timezone->new;
     
     my $cpu_time = Sys::Time->clock;
     

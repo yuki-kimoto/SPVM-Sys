@@ -99,10 +99,12 @@ int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_tz = stack[1].oval;
   
-  struct timeval* st_tv = NULL;
-  if (obj_tv) {
-    st_tv = env->get_pointer(env, stack, obj_tv);
+  if (obj_tz) {
+   return env->die(env, stack, "Timezone $tz is not supported.", __func__, FILE_NAME, __LINE__);
   }
+  
+  struct timeval* st_tv = NULL;
+  st_tv = env->get_pointer(env, stack, obj_tv);
   
   MY_TIMEZONE* st_tz = NULL;
   if (obj_tz) {

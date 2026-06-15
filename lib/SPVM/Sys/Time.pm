@@ -50,13 +50,15 @@ The reference of the time $time must be defined. Otherwise an exception is throw
 
 =head2 gettimeofday
 
-C<static method gettimeofday : int ($tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>, $tz : L<Sys::Time::Timezone|SPVM::Sys::Time::Timezone>);>
+C<static method gettimeofday : int ($tv : L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval>, $tz : object = undef);>
 
 Calls L<gmtime|https://linux.die.net/man/2/gettimeofday> function and creates a L<Sys::Time::Timeval|SPVM::Sys::Time::Timeval> object given its return value, and returns it.
 
 Exceptions:
 
 If the gettimeofday function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::System|SPVM::Error::System>.
+
+Timezone $tz is not supported.
 
 =head2 clock
 
