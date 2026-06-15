@@ -2232,6 +2232,8 @@ class TestCase::Sys::IO {
   
   static method truncate : int ($tmp_dir : string) {
     
+    warn;
+    
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
     my $file = "$tmp_dir/foo.txt";
@@ -2270,8 +2272,9 @@ class TestCase::Sys::IO {
     {
       my $file = "$TEST_TMP_DIR/truncate_あ.txt";
       
-      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
-      my $fh = $_->[0];
+      {
+        Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      }
       
       Sys::IO->truncate($file, 0);
     }
