@@ -499,13 +499,23 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
+#if defined(_WIN32)
+  FILE* reopened_stream = NULL;
+  errno = freopen_s(&reopened_stream, path, mode, stream);
+  
+  if (!(errno == 0)) {
+    env->die(env, stack, "[System Error]freopen_s() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#else
   FILE* reopened_stream = freopen(path, mode, stream);
   
   if (!reopened_stream) {
     env->die(env, stack, "[System Error]freopen() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
+#endif
+
   stack[0].oval = obj_stream;
   
   return 0;
