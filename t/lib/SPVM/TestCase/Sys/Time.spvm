@@ -358,11 +358,25 @@ class TestCase::Sys::Time {
     else {
       my $file = "$test_dir/ftest/utime.txt";
       
+      my $tp0 = Sys::Time::Timespec->new;
+      my $status0 = Sys::Time->clock_gettime(TIME->CLOCK_REALTIME, $tp0);
+      unless ($status0 >= 0) {
+        return 0;
+      }
+      
       my $times0 = Sys::Time::Timeval->new;
-      Sys::Time->gettimeofday($times0, undef);
+      $times0->set_tv_sec($tp0->tv_sec);
+      $times0->set_tv_usec($tp0->tv_nsec / 1000);
+      
+      my $tp1 = Sys::Time::Timespec->new;
+      my $status1 = Sys::Time->clock_gettime(TIME->CLOCK_REALTIME, $tp1);
+      unless ($status1 >= 0) {
+        return 0;
+      }
       
       my $times1 = Sys::Time::Timeval->new;
-      Sys::Time->gettimeofday($times1, undef);
+      $times1->set_tv_sec($tp1->tv_sec);
+      $times1->set_tv_usec($tp1->tv_nsec / 1000);
       
       my $times = [$times0, $times1];
       
