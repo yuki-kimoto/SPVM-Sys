@@ -1067,11 +1067,7 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* pathname = env->get_chars(env, stack, obj_pathname);
   
-#if defined(_WIN32)
-  int32_t status = _unlink(pathname);
-#else
   int32_t status = unlink(pathname);
-#endif
   if (status == -1) {
     env->die(env, stack, "[System Error]unlink() failed(%d: %s). $pathname='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), pathname);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -1901,11 +1897,7 @@ int32_t SPVM__Sys__IO__dup(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
-#if defined(_WIN32)
-  int32_t fd_to = _dup(fd);
-#else
   int32_t fd_to = dup(fd);
-#endif
   
   if (fd_to == -1) {
     env->die(env, stack, "[System Error]dup() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -1925,11 +1917,7 @@ int32_t SPVM__Sys__IO__dup2(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd_to = stack[1].ival;
   
-#if defined(_WIN32)
-  int32_t status = _dup2(fd, fd_to);
-#else
   int32_t status = dup2(fd, fd_to);
-#endif
   
   if (status == -1) {
     env->die(env, stack, "[System Error]dup2() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
