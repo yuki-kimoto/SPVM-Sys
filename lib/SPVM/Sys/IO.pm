@@ -738,7 +738,7 @@ C<static method popen : L<Sys::IO::FileStream|SPVM::Sys::IO::FileStream> ($comma
 
 Calls the L<popen|https://linux.die.net/man/3/popen> function and returns its return value.
 
-L<Sys::IO::FileStream#is_pipe|SPVM::Sys::IO::FileStream/"is_pipe"> field is set to 1.
+L<Sys::IO::FileStream#opened_by_popen|SPVM::Sys::IO::FileStream/"opened_by_popen"> field is set to 1.
 
 Windows:
 
@@ -752,7 +752,7 @@ $type must be defined. Otherwise an exception is thrown.
 
 If the popen function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-L<Sys::IO::FileStream#is_pipe|SPVM::Sys::IO::FileStream/"is_pipe"> field is set to 1.
+L<Sys::IO::FileStream#opened_by_popen|SPVM::Sys::IO::FileStream/"opened_by_popen"> field is set to 1.
 
 Exceptions:
 

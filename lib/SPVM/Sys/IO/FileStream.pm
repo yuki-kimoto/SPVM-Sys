@@ -26,9 +26,9 @@ C<has closed : ro byte;>
 
 The file stream is closed.
 
-=head2 is_pipe
+=head2 opened_by_popen
 
-C<has is_pipe : ro byte;>
+C<has opened_by_popen : ro byte;>
 
 The file stream is opend as a pipe stream.
 
@@ -50,7 +50,7 @@ If the L<"no_destroy"> field is a true value, nothing is done.
 
 If the L<"closed"> field is a false value, the file is closed.
 
-If the the L</"is_pipe"> field is a true value, the file is closed by the C<pclose> function, otherwise closed by the C<fclose> function.
+If the the L</"opened_by_popen"> field is a true value, the file is closed by the C<pclose> function, otherwise closed by the C<fclose> function.
 
 =head1 See Also
 

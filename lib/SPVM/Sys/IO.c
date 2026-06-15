@@ -1654,7 +1654,7 @@ int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
   SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
-  env->set_field_byte_by_name(env, stack, obj_stream, "is_pipe", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  env->set_field_byte_by_name(env, stack, obj_stream, "opened_by_popen", 1, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
   stack[0].oval = obj_stream;

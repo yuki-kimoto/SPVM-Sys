@@ -36,10 +36,10 @@ int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
     assert(fh);
     
     if (!closed) {
-      int32_t is_pipe = env->get_field_byte_by_name(env, stack, obj_self, "is_pipe", &error_id, __func__, FILE_NAME, __LINE__);
+      int32_t opened_by_popen = env->get_field_byte_by_name(env, stack, obj_self, "opened_by_popen", &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) { return error_id; }
       
-      if (is_pipe) {
+      if (opened_by_popen) {
 #ifdef _WIN32
         int32_t status = _pclose(fh);
 #else
