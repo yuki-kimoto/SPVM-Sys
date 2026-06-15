@@ -100,11 +100,7 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* mode = env->get_chars(env, stack, obj_mode);
   
-#if defined(_WIN32)
-  FILE* stream = _fdopen(fd, mode);
-#else
   FILE* stream = fdopen(fd, mode);
-#endif
   if (!stream) {
     env->die(env, stack, "[System Error]fdopen() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -128,11 +124,7 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
-#if defined(_WIN32)
-  int32_t fd = _fileno(stream);
-#else
   int32_t fd = fileno(stream);
-#endif
   if (fd == -1) {
     env->die(env, stack, "[System Error]fileno() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -633,11 +625,7 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The count $count must be less than the length of the buffer $buf - the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
-#if defined(_WIN32)
-  int32_t read_length = _read(fd, buf + buf_offset, count);
-#else
   int32_t read_length = read(fd, buf + buf_offset, count);
-#endif
   
   if (read_length == -1) {
     env->die(env, stack, "[System Error]read() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -707,11 +695,7 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t whence = stack[2].ival;
   
-#if defined(_WIN32)
-  int64_t cur_offset = _lseek(fd, offset, whence);
-#else
   int64_t cur_offset = lseek(fd, offset, whence);
-#endif
   
   if (cur_offset == -1) {
     env->die(env, stack, "[System Error]lseek() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -728,11 +712,7 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
-#if defined(_WIN32)
-  int32_t status = _close(fd);
-#else
   int32_t status = close(fd);
-#endif
   if (status == -1) {
     env->die(env, stack, "[System Error]close() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -958,7 +938,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = spvm_sys_windows_ftruncate(env, stack, fd, length);
   env->pop_caller_stack(env, stack);
   
-  _close(fd);
+  close(fd);
   
   if (status == -1) {
     error_id = env->get_error_id(env, stack);
