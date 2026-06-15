@@ -11,8 +11,10 @@
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
+  typedef SPVM_SYS_WINDOWS_TIMEVAL MY_TIMEVAL;
 #else
   #include <sys/time.h>
+  typedef struct timeval MY_TIMEVAL;
 #endif
 
 #include <assert.h>
@@ -44,7 +46,7 @@ int32_t SPVM__Sys__Time__Timeval__new(SPVM_ENV* env, SPVM_VALUE* stack) {
   error_id = SPVM__Sys__Time__Timeval__check(env, stack);
   if (error_id) { return error_id; }
   
-  struct timeval* tv = env->new_memory_block(env, stack, sizeof(struct timeval));
+  MY_TIMEVAL* tv = env->new_memory_block(env, stack, sizeof(MY_TIMEVAL));
   
   tv->tv_sec = stack[0].lval;
   
@@ -62,7 +64,7 @@ int32_t SPVM__Sys__Time__Timeval__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_tv = stack[0].oval;
   
-  struct timeval* tv = env->get_pointer(env, stack, obj_tv);
+  MY_TIMEVAL* tv = env->get_pointer(env, stack, obj_tv);
   
   assert(tv);
   
@@ -75,7 +77,7 @@ int32_t SPVM__Sys__Time__Timeval__tv_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_tv = stack[0].oval;
   
-  struct timeval* tv = env->get_pointer(env, stack, obj_tv);
+  MY_TIMEVAL* tv = env->get_pointer(env, stack, obj_tv);
   
   stack[0].lval = tv->tv_sec;
   
@@ -88,7 +90,7 @@ int32_t SPVM__Sys__Time__Timeval__set_tv_sec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int64_t tv_sec = stack[1].lval;
   
-  struct timeval* tv = env->get_pointer(env, stack, obj_tv);
+  MY_TIMEVAL* tv = env->get_pointer(env, stack, obj_tv);
   
   tv->tv_sec = tv_sec;
   
@@ -99,7 +101,7 @@ int32_t SPVM__Sys__Time__Timeval__tv_usec(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_tv = stack[0].oval;
   
-  struct timeval* tv = env->get_pointer(env, stack, obj_tv);
+  MY_TIMEVAL* tv = env->get_pointer(env, stack, obj_tv);
   
   stack[0].lval = tv->tv_usec;
   
@@ -112,7 +114,7 @@ int32_t SPVM__Sys__Time__Timeval__set_tv_usec(SPVM_ENV* env, SPVM_VALUE* stack) 
   
   int64_t tv_usec = stack[1].lval;
   
-  struct timeval* tv = env->get_pointer(env, stack, obj_tv);
+  MY_TIMEVAL* tv = env->get_pointer(env, stack, obj_tv);
   
   tv->tv_usec = tv_usec;
   
