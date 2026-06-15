@@ -5,6 +5,7 @@ class TestCase::Sys::Time {
   use Sys::Time::Constant as TIME;
   use Sys::Time::Itimerval;
   use Sys::Time::Utimbuf;
+  use Errno;
   
   static method new_tm : int () {
     my $tm = Sys::Time::Tm->new;
@@ -306,15 +307,25 @@ class TestCase::Sys::Time {
   }
 
   static method nanosleep : int () {
-    
     my $start = Sys::Time->time;
     
     my $ts = Sys::Time::Timespec->new(1, 100_000_000);
+    my $rem = Sys::Time::Timespec->new(0, 0);
     
-    my $status = Sys::Time->nanosleep($ts, undef);
-    
-    unless ($status  == 0) {
-      return 0;
+    while (1) {
+      eval {
+        Sys::Time->nanosleep($ts, $rem);
+      };
+      
+      if ($@) {
+        if (Errno->errno == Errno->EINTR) {
+          $ts = $rem;
+          next;
+        }
+        return 0;
+      }
+      
+      last;
     }
     
     unless (Sys::Time->time - $start >= 1) {
