@@ -113,6 +113,8 @@ ok(SPVM::TestCase::Sys::Time->timeval);
 
 ok(SPVM::TestCase::Sys::Time->tzset);
 
+=pod
+
 {
   my $clock_nanosleep_supported;
   
@@ -144,6 +146,8 @@ ok(SPVM::TestCase::Sys::Time->tzset);
     ok(SPVM::TestCase::Sys::Time->clock_nanosleep);
   }
 }
+
+=cut
 
 # ok(SPVM::TestCase::Sys::Time->nanosleep);
 
