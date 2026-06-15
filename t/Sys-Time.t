@@ -77,13 +77,7 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
   ok(SPVM::TestCase::Sys::Time->gmtime);
 }
 
-ok(SPVM::TestCase::Sys::Time->gettimeofday);
-
 ok(SPVM::TestCase::Sys::Time->clock);
-
-ok(SPVM::TestCase::Sys::Time->clock_gettime);
-
-ok(SPVM::TestCase::Sys::Time->clock_getres);
 
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Time->getitimer(0, undef) };
@@ -108,6 +102,16 @@ if ($^O eq 'MSWin32') {
 else {
   ok(SPVM::TestCase::Sys::Time->times);
 }
+
+ok(SPVM::TestCase::Sys::Time->utime("$test_dir"));
+
+ok(SPVM::TestCase::Sys::Time->utimes("$test_dir"));
+
+ok(SPVM::TestCase::Sys::Time->timespec);
+
+ok(SPVM::TestCase::Sys::Time->timeval);
+
+ok(SPVM::TestCase::Sys::Time->tzset);
 
 {
   my $clock_nanosleep_supported;
@@ -143,15 +147,11 @@ else {
 
 ok(SPVM::TestCase::Sys::Time->nanosleep);
 
-ok(SPVM::TestCase::Sys::Time->utime("$test_dir"));
+ok(SPVM::TestCase::Sys::Time->clock_getres);
 
-ok(SPVM::TestCase::Sys::Time->utimes("$test_dir"));
+ok(SPVM::TestCase::Sys::Time->clock_gettime);
 
-ok(SPVM::TestCase::Sys::Time->timespec);
-
-ok(SPVM::TestCase::Sys::Time->timeval);
-
-ok(SPVM::TestCase::Sys::Time->tzset);
+ok(SPVM::TestCase::Sys::Time->gettimeofday);
 
 SPVM::Fn->destroy_runtime_permanent_vars;
 
