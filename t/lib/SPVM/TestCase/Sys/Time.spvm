@@ -1,7 +1,6 @@
 class TestCase::Sys::Time {
   use Sys::Time;
   use Sys::Time::Timeval;
-  use Sys::Time::Timezone;
   use Sys::Time::Timespec;
   use Sys::Time::Constant as TIME;
   use Sys::Time::Itimerval;

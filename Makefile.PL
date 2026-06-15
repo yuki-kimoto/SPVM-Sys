@@ -154,7 +154,6 @@ sub MY::postamble {
       Sys::Time::Constant
       Sys::Time::Timeval
       Sys::Time::Timespec
-      Sys::Time::Timezone
       Sys::Time::Itimerval
       Sys::Time::Tm
       Sys::Time::Tms

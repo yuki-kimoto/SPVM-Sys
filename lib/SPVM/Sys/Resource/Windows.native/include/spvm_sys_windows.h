@@ -296,10 +296,6 @@ typedef struct {
   WCHAR     dd_name[1];
 } SPVM_SYS_WINDOWS_DIR;
 
-typedef struct {
-  int tz_minuteswest; /* minutes west of Greenwich */
-  int tz_dsttime;      /* type of dst correction */
-} SPVM_SYS_WINDOWS_TIMEZONE;
 
 // Exactly same as Perl's one in Win32.h
 typedef DWORD Dev_t;
@@ -355,7 +351,7 @@ unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned i
 
 int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec);
 
-int spvm_sys_windows_gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack, struct timeval *p, SPVM_SYS_WINDOWS_TIMEZONE *z);
+int spvm_sys_windows_gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack, struct timeval* tv, void* tz);
 
 int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clk_id, struct timespec *ts);
 

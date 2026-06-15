@@ -6,7 +6,6 @@ class Sys::Time {
   use Sys::Time::Tm;
   use Sys::Time::Tms;
   use Sys::Time::Timeval;
-  use Sys::Time::Timezone;
   use Sys::Time::Itimerval;
   use Sys::Time::Timespec;
   use Sys::Time::Utimbuf;
