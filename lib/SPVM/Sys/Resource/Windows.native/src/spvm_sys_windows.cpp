@@ -536,65 +536,6 @@ int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t
   return status;
 }
 
-unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int seconds) {
-  std::this_thread::sleep_for(std::chrono::seconds(seconds));
-  return 0;
-}
-
-int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec) {
-  std::this_thread::sleep_for(std::chrono::microseconds(usec));
-  return 0;
-}
-
-int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct timeval* tv, void* tz) {
-  auto now = std::chrono::system_clock::now();
-  
-  auto duration = now.time_since_epoch();
-  
-  auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
-  auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration - seconds);
-  
-  if (tv != NULL) {
-    tv->tv_sec = static_cast<long>(seconds.count());
-    tv->tv_usec = static_cast<long>(microseconds.count());
-  }
-  
-  return 0;
-}
-
-int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clk_id, struct timespec *ts) {
-  /* Check null pointer */
-  if (ts == nullptr) {
-    errno = EINVAL;
-    return -1;
-  }
-
-  std::chrono::nanoseconds duration;
-
-  /* clk_id is int32_t, so logic is identical on all compilers */
-  if (clk_id == CLOCK_MONOTONIC) {
-    /* Monotonic time */
-    duration = std::chrono::steady_clock::now().time_since_epoch();
-  } else if (clk_id == CLOCK_REALTIME) {
-    /* Wall clock time */
-    duration = std::chrono::system_clock::now().time_since_epoch();
-  } else {
-    /* Unsupported ID */
-    errno = EINVAL;
-    return -1;
-  }
-  
-  /* Convert to seconds and nanoseconds */
-  auto sec = std::chrono::duration_cast<std::chrono::seconds>(duration);
-  auto nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - sec);
-
-  /* Set to C struct */
-  ts->tv_sec = static_cast<time_t>(sec.count());
-  ts->tv_nsec = static_cast<long>(nsec.count());
-
-  return 0;
-}
-
 // The output is the same as Perl's spvm_sys_windows_file_time_to_epoch in Win32.c
 static time_t spvm_sys_windows_file_time_to_epoch(SPVM_ENV* env, SPVM_VALUE* stack, FILETIME file_time) {
   SYSTEMTIME system_time;
@@ -1049,6 +990,65 @@ int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t cloc
     }
 
     return lc_set_errno(EINVAL);
+}
+
+unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int seconds) {
+  std::this_thread::sleep_for(std::chrono::seconds(seconds));
+  return 0;
+}
+
+int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec) {
+  std::this_thread::sleep_for(std::chrono::microseconds(usec));
+  return 0;
+}
+
+int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct timeval* tv, void* tz) {
+  auto now = std::chrono::system_clock::now();
+  
+  auto duration = now.time_since_epoch();
+  
+  auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
+  auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration - seconds);
+  
+  if (tv != NULL) {
+    tv->tv_sec = static_cast<long>(seconds.count());
+    tv->tv_usec = static_cast<long>(microseconds.count());
+  }
+  
+  return 0;
+}
+
+int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clk_id, struct timespec *ts) {
+  /* Check null pointer */
+  if (ts == nullptr) {
+    errno = EINVAL;
+    return -1;
+  }
+
+  std::chrono::nanoseconds duration;
+
+  /* clk_id is int32_t, so logic is identical on all compilers */
+  if (clk_id == CLOCK_MONOTONIC) {
+    /* Monotonic time */
+    duration = std::chrono::steady_clock::now().time_since_epoch();
+  } else if (clk_id == CLOCK_REALTIME) {
+    /* Wall clock time */
+    duration = std::chrono::system_clock::now().time_since_epoch();
+  } else {
+    /* Unsupported ID */
+    errno = EINVAL;
+    return -1;
+  }
+  
+  /* Convert to seconds and nanoseconds */
+  auto sec = std::chrono::duration_cast<std::chrono::seconds>(duration);
+  auto nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - sec);
+
+  /* Set to C struct */
+  ts->tv_sec = static_cast<time_t>(sec.count());
+  ts->tv_nsec = static_cast<long>(nsec.count());
+
+  return 0;
 }
 
 int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct timespec* req, struct timespec* rem) {
