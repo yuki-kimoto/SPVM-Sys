@@ -10,15 +10,21 @@
   #define _WIN32_WINNT SPVM_SYS_WINDOWS_TARGET_WIN_VERSION
 #endif
 
-/* * We define _CRT_SECURE_NO_WARNINGS to disable the Microsoft CRT security 
- * checks that force the use of "_s" variants.
- * * Using "_s" functions alters the fundamental file access behavior, such as 
- * mandatory sharing mode enforcement and parameter validation, which differ 
- * from standard C behaviors. To maintain consistent file IO semantics across 
- * platforms and avoid unexpected runtime side effects on Windows, we stick 
- * to standard functions.
+/* * We define _CRT_SECURE_NO_WARNINGS to disable Microsoft CRT security 
+ * checks that force the use of "_s" variants. Using "_s" functions alters 
+ * fundamental file IO semantics such as mandatory sharing mode enforcement 
+ * and parameter validation which differ from standard C behavior. 
+ *
+ * * We define _CRT_NONSTDC_NO_WARNINGS to allow the use of standard POSIX 
+ * function names (e.g., umask, stricmp) without being forced to use 
+ * Microsoft-specific underscores (e.g., _umask, _stricmp). 
+ *
+ * Both are necessary to maintain consistent code semantics and portability 
+ * across different platforms while avoiding unexpected runtime side effects 
+ * on Windows.
  */
 #define _CRT_SECURE_NO_WARNINGS
+#define _CRT_NONSTDC_NO_WARNINGS
 
 /*
  * Minimize macro pollution from windows.h
