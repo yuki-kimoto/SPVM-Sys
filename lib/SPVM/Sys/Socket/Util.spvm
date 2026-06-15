@@ -24,13 +24,7 @@ class Sys::Socket::Util {
   
   static method inet_ntoa : string ($in_addr : Sys::Socket::In_addr) {
     
-    my $address = (mutable string)new_string_len SOCKET->INET_ADDRSTRLEN;
-    
-    Sys::Socket->inet_ntop(SOCKET->AF_INET, $in_addr, $address, SOCKET->INET_ADDRSTRLEN);
-    
-    Fn->shorten_null_char($address);
-    
-    return $address;
+    return &inet_ntop(SOCKET->AF_INET, $in_addr);
   }
   
   static method inet_pton : Sys::Socket::In_addr_base ($family : int, $address : string) {
