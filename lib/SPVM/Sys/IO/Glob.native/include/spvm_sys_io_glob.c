@@ -482,7 +482,7 @@ glob0(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, SPVM_SYS_IO_GLOB *p
                          * cause the second star to return a match fail.
                          * As long ** is folded here this does not happen.
                          */
-                        if (bufnext == patbuf || bufnext[-1] != M_ALL)
+                        if (bufnext == patbuf || (unsigned char)bufnext[-1] != (unsigned char)M_ALL)
                                 *bufnext++ = M_ALL;
                         break;
                 default:
