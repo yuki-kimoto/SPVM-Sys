@@ -511,13 +511,7 @@ class Sys {
       die "The open mode '$open_mode' is not available.";
     }
     
-    my $stream = (Sys::IO::FileStream)undef;
-    if (Sys::OS->is_windows) {
-      $stream = Sys::IO->_popen($command, $type);
-    }
-    else {
-      $stream = Sys::IO->popen($command, $type);
-    }
+    my $stream = Sys::IO->popen($command, $type);
     
     $stream_ref->[0] = $stream;
   }
@@ -532,12 +526,7 @@ class Sys {
       die "The pipe stream \$stream is already closed.";
     }
     
-    if (Sys::OS->is_windows) {
-      Sys::IO->_pclose($stream);
-    }
-    else {
-      Sys::IO->pclose($stream);
-    }
+    Sys::IO->pclose($stream);
   }
   
   static method select : int ($read_fds : Sys::Select::Fd_set, $write_fds : Sys::Select::Fd_set, $except_fds : Sys::Select::Fd_set, $timeout : double = 0) {

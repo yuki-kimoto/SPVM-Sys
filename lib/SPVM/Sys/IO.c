@@ -1625,10 +1625,6 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  env->die(env, stack, "Sys::IO#popen method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
   int32_t error_id = 0;
   
   SPVM_OBJ* obj_command = stack[0].oval;
@@ -1645,8 +1641,11 @@ int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* type = env->get_chars(env, stack, obj_type);
   
+#if defined(_WIN32)
+  FILE* stream = _popen(command, type);
+#else
   FILE* stream = popen(command, type);
-  
+#endif
   if (!stream) {
     env->die(env, stack, "[System Error]popen() failed(%d: %s). $command='%s'", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), command);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -1661,54 +1660,9 @@ int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].oval = obj_stream;
   
   return 0;
-#endif
-}
-
-int32_t SPVM__Sys__IO___popen(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "Sys::IO#_popen method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_command = stack[0].oval;
-  
-  SPVM_OBJ* obj_type = stack[1].oval;
-  
-  if (!obj_command) {
-    return env->die(env, stack, "The command $command must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* command = env->get_chars(env, stack, obj_command);
-  
-  if (!obj_type) {
-    return env->die(env, stack, "The type $type must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* type = env->get_chars(env, stack, obj_type);
-  
-  FILE* stream = _popen(command, type);
-  
-  if (!stream) {
-    env->die(env, stack, "[System Error]_popen() failed(%d: %s). $command='%s'", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), command);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  env->set_field_byte_by_name(env, stack, obj_stream, "is_pipe", 1, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  env->die(env, stack, "Sys::IO#pclose method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
   int32_t error_id = 0;
   
   SPVM_OBJ* obj_stream = stack[0].oval;
@@ -1717,8 +1671,11 @@ int32_t SPVM__Sys__IO__pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
+#if defined(_WIN32)
+  int32_t status = _pclose(stream);
+#else
   int32_t status = pclose(stream);
-  
+#endif
   if (status == -1) {
     env->die(env, stack, "[System Error]pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -1727,33 +1684,6 @@ int32_t SPVM__Sys__IO__pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
-#endif
-}
-
-int32_t SPVM__Sys__IO___pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "Sys::IO#_pclose method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_stream = stack[0].oval;
-  if (!obj_stream) {
-    return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  int32_t status = _pclose(stream);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]_pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__INIT_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
