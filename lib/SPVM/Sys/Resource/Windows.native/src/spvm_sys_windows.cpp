@@ -3,7 +3,6 @@
 // C++ headers
 #include <thread>
 #include <chrono>
-#include <filesystem>
 #include <system_error>
 
 #include "spvm_sys_windows.h"
