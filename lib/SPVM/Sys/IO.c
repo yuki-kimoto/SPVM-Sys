@@ -936,9 +936,11 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  int32_t fd = _wopen(path_w, O_WRONLY);
-  if (fd == -1) {
-    env->die(env, stack, "[System Error]_wopen() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+  int32_t fd = -1;
+  errno = _wsopen_s(&fd, path_w, _O_WRONLY | _O_BINARY, _SH_DENYNO, 0);
+  
+  if (!(errno == 0)) {
+    env->die(env, stack, "[System Error]_wopen_s() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
