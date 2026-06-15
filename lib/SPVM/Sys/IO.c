@@ -936,7 +936,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = spvm_sys_windows_ftruncate(env, stack, fd, length);
   env->pop_caller_stack(env, stack);
   
-  close(fd);
+  _close(fd);
   
   if (status == -1) {
     error_id = env->get_error_id(env, stack);
