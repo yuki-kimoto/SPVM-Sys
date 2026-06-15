@@ -11,10 +11,12 @@
 
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
+  typedef SPVM_SYS_WINDOWS_TIMEVAL MY_TIMEVAL;
 #else
   #include <sys/time.h>
   #include <sys/times.h>
   #include <utime.h>
+  typedef struct timeval MY_TIMEVAL;
 #endif
 
 #include <time.h>
@@ -258,12 +260,12 @@ int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   SPVM_OBJ* obj_times0 = env->get_elem_object(env, stack, obj_times, 0);
-  struct timeval* times0 = env->get_pointer(env, stack, obj_times0);
+  MY_TIMEVAL* times0 = env->get_pointer(env, stack, obj_times0);
   
   SPVM_OBJ* obj_times1 = env->get_elem_object(env, stack, obj_times, 1);
-  struct timeval* times1 = env->get_pointer(env, stack, obj_times1);
+  MY_TIMEVAL* times1 = env->get_pointer(env, stack, obj_times1);
   
-  const struct timeval times[2] = {*times0, *times1};
+  const MY_TIMEVAL times[2] = {*times0, *times1};
   
   int32_t status = utimes(filename, times);
   
@@ -453,7 +455,7 @@ int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
    return env->die(env, stack, "Timezone $tz is not supported.", __func__, FILE_NAME, __LINE__);
   }
   
-  struct timeval* st_tv = NULL;
+  MY_TIMEVAL* st_tv = NULL;
   st_tv = env->get_pointer(env, stack, obj_tv);
   
 #ifdef _WIN32

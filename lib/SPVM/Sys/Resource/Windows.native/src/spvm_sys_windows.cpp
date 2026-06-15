@@ -1001,7 +1001,7 @@ int spvm_sys_windows_usleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int usec)
   return 0;
 }
 
-int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct timeval* tv, void* tz) {
+int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_TIMEVAL* tv, void* tz) {
   auto now = std::chrono::system_clock::now();
   
   auto duration = now.time_since_epoch();
@@ -1010,8 +1010,8 @@ int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, struct time
   auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration - seconds);
   
   if (tv != NULL) {
-    tv->tv_sec = static_cast<long>(seconds.count());
-    tv->tv_usec = static_cast<long>(microseconds.count());
+    tv->tv_sec = static_cast<int64_t>(seconds.count());
+    tv->tv_usec = static_cast<int32_t>(microseconds.count());
   }
   
   return 0;
