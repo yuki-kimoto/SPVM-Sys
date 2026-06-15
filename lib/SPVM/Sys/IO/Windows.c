@@ -145,6 +145,10 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
+  SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata;
+  DWORD linkdata_returned;
+  HANDLE handle = NULL;
+  
   WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     goto END_OF_FUNC;
@@ -157,9 +161,6 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata;
-  DWORD linkdata_returned;
-  HANDLE handle = NULL;
   if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
     handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
     
