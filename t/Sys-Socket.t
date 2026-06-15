@@ -62,7 +62,12 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 ok(SPVM::TestCase::Sys::Socket->inet_aton);
 ok(SPVM::TestCase::Sys::Socket->inet_pton);
-ok(SPVM::TestCase::Sys::Socket->inet_ntoa);
+if ($^O eq 'MSWin32') {
+  warn "[Test Skip]Sys::Socket#inet_ntoa is not supported for security. Use inet_ntop.";
+}
+else {
+  ok(SPVM::TestCase::Sys::Socket->inet_ntoa);
+}
 ok(SPVM::TestCase::Sys::Socket->inet_ntop);
 
 ok(SPVM::TestCase::Sys::Socket->socket);

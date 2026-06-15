@@ -113,7 +113,10 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+#if defined(_WIN32)
+  env->die(env, stack, "Sys::Socket#inet_ntoa method is not supported for security in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
   SPVM_OBJ* obj_in = stack[0].oval;
   
   if (!obj_in) {
@@ -140,6 +143,7 @@ int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].oval = obj_output_address;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {

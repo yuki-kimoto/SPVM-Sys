@@ -1127,7 +1127,7 @@ class TestCase::Sys::Socket {
         
         my $in_addr : Sys::Socket::In_addr = $ai_addr->(Sys::Socket::Sockaddr::In)->sin_addr;
 
-        my $addr_string = Sys::Socket->inet_ntoa($in_addr);
+        my $addr_string = Sys::Socket::Util->inet_ntoa($in_addr);
         
         unless ($addr_string eq "127.0.0.1") {
           return 0;
@@ -1141,7 +1141,7 @@ class TestCase::Sys::Socket {
         
         my $in_addr : Sys::Socket::In_addr = $ai_addr->(Sys::Socket::Sockaddr::In)->sin_addr;
 
-        my $addr_string = Sys::Socket->inet_ntoa($in_addr);
+        my $addr_string = Sys::Socket::Util->inet_ntoa($in_addr);
         
         unless ($addr_string eq "127.0.0.1") {
           return 0;
