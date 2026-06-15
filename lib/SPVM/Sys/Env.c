@@ -17,7 +17,10 @@
 static const char* FILE_NAME = "Sys/Env.c";
 
 int32_t SPVM__Sys__Env__getenv(SPVM_ENV* env, SPVM_VALUE* stack) {
-
+#if defined(_WIN32)
+  env->die(env, stack, "Sys::Env#getenv method is not supported for security in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
   SPVM_OBJ* obj_name = stack[0].oval;
   
   if (!obj_name) {
@@ -39,6 +42,7 @@ int32_t SPVM__Sys__Env__getenv(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].oval = obj_value;
   
   return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Env__setenv(SPVM_ENV* env, SPVM_VALUE* stack) {
