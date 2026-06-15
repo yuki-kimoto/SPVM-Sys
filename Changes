@@ -1,3 +1,16 @@
+0.568 2026-06-15
+  [Makefile.PL Changes]
+    * Update Makefile.PL to match latest SPVM Makefile.PL.
+  
+  [Bug Fix]
+    * Fix a memory bug in Sys/Poll/PollfdArray.c.
+    * Fix win_readlink handle bug.
+  [Test Improvement]
+    * Add CIs for MSVC.
+    * 
+  [New Features]
+    * Support MSVC.
+
 0.567 2026-06-02
   [Bug Fix]
     * Fix Sys#glob bugs.
