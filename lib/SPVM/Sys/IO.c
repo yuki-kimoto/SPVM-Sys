@@ -97,7 +97,11 @@ int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* mode = env->get_chars(env, stack, obj_mode);
   
+#if defined(_WIN32)
+  FILE* stream = _fdopen(fd, mode);
+#else
   FILE* stream = fdopen(fd, mode);
+#endif
   if (!stream) {
     env->die(env, stack, "[System Error]fdopen() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -121,7 +125,11 @@ int32_t SPVM__Sys__IO__fileno(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
+#if defined(_WIN32)
+  int32_t fd = _fileno(stream);
+#else
   int32_t fd = fileno(stream);
+#endif
   if (fd == -1) {
     env->die(env, stack, "[System Error]fileno() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -605,7 +613,12 @@ int32_t SPVM__Sys__IO__read(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The count $count must be less than the length of the buffer $buf - the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
+#if defined(_WIN32)
+  int32_t read_length = _read(fd, buf + buf_offset, count);
+#else
   int32_t read_length = read(fd, buf + buf_offset, count);
+#endif
+  
   if (read_length == -1) {
     env->die(env, stack, "[System Error]read() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -647,7 +660,11 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The count $count must be less than the length of $buf - the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
+#if defined(_WIN32)
+  int32_t write_length = _write(fd, buf + buf_offset, count);
+#else
   int32_t write_length = write(fd, buf + buf_offset, count);
+#endif
   if (write_length == -1) {
     env->die(env, stack, "[System Error]write() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -670,7 +687,12 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t whence = stack[2].ival;
   
+#if defined(_WIN32)
+  int64_t cur_offset = _lseek(fd, offset, whence);
+#else
   int64_t cur_offset = lseek(fd, offset, whence);
+#endif
+  
   if (cur_offset == -1) {
     env->die(env, stack, "[System Error]lseek() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -686,7 +708,11 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
+#if defined(_WIN32)
+  int32_t status = _close(fd);
+#else
   int32_t status = close(fd);
+#endif
   if (status == -1) {
     env->die(env, stack, "[System Error]close() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -969,7 +995,11 @@ int32_t SPVM__Sys__IO__umask(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t perms = stack[0].ival;
   
+#if defined(_WIN32)
+  int32_t cur_perms = _umask(perms);
+#else
   int32_t cur_perms = umask(perms);
+#endif
   
   stack[0].ival = cur_perms;
   
@@ -1019,7 +1049,11 @@ int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   const char* pathname = env->get_chars(env, stack, obj_pathname);
   
+#if defined(_WIN32)
+  int32_t status = _unlink(pathname);
+#else
   int32_t status = unlink(pathname);
+#endif
   if (status == -1) {
     env->die(env, stack, "[System Error]unlink() failed(%d: %s). $pathname='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), pathname);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
@@ -1849,7 +1883,11 @@ int32_t SPVM__Sys__IO__dup(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
   
+#if defined(_WIN32)
+  int32_t fd_to = _dup(fd);
+#else
   int32_t fd_to = dup(fd);
+#endif
   
   if (fd_to == -1) {
     env->die(env, stack, "[System Error]dup() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -1869,7 +1907,11 @@ int32_t SPVM__Sys__IO__dup2(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd_to = stack[1].ival;
   
+#if defined(_WIN32)
+  int32_t status = _dup2(fd, fd_to);
+#else
   int32_t status = dup2(fd, fd_to);
+#endif
   
   if (status == -1) {
     env->die(env, stack, "[System Error]dup2() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
