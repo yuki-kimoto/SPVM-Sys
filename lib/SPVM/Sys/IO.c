@@ -585,16 +585,23 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  int32_t fd = _wopen(path_w, intmode, perms);
+  int32_t fd = -1;
+  int32_t win_perms = perms & (_S_IWRITE | _S_IREAD);
+  errno = _wsopen_s(&fd, path_w, intmode, _SH_DENYNO, win_perms);
+  
+  if (!(errno == 0)) {
+    env->die(env, stack, "[System Error]_wsopen_s() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
 #else
   int32_t fd = open(path, intmode, perms);
-#endif
-
+  
   if (fd == -1) {
     env->die(env, stack, "[System Error]open() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
+#endif
+
   stack[0].ival = fd;
   
   return 0;
