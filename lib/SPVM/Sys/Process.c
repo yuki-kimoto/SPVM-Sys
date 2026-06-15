@@ -351,11 +351,7 @@ int32_t SPVM__Sys__Process__setpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Process__getpid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-#if defined(_WIN32)
-  int32_t process_id = _getpid();
-#else
   int32_t process_id = getpid();
-#endif
 
   stack[0].ival = process_id;
   
