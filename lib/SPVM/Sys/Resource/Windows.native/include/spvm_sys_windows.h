@@ -10,6 +10,16 @@
   #define _WIN32_WINNT SPVM_SYS_WINDOWS_TARGET_WIN_VERSION
 #endif
 
+/* * We define _CRT_SECURE_NO_WARNINGS to disable the Microsoft CRT security 
+ * checks that force the use of "_s" variants.
+ * * Using "_s" functions alters the fundamental file access behavior, such as 
+ * mandatory sharing mode enforcement and parameter validation, which differ 
+ * from standard C behaviors. To maintain consistent file IO semantics across 
+ * platforms and avoid unexpected runtime side effects on Windows, we stick 
+ * to standard functions.
+ */
+#define _CRT_SECURE_NO_WARNINGS
+
 /*
  * Minimize macro pollution from windows.h
  * 
