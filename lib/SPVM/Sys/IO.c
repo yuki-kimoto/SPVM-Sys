@@ -992,13 +992,21 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__umask(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
   int32_t perms = stack[0].ival;
+  int32_t cur_perms;
   
 #if defined(_WIN32)
-  int32_t cur_perms = _umask(perms);
+  
+  int32_t win_perms = perms & (_S_IWRITE | _S_IREAD);
+  
+  errno = _umask_s(win_perms, &cur_perms);
+  
+  if (!(errno == 0)) {
+    env->die(env, stack, "[System Error]_umask_s() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
 #else
-  int32_t cur_perms = umask(perms);
+  cur_perms = umask(perms);
 #endif
   
   stack[0].ival = cur_perms;
