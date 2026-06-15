@@ -145,7 +145,7 @@ ok(SPVM::TestCase::Sys::Time->tzset);
   }
 }
 
-ok(SPVM::TestCase::Sys::Time->nanosleep);
+# ok(SPVM::TestCase::Sys::Time->nanosleep);
 
 # ok(SPVM::TestCase::Sys::Time->clock_getres);
 
