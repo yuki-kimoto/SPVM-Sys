@@ -15,11 +15,7 @@ class Sys::Socket::Util {
   
   static method inet_aton : Sys::Socket::In_addr ($address : string) {
     
-    my $in_addr = Sys::Socket::In_addr->new;
-    
-    Sys::Socket->inet_aton($address, $in_addr);
-    
-    return $in_addr;
+    return (Sys::Socket::In_addr)&inet_pton(SOCKET->AF_INET, $address);
   }
   
   static method inet_ntoa : string ($in_addr : Sys::Socket::In_addr) {
