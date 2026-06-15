@@ -21,6 +21,7 @@ GetOptions(
   'parallel-make' => \my $parallel_make,
   'parallel-test' => \my $parallel_test,
   'jobs=i' => \my $jobs,
+  'force' => \my $force,
 );
 
 if ($meta) {

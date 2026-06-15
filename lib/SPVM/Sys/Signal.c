@@ -158,8 +158,11 @@ int32_t SPVM__Sys__Signal__signal(SPVM_ENV* env, SPVM_VALUE* stack) {
 static int32_t SIG_GO_WRITE_FD = -1;
 
 static void signal_hander_go(int32_t signal) {
-  
+#if defined(_WIN32)
+  int32_t write_length = _write(SIG_GO_WRITE_FD, &signal, sizeof(int32_t));
+#else
   int32_t write_length = write(SIG_GO_WRITE_FD, &signal, sizeof(int32_t));
+#endif
 }
 
 int32_t SPVM__Sys__Signal__SET_SIG_GO_WRITE_FD(SPVM_ENV* env, SPVM_VALUE* stack) {

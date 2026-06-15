@@ -281,8 +281,11 @@ int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Time__tzset(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
+#if defined(_WIN32)
+  _tzset();
+#else
   tzset();
+#endif
   
   return 0;
 }
