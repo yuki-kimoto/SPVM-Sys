@@ -321,6 +321,11 @@ typedef struct {
   time_t st_ctime;
 } SPVM_SYS_WINDOWS_STAT;
 
+typedef struct {
+  int64_t tv_sec;
+  int32_t tv_usec;
+} SPVM_SYS_WINDOWS_TIMEVAL;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
