@@ -1502,16 +1502,7 @@ int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
-  errno = 0;
-  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   spvm_sys_windows_rewinddir(env, stack, dirp);
-  env->pop_caller_stack(env, stack);
-  
-  if (errno != 0) {
-    error_id = env->get_error_id(env, stack);
-    assert(error_id);
-    return error_id;
-  }
 #else
   rewinddir(dirp);
 #endif
