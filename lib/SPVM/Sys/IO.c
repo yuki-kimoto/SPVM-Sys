@@ -32,47 +32,6 @@
 
 static const char* FILE_NAME = "Sys/IO.c";
 
-int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_path = stack[0].oval;
-  
-  SPVM_OBJ* obj_mode = stack[1].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  if (!obj_mode) {
-    return env->die(env, stack, "The mode $mode must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* mode = env->get_chars(env, stack, obj_mode);
-  
-#if defined(_WIN32)
-  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  FILE* stream = spvm_sys_windows_fopen(env, stack, path, mode);
-  env->pop_caller_stack(env, stack);
-  if (!stream) {
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-#else
-  FILE* stream = fopen(path, mode);
-  if (!stream) {
-    env->die(env, stack, "[System Error]fopen() failed(%d: %s). $path='%s', $mode='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path, mode);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-#endif
-  
-  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__fdopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
@@ -390,66 +349,6 @@ int32_t SPVM__Sys__IO__fclose(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  SPVM_OBJ* obj_stream = stack[0].oval;
-  
-  int64_t offset = stack[1].lval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  if (!(offset >= 0)) {
-    return env->die(env, stack, "The offset $offset must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t whence = stack[2].ival;
-  
-#if defined(_WIN32)
-  int32_t status = _fseeki64(stream, offset, whence);
-#else
-  int32_t status = fseek(stream, offset, whence);
-#endif
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]fseek() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  SPVM_OBJ* obj_stream = stack[0].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-#if defined(_WIN32)
-  int64_t offset = _ftelli64(stream);
-#else
-  int64_t offset = ftell(stream);
-#endif
-  
-  if (offset == -1) {
-    env->die(env, stack, "[System Error]ftell() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].lval = offset;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__fflush(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_stream = stack[0].oval;
@@ -502,84 +401,6 @@ int32_t SPVM__Sys__IO__freopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  SPVM_OBJ* obj_stream = stack[0].oval;
-  
-  SPVM_OBJ* obj_buf = stack[1].oval;
-  
-  if (!obj_stream) {
-    return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-  char* buf = NULL;
-  int32_t buf_length = -1;
-  if (obj_buf) {
-    buf = (char*)env->get_chars(env, stack, obj_buf);
-    buf_length = env->length(env, stack, obj_buf);
-  }
-  
-  int32_t mode = stack[2].ival;
-  
-  int32_t size = stack[3].ival;
-  
-  if (buf) {
-    if (!(size >= 0)) {
-      return env->die(env, stack, "The size $size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
-    }
-    if (!(size <= buf_length)) {
-      return env->die(env, stack, "The size $size must be less than or equal to the length of the buffer $buf.", __func__, FILE_NAME, __LINE__);
-    }
-  }
-  
-  int32_t status = setvbuf(stream, buf, mode, size);
-  if (!(status == 0)) {
-    env->die(env, stack, "[System Error]setvbuf() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_path = stack[0].oval;
-  
-  int32_t intmode = stack[1].ival;
-  
-  int32_t perms = stack[2].ival;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-#if defined(_WIN32)
-  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  int32_t fd = spvm_sys_windows_open(env, stack, path, intmode, perms);
-  env->pop_caller_stack(env, stack);
-  if (fd == -1) {
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-#else
-  int32_t fd = open(path, intmode, perms);
-  if (fd == -1) {
-    env->die(env, stack, "[System Error]open() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-#endif
-
-  stack[0].ival = fd;
   
   return 0;
 }
@@ -661,6 +482,309 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t status = close(fd);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]close() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__setvbuf(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  SPVM_OBJ* obj_stream = stack[0].oval;
+  
+  SPVM_OBJ* obj_buf = stack[1].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  char* buf = NULL;
+  int32_t buf_length = -1;
+  if (obj_buf) {
+    buf = (char*)env->get_chars(env, stack, obj_buf);
+    buf_length = env->length(env, stack, obj_buf);
+  }
+  
+  int32_t mode = stack[2].ival;
+  
+  int32_t size = stack[3].ival;
+  
+  if (buf) {
+    if (!(size >= 0)) {
+      return env->die(env, stack, "The size $size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+    }
+    if (!(size <= buf_length)) {
+      return env->die(env, stack, "The size $size must be less than or equal to the length of the buffer $buf.", __func__, FILE_NAME, __LINE__);
+    }
+  }
+  
+  int32_t status = setvbuf(stream, buf, mode, size);
+  if (!(status == 0)) {
+    env->die(env, stack, "[System Error]setvbuf() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__dup(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t fd_to = dup(fd);
+  
+  if (fd_to == -1) {
+    env->die(env, stack, "[System Error]dup() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = fd_to;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__dup2(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t fd_to = stack[1].ival;
+  
+  int32_t status = dup2(fd, fd_to);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]dup2() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__umask(SPVM_ENV* env, SPVM_VALUE* stack) {
+  int32_t perms = stack[0].ival;
+  int32_t cur_perms;
+  
+  cur_perms = umask(perms);
+  
+  stack[0].ival = cur_perms;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  SPVM_OBJ* obj_stream = stack[0].oval;
+  
+  int64_t offset = stack[1].lval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+  if (!(offset >= 0)) {
+    return env->die(env, stack, "The offset $offset must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t whence = stack[2].ival;
+  
+#if defined(_WIN32)
+  int32_t status = _fseeki64(stream, offset, whence);
+#else
+  int32_t status = fseek(stream, offset, whence);
+#endif
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]fseek() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  SPVM_OBJ* obj_stream = stack[0].oval;
+  
+  if (!obj_stream) {
+    return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+#if defined(_WIN32)
+  int64_t offset = _ftelli64(stream);
+#else
+  int64_t offset = ftell(stream);
+#endif
+  
+  if (offset == -1) {
+    env->die(env, stack, "[System Error]ftell() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].lval = offset;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
+  int32_t error_id = 0;
+  
+  SPVM_OBJ* obj_command = stack[0].oval;
+  
+  SPVM_OBJ* obj_type = stack[1].oval;
+  
+  if (!obj_command) {
+    return env->die(env, stack, "The command $command must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* command = env->get_chars(env, stack, obj_command);
+  
+  if (!obj_type) {
+    return env->die(env, stack, "The type $type must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* type = env->get_chars(env, stack, obj_type);
+  
+#if defined(_WIN32)
+  FILE* stream = _popen(command, type);
+#else
+  FILE* stream = popen(command, type);
+#endif
+  if (!stream) {
+    env->die(env, stack, "[System Error]popen() failed(%d: %s). $command='%s'", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), command);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  env->set_field_byte_by_name(env, stack, obj_stream, "opened_by_popen", 1, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
+  int32_t error_id = 0;
+  
+  SPVM_OBJ* obj_stream = stack[0].oval;
+  if (!obj_stream) {
+    return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  FILE* stream = env->get_pointer(env, stack, obj_stream);
+  
+#if defined(_WIN32)
+  int32_t status = _pclose(stream);
+#else
+  int32_t status = pclose(stream);
+#endif
+  if (status == -1) {
+    env->die(env, stack, "[System Error]pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  SPVM_OBJ* obj_path = stack[0].oval;
+  
+  SPVM_OBJ* obj_mode = stack[1].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  if (!obj_mode) {
+    return env->die(env, stack, "The mode $mode must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* mode = env->get_chars(env, stack, obj_mode);
+  
+#if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  FILE* stream = spvm_sys_windows_fopen(env, stack, path, mode);
+  env->pop_caller_stack(env, stack);
+  if (!stream) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#else
+  FILE* stream = fopen(path, mode);
+  if (!stream) {
+    env->die(env, stack, "[System Error]fopen() failed(%d: %s). $path='%s', $mode='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path, mode);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#endif
+  
+  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  stack[0].oval = obj_stream;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  SPVM_OBJ* obj_path = stack[0].oval;
+  
+  int32_t intmode = stack[1].ival;
+  
+  int32_t perms = stack[2].ival;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+#if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  int32_t fd = spvm_sys_windows_open(env, stack, path, intmode, perms);
+  env->pop_caller_stack(env, stack);
+  if (fd == -1) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#else
+  int32_t fd = open(path, intmode, perms);
+  if (fd == -1) {
+    env->die(env, stack, "[System Error]open() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#endif
+
+  stack[0].ival = fd;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
@@ -686,21 +810,6 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   
   stack[0].lval = cur_offset;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t fd = stack[0].ival;
-  
-  int32_t status = close(fd);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]close() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
   
   return 0;
 }
@@ -767,38 +876,6 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
-}
-
-int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-#if defined(_WIN32)
-  return env->die(env, stack, "Sys::IO#faccessat method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-#else
-  int32_t dirfd = stack[0].ival;
-  
-  SPVM_OBJ* obj_path = stack[1].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  int32_t mode = stack[2].ival;
-  
-  int32_t flags = stack[3].ival;
-  
-  int32_t status = faccessat(dirfd, path, mode, flags);
-  
-  if (status == -1) {
-    const char* path = env->get_chars(env, stack, obj_path);
-    env->die(env, stack, "[System Error]faccessat() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -891,50 +968,6 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__umask(SPVM_ENV* env, SPVM_VALUE* stack) {
-  int32_t perms = stack[0].ival;
-  int32_t cur_perms;
-  
-  cur_perms = umask(perms);
-  
-  stack[0].ival = cur_perms;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-#if defined(_WIN32)
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    return error_id;
-  }
-  
-  int32_t status = _wrmdir(path_w);
-#else
-  int32_t status = rmdir(path);
-#endif
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]rmdir() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_path = stack[0].oval;
@@ -979,6 +1012,39 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = rename(oldpath, newpath);
   if (status == -1) {
     env->die(env, stack, "[System Error]rename() failed(%d: %s). $oldpath='%s', $newpath='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), oldpath, newpath);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  SPVM_OBJ* obj_path = stack[0].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+#if defined(_WIN32)
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    return error_id;
+  }
+  
+  int32_t status = _wrmdir(path_w);
+#else
+  int32_t status = rmdir(path);
+#endif
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]rmdir() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -1522,68 +1588,6 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__popen(SPVM_ENV* env, SPVM_VALUE* stack) {
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_command = stack[0].oval;
-  
-  SPVM_OBJ* obj_type = stack[1].oval;
-  
-  if (!obj_command) {
-    return env->die(env, stack, "The command $command must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* command = env->get_chars(env, stack, obj_command);
-  
-  if (!obj_type) {
-    return env->die(env, stack, "The type $type must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* type = env->get_chars(env, stack, obj_type);
-  
-#if defined(_WIN32)
-  FILE* stream = _popen(command, type);
-#else
-  FILE* stream = popen(command, type);
-#endif
-  if (!stream) {
-    env->die(env, stack, "[System Error]popen() failed(%d: %s). $command='%s'", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), command);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  env->set_field_byte_by_name(env, stack, obj_stream, "opened_by_popen", 1, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_stream;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__pclose(SPVM_ENV* env, SPVM_VALUE* stack) {
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_stream = stack[0].oval;
-  if (!obj_stream) {
-    return env->die(env, stack, "The stream $stream must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  FILE* stream = env->get_pointer(env, stack, obj_stream);
-  
-#if defined(_WIN32)
-  int32_t status = _pclose(stream);
-#else
-  int32_t status = pclose(stream);
-#endif
-  if (status == -1) {
-    env->die(env, stack, "[System Error]pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__INIT_STDIN(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
@@ -1699,42 +1703,6 @@ int32_t SPVM__Sys__IO__INIT_SPVM_STDERR(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__IO__dup(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  int32_t fd_to = dup(fd);
-  
-  if (fd_to == -1) {
-    env->die(env, stack, "[System Error]dup() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = fd_to;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__IO__dup2(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  int32_t fd_to = stack[1].ival;
-  
-  int32_t status = dup2(fd, fd_to);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]dup2() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   return env->die(env, stack, "Sys::IO#fsync method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -1808,6 +1776,38 @@ int32_t SPVM__Sys__IO__flock(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = flock(fd, operation);
   if (status == -1) {
     env->die(env, stack, "[System Error]flock() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+#if defined(_WIN32)
+  return env->die(env, stack, "Sys::IO#faccessat method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+#else
+  int32_t dirfd = stack[0].ival;
+  
+  SPVM_OBJ* obj_path = stack[1].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  int32_t mode = stack[2].ival;
+  
+  int32_t flags = stack[3].ival;
+  
+  int32_t status = faccessat(dirfd, path, mode, flags);
+  
+  if (status == -1) {
+    const char* path = env->get_chars(env, stack, obj_path);
+    env->die(env, stack, "[System Error]faccessat() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
