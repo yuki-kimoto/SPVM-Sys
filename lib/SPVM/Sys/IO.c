@@ -1426,11 +1426,8 @@ int32_t SPVM__Sys__IO__closedir(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   int32_t status = spvm_sys_windows_closedir(env, stack, dirp);
   env->pop_caller_stack(env, stack);
-  
   if (status == -1) {
-    error_id = env->get_error_id(env, stack);
-    assert(error_id);
-    return error_id;
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #else
   int32_t status = closedir(dirp);

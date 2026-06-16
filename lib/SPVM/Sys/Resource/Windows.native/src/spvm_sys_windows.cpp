@@ -395,38 +395,26 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
   return (SPVM_SYS_WINDOWS_WDIRENT *) 0;
 }
 
-
-/*
- * closedir
- *
- * Frees up resources allocated by opendir.
- */
-int spvm_sys_windows_closedir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
-  int status;
-
-  errno = 0;
-  status = 0;
-
-  if (!dirp)
-    {
-      errno = EFAULT;
-      env->die(env, stack, "Directry stream $dirp must be defined.", __func__, FILE_NAME, __LINE__);
-      env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
-      return -1;
+int spvm_sys_windows_closedir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp) {
+  int32_t status;
+  
+  assert(dirp);
+  
+  if (dirp->dd_handle != -1) {
+    status = _findclose(dirp->dd_handle);
+    if (status == -1) {
+      env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+      goto END_OF_FUNC;
     }
-
-  if (dirp->dd_handle != -1)
-    {
-      status = _findclose (dirp->dd_handle);
-      if (status == -1) {
-        env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-        env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
-      }
-    }
-
-  /* Delete the dir structure. */
-  free (dirp);
-
+  }
+  else {
+    status = 0;
+  }
+  
+  END_OF_FUNC:
+  
+  free(dirp);
+  
   return status;
 }
 
