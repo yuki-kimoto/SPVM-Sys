@@ -401,6 +401,8 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
 
 FILE* spvm_sys_windows_fopen(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, const char* mode);
 
+int spvm_sys_windows_open(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, int flags, int mode);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
