@@ -51,19 +51,8 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* mode = env->get_chars(env, stack, obj_mode);
   
 #if defined(_WIN32)
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    return error_id;
-  }
-  
-  WCHAR* mode_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, mode, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    return error_id;
-  }
-  
-  FILE* stream = _wfopen(path_w, mode_w);
+  FILE* stream = spvm_sys_windows_fopen(env, stack, path, mode);
   if (!stream) {
-    env->die(env, stack, "[System Error]_wfopen() failed(%d: %s). $path='%s', $mode='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path, mode);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #else

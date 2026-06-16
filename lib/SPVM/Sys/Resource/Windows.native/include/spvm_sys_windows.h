@@ -399,6 +399,8 @@ int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct ti
 
 int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, char *const argv[]);
 
+FILE* spvm_sys_windows_fopen(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, const char* mode);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

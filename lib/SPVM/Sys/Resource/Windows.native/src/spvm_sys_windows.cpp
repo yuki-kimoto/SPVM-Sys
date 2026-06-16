@@ -1,10 +1,10 @@
 #if defined(_WIN32)
 
+#include "spvm_sys_windows.h"
+
 // C++ headers
 #include <thread>
 #include <chrono>
-
-#include "spvm_sys_windows.h"
 
 extern "C" {
 
@@ -1140,6 +1140,41 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
   errno = my_errno;
   
   return status;
+}
+
+FILE* spvm_sys_windows_fopen(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, const char* mode) {
+  
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
+  
+  FILE* fs = NULL;
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  
+  {
+    WCHAR* mode_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, mode, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
+      my_errno = EILSEQ;
+      goto END_OF_FUNC;
+    }
+    
+    {
+      fs = _wfopen(path_w, mode_w);
+      if (!fs) {
+        env->die(env, stack, "[System Error]_wfopen() failed(%d: %s). $path='%s', $mode='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path, mode);
+        goto END_OF_FUNC;
+      }
+    }
+  }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return fs;
 }
 
 } // extern "C"
