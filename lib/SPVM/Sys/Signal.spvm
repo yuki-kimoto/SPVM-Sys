@@ -7,15 +7,16 @@ class Sys::Signal {
   use Sys::Signal::Handler;
   use Sys::OS;
   
+  # Class Methods
   native static method raise : int ($sig : int);
+  
+  native static method signal : Sys::Signal::Handler ($signum : int, $handler : Sys::Signal::Handler);
   
   native static method kill : int ($pid : int, $sig : int);
   
   native static method alarm : int ($seconds : int);
   
   native static method ualarm : int ($usecs : int, $interval : int);
-  
-  native static method signal : Sys::Signal::Handler ($signum : int, $handler : Sys::Signal::Handler);
   
   native static method SIG_DFL : Sys::Signal::Handler ();
   

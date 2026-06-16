@@ -4,11 +4,11 @@ package SPVM::Sys::Signal;
 
 =head1 Name
 
-SPVM::Sys::Signal - Signals
+SPVM::Sys::Signal - Signal System Calls
 
 =head1 Description
 
-Sys::Signal class in L<SPVM> has methods to manipulate signals.
+Sys::Signal class in L<SPVM> manipulate system calls for signals.
 
 =head1 Usage
   
@@ -32,6 +32,22 @@ See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about constant values g
 Exceptions:
 
 If the raise function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 signal
+
+C<static method signal : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ($signum : int, $handler : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler>);>
+
+Calls L<signal|https://linux.die.net/man/2/signal> function and creates a signal handler object with its pointer set to the function's return value, and returns it.
+
+$handler can be L</"SIG_DFL"> and L</"SIG_IGN">.
+
+See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about constant values given to $sig.
+
+Exceptions:
+
+$handler must be defined. Otherwise an exception is thrown.
+
+If the signal function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 kill
 
@@ -69,22 +85,6 @@ Exceptions:
 
 In Windows the following excetpion is thrown. ualarm is not supported in this system(defined(_WIN32)).
 
-=head2 signal
-
-C<static method signal : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ($signum : int, $handler : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler>);>
-
-Calls L<signal|https://linux.die.net/man/2/signal> function and creates a signal handler object with its pointer set to the function's return value, and returns it.
-
-$handler can be L</"SIG_DFL"> and L</"SIG_IGN">.
-
-See L<Sys::Signal::Constant|SPVM::Sys::Signal::Constant> about constant values given to $sig.
-
-Exceptions:
-
-$handler must be defined. Otherwise an exception is thrown.
-
-If the signal function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
-
 =head2 SIG_DFL
 
 C<static method SIG_DFL : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();>
@@ -97,14 +97,6 @@ C<static method SIG_IGN : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();
 
 Creates a new signal handler that represents C<SIG_IGN>.
 
-=head2 SIG_GO
-
-C<static method SIG_GO : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();>
-
-Creates a new signal handler that represents the signal handler for L<Go::OS::Signal|SPVM::Go::OS::Signal>.
-
-Do not use this signal handler because this signal handler is prepared to implement the  L<Go::OS::Signal|SPVM::Go::OS::Signal> class.
-
 =head2 SET_SIG_GO_WRITE_FD
 
 C<static method SET_SIG_GO_WRITE_FD : void ($fd : int);>
@@ -112,6 +104,14 @@ C<static method SET_SIG_GO_WRITE_FD : void ($fd : int);>
 Set a write file descriptor for L<Go::OS::Signal|SPVM::Go::OS::Signal>.
 
 Do not use this method because this method is prepared to implement the L<Go::OS::Signal|SPVM::Go::OS::Signal> class.
+
+=head2 SIG_GO
+
+C<static method SIG_GO : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();>
+
+Creates a new signal handler that represents the signal handler for L<Go::OS::Signal|SPVM::Go::OS::Signal>.
+
+Do not use this signal handler because this signal handler is prepared to implement the  L<Go::OS::Signal|SPVM::Go::OS::Signal> class.
 
 =head1 See Also
 

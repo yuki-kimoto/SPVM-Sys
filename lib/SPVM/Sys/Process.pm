@@ -4,11 +4,11 @@ package SPVM::Sys::Process;
 
 =head1 Name
 
-SPVM::Sys::Process - System Calls for Process Manipulation
+SPVM::Sys::Process - Process System Calls
 
 =head1 Description
 
-Sys::Process class manipulates system calls for process manipulation.
+Sys::Process class in L<SPVM> manipulates system calls for process manipulation.
 
 =head1 Usage
   
