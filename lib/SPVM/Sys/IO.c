@@ -737,30 +737,30 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  SPVM_OBJ* obj_pathname = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
   int32_t mode = stack[1].ival;
   
-  if (!obj_pathname) {
-    return env->die(env, stack, "The path $pathname must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!obj_path) {
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  const char* pathname = env->get_chars(env, stack, obj_pathname);
+  const char* path = env->get_chars(env, stack, obj_path);
   
 #if defined(_WIN32)
-  WCHAR* pathname_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, pathname, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  int32_t status = _waccess(pathname_w, mode);
+  int32_t status = _waccess(path_w, mode);
 #else
-  int32_t status = access(pathname, mode);
+  int32_t status = access(path, mode);
 #endif
   
   if (status == -1) {
-    const char* pathname = env->get_chars(env, stack, obj_pathname);
-    env->die(env, stack, "[System Error]access() failed(%d: %s). $pathname='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), pathname);
+    const char* path = env->get_chars(env, stack, obj_path);
+    env->die(env, stack, "[System Error]access() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -776,21 +776,21 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t dirfd = stack[0].ival;
   
-  SPVM_OBJ* obj_pathname = stack[1].oval;
+  SPVM_OBJ* obj_path = stack[1].oval;
   
-  if (!obj_pathname) {
-    return env->die(env, stack, "The path $pathname must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!obj_path) {
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
-  const char* pathname = env->get_chars(env, stack, obj_pathname);
+  const char* path = env->get_chars(env, stack, obj_path);
   
   int32_t mode = stack[2].ival;
   
   int32_t flags = stack[3].ival;
   
-  int32_t status = faccessat(dirfd, pathname, mode, flags);
+  int32_t status = faccessat(dirfd, path, mode, flags);
   
   if (status == -1) {
-    const char* pathname = env->get_chars(env, stack, obj_pathname);
+    const char* path = env->get_chars(env, stack, obj_path);
     env->die(env, stack, "[System Error]faccessat() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
@@ -937,17 +937,17 @@ int32_t SPVM__Sys__IO__rmdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  SPVM_OBJ* obj_pathname = stack[0].oval;
+  SPVM_OBJ* obj_path = stack[0].oval;
   
-  if (!obj_pathname) {
-    return env->die(env, stack, "The path $pathname must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!obj_path) {
+    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  const char* pathname = env->get_chars(env, stack, obj_pathname);
+  const char* path = env->get_chars(env, stack, obj_path);
   
-  int32_t status = unlink(pathname);
+  int32_t status = unlink(path);
   if (status == -1) {
-    env->die(env, stack, "[System Error]unlink() failed(%d: %s). $pathname='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), pathname);
+    env->die(env, stack, "[System Error]unlink() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

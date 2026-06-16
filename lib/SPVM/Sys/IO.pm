@@ -434,7 +434,7 @@ If the flock function failed, an exception is thrown with C<eval_error_id> set t
 
 =head2 access
 
-C<static method access : int ($pathname : string, $mode : int);>
+C<static method access : int ($path : string, $mode : int);>
 
 Calls the L<access|https://linux.die.net/man/2/access> function and returns its return value.
 
@@ -442,13 +442,13 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-$pathname must be defined. Otherwise an exception is thrown.
+$path must be defined. Otherwise an exception is thrown.
 
 If the access function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 faccessat
 
-  static method faccessat : int ($dirfd : int, $pathname : string, $mode : int, $flags : int);
+  static method faccessat : int ($dirfd : int, $path : string, $mode : int, $flags : int);
 
 Calls the L<faccessat|https://linux.die.net/man/2/faccessat> function and returns its return value.
 
@@ -456,13 +456,13 @@ See L<Sys::IO::Constant|SPVM::Sys::IO::Constant> about constant values given to 
 
 Exceptions:
 
-$pathname must be defined. Otherwise an exception is thrown.
+$path must be defined. Otherwise an exception is thrown.
 
 If the faccessat function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 eaccess
 
-C<static method eaccess : int ($pathname : string, $mode : int);>
+C<static method eaccess : int ($path : string, $mode : int);>
 
 Calls the L</"faccessat"> method given the following $dirfd and $flag.
 
@@ -520,13 +520,13 @@ If the rmdir function failed, an exception is thrown with C<eval_error_id> set t
 
 =head2 unlink
 
-C<static method unlink : int ($pathname : string);>
+C<static method unlink : int ($path : string);>
 
 Calls the L<unlink|https://linux.die.net/man/2/unlink> function and return its return value.
 
 Exceptions:
 
-$pathname must be defined. Otherwise an exception is thrown.
+$path must be defined. Otherwise an exception is thrown.
 
 If the unlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 

@@ -257,7 +257,7 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
       return (SPVM_SYS_WINDOWS_DIR *) 0;
     }
 
-  /* Make an absolute pathname.  */
+  /* Make an absolute path.  */
   _wfullpath (szFullPath, dir_w, MAX_PATH);
   
   size_t full_path_len = wcslen(szFullPath);

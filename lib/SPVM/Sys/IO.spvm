@@ -124,13 +124,13 @@ class Sys::IO {
   
   native static method flock : int ($fd : int, $operation : int);
   
-  native static method access : int ($pathname : string, $mode : int);
+  native static method access : int ($path : string, $mode : int);
   
-  native static method faccessat : int ($dirfd : int, $pathname : string, $mode : int, $flags : int);
+  native static method faccessat : int ($dirfd : int, $path : string, $mode : int, $flags : int);
   
-  static method eaccess : int ($pathname : string, $mode : int) {
+  static method eaccess : int ($path : string, $mode : int) {
     
-    my $status = &faccessat(IO->AT_FDCWD, $pathname, $mode, IO->AT_EACCESS);
+    my $status = &faccessat(IO->AT_FDCWD, $path, $mode, IO->AT_EACCESS);
     
     return $status;
   }
@@ -143,7 +143,7 @@ class Sys::IO {
   
   native static method rmdir : int ($path : string);
   
-  native static method unlink : int ($pathname : string);
+  native static method unlink : int ($path : string);
   
   native static method rename : int ($oldpath : string, $newpath : string);
   
