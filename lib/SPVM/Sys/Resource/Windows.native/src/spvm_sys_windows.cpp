@@ -529,15 +529,20 @@ void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
 
 int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t length) {
   
-  int32_t ret_errno = _chsize_s(fd, length);
-  
-  int status = 0;
-  if (!(ret_errno == 0)) {
-    errno = ret_errno;
+  int32_t status;
+  int32_t my_errno = _chsize_s(fd, length);
+  if (my_errno == 0) {
+    status = 0;
+  }
+  else {
     status = -1;
     env->die(env, stack, "[System Error]spvm_sys_windows_ftruncate() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
+    goto END_OF_FUNC;
   }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
   
   return status;
 }
@@ -1188,17 +1193,21 @@ int spvm_sys_windows_open(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, in
   int32_t error_id = 0;
   int32_t my_errno = 0;
   
+  int32_t fd;
+  
   WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = EILSEQ;
     goto END_OF_FUNC;
   }
   
-  int32_t fd = _wopen(path_w, intmode, perms);
-  my_errno = errno;
-  if (fd == -1) {
-    env->die(env, stack, "[System Error]_wopen() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-    goto END_OF_FUNC;
+  {
+    fd = _wopen(path_w, intmode, perms);
+    my_errno = errno;
+    if (fd == -1) {
+      env->die(env, stack, "[System Error]_wopen() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      goto END_OF_FUNC;
+    }
   }
   
   END_OF_FUNC:
