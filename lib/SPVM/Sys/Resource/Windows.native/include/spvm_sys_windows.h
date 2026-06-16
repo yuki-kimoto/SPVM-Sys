@@ -52,6 +52,7 @@
  * (e.g., FSCTL_GET_REPARSE_POINT) which are excluded by WIN32_LEAN_AND_MEAN.
  */
 #include <winioctl.h>
+
 #include <io.h>
 #include <direct.h>
 #include <process.h>
@@ -61,7 +62,7 @@
 #include <ws2tcpip.h>
 #include <sys/stat.h>
 #include <share.h>
-
+#include <fcntl.h>
 #include <time.h>
 
 #include "spvm_native.h"

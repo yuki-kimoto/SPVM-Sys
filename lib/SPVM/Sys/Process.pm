@@ -136,6 +136,10 @@ C<static method pipe : int ($pipe_fds : int[]);>
 
 Calls the L<pipe|https://linux.die.net/man/2/pipe> function and returns its return value.
 
+Windows:
+
+Calls the L<_pipe|https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/pipe?view=msvc-170> function with size C<4096> and mode C<_O_BINARY> and returns its return value.
+
 Exceptions:
 
 $pipefds must be defined. Otherwise an exception is thrown.
@@ -145,22 +149,6 @@ The length of $pipefds must 2. Otherwise an exception is thrown.
 If the pipe function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 In Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. pipe is not supported in this system(defined(_WIN32)).
-
-=head2 _pipe
-
-  static method _pipe : int ($pipe_fds : int[], $psize : int, $textmode : int);
-
-Calls the L<_pipe|https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/pipe?view=msvc-170> function and returns its return value.
-
-Exceptions:
-
-$pipefds must be defined. Otherwise an exception is thrown.
-
-The length of $pipefds must 2. Otherwise an exception is thrown.
-
-If the _pipe function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
-
-In OSs other than Windows, the following exception is thrown with C<eval_error_id> set to the basic type ID of L<Error::NotSupported|SPVM::Error::NotSupported> class. _pipe is not supported in this system(!defined(_WIN32)).
 
 =head2 getpgid
 
