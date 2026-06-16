@@ -181,7 +181,9 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   assert(argv[args_length] == NULL);
   
 #if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   int32_t status = spvm_sys_windows_execv(env, stack, path, argv);
+  env->pop_caller_stack(env, stack);
 #else
   int32_t status = execv(path, argv);
 #endif
