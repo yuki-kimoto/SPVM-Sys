@@ -1187,11 +1187,8 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   
   assert(path);
   
-  int32_t error_id;
-  int32_t my_errno;
   HANDLE handle;
   SPVM_OBJ* obj_resolved_path;
-  SPVM_OBJ* obj_resolved_link_text;
   const char* resolved_link_text;
   WCHAR* resolved_link_text_w;
   int32_t needed_len;
@@ -1201,14 +1198,13 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   char* resolved_path_tmp;
   char* resolved_path;
   int32_t resolved_path_length;
-  int32_t i;
   
-  error_id = 0;
-  my_errno = 0;
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
   handle = NULL;
   obj_resolved_path = NULL;
-  obj_resolved_link_text = NULL;
   
+  SPVM_OBJ* obj_resolved_link_text = NULL;
   {
     stack[0].oval = env->new_string_nolen(env, stack, path);
     env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
@@ -1261,19 +1257,19 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   resolved_path_length = env->length(env, stack, obj_resolved_path);
   
   if (strncmp(resolved_path, "\\\\?\\", 4) == 0) {
-    for (i = 0; i < resolved_path_length - 4; i++) {
+    for (int32_t i = 0; i < resolved_path_length - 4; i++) {
       resolved_path[i] = resolved_path[i + 4];
     }
     env->shorten(env, stack, obj_resolved_path, resolved_path_length - 4);
   }
   else if (strncmp(resolved_path, "\\\\?\\UNC\\", 8) == 0) {
-    for (i = 2; i < resolved_path_length - 6; i++) {
+    for (int32_t i = 2; i < resolved_path_length - 6; i++) {
       resolved_path[i] = resolved_path[i + 6];
     }
     env->shorten(env, stack, obj_resolved_path, resolved_path_length - 8);
   }
   
-  for (i = 0; i < resolved_path_length; i++) {
+  for (int32_t i = 0; i < resolved_path_length; i++) {
     if (resolved_path[i] == '\\') {
       resolved_path[i] = '/';
     }
