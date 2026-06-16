@@ -51,7 +51,9 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* mode = env->get_chars(env, stack, obj_mode);
   
 #if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   FILE* stream = spvm_sys_windows_fopen(env, stack, path, mode);
+  env->pop_caller_stack(env, stack);
   if (!stream) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
@@ -563,7 +565,9 @@ int32_t SPVM__Sys__IO__open(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* path = env->get_chars(env, stack, obj_path);
   
 #if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   int32_t fd = spvm_sys_windows_open(env, stack, path, intmode, perms);
+  env->pop_caller_stack(env, stack);
   if (fd == -1) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
@@ -699,66 +703,6 @@ int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = status;
   
   return 0;
-}
-
-int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  return env->die(env, stack, "Sys::IO#fsync method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-#else
-  int32_t fd = stack[0].ival;
-  
-  int32_t status = fsync(fd);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]fsync() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  return env->die(env, stack, "Sys::IO#fcntl method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-#else
-  
-  int32_t error_id = 0;
-  
-  int32_t fd = stack[0].ival;
-  
-  int32_t command = stack[1].ival;
-  
-  int32_t ret = -1;
-  
-  SPVM_OBJ* obj_command_arg = stack[2].oval;
-  
-  if (!obj_command_arg) {
-    ret = fcntl(fd, command, NULL);
-  }
-  else {
-    int32_t command_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_command_arg);
-    int32_t command_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_command_arg);
-    
-    // Int
-    if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && command_arg_type_dimension == 0) {
-      int32_t value = env->get_field_int_by_name(env, stack, obj_command_arg, "value", &error_id, __func__, FILE_NAME, __LINE__);
-      ret = fcntl(fd, command, value);
-    }
-    else if (env->is_type_by_name(env, stack, obj_command_arg, "Sys::IO::Flock", 0)) {
-      struct flock* st_flock = env->get_pointer(env, stack, obj_command_arg);
-      ret = fcntl(fd, command, st_flock);
-    }
-    else {
-      return env->die(env, stack, "The argument $command_arg must be an instance of the Int class or Sys::IO::Flock class.", __func__, FILE_NAME, __LINE__);
-    }
-  }
-  
-  stack[0].ival = ret;
-  
-  return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__ftruncate(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -1813,4 +1757,64 @@ int32_t SPVM__Sys__IO__dup2(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   return 0;
+}
+
+int32_t SPVM__Sys__IO__fsync(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if defined(_WIN32)
+  return env->die(env, stack, "Sys::IO#fsync method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+#else
+  int32_t fd = stack[0].ival;
+  
+  int32_t status = fsync(fd);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]fsync() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__IO__fcntl(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if defined(_WIN32)
+  return env->die(env, stack, "Sys::IO#fcntl method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+#else
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  int32_t command = stack[1].ival;
+  
+  int32_t ret = -1;
+  
+  SPVM_OBJ* obj_command_arg = stack[2].oval;
+  
+  if (!obj_command_arg) {
+    ret = fcntl(fd, command, NULL);
+  }
+  else {
+    int32_t command_arg_basic_type_id = env->get_object_basic_type_id(env, stack, obj_command_arg);
+    int32_t command_arg_type_dimension = env->get_object_type_dimension(env, stack, obj_command_arg);
+    
+    // Int
+    if (command_arg_basic_type_id == SPVM_NATIVE_C_BASIC_TYPE_ID_INT_CLASS && command_arg_type_dimension == 0) {
+      int32_t value = env->get_field_int_by_name(env, stack, obj_command_arg, "value", &error_id, __func__, FILE_NAME, __LINE__);
+      ret = fcntl(fd, command, value);
+    }
+    else if (env->is_type_by_name(env, stack, obj_command_arg, "Sys::IO::Flock", 0)) {
+      struct flock* st_flock = env->get_pointer(env, stack, obj_command_arg);
+      ret = fcntl(fd, command, st_flock);
+    }
+    else {
+      return env->die(env, stack, "The argument $command_arg must be an instance of the Int class or Sys::IO::Flock class.", __func__, FILE_NAME, __LINE__);
+    }
+  }
+  
+  stack[0].ival = ret;
+  
+  return 0;
+#endif
 }
