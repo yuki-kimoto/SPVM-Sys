@@ -957,6 +957,8 @@ int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct ti
 
 int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, char *const argv[]) {
   
+  int32_t args_length;
+  
   int32_t error_id = 0;
   int32_t my_errno = 0;
   
@@ -969,32 +971,28 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
     goto END_OF_FUNC;
   }
   
-  {
-    int32_t args_length = 0;
-    while (argv[args_length] != NULL) {
-      args_length++;
-    }
-    
-    argv_w = (WCHAR**)env->new_memory_block(env, stack, sizeof(WCHAR*) * (args_length + 1));
-    for (int32_t i = 0; i < args_length; i++) {
-      char* arg = argv[i];
-      WCHAR* arg_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
-      if (error_id) {
-        my_errno = EILSEQ;
-        goto END_OF_FUNC;
-      }
-      
-      {
-        argv_w[i] = arg_w;
-      }
-    }
-    
-    status = _wexecv(path_w, (const WCHAR *const *)argv_w);
-    my_errno = errno;
-    if (status == -1) {
-      env->die(env, stack, "[System Error]_wexecv() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+  args_length = 0;
+  while (argv[args_length] != NULL) {
+    args_length++;
+  }
+  
+  argv_w = (WCHAR**)env->new_memory_block(env, stack, sizeof(WCHAR*) * (args_length + 1));
+  for (int32_t i = 0; i < args_length; i++) {
+    char* arg = argv[i];
+    WCHAR* arg_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
+      my_errno = EILSEQ;
       goto END_OF_FUNC;
     }
+    
+    argv_w[i] = arg_w;
+  }
+  
+  status = _wexecv(path_w, (const WCHAR *const *)argv_w);
+  my_errno = errno;
+  if (status == -1) {
+    env->die(env, stack, "[System Error]_wexecv() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    goto END_OF_FUNC;
   }
   
   END_OF_FUNC:
@@ -1010,6 +1008,8 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
 
 FILE* spvm_sys_windows_fopen(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, const char* mode) {
   
+  WCHAR* mode_w;
+  
   assert(path);
   assert(mode);
   
@@ -1023,21 +1023,17 @@ FILE* spvm_sys_windows_fopen(SPVM_ENV* env, SPVM_VALUE* stack, const char* path,
     goto END_OF_FUNC;
   }
   
-  {
-    WCHAR* mode_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, mode, &error_id, __func__, FILE_NAME, __LINE__);
-    if (error_id) {
-      my_errno = EILSEQ;
-      goto END_OF_FUNC;
-    }
-    
-    {
-      fs = _wfopen(path_w, mode_w);
-      my_errno = errno;
-      if (!fs) {
-        env->die(env, stack, "[System Error]_wfopen() failed(%d: %s). $path='%s', $mode='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path, mode);
-        goto END_OF_FUNC;
-      }
-    }
+  mode_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, mode, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  
+  fs = _wfopen(path_w, mode_w);
+  my_errno = errno;
+  if (!fs) {
+    env->die(env, stack, "[System Error]_wfopen() failed(%d: %s). $path='%s', $mode='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path, mode);
+    goto END_OF_FUNC;
   }
   
   END_OF_FUNC:
@@ -1062,13 +1058,11 @@ int spvm_sys_windows_open(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, in
     goto END_OF_FUNC;
   }
   
-  {
-    fd = _wopen(path_w, intmode, perms);
-    my_errno = errno;
-    if (fd == -1) {
-      env->die(env, stack, "[System Error]_wopen() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-      goto END_OF_FUNC;
-    }
+  fd = _wopen(path_w, intmode, perms);
+  my_errno = errno;
+  if (fd == -1) {
+    env->die(env, stack, "[System Error]_wopen() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    goto END_OF_FUNC;
   }
   
   END_OF_FUNC:
@@ -1080,6 +1074,8 @@ int spvm_sys_windows_open(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, in
 
 int spvm_sys_windows_chmod(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, int mode) {
   
+  int32_t status;
+  
   assert(path);
   
   int32_t error_id = 0;
@@ -1091,14 +1087,11 @@ int spvm_sys_windows_chmod(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, i
     goto END_OF_FUNC;
   }
   
-  int32_t status;
-  {
-    status = _wchmod(path_w, mode);
-    if (status == -1) {
-      my_errno = errno;
-      env->die(env, stack, "[System Error]_wchmod() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-      goto END_OF_FUNC;
-    }
+  status = _wchmod(path_w, mode);
+  if (status == -1) {
+    my_errno = errno;
+    env->die(env, stack, "[System Error]_wchmod() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    goto END_OF_FUNC;
   }
   
   END_OF_FUNC:
@@ -1110,6 +1103,8 @@ int spvm_sys_windows_chmod(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, i
 
 int spvm_sys_windows_chdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
   
+  int32_t status;
+  
   assert(path);
   
   int32_t error_id = 0;
@@ -1121,14 +1116,11 @@ int spvm_sys_windows_chdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
     goto END_OF_FUNC;
   }
   
-  int32_t status;
-  {
-    status = _wchdir(path_w);
-    if (status == -1) {
-      my_errno = errno;
-      env->die(env, stack, "[System Error]_wchdir() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-      goto END_OF_FUNC;
-    }
+  status = _wchdir(path_w);
+  if (status == -1) {
+    my_errno = errno;
+    env->die(env, stack, "[System Error]_wchdir() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    goto END_OF_FUNC;
   }
   
   END_OF_FUNC:
@@ -1140,54 +1132,47 @@ int spvm_sys_windows_chdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
 
 int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
 
+  WCHAR* path_w;
+  
   int32_t error_id = 0;
-
   int32_t my_errno = 0;
-
   int32_t is_sym = 0;
-
   HANDLE handle = NULL;
-
+  
   if (!path) {
     my_errno = EFAULT;
     env->set_error_id(env, stack, env->die(env, stack, "Path $path must be defined.", __func__, FILE_NAME, __LINE__));
     goto END_OF_FUNC;
   }
-
-  {
-    WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
-    if (error_id) {
-      my_errno = EILSEQ;
-      env->set_error_id(env, stack, error_id);
-      goto END_OF_FUNC;
-    }
-
-    {
-      env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-      handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
-      env->pop_caller_stack(env, stack);
-
-      if (handle == INVALID_HANDLE_VALUE) {
-        spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
-        my_errno = errno;
-        goto END_OF_FUNC;
-      }
-
-      {
-        errno = 0;
-        env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-        is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
-        env->pop_caller_stack(env, stack);
-        if (errno) {
-          my_errno = errno;
-          goto END_OF_FUNC;
-        }
-      }
-    }
+  
+  path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    env->set_error_id(env, stack, error_id);
+    goto END_OF_FUNC;
   }
-
+  
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
+  env->pop_caller_stack(env, stack);
+  
+  if (handle == INVALID_HANDLE_VALUE) {
+    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    my_errno = errno;
+    goto END_OF_FUNC;
+  }
+  
+  errno = 0;
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
+  env->pop_caller_stack(env, stack);
+  if (errno) {
+    my_errno = errno;
+    goto END_OF_FUNC;
+  }
+  
   END_OF_FUNC:
-
+  
   if (!(handle == INVALID_HANDLE_VALUE)) {
     // No error check because of read-only file handle
     CloseHandle(handle);
