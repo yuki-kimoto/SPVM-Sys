@@ -11,6 +11,8 @@ extern "C" {
 #define SUFFIX	L"*"
 #define	SLASH	L"\\"
 
+static const char* FILE_NAME = "spvm_sys_windows.cpp";
+
 WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   env->push_caller_stack(env, stack, func_name, file, line);
@@ -35,7 +37,7 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
     );
     
     if (utf16le_string_length == 0) {
-      *error_id = env->die(env, stack,  "utf8_to_win_wchar failed:Error calculating length: %lu.", __func__, __FILE__, __LINE__, GetLastError());
+      *error_id = env->die(env, stack,  "utf8_to_win_wchar failed:Error calculating length: %lu.", __func__, FILE_NAME, __LINE__, GetLastError());
       goto END_OF_FUNC;
     }
     
@@ -53,7 +55,7 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
       );
       
       if (utf16le_string_length == 0) {
-        *error_id = env->die(env, stack,  "utf8_to_win_wchar failed:Error converting UTF-8 to UTF-16LE: %lu.", __func__, __FILE__, __LINE__, GetLastError());
+        *error_id = env->die(env, stack,  "utf8_to_win_wchar failed:Error converting UTF-8 to UTF-16LE: %lu.", __func__, FILE_NAME, __LINE__, GetLastError());
         goto END_OF_FUNC;
       }
       
@@ -151,12 +153,12 @@ int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
   
   if (!path) {
     my_errno = EFAULT;
-    env->set_error_id(env, stack, env->die(env, stack, "The path $path must be defined.", __func__, __FILE__, __LINE__));
+    env->set_error_id(env, stack, env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__));
     goto END_OF_FUNC;
   }
   
   {
-    WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, __FILE__, __LINE__);
+    WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       my_errno = EILSEQ;
       env->set_error_id(env, stack, error_id);
@@ -164,7 +166,7 @@ int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
     }
     
     {
-      env->push_caller_stack(env, stack, __func__, __FILE__, __LINE__ + 1);
+      env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
       handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
       env->pop_caller_stack(env, stack);
       
@@ -176,7 +178,7 @@ int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
       
       {
         errno = 0;
-        env->push_caller_stack(env, stack, __func__, __FILE__, __LINE__ + 1);
+        env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
         is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
         env->pop_caller_stack(env, stack);
         if (errno) {
@@ -218,11 +220,11 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
   if (!dir)
     {
       errno = EFAULT;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory $dir must be defined.", __func__, __FILE__, __LINE__));
+      env->set_error_id(env, stack, env->die(env, stack, "Directory $dir must be defined.", __func__, FILE_NAME, __LINE__));
       return (SPVM_SYS_WINDOWS_DIR *) 0;
     }
   
-  WCHAR* dir_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, dir, &error_id, __func__, __FILE__, __LINE__);
+  WCHAR* dir_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, dir, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     errno = EILSEQ;
     env->set_error_id(env, stack, error_id);
@@ -232,7 +234,7 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
   if (dir_w[0] == L'\0')
     {
       errno = ENOTDIR;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory $dir must be a non-empty string.", __func__, __FILE__, __LINE__));
+      env->set_error_id(env, stack, env->die(env, stack, "Directory $dir must be a non-empty string.", __func__, FILE_NAME, __LINE__));
       return (SPVM_SYS_WINDOWS_DIR *) 0;
     }
 
@@ -242,7 +244,7 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
     {
       /* call GetLastError for more error info */
       errno = ENOENT;
-      env->die(env, stack, "[System Error]GetFileAttributesW() failed(%d: %s). %d: %s. $dir='%s'.", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno), dir);
+      env->die(env, stack, "[System Error]GetFileAttributesW() failed(%d: %s). %d: %s. $dir='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), dir);
       env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
       return (SPVM_SYS_WINDOWS_DIR *) 0;
     }
@@ -250,7 +252,7 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
     {
       /* Error, entry exists but not a directory. */
       errno = ENOTDIR;
-      env->die(env, stack, "[System Error]GetFileAttributesW() failed(%d: %s). %d: %s. $dir='%s'.", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno), dir);
+      env->die(env, stack, "[System Error]GetFileAttributesW() failed(%d: %s). %d: %s. $dir='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), dir);
       env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
       return (SPVM_SYS_WINDOWS_DIR *) 0;
     }
@@ -274,7 +276,7 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
     {
       /* Error, out of memory. */
       errno = ENOMEM;
-      env->die(env, stack, "[System Error]malloc() failed(%d:%s).", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+      env->die(env, stack, "[System Error]malloc() failed(%d:%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
       env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
       return (SPVM_SYS_WINDOWS_DIR *) 0;
     }
@@ -325,7 +327,7 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
   if (!dirp)
     {
       errno = EFAULT;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, __FILE__, __LINE__));
+      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__));
       return (SPVM_SYS_WINDOWS_WDIRENT *) 0;
     }
 
@@ -365,7 +367,7 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
       errno = 0;
     } else {
       errno = EIO;
-      env->die(env, stack, "[System Error]_wfindnext64() failed(%d: %s). Windows Error Code: %d.", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno), winerr);
+      env->die(env, stack, "[System Error]_wfindnext64() failed(%d: %s). Windows Error Code: %d.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), winerr);
       env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
     }
 	  _findclose (dirp->dd_handle);
@@ -408,7 +410,7 @@ int spvm_sys_windows_closedir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
   if (!dirp)
     {
       errno = EFAULT;
-      env->die(env, stack, "Directry stream $dirp must be defined.", __func__, __FILE__, __LINE__);
+      env->die(env, stack, "Directry stream $dirp must be defined.", __func__, FILE_NAME, __LINE__);
       env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
       return -1;
     }
@@ -417,7 +419,7 @@ int spvm_sys_windows_closedir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
     {
       status = _findclose (dirp->dd_handle);
       if (status == -1) {
-        env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+        env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
         env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
       }
     }
@@ -440,7 +442,7 @@ void spvm_sys_windows_rewinddir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WIND
   if (!dirp)
     {
       errno = EFAULT;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, __FILE__, __LINE__));
+      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__));
       return;
     }
 
@@ -448,7 +450,7 @@ void spvm_sys_windows_rewinddir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WIND
     {
       if (_findclose (dirp->dd_handle) == -1)
         {
-          env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+          env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
           env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
         }
     }
@@ -469,7 +471,7 @@ long spvm_sys_windows_telldir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
   if (!dirp)
     {
       errno = EFAULT;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, __FILE__, __LINE__));
+      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__));
       return -1;
     }
   return dirp->dd_stat;
@@ -490,7 +492,7 @@ void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
   if (!dirp)
     {
       errno = EFAULT;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, __FILE__, __LINE__));
+      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__));
       return;
     }
 
@@ -498,7 +500,7 @@ void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
     {
       /* Seeking to an invalid position. */
       errno = EINVAL;
-      env->set_error_id(env, stack, env->die(env, stack, "Invalid directory position $offset.", __func__, __FILE__, __LINE__));
+      env->set_error_id(env, stack, env->die(env, stack, "Invalid directory position $offset.", __func__, FILE_NAME, __LINE__));
       return;
     }
   else if (offset == -1)
@@ -508,7 +510,7 @@ void spvm_sys_windows_seekdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
 	{
 	  if (_findclose (dirp->dd_handle) == -1)
             {
-              env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+              env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
               env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
             }
 	}
@@ -533,7 +535,7 @@ int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t
   if (!(ret_errno == 0)) {
     errno = ret_errno;
     status = -1;
-    env->die(env, stack, "[System Error]spvm_sys_windows_ftruncate() failed(%d: %s).", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    env->die(env, stack, "[System Error]spvm_sys_windows_ftruncate() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
   }
   
@@ -742,7 +744,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
   
   int32_t error_id = 0;
   
-  WCHAR* path_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, __FILE__, __LINE__);
+  WCHAR* path_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -758,7 +760,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
     {
       SPVM_OBJ* obj_link_text = NULL;
       stack[0].oval = env->new_string(env, stack, path, strlen(path));
-      env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, __FILE__, __LINE__);
+      env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) {
         goto END_OF_FUNC;
       }
@@ -769,7 +771,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
     }
     const char* resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
     
-    WCHAR* resolved_link_text_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, __FILE__, __LINE__);
+    WCHAR* resolved_link_text_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       return error_id;
     }
@@ -800,7 +802,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
   
   if (error_id) {
     if (errno) {
-      env->die(env, stack, "[System Error]spvm_sys_windows_stat() failed(%d: %s). $path='%s'.", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]spvm_sys_windows_stat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     }
     
     return -1;
@@ -815,7 +817,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
   
   HANDLE handle = NULL;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, __FILE__, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     goto END_OF_FUNC;
   }
@@ -842,7 +844,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
         if (is_sym) {
           SPVM_OBJ* obj_link_text = NULL;
           stack[0].oval = env->new_string(env, stack, path, strlen(path));
-          env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, __FILE__, __LINE__);
+          env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, FILE_NAME, __LINE__);
           if (error_id) {
             goto END_OF_FUNC;
           }
@@ -868,7 +870,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
   
   if (error_id) {
     if (errno) {
-      env->die(env, stack, "[System Error]spvm_sys_windows_lstat() failed(%d: %s). $path='%s'.", __func__, __FILE__, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]spvm_sys_windows_lstat() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     }
     
     return -1;
@@ -1095,7 +1097,7 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
   int status = -1;
   WCHAR** argv_w = NULL;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, __FILE__, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = EILSEQ;
     env->set_error_id(env, stack, error_id);
@@ -1111,7 +1113,7 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
     argv_w = (WCHAR**)env->new_memory_block(env, stack, sizeof(WCHAR*) * (args_length + 1));
     for (int32_t i = 0; i < args_length; i++) {
       char* arg = argv[i];
-      WCHAR* arg_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, arg, &error_id, __func__, __FILE__, __LINE__);
+      WCHAR* arg_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) {
         my_errno = EILSEQ;
         env->set_error_id(env, stack, error_id);
