@@ -694,7 +694,11 @@ int32_t SPVM__Sys__IO__lseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t whence = stack[2].ival;
   
+#if defined(_WIN32)
+  int64_t cur_offset = _lseeki64(fd, offset, whence);
+#else
   int64_t cur_offset = lseek(fd, offset, whence);
+#endif
   
   if (cur_offset == -1) {
     env->die(env, stack, "[System Error]lseek() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
