@@ -153,7 +153,7 @@ int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
   
   if (!path) {
     my_errno = EFAULT;
-    env->set_error_id(env, stack, env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__));
+    env->set_error_id(env, stack, env->die(env, stack, "Path $path must be defined.", __func__, FILE_NAME, __LINE__));
     goto END_OF_FUNC;
   }
   

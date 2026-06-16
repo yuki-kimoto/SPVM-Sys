@@ -537,25 +537,3 @@ int32_t SPVM__Sys__IO__Windows__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__IO__Windows__is_symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "Sys::IO::Windows#is_symlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_path = stack[0].oval;
-  if (!obj_path) {
-    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  int32_t is_symlink = spvm_sys_windows_is_symlink(env, stack, path);
-  
-  stack[0].ival = is_symlink;
-  
-  return 0;
-#endif
-}

@@ -823,29 +823,20 @@ class Sys {
   
   static method l : int ($file : string) {
     
-    if (Sys::OS->is_windows) {
-      my $ok = 0;
-      
-      eval { $ok = Sys::IO::Windows->is_symlink($file); }
-      
-      return $ok;
+    my $ok = 0;
+    
+    unless ($file) {
+      die "\$file must be defined.";
     }
-    else {
-      my $ok = 0;
-      
-      unless ($file) {
-        die "\$file must be defined.";
-      }
-      
-      my $stat = (Sys::IO::Stat)undef;
-      eval { $stat = Sys->lstat($file); }
-      
-      unless ($@) {
-        $ok = $stat->l;
-      }
-      
-      return $ok;
+    
+    my $stat = (Sys::IO::Stat)undef;
+    eval { $stat = Sys->lstat($file); }
+    
+    unless ($@) {
+      $ok = $stat->l;
     }
+    
+    return $ok;
   }
   
   static method o : int ($file : string) {
