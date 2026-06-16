@@ -615,6 +615,8 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
 
 int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat) {
   
+  int32_t result;
+  
   int32_t error_id = 0;
   
   WCHAR* path_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
@@ -638,9 +640,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
         goto END_OF_FUNC;
       }
       
-      {
-        obj_resolved_link_text = stack[0].oval;
-      }
+      obj_resolved_link_text = stack[0].oval;
     }
     const char* resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
     
@@ -658,13 +658,11 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
     }
   }
   
-  {
-    int32_t result = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
-    
-    if (result == -1) {
-      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-      goto END_OF_FUNC;
-    }
+  result = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
+  
+  if (result == -1) {
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
   }
   
   END_OF_FUNC:
