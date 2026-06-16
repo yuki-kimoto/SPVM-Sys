@@ -17,6 +17,7 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
   
   SPVM_OBJ* obj_utf16le_string;
   WCHAR* utf16le_string_tmp;
+  int32_t utf16le_string_length;
   
   env->push_caller_stack(env, stack, func_name, file, line);
   
@@ -28,7 +29,7 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
     goto END_OF_FUNC;
   }
   
-  int32_t utf16le_string_length = MultiByteToWideChar(
+  utf16le_string_length = MultiByteToWideChar(
       CP_UTF8,
       0,
       utf8_string,
@@ -436,16 +437,14 @@ static time_t spvm_sys_windows_file_time_to_epoch(SPVM_ENV* env, SPVM_VALUE* sta
     goto END_OF_FUNC;
   }
   
-  {
-    st_tm.tm_year = system_time.wYear - 1900;
-    st_tm.tm_mon = system_time.wMonth - 1;
-    st_tm.tm_mday = system_time.wDay;
-    st_tm.tm_hour = system_time.wHour;
-    st_tm.tm_min = system_time.wMinute;
-    st_tm.tm_sec = system_time.wSecond;
-    
-    epoch = _mkgmtime(&st_tm);
-  }
+  st_tm.tm_year = system_time.wYear - 1900;
+  st_tm.tm_mon = system_time.wMonth - 1;
+  st_tm.tm_mday = system_time.wDay;
+  st_tm.tm_hour = system_time.wHour;
+  st_tm.tm_min = system_time.wMinute;
+  st_tm.tm_sec = system_time.wSecond;
+  
+  epoch = _mkgmtime(&st_tm);
   
   END_OF_FUNC:
   
