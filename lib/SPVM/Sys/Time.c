@@ -35,6 +35,59 @@ int32_t SPVM__Sys__Time__time(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__Time__tzset(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  tzset();
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Time__clock(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int64_t cpu_time = clock();
+  
+  if (cpu_time == -1) {
+    env->die(env, stack, "[System Error]clock() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].lval = cpu_time;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Time__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  SPVM_OBJ* obj_filename = stack[0].oval;
+  
+  SPVM_OBJ* obj_times = stack[1].oval;
+  
+  if (!obj_filename) {
+    return env->die(env, stack, "The file path $filename must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* filename = env->get_chars(env, stack, obj_filename);
+  
+  struct utimbuf* st_times;
+  if (obj_times) {
+    st_times = env->get_pointer(env, stack, obj_times);
+  }
+  else {
+    st_times = NULL;
+  }
+  
+  int32_t status = utime(filename, st_times);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]utime() failed(%d: %s). $filename='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), filename);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Time__localtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
@@ -91,16 +144,147 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Time__clock(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int64_t cpu_time = clock();
+  SPVM_OBJ* obj_rqtp = stack[0].oval;
   
-  if (cpu_time == -1) {
-    env->die(env, stack, "[System Error]clock() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+  SPVM_OBJ* obj_rmtp = stack[1].oval;
+  
+  struct timespec* st_rqtp = NULL;
+  if (obj_rqtp) {
+    st_rqtp = env->get_pointer(env, stack, obj_rqtp);
+  }
+  else {
+    return env->die(env, stack, "The request time $rqtp must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  struct timespec* st_rmtp = NULL;
+  if (obj_rmtp) {
+    st_rmtp = env->get_pointer(env, stack, obj_rmtp);
+  }
+  
+#if defined(_WIN32)
+  int32_t status = spvm_sys_windows_nanosleep(env, stack, st_rqtp, st_rmtp);
+#else
+  int32_t status = nanosleep(st_rqtp, st_rmtp);
+#endif
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]nanosleep() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  stack[0].lval = cpu_time;
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t clk_id = stack[0].ival;
+  
+  SPVM_OBJ* obj_res = stack[1].oval;
+  
+  struct timespec* st_res = NULL;
+  if (obj_res) {
+    st_res = env->get_pointer(env, stack, obj_res);
+  }
+  else {
+    return env->die(env, stack, "The resolution time $res must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+
+#if defined(_WIN32)
+  int32_t status = spvm_sys_windows_clock_getres(env, stack, clk_id, st_res);
+#else
+  int32_t status = clock_getres(clk_id, st_res);
+#endif
+
+  if (status == -1) {
+    env->die(env, stack, "[System Error]clock_getres() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t clk_id = stack[0].ival;
+  
+  SPVM_OBJ* obj_tp = stack[1].oval;
+  
+  struct timespec* st_tp = NULL;
+  if (obj_tp) {
+    st_tp = env->get_pointer(env, stack, obj_tp);
+  }
+  else {
+    return env->die(env, stack, "$tp must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+#if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  int32_t status = spvm_sys_windows_clock_gettime(env, stack, clk_id, st_tp);
+  env->pop_caller_stack(env, stack);
+  if (status == -1) {
+    error_id = env->get_error_id(env, stack);
+    if (error_id == 0) {
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    }
+    return error_id;
+  }
+#else
+  int32_t status = clock_gettime(clk_id, st_tp);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]clock_gettime() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#endif
+
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  SPVM_OBJ* obj_tv = stack[0].oval;
+  
+  SPVM_OBJ* obj_tz = stack[1].oval;
+  
+  if (obj_tz) {
+   return env->die(env, stack, "Timezone $tz is not supported.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  MY_TIMEVAL* st_tv = NULL;
+  st_tv = env->get_pointer(env, stack, obj_tv);
+  
+#ifdef _WIN32
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  int32_t status = spvm_sys_windows_gettimeofday(env, stack, st_tv, NULL);
+  env->pop_caller_stack(env, stack);
+  if (status == -1) {
+    error_id = env->get_error_id(env, stack);
+    if (error_id == 0) {
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    }
+    return error_id;
+  }
+#else
+  int32_t status = gettimeofday(st_tv, NULL);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]gettimeofday() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#endif
+  
+  stack[0].ival = status;
   
   return 0;
 }
@@ -201,38 +385,6 @@ int32_t SPVM__Sys__Time__times(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Time__utime(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_filename = stack[0].oval;
-  
-  SPVM_OBJ* obj_times = stack[1].oval;
-  
-  if (!obj_filename) {
-    return env->die(env, stack, "The file path $filename must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* filename = env->get_chars(env, stack, obj_filename);
-  
-  struct utimbuf* st_times;
-  if (obj_times) {
-    st_times = env->get_pointer(env, stack, obj_times);
-  }
-  else {
-    st_times = NULL;
-  }
-  
-  int32_t status = utime(filename, st_times);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]utime() failed(%d: %s). $filename='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), filename);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   env->die(env, stack, "Sys::User#utimes method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
@@ -278,16 +430,6 @@ int32_t SPVM__Sys__Time__utimes(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
-}
-
-int32_t SPVM__Sys__Time__tzset(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  _tzset();
-#else
-  tzset();
-#endif
-  
-  return 0;
 }
 
 int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -337,150 +479,4 @@ int32_t SPVM__Sys__Time__clock_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
-}
-
-int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  SPVM_OBJ* obj_rqtp = stack[0].oval;
-  
-  SPVM_OBJ* obj_rmtp = stack[1].oval;
-  
-  struct timespec* st_rqtp = NULL;
-  if (obj_rqtp) {
-    st_rqtp = env->get_pointer(env, stack, obj_rqtp);
-  }
-  else {
-    return env->die(env, stack, "The request time $rqtp must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  struct timespec* st_rmtp = NULL;
-  if (obj_rmtp) {
-    st_rmtp = env->get_pointer(env, stack, obj_rmtp);
-  }
-  
-#if defined(_WIN32)
-  int32_t status = spvm_sys_windows_nanosleep(env, stack, st_rqtp, st_rmtp);
-#else
-  int32_t status = nanosleep(st_rqtp, st_rmtp);
-#endif
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]nanosleep() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Time__clock_getres(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t clk_id = stack[0].ival;
-  
-  SPVM_OBJ* obj_res = stack[1].oval;
-  
-  struct timespec* st_res = NULL;
-  if (obj_res) {
-    st_res = env->get_pointer(env, stack, obj_res);
-  }
-  else {
-    return env->die(env, stack, "The resolution time $res must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-
-
-#if defined(_WIN32)
-  int32_t status = spvm_sys_windows_clock_getres(env, stack, clk_id, st_res);
-#else
-  int32_t status = clock_getres(clk_id, st_res);
-#endif
-
-  if (status == -1) {
-    env->die(env, stack, "[System Error]clock_getres() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  int32_t clk_id = stack[0].ival;
-  
-  SPVM_OBJ* obj_tp = stack[1].oval;
-  
-  struct timespec* st_tp = NULL;
-  if (obj_tp) {
-    st_tp = env->get_pointer(env, stack, obj_tp);
-  }
-  else {
-    return env->die(env, stack, "$tp must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-#if defined(_WIN32)
-  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  int32_t status = spvm_sys_windows_clock_gettime(env, stack, clk_id, st_tp);
-  env->pop_caller_stack(env, stack);
-  if (status == -1) {
-    error_id = env->get_error_id(env, stack);
-    if (error_id == 0) {
-      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-    }
-    return error_id;
-  }
-#else
-  int32_t status = clock_gettime(clk_id, st_tp);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]clock_gettime() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-#endif
-
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_tv = stack[0].oval;
-  
-  SPVM_OBJ* obj_tz = stack[1].oval;
-  
-  if (obj_tz) {
-   return env->die(env, stack, "Timezone $tz is not supported.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  MY_TIMEVAL* st_tv = NULL;
-  st_tv = env->get_pointer(env, stack, obj_tv);
-  
-#ifdef _WIN32
-  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  int32_t status = spvm_sys_windows_gettimeofday(env, stack, st_tv, NULL);
-  env->pop_caller_stack(env, stack);
-  if (status == -1) {
-    error_id = env->get_error_id(env, stack);
-    if (error_id == 0) {
-      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-    }
-    return error_id;
-  }
-#else
-  int32_t status = gettimeofday(st_tv, NULL);
-  if (status == -1) {
-    env->die(env, stack, "[System Error]gettimeofday() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-#endif
-  
-  stack[0].ival = status;
-  
-  return 0;
 }
