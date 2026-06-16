@@ -1150,10 +1150,6 @@ FILE* spvm_sys_windows_fopen(SPVM_ENV* env, SPVM_VALUE* stack, const char* path,
   int32_t error_id = 0;
   int32_t my_errno = 0;
   
-  if (stricmp(path, "/dev/null") == 0) {
-    path = "NUL";
-  }
-  
   FILE* fs = NULL;
   WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
