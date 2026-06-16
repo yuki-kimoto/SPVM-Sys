@@ -62,7 +62,7 @@ int32_t SPVM__Sys__IO__fopen(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
-
+  
   SPVM_OBJ* obj_stream = env->new_pointer_object_by_name(env, stack, "Sys::IO::FileStream", stream, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) { return error_id; }
   
@@ -406,7 +406,12 @@ int32_t SPVM__Sys__IO__fseek(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t whence = stack[2].ival;
   
+#if defined(_WIN32)
+  int32_t status = _fseeki64(stream, offset, whence);
+#else
   int32_t status = fseek(stream, offset, whence);
+#endif
+
   if (status == -1) {
     env->die(env, stack, "[System Error]fseek() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
