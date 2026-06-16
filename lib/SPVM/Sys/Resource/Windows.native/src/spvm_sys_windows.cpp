@@ -1087,6 +1087,57 @@ int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct ti
   return 0;
 }
 
+int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, char *const argv[]) {
+  
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
+  
+  int status = -1;
+  WCHAR** argv_w = NULL;
+  
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, __FILE__, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    env->set_error_id(env, stack, error_id);
+    goto END_OF_FUNC;
+  }
+  
+  {
+    int32_t args_length = 0;
+    while (argv[args_length] != NULL) {
+      args_length++;
+    }
+    
+    argv_w = (WCHAR**)env->new_memory_block(env, stack, sizeof(WCHAR*) * (args_length + 1));
+    for (int32_t i = 0; i < args_length; i++) {
+      char* arg = argv[i];
+      WCHAR* arg_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, arg, &error_id, __func__, __FILE__, __LINE__);
+      if (error_id) {
+        my_errno = EILSEQ;
+        env->set_error_id(env, stack, error_id);
+        goto END_OF_FUNC;
+      }
+      
+      {
+        argv_w[i] = arg_w;
+      }
+    }
+    
+    status = _wexecv(path_w, (const WCHAR *const *)argv_w);
+    my_errno = errno;
+  }
+  
+  END_OF_FUNC:
+  
+  if (argv_w) {
+    env->free_memory_block(env, stack, argv_w);
+  }
+  
+  errno = my_errno;
+  
+  return status;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)
