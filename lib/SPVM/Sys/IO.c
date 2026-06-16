@@ -432,7 +432,12 @@ int32_t SPVM__Sys__IO__ftell(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   FILE* stream = env->get_pointer(env, stack, obj_stream);
   
+#if defined(_WIN32)
+  int64_t offset = _ftelli64(stream);
+#else
   int64_t offset = ftell(stream);
+#endif
+  
   if (offset == -1) {
     env->die(env, stack, "[System Error]ftell() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
