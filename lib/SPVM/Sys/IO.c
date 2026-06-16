@@ -1530,15 +1530,7 @@ int32_t SPVM__Sys__IO__telldir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
-  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   int64_t offset = spvm_sys_windows_telldir(env, stack, dirp);
-  env->pop_caller_stack(env, stack);
-  
-  if (offset == -1) {
-    error_id = env->get_error_id(env, stack);
-    assert(error_id);
-    return error_id;
-  }
 #else
   int64_t offset = telldir(dirp);
   if (offset == -1) {

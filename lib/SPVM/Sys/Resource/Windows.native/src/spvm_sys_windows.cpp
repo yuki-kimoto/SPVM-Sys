@@ -459,25 +459,14 @@ void spvm_sys_windows_rewinddir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WIND
   dirp->dd_stat = 0;
 }
 
-/*
- * telldir
- *
- * Returns the "position" in the "directory stream" which can be used with
- * seekdir to go back to an old entry. We simply return the value in stat.
- */
-long spvm_sys_windows_telldir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
-  errno = 0;
-
-  if (!dirp)
-    {
-      errno = EFAULT;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__));
-      return -1;
-    }
+int64_t spvm_sys_windows_telldir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp) {
+  
+  assert(dirp);
+  
   return dirp->dd_stat;
 }
 
-void spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp, int64_t offset) {
+void spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp, int64_t offset) {
   int32_t my_errno = 0;
   
   assert(dirp);
