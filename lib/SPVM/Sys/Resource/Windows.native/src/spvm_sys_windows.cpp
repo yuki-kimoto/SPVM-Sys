@@ -489,7 +489,13 @@ void spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
     if (dirp->dd_stat >= offset) {
       break;
     }
-    if (!spvm_sys_windows_readdir(env, stack, dirp)) {
+    errno = 0;
+    SPVM_SYS_WINDOWS_WDIRENT* dirent = spvm_sys_windows_readdir(env, stack, dirp);
+    if (!dirent) {
+      if (!(errno == 0)) {
+        spvm_warn("[Fatal]spvm_sys_windows_readdir failed. errno=%d", errno);
+        abort();
+      }
       break;
     }
   }
