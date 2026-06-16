@@ -646,11 +646,7 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The count $count must be less than the length of $buf - the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
-#if defined(_WIN32)
-  int32_t write_length = _write(fd, buf + buf_offset, count);
-#else
   int32_t write_length = write(fd, buf + buf_offset, count);
-#endif
   if (write_length == -1) {
     env->die(env, stack, "[System Error]write() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
