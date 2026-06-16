@@ -282,25 +282,6 @@ my $test_tmp_dir = File::Temp->newdir;
   }
 }
 
-# _realpath
-{
-  {
-    my $file_empty = "t/ftest/file_empty.txt";
-    is(SPVM::Sys->_realpath($file_empty), Cwd::realpath($file_empty));
-  }
-  
-  {
-    my $dir = "t/ftest";
-    is(SPVM::Sys->_realpath($dir), Cwd::realpath($dir));
-  }
-  {
-    my $file_not_exists = "t/ftest/not_exists.txt";
-    eval { SPVM::Sys->_realpath($file_not_exists); };
-    ok($@);
-  }
-  
-}
-
 {
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys->mkdir("$tmp_dir"));
@@ -401,6 +382,21 @@ if (SPVM::Sys::OS->is_windows) {
 
 # _realpath
 {
+  {
+    my $file_empty = "t/ftest/file_empty.txt";
+    is(SPVM::Sys->_realpath($file_empty), Cwd::realpath($file_empty));
+  }
+  
+  {
+    my $dir = "t/ftest";
+    is(SPVM::Sys->_realpath($dir), Cwd::realpath($dir));
+  }
+  {
+    my $file_not_exists = "t/ftest/not_exists.txt";
+    eval { SPVM::Sys->_realpath($file_not_exists); };
+    ok($@);
+  }
+  
   {
     my $path = 't/Sys.t';
     my $ret = SPVM::Sys->_realpath($path);

@@ -407,6 +407,8 @@ int spvm_sys_windows_chmod(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, i
 
 int spvm_sys_windows_chdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path);
 
+SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char* path);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

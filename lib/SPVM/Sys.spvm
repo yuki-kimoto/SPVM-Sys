@@ -1531,16 +1531,9 @@ class Sys {
   
   # This is only for Cwd#realpath method
   static method _realpath : string ($file : string) {
-    if (Sys::OS->is_windows) {
-      my $realpath = Sys::IO::Windows->realpath($file, undef);
-      
-      return $realpath;
-    }
-    else {
-      my $realpath = Sys::IO->realpath($file, undef);
-      
-      return $realpath;
-    }
+    my $realpath = Sys::IO->realpath($file);
+    
+    return $realpath;
   }
   
   # This is only for Cwd#getcwd method

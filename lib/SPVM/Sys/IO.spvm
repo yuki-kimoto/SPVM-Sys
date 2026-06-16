@@ -151,7 +151,7 @@ class Sys::IO {
   
   native static method _getdcwd : mutable string ($drive : int, $buffer : mutable string, $maxlen : int);
   
-  native static method realpath : mutable string ($path : string, $resolved_path : mutable string);
+  native static method realpath : mutable string ($path : string, $resolved_path : mutable string = undef);
   
   native static method chdir : int ($path : string);
   

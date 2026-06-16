@@ -141,66 +141,6 @@ int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, 
   return is_sym;
 }
 
-int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
-  
-  int32_t error_id = 0;
-  
-  int32_t my_errno = 0;
-  
-  int32_t is_sym = 0;
-  
-  HANDLE handle = NULL;
-  
-  if (!path) {
-    my_errno = EFAULT;
-    env->set_error_id(env, stack, env->die(env, stack, "Path $path must be defined.", __func__, FILE_NAME, __LINE__));
-    goto END_OF_FUNC;
-  }
-  
-  {
-    WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
-    if (error_id) {
-      my_errno = EILSEQ;
-      env->set_error_id(env, stack, error_id);
-      goto END_OF_FUNC;
-    }
-    
-    {
-      env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-      handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
-      env->pop_caller_stack(env, stack);
-      
-      if (handle == INVALID_HANDLE_VALUE) {
-        spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
-        my_errno = errno;
-        goto END_OF_FUNC;
-      }
-      
-      {
-        errno = 0;
-        env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-        is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
-        env->pop_caller_stack(env, stack);
-        if (errno) {
-          my_errno = errno;
-          goto END_OF_FUNC;
-        }
-      }
-    }
-  }
-  
-  END_OF_FUNC:
-  
-  if (!(handle == INVALID_HANDLE_VALUE)) {
-    // No error check because of read-only file handle
-    CloseHandle(handle);
-  }
-  
-  errno = my_errno;
-  
-  return is_sym;
-}
-
 /*
  * opendir
  *
@@ -1216,6 +1156,171 @@ int spvm_sys_windows_chdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
   errno = my_errno;
   
   return status;
+}
+
+int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
+
+  int32_t error_id = 0;
+
+  int32_t my_errno = 0;
+
+  int32_t is_sym = 0;
+
+  HANDLE handle = NULL;
+
+  if (!path) {
+    my_errno = EFAULT;
+    env->set_error_id(env, stack, env->die(env, stack, "Path $path must be defined.", __func__, FILE_NAME, __LINE__));
+    goto END_OF_FUNC;
+  }
+
+  {
+    WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
+      my_errno = EILSEQ;
+      env->set_error_id(env, stack, error_id);
+      goto END_OF_FUNC;
+    }
+
+    {
+      env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+      handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
+      env->pop_caller_stack(env, stack);
+
+      if (handle == INVALID_HANDLE_VALUE) {
+        spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+        my_errno = errno;
+        goto END_OF_FUNC;
+      }
+
+      {
+        errno = 0;
+        env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+        is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
+        env->pop_caller_stack(env, stack);
+        if (errno) {
+          my_errno = errno;
+          goto END_OF_FUNC;
+        }
+      }
+    }
+  }
+
+  END_OF_FUNC:
+
+  if (!(handle == INVALID_HANDLE_VALUE)) {
+    // No error check because of read-only file handle
+    CloseHandle(handle);
+  }
+
+  errno = my_errno;
+
+  return is_sym;
+}
+
+SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
+  
+  assert(path);
+  
+  int32_t error_id;
+  int32_t my_errno;
+  HANDLE handle;
+  SPVM_OBJ* obj_resolved_path;
+  SPVM_OBJ* obj_resolved_link_text;
+  const char* resolved_link_text;
+  WCHAR* resolved_link_text_w;
+  int32_t needed_len;
+  SPVM_OBJ* obj_resolved_path_w;
+  WCHAR* resolved_path_w;
+  int32_t len;
+  char* resolved_path_tmp;
+  char* resolved_path;
+  int32_t resolved_path_length;
+  int32_t i;
+  
+  error_id = 0;
+  my_errno = 0;
+  handle = NULL;
+  obj_resolved_path = NULL;
+  obj_resolved_link_text = NULL;
+  
+  {
+    stack[0].oval = env->new_string_nolen(env, stack, path);
+    env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
+      my_errno = EINVAL;
+      goto END_OF_FUNC;
+    }
+    obj_resolved_link_text = stack[0].oval;
+  }
+  
+  resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
+  resolved_link_text_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
+  
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  
+  handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(resolved_link_text_w);
+  if (handle == INVALID_HANDLE_VALUE) {
+    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    goto END_OF_FUNC;
+  }
+  
+  needed_len = GetFinalPathNameByHandleW(handle, NULL, 0, 0);
+  if (needed_len == 0) {
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+    my_errno = EINVAL;
+    goto END_OF_FUNC;
+  }
+  
+  obj_resolved_path_w = env->new_short_array(env, stack, needed_len);
+  resolved_path_w = (WCHAR*)env->get_elems_short(env, stack, obj_resolved_path_w);
+  
+  len = GetFinalPathNameByHandleW(handle, resolved_path_w, needed_len, 0);
+  if (len == 0) {
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+    my_errno = EINVAL;
+    goto END_OF_FUNC;
+  }
+  
+  resolved_path_tmp = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  
+  obj_resolved_path = env->new_string(env, stack, resolved_path_tmp, strlen(resolved_path_tmp));
+  resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
+  resolved_path_length = env->length(env, stack, obj_resolved_path);
+  
+  if (strncmp(resolved_path, "\\\\?\\", 4) == 0) {
+    for (i = 0; i < resolved_path_length - 4; i++) {
+      resolved_path[i] = resolved_path[i + 4];
+    }
+    env->shorten(env, stack, obj_resolved_path, resolved_path_length - 4);
+  }
+  else if (strncmp(resolved_path, "\\\\?\\UNC\\", 8) == 0) {
+    for (i = 2; i < resolved_path_length - 6; i++) {
+      resolved_path[i] = resolved_path[i + 6];
+    }
+    env->shorten(env, stack, obj_resolved_path, resolved_path_length - 8);
+  }
+  
+  for (i = 0; i < resolved_path_length; i++) {
+    if (resolved_path[i] == '\\') {
+      resolved_path[i] = '/';
+    }
+  }
+  
+  END_OF_FUNC:
+  
+  if (handle != INVALID_HANDLE_VALUE) {
+    CloseHandle(handle);
+  }
+  
+  return obj_resolved_path;
 }
 
 } // extern "C"

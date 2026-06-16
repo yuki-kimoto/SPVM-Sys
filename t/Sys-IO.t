@@ -114,13 +114,7 @@ else {
   ok(SPVM::TestCase::Sys::IO->_getdcwd);
 }
 
-if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::IO->realpath(undef, undef) };
-  like($@, qr|not supported|);
-}
-else {
-  ok(SPVM::TestCase::Sys::IO->realpath);
-}
+ok(SPVM::TestCase::Sys::IO->realpath);
 
 ok(SPVM::TestCase::Sys::IO->chdir);
 

@@ -1168,10 +1168,6 @@ int32_t SPVM__Sys__IO___getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  env->die(env, stack, "Sys::IO#realpath method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
   
   SPVM_OBJ* obj_path = stack[0].oval;
   
@@ -1181,30 +1177,31 @@ int32_t SPVM__Sys__IO__realpath(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
+  if (obj_resolved_path) {
+    return env->die(env, stack, "The resolved path $resolved_path must not be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
   const char* path = env->get_chars(env, stack, obj_path);
   
-  char* ret_resolved_path;
-  if (obj_resolved_path) {
-    char* resolved_path = (char*)env->get_chars(env, stack, obj_resolved_path);
-    ret_resolved_path = realpath(path, resolved_path);
+#if defined(_WIN32)
+  obj_resolved_path = spvm_sys_windows_realpath(env, stack, path);
+  if (!obj_resolved_path) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  else {
-    ret_resolved_path = realpath(path, NULL);
-    if (ret_resolved_path) {
-      obj_resolved_path = env->new_string(env, stack, ret_resolved_path, strlen(ret_resolved_path));
-      free(ret_resolved_path);
-    }
+#else
+  char* ret_resolved_path = realpath(path, NULL);
+  if (ret_resolved_path) {
+    obj_resolved_path = env->new_string(env, stack, ret_resolved_path, strlen(ret_resolved_path));
+    free(ret_resolved_path);
   }
-  
   if (!ret_resolved_path) {
     env->die(env, stack, "[System Error]realpath() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
-  stack[0].oval = obj_resolved_path;
-
-  return 0;
 #endif
+  stack[0].oval = obj_resolved_path;
+  
+  return 0;
 }
 
 int32_t SPVM__Sys__IO__chdir(SPVM_ENV* env, SPVM_VALUE* stack) {

@@ -101,11 +101,11 @@ check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
   ok($lstat->l);
 }
 
-# _realpath
+# realpath
 {
-  my $realpath = SPVM::Sys->_realpath($tmpfile2, undef);
+  my $realpath = SPVM::Sys::IO->realpath($tmpfile2);
   
-  warn "[Test Output]_realpath:$realpath. $tmpfile1, $tmpfile2";
+  warn "[Test Output]Sys::IO#realpath:$realpath. $tmpfile1, $tmpfile2";
   like($realpath, qr|/file1|);
   unlike($realpath, qr|^//?/|);
   
@@ -145,9 +145,9 @@ SPVM::Sys->unlink($tmpfile2);
   SPVM::Sys->mkdir($tmpfile1);
   SPVM::Sys->symlink($tmpfile1, $tmpfile2);
   
-  # _realpath
+  # realpath
   {
-    my $realpath = SPVM::Sys->_realpath($tmpfile2, undef);
+    my $realpath = SPVM::Sys::IO->realpath($tmpfile2);
     
     like($realpath, qr|/file1_あ|);
     unlike($realpath, qr|^//?/|);
