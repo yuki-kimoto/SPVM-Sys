@@ -15,6 +15,9 @@ static const char* FILE_NAME = "spvm_sys_windows.cpp";
 
 WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
+  SPVM_OBJ* obj_utf16le_string;
+  WCHAR* utf16le_string_tmp;
+  
   env->push_caller_stack(env, stack, func_name, file, line);
   
   *error_id = 0;
@@ -25,45 +28,38 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
     goto END_OF_FUNC;
   }
   
-  {
-    
-    int32_t utf16le_string_length = MultiByteToWideChar(
-        CP_UTF8,
-        0,
-        utf8_string,
-        -1,
-        NULL,
-        0
-    );
-    
-    if (utf16le_string_length == 0) {
-      *error_id = env->die(env, stack,  "utf8_to_win_wchar failed:Error calculating length: %lu.", __func__, FILE_NAME, __LINE__, GetLastError());
-      goto END_OF_FUNC;
-    }
-    
-    {
-      SPVM_OBJ* obj_utf16le_string = env->new_short_array(env, stack, utf16le_string_length);
-      WCHAR* utf16le_string_tmp = (WCHAR*)env->get_elems_short(env, stack, obj_utf16le_string);
-      
-      utf16le_string_length = MultiByteToWideChar(
-        CP_UTF8,
-        0,
-        utf8_string,
-        -1,
-        utf16le_string_tmp,
-        utf16le_string_length
-      );
-      
-      if (utf16le_string_length == 0) {
-        *error_id = env->die(env, stack,  "utf8_to_win_wchar failed:Error converting UTF-8 to UTF-16LE: %lu.", __func__, FILE_NAME, __LINE__, GetLastError());
-        goto END_OF_FUNC;
-      }
-      
-      {
-        utf16le_string = utf16le_string_tmp;
-      }
-    }
+  int32_t utf16le_string_length = MultiByteToWideChar(
+      CP_UTF8,
+      0,
+      utf8_string,
+      -1,
+      NULL,
+      0
+  );
+  
+  if (utf16le_string_length == 0) {
+    *error_id = env->die(env, stack,  "utf8_to_win_wchar failed:Error calculating length: %lu.", __func__, FILE_NAME, __LINE__, GetLastError());
+    goto END_OF_FUNC;
   }
+  
+  obj_utf16le_string = env->new_short_array(env, stack, utf16le_string_length);
+  utf16le_string_tmp = (WCHAR*)env->get_elems_short(env, stack, obj_utf16le_string);
+  
+  utf16le_string_length = MultiByteToWideChar(
+    CP_UTF8,
+    0,
+    utf8_string,
+    -1,
+    utf16le_string_tmp,
+    utf16le_string_length
+  );
+  
+  if (utf16le_string_length == 0) {
+    *error_id = env->die(env, stack,  "utf8_to_win_wchar failed:Error converting UTF-8 to UTF-16LE: %lu.", __func__, FILE_NAME, __LINE__, GetLastError());
+    goto END_OF_FUNC;
+  }
+  
+  utf16le_string = utf16le_string_tmp;
   
   END_OF_FUNC:
   
