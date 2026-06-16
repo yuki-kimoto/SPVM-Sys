@@ -684,6 +684,9 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
 
 int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat) {   
   
+  int32_t result;
+  int32_t is_sym;
+  
   int32_t error_id = 0;
   
   HANDLE handle = NULL;
@@ -693,44 +696,36 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
     goto END_OF_FUNC;
   }
   
-  {
-    handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
-    if (handle == INVALID_HANDLE_VALUE) {
-      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
-      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
+  if (handle == INVALID_HANDLE_VALUE) {
+    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  result = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
+  
+  if (result == -1) {
+    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
+  }
+  
+  is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
+  
+  if (is_sym) {
+    SPVM_OBJ* obj_link_text = NULL;
+    stack[0].oval = env->new_string(env, stack, path, strlen(path));
+    env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
       goto END_OF_FUNC;
     }
     
-    {
-      int32_t result = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
-      
-      if (result == -1) {
-        error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-        goto END_OF_FUNC;
-      }
-      
-      {
-        int32_t is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
-        
-        if (is_sym) {
-          SPVM_OBJ* obj_link_text = NULL;
-          stack[0].oval = env->new_string(env, stack, path, strlen(path));
-          env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, FILE_NAME, __LINE__);
-          if (error_id) {
-            goto END_OF_FUNC;
-          }
-          
-          {
-            obj_link_text = stack[0].oval;
-            
-            int32_t link_text_length = env->length(env, stack, obj_link_text);
-            
-            st_stat->st_mode = (st_stat->st_mode & ~S_IFMT) | S_IFLNK;
-            st_stat->st_size = link_text_length;
-          }
-        }
-      }
-    }
+    obj_link_text = stack[0].oval;
+    
+    int32_t link_text_length = env->length(env, stack, obj_link_text);
+    
+    st_stat->st_mode = (st_stat->st_mode & ~S_IFMT) | S_IFLNK;
+    st_stat->st_size = link_text_length;
   }
   
   END_OF_FUNC:
