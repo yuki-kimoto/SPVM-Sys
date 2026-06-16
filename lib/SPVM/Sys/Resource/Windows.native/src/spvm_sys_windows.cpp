@@ -478,110 +478,104 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
           }
         }
         
-        {
-          st_stat->st_dev = file_info.dwVolumeSerialNumber;
-          st_stat->st_ino = file_info.nFileIndexHigh;
-          st_stat->st_ino <<= 32;
-          st_stat->st_ino |= file_info.nFileIndexLow;
-          st_stat->st_nlink = file_info.nNumberOfLinks;
-          st_stat->st_uid = 0;
-          st_stat->st_gid = 0;
-          /* ucrt sets this to the drive letter for
-             stat(), lets not reproduce that mistake */
-          st_stat->st_rdev = 0;
-          st_stat->st_size = file_info.nFileSizeHigh;
-          st_stat->st_size <<= 32;
-          st_stat->st_size |= file_info.nFileSizeLow;
-          
-          st_stat->st_atime = spvm_sys_windows_file_time_to_epoch(env, stack, file_info.ftLastAccessTime);
-          st_stat->st_mtime = spvm_sys_windows_file_time_to_epoch(env, stack, file_info.ftLastWriteTime);
-          st_stat->st_ctime = spvm_sys_windows_file_time_to_epoch(env, stack, file_info.ftCreationTime);
-          
-          if (reparse_type) {
-            /* https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
-               describes all of these as WSL only, but the AF_UNIX tag
-               is known to be used for AF_UNIX sockets without WSL.
-            */
-            st_stat->st_mode = 0;
-            switch ((uint32_t)reparse_type) {
-              case IO_REPARSE_TAG_AF_UNIX: {
-                st_stat->st_mode = S_IFSOCK;
-                break;
-              }
-              case IO_REPARSE_TAG_LX_FIFO: {
-                st_stat->st_mode = S_IFIFO;
-                break;
-              }
-              case IO_REPARSE_TAG_LX_CHR: {
-                st_stat->st_mode = S_IFCHR;
-                break;
-              }
-              case IO_REPARSE_TAG_LX_BLK: {
-                st_stat->st_mode = S_IFBLK;
-                break;
-              }
-              case IO_REPARSE_TAG_SYMLINK:
-              case IO_REPARSE_TAG_MOUNT_POINT:
-              {
-                break;
-              }
-              default: {
-                /* Is there anything else we can do here? */
-                errno = EINVAL;
-                goto END_OF_FUNC;
-              }
+        st_stat->st_dev = file_info.dwVolumeSerialNumber;
+        st_stat->st_ino = file_info.nFileIndexHigh;
+        st_stat->st_ino <<= 32;
+        st_stat->st_ino |= file_info.nFileIndexLow;
+        st_stat->st_nlink = file_info.nNumberOfLinks;
+        st_stat->st_uid = 0;
+        st_stat->st_gid = 0;
+        /* ucrt sets this to the drive letter for
+           stat(), lets not reproduce that mistake */
+        st_stat->st_rdev = 0;
+        st_stat->st_size = file_info.nFileSizeHigh;
+        st_stat->st_size <<= 32;
+        st_stat->st_size |= file_info.nFileSizeLow;
+        
+        st_stat->st_atime = spvm_sys_windows_file_time_to_epoch(env, stack, file_info.ftLastAccessTime);
+        st_stat->st_mtime = spvm_sys_windows_file_time_to_epoch(env, stack, file_info.ftLastWriteTime);
+        st_stat->st_ctime = spvm_sys_windows_file_time_to_epoch(env, stack, file_info.ftCreationTime);
+        
+        if (reparse_type) {
+          /* https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
+             describes all of these as WSL only, but the AF_UNIX tag
+             is known to be used for AF_UNIX sockets without WSL.
+          */
+          st_stat->st_mode = 0;
+          switch ((uint32_t)reparse_type) {
+            case IO_REPARSE_TAG_AF_UNIX: {
+              st_stat->st_mode = S_IFSOCK;
+              break;
+            }
+            case IO_REPARSE_TAG_LX_FIFO: {
+              st_stat->st_mode = S_IFIFO;
+              break;
+            }
+            case IO_REPARSE_TAG_LX_CHR: {
+              st_stat->st_mode = S_IFCHR;
+              break;
+            }
+            case IO_REPARSE_TAG_LX_BLK: {
+              st_stat->st_mode = S_IFBLK;
+              break;
+            }
+            case IO_REPARSE_TAG_SYMLINK:
+            case IO_REPARSE_TAG_MOUNT_POINT:
+            {
+              break;
+            }
+            default: {
+              /* Is there anything else we can do here? */
+              errno = EINVAL;
+              goto END_OF_FUNC;
             }
           }
-          
-          if (st_stat->st_mode == 0) {
-            if (file_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-              st_stat->st_mode = S_IFDIR | S_IREAD | S_IEXEC;
-              /* duplicate the logic from the end of the old win32_stat() */
-              if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-                st_stat->st_mode |= S_IWRITE;
-              }
+        }
+        
+        if (st_stat->st_mode == 0) {
+          if (file_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+            st_stat->st_mode = S_IFDIR | S_IREAD | S_IEXEC;
+            /* duplicate the logic from the end of the old win32_stat() */
+            if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
+              st_stat->st_mode |= S_IWRITE;
             }
-            else {
-              st_stat->st_mode = _S_IFREG;
-              
-              int32_t needed_len = GetFinalPathNameByHandleW(handle, NULL, 0, 0);
-              
-              if (needed_len == 0) {
-                spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
-                goto END_OF_FUNC;
-              }
-              
+          }
+          else {
+            st_stat->st_mode = _S_IFREG;
+            
+            int32_t needed_len = GetFinalPathNameByHandleW(handle, NULL, 0, 0);
+            
+            if (needed_len == 0) {
+              spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+              goto END_OF_FUNC;
+            }
+            
+            WCHAR* path_w = (WCHAR*)env->new_memory_block(env, stack, sizeof(WCHAR) * (needed_len + 1));
+            
+            int32_t len = GetFinalPathNameByHandleW(handle, path_w, needed_len + 1, 0);
+            
+            if (len) {
+              if (len > 4 &&
+                (_wcsicmp(path_w + len - 4, L".exe") == 0 ||
+                 _wcsicmp(path_w + len - 4, L".bat") == 0 ||
+                 _wcsicmp(path_w + len - 4, L".cmd") == 0 ||
+                 _wcsicmp(path_w + len - 4, L".com") == 0))
               {
-                WCHAR* path_w = (WCHAR*)env->new_memory_block(env, stack, sizeof(WCHAR) * (needed_len + 1));
-                
-                int32_t len = GetFinalPathNameByHandleW(handle, path_w, needed_len + 1, 0);
-                
-                if (len) {
-                  if (len > 4 &&
-                    (_wcsicmp(path_w + len - 4, L".exe") == 0 ||
-                     _wcsicmp(path_w + len - 4, L".bat") == 0 ||
-                     _wcsicmp(path_w + len - 4, L".cmd") == 0 ||
-                     _wcsicmp(path_w + len - 4, L".com") == 0))
-                  {
-                    st_stat->st_mode |= S_IEXEC;
-                  }
-                }
-                
-                env->free_memory_block(env, stack, path_w);
-                
-                if (!len) {
-                  spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
-                  goto END_OF_FUNC;
-                }
-                
-                {
-                  if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
-                    st_stat->st_mode |= S_IWRITE;
-                  }
-                  st_stat->st_mode |= S_IREAD;
-                }
+                st_stat->st_mode |= S_IEXEC;
               }
             }
+            
+            env->free_memory_block(env, stack, path_w);
+            
+            if (!len) {
+              spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+              goto END_OF_FUNC;
+            }
+            
+            if (!(file_info.dwFileAttributes & FILE_ATTRIBUTE_READONLY)) {
+              st_stat->st_mode |= S_IWRITE;
+            }
+            st_stat->st_mode |= S_IREAD;
           }
         }
       }
@@ -608,13 +602,11 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
     }
   }
   
-  {
-    /* owner == user == group */
-    st_stat->st_mode |= (st_stat->st_mode & 0700) >> 3;
-    st_stat->st_mode |= (st_stat->st_mode & 0700) >> 6;
-    
-    status = 0;
-  }
+  /* owner == user == group */
+  st_stat->st_mode |= (st_stat->st_mode & 0700) >> 3;
+  st_stat->st_mode |= (st_stat->st_mode & 0700) >> 6;
+  
+  status = 0;
   
   END_OF_FUNC:
   
