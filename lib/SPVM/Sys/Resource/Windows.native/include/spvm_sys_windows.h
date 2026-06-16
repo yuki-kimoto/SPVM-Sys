@@ -403,6 +403,8 @@ FILE* spvm_sys_windows_fopen(SPVM_ENV* env, SPVM_VALUE* stack, const char* path,
 
 int spvm_sys_windows_open(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, int flags, int mode);
 
+int spvm_sys_windows_chmod(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, int mode);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
