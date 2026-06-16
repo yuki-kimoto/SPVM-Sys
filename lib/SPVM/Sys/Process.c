@@ -119,22 +119,11 @@ int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  // The usec argument is unsigned int (usually 32-bit), 
-  // but we receive it as int64_t from SPVM to prevent overflow during passing.
   int64_t usec = stack[0].lval;
   
 #if defined(_WIN32)
-  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  // Always returns 0
   int32_t status = spvm_sys_windows_usleep(env, stack, usec);
-  env->pop_caller_stack(env, stack);
-  
-  if (status == -1) {
-    error_id = env->get_error_id(env, stack);
-    if (error_id == 0) {
-      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-    }
-    return error_id;
-  }
 #else
   int32_t status = usleep((useconds_t)usec);
   if (status == -1) {
