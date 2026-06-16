@@ -17,8 +17,6 @@ class Sys::IO::Windows {
   
   native static method win_readlink : string ($path : string);
   
-  native static method realpath : string ($path : string, $resolved_path : mutable string);
-  
   # Only used from Sys/IO/Stat.c and realpath method
   static method _follow_symlinks_to : string ($path : string) {
     

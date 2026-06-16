@@ -82,14 +82,6 @@ Exceptions:
 
 An exception is thrown if $path does not exist, if the process do not have the appropriate permission to open $path, or if $path is not a symbolic link or a directory junction.
 
-=head2 realpath
-
-C<static method realpath : mutable string ($path : string, $resolved_path : mutable string);>
-
-Resolves symbolic link in the path $path and converts it to a canonical absolute path(but not long path format), and returns it.
-
-$resolved_path must be undef.
-
 =head1 See Also
 
 =over 2
