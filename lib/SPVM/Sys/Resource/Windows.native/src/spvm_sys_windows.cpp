@@ -1100,7 +1100,6 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
   WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = EILSEQ;
-    env->set_error_id(env, stack, error_id);
     goto END_OF_FUNC;
   }
   
@@ -1116,7 +1115,6 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
       WCHAR* arg_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) {
         my_errno = EILSEQ;
-        env->set_error_id(env, stack, error_id);
         goto END_OF_FUNC;
       }
       
@@ -1127,6 +1125,10 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
     
     status = _wexecv(path_w, (const WCHAR *const *)argv_w);
     my_errno = errno;
+    if (status == -1) {
+      env->die(env, stack, "[System Error]_wexecv() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+      goto END_OF_FUNC;
+    }
   }
   
   END_OF_FUNC:

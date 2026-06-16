@@ -191,8 +191,12 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->free_memory_block(env, stack, argv);
   
   if (status == -1) {
+#if defined(_WIN32)
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+#else
     env->die(env, stack, "[System Error]execv() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+#endif
   }
   
   stack[0].ival = status;
