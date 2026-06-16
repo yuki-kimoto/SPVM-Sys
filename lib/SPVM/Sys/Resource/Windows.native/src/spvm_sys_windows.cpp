@@ -430,31 +430,21 @@ int spvm_sys_windows_closedir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
   return status;
 }
 
-/*
- * rewinddir
- *
- * Return to the beginning of the directory "stream". We simply call findclose
- * and then reset things like an opendir.
- */
-void spvm_sys_windows_rewinddir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
-  errno = 0;
-
-  if (!dirp)
-    {
-      errno = EFAULT;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__));
-      return;
+void spvm_sys_windows_rewinddir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp) {
+  
+  assert(dirp);
+  
+  if (dirp->dd_handle != -1) {
+    /* Ensure the existing directory search handle is closed before rewinding.
+     * On Windows, there is no way to seek to the beginning of a directory 
+     * search session, so we must close the handle and re-open it 
+     * on the next readdir call. */
+    if (_findclose(dirp->dd_handle) == -1) {
+      spvm_warn("[abort]_findclose() failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno));
+      abort();
     }
-
-  if (dirp->dd_handle != -1)
-    {
-      if (_findclose (dirp->dd_handle) == -1)
-        {
-          env->die(env, stack, "[System Error]_findclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-          env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
-        }
-    }
-
+  }
+  
   dirp->dd_handle = -1;
   dirp->dd_stat = 0;
 }
@@ -482,7 +472,7 @@ void spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
     SPVM_SYS_WINDOWS_WDIRENT* dirent = spvm_sys_windows_readdir(env, stack, dirp);
     if (!dirent) {
       if (!(errno == 0)) {
-        spvm_warn("[Fatal]spvm_sys_windows_readdir failed. errno=%d", errno);
+        spvm_warn("[abort]spvm_sys_windows_readdir failed(%d: %s).", errno, env->strerror_nolen(env, stack, errno));
         abort();
       }
       break;
