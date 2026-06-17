@@ -1500,10 +1500,6 @@ int32_t SPVM__Sys__IO__seekdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  env->die(env, stack, "Sys::IO#symlink method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
   int32_t error_id = 0;
   
   SPVM_OBJ* obj_old_path = stack[0].oval;
@@ -1520,16 +1516,24 @@ int32_t SPVM__Sys__IO__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* new_path = env->get_chars(env, stack, obj_new_path);
   
+#if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  int32_t status = spvm_sys_windows_symlink(env, stack, old_path, new_path);
+  env->pop_caller_stack(env, stack);
+  if (status == -1) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#else
   int32_t status = symlink(old_path, new_path);
   if (status == -1) {
     env->die(env, stack, "[System Error]symlink() failed(%d: %s). $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+#endif
   
   stack[0].ival = status;
   
   return 0;
-#endif
 }
 
 int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {

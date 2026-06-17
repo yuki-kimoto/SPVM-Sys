@@ -369,12 +369,7 @@ class Sys {
   }
   
   static method symlink : int ($old_path : string, $new_path : string) {
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->symlink($old_path, $new_path);
-    }
-    else {
-      Sys::IO->symlink($old_path, $new_path);
-    }
+    Sys::IO->symlink($old_path, $new_path);
     
     my $success = 1;
     

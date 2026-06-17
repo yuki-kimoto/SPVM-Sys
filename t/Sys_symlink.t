@@ -20,8 +20,13 @@ use SPVM 'Sys::IO::Windows';
 use File::Spec;
 use SPVM 'Fn';
 use SPVM 'TestCase::Sys';
+use SPVM 'TestCase::Sys::IO';
 
 my $api = SPVM::api();
+
+my $test_dir = "$FindBin::Bin";
+
+SPVM::TestCase::Sys::IO->SET_TEST_DIR($test_dir);
 
 my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
@@ -38,6 +43,12 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
   else {
     SPVM::Sys->unlink($symlink);
   }
+}
+
+# symlink
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->symlink("$tmp_dir"));
 }
 
 # readlink
