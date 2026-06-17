@@ -646,19 +646,13 @@ If the symlink function failed, an exception is thrown with C<eval_error_id> set
 
 =head2 readlink
 
-C<static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);>
+C<static method readlink : string ($path : string);>
 
-Calls the L<readlink|https://linux.die.net/man/2/readlink> function and return its return value.
+Returns a link text by using L<readlink|https://linux.die.net/man/2/readlink> function.
 
 Exceptions:
 
 $path must be defined. Otherwise an exception is thrown.
-
-$buf must be defined. Otherwise an exception is thrown.
-
-$bufsiz must be greater than or equal to 0. Otherwise an exception is thrown.
-
-$bufsiz must be less than or equal to the length of $buf. Otherwise an exception is thrown.
 
 If the readlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 

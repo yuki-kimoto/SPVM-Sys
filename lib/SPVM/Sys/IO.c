@@ -1412,40 +1412,45 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::IO#readlink method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
+  
   int32_t error_id = 0;
   
   SPVM_OBJ* obj_path = stack[0].oval;
-  
-  SPVM_OBJ* obj_buf = stack[1].oval;
-  
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
-  if (!obj_buf) {
-    return env->die(env, stack, "The buffer $buf must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  char* buf = (char*)env->get_chars(env, stack, obj_buf);
-  int32_t buf_length = env->length(env, stack, obj_buf);
+  int32_t bufsiz = 1;
+  char* buf = env->new_memory_block(env, stack, bufsiz);
   
-  int32_t bufsiz = stack[2].ival;
-  if (!(bufsiz >= 0)) {
-    return env->die(env, stack, "The buffer size $bufsiz must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-  if (!(bufsiz <= buf_length)) {
-    return env->die(env, stack, "The buffer size $bufsiz must be less than or equal to the length of $buf.", __func__, FILE_NAME, __LINE__);
+  ssize_t placed_length;
+  while (1) {
+    placed_length = readlink(path, buf, bufsiz);
+    if (placed_length == -1) {
+      env->die(env, stack, "[System Error]readlink() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      goto END_OF_FUNC;
+    }
+    
+    if (placed_length < bufsiz) {
+      break;
+    }
+    
+    bufsiz *= 2;
+    env->free_memory_block(env, stack, buf);
+    buf = env->new_memory_block(env, stack, bufsiz);
   }
   
-  int32_t placed_length = readlink(path, buf, bufsiz);
-  if (placed_length == -1) {
-    env->die(env, stack, "[System Error]readlink() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
+  SPVM_OBJ* obj_link_text = env->new_string(env, stack, buf, placed_length);
   
-  stack[0].ival = placed_length;
+  END_OF_FUNC:
   
-  return 0;
+  env->free_memory_block(env, stack, buf);
+  
+  stack[0].oval = obj_link_text;
+  
+  return error_id;
 #endif
 }
 

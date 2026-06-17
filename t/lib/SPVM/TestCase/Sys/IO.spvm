@@ -1982,23 +1982,16 @@ class TestCase::Sys::IO {
     }
     
     {
-      my $buffer = (mutable string)new_string_len 255;
-      my $replaced_length = Sys::IO->readlink($file_symlink, $buffer, length $buffer);
+      my $link_text = Sys::IO->readlink($file_symlink);
       
-      unless ($replaced_length == length $file) {
-        return 0;
-      }
-      
-      Fn->shorten_null_char($buffer);
-      
-      unless ($buffer eq $file) {
+      unless ($link_text eq $file) {
         return 0;
       }
     }
     
     {
       my $buffer = (mutable string)new_string_len 255;
-      eval {Sys::IO->readlink("$file_symlink/not_found.txt", $buffer, length $buffer); };
+      eval { Sys::IO->readlink("$file_symlink/not_found.txt"); };
       unless (Fn->contains($@, "not_found.txt")) {
         return 0;
       }
