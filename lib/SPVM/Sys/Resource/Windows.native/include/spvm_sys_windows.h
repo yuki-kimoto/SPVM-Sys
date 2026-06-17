@@ -423,6 +423,8 @@ SPVM_OBJ* spvm_sys_windows_getdcwd(SPVM_ENV* env, SPVM_VALUE* stack, int drive);
 
 int spvm_sys_windows_rmdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path);
 
+int spvm_sys_windows_mkdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
