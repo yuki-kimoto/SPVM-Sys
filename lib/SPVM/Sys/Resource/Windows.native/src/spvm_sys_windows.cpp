@@ -715,7 +715,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
   if (is_sym) {
     SPVM_OBJ* obj_link_text = NULL;
     stack[0].oval = env->new_string(env, stack, path, strlen(path));
-    env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "win_readlink", 1, &error_id, __func__, FILE_NAME, __LINE__);
+    env->call_class_method_by_name(env, stack, "Sys::IO", "readlink", 1, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       goto END_OF_FUNC;
     }
