@@ -877,11 +877,6 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t error_id = 0;
-  int32_t my_errno = 0;
-  int32_t status = -1;
-  int32_t fd = -1;
-  
   SPVM_OBJ* obj_path = stack[0].oval;
   
   int64_t length = stack[1].lval;
@@ -896,33 +891,10 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
 #if defined(_WIN32)
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    my_errno = EILSEQ;
-    goto END_OF_FUNC;
-  }
-  
-  fd = _wopen(path_w, _O_WRONLY | _O_BINARY);
-  if (fd == -1) {
-    my_errno = errno;
-    env->die(env, stack, "[System Error]_wopen() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-    goto END_OF_FUNC;
-  }
-  
-  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  status = spvm_sys_windows_ftruncate(env, stack, fd, length);
-  env->pop_caller_stack(env, stack);
+  int32_t status = spvm_sys_windows_truncate(env, stack, path, length);
   if (status == -1) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
-  END_OF_FUNC:
-  
-  if (!(fd == -1)) {
-    close(fd);
-  }
-  
 #else
   int32_t status = truncate(path, length);
   if (status == -1) {
@@ -933,7 +905,7 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   stack[0].ival = status;
   
-  return error_id;
+  return 0;
 }
 
 int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
