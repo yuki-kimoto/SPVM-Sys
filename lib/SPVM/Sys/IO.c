@@ -1113,36 +1113,16 @@ int32_t SPVM__Sys__IO__getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
+  SPVM_OBJ* obj_buf = stack[0].oval;
+  
   int32_t drive = stack[0].ival;
   
-  WCHAR* ret_w = _wgetdcwd(drive, NULL, 0);
-  
-  WCHAR* free_object = ret_w;
-  
-  char* ret = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
-  
-  if (error_id) {
-    goto END_OF_FUNC;
+  SPVM_OBJ* obj_dcwd = obj_dcwd = spvm_sys_windows_getdcwd(env, stack, drive);
+  if (!obj_dcwd) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
-  if (!ret) {
-    env->die(env, stack, "[System Error]_wgetdcwd() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  END_OF_FUNC:
-  
-  if (free_object) {
-    free(free_object);
-  }
-  
-  if (error_id) {
-    return error_id;
-  }
-  
-  SPVM_OBJ* obj_ret = env->new_string(env, stack, ret, strlen(ret));
-  
-  stack[0].oval = obj_ret;
+  stack[0].oval = obj_dcwd;
   
   return 0;
 #endif

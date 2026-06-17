@@ -364,17 +364,17 @@ ok(SPVM::TestCase::Sys->rand);
 # _getdcwd
 if (SPVM::Sys::OS->is_windows) {
   {
-    my $expected = Cwd::getdcwd();
+    my $expected = Cwd::getdcwd() =~ s/\\/\//gr;
     is(SPVM::Sys->_getdcwd, $expected);
   }
   
   {
-    my $expected = Cwd::getdcwd('C:');
+    my $expected = Cwd::getdcwd('C:') =~ s/\\/\//gr;
     is(SPVM::Sys->_getdcwd('C:'), $expected);
   }
   
   {
-    my $expected = Cwd::getdcwd('c:');
+    my $expected = Cwd::getdcwd('c:') =~ s/\\/\//gr;
     is(SPVM::Sys->_getdcwd('c:'), $expected);
   }
   

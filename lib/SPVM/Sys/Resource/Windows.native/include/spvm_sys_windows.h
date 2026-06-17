@@ -419,6 +419,8 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
 
 SPVM_OBJ* spvm_sys_windows_getcwd(SPVM_ENV* env, SPVM_VALUE* stack);
 
+SPVM_OBJ* spvm_sys_windows_getdcwd(SPVM_ENV* env, SPVM_VALUE* stack, int drive);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

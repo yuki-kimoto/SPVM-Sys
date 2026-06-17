@@ -1680,6 +1680,8 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
 
 SPVM_OBJ* spvm_sys_windows_getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
+  char* cwd;
+  
   SPVM_OBJ* obj_cwd = NULL;
   
   int32_t error_id = 0;
@@ -1692,7 +1694,7 @@ SPVM_OBJ* spvm_sys_windows_getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  char* cwd = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, cwd_w, &error_id, __func__, FILE_NAME, __LINE__);
+  cwd = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, cwd_w, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = EILSEQ;
     goto END_OF_FUNC;
@@ -1715,6 +1717,46 @@ SPVM_OBJ* spvm_sys_windows_getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   errno = my_errno;
   
   return obj_cwd;
+}
+
+SPVM_OBJ* spvm_sys_windows_getdcwd(SPVM_ENV* env, SPVM_VALUE* stack, int drive) {
+  
+  char* dcwd;
+  SPVM_OBJ* obj_dcwd = NULL;
+  
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
+  
+  WCHAR* dcwd_w = _wgetdcwd(drive, NULL, 0);
+  if (!dcwd_w) {
+    my_errno = errno;
+    env->die(env, stack, "[System Error]_wgetdcwd() failed.", __func__, FILE_NAME, __LINE__);
+    goto END_OF_FUNC;
+  }
+  
+  dcwd = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, dcwd_w, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  
+  for (char* p = dcwd; *p != '\0'; p++) {
+    if (*p == '\\') {
+      *p = '/';
+    }
+  }
+  
+  obj_dcwd = env->new_string_nolen(env, stack, dcwd);
+  
+  END_OF_FUNC:
+  
+  if (dcwd_w) {
+    free(dcwd_w);
+  }
+  
+  errno = my_errno;
+  
+  return obj_dcwd;
 }
 
 } // extern "C"
