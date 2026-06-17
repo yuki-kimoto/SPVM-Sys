@@ -939,6 +939,8 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_path = stack[0].oval;
   
+  int32_t mode = stack[1].ival;
+  
   if (!obj_path) {
     return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
   }
@@ -951,9 +953,9 @@ int32_t SPVM__Sys__IO__mkdir(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #else
-  int32_t status = mkdir(path);
+  int32_t status = mkdir(path, mode);
   if (status == -1) {
-    env->die(env, stack, "[System Error]mkdir() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    env->die(env, stack, "[System Error]mkdir() failed. errno=%d(%s), $path='%s', $mode=%d.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path, mode);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
