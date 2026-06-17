@@ -425,6 +425,8 @@ int spvm_sys_windows_rmdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path);
 
 int spvm_sys_windows_mkdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path);
 
+int spvm_sys_windows_access(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, int mode);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
