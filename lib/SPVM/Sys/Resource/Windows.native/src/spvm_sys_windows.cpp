@@ -1303,15 +1303,18 @@ int spvm_sys_windows_unlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) 
   attrs = GetFileAttributesW(path_w);
   
   if (attrs == 0xFFFFFFFF) {
-    my_errno = ENOENT;
+    errno = ENOENT;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]GetFileAttributesW() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     goto END_OF_FUNC;
   }
   
   if (attrs & FILE_ATTRIBUTE_READONLY) {
     SetFileAttributesW(path_w, attrs & ~FILE_ATTRIBUTE_READONLY);
     status = _wunlink(path_w);
-    my_errno = errno;
     if (status == -1) {
+      my_errno = errno;
+      env->die(env, stack, "[System Error]_wunlink() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       SetFileAttributesW(path_w, attrs);
     }
   }
@@ -1320,20 +1323,22 @@ int spvm_sys_windows_unlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) 
          && spvm_sys_windows_is_symlink(env, stack, path))
   {
     status = _wrmdir(path_w);
-    my_errno = errno;
+    if (status == -1) {
+      my_errno = errno;
+      env->die(env, stack, "[System Error]_wrmdir() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    }
   }
   else {
     status = _wunlink(path_w);
-    my_errno = errno;
+    if (status == -1) {
+      my_errno = errno;
+      env->die(env, stack, "[System Error]_wunlink() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    }
   }
   
   END_OF_FUNC:
   
   errno = my_errno;
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]spvm_sys_windows_unlink() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-  }
   
   return status;
 }
