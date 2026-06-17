@@ -161,7 +161,7 @@ class Sys::IO {
   
   native static method symlink : int ($old_path : string, $new_path : string);
   
-  native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
+  native static method readlink : string ($path : string);
   
   native static method opendir : Sys::IO::DirStream ($dir : string);
   
