@@ -1670,7 +1670,7 @@ class TestCase::Sys::IO {
   static method getdcwd : int () {
     
     if (Sys::OS->is_windows) {
-      my $ret_buf = Sys::IO->getdcwd(0, undef, 1);
+      my $ret_buf = Sys::IO->getdcwd(0);
       
       unless ($ret_buf) {
         return 0;
@@ -1691,7 +1691,7 @@ class TestCase::Sys::IO {
         
         Sys->chdir($dir);
         
-        my $dcwd = Sys::IO->getdcwd(0, undef, 1);
+        my $dcwd = Sys::IO->getdcwd(0);
         
         warn "[Test Output]getdcwd non-ascii:$dcwd";
       }

@@ -564,21 +564,13 @@ If the getcwd function failed, an exception is thrown with C<eval_error_id> set 
 
 =head2 getdcwd
 
-C<static method getdcwd : mutable string ($drive : int, $buffer : mutable string, $maxlen : int);>
+C<static method getdcwd : string ($drive : int);>
 
-Calls the L<_getdcwd|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/getdcwd-wgetdcwd?view=msvc-170> function and return its return value.
-
-The buffer $buffer must be undef.
+Returns the working directory in the drive $drive by using L<_wgetdcwd|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/getdcwd-wgetdcwd?view=msvc-170> function.
 
 Exceptions:
 
-The buffer $buffer must be undef. Otherwise an exception is thrown.
-
-$maxlen must be greater than 0. Otherwise an exception is thrown.
-
-$maxlen must be less than or equal to the lenght of $buffer. Otherwise an exception is thrown.
-
-If the getdcwd function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+If a system call failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 realpath
 

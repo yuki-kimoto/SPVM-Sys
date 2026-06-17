@@ -1139,19 +1139,7 @@ int32_t SPVM__Sys__IO__getdcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t drive = stack[0].ival;
   
-  SPVM_OBJ* obj_buffer = stack[1].oval;
-  
-  if (obj_buffer) {
-    return env->die(env, stack, "The buffer $buffer must be undef.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int32_t maxlen = stack[2].ival;
-  
-  if (!(maxlen > 0)) {
-    return env->die(env, stack, "The max length $maxlen must be greater than 0.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  WCHAR* ret_w = _wgetdcwd(drive, NULL, maxlen);
+  WCHAR* ret_w = _wgetdcwd(drive, NULL, 0);
   
   WCHAR* free_object = ret_w;
   
