@@ -111,7 +111,7 @@ else {
 }
 
 {
-  ok(SPVM::TestCase::Sys::IO->_getdcwd);
+  ok(SPVM::TestCase::Sys::IO->getdcwd);
 }
 
 ok(SPVM::TestCase::Sys::IO->realpath);

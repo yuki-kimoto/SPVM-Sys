@@ -562,9 +562,9 @@ If $buf is defined, $size must be greater than or equal to 0. Otherwise an excep
 
 If the getcwd function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-=head2 _getdcwd
+=head2 getdcwd
 
-C<static method _getdcwd : mutable string ($drive : int, $buffer : mutable string, $maxlen : int);>
+C<static method getdcwd : mutable string ($drive : int, $buffer : mutable string, $maxlen : int);>
 
 Calls the L<_getdcwd|https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/getdcwd-wgetdcwd?view=msvc-170> function and return its return value.
 
@@ -578,7 +578,7 @@ $maxlen must be greater than 0. Otherwise an exception is thrown.
 
 $maxlen must be less than or equal to the lenght of $buffer. Otherwise an exception is thrown.
 
-If the _getdcwd function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+If the getdcwd function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 realpath
 

@@ -1547,7 +1547,7 @@ class Sys {
       $drive_id = $drive_upper->[0] - 'A' + 1;
     }
     
-    my $cwd = Sys::IO->_getdcwd($drive_id, undef, 1);
+    my $cwd = Sys::IO->getdcwd($drive_id, undef, 1);
     
     return $cwd;
   }

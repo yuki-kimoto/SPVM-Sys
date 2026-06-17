@@ -1667,16 +1667,16 @@ class TestCase::Sys::IO {
     return 1;
   }
   
-  static method _getdcwd : int () {
+  static method getdcwd : int () {
     
     if (Sys::OS->is_windows) {
-      my $ret_buf = Sys::IO->_getdcwd(0, undef, 1);
+      my $ret_buf = Sys::IO->getdcwd(0, undef, 1);
       
       unless ($ret_buf) {
         return 0;
       }
       
-      warn "[Test Output]_getdcwd:$ret_buf";
+      warn "[Test Output]getdcwd:$ret_buf";
       
       {
         my $dir = "$TEST_TMP_DIR/getdcwd_あ";
@@ -1691,13 +1691,13 @@ class TestCase::Sys::IO {
         
         Sys->chdir($dir);
         
-        my $dcwd = Sys::IO->_getdcwd(0, undef, 1);
+        my $dcwd = Sys::IO->getdcwd(0, undef, 1);
         
-        warn "[Test Output]_getdcwd non-ascii:$dcwd";
+        warn "[Test Output]getdcwd non-ascii:$dcwd";
       }
     }
     else {
-      warn "[Test Skip]_getdcwd is not supported in this system.";
+      warn "[Test Skip]getdcwd is not supported in this system.";
     }
     
     return 1;
