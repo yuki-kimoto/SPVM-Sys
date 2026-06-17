@@ -546,21 +546,13 @@ If the rename function failed, an exception is thrown with C<eval_error_id> set 
 
 =head2 getcwd
 
-C<static method getcwd : mutable string ($buf : mutable string, $size : int);>
+C<static method getcwd : string ();>
 
-Calls the L<getcwd|https://linux.die.net/man/2/getcwd> function and return its return value.
-
-The buffer $buf must be undef.
+Return the working directory by using L<getcwd|https://linux.die.net/man/2/getcwd> function.
 
 Exceptions:
 
-The buffer $buf must be undef. Otherwise an exception is thrown.
-
-$size must be greater than or equal to 0. Otherwise an exception is thrown.
-
-If $buf is defined, $size must be greater than or equal to 0. Otherwise an exception is thrown.
-
-If the getcwd function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+If a system call failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 getdcwd
 

@@ -1637,7 +1637,7 @@ class TestCase::Sys::IO {
   static method getcwd : int () {
     
     {
-      my $ret_buf = Sys::IO->getcwd(undef, 0);
+      my $ret_buf = Sys::IO->getcwd;
       
       unless ($ret_buf) {
         return 0;
@@ -1651,7 +1651,7 @@ class TestCase::Sys::IO {
       
       Sys->mkdir($dir);
       
-      my $cwd_save = Sys::IO->getcwd(undef, 0);
+      my $cwd_save = Sys::IO->getcwd;
       
       Fn->defer([$cwd_save : string] method : void () {
         Sys->chdir($cwd_save);
@@ -1659,7 +1659,7 @@ class TestCase::Sys::IO {
       
       Sys->chdir($dir);
       
-      my $cwd = Sys::IO->getcwd(undef, 0);
+      my $cwd = Sys::IO->getcwd;
       
       warn "[Test Output]getcwd non-ascii:$cwd";
     }
@@ -1683,7 +1683,7 @@ class TestCase::Sys::IO {
         
         Sys->mkdir($dir);
         
-        my $cwd_save = Sys::IO->getcwd(undef, 0);
+        my $cwd_save = Sys::IO->getcwd;
         
         Fn->defer([$cwd_save : string] method : void () {
           Sys->chdir($cwd_save);
@@ -1763,7 +1763,7 @@ class TestCase::Sys::IO {
       return 0;
     }
     
-    my $cwd = Sys::IO->getcwd(undef, 0);
+    my $cwd = Sys::IO->getcwd;
     unless (Fn->contains($cwd, "dir_empty")) {
       return 0;
     }
@@ -1780,7 +1780,7 @@ class TestCase::Sys::IO {
       
       Sys->mkdir($dir);
       
-      my $cwd_save = Sys::IO->getcwd(undef, 0);
+      my $cwd_save = Sys::IO->getcwd;
       
       Fn->defer([$cwd_save : string] method : void () {
         Sys->chdir($cwd_save);
@@ -1788,12 +1788,12 @@ class TestCase::Sys::IO {
       
       Sys->chdir($dir);
       
-      my $cwd = Sys::IO->getcwd(undef, 0);
+      my $cwd = Sys::IO->getcwd;
       
       warn "[Test Output]chdir non-ascii:$cwd";
     }
     
-    warn "[Test Output]getcwd cwd_save:" . Sys::IO->getcwd(undef, 0);
+    warn "[Test Output]getcwd cwd_save:" . Sys::IO->getcwd;
     
     return 1;
   }

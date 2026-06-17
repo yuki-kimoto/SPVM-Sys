@@ -1076,19 +1076,9 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_buf = stack[0].oval;
   
-  int32_t size = stack[1].ival;
-  
-  if (obj_buf) {
-    return env->die(env, stack, "The buffer $buf must be undef.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  if (!(size >= 0)) {
-    return env->die(env, stack, "The size $size must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
-  }
-  
 #if defined(_WIN32)
   
-  WCHAR* ret_w = _wgetcwd(NULL, size);
+  WCHAR* ret_w = _wgetcwd(NULL, 0);
   WCHAR* free_object = ret_w;
   
   char* ret = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
@@ -1097,7 +1087,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
 #else
-  char* ret = getcwd(NULL, size);
+  char* ret = getcwd(NULL, 0);
   char* free_object = ret;
 #endif
 
@@ -1108,8 +1098,6 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   END_OF_FUNC:
-  
-  ;
   
   SPVM_OBJ* obj_ret = NULL;
   

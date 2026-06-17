@@ -1099,7 +1099,7 @@ class TestCase::Sys {
     my $dir = "$test_dir/ftest/dir_empty";
     
     {
-      my $cwd_save = Sys::IO->getcwd(undef, 0);
+      my $cwd_save = Sys::IO->getcwd;
       
       Fn->defer([$cwd_save : string]method : void () {
         Sys->chdir($cwd_save);
@@ -1107,7 +1107,7 @@ class TestCase::Sys {
       
       Sys->chdir($dir);
       
-      my $cwd = Sys::IO->getcwd(undef, 0);
+      my $cwd = Sys::IO->getcwd;
       unless (Fn->contains($cwd, "dir_empty")) {
         return 0;
       }
@@ -1125,7 +1125,7 @@ class TestCase::Sys {
       
       Sys->mkdir($dir);
       
-      my $cwd_save = Sys::IO->getcwd(undef, 0);
+      my $cwd_save = Sys::IO->getcwd;
       
       Fn->defer([$cwd_save : string]method : void () {
         Sys->chdir($cwd_save);

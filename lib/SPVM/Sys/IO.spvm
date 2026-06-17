@@ -146,7 +146,7 @@ class Sys::IO {
   
   native static method rename : int ($old_path : string, $new_path : string);
   
-  native static method getcwd : mutable string ($buf : mutable string, $size : int);
+  native static method getcwd : string ();
   
   native static method getdcwd : string ($drive : int);
   
