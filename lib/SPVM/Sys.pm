@@ -360,11 +360,9 @@ C<static method unlink : void ($file : string);>
 
 Deletes a file.
 
-In Windows, this method calls L<Sys::IO::Windows#unlink|SPVM::Sys::IO::Windows/"unlink"> method , otherwise calls L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method.
-
 Exceptions:
 
-Exceptions thrown by L<Sys::IO::Windows#unlink|SPVM::Sys::IO::Windows/"unlink"> method or L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method could be thrown.
+Exceptions thrown by L<Sys::IO#unlink|SPVM::Sys::IO/"unlink"> method could be thrown.
 
 =head2 rename
 
@@ -372,11 +370,9 @@ C<static method rename : void ($old_path : string, $new_path : string);>
 
 Raname the file name from the old name $old_path to the new name $new_path.
 
-In Windows, this method calls L<Sys::IO::Windows#rename|SPVM::Sys::IO::Windows/"rename"> method , otherwise calls L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method.
-
 Exceptions:
 
-Exceptions thrown by L<Sys::IO::Windows#rename|SPVM::Sys::IO::Windows/"rename"> method or L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method could be thrown.
+Exceptions thrown by L<Sys::IO#rename|SPVM::Sys::IO/"rename"> method could be thrown.
 
 =head2 rmdir
 
@@ -424,11 +420,9 @@ C<static method readlink : int ($file : string);>
 
 Returns the content of the symbolic link file $file.
 
-In Windows thie method calls L<Sys::IO::Windows#readlink|SPVM::Sys::IO::Windows/"readlink"> method , otherwise calls L<Sys::IO#readlink|SPVM::Sys::IO/"readlink"> method .
-
 Exceptions:
 
-Exceptions thrown by L<Sys::IO#readlink|SPVM::Sys::IO/"readlink"> method or L<Sys::IO::Windows#readlink|SPVM::Sys::IO::Windows/"readlink"> method could be thrown.
+Exceptions thrown by L<Sys::IO#readlink|SPVM::Sys::IO/"readlink"> method could be thrown.
 
 =head2 symlink
 
@@ -436,11 +430,9 @@ C<static method symlink : int ($old_path : string, $new_path : string);>
 
 Creates a path $new_path symbolically linked to the path $old_path.
 
-In Windows thie method calls L<Sys::IO::Windows#symlink|SPVM::Sys::IO::Windows/"symlink"> method , otherwise calls L<Sys::IO#symlink|SPVM::Sys::IO/"symlink"> method .
-
 Exceptions:
 
-Exceptions thrown by L<Sys::IO#symlink|SPVM::Sys::IO/"symlink"> method or L<Sys::IO::Windows#symlink|SPVM::Sys::IO::Windows/"symlink"> method could be thrown.
+Exceptions thrown by L<Sys::IO#symlink|SPVM::Sys::IO/"symlink"> method could be thrown.
 
 =head2 truncate
 
@@ -1752,8 +1744,6 @@ See L<Sys::IO::Glob#bsd_glob|SPVM::Sys::IO::Glob/"bsd_glob"> in detail.
 =item * L<Sys::IO::Glob|SPVM::Sys::IO::Glob>
 
 =item * L<Sys::IO::Stat|SPVM::Sys::IO::Stat>
-
-=item * L<Sys::IO::Windows|SPVM::Sys::IO::Windows>
 
 =item * L<Sys::OS|SPVM::Sys::OS>
 

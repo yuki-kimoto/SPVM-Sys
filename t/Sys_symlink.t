@@ -16,7 +16,6 @@ use File::Basename;
 use SPVM 'Sys';
 use SPVM 'Sys::OS';
 use SPVM 'Sys::IO';
-use SPVM 'Sys::IO::Windows';
 use File::Spec;
 use SPVM 'Fn';
 use SPVM 'TestCase::Sys';

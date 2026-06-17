@@ -123,7 +123,6 @@ sub MY::postamble {
     
     $options->{native_classes} = [qw(
       Sys::IO
-      Sys::IO::Windows
       Sys::IO::Constant
       Sys::IO::FileStream
       Sys::IO::DirStream
