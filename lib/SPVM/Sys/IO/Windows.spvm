@@ -3,6 +3,7 @@
 
 class Sys::IO::Windows {
   version_from Sys;
+  use Sys::IO;
   use Sys::IO::Stat;
   
   # This is a resource class
@@ -26,7 +27,7 @@ class Sys::IO::Windows {
     while (1) {
       
       my $link_text = (string)undef;
-      eval { $link_text = &win_readlink($resolved_path); }
+      eval { $link_text = Sys::IO->readlink($resolved_path); }
       if ($@) {
         last;
       }
