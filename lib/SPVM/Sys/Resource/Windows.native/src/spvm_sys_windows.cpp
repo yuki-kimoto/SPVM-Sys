@@ -1528,6 +1528,156 @@ int spvm_sys_windows_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_p
   return status;
 }
 
+SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
+  
+  DWORD fileattr;
+  char* link_text;
+  SPVM_OBJ* obj_link_text;
+  int32_t bytes_out;
+  int32_t PrintNameLength;
+  int32_t PrintNameOffset;
+  const WCHAR* PathBuffer;
+  
+  assert(path);
+  
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
+  
+  obj_link_text = NULL;
+  
+  SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata;
+  DWORD linkdata_returned;
+  HANDLE handle = NULL;
+  
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  fileattr = GetFileAttributesW(path_w);
+  if (fileattr == INVALID_FILE_ATTRIBUTES) {
+    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    my_errno = EILSEQ;
+    env->die(env, stack, "[System Error]GetFileAttributesW() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    goto END_OF_FUNC;
+  }
+  
+  if (fileattr & FILE_ATTRIBUTE_REPARSE_POINT) {
+    handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
+    
+    if (handle == INVALID_HANDLE_VALUE) {
+      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+      my_errno = errno;
+      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      goto END_OF_FUNC;
+    }
+    
+    if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
+      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+      my_errno = errno;
+      env->die(env, stack, "[System Error]DeviceIoControl() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      goto END_OF_FUNC;
+    }
+  }
+  else {
+    handle = spvm_sys_windows_util_CreateFileW_for_read(path_w);
+    
+    if (handle == INVALID_HANDLE_VALUE) {
+      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+      my_errno = errno;
+      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      goto END_OF_FUNC;
+    }
+    else {
+      errno = EINVAL;
+      my_errno = errno;
+      env->die(env, stack, "[System Error]This file is not a reparse point. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+      goto END_OF_FUNC;
+    }
+  }
+  
+  PathBuffer = NULL;
+  PrintNameOffset = -1;
+  PrintNameLength = -1;
+  switch (linkdata.ReparseTag) {
+    case IO_REPARSE_TAG_SYMLINK: {
+      const SPVM_SYS_WINDOWS_SYMLINK_REPARSE_BUFFER * const sd =
+        &linkdata.Data.SymbolicLinkReparseBuffer;
+      if (linkdata_returned < offsetof(SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER, Data.SymbolicLinkReparseBuffer.PathBuffer)) {
+        errno = ENOMEM;
+        my_errno = errno;
+        env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+        goto END_OF_FUNC;
+      }
+      
+      PathBuffer = sd->PathBuffer;
+      PrintNameOffset = sd->PrintNameOffset;
+      PrintNameLength = sd->PrintNameLength;
+      
+      break;
+    }
+    case IO_REPARSE_TAG_MOUNT_POINT: {
+      const SPVM_SYS_WINDOWS_MOUNT_POINT_REPARSE_BUFFER * const rd =
+        &linkdata.Data.MountPointReparseBuffer;
+      if (linkdata_returned < offsetof(SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER, Data.MountPointReparseBuffer.PathBuffer)) {
+        errno = ENOMEM;
+        my_errno = errno;
+        env->die(env, stack, "[System Error]The data DeviceIoControl() retruned is invalid. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+        goto END_OF_FUNC;
+      }
+      
+      PathBuffer = rd->PathBuffer;
+      PrintNameOffset = rd->PrintNameOffset;
+      PrintNameLength = rd->PrintNameLength;
+      break;
+    }
+    default: {
+      errno = EINVAL;
+      my_errno = errno;
+      env->die(env, stack, "[System Error]The type of the reparse point must be IO_REPARSE_TAG_SYMLINK or IO_REPARSE_TAG_MOUNT_POINT. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+      goto END_OF_FUNC;
+    }
+  }
+  
+  bytes_out =
+    WideCharToMultiByte(CP_UTF8, 0,
+                        PathBuffer + PrintNameOffset/2,
+                        PrintNameLength/2,
+                        NULL, 0, NULL, NULL);
+                        
+  if (bytes_out == 0) {
+    errno = EILSEQ;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]WideCharToMultiByte() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+    goto END_OF_FUNC;
+  }
+  
+  obj_link_text = env->new_string(env, stack, NULL, bytes_out);
+  link_text = (char*)env->get_chars(env, stack, obj_link_text);
+  
+  bytes_out =
+    WideCharToMultiByte(CP_UTF8, 0,
+                        PathBuffer + PrintNameOffset/2,
+                        PrintNameLength/2,
+                        link_text, bytes_out, NULL, NULL);
+  if (bytes_out == 0) {
+    errno = EILSEQ;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]WideCharToMultiByte() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+    goto END_OF_FUNC;
+  }
+  
+  END_OF_FUNC:
+  
+  if (!(handle == INVALID_HANDLE_VALUE)) {
+    CloseHandle(handle);
+  }
+  
+  errno = my_errno;
+  
+  return obj_link_text;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)

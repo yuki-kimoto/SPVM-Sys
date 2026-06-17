@@ -378,12 +378,7 @@ class Sys {
   
   static method readlink : string ($file : string) {
     
-    if (Sys::OS->is_windows) {
-      return Sys::IO::Windows->win_readlink($file);
-    }
-    else {
-      return Sys::IO->readlink($file);
-    }
+    return Sys::IO->readlink($file);
   }
   
   static method chdir : void ($dir : string) {

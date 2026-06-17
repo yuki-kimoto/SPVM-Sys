@@ -415,6 +415,8 @@ int spvm_sys_windows_rename(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_pa
 
 int spvm_sys_windows_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_path, const char* new_path);
 
+SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

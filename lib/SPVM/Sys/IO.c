@@ -1316,10 +1316,6 @@ int32_t SPVM__Sys__IO__chown(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  env->die(env, stack, "Sys::IO#readlink method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
   
   int32_t error_id = 0;
   
@@ -1329,6 +1325,15 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   const char* path = env->get_chars(env, stack, obj_path);
   
+#if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  SPVM_OBJ* obj_link_text = spvm_sys_windows_readlink(env, stack, path);
+  env->pop_caller_stack(env, stack);
+  
+  if (!obj_link_text) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#else
   int32_t bufsiz = 1;
   char* buf = env->new_memory_block(env, stack, bufsiz);
   
@@ -1355,11 +1360,11 @@ int32_t SPVM__Sys__IO__readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   END_OF_FUNC:
   
   env->free_memory_block(env, stack, buf);
-  
+#endif
+
   stack[0].oval = obj_link_text;
   
   return error_id;
-#endif
 }
 
 int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {

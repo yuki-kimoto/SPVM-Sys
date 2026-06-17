@@ -353,33 +353,17 @@ class TestCase::Sys::IO {
     
     my $test_dir_ftest = &TEST_DIR_FTEST;
     
-    warn;
-    
     {
       my $file = "$tmp_dir/foo.txt";
       my $stream = Sys::IO->fopen($file, "w");
-    
-    warn;
-    
       unless (Sys->f($file)) {
         return 0;
       }
-    
-    warn;
-    
       my $fd = Sys::IO->fileno($stream);
-    
-    warn;
-    
       unless ($fd >= 0) {
         return 0;
       }
-    
-    warn;
-    
     }
-    
-    warn;
     
     {
       my $file = "$tmp_dir/foo.txt";
@@ -395,8 +379,6 @@ class TestCase::Sys::IO {
         return 0;
       }
     }
-    
-    warn;
     
     return 1;
   }
@@ -1945,6 +1927,7 @@ class TestCase::Sys::IO {
       my $stream = Sys::IO->fopen($file, "wb");
       
       unless ($stream) {
+        diag;
         return 0;
       }
       Sys::IO->fclose($stream);
@@ -1955,11 +1938,13 @@ class TestCase::Sys::IO {
       my $status = Sys::IO->symlink($file, $file_symlink);
       
       unless ($status == 0) {
+        diag;
         return 0;
       }
       
       my $exists_symlink_file = Sys->l($file_symlink);
       unless ($exists_symlink_file) {
+        diag;
         return 0;
       }
     }
@@ -1967,15 +1952,21 @@ class TestCase::Sys::IO {
     {
       my $link_text = Sys::IO->readlink($file_symlink);
       
-      unless ($link_text eq $file) {
+      my $file_expected = copy $file;
+      if (Sys::OS->is_windows) {
+        Fn->replace_chars((mutable string)$file_expected, '/', '\\');
+      }
+      unless ($link_text eq $file_expected) {
+        diag $link_text;
+        diag $file;
         return 0;
       }
     }
     
     {
-      my $buffer = (mutable string)new_string_len 255;
       eval { Sys::IO->readlink("$file_symlink/not_found.txt"); };
       unless (Fn->contains($@, "not_found.txt")) {
+        diag;
         return 0;
       }
     }

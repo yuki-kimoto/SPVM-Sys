@@ -132,11 +132,7 @@ else {
   ok(SPVM::TestCase::Sys::IO->chown("$tmp_dir"));
 }
 
-if ($^O eq 'MSWin32') {
-  eval { SPVM::Sys::IO->readlink(undef, undef, 0) };
-  like($@, qr|not supported|);
-}
-else {
+{
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->readlink("$tmp_dir"));
 }
