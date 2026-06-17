@@ -1078,20 +1078,26 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   
-  WCHAR* ret_w = _wgetcwd(NULL, 0);
-  WCHAR* free_object = ret_w;
+  WCHAR* cwd_w = _wgetcwd(NULL, 0);
+  WCHAR* free_object = cwd_w;
   
-  char* ret = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, ret_w, &error_id, __func__, FILE_NAME, __LINE__);
+  char* cwd = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, cwd_w, &error_id, __func__, FILE_NAME, __LINE__);
   
   if (error_id) {
     goto END_OF_FUNC;
   }
+  
+  for (char* p = cwd; *p != '\0'; p++) {
+    if (*p == '\\') {
+      *p = '/';
+    }
+  }
 #else
-  char* ret = getcwd(NULL, 0);
-  char* free_object = ret;
+  char* cwd = getcwd(NULL, 0);
+  char* free_object = cwd;
 #endif
 
-  if (!ret) {
+  if (!cwd) {
     env->die(env, stack, "[System Error]getcwd() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
@@ -1099,10 +1105,10 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   END_OF_FUNC:
   
-  SPVM_OBJ* obj_ret = NULL;
+  SPVM_OBJ* obj_cwd = NULL;
   
-  if (ret) {
-    obj_ret = env->new_string(env, stack, ret, strlen(ret));
+  if (cwd) {
+    obj_cwd = env->new_string(env, stack, cwd, strlen(cwd));
   }
   
   if (free_object) {
@@ -1113,7 +1119,7 @@ int32_t SPVM__Sys__IO__getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     return error_id;
   }
   
-  stack[0].oval = obj_ret;
+  stack[0].oval = obj_cwd;
   
   return 0;
 }

@@ -1504,6 +1504,7 @@ class Sys {
   
   # This is only for Cwd#realpath method
   static method _realpath : string ($file : string) {
+    
     my $realpath = Sys::IO->realpath($file);
     
     return $realpath;
@@ -1513,10 +1514,6 @@ class Sys {
   static method _getcwd : string () {
     
     my $cwd = Sys::IO->getcwd;
-    
-    if (Sys::OS->is_windows) {
-      Fn->replace_chars((mutable string)$cwd, '\\', '/');
-    }
     
     return $cwd;
   }
