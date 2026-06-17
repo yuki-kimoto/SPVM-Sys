@@ -145,7 +145,7 @@ class Sys::IO {
   
   native static method unlink : int ($path : string);
   
-  native static method rename : int ($oldpath : string, $newpath : string);
+  native static method rename : int ($old_path : string, $new_path : string);
   
   native static method getcwd : mutable string ($buf : mutable string, $size : int);
   
@@ -159,7 +159,7 @@ class Sys::IO {
   
   native static method chown : int ($path : string, $owner : int, $group : int);
   
-  native static method symlink : int ($oldpath : string, $newpath : string);
+  native static method symlink : int ($old_path : string, $new_path : string);
   
   native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
   

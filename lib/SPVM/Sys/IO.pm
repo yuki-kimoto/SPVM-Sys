@@ -532,15 +532,15 @@ If the unlink function failed, an exception is thrown with C<eval_error_id> set 
 
 =head2 rename
 
-C<static method rename : int ($oldpath : string, $newpath : string);>
+C<static method rename : int ($old_path : string, $new_path : string);>
 
 Calls the L<rename|https://linux.die.net/man/2/rename> function and return its return value.
 
 Exceptions:
 
-$oldpath must be defined. Otherwise an exception is thrown.
+$old_path must be defined. Otherwise an exception is thrown.
 
-$newpath must be defined. Otherwise an exception is thrown.
+$new_path must be defined. Otherwise an exception is thrown.
 
 If the rename function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
@@ -632,15 +632,15 @@ If the chown function failed, an exception is thrown with C<eval_error_id> set t
 
 =head2 symlink
 
-C<static method symlink : int ($oldpath : string, $newpath : string);>
+C<static method symlink : int ($old_path : string, $new_path : string);>
 
 Calls the L<symlink|https://linux.die.net/man/2/symlink> function and return its return value.
 
 Exceptions:
 
-$oldpath must be defined. Otherwise an exception is thrown.
+$old_path must be defined. Otherwise an exception is thrown.
 
-$newpath must be defined. Otherwise an exception is thrown.
+$new_path must be defined. Otherwise an exception is thrown.
 
 If the symlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 

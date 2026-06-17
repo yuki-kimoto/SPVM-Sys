@@ -26,9 +26,9 @@ In this document, 'symbolic link' refers to both symbolic links and directory ju
 
 =head2 symlink
 
-C<static method symlink : int ($oldpath : string, $newpath : string);>
+C<static method symlink : int ($old_path : string, $new_path : string);>
 
-Creates a path $newpath symbolically linked to the path $oldpath.
+Creates a path $new_path symbolically linked to the path $old_path.
 
 Note:
 

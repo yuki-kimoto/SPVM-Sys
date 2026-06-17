@@ -176,35 +176,35 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t error_id = 0;
   
-  SPVM_OBJ* obj_oldpath = stack[0].oval;
+  SPVM_OBJ* obj_old_path = stack[0].oval;
   
-  SPVM_OBJ* obj_newpath = stack[1].oval;
+  SPVM_OBJ* obj_new_path = stack[1].oval;
   
-  if (!obj_oldpath) {
-    return env->die(env, stack, "The old path $oldpath must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!obj_old_path) {
+    return env->die(env, stack, "The old path $old_path must be defined.", __func__, FILE_NAME, __LINE__);
   }
-  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
+  const char* old_path = env->get_chars(env, stack, obj_old_path);
   
-  if (!obj_newpath) {
-    return env->die(env, stack, "The new path $newpath must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!obj_new_path) {
+    return env->die(env, stack, "The new path $new_path must be defined.", __func__, FILE_NAME, __LINE__);
   }
-  const char* newpath = env->get_chars(env, stack, obj_newpath);
+  const char* new_path = env->get_chars(env, stack, obj_new_path);
   
-  WCHAR* oldpath_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* old_path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, old_path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
-  WCHAR* newpath_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* new_path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, new_path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
   
   // Win32 (or perhaps NTFS) won't follow symlinks containing /, so replace any with \\.
-  int32_t oldpath_w_length = wcslen(oldpath_w);
-  for (int32_t i = 0; i < oldpath_w_length; i++) {
-    if (oldpath_w[i] == L'/') {
-      oldpath_w[i] = L'\\';
+  int32_t old_path_w_length = wcslen(old_path_w);
+  for (int32_t i = 0; i < old_path_w_length; i++) {
+    if (old_path_w[i] == L'/') {
+      old_path_w[i] = L'\\';
     }
   }
   
@@ -217,53 +217,53 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
       - ends in /. or /.. (with either slash)
       - is a simple drive letter
      assume it's a directory.
-     Otherwise if the oldpath_w is relative we need to make a relative path
-     based on the newpath_w to check if the target is a directory.
+     Otherwise if the old_path_w is relative we need to make a relative path
+     based on the new_path_w to check if the target is a directory.
   */
-  int32_t oldpath_is_dir = 0;
-  if (oldpath_w_length >= 1 && is_path_separator(oldpath_w[oldpath_w_length - 1])) {
-    oldpath_is_dir = 1;
+  int32_t old_path_is_dir = 0;
+  if (old_path_w_length >= 1 && is_path_separator(old_path_w[old_path_w_length - 1])) {
+    old_path_is_dir = 1;
   }
-  else if (wcscmp(oldpath_w, L"..") == 0) {
-    oldpath_is_dir = 1;
+  else if (wcscmp(old_path_w, L"..") == 0) {
+    old_path_is_dir = 1;
   }
-  else if (wcscmp(oldpath_w, L".") == 0) {
-    oldpath_is_dir = 1;
+  else if (wcscmp(old_path_w, L".") == 0) {
+    old_path_is_dir = 1;
   }
-  else if (oldpath_w_length >= 2 && is_path_separator(oldpath_w[oldpath_w_length - 2]) && oldpath_w[oldpath_w_length - 1] == L'.') {
-    oldpath_is_dir = 1;
+  else if (old_path_w_length >= 2 && is_path_separator(old_path_w[old_path_w_length - 2]) && old_path_w[old_path_w_length - 1] == L'.') {
+    old_path_is_dir = 1;
   }
-  else if (oldpath_w_length >= 3 && wcscmp(oldpath_w+oldpath_w_length - 3, L"\\..") == 0) {
-    oldpath_is_dir = 1;
+  else if (old_path_w_length >= 3 && wcscmp(old_path_w+old_path_w_length - 3, L"\\..") == 0) {
+    old_path_is_dir = 1;
   }
-  else if (oldpath_w_length == 2 && oldpath_w[1] == L':') {
-    oldpath_is_dir = 1;
+  else if (old_path_w_length == 2 && old_path_w[1] == L':') {
+    old_path_is_dir = 1;
   }
   
-  if (oldpath_is_dir) {
+  if (old_path_is_dir) {
     create_flags |= SYMBOLIC_LINK_FLAG_DIRECTORY;
   }
   else {
     const WCHAR *resolved_path_w = NULL;
     WCHAR *resolved_path_w_tmp = NULL;
     
-    int32_t oldpath_is_abs = 0;
-    if (oldpath_w_length >= 3 && oldpath_w[1] == L':') {
+    int32_t old_path_is_abs = 0;
+    if (old_path_w_length >= 3 && old_path_w[1] == L':') {
       /* relative to current directory on a drive, or absolute */
-      oldpath_is_abs = 1;
+      old_path_is_abs = 1;
     }
-    else if (oldpath_w[0] == L'\\') {
-      oldpath_is_abs = 1;
+    else if (old_path_w[0] == L'\\') {
+      old_path_is_abs = 1;
     }
     
-    if (oldpath_is_abs) {
-      resolved_path_w = oldpath_w;
+    if (old_path_is_abs) {
+      resolved_path_w = old_path_w;
     }
     else {
       int32_t last_sep_index = -1;
-      size_t newpath_w_length = wcslen(newpath_w);
-      for (int32_t i = newpath_w_length - 1; i >= 0; i--) {
-        char ch = newpath_w[i];
+      size_t new_path_w_length = wcslen(new_path_w);
+      for (int32_t i = new_path_w_length - 1; i >= 0; i--) {
+        char ch = new_path_w[i];
         if (ch == '\\' || ch == '/') {
           last_sep_index = i;
           break;
@@ -271,14 +271,14 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
       }
       
       if (last_sep_index >= 0) {
-        resolved_path_w_tmp = env->new_memory_block(env, stack, (last_sep_index + 1 + oldpath_w_length + 1) * sizeof(WCHAR));
-        memcpy(resolved_path_w_tmp, newpath_w, sizeof(WCHAR) * (last_sep_index + 1));
-        memcpy(resolved_path_w_tmp + (last_sep_index + 1), oldpath_w, oldpath_w_length);
+        resolved_path_w_tmp = env->new_memory_block(env, stack, (last_sep_index + 1 + old_path_w_length + 1) * sizeof(WCHAR));
+        memcpy(resolved_path_w_tmp, new_path_w, sizeof(WCHAR) * (last_sep_index + 1));
+        memcpy(resolved_path_w_tmp + (last_sep_index + 1), old_path_w, old_path_w_length);
         resolved_path_w = resolved_path_w_tmp;
       }
       else {
-        /* newpath_w is just a filename */
-        resolved_path_w = oldpath_w;
+        /* new_path_w is just a filename */
+        resolved_path_w = old_path_w;
       }
     }
     
@@ -292,14 +292,14 @@ int32_t SPVM__Sys__IO__Windows__symlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     }
   }
   
-  int32_t success = CreateSymbolicLinkW(newpath_w, oldpath_w, create_flags);
+  int32_t success = CreateSymbolicLinkW(new_path_w, old_path_w, create_flags);
   int32_t status = success ? 0 : -1;
   if (status == -1) {
     spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
   }
   
   if (status == -1) {
-    env->die(env, stack, "[System Error]CreateSymbolicLinkW() failed(%d: %s). $oldpath='%s', $newpath='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), oldpath, newpath);
+    env->die(env, stack, "[System Error]CreateSymbolicLinkW() failed(%d: %s). $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

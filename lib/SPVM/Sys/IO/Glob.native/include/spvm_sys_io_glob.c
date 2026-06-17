@@ -429,14 +429,14 @@ static int
 glob0(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, SPVM_SYS_IO_GLOB *pglob)
 {
         const char *qpat, *qpatnext;
-        int32_t c, err, oldflags, oldpathc;
+        int32_t c, err, oldflags, old_pathc;
         char *bufnext, patbuf[MAXPATHLEN];
         size_t limit = 0;
 
         qpat = pattern;
         qpatnext = qpat;
         oldflags = pglob->gl_flags;
-        oldpathc = pglob->gl_pathc;
+        old_pathc = pglob->gl_pathc;
         bufnext = patbuf;
 
         /* We don't need to check for buffer overflow any more. */
@@ -503,7 +503,7 @@ glob0(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, SPVM_SYS_IO_GLOB *p
          * and the pattern did not contain any magic characters
          * SPVM_SYS_IO_GLOB_C_NOMAGIC is there just for compatibility with csh.
          */
-        if (pglob->gl_pathc == oldpathc &&
+        if (pglob->gl_pathc == old_pathc &&
             ((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_NOCHECK) ||
               ((pglob->gl_flags & SPVM_SYS_IO_GLOB_C_NOMAGIC) &&
                !(pglob->gl_flags & SPVM_SYS_IO_GLOB_C_MAGCHAR))))
@@ -513,8 +513,8 @@ glob0(SPVM_ENV* env, SPVM_VALUE* stack, const char *pattern, SPVM_SYS_IO_GLOB *p
         }
         else if (!(pglob->gl_flags & SPVM_SYS_IO_GLOB_C_NOSORT))
             if (pglob->gl_pathv)
-                qsort(pglob->gl_pathv + pglob->gl_offs + oldpathc,
-                    pglob->gl_pathc - oldpathc, sizeof(char *),
+                qsort(pglob->gl_pathv + pglob->gl_offs + old_pathc,
+                    pglob->gl_pathc - old_pathc, sizeof(char *),
                     (pglob->gl_flags & (SPVM_SYS_IO_GLOB_C_ALPHASORT|SPVM_SYS_IO_GLOB_C_NOCASE))
                         ? ci_compare : compare);
         pglob->gl_flags = oldflags;
