@@ -24,22 +24,6 @@ In this document, 'symbolic link' refers to both symbolic links and directory ju
 
 =head1 Class Methods
 
-=head2 unlink
-
-C<static method unlink : int ($path : string);>
-
-Delete a file(not a directory) or L<a symbolic link/"Symbolic Link">.
-
-Note:
-
-If $path has read-only flag, it is disabled before the deletion. If the deletion fails, the flag is restored.
-
-Exceptions:
-
-$path must be defined. Otherwise an exception is thrown.
-
-If unlink function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
-
 =head2 rename
 
 C<static method rename : int ($oldpath : string, $newpath : string);>

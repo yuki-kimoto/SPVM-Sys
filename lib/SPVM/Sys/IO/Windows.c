@@ -18,68 +18,6 @@ static inline int32_t is_path_separator(WCHAR ch_w) {
 
 static const char* FILE_NAME = "Sys/IO/Windows.c";
 
-// This logic is the same as Perl's win32_unlink in win32.c, and UTF-8 arguments are supported.
-int32_t SPVM__Sys__IO__Windows__unlink(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "Sys::IO::Windows#unlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_path = stack[0].oval;
-  
-  if (!obj_path) {
-    return env->die(env, stack, "The path $path must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  const char* path = env->get_chars(env, stack, obj_path);
-  
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    return error_id;
-  }
-  
-  int32_t status = -1;
-  
-  DWORD attrs = GetFileAttributesW(path_w);
-  
-  if (attrs == 0xFFFFFFFF) {
-    errno = ENOENT;
-    status = -1;
-    goto END_OF_FUNC;
-  }
-  
-  if (attrs & FILE_ATTRIBUTE_READONLY) {
-    SetFileAttributesW(path_w, attrs & ~FILE_ATTRIBUTE_READONLY);
-    status = _wunlink(path_w);
-    if (status == -1) {
-      SetFileAttributesW(path_w, attrs);
-    }
-  }
-  else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
-    == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
-         && spvm_sys_windows_is_symlink(env, stack, path))
-  {
-    status = _wrmdir(path_w);
-  }
-  else {
-    status = _wunlink(path_w);
-  }
-  
-  END_OF_FUNC:
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]unlink() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
 // This logic is the same as Perl's win32_rename in win32.c, and UTF-8 arguments are supported.
 int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
