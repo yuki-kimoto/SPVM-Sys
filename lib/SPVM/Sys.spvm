@@ -364,12 +364,8 @@ class Sys {
   }
   
   static method rename : void ($old_path : string, $new_path : string) {
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->rename($old_path, $new_path);
-    }
-    else {
-      Sys::IO->rename($old_path, $new_path);
-    }
+    
+    Sys::IO->rename($old_path, $new_path);
   }
   
   static method symlink : int ($old_path : string, $new_path : string) {

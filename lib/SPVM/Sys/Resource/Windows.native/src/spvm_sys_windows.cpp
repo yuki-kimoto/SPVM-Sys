@@ -1338,6 +1338,52 @@ int spvm_sys_windows_unlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) 
   return status;
 }
 
+int spvm_sys_windows_rename(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_path, const char* new_path) {
+  
+  WCHAR* new_path_w;
+  DWORD flags;
+  int32_t success;
+  
+  assert(old_path);
+  assert(new_path);
+  
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
+  int32_t status = -1;
+  
+  WCHAR* old_path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, old_path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  
+  new_path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, new_path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  
+  flags = MOVEFILE_COPY_ALLOWED;
+  if (!(_wcsicmp(new_path_w, old_path_w) == 0)) {
+    flags |= MOVEFILE_REPLACE_EXISTING;
+  }
+  
+  success = MoveFileExW(old_path_w, new_path_w, flags);
+  status = success ? 0 : -1;
+  if (status == -1) {
+    spvm_sys_windows_util_win_last_error_to_errno(EACCES);
+    my_errno = errno;
+    env->die(env, stack, "[System Error]MoveFileExW(). errno=%d(%s), $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
+    goto END_OF_FUNC;
+  }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return status;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)

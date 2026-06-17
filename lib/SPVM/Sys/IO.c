@@ -1001,28 +1001,37 @@ int32_t SPVM__Sys__IO__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
-  SPVM_OBJ* obj_oldpath = stack[0].oval;
+  SPVM_OBJ* obj_old_path = stack[0].oval;
   
-  SPVM_OBJ* obj_newpath = stack[1].oval;
+  SPVM_OBJ* obj_new_path = stack[1].oval;
   
-  if (!obj_oldpath) {
-    return env->die(env, stack, "The old path $oldpath must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!obj_old_path) {
+    return env->die(env, stack, "The old path $old_path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
+  const char* old_path = env->get_chars(env, stack, obj_old_path);
   
-  if (!obj_newpath) {
-    return env->die(env, stack, "The new path $newpath must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!obj_new_path) {
+    return env->die(env, stack, "The new path $new_path must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  const char* newpath = env->get_chars(env, stack, obj_newpath);
+  const char* new_path = env->get_chars(env, stack, obj_new_path);
   
-  int32_t status = rename(oldpath, newpath);
+#if defined(_WIN32)
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  int32_t status = spvm_sys_windows_rename(env, stack, old_path, new_path);
+  env->pop_caller_stack(env, stack);
   if (status == -1) {
-    env->die(env, stack, "[System Error]rename() failed(%d: %s). $oldpath='%s', $newpath='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), oldpath, newpath);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
+#else
+  int32_t status = rename(old_path, new_path);
+  if (status == -1) {
+    env->die(env, stack, "[System Error]rename() failed(%d: %s). $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#endif
+
   stack[0].ival = status;
   
   return 0;
