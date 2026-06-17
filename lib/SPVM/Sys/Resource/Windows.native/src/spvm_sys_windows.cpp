@@ -1740,12 +1740,6 @@ SPVM_OBJ* spvm_sys_windows_getdcwd(SPVM_ENV* env, SPVM_VALUE* stack, int drive) 
     goto END_OF_FUNC;
   }
   
-  for (char* p = dcwd; *p != '\0'; p++) {
-    if (*p == '\\') {
-      *p = '/';
-    }
-  }
-  
   obj_dcwd = env->new_string_nolen(env, stack, dcwd);
   
   END_OF_FUNC:
