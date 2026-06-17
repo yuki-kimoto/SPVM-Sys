@@ -84,7 +84,7 @@ int32_t SPVM__Sys__Ioctl__ioctl(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (ret == -1) {
-    env->die(env, stack, "[System Error]ioctl() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    env->die(env, stack, "[System Error]ioctl() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
@@ -119,7 +119,7 @@ int32_t SPVM__Sys__Ioctl__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   if (ret == -1) {
-    env->die(env, stack, "[System Error]ioctlsocket() failed(%d: %s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
+    env->die(env, stack, "[System Error]ioctlsocket() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   

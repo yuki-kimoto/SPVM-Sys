@@ -46,14 +46,14 @@ int32_t SPVM__Sys__IO__FileStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
         int32_t status = pclose(fh);
 #endif
         if (status == -1) {
-          env->die(env, stack, "[System Error]pclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+          env->die(env, stack, "[System Error]pclose() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
           return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
         }
       }
       else {
         int32_t status = fclose(fh);
         if (status == EOF) {
-          env->die(env, stack, "[System Error]fclose() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+          env->die(env, stack, "[System Error]fclose() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
           return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
         }
       }

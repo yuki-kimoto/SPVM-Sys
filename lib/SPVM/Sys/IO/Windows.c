@@ -42,7 +42,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
   DWORD fileattr = GetFileAttributesW(path_w);
   if (fileattr == INVALID_FILE_ATTRIBUTES) {
     spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
-    env->die(env, stack, "[System Error]GetFileAttributesW() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);    
+    env->die(env, stack, "[System Error]GetFileAttributesW() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);    
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
@@ -59,7 +59,7 @@ int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
     
     if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
       spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
-      env->die(env, stack, "[System Error]DeviceIoControl() failed(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]DeviceIoControl() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }

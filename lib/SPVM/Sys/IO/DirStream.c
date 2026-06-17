@@ -54,7 +54,7 @@ int32_t SPVM__Sys__IO__DirStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
     int32_t status = closedir(dir_stream);
     if (status == -1) {
-      env->die(env, stack, "[System Error]closedir() failed(%d: %s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+      env->die(env, stack, "[System Error]closedir() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
       return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     }
 #endif
