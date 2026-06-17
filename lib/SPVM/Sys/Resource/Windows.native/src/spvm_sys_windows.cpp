@@ -1284,6 +1284,60 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   return obj_resolved_path;
 }
 
+int spvm_sys_windows_unlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
+  
+  DWORD attrs;
+  
+  assert(path);
+  
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
+  int32_t status = -1;
+  
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  
+  attrs = GetFileAttributesW(path_w);
+  
+  if (attrs == 0xFFFFFFFF) {
+    my_errno = ENOENT;
+    goto END_OF_FUNC;
+  }
+  
+  if (attrs & FILE_ATTRIBUTE_READONLY) {
+    SetFileAttributesW(path_w, attrs & ~FILE_ATTRIBUTE_READONLY);
+    status = _wunlink(path_w);
+    my_errno = errno;
+    if (status == -1) {
+      SetFileAttributesW(path_w, attrs);
+    }
+  }
+  else if ((attrs & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY))
+    == (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)
+         && spvm_sys_windows_is_symlink(env, stack, path))
+  {
+    status = _wrmdir(path_w);
+    my_errno = errno;
+  }
+  else {
+    status = _wunlink(path_w);
+    my_errno = errno;
+  }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]spvm_sys_windows_unlink() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+  }
+  
+  return status;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)

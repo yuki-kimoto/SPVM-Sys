@@ -360,12 +360,7 @@ class Sys {
   
   static method unlink : void ($file : string) {
     
-    if (Sys::OS->is_windows) {
-      Sys::IO::Windows->unlink($file);
-    }
-    else {
-      Sys::IO->unlink($file);
-    }
+    Sys::IO->unlink($file);
   }
   
   static method rename : void ($old_path : string, $new_path : string) {
