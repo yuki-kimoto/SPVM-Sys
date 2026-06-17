@@ -24,26 +24,6 @@ In this document, 'symbolic link' refers to both symbolic links and directory ju
 
 =head1 Class Methods
 
-=head2 rename
-
-C<static method rename : int ($oldpath : string, $newpath : string);>
-
-Raname the file name from the old name $oldpath to the new name $newpath.
-
-Note:
-
-This method is implemented so that the beheivior is the same as L<Sys::IO#readlink|SPVM::Sys::IO/"readlink"> method as possible.
-
-Error numbers in Windows are replaced with the ones in POSIX.
-
-Exceptions:
-
-$oldpath must be defined. Otherwise an exception is thrown.
-
-$newpath must be defined. Otherwise an exception is thrown.
-
-If the rename function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
-
 =head2 symlink
 
 C<static method symlink : int ($oldpath : string, $newpath : string);>

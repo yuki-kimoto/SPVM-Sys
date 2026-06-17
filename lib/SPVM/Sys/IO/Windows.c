@@ -18,58 +18,6 @@ static inline int32_t is_path_separator(WCHAR ch_w) {
 
 static const char* FILE_NAME = "Sys/IO/Windows.c";
 
-// This logic is the same as Perl's win32_rename in win32.c, and UTF-8 arguments are supported.
-int32_t SPVM__Sys__IO__Windows__rename(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "Sys::IO::Windows#rename method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_oldpath = stack[0].oval;
-  if (!obj_oldpath) {
-    return env->die(env, stack, "The old path $oldpath must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* oldpath = env->get_chars(env, stack, obj_oldpath);
-  
-  SPVM_OBJ* obj_newpath = stack[1].oval;
-  if (!obj_newpath) {
-    return env->die(env, stack, "The new path $newpath must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  const char* newpath = env->get_chars(env, stack, obj_newpath);
-  
-  WCHAR* oldpath_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, oldpath, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    return error_id;
-  }
-  
-  WCHAR* newpath_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, newpath, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    return error_id;
-  }
-  
-  DWORD flags = MOVEFILE_COPY_ALLOWED;
-  if (!(_wcsicmp(newpath_w, oldpath_w) == 0)) {
-    flags |= MOVEFILE_REPLACE_EXISTING;
-  }
-  
-  int32_t success = MoveFileExW(oldpath_w, newpath_w, flags);
-  
-  int32_t status = success ? 0 : -1;
-  
-  if (status == -1) {
-    spvm_sys_windows_util_win_last_error_to_errno(EACCES);
-    env->die(env, stack, "[System Error]MoveFileExW() for renaming failed(%d: %s). $oldpath='%s', $newpath='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), oldpath, newpath);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
 int32_t SPVM__Sys__IO__Windows__win_readlink(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
   env->die(env, stack, "Sys::IO::Windows#win_readlink method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
