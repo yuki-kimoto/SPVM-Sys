@@ -9,8 +9,6 @@ class Sys::IO::Windows {
   use Sys::Resource::Windows;
   
   # Class Methods
-  native static method symlink : int ($old_path : string, $new_path : string);
-  
   native static method win_readlink : string ($path : string);
   
   # Only used from Sys/IO/Stat.c and realpath method

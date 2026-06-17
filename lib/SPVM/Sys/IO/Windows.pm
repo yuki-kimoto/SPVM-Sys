@@ -24,18 +24,6 @@ In this document, 'symbolic link' refers to both symbolic links and directory ju
 
 =head1 Class Methods
 
-=head2 symlink
-
-C<static method symlink : int ($old_path : string, $new_path : string);>
-
-Creates a path $new_path symbolically linked to the path $old_path.
-
-Note:
-
-This method is implemented so that the beheivior is the same as L<Sys::IO#symlink|SPVM::Sys::IO/"symlink"> method as possible.
-
-Error numbers in Windows are replaced with the ones in POSIX.
-
 =head2 win_readlink
 
 C<static method win_readlink : string ($path : string);>
