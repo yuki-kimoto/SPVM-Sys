@@ -1700,12 +1700,6 @@ SPVM_OBJ* spvm_sys_windows_getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  for (char* p = cwd; *p != '\0'; p++) {
-    if (*p == '\\') {
-      *p = '/';
-    }
-  }
-  
   obj_cwd = env->new_string_nolen(env, stack, cwd);
   
   END_OF_FUNC:

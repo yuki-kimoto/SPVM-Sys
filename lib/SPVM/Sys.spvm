@@ -1515,6 +1515,10 @@ class Sys {
     
     my $cwd = Sys::IO->getcwd;
     
+    if (Sys::OS->is_windows) {
+      Fn->replace_chars((mutable string)$cwd, '\\', '/');
+    }
+    
     return $cwd;
   }
   
