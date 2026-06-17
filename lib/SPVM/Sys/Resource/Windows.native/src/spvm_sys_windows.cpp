@@ -1678,6 +1678,45 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
   return obj_link_text;
 }
 
+SPVM_OBJ* spvm_sys_windows_getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  SPVM_OBJ* obj_cwd = NULL;
+  
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
+  
+  WCHAR* cwd_w = _wgetcwd(NULL, 0);
+  if (!cwd_w) {
+    my_errno = errno;
+    env->die(env, stack, "[System Error]_wgetcwd() failed.", __func__, FILE_NAME, __LINE__);
+    goto END_OF_FUNC;
+  }
+  
+  char* cwd = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, cwd_w, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = EILSEQ;
+    goto END_OF_FUNC;
+  }
+  
+  for (char* p = cwd; *p != '\0'; p++) {
+    if (*p == '\\') {
+      *p = '/';
+    }
+  }
+  
+  obj_cwd = env->new_string_nolen(env, stack, cwd);
+  
+  END_OF_FUNC:
+  
+  if (cwd_w) {
+    free(cwd_w);
+  }
+  
+  errno = my_errno;
+  
+  return obj_cwd;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)
