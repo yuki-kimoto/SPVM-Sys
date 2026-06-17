@@ -1,3 +1,34 @@
+0.569 2026-06-17
+  [Incompatible Changes]
+    * Change Sys::IO#getcwd definition.
+      -  native static method getcwd : mutable string ($buf : mutable string, $size : int);
+      +  native static method getcwd : string ();
+    
+    * Change Sys::IO#readlink definition
+      -  native static method readlink : int ($path : string, $buf : mutable string, $bufsiz : int);
+      +  native static method readlink : string ($path : string);
+    * Change Sys::IO#getdcwd definition.
+      -  native static method getcwd : mutable string ($drive : int, $buf : mutable string, $size : int);
+      +  native static method getcwd : string ($drive : int);
+      
+    * Rename Sys::IO#_getdcwd to getdcwd.
+    * Remove Sys::IO::Windows.
+    * Merge Sys::Process#_pipe to Sys::Process#pipe. Remove _pipe.
+    * Rename Sys::IO::FileStream#is_pipe to opened_by_popen.
+    * Merge Sys::IO#_popen,_pclose to popen, pclose. Remove _popen and _pclose.
+  [Internal Changes]
+    * Add many functions to spvm_sys_windows.c and use them.
+    * Define _CRT_NONSTDC_NO_WARNINGS.
+    * Define _CRT_SECURE_NO_WARNINGS.
+  [Exception Messages Improvement]
+    * Improve exception messages
+  [Bug Fix and Resotre Behaiviors]
+    * Use _wopen instead of _wsopen_s.
+    * Use freopen instead of freopen_s.
+    * Use _lseeki64 instead of lseek.
+    * Use _ftelli64 instead of ftell.
+    * Use _wfopen.
+    
 0.568 2026-06-15
   [Makefile.PL Changes]
     * Update Makefile.PL to match latest SPVM Makefile.PL.
