@@ -635,7 +635,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
     {
       SPVM_OBJ* obj_link_text = NULL;
       stack[0].oval = env->new_string(env, stack, path, strlen(path));
-      env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
+      env->call_class_method_by_name(env, stack, "Sys::IO", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) {
         goto END_OF_FUNC;
       }
@@ -1207,7 +1207,7 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   SPVM_OBJ* obj_resolved_link_text = NULL;
   {
     stack[0].oval = env->new_string_nolen(env, stack, path);
-    env->call_class_method_by_name(env, stack, "Sys::IO::Windows", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
+    env->call_class_method_by_name(env, stack, "Sys::IO", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       my_errno = EINVAL;
       goto END_OF_FUNC;

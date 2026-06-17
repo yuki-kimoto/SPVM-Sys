@@ -122,7 +122,7 @@ check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
   
   if (SPVM::Sys::OS->is_windows) {
     {
-      my $resolved_path = SPVM::Sys::IO::Windows->_follow_symlinks_to($tmpfile2);
+      my $resolved_path = SPVM::Sys::IO->_follow_symlinks_to($tmpfile2);
       ok(File::Spec->file_name_is_absolute($resolved_path));
       like($resolved_path, qr|file1|);
     }
@@ -133,7 +133,7 @@ check_stat($tmpfile1, $tmpfile2, "check directory and link stat are the same");
       chdir $tmp_dir
         or die "Cannot change directory to \"$tmp_dir\":$!";
       
-      my $resolved_path = SPVM::Sys::IO::Windows->_follow_symlinks_to('file2');
+      my $resolved_path = SPVM::Sys::IO->_follow_symlinks_to('file2');
       ok(File::Spec->file_name_is_absolute($resolved_path));
       like($resolved_path, qr|file1|);
       
