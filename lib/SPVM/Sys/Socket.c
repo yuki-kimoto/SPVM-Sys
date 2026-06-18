@@ -92,18 +92,14 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct in_addr* st_in_addr = env->get_pointer(env, stack, obj_inp);
   
-#if defined(_WIN32)
   int32_t status = inet_pton(AF_INET, cp, st_in_addr);
-#else
-  int32_t status = inet_aton(cp, st_in_addr);
-#endif
-
+  
   if (status == 0) {
     env->die(env, stack, "The got address is not a valid network address.", __func__, FILE_NAME, __LINE__);
     return InvalidNetworkAddress;
   }
   else if (status == -1) {
-    env->die(env, stack, "[System Error]inet_aton() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
+    env->die(env, stack, "[System Error]inet_pton() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
