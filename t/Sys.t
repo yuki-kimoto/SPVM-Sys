@@ -34,8 +34,6 @@ my $test_tmp_dir = File::Temp->newdir;
 
 ok(SPVM::TestCase::Sys->ioctl);
 
-ok(SPVM::TestCase::Sys->set_tcp_keepalive);
-
 ok(SPVM::TestCase::Sys->rand);
 
 # _getcwd

@@ -17,6 +17,7 @@ use Test::SPVM::Sys::Socket::Server;
 use SPVM 'Sys::Socket';
 use SPVM 'Fn';
 use SPVM 'TestCase::Sys::Socket';
+use SPVM 'TestCase::Sys';
 use SPVM 'Sys::Socket::Constant';
 
 my $localhost = "127.0.0.1";
@@ -266,6 +267,11 @@ ok(SPVM::TestCase::Sys::Socket->sockaddr_strage);
 ok(SPVM::TestCase::Sys::Socket->getaddrinfo);
 
 ok(SPVM::TestCase::Sys::Socket->getnameinfo);
+
+# Sys
+{
+  ok(SPVM::TestCase::Sys->set_tcp_keepalive);
+}
 
 SPVM::Fn->destroy_runtime_permanent_vars;
 
