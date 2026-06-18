@@ -428,7 +428,7 @@ int spvm_sys_windows_rewinddir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOW
      * on the next readdir call. */
     if (_findclose(dirp->dd_handle) == -1) {
       my_errno = errno;
-      spvm_warn("[System Error]_findclose() failed. errno=%d(%s).", errno, env->strerror_nolen(env, stack, errno));
+      env->die(env, stack, "[System Error]_findclose() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
       goto END_OF_FUNC;
     }
   }
@@ -452,13 +452,19 @@ int64_t spvm_sys_windows_telldir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WIN
   return dirp->dd_stat;
 }
 
-void spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp, int64_t offset) {
-  int32_t my_errno = 0;
+int spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp, int64_t offset) {
   
   assert(dirp);
   assert(offset >= 0);
   
-  spvm_sys_windows_rewinddir (env, stack, dirp);
+  int32_t my_errno = 0;
+  int32_t status = -1;
+  
+  int32_t rewinddir_status = spvm_sys_windows_rewinddir(env, stack, dirp);
+  if (rewinddir_status == -1) {
+    my_errno = errno;
+    goto END_OF_FUNC;
+  }
   
   while (1) {
     if (dirp->dd_stat >= offset) {
@@ -468,12 +474,19 @@ void spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
     SPVM_SYS_WINDOWS_WDIRENT* dirent = spvm_sys_windows_readdir(env, stack, dirp);
     if (!dirent) {
       if (!(errno == 0)) {
-        spvm_warn("[abort]spvm_sys_windows_readdir failed. errno=%d(%s).", errno, env->strerror_nolen(env, stack, errno));
-        abort();
+        my_errno = errno;
+        env->die(env, stack, "[System Error]spvm_sys_windows_readdir failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+        goto END_OF_FUNC;
       }
       break;
     }
   }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return status;
 }
 
 int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t length) {
