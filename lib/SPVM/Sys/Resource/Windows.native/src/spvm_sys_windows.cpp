@@ -8,8 +8,8 @@
 
 extern "C" {
 
-#define SUFFIX	L"*"
-#define	SLASH	L"\\"
+#define SUFFIX  L"*"
+#define SLASH L"\\"
 
 static const char* FILE_NAME = "spvm_sys_windows.cpp";
 
@@ -35,12 +35,12 @@ SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, c
   }
   
   win_wchar_string_length = MultiByteToWideChar(
-      CP_UTF8,
-      0,
-      utf8_string,
-      -1,
-      NULL,
-      0
+    CP_UTF8,
+    0,
+    utf8_string,
+    -1,
+    NULL,
+    0
   );
   
   if (win_wchar_string_length == 0) {
@@ -250,9 +250,9 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
   /* Allocate enough space to store DIR structure and the complete
    * directory path given. */
   nd = (SPVM_SYS_WINDOWS_DIR *) malloc (sizeof (SPVM_SYS_WINDOWS_DIR) + (wcslen (szFullPath)
-					   + wcslen (SLASH)
-					   + wcslen (SUFFIX) + 1)
-					  * sizeof (WCHAR));
+             + wcslen (SLASH)
+             + wcslen (SUFFIX) + 1)
+            * sizeof (WCHAR));
 
   if (!nd)
     {
@@ -326,42 +326,42 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
       dirp->dd_handle = _wfindfirst64 (dirp->dd_name, &(dirp->dd_dta));
 
       if (dirp->dd_handle == -1)
-	{
-	  /* Whoops! Seems there are no files in that
-	   * directory. */
-	  dirp->dd_stat = -1;
-	}
+  {
+    /* Whoops! Seems there are no files in that
+     * directory. */
+    dirp->dd_stat = -1;
+  }
       else
-	{
-	  dirp->dd_stat = 1;
-	}
+  {
+    dirp->dd_stat = 1;
+  }
     }
   else
     {
       /* Get the next search entry. */
       if (_wfindnext64 (dirp->dd_handle, &(dirp->dd_dta)))
-	{
-	  /* We are off the end or otherwise error.
-	     _findnext sets errno to ENOENT if no more file
-	     Undo this. */
-	  DWORD winerr = GetLastError ();
-	  if (winerr == ERROR_NO_MORE_FILES) {
+  {
+    /* We are off the end or otherwise error.
+       _findnext sets errno to ENOENT if no more file
+       Undo this. */
+    DWORD winerr = GetLastError ();
+    if (winerr == ERROR_NO_MORE_FILES) {
       errno = 0;
     } else {
       errno = EIO;
       env->die(env, stack, "[System Error]_wfindnext64() failed. errno=%d(%s). Windows Error Code: %d.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), winerr);
       env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
     }
-	  _findclose (dirp->dd_handle);
-	  dirp->dd_handle = -1;
-	  dirp->dd_stat = -1;
-	}
+    _findclose (dirp->dd_handle);
+    dirp->dd_handle = -1;
+    dirp->dd_stat = -1;
+  }
       else
-	{
-	  /* Update the status to indicate the correct
-	   * number. */
-	  dirp->dd_stat++;
-	}
+  {
+    /* Update the status to indicate the correct
+     * number. */
+    dirp->dd_stat++;
+  }
     }
 
   if (dirp->dd_stat > 0)
