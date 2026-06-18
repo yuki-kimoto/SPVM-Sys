@@ -402,6 +402,8 @@ else {
       ok(SPVM::TestCase::Sys->closedir);
     }
   }
+  
+  ok(SPVM::TestCase::Sys->ioctl);
 }
 
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);

@@ -32,8 +32,6 @@ my $test_tmp_dir = File::Temp->newdir;
   SPVM::TestCase::Sys->SET_TEST_TMP_DIR("$test_tmp_dir");
 }
 
-ok(SPVM::TestCase::Sys->ioctl);
-
 ok(SPVM::TestCase::Sys->rand);
 
 # _getcwd
