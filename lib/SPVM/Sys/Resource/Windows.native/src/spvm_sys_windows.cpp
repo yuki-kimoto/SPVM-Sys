@@ -162,11 +162,18 @@ const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* 
 
 int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle) {
   
+  errno = 0;
+  
   int32_t is_sym = 0;
   
   SPVM_SYS_WINDOWS_REPARSE_DATA_BUFFER linkdata = {0};
-  if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL)) {
+  int32_t DeviceIoControl_success = DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), NULL, NULL);
+  if (!DeviceIoControl_success) {
     if (GetLastError() == ERROR_NOT_A_REPARSE_POINT) {
+      /*
+        This is not an error but a standard way for Windows to signal 
+        that the file is not a reparse point (e.g., symlink or junction).
+      */
       goto END_OF_FUNC;
     }
     else {
