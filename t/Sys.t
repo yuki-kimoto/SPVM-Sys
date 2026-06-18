@@ -37,11 +37,6 @@ my $test_tmp_dir = File::Temp->newdir;
   is(SPVM::Sys->env("PATH"), $ENV{PATH});
 }
 
-# process_id
-{
-  is(SPVM::Sys->process_id, $$);
-}
-
 {
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys->mkdir("$tmp_dir"));

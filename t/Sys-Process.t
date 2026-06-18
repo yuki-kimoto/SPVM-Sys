@@ -9,6 +9,7 @@ BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 use POSIX q(:sys_wait_h);
 
 use SPVM 'Sys::Process';
+use SPVM 'Sys';
 
 use SPVM 'Fn';
 use SPVM 'TestCase::Sys::Process';
@@ -156,6 +157,14 @@ ok(SPVM::TestCase::Sys::Process->sleep);
 warn "[Test Output]usleep";
 
 ok(SPVM::TestCase::Sys::Process->usleep);
+
+# Sys
+{
+  # process_id
+  {
+    is(SPVM::Sys->process_id, $$);
+  }
+}
 
 SPVM::Fn->destroy_runtime_permanent_vars;
 
