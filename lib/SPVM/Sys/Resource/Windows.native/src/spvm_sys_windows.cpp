@@ -13,6 +13,70 @@ extern "C" {
 
 static const char* FILE_NAME = "spvm_sys_windows.cpp";
 
+HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
+
+  HANDLE handle = CreateFileW(path_w, GENERIC_READ,
+    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
+    file_flag|FILE_FLAG_BACKUP_SEMANTICS, 0
+  );
+  
+  return handle;
+}
+
+HANDLE spvm_sys_windows_util_CreateFileW_for_read(const WCHAR* path_w) {
+  
+  return spvm_sys_windows_util_CreateFileW_for_read_common(path_w, 0);
+}
+
+HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* path_w) {
+
+  return spvm_sys_windows_util_CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
+}
+
+void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno) {
+  
+  switch (GetLastError()) {
+    case ERROR_BAD_NET_NAME:
+    case ERROR_BAD_NETPATH:
+    case ERROR_BAD_PATHNAME:
+    case ERROR_FILE_NOT_FOUND:
+    case ERROR_FILENAME_EXCED_RANGE:
+    case ERROR_INVALID_DRIVE:
+    case ERROR_PATH_NOT_FOUND:
+    {
+      errno = ENOENT;
+      break;
+    }
+    case ERROR_ALREADY_EXISTS: {
+      errno = EEXIST;
+      break;
+    }
+    case ERROR_ACCESS_DENIED: {
+      errno = EACCES;
+      break;
+    }
+    case ERROR_PRIVILEGE_NOT_HELD: {
+      errno = EPERM;
+      break;
+    }
+    case ERROR_NOT_SAME_DEVICE: {
+      errno = EXDEV;
+      break;
+    }
+    case ERROR_DISK_FULL: {
+      errno = ENOSPC;
+      break;
+    }
+    case ERROR_NOT_ENOUGH_QUOTA: {
+      errno = EDQUOT;
+      break;
+    }
+    default: {
+      errno = default_errno;
+    }
+  }
+}
+
 SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   env->push_caller_stack(env, stack, func_name, file, line);
@@ -832,73 +896,6 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
   }
   
   return 0;
-}
-
-HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
-
-  HANDLE handle = CreateFileW(path_w, GENERIC_READ,
-    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
-    file_flag|FILE_FLAG_BACKUP_SEMANTICS, 0
-  );
-  
-  return handle;
-}
-
-HANDLE spvm_sys_windows_util_CreateFileW_for_read(const WCHAR* path_w) {
-  
-  return spvm_sys_windows_util_CreateFileW_for_read_common(path_w, 0);
-}
-
-HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* path_w) {
-
-  return spvm_sys_windows_util_CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
-}
-
-void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno) {
-  /* This isn't perfect, eg. Win32 returns ERROR_ACCESS_DENIED for
-     both permissions errors and if the source is a directory, while
-     POSIX wants EACCES and EPERM respectively.
-  */
-  switch (GetLastError()) {
-    case ERROR_BAD_NET_NAME:
-    case ERROR_BAD_NETPATH:
-    case ERROR_BAD_PATHNAME:
-    case ERROR_FILE_NOT_FOUND:
-    case ERROR_FILENAME_EXCED_RANGE:
-    case ERROR_INVALID_DRIVE:
-    case ERROR_PATH_NOT_FOUND:
-    {
-      errno = ENOENT;
-      break;
-    }
-    case ERROR_ALREADY_EXISTS: {
-      errno = EEXIST;
-      break;
-    }
-    case ERROR_ACCESS_DENIED: {
-      errno = EACCES;
-      break;
-    }
-    case ERROR_PRIVILEGE_NOT_HELD: {
-      errno = EPERM;
-      break;
-    }
-    case ERROR_NOT_SAME_DEVICE: {
-      errno = EXDEV;
-      break;
-    }
-    case ERROR_DISK_FULL: {
-      errno = ENOSPC;
-      break;
-    }
-    case ERROR_NOT_ENOUGH_QUOTA: {
-      errno = EDQUOT;
-      break;
-    }
-    default: {
-      errno = default_errno;
-    }
-  }
 }
 
 static inline int lc_set_errno(int result)
