@@ -857,21 +857,18 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
   const char* path = env->get_chars(env, stack, obj_path);
   
 #if defined(_WIN32)
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    return error_id;
+  int32_t status = spvm_sys_windows_access(env, stack, path, mode);
+  if (status == -1) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
-  
-  int32_t status = _waccess(path_w, mode);
 #else
   int32_t status = access(path, mode);
-#endif
-  
   if (status == -1) {
     const char* path = env->get_chars(env, stack, obj_path);
     env->die(env, stack, "[System Error]access() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+#endif
   
   stack[0].ival = status;
   
@@ -879,8 +876,6 @@ int32_t SPVM__Sys__IO__access(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
   
   SPVM_OBJ* obj_path = stack[0].oval;
   
@@ -896,29 +891,9 @@ int32_t SPVM__Sys__IO__truncate(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
 #if defined(_WIN32)
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) {
-    return error_id;
-  }
-  
-  int32_t fd = -1;
-  errno = _wsopen_s(&fd, path_w, _O_WRONLY | _O_BINARY, _SH_DENYNO, 0);
-  
-  if (!(errno == 0)) {
-    env->die(env, stack, "[System Error]_wsopen_s() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  int32_t status = spvm_sys_windows_ftruncate(env, stack, fd, length);
-  env->pop_caller_stack(env, stack);
-  
-  close(fd);
-  
+  int32_t status = spvm_sys_windows_truncate(env, stack, path, length);
   if (status == -1) {
-    error_id = env->get_error_id(env, stack);
-    assert(error_id);
-    return error_id;
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #else
   int32_t status = truncate(path, length);
