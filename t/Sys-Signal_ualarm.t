@@ -2,15 +2,12 @@ use Test::More;
 
 use strict;
 use warnings;
-use FindBin;
-use lib "$FindBin::Bin/lib";
-BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
+use lib 't/lib';
 
 use POSIX q(:sys_wait_h);
 
 use SPVM 'Sys::Signal';
 
-use SPVM 'Fn';
 use SPVM 'TestCase::Sys::Signal';
 
 my $api = SPVM::api();

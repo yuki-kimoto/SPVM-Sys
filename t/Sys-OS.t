@@ -2,9 +2,7 @@ use Test::More;
 
 use strict;
 use warnings;
-use FindBin;
-use lib "$FindBin::Bin/lib";
-BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
+use lib 't/lib';
 
 use SPVM 'Sys';
 use SPVM 'Sys::OS';
@@ -12,7 +10,6 @@ use SPVM 'Int';
 use SPVM 'Long';
 use SPVM 'Double';
 
-use SPVM 'Fn';
 use SPVM 'TestCase::Sys::IO';
 
 my $api = SPVM::api();

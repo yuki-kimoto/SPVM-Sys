@@ -5,9 +5,9 @@ use warnings;
 use utf8;
 
 use File::Spec;
-use FindBin;
-use lib "$FindBin::Bin/lib";
 use File::Temp;
+
+use lib 't/lib';
 
 use SPVM 'Sys';
 use SPVM 'Sys::IO::Glob';

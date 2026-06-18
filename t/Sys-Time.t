@@ -3,15 +3,14 @@ use Test::More;
 use strict;
 use warnings;
 use FindBin;
-use lib "$FindBin::Bin/lib";
-BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
+
+use lib 't/lib';
 
 use SPVM 'Sys::Time';
 use SPVM 'Sys::OS';
 use SPVM 'Sys';
 use SPVM 'Int';
 
-use SPVM 'Fn';
 use SPVM 'TestCase::Sys::Time';
 
 my $test_dir = "$FindBin::Bin";

@@ -4,8 +4,7 @@ use strict;
 use warnings;
 use utf8;
 use FindBin;
-use lib "$FindBin::Bin/lib";
-BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
+use lib 't/lib';
 
 use File::Temp ();
 
@@ -17,7 +16,6 @@ use SPVM 'Sys';
 use SPVM 'Sys::OS';
 use SPVM 'Sys::IO';
 use File::Spec;
-use SPVM 'Fn';
 use SPVM 'TestCase::Sys';
 use SPVM 'TestCase::Sys::IO';
 

@@ -3,6 +3,7 @@ use Test::More;
 use strict;
 use warnings;
 use utf8;
+use FindBin;
 use File::Temp;
 
 use lib "t/lib";
