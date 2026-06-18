@@ -1873,7 +1873,6 @@ int spvm_sys_windows_truncate(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
   return status;
 }
 
-
 } // extern "C"
 
 #endif // defined(_WIN32)

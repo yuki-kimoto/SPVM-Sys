@@ -112,11 +112,29 @@ int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+static SPVM_OBJ* SPVM__Sys__Socket__inet_ntoa_thread_safe(SPVM_ENV* env, SPVM_VALUE* stack, struct in_addr in) {
+  
+  int32_t my_errno = 0;
+  SPVM_OBJ* obj_output_address = NULL;
+  
+  char addr_str[INET_ADDRSTRLEN];
+  
+  if (inet_ntop(AF_INET, &in, addr_str, sizeof(addr_str)) == NULL) {
+    my_errno = spvm_socket_errno();
+    env->die(env, stack, "[System Error]inet_ntop() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror_nolen(env, stack, spvm_socket_errno()));
+    goto END_OF_FUNC;
+  }
+  
+  obj_output_address = env->new_string_nolen(env, stack, addr_str);
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return obj_output_address;
+}
+
 int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  env->die(env, stack, "Sys::Socket#inet_ntoa method is not supported for security in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
   SPVM_OBJ* obj_in = stack[0].oval;
   
   if (!obj_in) {
@@ -125,25 +143,14 @@ int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   struct in_addr* in = env->get_pointer(env, stack, obj_in);
   
-  char* output_address = inet_ntoa(*in);
-  
-  if (!output_address) {
-    env->die(env, stack, "[System Error]inet_ntoa() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
+  SPVM_OBJ* obj_output_address = SPVM__Sys__Socket__inet_ntoa_thread_safe(env, stack, *in);
+  if (!obj_output_address) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  SPVM_OBJ* obj_output_address;
-  if (output_address) {
-    obj_output_address = env->new_string(env, stack, output_address, strlen(output_address));
-  }
-  else {
-    assert(0);
   }
   
   stack[0].oval = obj_output_address;
   
   return 0;
-#endif
 }
 
 int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
