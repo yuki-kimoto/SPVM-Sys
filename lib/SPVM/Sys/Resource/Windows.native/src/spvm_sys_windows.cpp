@@ -13,7 +13,7 @@ extern "C" {
 
 static const char* FILE_NAME = "spvm_sys_windows.cpp";
 
-const WCHAR* spvm_sys_windows_utf8_to_win_wchar_wchars(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   env->push_caller_stack(env, stack, func_name, file, line);
   
@@ -21,7 +21,7 @@ const WCHAR* spvm_sys_windows_utf8_to_win_wchar_wchars(SPVM_ENV* env, SPVM_VALUE
   
   int32_t my_errno = 0;
   
-  SPVM_OBJ* obj_utf16le_string;
+  SPVM_OBJ* obj_utf16le_string = NULL;
   WCHAR* utf16le_string_tmp;
   int32_t utf16le_string_length;
   
@@ -79,10 +79,14 @@ const WCHAR* spvm_sys_windows_utf8_to_win_wchar_wchars(SPVM_ENV* env, SPVM_VALUE
   
   env->pop_caller_stack(env, stack);
   
-  return utf16le_string;
+  return obj_utf16le_string;
 }
 
-const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+const WCHAR* spvm_sys_windows_utf8_to_win_wchar_wchars(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+  return (const WCHAR*)env->get_chars(env, stack, spvm_sys_windows_utf8_to_win_wchar(env, stack, utf8_string, error_id, func_name, file, line));
+}
+
+SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   env->push_caller_stack(env, stack, func_name, file, line);
   
@@ -92,7 +96,7 @@ const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* 
   int32_t my_errno = 0;
   
   char* utf8_string;
-  SPVM_OBJ* obj_utf8_string;
+  SPVM_OBJ* obj_utf8_string = NULL;
   
   if (utf16le_string == NULL) {
     errno = EINVAL;
@@ -149,7 +153,11 @@ const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* 
   
   env->pop_caller_stack(env, stack);
   
-  return utf8_string;
+  return obj_utf8_string;
+}
+
+const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* win_wchar_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+  return env->get_chars(env, stack, spvm_sys_windows_win_wchar_to_utf8(env, stack, win_wchar_string, error_id, func_name, file, line));
 }
 
 int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle) {
