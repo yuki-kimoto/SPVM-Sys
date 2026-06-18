@@ -15,6 +15,8 @@ static const char* FILE_NAME = "spvm_sys_windows.cpp";
 
 WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
+  env->push_caller_stack(env, stack, func_name, file, line);
+  
   *error_id = 0;
   
   int32_t my_errno = 0;
@@ -22,8 +24,6 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
   SPVM_OBJ* obj_utf16le_string;
   WCHAR* utf16le_string_tmp;
   int32_t utf16le_string_length;
-  
-  env->push_caller_stack(env, stack, func_name, file, line);
   
   WCHAR* utf16le_string = NULL;
   
@@ -72,17 +72,28 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
   
   END_OF_FUNC:
   
-  env->pop_caller_stack(env, stack);
-  
   errno = my_errno;
+  
+  env->pop_caller_stack(env, stack);
   
   return utf16le_string;
 }
 
 const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
+  env->push_caller_stack(env, stack, func_name, file, line);
+  
+  *error_id = 0;
+  int32_t my_errno = 0;
+  
+  char* utf8_string;
+  SPVM_OBJ* obj_utf8_string;
+  
   if (utf16le_string == NULL) {
-    return NULL;
+    errno = EINVAL;
+    my_errno = errno;
+    *error_id = env->die(env, stack, "utf16le_string must be not NULL.", __func__, FILE_NAME, __LINE__);
+    goto END_OF_FUNC;
   }
   
   int32_t utf8_string_length = WideCharToMultiByte(
@@ -97,13 +108,16 @@ const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack,
   );
   
   if (utf8_string_length == 0) {
-    *error_id = env->die(env, stack,  "utf8_to_win_wchar failed:Error calculating length: %lu.", func_name, file, line, GetLastError());
-    return NULL;
+    errno = EILSEQ;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]WideCharToMultiByte() failed(%d:%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    *error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
   }
   
-  SPVM_OBJ* obj_utf8_string = env->new_string(env, stack, NULL, utf8_string_length);
+  obj_utf8_string = env->new_string(env, stack, NULL, utf8_string_length);
   
-  char* utf8_string = (char*)env->get_chars(env, stack, obj_utf8_string);
+  utf8_string = (char*)env->get_chars(env, stack, obj_utf8_string);
   
   utf8_string_length = WideCharToMultiByte(
     CP_UTF8,
@@ -117,9 +131,18 @@ const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack,
   );
   
   if (utf8_string_length == 0) {
-    *error_id = env->die(env, stack,  "win_WCHARo_utf8 failed:Error converting UTF-16LE to UTF-8: %lu.", func_name, file, line, GetLastError());
-    return NULL;
+    errno = EILSEQ;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]WideCharToMultiByte() failed(%d:%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    *error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    goto END_OF_FUNC;
   }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  env->pop_caller_stack(env, stack);
   
   return utf8_string;
 }
