@@ -21,11 +21,9 @@ my $api = SPVM::api();
 my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 my $test_dir = "$FindBin::Bin";
-SPVM::TestCase::Sys::IO->SET_TEST_DIR($test_dir);
 SPVM::TestCase::Sys->SET_TEST_DIR($test_dir);
 
 my $test_tmp_dir = File::Temp->newdir;
-SPVM::TestCase::Sys::IO->SET_TEST_TMP_DIR("$test_tmp_dir");
 SPVM::TestCase::Sys->SET_TEST_TMP_DIR("$test_tmp_dir");
 
 {
@@ -233,7 +231,6 @@ ok(SPVM::TestCase::Sys::IO->dup2);
   ok(SPVM::TestCase::Sys->pipe);
 }
 
-SPVM::TestCase::Sys::IO->SET_TEST_DIR(undef);
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);
 
 SPVM::Fn->destroy_runtime_permanent_vars;
