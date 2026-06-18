@@ -191,61 +191,54 @@ int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, 
   return is_sym;
 }
 
-/*
- * opendir
- *
- * Returns a pointer to a DIR structure appropriately filled in to begin
- * searching a directory.
- */
 SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack, const char* dir) {
   
   int32_t error_id = 0;
+  int32_t my_errno = 0;
   
-  SPVM_SYS_WINDOWS_DIR *nd;
+  SPVM_SYS_WINDOWS_DIR* nd = NULL;
   unsigned int rc;
   WCHAR szFullPath[MAX_PATH];
   
   errno = 0;
-
-  if (!dir)
-    {
-      errno = EFAULT;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory $dir must be defined.", __func__, FILE_NAME, __LINE__));
-      return (SPVM_SYS_WINDOWS_DIR *) 0;
-    }
+  
+  if (!dir) {
+    errno = EFAULT;
+    my_errno = errno;
+    env->die(env, stack, "The directory $dir must be defined.", __func__, FILE_NAME, __LINE__);
+    goto END_OF_FUNC;
+  }
   
   WCHAR* dir_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, dir, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
-    env->set_error_id(env, stack, error_id);
-    return (SPVM_SYS_WINDOWS_DIR *) 0;
+    my_errno = errno;
+    goto END_OF_FUNC;
   }
   
-  if (dir_w[0] == L'\0')
-    {
-      errno = ENOTDIR;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory $dir must be a non-empty string.", __func__, FILE_NAME, __LINE__));
-      return (SPVM_SYS_WINDOWS_DIR *) 0;
-    }
-
+  if (dir_w[0] == L'\0') {
+    errno = ENOTDIR;
+    my_errno = errno;
+    env->die(env, stack, "The directory $dir must be a non-empty string.", __func__, FILE_NAME, __LINE__);
+    goto END_OF_FUNC;
+  }
+  
   /* Attempt to determine if the given path really is a directory. */
   rc = GetFileAttributesW (dir_w);
-  if (rc == INVALID_FILE_ATTRIBUTES)
-    {
-      /* call GetLastError for more error info */
-      errno = ENOENT;
-      env->die(env, stack, "[System Error]GetFileAttributesW() failed. errno=%d(%s). %d: %s. $dir='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), dir);
-      env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
-      return (SPVM_SYS_WINDOWS_DIR *) 0;
-    }
-  if (!(rc & FILE_ATTRIBUTE_DIRECTORY))
-    {
-      /* Error, entry exists but not a directory. */
-      errno = ENOTDIR;
-      env->die(env, stack, "[System Error]GetFileAttributesW() failed. errno=%d(%s). %d: %s. $dir='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), dir);
-      env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
-      return (SPVM_SYS_WINDOWS_DIR *) 0;
-    }
-
+  if (rc == INVALID_FILE_ATTRIBUTES) {
+    /* call GetLastError for more error info */
+    errno = ENOENT;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]GetFileAttributesW() failed. errno=%d(%s). %d: %s. $dir='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), dir);
+    goto END_OF_FUNC;
+  }
+  if (!(rc & FILE_ATTRIBUTE_DIRECTORY)) {
+    /* Error, entry exists but not a directory. */
+    errno = ENOTDIR;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]GetFileAttributesW() failed. errno=%d(%s). %d: %s. $dir='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), dir);
+    goto END_OF_FUNC;
+  }
+  
   /* Make an absolute path.  */
   _wfullpath (szFullPath, dir_w, MAX_PATH);
   
@@ -260,19 +253,18 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
              + wcslen (SLASH)
              + wcslen (SUFFIX) + 1)
             * sizeof (WCHAR));
-
-  if (!nd)
-    {
-      /* Error, out of memory. */
-      errno = ENOMEM;
-      env->die(env, stack, "[System Error]malloc() failed(%d:%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-      env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
-      return (SPVM_SYS_WINDOWS_DIR *) 0;
-    }
-
+  
+  if (!nd) {
+    /* Error, out of memory. */
+    errno = ENOMEM;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]malloc() failed(%d:%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    goto END_OF_FUNC;
+  }
+  
   /* Create the search expression. */
   wcscpy_s(nd->dd_name, total_len, szFullPath);
-
+  
   /* Add on a slash if the path does not end with one. */
   if (nd->dd_name[0] != L'\0' &&
       nd->dd_name[wcslen (nd->dd_name) - 1] != L'/' &&
@@ -280,17 +272,17 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
     {
       wcscat_s(nd->dd_name, total_len, SLASH);
     }
-
+  
   /* Add on the search pattern */
   wcscat_s(nd->dd_name, total_len, SUFFIX);
-
+  
   /* Initialize handle to -1 so that a premature closedir doesn't try
    * to call _findclose on it. */
   nd->dd_handle = -1;
-
+  
   /* Initialize the status. */
   nd->dd_stat = 0;
-
+  
   /* Initialize the dirent structure. ino and reclen are invalid under
    * Win32, and name simply points at the appropriate part of the
    * findfirst_t structure. */
@@ -298,7 +290,11 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
   nd->dd_dir.d_reclen = 0;
   nd->dd_dir.d_namlen = 0;
   memset (nd->dd_dir.d_name, 0, 260 * sizeof(nd->dd_dir.d_name[0])  /*FILENAME_MAX*/);
-
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
   return nd;
 }
 
