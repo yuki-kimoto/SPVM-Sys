@@ -309,64 +309,61 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir(SPVM_ENV* env, SPVM_VALUE* st
   SPVM_SYS_WINDOWS_WDIRENT* dirent = NULL;
   
   /* Check for valid DIR struct. */
-  if (!dirp){
+  if (!dirp) {
     errno = EFAULT;
     my_errno = errno;
     env->die(env, stack, "Directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__);
     goto END_OF_FUNC;
   }
 
-  if (dirp->dd_stat < 0)
-    {
-      /* We have already returned all files in the directory
-       * (or the structure has an invalid dd_stat). */
-      goto END_OF_FUNC;
-    }
-  else if (dirp->dd_stat == 0)
-    {
-      /* We haven't started the search yet. */
-      /* Start the search */
-      dirp->dd_handle = _wfindfirst64 (dirp->dd_name, &(dirp->dd_dta));
+  if (dirp->dd_stat < 0) {
+    /* We have already returned all files in the directory
+     * (or the structure has an invalid dd_stat). */
+    goto END_OF_FUNC;
+  }
+  else if (dirp->dd_stat == 0) {
+    /* We haven't started the search yet. */
+    /* Start the search */
+    dirp->dd_handle = _wfindfirst64 (dirp->dd_name, &(dirp->dd_dta));
 
-      if (dirp->dd_handle == -1)
-  {
-    /* Whoops! Seems there are no files in that
-     * directory. */
-    dirp->dd_stat = -1;
-  }
-      else
-  {
-    dirp->dd_stat = 1;
-  }
+    if (dirp->dd_handle == -1) {
+      /* Whoops! Seems there are no files in that
+       * directory. */
+      dirp->dd_stat = -1;
     }
-  else
-    {
-      /* Get the next search entry. */
-      if (_wfindnext64 (dirp->dd_handle, &(dirp->dd_dta)))
-  {
-    /* We are off the end or otherwise error.
-       _findnext sets errno to ENOENT if no more file
-       Undo this. */
-    DWORD winerr = GetLastError ();
-    if (winerr == ERROR_NO_MORE_FILES) {
-      errno = 0;
-      my_errno = errno;
-    } else {
-      errno = EIO;
-      my_errno = errno;
-      env->die(env, stack, "[System Error]_wfindnext64() failed. errno=%d(%s). Windows Error Code: %d.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), winerr);
+    else {
+      dirp->dd_stat = 1;
     }
-    _findclose (dirp->dd_handle);
-    dirp->dd_handle = -1;
-    dirp->dd_stat = -1;
   }
-      else
-  {
-    /* Update the status to indicate the correct
-     * number. */
-    dirp->dd_stat++;
-  }
+  else {
+    /* Get the next search entry. */
+    if (_wfindnext64 (dirp->dd_handle, &(dirp->dd_dta))) {
+      /* We are off the end or otherwise error.
+         _findnext sets errno to ENOENT if no more file
+         Undo this. */
+      DWORD winerr = GetLastError ();
+      if (winerr == ERROR_NO_MORE_FILES) {
+        errno = 0;
+        my_errno = errno;
+      }
+      else {
+        errno = EIO;
+        my_errno = errno;
+      }
+      _findclose (dirp->dd_handle);
+      dirp->dd_handle = -1;
+      dirp->dd_stat = -1;
+      if (!(my_errno == 0)) {
+        env->die(env, stack, "[System Error]_wfindnext64() failed. errno=%d(%s). Windows Error Code: %d.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), winerr);
+        goto END_OF_FUNC;
+      }
     }
+    else {
+      /* Update the status to indicate the correct
+       * number. */
+      dirp->dd_stat++;
+    }
+  }
   
   if (dirp->dd_stat > 0) {
     /* Successfully got an entry. Everything about the file is
