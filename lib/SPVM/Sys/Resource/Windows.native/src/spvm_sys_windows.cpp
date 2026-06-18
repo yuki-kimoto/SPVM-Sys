@@ -199,6 +199,11 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
   SPVM_SYS_WINDOWS_DIR* nd = NULL;
   unsigned int rc;
   WCHAR szFullPath[MAX_PATH];
+  size_t full_path_len;
+  size_t slash_len;
+  size_t suffix_len;
+  size_t total_len;
+  WCHAR* dir_w;
   
   errno = 0;
   
@@ -209,7 +214,7 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
     goto END_OF_FUNC;
   }
   
-  WCHAR* dir_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, dir, &error_id, __func__, FILE_NAME, __LINE__);
+  dir_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, dir, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -242,10 +247,10 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
   /* Make an absolute path.  */
   _wfullpath (szFullPath, dir_w, MAX_PATH);
   
-  size_t full_path_len = wcslen(szFullPath);
-  size_t slash_len = wcslen(SLASH);
-  size_t suffix_len = wcslen(SUFFIX);
-  size_t total_len = full_path_len + slash_len + suffix_len + 1;
+  full_path_len = wcslen(szFullPath);
+  slash_len = wcslen(SLASH);
+  suffix_len = wcslen(SUFFIX);
+  total_len = full_path_len + slash_len + suffix_len + 1;
   
   /* Allocate enough space to store DIR structure and the complete
    * directory path given. */
@@ -382,13 +387,16 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir(SPVM_ENV* env, SPVM_VALUE* st
 }
 
 int spvm_sys_windows_closedir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp) {
-  int32_t status;
   
   assert(dirp);
+  
+  int32_t my_errno = 0;
+  int32_t status = -1;
   
   if (dirp->dd_handle != -1) {
     status = _findclose(dirp->dd_handle);
     if (status == -1) {
+      my_errno = errno;
       env->die(env, stack, "[System Error]_findclose() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
       goto END_OF_FUNC;
     }
@@ -400,6 +408,8 @@ int spvm_sys_windows_closedir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
   END_OF_FUNC:
   
   free(dirp);
+  
+  errno = my_errno;
   
   return status;
 }
