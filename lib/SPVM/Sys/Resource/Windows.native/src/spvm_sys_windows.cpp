@@ -86,6 +86,8 @@ const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* 
   
   env->push_caller_stack(env, stack, func_name, file, line);
   
+  int32_t utf8_string_length;
+  
   *error_id = 0;
   int32_t my_errno = 0;
   
@@ -99,7 +101,7 @@ const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* 
     goto END_OF_FUNC;
   }
   
-  int32_t utf8_string_length = WideCharToMultiByte(
+  utf8_string_length = WideCharToMultiByte(
     CP_UTF8,
     0,
     utf16le_string,
