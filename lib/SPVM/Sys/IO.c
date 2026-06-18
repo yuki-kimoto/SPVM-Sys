@@ -1392,8 +1392,6 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t error_id = 0;
-  
   SPVM_OBJ* obj_dirp = stack[0].oval;
   
   if (!obj_dirp) {
@@ -1403,7 +1401,10 @@ int32_t SPVM__Sys__IO__rewinddir(SPVM_ENV* env, SPVM_VALUE* stack) {
   MY_DIR* dirp = env->get_pointer(env, stack, obj_dirp);
   
 #if defined(_WIN32)
-  spvm_sys_windows_rewinddir(env, stack, dirp);
+  int32_t status = spvm_sys_windows_rewinddir(env, stack, dirp);
+  if (status == -1) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
 #else
   rewinddir(dirp);
 #endif

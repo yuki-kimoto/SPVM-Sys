@@ -330,7 +330,7 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir(SPVM_ENV* env, SPVM_VALUE* st
     /* We haven't started the search yet. */
     /* Start the search */
     dirp->dd_handle = _wfindfirst64 (dirp->dd_name, &(dirp->dd_dta));
-
+    
     if (dirp->dd_handle == -1) {
       /* Whoops! Seems there are no files in that
        * directory. */
@@ -414,9 +414,12 @@ int spvm_sys_windows_closedir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS
   return status;
 }
 
-void spvm_sys_windows_rewinddir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp) {
+int spvm_sys_windows_rewinddir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp) {
   
   assert(dirp);
+  
+  int32_t my_errno = 0;
+  int32_t status = -1;
   
   if (dirp->dd_handle != -1) {
     /* Ensure the existing directory search handle is closed before rewinding.
@@ -424,13 +427,22 @@ void spvm_sys_windows_rewinddir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDO
      * search session, so we must close the handle and re-open it 
      * on the next readdir call. */
     if (_findclose(dirp->dd_handle) == -1) {
-      spvm_warn("[abort]_findclose() failed. errno=%d(%s).", errno, env->strerror_nolen(env, stack, errno));
-      abort();
+      my_errno = errno;
+      spvm_warn("[System Error]_findclose() failed. errno=%d(%s).", errno, env->strerror_nolen(env, stack, errno));
+      goto END_OF_FUNC;
     }
   }
   
   dirp->dd_handle = -1;
   dirp->dd_stat = 0;
+  
+  status = 0;
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return status;
 }
 
 int64_t spvm_sys_windows_telldir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp) {
