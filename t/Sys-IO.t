@@ -404,8 +404,6 @@ else {
   }
 }
 
-ok(SPVM::TestCase::Sys::IO->chdir);
-
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);
 
 SPVM::Fn->destroy_runtime_permanent_vars;
