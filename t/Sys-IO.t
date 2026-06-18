@@ -331,6 +331,19 @@ else {
   diag "[Test Skip]Sys::IO#getdcwd is not supported in this system.";
 }
 
+# getcwd
+{
+  my $expected;
+  if (SPVM::Sys::OS->is_windows) {
+    require Win32;
+    $expected = Win32::GetCwd();
+  }
+  else {
+    $expected = Cwd::getcwd();
+  }
+  is(SPVM::Sys::IO->getcwd, $expected);
+}
+
 # Sys
 {
   ok(SPVM::TestCase::Sys->open);

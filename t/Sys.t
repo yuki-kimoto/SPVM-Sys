@@ -6,19 +6,12 @@ use utf8;
 use lib 't/lib';
 
 use SPVM 'TestCase::Sys';
-use SPVM 'Sys';
 
 my $api = SPVM::api();
 
 my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 ok(SPVM::TestCase::Sys->rand);
-
-# _getcwd
-{
-  my $expected = Cwd::getcwd();
-  is(SPVM::Sys->_getcwd, $expected);
-}
 
 $api->destroy_runtime_permanent_vars;
 
