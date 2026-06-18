@@ -1502,57 +1502,6 @@ class Sys {
     return $random_number;
   }
   
-  # This is only for Cwd#realpath method
-  static method _realpath : string ($file : string) {
-    
-    my $realpath = Sys::IO->realpath($file);
-    
-    return $realpath;
-  }
-  
-  # This is only for Cwd#getcwd method
-  static method _getcwd : string () {
-    
-    my $cwd = Sys::IO->getcwd;
-    
-    if (Sys::OS->is_windows) {
-      Fn->replace_chars((mutable string)$cwd, '\\', '/');
-    }
-    
-    return $cwd;
-  }
-  
-  # This is only for Cwd#getdcwd method
-  static method _getdcwd : string ($drive : string = undef) {
-    
-    unless (Sys::OS->is_windows) {
-      die Error::NotSupported "Cwd#getdcwd method is not supported in this system";
-    }
-    
-    my $drive_id = 0;
-    if ($drive) {
-      unless (length $drive == 2) {
-        die "The length of the \$drive must be 2";
-      }
-      
-      my $drive_char = $drive->[0];
-      unless (($drive_char >= 'A' && $drive_char <= 'Z') || ($drive_char >= 'a' && $drive_char <= 'z')) {
-        die "The first character of the \$drive must be [a-zA-Z]";
-      }
-      unless ($drive->[1]) {
-        die "The second character of the \$drive must be ':'";
-      }
-      
-      my $drive_upper = Fn->ucfirst($drive);
-      
-      $drive_id = $drive_upper->[0] - 'A' + 1;
-    }
-    
-    my $cwd = Sys::IO->getdcwd($drive_id);
-    
-    return $cwd;
-  }
-  
   static method set_tcp_keepalive : void ($socket_fd : int, $onoff : int, $keepidle_sec : int, $keepintvl_sec : int = -1) {
     
     # Use keepidle_sec if keepintvl_sec is not specified (negative)

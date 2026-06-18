@@ -199,7 +199,7 @@ class Sys::IO {
     
     # $path is absolute 
     unless ($path->[0] == '\\' || $path->[0] == '/' || (length $path >= 2 && $path->[1] == ':')) {
-      my $cwd = Sys->_getcwd;
+      my $cwd = Sys::IO->getcwd;
       $path = "$cwd/$path";
     }
     
