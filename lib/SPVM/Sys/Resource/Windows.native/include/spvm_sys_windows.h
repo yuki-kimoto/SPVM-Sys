@@ -395,7 +395,7 @@ HANDLE spvm_sys_windows_util_CreateFileW_for_read(const WCHAR* path_w);
 
 HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* path_w);
 
-void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno);
+void spvm_sys_windows_set_errno_from_windows_last_error(int32_t default_errno);
 
 int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, struct timespec *res);
 

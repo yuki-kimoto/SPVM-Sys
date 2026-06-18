@@ -33,7 +33,7 @@ HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* pat
   return spvm_sys_windows_util_CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
 }
 
-void spvm_sys_windows_util_win_last_error_to_errno(int32_t default_errno) {
+void spvm_sys_windows_set_errno_from_windows_last_error(int32_t default_errno) {
   
   switch (GetLastError()) {
     case ERROR_BAD_NET_NAME:
@@ -241,7 +241,7 @@ int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, 
       goto END_OF_FUNC;
     }
     else {
-      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+      spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       goto END_OF_FUNC;
     }
   }
@@ -584,7 +584,7 @@ static time_t spvm_sys_windows_file_time_to_epoch(SPVM_ENV* env, SPVM_VALUE* sta
   time_t epoch = -1;
   
   if (!FileTimeToSystemTime(&file_time, &system_time)) {
-    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
     goto END_OF_FUNC;
   }
@@ -626,7 +626,7 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
             // Do nothing
           }
           else {
-            spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+            spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
             goto END_OF_FUNC;
           }
         }
@@ -699,7 +699,7 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
             int32_t needed_len = GetFinalPathNameByHandleW(handle, NULL, 0, 0);
             
             if (needed_len == 0) {
-              spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+              spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
               goto END_OF_FUNC;
             }
             
@@ -721,7 +721,7 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
             env->free_memory_block(env, stack, path_w);
             
             if (!len) {
-              spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+              spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
               goto END_OF_FUNC;
             }
             
@@ -733,7 +733,7 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
         }
       }
       else {
-        spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+        spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
         goto END_OF_FUNC;
       }
       break;
@@ -805,7 +805,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
     handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(resolved_link_text_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
-      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+      spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
       goto END_OF_FUNC;
     }
@@ -851,7 +851,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
   
   handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
   if (handle == INVALID_HANDLE_VALUE) {
-    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     goto END_OF_FUNC;
   }
@@ -1243,7 +1243,7 @@ int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
   env->pop_caller_stack(env, stack);
   
   if (handle == INVALID_HANDLE_VALUE) {
-    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
     goto END_OF_FUNC;
   }
@@ -1311,7 +1311,7 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   
   handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(resolved_link_text_w);
   if (handle == INVALID_HANDLE_VALUE) {
-    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     goto END_OF_FUNC;
   }
   
@@ -1462,7 +1462,7 @@ int spvm_sys_windows_rename(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_pa
   success = MoveFileExW(old_path_w, new_path_w, flags);
   status = success ? 0 : -1;
   if (status == -1) {
-    spvm_sys_windows_util_win_last_error_to_errno(EACCES);
+    spvm_sys_windows_set_errno_from_windows_last_error(EACCES);
     my_errno = errno;
     env->die(env, stack, "[System Error]MoveFileExW(). errno=%d(%s), $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
     goto END_OF_FUNC;
@@ -1601,7 +1601,7 @@ int spvm_sys_windows_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_p
   success = CreateSymbolicLinkW(new_path_w, old_path_w, create_flags);
   status = success ? 0 : -1;
   if (status == -1) {
-    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
     env->die(env, stack, "[System Error]CreateSymbolicLinkW() failed. errno=%d(%s), $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
     goto END_OF_FUNC;
@@ -1642,7 +1642,7 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
   }
   fileattr = GetFileAttributesW(path_w);
   if (fileattr == INVALID_FILE_ATTRIBUTES) {
-    spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
     env->die(env, stack, "[System Error]GetFileAttributesW() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     goto END_OF_FUNC;
@@ -1652,14 +1652,14 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
     handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
-      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+      spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       my_errno = errno;
       env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
     }
     
     if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
-      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+      spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       my_errno = errno;
       env->die(env, stack, "[System Error]DeviceIoControl() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
@@ -1669,7 +1669,7 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
     handle = spvm_sys_windows_util_CreateFileW_for_read(path_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
-      spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+      spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       my_errno = errno;
       env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
