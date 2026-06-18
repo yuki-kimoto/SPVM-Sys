@@ -25,7 +25,7 @@ my $api = SPVM::api();
 
 my $test_dir = "$FindBin::Bin";
 
-SPVM::TestCase::Sys::IO->SET_TEST_DIR($test_dir);
+SPVM::TestCase::Sys->SET_TEST_DIR($test_dir);
 
 my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
