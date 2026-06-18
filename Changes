@@ -2,6 +2,12 @@
   [Fix Dependencies]
     * Move SPVM to CONFIGURE_REQUIRES in Makefile.PL.
   
+  [Internal Changes]
+    * Add spvm_sys_windows_truncate and use it.
+    * Add spvm_sys_windows_access and use it.
+    * Add spvm_sys_windows_mkdir and use it.
+    * Add spvm_sys_windows_rmdir and use it.
+    
 0.569 2026-06-17
   [Incompatible Changes]
     * Change Sys::IO#getcwd definition.
