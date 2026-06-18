@@ -491,13 +491,14 @@ int spvm_sys_windows_seekdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_
 
 int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t length) {
   
-  int32_t status;
-  int32_t my_errno = _chsize_s(fd, length);
+  int32_t my_errno = 0;
+  int32_t status = -1;
+  
+  my_errno = _chsize_s(fd, length);
   if (my_errno == 0) {
     status = 0;
   }
   else {
-    status = -1;
     env->die(env, stack, "[System Error]spvm_sys_windows_ftruncate() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     goto END_OF_FUNC;
   }
@@ -509,8 +510,10 @@ int spvm_sys_windows_ftruncate(SPVM_ENV* env, SPVM_VALUE* stack, int fd, int64_t
   return status;
 }
 
-// The output is the same as Perl's spvm_sys_windows_file_time_to_epoch in Win32.c
 static time_t spvm_sys_windows_file_time_to_epoch(SPVM_ENV* env, SPVM_VALUE* stack, FILETIME file_time) {
+  
+  int32_t my_errno = 0;
+  
   SYSTEMTIME system_time;
   struct tm st_tm = {0};
   
@@ -518,6 +521,7 @@ static time_t spvm_sys_windows_file_time_to_epoch(SPVM_ENV* env, SPVM_VALUE* sta
   
   if (!FileTimeToSystemTime(&file_time, &system_time)) {
     spvm_sys_windows_util_win_last_error_to_errno(EINVAL);
+    my_errno = errno;
     goto END_OF_FUNC;
   }
   
@@ -532,10 +536,11 @@ static time_t spvm_sys_windows_file_time_to_epoch(SPVM_ENV* env, SPVM_VALUE* sta
   
   END_OF_FUNC:
   
+  errno = my_errno;
+  
   return epoch;
 }
 
-// The output data is the same as Perl's win32_stat_low in Win32.c.
 int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT *st_stat) {
   
   int32_t status = -1;
