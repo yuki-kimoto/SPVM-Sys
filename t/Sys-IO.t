@@ -223,6 +223,106 @@ ok(SPVM::TestCase::Sys::IO->access);
 ok(SPVM::TestCase::Sys::IO->dup);
 ok(SPVM::TestCase::Sys::IO->dup2);
 
+# realpath
+{
+  {
+    my $file_empty = "t/ftest/file_empty.txt";
+    is(SPVM::Sys::IO->realpath($file_empty), Cwd::realpath($file_empty));
+  }
+  
+  {
+    my $dir = "t/ftest";
+    is(SPVM::Sys::IO->realpath($dir), Cwd::realpath($dir));
+  }
+  {
+    my $file_not_exists = "t/ftest/not_exists.txt";
+    eval { SPVM::Sys::IO->realpath($file_not_exists); };
+    ok($@);
+  }
+  
+  {
+    my $path = 't/Sys.t';
+    my $ret = SPVM::Sys::IO->realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
+  }
+  {
+    my $path = 't/lib/../Sys.t';
+    my $ret = SPVM::Sys::IO->realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
+  }
+  {
+    my $path = 't';
+    my $ret = SPVM::Sys::IO->realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
+  }
+  {
+    my $path = 't/';
+    my $ret = SPVM::Sys::IO->realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
+  }
+  {
+    my $path = 't//';
+    my $ret = SPVM::Sys::IO->realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
+  }
+  {
+    my $path = '/';
+    my $ret = SPVM::Sys::IO->realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
+  }
+  {
+    my $path = "$FindBin::Bin";
+    my $ret = SPVM::Sys::IO->realpath($path);
+    my $expected = Cwd::realpath($path);
+    is($ret, $expected);
+  }
+  
+  if ($^O eq 'MSWin32') {
+    {
+      my $path = "t\\Sys.t";
+      my $ret = SPVM::Sys::IO->realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
+    }
+    {
+      my $path = "t\\lib\\..\\Sys.t";
+      my $ret = SPVM::Sys::IO->realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
+    }
+    {
+      my $path = "t";
+      my $ret = SPVM::Sys::IO->realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
+    }
+    {
+      my $path = "t\\";
+      my $ret = SPVM::Sys::IO->realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
+    }
+    {
+      my $path = "t\\\\";
+      my $ret = SPVM::Sys::IO->realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
+    }
+    {
+      my $path = '\\';
+      my $ret = SPVM::Sys::IO->realpath($path);
+      my $expected = Cwd::realpath($path);
+      is($ret, $expected);
+    }
+  }
+}
+
 # Sys
 {
   ok(SPVM::TestCase::Sys->open);
