@@ -103,8 +103,6 @@ else {
 
 ok(SPVM::TestCase::Sys::IO->realpath);
 
-ok(SPVM::TestCase::Sys::IO->chdir);
-
 {
   my $tmp_dir = File::Temp->newdir;
   ok(SPVM::TestCase::Sys::IO->chmod("$tmp_dir"));
@@ -405,6 +403,8 @@ else {
     }
   }
 }
+
+ok(SPVM::TestCase::Sys::IO->chdir);
 
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);
 
