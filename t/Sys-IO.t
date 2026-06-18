@@ -13,6 +13,7 @@ use SPVM 'Fn';
 use SPVM 'TestCase::Sys::IO';
 use SPVM 'TestCase::Sys';
 use SPVM 'Sys::IO';
+use SPVM 'Sys::OS';
 use Encode 'encode', 'decode';
 use IO::Poll;
 
@@ -321,6 +322,17 @@ ok(SPVM::TestCase::Sys::IO->dup2);
       is($ret, $expected);
     }
   }
+}
+
+# getdcwd
+if (SPVM::Sys::OS->is_windows) {
+  {
+    my $expected = Cwd::getdcwd();
+    is(SPVM::Sys::IO->getdcwd(0), $expected);
+  }
+}
+else {
+  diag "[Test Skip]Sys::IO#getdcwd is not supported in this system.";
 }
 
 # Sys

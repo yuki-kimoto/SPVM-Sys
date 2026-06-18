@@ -53,25 +53,6 @@ ok(SPVM::TestCase::Sys->rand);
   is(SPVM::Sys->_getcwd, $expected);
 }
 
-# _getdcwd
-if (SPVM::Sys::OS->is_windows) {
-  {
-    my $expected = Cwd::getdcwd();
-    is(SPVM::Sys->_getdcwd, $expected);
-  }
-  
-  {
-    my $expected = Cwd::getdcwd('C:');
-    is(SPVM::Sys->_getdcwd('C:'), $expected);
-  }
-  
-  {
-    my $expected = Cwd::getdcwd('c:');
-    is(SPVM::Sys->_getdcwd('c:'), $expected);
-  }
-  
-}
-
 {
   my $test_dir = "$FindBin::Bin";
   ok(SPVM::TestCase::Sys->chdir("$test_dir"));
