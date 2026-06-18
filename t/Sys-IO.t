@@ -229,6 +229,69 @@ ok(SPVM::TestCase::Sys::IO->dup2);
   ok(SPVM::TestCase::Sys->sysopen);
   ok(SPVM::TestCase::Sys->socket);
   ok(SPVM::TestCase::Sys->pipe);
+
+  {
+    my $tmp_dir = File::Temp->newdir;
+    ok(SPVM::TestCase::Sys->mkdir("$tmp_dir"));
+  }
+
+  {
+    my $tmp_dir = File::Temp->newdir;
+    ok(SPVM::TestCase::Sys->umask("$tmp_dir"));
+  }
+
+  {
+    my $tmp_dir = File::Temp->newdir;
+    ok(SPVM::TestCase::Sys->rmdir("$tmp_dir"));
+  }
+
+  {
+    my $tmp_dir = File::Temp->newdir;
+    ok(SPVM::TestCase::Sys->chmod("$tmp_dir"));
+  }
+
+  {
+    my $tmp_dir = File::Temp->newdir;
+    ok(SPVM::TestCase::Sys->unlink("$tmp_dir"));
+  }
+
+  {
+    my $tmp_dir = File::Temp->newdir;
+    ok(SPVM::TestCase::Sys->rename("$tmp_dir"));
+  }
+
+  # Directory stream system calls
+  {
+    # opendir
+    {
+      ok(SPVM::TestCase::Sys->opendir);
+    }
+    
+    # readdir
+    {
+      ok(SPVM::TestCase::Sys->readdir);
+    }
+    
+    # seekdir
+    {
+      ok(SPVM::TestCase::Sys->seekdir);
+    }
+    
+    # telldir
+    {
+      ok(SPVM::TestCase::Sys->telldir);
+    }
+    
+    # rewinddir
+    {
+      ok(SPVM::TestCase::Sys->rewinddir);
+    }
+    
+    # closedir
+    {
+      ok(SPVM::TestCase::Sys->closedir);
+    }
+  }
 }
 
 SPVM::TestCase::Sys->SET_TEST_DIR(undef);

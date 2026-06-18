@@ -37,36 +37,6 @@ my $test_tmp_dir = File::Temp->newdir;
   is(SPVM::Sys->env("PATH"), $ENV{PATH});
 }
 
-{
-  my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys->mkdir("$tmp_dir"));
-}
-
-{
-  my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys->umask("$tmp_dir"));
-}
-
-{
-  my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys->rmdir("$tmp_dir"));
-}
-
-{
-  my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys->chmod("$tmp_dir"));
-}
-
-{
-  my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys->unlink("$tmp_dir"));
-}
-
-{
-  my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys->rename("$tmp_dir"));
-}
-
 ok(SPVM::TestCase::Sys->ioctl);
 
 ok(SPVM::TestCase::Sys->set_tcp_keepalive);
@@ -74,39 +44,6 @@ ok(SPVM::TestCase::Sys->set_tcp_keepalive);
 ok(SPVM::TestCase::Sys->env);
 
 ok(SPVM::TestCase::Sys->set_env);
-
-# Directory stream system calls
-{
-  # opendir
-  {
-    ok(SPVM::TestCase::Sys->opendir);
-  }
-  
-  # readdir
-  {
-    ok(SPVM::TestCase::Sys->readdir);
-  }
-  
-  # seekdir
-  {
-    ok(SPVM::TestCase::Sys->seekdir);
-  }
-  
-  # telldir
-  {
-    ok(SPVM::TestCase::Sys->telldir);
-  }
-  
-  # rewinddir
-  {
-    ok(SPVM::TestCase::Sys->rewinddir);
-  }
-  
-  # closedir
-  {
-    ok(SPVM::TestCase::Sys->closedir);
-  }
-}
 
 ok(SPVM::TestCase::Sys->rand);
 
