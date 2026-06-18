@@ -1,13 +1,15 @@
 class TestCase::Sys::IO::Stat {
+  use TestCase::Sys;
+  
   use Fn;
   use Sys::IO::Stat;
   use Sys;
   use Sys::IO;
   use Sys::OS;
   
-  our $TEST_TMP_DIR : rw cache string;
-  
   static method stat : int ($test_dir : string) {
+    
+    my $test_tmp_dir = TestCase::Sys->TEST_TMP_DIR;
     
     {
       my $file = "$test_dir/ftest/readline_long_lines.txt";
@@ -95,7 +97,7 @@ class TestCase::Sys::IO::Stat {
     }
     
     {
-      my $file = "$TEST_TMP_DIR/stat_あ.txt";
+      my $file = "$test_tmp_dir/stat_あ.txt";
       
       Sys->open([(Sys::IO::FileStream)undef], ">", $file);
       
@@ -144,6 +146,8 @@ class TestCase::Sys::IO::Stat {
 
   static method lstat : int ($test_dir : string) {
     
+    my $test_tmp_dir = TestCase::Sys->TEST_TMP_DIR;
+    
     {
       my $file = "$test_dir/ftest/readline_long_lines.txt";
       
@@ -179,7 +183,7 @@ class TestCase::Sys::IO::Stat {
     }
     
     {
-      my $file = "$TEST_TMP_DIR/lstat_あ.txt";
+      my $file = "$test_tmp_dir/lstat_あ.txt";
       
       {
         Sys->open([(Sys::IO::FileStream)undef], ">", $file);
