@@ -11,6 +11,7 @@ use File::Temp;
 
 use SPVM 'Fn';
 use SPVM 'TestCase::Sys::IO';
+use SPVM 'TestCase::Sys';
 use SPVM 'Sys::IO';
 use Encode 'encode', 'decode';
 use IO::Poll;
@@ -20,25 +21,12 @@ my $api = SPVM::api();
 my $start_memory_blocks_count = $api->get_memory_blocks_count;
 
 my $test_dir = "$FindBin::Bin";
-
 SPVM::TestCase::Sys::IO->SET_TEST_DIR($test_dir);
-
-sub file_name {
-  my ($file_name) = @_;
-  
-  if ($^O eq 'MSWin32') {
-    $file_name = encode('cp932', $file_name);
-  }
-  else {
-    $file_name = encode('UTF-8', $file_name);
-  }
-  return $file_name;
-}
+SPVM::TestCase::Sys->SET_TEST_DIR($test_dir);
 
 my $test_tmp_dir = File::Temp->newdir;
-{
-  SPVM::TestCase::Sys::IO->SET_TEST_TMP_DIR("$test_tmp_dir");
-}
+SPVM::TestCase::Sys::IO->SET_TEST_TMP_DIR("$test_tmp_dir");
+SPVM::TestCase::Sys->SET_TEST_TMP_DIR("$test_tmp_dir");
 
 {
   my $tmp_dir = File::Temp->newdir;
@@ -237,7 +225,16 @@ ok(SPVM::TestCase::Sys::IO->access);
 ok(SPVM::TestCase::Sys::IO->dup);
 ok(SPVM::TestCase::Sys::IO->dup2);
 
+# Sys
+{
+  ok(SPVM::TestCase::Sys->open);
+  ok(SPVM::TestCase::Sys->sysopen);
+  ok(SPVM::TestCase::Sys->socket);
+  ok(SPVM::TestCase::Sys->pipe);
+}
+
 SPVM::TestCase::Sys::IO->SET_TEST_DIR(undef);
+SPVM::TestCase::Sys->SET_TEST_DIR(undef);
 
 SPVM::Fn->destroy_runtime_permanent_vars;
 
@@ -245,3 +242,15 @@ my $end_memory_blocks_count = $api->get_memory_blocks_count;
 is($end_memory_blocks_count, $start_memory_blocks_count);
 
 done_testing;
+
+sub file_name {
+  my ($file_name) = @_;
+  
+  if ($^O eq 'MSWin32') {
+    $file_name = encode('cp932', $file_name);
+  }
+  else {
+    $file_name = encode('UTF-8', $file_name);
+  }
+  return $file_name;
+}
