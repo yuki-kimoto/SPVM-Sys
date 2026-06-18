@@ -299,28 +299,28 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
 }
 
 
-/*
- * readdir
- *
- * Return a pointer to a dirent structure filled with the information on the
- * next entry in the directory.
- */
-SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
+SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR * dirp) {
+  
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
+  
   errno = 0;
-
+  
+  SPVM_SYS_WINDOWS_WDIRENT* dirent = NULL;
+  
   /* Check for valid DIR struct. */
-  if (!dirp)
-    {
-      errno = EFAULT;
-      env->set_error_id(env, stack, env->die(env, stack, "Directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__));
-      return (SPVM_SYS_WINDOWS_WDIRENT *) 0;
-    }
+  if (!dirp){
+    errno = EFAULT;
+    my_errno = errno;
+    env->die(env, stack, "Directory stream $dirp must be defined.", __func__, FILE_NAME, __LINE__);
+    goto END_OF_FUNC;
+  }
 
   if (dirp->dd_stat < 0)
     {
       /* We have already returned all files in the directory
        * (or the structure has an invalid dd_stat). */
-      return (SPVM_SYS_WINDOWS_WDIRENT *) 0;
+      goto END_OF_FUNC;
     }
   else if (dirp->dd_stat == 0)
     {
@@ -350,10 +350,11 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
     DWORD winerr = GetLastError ();
     if (winerr == ERROR_NO_MORE_FILES) {
       errno = 0;
+      my_errno = errno;
     } else {
       errno = EIO;
+      my_errno = errno;
       env->die(env, stack, "[System Error]_wfindnext64() failed. errno=%d(%s). Windows Error Code: %d.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), winerr);
-      env->set_error_id(env, stack, SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS);
     }
     _findclose (dirp->dd_handle);
     dirp->dd_handle = -1;
@@ -366,18 +367,21 @@ SPVM_SYS_WINDOWS_WDIRENT* spvm_sys_windows_readdir (SPVM_ENV* env, SPVM_VALUE* s
     dirp->dd_stat++;
   }
     }
-
-  if (dirp->dd_stat > 0)
-    {
-      /* Successfully got an entry. Everything about the file is
-       * already appropriately filled in except the length of the
-       * file name. */
-      dirp->dd_dir.d_namlen = wcslen (dirp->dd_dta.name);
-      wcscpy_s(dirp->dd_dir.d_name, 260, dirp->dd_dta.name);
-      return &dirp->dd_dir;
-    }
-
-  return (SPVM_SYS_WINDOWS_WDIRENT *) 0;
+  
+  if (dirp->dd_stat > 0) {
+    /* Successfully got an entry. Everything about the file is
+     * already appropriately filled in except the length of the
+     * file name. */
+    dirp->dd_dir.d_namlen = wcslen (dirp->dd_dta.name);
+    wcscpy_s(dirp->dd_dir.d_name, 260, dirp->dd_dta.name);
+    dirent = &dirp->dd_dir;
+  }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return dirent;
 }
 
 int spvm_sys_windows_closedir(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WINDOWS_DIR* dirp) {
