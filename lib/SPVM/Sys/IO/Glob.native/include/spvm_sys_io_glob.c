@@ -662,7 +662,7 @@ glob3(SPVM_ENV* env, SPVM_VALUE* stack, char *pathbuf, char *pathbuf_last, char 
 
 #if defined(_WIN32)
                 const WCHAR* d_name_w = dp->d_name;
-                const char* d_name = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, (WCHAR*)d_name_w, &error_id, __func__, __FILE__, __LINE__);
+                const char* d_name = (char*)spvm_sys_windows_win_wchar_to_utf8_chars(env, stack, (WCHAR*)d_name_w, &error_id, __func__, __FILE__, __LINE__);
                 if (error_id) {
                   break;
                 }

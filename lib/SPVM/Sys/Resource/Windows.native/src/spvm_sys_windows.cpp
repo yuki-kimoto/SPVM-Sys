@@ -13,7 +13,7 @@ extern "C" {
 
 static const char* FILE_NAME = "spvm_sys_windows.cpp";
 
-WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+WCHAR* spvm_sys_windows_utf8_to_win_wchar_wchars(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   env->push_caller_stack(env, stack, func_name, file, line);
   
@@ -82,7 +82,7 @@ WCHAR* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, cons
   return utf16le_string;
 }
 
-const char* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* stack, WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   env->push_caller_stack(env, stack, func_name, file, line);
   
@@ -197,7 +197,7 @@ SPVM_SYS_WINDOWS_DIR* spvm_sys_windows_opendir(SPVM_ENV* env, SPVM_VALUE* stack,
       return (SPVM_SYS_WINDOWS_DIR *) 0;
     }
   
-  WCHAR* dir_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, dir, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* dir_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, dir, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     env->set_error_id(env, stack, error_id);
     return (SPVM_SYS_WINDOWS_DIR *) 0;
@@ -654,7 +654,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
   
   int32_t error_id = 0;
   
-  WCHAR* path_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     return error_id;
   }
@@ -679,7 +679,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
     }
     const char* resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
     
-    WCHAR* resolved_link_text_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
+    WCHAR* resolved_link_text_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       return error_id;
     }
@@ -726,7 +726,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
   
   HANDLE handle = NULL;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     goto END_OF_FUNC;
   }
@@ -1000,7 +1000,7 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
   int status = -1;
   WCHAR** argv_w = NULL;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1014,7 +1014,7 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
   argv_w = (WCHAR**)env->new_memory_block(env, stack, sizeof(WCHAR*) * (args_length + 1));
   for (int32_t i = 0; i < args_length; i++) {
     char* arg = argv[i];
-    WCHAR* arg_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
+    WCHAR* arg_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
       my_errno = errno;
       goto END_OF_FUNC;
@@ -1052,13 +1052,13 @@ FILE* spvm_sys_windows_fopen(SPVM_ENV* env, SPVM_VALUE* stack, const char* path,
   int32_t my_errno = 0;
   
   FILE* fs = NULL;
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
   }
   
-  mode_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, mode, &error_id, __func__, FILE_NAME, __LINE__);
+  mode_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, mode, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1087,7 +1087,7 @@ int spvm_sys_windows_open(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, in
   
   int32_t fd;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1116,7 +1116,7 @@ int spvm_sys_windows_chmod(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, i
   int32_t error_id = 0;
   int32_t my_errno = 0;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1145,7 +1145,7 @@ int spvm_sys_windows_chdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
   int32_t error_id = 0;
   int32_t my_errno = 0;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1180,7 +1180,7 @@ int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
     goto END_OF_FUNC;
   }
   
-  path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     env->set_error_id(env, stack, error_id);
@@ -1251,7 +1251,7 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   }
   
   resolved_link_text = env->get_chars(env, stack, obj_resolved_link_text);
-  resolved_link_text_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
+  resolved_link_text_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
   
   if (error_id) {
     my_errno = errno;
@@ -1281,7 +1281,7 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
     goto END_OF_FUNC;
   }
   
-  resolved_path_tmp = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
+  resolved_path_tmp = (char*)spvm_sys_windows_win_wchar_to_utf8_chars(env, stack, resolved_path_w, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1329,7 +1329,7 @@ int spvm_sys_windows_unlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) 
   int32_t my_errno = 0;
   int32_t status = -1;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1391,13 +1391,13 @@ int spvm_sys_windows_rename(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_pa
   int32_t my_errno = 0;
   int32_t status = -1;
   
-  WCHAR* old_path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, old_path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* old_path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, old_path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
   }
   
-  new_path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, new_path, &error_id, __func__, FILE_NAME, __LINE__);
+  new_path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, new_path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1443,13 +1443,13 @@ int spvm_sys_windows_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_p
   int32_t my_errno = 0;
   int32_t status = -1;
   
-  WCHAR* old_path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, old_path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* old_path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, old_path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
   }
   
-  new_path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, new_path, &error_id, __func__, FILE_NAME, __LINE__);
+  new_path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, new_path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1584,7 +1584,7 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
   DWORD linkdata_returned;
   HANDLE handle = NULL;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1729,7 +1729,7 @@ SPVM_OBJ* spvm_sys_windows_getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
     goto END_OF_FUNC;
   }
   
-  cwd = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, cwd_w, &error_id, __func__, FILE_NAME, __LINE__);
+  cwd = (char*)spvm_sys_windows_win_wchar_to_utf8_chars(env, stack, cwd_w, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1763,7 +1763,7 @@ SPVM_OBJ* spvm_sys_windows_getdcwd(SPVM_ENV* env, SPVM_VALUE* stack, int drive) 
     goto END_OF_FUNC;
   }
   
-  dcwd = (char*)spvm_sys_windows_win_wchar_to_utf8(env, stack, dcwd_w, &error_id, __func__, FILE_NAME, __LINE__);
+  dcwd = (char*)spvm_sys_windows_win_wchar_to_utf8_chars(env, stack, dcwd_w, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1790,7 +1790,7 @@ int spvm_sys_windows_rmdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
   int32_t my_errno = 0;
   int32_t status = -1;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1818,7 +1818,7 @@ int spvm_sys_windows_mkdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
   int32_t my_errno = 0;
   int32_t status = -1;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1846,7 +1846,7 @@ int spvm_sys_windows_access(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, 
   int32_t my_errno = 0;
   int32_t status = -1;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
@@ -1876,7 +1876,7 @@ int spvm_sys_windows_truncate(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
   int32_t status = -1;
   int32_t fd = -1;
   
-  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
     goto END_OF_FUNC;
