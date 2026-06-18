@@ -32,18 +32,9 @@ my $test_tmp_dir = File::Temp->newdir;
   SPVM::TestCase::Sys->SET_TEST_TMP_DIR("$test_tmp_dir");
 }
 
-# env
-{
-  is(SPVM::Sys->env("PATH"), $ENV{PATH});
-}
-
 ok(SPVM::TestCase::Sys->ioctl);
 
 ok(SPVM::TestCase::Sys->set_tcp_keepalive);
-
-ok(SPVM::TestCase::Sys->env);
-
-ok(SPVM::TestCase::Sys->set_env);
 
 ok(SPVM::TestCase::Sys->rand);
 

@@ -276,6 +276,7 @@ t/lib/SPVM/TestCase/Sys/Time.spvm
 t/lib/SPVM/TestCase/Sys/Time/Util.spvm
 t/lib/SPVM/TestCase/Sys/User.spvm
 t/print_hello.pl
+t/Sys-Env.t
 t/Sys-IO-Glob.t
 t/Sys-IO-Stat.t
 t/Sys-IO.t
