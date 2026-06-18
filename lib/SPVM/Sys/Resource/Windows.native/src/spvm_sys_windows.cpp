@@ -21,11 +21,11 @@ SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, c
   
   int32_t my_errno = 0;
   
-  SPVM_OBJ* obj_utf16le_string = NULL;
-  WCHAR* utf16le_string_tmp;
-  int32_t utf16le_string_length;
+  SPVM_OBJ* obj_win_wchar_string = NULL;
+  WCHAR* win_wchar_string_tmp;
+  int32_t win_wchar_string_length;
   
-  WCHAR* utf16le_string = NULL;
+  WCHAR* win_wchar_string = NULL;
   
   if (utf8_string == NULL) {
     errno = EINVAL;
@@ -34,7 +34,7 @@ SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, c
     goto END_OF_FUNC;
   }
   
-  utf16le_string_length = MultiByteToWideChar(
+  win_wchar_string_length = MultiByteToWideChar(
       CP_UTF8,
       0,
       utf8_string,
@@ -43,7 +43,7 @@ SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, c
       0
   );
   
-  if (utf16le_string_length == 0) {
+  if (win_wchar_string_length == 0) {
     errno = EILSEQ;
     my_errno = errno;
     env->die(env, stack, "[System Error]MultiByteToWideChar() failed(%d:%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -51,19 +51,19 @@ SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, c
     goto END_OF_FUNC;
   }
   
-  obj_utf16le_string = env->new_short_array(env, stack, utf16le_string_length);
-  utf16le_string_tmp = (WCHAR*)env->get_elems_short(env, stack, obj_utf16le_string);
+  obj_win_wchar_string = env->new_short_array(env, stack, win_wchar_string_length);
+  win_wchar_string_tmp = (WCHAR*)env->get_elems_short(env, stack, obj_win_wchar_string);
   
-  utf16le_string_length = MultiByteToWideChar(
+  win_wchar_string_length = MultiByteToWideChar(
     CP_UTF8,
     0,
     utf8_string,
     -1,
-    utf16le_string_tmp,
-    utf16le_string_length
+    win_wchar_string_tmp,
+    win_wchar_string_length
   );
   
-  if (utf16le_string_length == 0) {
+  if (win_wchar_string_length == 0) {
     errno = EILSEQ;
     my_errno = errno;
     env->die(env, stack, "[System Error]MultiByteToWideChar() failed(%d:%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
@@ -71,7 +71,7 @@ SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, c
     goto END_OF_FUNC;
   }
   
-  utf16le_string = utf16le_string_tmp;
+  win_wchar_string = win_wchar_string_tmp;
   
   END_OF_FUNC:
   
@@ -79,14 +79,14 @@ SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, c
   
   env->pop_caller_stack(env, stack);
   
-  return obj_utf16le_string;
+  return obj_win_wchar_string;
 }
 
 const WCHAR* spvm_sys_windows_utf8_to_win_wchar_wchars(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   return (const WCHAR*)env->get_chars(env, stack, spvm_sys_windows_utf8_to_win_wchar(env, stack, utf8_string, error_id, func_name, file, line));
 }
 
-SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
+SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* win_wchar_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
   env->push_caller_stack(env, stack, func_name, file, line);
   
@@ -98,17 +98,17 @@ SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, c
   char* utf8_string;
   SPVM_OBJ* obj_utf8_string = NULL;
   
-  if (utf16le_string == NULL) {
+  if (win_wchar_string == NULL) {
     errno = EINVAL;
     my_errno = errno;
-    *error_id = env->die(env, stack, "utf16le_string must be not NULL.", __func__, FILE_NAME, __LINE__);
+    *error_id = env->die(env, stack, "win_wchar_string must be not NULL.", __func__, FILE_NAME, __LINE__);
     goto END_OF_FUNC;
   }
   
   utf8_string_length = WideCharToMultiByte(
     CP_UTF8,
     0,
-    utf16le_string,
+    win_wchar_string,
     -1,
     NULL,
     0,
@@ -131,7 +131,7 @@ SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, c
   utf8_string_length = WideCharToMultiByte(
     CP_UTF8,
     0,
-    utf16le_string,
+    win_wchar_string,
     -1,
     utf8_string,
     utf8_string_length,

@@ -352,7 +352,7 @@ SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, c
 
 const WCHAR* spvm_sys_windows_utf8_to_win_wchar_wchars(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
-SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* utf16le_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
+SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* win_wchar_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
 const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* win_wchar_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
