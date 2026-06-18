@@ -49,7 +49,7 @@ ok(SPVM::TestCase::Sys::Time::Util->subtract_timespec);
 
 ok(SPVM::TestCase::Sys::Time::Util->subtract_timeval);
 
-SPVM::Fn->destroy_runtime_permanent_vars;
+$api->destroy_runtime_permanent_vars;
 
 my $end_memory_blocks_count = $api->get_memory_blocks_count;
 is($end_memory_blocks_count, $start_memory_blocks_count);
