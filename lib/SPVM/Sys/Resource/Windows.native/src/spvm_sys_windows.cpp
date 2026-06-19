@@ -2028,6 +2028,70 @@ int spvm_sys_windows_truncate(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
   return status;
 }
 
+int spvm_sys_windows_spawn_nowait(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, char *const argv[]) {
+  
+  assert(path);
+  assert(argv);
+  
+  int32_t args_length;
+  int32_t process_id;
+  
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
+  
+  HANDLE handle = INVALID_HANDLE_VALUE;
+  WCHAR** argv_w = NULL;
+  
+  const WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) {
+    my_errno = errno;
+    goto END_OF_FUNC;
+  }
+  
+  args_length = 0;
+  while (argv[args_length] != NULL) {
+    args_length++;
+  }
+  
+  argv_w = (WCHAR**)env->new_memory_block(env, stack, sizeof(WCHAR*) * (args_length + 1));
+  for (int32_t i = 0; i < args_length; i++) {
+    char* arg = argv[i];
+    WCHAR* arg_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, arg, &error_id, __func__, FILE_NAME, __LINE__);
+    if (error_id) {
+      my_errno = errno;
+      goto END_OF_FUNC;
+    }
+    
+    argv_w[i] = arg_w;
+  }
+  
+  handle = (HANDLE)_wspawnvp(_P_NOWAIT, path_w, (const WCHAR *const *)argv_w);
+  my_errno = errno;
+  if (handle == INVALID_HANDLE_VALUE) {
+    my_errno = errno;
+    env->die(env, stack, "[System Error]_wspawnvp() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    goto END_OF_FUNC;
+  }
+  
+  process_id = (int32_t)GetProcessId(handle);
+  if (process_id == 0) {
+    spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
+    my_errno = errno;
+    env->die(env, stack, "[System Error]GetProcessId() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    goto END_OF_FUNC;
+  }
+  
+  END_OF_FUNC:
+  
+  if (argv_w) {
+    env->free_memory_block(env, stack, argv_w);
+  }
+  
+  errno = my_errno;
+  
+  return process_id;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)

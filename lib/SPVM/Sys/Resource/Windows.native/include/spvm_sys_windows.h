@@ -435,6 +435,8 @@ int spvm_sys_windows_access(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, 
 
 int spvm_sys_windows_truncate(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, int64_t length);
 
+int spvm_sys_windows_spawn_nowait(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, char *const argv[]);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
