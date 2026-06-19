@@ -146,27 +146,27 @@ int32_t SPVM__Sys__Time__gmtime(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__Time__nanosleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  SPVM_OBJ* obj_rqtp = stack[0].oval;
+  SPVM_OBJ* obj_req = stack[0].oval;
   
-  SPVM_OBJ* obj_rmtp = stack[1].oval;
+  SPVM_OBJ* obj_rem = stack[1].oval;
   
-  struct timespec* st_rqtp = NULL;
-  if (obj_rqtp) {
-    st_rqtp = env->get_pointer(env, stack, obj_rqtp);
+  struct timespec* st_req = NULL;
+  if (obj_req) {
+    st_req = env->get_pointer(env, stack, obj_req);
   }
   else {
-    return env->die(env, stack, "The request time $rqtp must be defined.", __func__, FILE_NAME, __LINE__);
+    return env->die(env, stack, "The request time $req must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  struct timespec* st_rmtp = NULL;
-  if (obj_rmtp) {
-    st_rmtp = env->get_pointer(env, stack, obj_rmtp);
+  struct timespec* st_rem = NULL;
+  if (obj_rem) {
+    st_rem = env->get_pointer(env, stack, obj_rem);
   }
   
 #if defined(_WIN32)
-  int32_t status = spvm_sys_windows_nanosleep(env, stack, st_rqtp, st_rmtp);
+  int32_t status = spvm_sys_windows_nanosleep(env, stack, st_req, st_rem);
 #else
-  int32_t status = nanosleep(st_rqtp, st_rmtp);
+  int32_t status = nanosleep(st_req, st_rem);
 #endif
 
   if (status == -1) {

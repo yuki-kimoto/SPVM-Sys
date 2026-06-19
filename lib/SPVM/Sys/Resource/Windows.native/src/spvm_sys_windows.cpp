@@ -1024,10 +1024,10 @@ int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WI
 
 int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clock_id, struct timespec *ts) {
   
+  assert(ts);
+  
   int32_t status = -1;
   int32_t my_errno = 0;
-  
-  assert(ts);
   
   std::chrono::seconds sec;
   std::chrono::nanoseconds nsec;
@@ -1066,32 +1066,48 @@ int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct ti
   
   assert(req);
   
+  int32_t status = -1;
+  int32_t my_errno = 0;
+  
+  std::chrono::nanoseconds duration;
+  std::chrono::steady_clock::time_point start;
+  std::chrono::nanoseconds elapsed;
+  
   if (req->tv_nsec < 0 || req->tv_nsec >= 1000000000) {
+    my_errno = errno;
     errno = EINVAL;
-    return -1;
+    env->die(env, stack, "Invalid req->tv_nsec. req->tv_nsec=%d", __func__, FILE_NAME, __LINE__, req->tv_nsec);
+    goto END_OF_FUNC;
   }
   
-  auto duration = std::chrono::seconds(req->tv_sec) + std::chrono::nanoseconds(req->tv_nsec);
+  duration = std::chrono::seconds(req->tv_sec) + std::chrono::nanoseconds(req->tv_nsec);
   
-  auto start = std::chrono::steady_clock::now();
+  start = std::chrono::steady_clock::now();
   std::this_thread::sleep_for(duration);
-  auto elapsed = std::chrono::steady_clock::now() - start;
+  elapsed = std::chrono::steady_clock::now() - start;
   
   if (elapsed < duration) {
     if (rem) {
-      auto remaining = duration - elapsed;
-      auto rem_sec = std::chrono::duration_cast<std::chrono::seconds>(remaining);
-      auto rem_nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(remaining - rem_sec);
+      std::chrono::nanoseconds remaining = duration - elapsed;
+      std::chrono::seconds rem_sec = std::chrono::duration_cast<std::chrono::seconds>(remaining);
+      std::chrono::nanoseconds rem_nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(remaining - rem_sec);
       
       rem->tv_sec = (time_t)rem_sec.count();
       rem->tv_nsec = (long)rem_nsec.count();
     }
     
     errno = EINTR;
-    return -1;
+    my_errno = errno;
+    goto END_OF_FUNC;
   }
   
-  return 0;
+  status = 0;
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return status;
 }
 
 int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, char *const argv[]) {
