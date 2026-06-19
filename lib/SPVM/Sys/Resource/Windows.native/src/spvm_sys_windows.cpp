@@ -607,10 +607,11 @@ static time_t spvm_sys_windows_file_time_to_epoch(SPVM_ENV* env, SPVM_VALUE* sta
 
 int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT* st_stat) {
   
+  int32_t my_errno = 0;
   int32_t status = -1;
-  DWORD type = GetFileType(handle);
+  DWORD file_type = GetFileType(handle);
   
-  switch (type) {
+  switch (file_type) {
     case FILE_TYPE_DISK: {
       
       BY_HANDLE_FILE_INFORMATION file_info = {0};
@@ -627,6 +628,8 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
           }
           else {
             spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
+            my_errno = errno;
+            env->die(env, stack, "[System Error]DeviceIoControl() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
             goto END_OF_FUNC;
           }
         }
@@ -680,6 +683,8 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
             default: {
               /* Is there anything else we can do here? */
               errno = EINVAL;
+              my_errno = errno;
+              env->die(env, stack, "[System Error]Invalid reparse type. errno=%d(%s), reparse_type=%d.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), reparse_type);
               goto END_OF_FUNC;
             }
           }
@@ -700,6 +705,8 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
             
             if (needed_len == 0) {
               spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
+              my_errno = errno;
+              env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
               goto END_OF_FUNC;
             }
             
@@ -722,6 +729,8 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
             
             if (!len) {
               spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
+              my_errno = errno;
+              env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
               goto END_OF_FUNC;
             }
             
@@ -734,6 +743,7 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
       }
       else {
         spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
+        my_errno = errno;
         goto END_OF_FUNC;
       }
       break;
@@ -741,7 +751,7 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
     case FILE_TYPE_CHAR:
     case FILE_TYPE_PIPE:
     {
-      st_stat->st_mode = (type == FILE_TYPE_CHAR) ? S_IFCHR : S_IFIFO;
+      st_stat->st_mode = (file_type == FILE_TYPE_CHAR) ? S_IFCHR : S_IFIFO;
       if (handle == GetStdHandle(STD_INPUT_HANDLE) ||
         handle == GetStdHandle(STD_OUTPUT_HANDLE) ||
         handle == GetStdHandle(STD_ERROR_HANDLE)) {
@@ -751,6 +761,8 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
     }
     default: {
       errno = EINVAL;
+      my_errno = errno;
+      env->die(env, stack, "[System Error]Invalid file type. errno=%d(%s), file_type=%d.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), file_type);
       goto END_OF_FUNC;
     }
   }
@@ -762,6 +774,8 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
   status = 0;
   
   END_OF_FUNC:
+  
+  errno = my_errno;
   
   return status;
 }
