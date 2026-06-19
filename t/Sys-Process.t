@@ -42,13 +42,7 @@ else {
   ok(SPVM::TestCase::Sys::Process->wait);
 }
 
-if ($^O eq 'MSWin32') {
-  eval { my $status = -1; SPVM::Sys::Process->waitpid(0, \$status, 0) };
-  like($@, qr/not supported/);
-}
-else {
-  ok(SPVM::TestCase::Sys::Process->waitpid);
-}
+ok(SPVM::TestCase::Sys::Process->waitpid);
 
 
 ok(SPVM::TestCase::Sys::Process->system);

@@ -287,12 +287,8 @@ int32_t SPVM__Sys__Process__wait(SPVM_ENV* env, SPVM_VALUE* stack) {
 }
 
 int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  env->die(env, stack, "Sys::Process#waitpid method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
   
-  int32_t pid = stack[0].ival;
+  int32_t process_id = stack[0].ival;
   
   int32_t* wstatus_ref = stack[1].iref;
   
@@ -303,18 +299,24 @@ int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   int wstatus_int;
-  int32_t process_id = waitpid(pid, &wstatus_int, options);
+#if defined(_WIN32)
+  int32_t ret_process_id = spvm_sys_windows_waitpid(env, stack, process_id, &wstatus_int, options);
   *wstatus_ref = wstatus_int;
-  
+  if (process_id == -1) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#else
+  int32_t ret_process_id = waitpid(process_id, &wstatus_int, options);
+  *wstatus_ref = wstatus_int;
   if (process_id == -1) {
     env->die(env, stack, "[System Error]waitpid() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+#endif
   
-  stack[0].ival = process_id;
+  stack[0].ival = ret_process_id;
   
   return 0;
-#endif
 }
 
 int32_t SPVM__Sys__Process__getpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
