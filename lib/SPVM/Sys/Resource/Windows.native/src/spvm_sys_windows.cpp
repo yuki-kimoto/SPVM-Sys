@@ -13,7 +13,7 @@ extern "C" {
 
 static const char* FILE_NAME = "spvm_sys_windows.cpp";
 
-HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag) {
+HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(const WCHAR* path_w, int file_flag) {
 
   HANDLE handle = CreateFileW(path_w, GENERIC_READ,
     FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING,
@@ -33,7 +33,7 @@ HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* pat
   return spvm_sys_windows_util_CreateFileW_for_read_common(path_w, FILE_FLAG_OPEN_REPARSE_POINT);
 }
 
-void spvm_sys_windows_set_errno_from_windows_last_error(int32_t default_errno) {
+void spvm_sys_windows_set_errno_from_windows_last_error(int default_errno) {
   
   switch (GetLastError()) {
     case ERROR_BAD_NET_NAME:
@@ -224,7 +224,7 @@ const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* 
   return env->get_chars(env, stack, spvm_sys_windows_win_wchar_to_utf8(env, stack, win_wchar_string, error_id, func_name, file, line));
 }
 
-int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle) {
+int spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle) {
   
   errno = 0;
   
@@ -605,7 +605,7 @@ static time_t spvm_sys_windows_file_time_to_epoch(SPVM_ENV* env, SPVM_VALUE* sta
   return epoch;
 }
 
-int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT* st_stat) {
+int spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT* st_stat) {
   
   int32_t my_errno = 0;
   int32_t status = -1;
@@ -780,7 +780,7 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
   return status;
 }
 
-int32_t spvm_sys_windows_fstat(SPVM_ENV* env, SPVM_VALUE* stack, int fd, SPVM_SYS_WINDOWS_STAT* st_stat) {
+int spvm_sys_windows_fstat(SPVM_ENV* env, SPVM_VALUE* stack, int fd, SPVM_SYS_WINDOWS_STAT* st_stat) {
   
   int32_t my_errno = 0;
   int32_t status = -1;
@@ -808,7 +808,7 @@ int32_t spvm_sys_windows_fstat(SPVM_ENV* env, SPVM_VALUE* stack, int fd, SPVM_SY
   return status;
 }
 
-int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT* st_stat) {
+int spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT* st_stat) {
   
   int32_t error_id = 0;
   int32_t my_errno = 0;
@@ -875,7 +875,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
   return status;
 }
 
-int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat) {   
+int spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat) {   
   
   int32_t error_id = 0;
   int32_t my_errno = 0;
@@ -938,7 +938,7 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
 
 #define POW10_9                 1000000000
 
-int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, struct timespec* res) {
+int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int clock_id, struct timespec* res) {
   
   int32_t status = -1;
   int32_t my_errno = 0;
@@ -1283,7 +1283,7 @@ int spvm_sys_windows_chdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
   return status;
 }
 
-int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
+int spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
 
   WCHAR* path_w;
   
@@ -1543,7 +1543,7 @@ int spvm_sys_windows_rename(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_pa
   return status;
 }
 
-static inline int32_t spvm_sys_windows_is_path_separator(WCHAR ch_w) {
+static inline int spvm_sys_windows_is_path_separator(WCHAR ch_w) {
   return (ch_w == L'/' || ch_w == L'\\');
 };
 

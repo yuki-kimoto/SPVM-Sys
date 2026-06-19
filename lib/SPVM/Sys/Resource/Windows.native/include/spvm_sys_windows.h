@@ -356,7 +356,7 @@ SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, c
 
 const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* win_wchar_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
-int32_t spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle);
+int spvm_sys_windows_is_symlink_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle);
 
 int spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path);
 
@@ -382,24 +382,24 @@ int spvm_sys_windows_gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WIN
 
 int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clock_id, struct timespec *ts);
 
-int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT *st_stat);
+int spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE handle, SPVM_SYS_WINDOWS_STAT *st_stat);
 
-int32_t spvm_sys_windows_fstat(SPVM_ENV* env, SPVM_VALUE* stack, int fd, SPVM_SYS_WINDOWS_STAT *st_stat);
+int spvm_sys_windows_fstat(SPVM_ENV* env, SPVM_VALUE* stack, int fd, SPVM_SYS_WINDOWS_STAT *st_stat);
 
-int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat);
+int spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat);
 
-int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat);
+int spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat);
 
 // Utilitiies
-HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(const WCHAR* path_w, int32_t file_flag);
+HANDLE spvm_sys_windows_util_CreateFileW_for_read_common(const WCHAR* path_w, int file_flag);
 
 HANDLE spvm_sys_windows_util_CreateFileW_for_read(const WCHAR* path_w);
 
 HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* path_w);
 
-void spvm_sys_windows_set_errno_from_windows_last_error(int32_t default_errno);
+void spvm_sys_windows_set_errno_from_windows_last_error(int default_errno);
 
-int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, struct timespec *res);
+int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int clock_id, struct timespec *res);
 
 int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct timespec* req, struct timespec* rem);
 
