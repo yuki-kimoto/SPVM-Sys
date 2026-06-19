@@ -898,15 +898,6 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
   return 0;
 }
 
-static inline int lc_set_errno(int result)
-{
-    if (result != 0) {
-        errno = result;
-        return -1;
-    }
-    return 0;
-}
-
 #define POW10_9                 1000000000
 
 int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, struct timespec* res) {
