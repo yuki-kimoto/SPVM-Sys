@@ -230,7 +230,11 @@ class TestCase::Sys::Time {
       diag "[Test Output]clock_getres(CLOCK_MONOTONIC):" . $tp->tv_nsec;
     }
     
-    {
+    eval { TIME->CLOCK_REALTIME_COARSE; }
+    if ($@) {
+      diag "[Test Skip]clock_getres(CLOCK_REALTIME_COARSE). CLOCK_REALTIME_COARSE is not supported in this system.";
+    }
+    else {
       my $tp = Sys::Time::Timespec->new;
       
       my $status = Sys::Time->clock_getres(TIME->CLOCK_REALTIME_COARSE, $tp);
@@ -251,7 +255,11 @@ class TestCase::Sys::Time {
       diag "[Test Output]clock_getres(CLOCK_REALTIME_COARSE):" . $tp->tv_nsec;
     }
     
-    {
+    eval { TIME->CLOCK_PROCESS_CPUTIME_ID; }
+    if ($@) {
+      diag "[Test Skip]clock_getres(CLOCK_PROCESS_CPUTIME_ID). CLOCK_PROCESS_CPUTIME_ID is not supported in this system.";
+    }
+    else {
       my $tp = Sys::Time::Timespec->new;
       
       my $status = Sys::Time->clock_getres(TIME->CLOCK_PROCESS_CPUTIME_ID, $tp);
@@ -272,7 +280,11 @@ class TestCase::Sys::Time {
       diag "[Test Output]clock_getres(CLOCK_PROCESS_CPUTIME_ID):" . $tp->tv_nsec;
     }
     
-    {
+    eval { TIME->CLOCK_THREAD_CPUTIME_ID; }
+    if ($@) {
+      diag "[Test Skip]clock_getres(CLOCK_THREAD_CPUTIME_ID). CLOCK_THREAD_CPUTIME_ID is not supported in this system.";
+    }
+    else {
       my $tp = Sys::Time::Timespec->new;
       
       my $status = Sys::Time->clock_getres(TIME->CLOCK_THREAD_CPUTIME_ID, $tp);
