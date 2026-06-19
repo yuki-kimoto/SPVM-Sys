@@ -1242,14 +1242,13 @@ int32_t spvm_sys_windows_is_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
   
   if (!path) {
     my_errno = EFAULT;
-    env->set_error_id(env, stack, env->die(env, stack, "Path $path must be defined.", __func__, FILE_NAME, __LINE__));
+    env->die(env, stack, "Path $path must be defined.", __func__, FILE_NAME, __LINE__);
     goto END_OF_FUNC;
   }
   
   path_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
     my_errno = errno;
-    env->set_error_id(env, stack, error_id);
     goto END_OF_FUNC;
   }
   
