@@ -1229,12 +1229,11 @@ int spvm_sys_windows_open(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, in
 
 int spvm_sys_windows_chmod(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, int mode) {
   
-  int32_t status;
-  
   assert(path);
   
   int32_t error_id = 0;
   int32_t my_errno = 0;
+  int32_t status = -1;
   
   const WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
@@ -1258,12 +1257,11 @@ int spvm_sys_windows_chmod(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, i
 
 int spvm_sys_windows_chdir(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
   
-  int32_t status;
-  
   assert(path);
   
   int32_t error_id = 0;
   int32_t my_errno = 0;
+  int32_t status = -1;
   
   const WCHAR* path_w = spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
@@ -1435,14 +1433,16 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
     CloseHandle(handle);
   }
   
+  errno = my_errno;
+
   return obj_resolved_path;
 }
 
 int spvm_sys_windows_unlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
   
-  DWORD attrs;
-  
   assert(path);
+  
+  DWORD attrs;
   
   int32_t error_id = 0;
   int32_t my_errno = 0;
@@ -1499,12 +1499,12 @@ int spvm_sys_windows_unlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) 
 
 int spvm_sys_windows_rename(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_path, const char* new_path) {
   
+  assert(old_path);
+  assert(new_path);
+  
   WCHAR* new_path_w;
   DWORD flags;
   int32_t success;
-  
-  assert(old_path);
-  assert(new_path);
   
   int32_t error_id = 0;
   int32_t my_errno = 0;
@@ -1549,14 +1549,14 @@ static inline int32_t spvm_sys_windows_is_path_separator(WCHAR ch_w) {
 
 int spvm_sys_windows_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_path, const char* new_path) {
   
+  assert(old_path);
+  assert(new_path);
+  
   WCHAR* new_path_w;
   int32_t old_path_w_length;
   int32_t success;
   int32_t old_path_is_dir;
   DWORD create_flags;
-  
-  assert(old_path);
-  assert(new_path);
   
   int32_t error_id = 0;
   int32_t my_errno = 0;
@@ -1684,6 +1684,8 @@ int spvm_sys_windows_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_p
 
 SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* path) {
   
+  assert(path);
+  
   DWORD fileattr;
   char* link_text;
   SPVM_OBJ* obj_link_text;
@@ -1691,8 +1693,6 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
   int32_t PrintNameLength;
   int32_t PrintNameOffset;
   const WCHAR* PathBuffer;
-  
-  assert(path);
   
   int32_t error_id = 0;
   int32_t my_errno = 0;
@@ -1836,10 +1836,10 @@ SPVM_OBJ* spvm_sys_windows_getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   char* cwd;
   
-  SPVM_OBJ* obj_cwd = NULL;
-  
   int32_t error_id = 0;
   int32_t my_errno = 0;
+  
+  SPVM_OBJ* obj_cwd = NULL;
   
   WCHAR* cwd_w = _wgetcwd(NULL, 0);
   if (!cwd_w) {
@@ -1870,10 +1870,11 @@ SPVM_OBJ* spvm_sys_windows_getcwd(SPVM_ENV* env, SPVM_VALUE* stack) {
 SPVM_OBJ* spvm_sys_windows_getdcwd(SPVM_ENV* env, SPVM_VALUE* stack, int drive) {
   
   char* dcwd;
-  SPVM_OBJ* obj_dcwd = NULL;
   
   int32_t error_id = 0;
   int32_t my_errno = 0;
+  
+  SPVM_OBJ* obj_dcwd = NULL;
   
   WCHAR* dcwd_w = _wgetdcwd(drive, NULL, 0);
   if (!dcwd_w) {
