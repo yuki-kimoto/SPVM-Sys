@@ -186,6 +186,10 @@
   #define O_APPEND _O_APPEND
 #endif
 
+#ifndef WNOHANG
+  #define WNOHANG 0
+#endif
+
 // Exactly same as Perl's one in sys/errno2.h
 #ifndef EDQUOT
 #  define EDQUOT WSAEDQUOT
@@ -436,6 +440,8 @@ int spvm_sys_windows_access(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, 
 int spvm_sys_windows_truncate(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, int64_t length);
 
 int spvm_sys_windows_spawn_nowait(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, char *const argv[]);
+
+int spvm_sys_windows_waitpid(SPVM_ENV* env, SPVM_VALUE* stack, int process_id, int *status, int options);
 
 #ifdef __cplusplus
 } // extern "C"

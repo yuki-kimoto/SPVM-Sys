@@ -2092,6 +2092,60 @@ int spvm_sys_windows_spawn_nowait(SPVM_ENV* env, SPVM_VALUE* stack, const char* 
   return process_id;
 }
 
+int spvm_sys_windows_waitpid(SPVM_ENV* env, SPVM_VALUE* stack, int process_id, int *status, int options) {
+  
+  int32_t timeout;
+  int32_t wait_result;
+  
+  int32_t my_errno = 0;
+  int32_t ret_process_id = -1;
+  
+  // OpenProcess returns NULL on error.
+  HANDLE handle = NULL;
+  
+  handle = OpenProcess(PROCESS_QUERY_INFORMATION | SYNCHRONIZE, FALSE, process_id);
+  if (handle == NULL) {
+    my_errno = ESRCH;
+    env->die(env, stack, "[System Error]OpenProcess() failed. errno=%d(%s), process_id=%d.", __func__, FILE_NAME, __LINE__, my_errno, env->strerror_nolen(env, stack, my_errno), process_id);
+    goto END_OF_FUNC;
+  }
+  
+  timeout = (options & WNOHANG) ? 0 : INFINITE;
+  wait_result = WaitForSingleObject(handle, timeout);
+  
+  if (wait_result == WAIT_TIMEOUT) {
+    ret_process_id = 0;
+    goto END_OF_FUNC;
+  }
+  else if (wait_result != WAIT_OBJECT_0) {
+    my_errno = ECHILD;
+    env->die(env, stack, "[System Error]WaitForSingleObject() failed. errno=%d(%s), process_id=%d.", 
+             __func__, FILE_NAME, __LINE__, my_errno, env->strerror_nolen(env, stack, my_errno), process_id);
+    goto END_OF_FUNC;
+  }
+  
+  unsigned long exit_code;
+  if (!GetExitCodeProcess(handle, &exit_code)) {
+    my_errno = errno;
+    env->die(env, stack, "[System Error]GetExitCodeProcess() failed. errno=%d(%s), process_id=%d.", 
+             __func__, FILE_NAME, __LINE__, my_errno, env->strerror_nolen(env, stack, my_errno), process_id);
+    goto END_OF_FUNC;
+  }
+  
+  *status = exit_code;
+  
+  ret_process_id = process_id;
+
+END_OF_FUNC:
+  if (handle) {
+    CloseHandle(handle);
+  }
+  
+  errno = my_errno;
+  
+  return ret_process_id;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)
