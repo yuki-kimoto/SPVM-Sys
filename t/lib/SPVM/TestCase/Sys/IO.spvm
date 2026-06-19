@@ -411,24 +411,41 @@ class TestCase::Sys::IO {
       }
     }
     
+    # Sys#open
     {
-      my $file = "$test_dir_ftest/file_empty.txt";
-      my $stream_ref = [(Sys::IO::FileStream)undef];
-      Sys->open($stream_ref, "<", $file);
-      
-      unless ($stream_ref->[0]) {
-        return 0;
+      {
+        my $file = "$test_dir_ftest/file_empty.txt";
+        my $stream_ref = [(Sys::IO::FileStream)undef];
+        Sys->open($stream_ref, "<", $file);
+        
+        unless ($stream_ref->[0]) {
+          return 0;
+        }
       }
-    }
-    
-    {
-      my $file = "$test_tmp_dir/あいうえお.txt";
-      my $stream_ref = [(Sys::IO::FileStream)undef];
       
-      Sys->open($stream_ref, ">", $file);
+      {
+        my $file = "$test_tmp_dir/あいうえお.txt";
+        my $stream_ref = [(Sys::IO::FileStream)undef];
+        
+        Sys->open($stream_ref, ">", $file);
+        
+        unless ($stream_ref->[0]) {
+          return 0;
+        }
+        
+      }
       
-      unless ($stream_ref->[0]) {
-        return 0;
+      {
+        # Open same file twice as read mode
+        {
+          my $file = "$test_dir_ftest/file_empty.txt";
+          
+          Sys->open(my $_ = [(Sys::IO::FileStream)undef], "<", $file);
+          my $fh0 = $_->[0];
+          
+          Sys->open(my $_ = [(Sys::IO::FileStream)undef], "<", $file);
+          my $fh1 = $_->[0];
+        }
       }
       
     }
@@ -2582,6 +2599,7 @@ class TestCase::Sys::IO {
       });
       
       unless ($stream) {
+        diag;
         return 0;
       }
       
@@ -2591,6 +2609,7 @@ class TestCase::Sys::IO {
       {
         my $current_offset = Sys::IO->telldir($stream);
         unless ($current_offset == 0) {
+          diag;
           return 0;
         }
       }
@@ -2598,6 +2617,7 @@ class TestCase::Sys::IO {
       {
         my $current_offset = Sys->telldir($stream);
         unless ($current_offset == 0) {
+          diag;
           return 0;
         }
       }
@@ -2615,6 +2635,7 @@ class TestCase::Sys::IO {
       }
       
       unless ($check_file_count == 2) {
+        diag;
         return 0;
       }
     }
@@ -2636,6 +2657,7 @@ class TestCase::Sys::IO {
       
       if (Sys::OS->defined("__linux__")) {
         unless ($d_ino > 0) {
+          diag;
           return 0;
         }
       }
@@ -2645,6 +2667,7 @@ class TestCase::Sys::IO {
       if ($d_reclen_not_supported) {
         eval { $dirent->d_reclen; }
         unless ($@ && eval_error_id is_error Error::NotSupported) {
+          diag;
           return 0;
         }
       }
@@ -2653,6 +2676,7 @@ class TestCase::Sys::IO {
         warn "[Test Output]Sys::IO::Dirent:d_reclen:$d_reclen";
         if (Sys::OS->defined("__linux__")) {
           unless ($d_reclen > 0) {
+            diag;
             return 0;
           }
         }
@@ -2663,6 +2687,7 @@ class TestCase::Sys::IO {
       if ($d_type_not_supported) {
         eval { $dirent->d_type; }
         unless ($@ && eval_error_id is_error Error::NotSupported) {
+          diag;
           return 0;
         }
       }
@@ -2670,6 +2695,7 @@ class TestCase::Sys::IO {
         my $d_type = $dirent->d_type;
         warn "[Test Output]Sys::IO::Dirent:d_type:$d_type";
         unless ($d_type > 0) {
+          diag;
           return 0;
         }
       }
@@ -2679,6 +2705,7 @@ class TestCase::Sys::IO {
       if ($d_off_not_supported) {
         eval { $dirent->d_off; }
         unless ($@ && eval_error_id is_error Error::NotSupported) {
+          diag;
           return 0;
         }
       }
@@ -2686,6 +2713,7 @@ class TestCase::Sys::IO {
         my $d_off = $dirent->d_off;
         warn "[Test Output]Sys::IO::Dirent:d_off:$d_off";
         unless ($d_off > 0) {
+          diag;
           return 0;
         }
       }
