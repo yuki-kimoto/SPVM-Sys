@@ -1296,9 +1296,7 @@ int32_t SPVM__Sys__IO__opendir(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->pop_caller_stack(env, stack);
   
   if (!dir_stream) {
-    error_id = env->get_error_id(env, stack);
-    assert(error_id);
-    return error_id;
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #else
   MY_DIR* dir_stream = opendir(dir);
@@ -1366,9 +1364,7 @@ int32_t SPVM__Sys__IO__readdir(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->pop_caller_stack(env, stack);
   
   if (errno != 0) {
-    error_id = env->get_error_id(env, stack);
-    assert(error_id);
-    return error_id;
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #else
   MY_DIRENT* dirent = readdir(dirp);

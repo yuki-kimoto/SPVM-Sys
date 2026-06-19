@@ -228,11 +228,7 @@ int32_t SPVM__Sys__Time__clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = spvm_sys_windows_clock_gettime(env, stack, clk_id, st_tp);
   env->pop_caller_stack(env, stack);
   if (status == -1) {
-    error_id = env->get_error_id(env, stack);
-    if (error_id == 0) {
-      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-    }
-    return error_id;
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #else
   int32_t status = clock_gettime(clk_id, st_tp);
@@ -268,11 +264,7 @@ int32_t SPVM__Sys__Time__gettimeofday(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t status = spvm_sys_windows_gettimeofday(env, stack, st_tv, NULL);
   env->pop_caller_stack(env, stack);
   if (status == -1) {
-    error_id = env->get_error_id(env, stack);
-    if (error_id == 0) {
-      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-    }
-    return error_id;
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #else
   int32_t status = gettimeofday(st_tv, NULL);

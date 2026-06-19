@@ -45,11 +45,7 @@ int32_t SPVM__Sys__IO__DirStream__DESTROY(SPVM_ENV* env, SPVM_VALUE* stack) {
     env->pop_caller_stack(env, stack);
     
     if (status == -1) {
-      error_id = env->get_error_id(env, stack);
-      if (error_id == 0) {
-        error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-      }
-      return error_id;
+      return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
     }
 #else
     int32_t status = closedir(dir_stream);
