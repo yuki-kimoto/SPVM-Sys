@@ -1022,44 +1022,51 @@ int spvm_sys_windows_gettimeofday (SPVM_ENV* env, SPVM_VALUE* stack, SPVM_SYS_WI
   return 0;
 }
 
-int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clk_id, struct timespec *ts) {
-  /* Check null pointer */
-  if (ts == nullptr) {
-    errno = EINVAL;
-    return -1;
-  }
-
+int spvm_sys_windows_clock_gettime(SPVM_ENV* env, SPVM_VALUE* stack, int clock_id, struct timespec *ts) {
+  
+  int32_t status = -1;
+  int32_t my_errno = 0;
+  
+  assert(ts);
+  
+  std::chrono::seconds sec;
+  std::chrono::nanoseconds nsec;
+  
   std::chrono::nanoseconds duration;
-
-  /* clk_id is int32_t, so logic is identical on all compilers */
-  if (clk_id == CLOCK_MONOTONIC) {
-    /* Monotonic time */
+  
+  if (clock_id == CLOCK_MONOTONIC) {
     duration = std::chrono::steady_clock::now().time_since_epoch();
-  } else if (clk_id == CLOCK_REALTIME) {
-    /* Wall clock time */
+  }
+  else if (clock_id == CLOCK_REALTIME) {
     duration = std::chrono::system_clock::now().time_since_epoch();
-  } else {
-    /* Unsupported ID */
+  }
+  else {
     errno = EINVAL;
-    return -1;
+    my_errno = errno;
+    env->die(env, stack, "Invalid clock ID. $clock_id=%d", __func__, FILE_NAME, __LINE__, clock_id);
+    goto END_OF_FUNC;
   }
   
-  /* Convert to seconds and nanoseconds */
-  auto sec = std::chrono::duration_cast<std::chrono::seconds>(duration);
-  auto nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - sec);
-
-  /* Set to C struct */
+  sec = std::chrono::duration_cast<std::chrono::seconds>(duration);
+  nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(duration - sec);
+  
   ts->tv_sec = static_cast<time_t>(sec.count());
   ts->tv_nsec = static_cast<long>(nsec.count());
-
-  return 0;
+  
+  status = 0;
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return status;
 }
 
 int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct timespec* req, struct timespec* rem) {
   
   assert(req);
   
-  if (!req || req->tv_nsec < 0 || req->tv_nsec >= 1000000000) {
+  if (req->tv_nsec < 0 || req->tv_nsec >= 1000000000) {
     errno = EINVAL;
     return -1;
   }
