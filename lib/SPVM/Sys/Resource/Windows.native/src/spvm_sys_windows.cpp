@@ -909,45 +909,53 @@ static inline int lc_set_errno(int result)
 
 #define POW10_9                 1000000000
 
-int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, struct timespec *res)
-{
-    int32_t id = clock_id;
-
-    switch(id) {
-    case CLOCK_REALTIME:
-    case CLOCK_MONOTONIC:
-        {
-            LARGE_INTEGER pf;
-
-            if (QueryPerformanceFrequency(&pf) == 0)
-                return lc_set_errno(EINVAL);
-
-            res->tv_sec = 0;
-            res->tv_nsec = (int) ((POW10_9 + (pf.QuadPart >> 1)) / pf.QuadPart);
-            if (res->tv_nsec < 1)
-                res->tv_nsec = 1;
-
-            return 0;
-        }
-
-    case CLOCK_REALTIME_COARSE:
-    case CLOCK_PROCESS_CPUTIME_ID:
-    case CLOCK_THREAD_CPUTIME_ID:
-        {
-            DWORD   timeAdjustment, timeIncrement;
-            BOOL    isTimeAdjustmentDisabled;
-
-            (void) GetSystemTimeAdjustment(&timeAdjustment, &timeIncrement, &isTimeAdjustmentDisabled);
-            res->tv_sec = 0;
-            res->tv_nsec = timeIncrement * 100;
-
-            return 0;
-        }
-    default:
-        break;
+int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, struct timespec* res) {
+  
+  int32_t status = -1;
+  
+  int32_t id = clock_id;
+  
+  switch(id) {
+  case CLOCK_REALTIME:
+  case CLOCK_MONOTONIC: {
+    LARGE_INTEGER pf;
+    
+    if (QueryPerformanceFrequency(&pf) == 0) {
+      errno = EINVAL;
+      return status;
     }
-
-    return lc_set_errno(EINVAL);
+    
+    res->tv_sec = 0;
+    res->tv_nsec = (int) ((POW10_9 + (pf.QuadPart >> 1)) / pf.QuadPart);
+    if (res->tv_nsec < 1) {
+      res->tv_nsec = 1;
+    }
+    status = 0;
+    
+    return status;
+  }
+  
+  case CLOCK_REALTIME_COARSE:
+  case CLOCK_PROCESS_CPUTIME_ID:
+  case CLOCK_THREAD_CPUTIME_ID: {
+    DWORD   timeAdjustment, timeIncrement;
+    BOOL    isTimeAdjustmentDisabled;
+    
+    (void) GetSystemTimeAdjustment(&timeAdjustment, &timeIncrement, &isTimeAdjustmentDisabled);
+    res->tv_sec = 0;
+    res->tv_nsec = timeIncrement * 100;
+    
+    status = 0;
+    
+    return status;
+  }
+  default:
+    break;
+  }
+  
+  errno = EINVAL;
+  
+  return status;
 }
 
 unsigned int spvm_sys_windows_sleep(SPVM_ENV* env, SPVM_VALUE* stack, unsigned int seconds) {
