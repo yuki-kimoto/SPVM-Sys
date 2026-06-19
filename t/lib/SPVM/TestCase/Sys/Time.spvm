@@ -205,6 +205,92 @@ class TestCase::Sys::Time {
       unless ($tp->tv_nsec > 0) {
         return 0;
       }
+      
+      diag "[Test Output]clock_getres(CLOCK_REALTIME):" . $tp->tv_nsec;
+    }
+    
+    {
+      my $tp = Sys::Time::Timespec->new;
+      
+      my $status = Sys::Time->clock_getres(TIME->CLOCK_MONOTONIC, $tp);
+      
+      unless ($status == 0) {
+        diag $status;
+        return 0;
+      }
+      
+      unless ($tp->tv_sec == 0) {
+        return 0;
+      }
+      
+      unless ($tp->tv_nsec > 0) {
+        return 0;
+      }
+      
+      diag "[Test Output]clock_getres(CLOCK_MONOTONIC):" . $tp->tv_nsec;
+    }
+    
+    {
+      my $tp = Sys::Time::Timespec->new;
+      
+      my $status = Sys::Time->clock_getres(TIME->CLOCK_REALTIME_COARSE, $tp);
+      
+      unless ($status == 0) {
+        diag $status;
+        return 0;
+      }
+      
+      unless ($tp->tv_sec == 0) {
+        return 0;
+      }
+      
+      unless ($tp->tv_nsec > 0) {
+        return 0;
+      }
+      
+      diag "[Test Output]clock_getres(CLOCK_REALTIME_COARSE):" . $tp->tv_nsec;
+    }
+    
+    {
+      my $tp = Sys::Time::Timespec->new;
+      
+      my $status = Sys::Time->clock_getres(TIME->CLOCK_PROCESS_CPUTIME_ID, $tp);
+      
+      unless ($status == 0) {
+        diag $status;
+        return 0;
+      }
+      
+      unless ($tp->tv_sec == 0) {
+        return 0;
+      }
+      
+      unless ($tp->tv_nsec > 0) {
+        return 0;
+      }
+      
+      diag "[Test Output]clock_getres(CLOCK_PROCESS_CPUTIME_ID):" . $tp->tv_nsec;
+    }
+    
+    {
+      my $tp = Sys::Time::Timespec->new;
+      
+      my $status = Sys::Time->clock_getres(TIME->CLOCK_THREAD_CPUTIME_ID, $tp);
+      
+      unless ($status == 0) {
+        diag $status;
+        return 0;
+      }
+      
+      unless ($tp->tv_sec == 0) {
+        return 0;
+      }
+      
+      unless ($tp->tv_nsec > 0) {
+        return 0;
+      }
+      
+      diag "[Test Output]clock_getres(CLOCK_THREAD_CPUTIME_ID):" . $tp->tv_nsec;
     }
     
     return 1;
