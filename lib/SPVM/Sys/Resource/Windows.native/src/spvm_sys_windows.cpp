@@ -905,7 +905,9 @@ int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* pat
     goto END_OF_FUNC;
   }
   
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
   is_sym = spvm_sys_windows_is_symlink_by_handle(env, stack, handle);
+  env->pop_caller_stack(env, stack);
   if (is_sym) {
     SPVM_OBJ* obj_link_text = NULL;
     stack[0].oval = env->new_string(env, stack, path, strlen(path));
