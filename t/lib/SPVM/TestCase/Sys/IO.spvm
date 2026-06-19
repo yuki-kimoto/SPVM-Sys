@@ -446,8 +446,18 @@ class TestCase::Sys::IO {
           Sys->open(my $_ = [(Sys::IO::FileStream)undef], "<", $file);
           my $fh1 = $_->[0];
         }
+        
+        # Open same file twice as write mode
+        {
+          my $file = "$test_tmp_dir/sys_open_write_same_file.txt";
+          
+          Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+          my $fh0 = $_->[0];
+          
+          Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+          my $fh1 = $_->[0];
+        }
       }
-      
     }
     
     return 1;
