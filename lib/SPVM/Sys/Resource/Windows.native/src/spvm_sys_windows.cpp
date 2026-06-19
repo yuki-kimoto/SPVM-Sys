@@ -810,21 +810,23 @@ int32_t spvm_sys_windows_fstat(SPVM_ENV* env, SPVM_VALUE* stack, int fd, SPVM_SY
 
 int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT* st_stat) {
   
+  int32_t error_id = 0;
+  int32_t my_errno = 0;
   int32_t status = -1;
   
-  int32_t error_id = 0;
+  HANDLE handle = INVALID_HANDLE_VALUE;
   
   WCHAR* path_w = (WCHAR*)(WCHAR*)spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, path, &error_id, __func__, FILE_NAME, __LINE__);
   if (error_id) {
-    return error_id;
+    my_errno = errno;
+    goto END_OF_FUNC;
   }
   
-  HANDLE handle =
+  handle =
       CreateFileW(path_w, FILE_READ_ATTRIBUTES,
                   FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
                   NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
   
-  int32_t ReparseTag = 0;
   if (handle == INVALID_HANDLE_VALUE) {
     SPVM_OBJ* obj_resolved_link_text = NULL;
     {
@@ -832,6 +834,7 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
       stack[0].oval = env->new_string(env, stack, path, strlen(path));
       env->call_class_method_by_name(env, stack, "Sys::IO", "_follow_symlinks_to", 1, &error_id, __func__, FILE_NAME, __LINE__);
       if (error_id) {
+        my_errno = errno;
         goto END_OF_FUNC;
       }
       
@@ -841,22 +844,23 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
     
     WCHAR* resolved_link_text_w = (WCHAR*)spvm_sys_windows_utf8_to_win_wchar_wchars(env, stack, resolved_link_text, &error_id, __func__, FILE_NAME, __LINE__);
     if (error_id) {
-      return error_id;
+      my_errno = errno;
+      goto END_OF_FUNC;
     }
     
     handle = spvm_sys_windows_util_CreateFileW_reparse_point_for_read(resolved_link_text_w);
     
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
-      error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+      my_errno = errno;
+      env->die(env, stack, "[System Error]CreateFileW failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
     }
   }
   
   status = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
-  
   if (status == -1) {
-    error_id = SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+    my_errno = errno;
     goto END_OF_FUNC;
   }
   
@@ -866,15 +870,9 @@ int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
     CloseHandle(handle);
   }
   
-  if (error_id) {
-    if (errno) {
-      env->die(env, stack, "[System Error]spvm_sys_windows_stat() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
-    }
-    
-    return -1;
-  }
+  errno = my_errno;
   
-  return 0;
+  return status;
 }
 
 int32_t spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT *st_stat) {   

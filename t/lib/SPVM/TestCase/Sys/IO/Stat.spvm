@@ -17,6 +17,7 @@ class TestCase::Sys::IO::Stat {
       my $stat = Sys::IO::Stat->new;
       my $status = Sys::IO::Stat->stat($file, $stat);
       unless ($status == 0) {
+        diag;
         return 0;
       }
     }
@@ -28,6 +29,7 @@ class TestCase::Sys::IO::Stat {
       {
         eval { Sys::IO::Stat->stat("$file/not_found.txt", $stat); };
         unless (Fn->contains($@, "not_found.txt")) {
+          diag;
           return 0;
         }
       }
@@ -41,55 +43,68 @@ class TestCase::Sys::IO::Stat {
       Sys::IO::Stat->stat($file, $stat);
       
       unless ($stat->dev == $stat->st_dev) {
+        diag;
         return 0;
       }
       
       unless ($stat->ino == $stat->st_ino) {
+        diag;
         return 0;
       }
       
       unless ($stat->mode == $stat->st_mode) {
+        diag;
         return 0;
       }
       
       unless ($stat->nlink == $stat->st_nlink) {
+        diag;
         return 0;
       }
       
       unless ($stat->uid == $stat->st_uid) {
+        diag;
         return 0;
       }
       
       unless ($stat->gid == $stat->st_gid) {
+        diag;
         return 0;
       }
       
       unless ($stat->rdev == $stat->st_rdev) {
+        diag;
         return 0;
       }
       
       unless ($stat->size == $stat->st_size) {
+        diag;
         return 0;
       }
       
       unless ($stat->mtime == $stat->st_mtime) {
+        diag;
         return 0;
       }
       
       unless ($stat->atime == $stat->st_atime) {
+        diag;
         return 0;
       }
       
       unless ($stat->ctime == $stat->st_ctime) {
+        diag;
         return 0;
       }
       
       unless (Sys::OS->is_windows) {
         unless ($stat->blksize == $stat->st_blksize) {
+          diag;
           return 0;
         }
         
         unless ($stat->blocks == $stat->st_blocks) {
+          diag;
           return 0;
         }
       }
@@ -104,6 +119,7 @@ class TestCase::Sys::IO::Stat {
       my $stat = Sys::IO::Stat->new;
       my $status = Sys::IO::Stat->stat($file, $stat);
       unless ($status == 0) {
+        diag;
         return 0;
       }
     }
