@@ -158,11 +158,9 @@ int32_t SPVM__Sys__IO__Stat__fstat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   MY_STAT* st_stat = env->get_pointer(env, stack, obj_stat);
   
-  
 #if defined(_WIN32)
-  HANDLE handle = (HANDLE)_get_osfhandle(fd);
   env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  int32_t status = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
+  int32_t status = spvm_sys_windows_fstat(env, stack, fd, st_stat);
   env->pop_caller_stack(env, stack);
   
   if (status == -1) {
