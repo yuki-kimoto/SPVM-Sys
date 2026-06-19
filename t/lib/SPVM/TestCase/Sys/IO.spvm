@@ -2297,6 +2297,15 @@ class TestCase::Sys::IO {
       Sys::IO->truncate($file, 0);
     }
     
+    # Can truncate opened file.
+    {
+      my $file = "$test_tmp_dir/truncate_あ.txt";
+      
+      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      
+      Sys::IO->truncate($file, 0);
+    }
+    
     return 1;
   }
 
