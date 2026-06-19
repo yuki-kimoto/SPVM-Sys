@@ -198,7 +198,11 @@ class TestCase::Sys::Time {
         return 0;
       }
       
-      unless ($tp->tv_sec >= 0) {
+      unless ($tp->tv_sec == 0) {
+        return 0;
+      }
+      
+      unless ($tp->tv_nsec > 0) {
         return 0;
       }
     }
