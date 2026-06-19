@@ -449,4 +449,32 @@ class TestCase::Sys::Process {
     return 1;
   }
   
+  static method spawn_nowait : int () {
+    
+    my $perl_path = "perl";
+    
+    my $args = ["perl", "-v"];
+    
+    my $process_id = Sys::Process->spawn_nowait($perl_path, $args);
+    
+    unless ($process_id > 0) {
+      return 0;
+    }
+    
+    my $status = -1;
+    my $ret_pid = Sys::Process->waitpid($process_id, \$status, 0);
+    
+    unless ($ret_pid == $process_id) {
+      return 0;
+    }
+    
+    unless ($status == 0) {
+      return 0;
+    }
+    
+    warn;
+    
+    return 1;
+  }
+  
 }

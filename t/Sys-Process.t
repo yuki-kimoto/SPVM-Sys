@@ -150,6 +150,13 @@ warn "[Test Output]usleep";
 
 ok(SPVM::TestCase::Sys::Process->usleep);
 
+if ($^O eq 'MSWin32') {
+  ok(SPVM::TestCase::Sys::Process->spawn_nowait);
+}
+else {
+  diag "[Test Skip]spawn_nowait is not supported in this system.";
+}
+
 # Sys
 {
   # process_id

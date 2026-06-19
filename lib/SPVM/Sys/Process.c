@@ -259,33 +259,6 @@ int32_t SPVM__Sys__Process__setpriority(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
-int32_t SPVM__Sys__Process__wait(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-  env->die(env, stack, "Sys::Process#wait method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  
-  int32_t* wstatus_ref = stack[0].iref;
-  
-  if (!wstatus_ref) {
-    return env->die(env, stack, "The reference of the output wait status $wstatus_ref must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  int wstatus_int;
-  int32_t process_id = wait(&wstatus_int);
-  *wstatus_ref = wstatus_int;
-  
-  if (process_id == -1) {
-    env->die(env, stack, "[System Error]wait() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = process_id;
-  
-  return 0;
-#endif
-}
-
 int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t process_id = stack[0].ival;
@@ -317,6 +290,33 @@ int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
   stack[0].ival = ret_process_id;
   
   return 0;
+}
+
+int32_t SPVM__Sys__Process__wait(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if defined(_WIN32)
+  env->die(env, stack, "Sys::Process#wait method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  
+  int32_t* wstatus_ref = stack[0].iref;
+  
+  if (!wstatus_ref) {
+    return env->die(env, stack, "The reference of the output wait status $wstatus_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int wstatus_int;
+  int32_t process_id = wait(&wstatus_int);
+  *wstatus_ref = wstatus_int;
+  
+  if (process_id == -1) {
+    env->die(env, stack, "[System Error]wait() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = process_id;
+  
+  return 0;
+#endif
 }
 
 int32_t SPVM__Sys__Process__getpgid(SPVM_ENV* env, SPVM_VALUE* stack) {
