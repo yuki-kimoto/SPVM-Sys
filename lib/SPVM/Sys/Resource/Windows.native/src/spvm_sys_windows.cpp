@@ -782,9 +782,30 @@ int32_t spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDL
 
 int32_t spvm_sys_windows_fstat(SPVM_ENV* env, SPVM_VALUE* stack, int fd, SPVM_SYS_WINDOWS_STAT* st_stat) {
   
-  HANDLE handle = (HANDLE)_get_osfhandle(fd);
+  int32_t my_errno = 0;
+  int32_t status = -1;
   
-  return spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
+  HANDLE handle = (HANDLE)_get_osfhandle(fd);
+  if (handle == INVALID_HANDLE_VALUE) {
+    errno = EBADF;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]_get_osfhandle failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    goto END_OF_FUNC;
+  }
+  
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  status = spvm_sys_windows_fstat_by_handle(env, stack, handle, st_stat);
+  env->pop_caller_stack(env, stack);
+  if (status == -1) {
+    my_errno = errno;
+    goto END_OF_FUNC;
+  }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return status;
 }
 
 int32_t spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SPVM_SYS_WINDOWS_STAT* st_stat) {
