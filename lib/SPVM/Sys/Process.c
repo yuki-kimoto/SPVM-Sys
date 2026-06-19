@@ -489,3 +489,54 @@ int32_t SPVM__Sys__Process__WIFCONTINUED(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 
 }
+
+int32_t SPVM__Sys__Process__spawn_nowait(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  env->die(env, stack, "Sys::Process#spawn_nowait method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  int32_t error_id = 0;
+  
+  SPVM_OBJ* obj_path = stack[0].oval;
+  
+  SPVM_OBJ* obj_args = stack[1].oval;
+  
+  if (!obj_path) {
+    return env->die(env, stack, "The command path $path must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  const char* path = env->get_chars(env, stack, obj_path);
+  
+  if (!obj_args) {
+    return env->die(env, stack, "The command arguments $args must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t args_length = env->length(env, stack, obj_args);
+  char** argv = env->new_memory_block(env, stack, sizeof(char*) * (args_length + 1));
+  for (int32_t i = 0; i < args_length; i++) {
+    SPVM_OBJ* obj_arg = env->get_elem_object(env, stack, obj_args, i);
+    
+    if (!obj_arg) {
+      return env->die(env, stack, "The %dth element of the command arguments $args must be defined.", __func__, FILE_NAME, __LINE__, i);
+    }
+    
+    char* arg = (char*)env->get_chars(env, stack, obj_arg);
+    argv[i] = arg;
+  }
+  
+  assert(argv[args_length] == NULL);
+  
+  env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
+  int32_t process_id = spvm_sys_windows_spawn_nowait(env, stack, path, argv);
+  env->pop_caller_stack(env, stack);
+  
+  env->free_memory_block(env, stack, argv);
+  
+  if (process_id == -1) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = process_id;
+  
+  return 0;
+#endif
+}
