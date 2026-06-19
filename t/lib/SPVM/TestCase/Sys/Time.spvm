@@ -188,22 +188,24 @@ class TestCase::Sys::Time {
   
   static method clock_getres : int () {
     
-    my $tp = Sys::Time::Timespec->new;
-    
-    my $status = Sys::Time->clock_getres(TIME->CLOCK_REALTIME, $tp);
-    
-    unless ($status >= 0) {
-      return 0;
-    }
-    
-    unless ($tp->tv_sec >= 0) {
-      return 0;
+    {
+      my $tp = Sys::Time::Timespec->new;
+      
+      my $status = Sys::Time->clock_getres(TIME->CLOCK_REALTIME, $tp);
+      
+      unless ($status == 0) {
+        diag $status;
+        return 0;
+      }
+      
+      unless ($tp->tv_sec >= 0) {
+        return 0;
+      }
     }
     
     return 1;
   }
-
-
+  
   static method setitimer : int () {
     
     my $new_tv = Sys::Time::Timeval->new(1, 1);

@@ -912,48 +912,57 @@ static inline int lc_set_errno(int result)
 int spvm_sys_windows_clock_getres(SPVM_ENV* env, SPVM_VALUE* stack, int32_t clock_id, struct timespec* res) {
   
   int32_t status = -1;
+  int32_t my_errno = 0;
   
-  int32_t id = clock_id;
-  
-  switch(id) {
-  case CLOCK_REALTIME:
-  case CLOCK_MONOTONIC: {
-    LARGE_INTEGER pf;
-    
-    if (QueryPerformanceFrequency(&pf) == 0) {
+  switch(clock_id) {
+    case CLOCK_REALTIME:
+    case CLOCK_MONOTONIC: {
+      LARGE_INTEGER pf;
+      
+      if (QueryPerformanceFrequency(&pf) == 0) {
+        errno = EINVAL;
+        env->die(env, stack, "[System Error]QueryPerformanceFrequency() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+        goto END_OF_FUNC;
+      }
+      status = 0;
+      
+      res->tv_sec = 0;
+      res->tv_nsec = (int) ((POW10_9 + (pf.QuadPart >> 1)) / pf.QuadPart);
+      if (res->tv_nsec < 1) {
+        res->tv_nsec = 1;
+      }
+      break;
+    }
+    case CLOCK_REALTIME_COARSE:
+    case CLOCK_PROCESS_CPUTIME_ID:
+    case CLOCK_THREAD_CPUTIME_ID: {
+      DWORD   timeAdjustment, timeIncrement;
+      BOOL    isTimeAdjustmentDisabled;
+      
+      int32_t success = GetSystemTimeAdjustment(&timeAdjustment, &timeIncrement, &isTimeAdjustmentDisabled);
+      if (!success) {
+        errno = EINVAL;
+        env->die(env, stack, "[System Error]GetSystemTimeAdjustment() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+        goto END_OF_FUNC;
+      }
+      status = 0;
+      
+      res->tv_sec = 0;
+      res->tv_nsec = timeIncrement * 100;
+      
+      break;
+    }
+    default: {
       errno = EINVAL;
-      return status;
+      env->die(env, stack, "Invalid clock ID. $clock_id=%d", __func__, FILE_NAME, __LINE__, clock_id);
+      goto END_OF_FUNC;
+      break;
     }
-    
-    res->tv_sec = 0;
-    res->tv_nsec = (int) ((POW10_9 + (pf.QuadPart >> 1)) / pf.QuadPart);
-    if (res->tv_nsec < 1) {
-      res->tv_nsec = 1;
-    }
-    status = 0;
-    
-    return status;
   }
   
-  case CLOCK_REALTIME_COARSE:
-  case CLOCK_PROCESS_CPUTIME_ID:
-  case CLOCK_THREAD_CPUTIME_ID: {
-    DWORD   timeAdjustment, timeIncrement;
-    BOOL    isTimeAdjustmentDisabled;
-    
-    (void) GetSystemTimeAdjustment(&timeAdjustment, &timeIncrement, &isTimeAdjustmentDisabled);
-    res->tv_sec = 0;
-    res->tv_nsec = timeIncrement * 100;
-    
-    status = 0;
-    
-    return status;
-  }
-  default:
-    break;
-  }
+  END_OF_FUNC:
   
-  errno = EINVAL;
+  errno = my_errno;
   
   return status;
 }
