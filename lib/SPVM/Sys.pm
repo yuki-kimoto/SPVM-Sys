@@ -1473,13 +1473,15 @@ C<static method exec : void ($program_with_args : string[], $options : object[] 
 
 Executes the program with the arguments $program_with_args by using C<execvp>.
 
+The 1th argument of C<execvp> is $program_with_args->[0], the 2th argument is $program_with_args.
+
 Options:
 
 =over 2
 
 =item * C<program>
 
-A program to be run.
+A program to be run. The 1th argument of C<execvp>.
 
 =back
   
