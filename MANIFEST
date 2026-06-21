@@ -297,6 +297,7 @@ t/Sys-Time.t
 t/Sys-User.t
 t/Sys.t
 t/sys_exec.pl
+t/sys_exec_with_program.pl
 t/sys_exit.pl
 t/sys_process_execvp.pl
 t/Sys_symlink.t

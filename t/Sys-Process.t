@@ -127,6 +127,15 @@ else {
   }
 }
 
+{
+  {
+    my $exit_success_program = "$^X -Mblib $FindBin::Bin/sys_exec_with_program.pl";
+    my $output = `$exit_success_program`;
+    is($output, 'Hello abc');
+    ok($? >> 8 == POSIX::EXIT_SUCCESS);
+  }
+}
+
 # The exit status
 unless ($^O eq 'MSWin32') {
 
