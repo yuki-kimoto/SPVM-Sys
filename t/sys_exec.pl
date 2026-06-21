@@ -8,4 +8,4 @@ use SPVM 'TestCase::Sys::Process';
 
 my $program_file = "$FindBin::Bin/print_hello.pl";
 
-SPVM::TestCase::Sys::Process->exec_sys($^X, $program_file);
+SPVM::TestCase::Sys::Process->sys_exec($^X, $program_file);

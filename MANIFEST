@@ -239,7 +239,6 @@ MANIFEST.SKIP
 README.md
 t/00_Test-SPVM-Sys-Socket-Server-IP.t
 t/00_Test-SPVM-Sys-Socket-Server-UNIX.t
-t/execvp_success.pl
 t/exit_failure.pl
 t/exit_success.pl
 t/ftest/.gitattributes
@@ -299,4 +298,5 @@ t/Sys-User.t
 t/Sys.t
 t/sys_exec.pl
 t/sys_exit.pl
+t/sys_process_execvp.pl
 t/Sys_symlink.t

@@ -111,7 +111,7 @@ else {
 # The execvp method
 {
   {
-    my $exit_success_program = "$^X -Mblib $FindBin::Bin/execvp_success.pl";
+    my $exit_success_program = "$^X -Mblib $FindBin::Bin/sys_process_execvp.pl";
     my $output = `$exit_success_program`;
     is($output, 'Hello abc');
     ok($? >> 8 == POSIX::EXIT_SUCCESS);
