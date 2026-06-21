@@ -137,7 +137,7 @@ int32_t SPVM__Sys__Process__usleep(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Process__execvp(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t error_id = 0;
   
@@ -171,10 +171,10 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
   
 #if defined(_WIN32)
   env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  int32_t status = spvm_sys_windows_execv(env, stack, path, argv);
+  int32_t status = spvm_sys_windows_execvp(env, stack, path, argv);
   env->pop_caller_stack(env, stack);
 #else
-  int32_t status = execv(path, argv);
+  int32_t status = execvp(path, argv);
 #endif
 
   env->free_memory_block(env, stack, argv);
@@ -183,7 +183,7 @@ int32_t SPVM__Sys__Process__execv(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
 #else
-    env->die(env, stack, "[System Error]execv() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    env->die(env, stack, "[System Error]execvp() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
 #endif
   }

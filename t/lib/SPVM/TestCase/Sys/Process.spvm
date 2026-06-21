@@ -402,9 +402,9 @@ class TestCase::Sys::Process {
     return 1;
   }
   
-  static method execv_success : int ($perl_path : string, $program_file : string) {
+  static method execvp_success : int ($perl_path : string, $program_file : string) {
     my $args = [$perl_path, $program_file, "abc"];
-    Sys::Process->execv($perl_path, $args);
+    Sys::Process->execvp($perl_path, $args);
   }
   
   static method exec_sys : int ($perl_path : string, $program_file : string) {

@@ -108,10 +108,10 @@ else {
   is(getppid(), SPVM::Sys::Process->getppid);
 }
 
-# The execv method
+# The execvp method
 {
   {
-    my $exit_success_program = "$^X -Mblib $FindBin::Bin/execv_success.pl";
+    my $exit_success_program = "$^X -Mblib $FindBin::Bin/execvp_success.pl";
     my $output = `$exit_success_program`;
     is($output, 'Hello abc');
     ok($? >> 8 == POSIX::EXIT_SUCCESS);

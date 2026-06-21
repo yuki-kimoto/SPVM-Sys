@@ -1358,9 +1358,9 @@ class Sys {
       }
     }
     
-    my $execv_args = $exec_args_list->to_array;
+    my $execvp_args = $exec_args_list->to_array;
     
-    Sys::Process->execv($program, $execv_args);
+    Sys::Process->execvp($program, $execvp_args);
   }
   
   static method real_user_id : int () {

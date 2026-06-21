@@ -1110,7 +1110,7 @@ int spvm_sys_windows_nanosleep(SPVM_ENV* env, SPVM_VALUE* stack, const struct ti
   return status;
 }
 
-int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, char *const argv[]) {
+int spvm_sys_windows_execvp(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, char *const argv[]) {
   
   int32_t args_length;
   
@@ -1143,10 +1143,10 @@ int spvm_sys_windows_execv(SPVM_ENV* env, SPVM_VALUE* stack, const char *path, c
     argv_w[i] = arg_w;
   }
   
-  status = _wexecv(path_w, (const WCHAR *const *)argv_w);
+  status = _wexecvp(path_w, (const WCHAR *const *)argv_w);
   my_errno = errno;
   if (status == -1) {
-    env->die(env, stack, "[System Error]_wexecv() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    env->die(env, stack, "[System Error]_wexecvp() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     goto END_OF_FUNC;
   }
   

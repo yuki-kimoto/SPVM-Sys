@@ -19,7 +19,7 @@ class Sys::Process {
   
   native static method usleep : int ($usec : long);
   
-  native static method execv : int ($path : string, $args : string[]);
+  native static method execvp : int ($path : string, $args : string[]);
   
   native static method fork : int ();
   

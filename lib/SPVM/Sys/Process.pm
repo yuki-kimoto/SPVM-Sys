@@ -88,11 +88,11 @@ Calls the L<usleep|https://linux.die.net/man/3/usleep> function and returns its 
 
 If the usleep function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
-=head2 execv
+=head2 execvp
 
-C<static method execv : int ($path : string, $args : string[]);>
+C<static method execvp : int ($path : string, $args : string[]);>
 
-Calls the L<execv|https://linux.die.net/man/3/execv> function and returns its return value.
+Calls the L<execvp|https://linux.die.net/man/3/execvp> function and returns its return value.
 
 Exceptions:
 
@@ -102,7 +102,7 @@ $args must be defined. Otherwise an exception is thrown.
 
 All element of $args must be defined. Otherwise an exception is thrown.
 
-If the execv function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+If the execvp function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
 =head2 fork
 
