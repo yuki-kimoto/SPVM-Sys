@@ -1469,13 +1469,26 @@ Returns the process ID of the parent of the calling process.
 
 =head2 exec
 
-C<static method exec : void ($program : string, $args : string[] = undef);>
+C<static method exec : void ($program_with_args : string[], $options : object[] = undef);>
 
-Executes the program $program with the arguments $args without using shell and never returns.
+Executes the program with the arguments $program_with_args by using C<execvp>.
 
+Options:
+
+=over 2
+
+=item * C<program>
+
+A program to be run.
+
+=back
+  
+  
 Examples:
 
-  Sys->exec("/bin/echo", ["-n", "Hello"]);
+  Sys->exec(["/bin/echo", "-n", "Hello"]);
+
+  Sys->exec(["echo", "-n", "Hello"], {program => "/bin/echo"});
 
 =head2 real_user_id
 

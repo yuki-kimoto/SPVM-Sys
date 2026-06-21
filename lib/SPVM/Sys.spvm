@@ -1344,23 +1344,15 @@ class Sys {
     return $parent_process_id;
   }
   
-  static method exec : void ($program : string, $args : string[] = undef) {
+  static method exec : void ($args : string[], $options : object[] = undef) {
     
-    my $exec_args_list = StringList->new;
+    Fn->check_option_names($options, ["program"]);
     
-    $exec_args_list->push($program);
+    my $options = Fn->to_hash($options);
     
-    if ($args) {
-      for (my $i = 0; $i < @$args; $i++) {
-        my $arg = $args->[$i];
-        
-        $exec_args_list->push($arg);
-      }
-    }
+    my $program = $options->{"program"}->(string) // $args->[0];
     
-    my $execvp_args = $exec_args_list->to_array;
-    
-    Sys::Process->execvp($program, $execvp_args);
+    Sys::Process->execvp($program, $args);
   }
   
   static method real_user_id : int () {
