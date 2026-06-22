@@ -1,4 +1,7 @@
 0.571 2026-06-22
+  [Requirement Fix]
+    * SPVM requirement add both CONFIGURE_REQUIRES and PREREQ_PM.
+0.571 2026-06-22
   [Requirement Changes]
     * Require SPVM 0.990190.
     * Require SPVM::Errno 0.098.
