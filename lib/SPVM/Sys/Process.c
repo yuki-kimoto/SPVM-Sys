@@ -281,7 +281,7 @@ int32_t SPVM__Sys__Process__waitpid(SPVM_ENV* env, SPVM_VALUE* stack) {
 #else
   int32_t ret_process_id = waitpid(process_id, &wstatus_int, options);
   *wstatus_ref = wstatus_int;
-  if (process_id == -1) {
+  if (ret_process_id == -1) {
     env->die(env, stack, "[System Error]waitpid() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
