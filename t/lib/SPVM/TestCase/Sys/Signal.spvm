@@ -40,7 +40,6 @@ class TestCase::Sys::Signal {
   
   static method alarm : int () {
     
-    # TODO
     {
       my $rest_time = Sys::Signal->alarm(1000);
       unless ($rest_time == 0) {
@@ -60,9 +59,10 @@ class TestCase::Sys::Signal {
   
   static method ualarm : int () {
     
-    # TODO
+    Sys::Signal->signal(SIGNAL->SIGALRM, Sys::Signal->SIG_IGN);
+    
     {
-      my $rest_time = Sys::Signal->ualarm(100000, 0);
+      my $rest_time = Sys::Signal->ualarm(100_000, 0);
       unless ($rest_time == 0) {
         return 0;
       }
