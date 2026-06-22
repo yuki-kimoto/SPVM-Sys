@@ -1,49 +1,49 @@
 0.571 2026-06-22
-    [Requirement Changes]
-      * Require SPVM 0.990190.
-      * Require SPVM::Errno 0.098.
-      * Require SPVM::Math 1.010.
-      * Require SPVM::Resource::SocketUtil 1.006.
+  [Requirement Changes]
+    * Require SPVM 0.990190.
+    * Require SPVM::Errno 0.098.
+    * Require SPVM::Math 1.010.
+    * Require SPVM::Resource::SocketUtil 1.006.
+  
+  [New Features]
+    * Add Sys::Process#spawnvp_nowait method.
+    * Add many functions to spvm_sys_windows.c and use them.
+    * Support waitpid in Windows.
+  [Changes]
+    * Restore Sys::Socket#inet_ntoa in Windows.
+    * Use inet_pton to implement Sys::Socket#inet_aton.
+  [Test Improvement]
+    * Clean up tests.
+    * Add many tests.
+    * Add tests:Open same file twice as write mode.
+    * Add tests:Open same file twice as read mode.
+    * Add same file tests for Sys::IO#open.
+    * Enable ualarm tests in asan on linux.
+  [Fix tests]
+    * Skip some clock_gettime tests for mac.
+    * Improve ualarm tests. Ignore SIGALRM.
+    * Fix tests for Sys::Time#times. Fix #115.
+  [Internal Changes]
+    * Remove private methods in Sys class for Cwd.
+  [Exception Handling Improvement]
+    * Improve exception handling in spvm_sys_windows.c
+  [Incompatible Changes]
+    * Change declarations for Windows encoding conversion function for UTF-8 and WCHAR.
     
-    [New Features]
-      * Add Sys::Process#spawnvp_nowait method.
-      * Add many functions to spvm_sys_windows.c and use them.
-      * Support waitpid in Windows.
-    [Changes]
-      * Restore Sys::Socket#inet_ntoa in Windows.
-      * Use inet_pton to implement Sys::Socket#inet_aton.
-    [Test Improvement]
-      * Clean up tests.
-      * Add many tests.
-      * Add tests:Open same file twice as write mode.
-      * Add tests:Open same file twice as read mode.
-      * Add same file tests for Sys::IO#open.
-      * Enable ualarm tests in asan on linux.
-    [Fix tests]
-      * Skip some clock_gettime tests for mac.
-      * Improve ualarm tests. Ignore SIGALRM.
-      * Fix tests for Sys::Time#times. Fix #115.
-    [Internal Changes]
-      * Remove private methods in Sys class for Cwd.
-    [Exception Handling Improvement]
-      * Improve exception handling in spvm_sys_windows.c
-    [Incompatible Changes]
-      * Change declarations for Windows encoding conversion function for UTF-8 and WCHAR.
-      
-        SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
+      SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
-        const WCHAR* spvm_sys_windows_utf8_to_win_wchar_wchars(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
+      const WCHAR* spvm_sys_windows_utf8_to_win_wchar_wchars(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
-        SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* win_wchar_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
+      SPVM_OBJ* spvm_sys_windows_win_wchar_to_utf8(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* win_wchar_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
-        const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* win_wchar_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
+      const char* spvm_sys_windows_win_wchar_to_utf8_chars(SPVM_ENV* env, SPVM_VALUE* stack, const WCHAR* win_wchar_string, int32_t* error_id, const char* func_name, const char* file, int32_t line);
 
-        void spvm_sys_windows_set_errno_from_windows_last_error(int default_errno);
-     * Remove Sys::Process#execv and add Sys::Process#execvp and Sys#exec use execvp.
-     * Change Sys#exec arguments.
+      void spvm_sys_windows_set_errno_from_windows_last_error(int default_errno);
+   * Remove Sys::Process#execv and add Sys::Process#execvp and Sys#exec use execvp.
+   * Change Sys#exec arguments.
 
-        -  static method exec : void ($program : string, $args : string[] = undef) {
-        +  static method exec : void ($args : string[], $options : object[] = undef) {
+      -  static method exec : void ($program : string, $args : string[] = undef) {
+      +  static method exec : void ($args : string[], $options : object[] = undef) {
 
 0.570 2026-06-18
   [Fix Dependencies]

@@ -73,6 +73,9 @@ unless ($meta) {
 }
 $jobs //= 1;
 
+my %configure_requires_and_prereq_pm = (
+  'SPVM' => '0.990190',
+);
 WriteMakefile(
   NAME              => 'SPVM::Sys',
   VERSION_FROM      => 'lib/SPVM/Sys.pm',
@@ -103,9 +106,10 @@ WriteMakefile(
   },
   NORECURS => 1,
   CONFIGURE_REQUIRES => {
-    'SPVM' => '0.990190',
+    %configure_requires_and_prereq_pm,
   },
   PREREQ_PM => {
+    %configure_requires_and_prereq_pm,
     'SPVM::Errno' => '0.098',
     'SPVM::Math' => '1.010',
     'SPVM::Resource::SocketUtil' => '1.006',
