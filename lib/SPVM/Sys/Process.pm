@@ -256,6 +256,24 @@ C<static method WIFCONTINUED : int ($wstatus : int);>
 
 Calls the L<WIFCONTINUED|https://linux.die.net/man/2/waitpid> function and returns its return value.
 
+=head2 spawnvp_nowait
+
+C<static method spawnvp_nowait : int ($path : string, $args : string[]);>
+
+Calls the L<_wspawnvp|https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/spawnvp-wspawnvp> function with _P_NOWAIT mode and returns the process ID of the spawned process.
+
+Exceptions:
+
+$path must be defined. Otherwise an exception is thrown.
+
+$args must be defined. Otherwise an exception is thrown.
+
+All element of $args must be defined. Otherwise an exception is thrown.
+
+If _wspawnvp function failed, an exception is thrown with eval_error_id set to the basic type ID of the LError::System|SPVM::Error::System class.
+
+In systems other than Windows, the following exception is thrown with eval_error_id set to the basic type ID of LError::NotSupported|SPVM::Error::NotSupported class.
+
 =head1 See Also
 
 =over 2
