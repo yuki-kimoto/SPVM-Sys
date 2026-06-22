@@ -454,13 +454,13 @@ class TestCase::Sys::Process {
     return 1;
   }
   
-  static method spawn_nowait : int () {
+  static method spawnvp_nowait : int () {
     
     my $perl_path = "perl";
     
     my $args = ["perl", "-v"];
     
-    my $process_id = Sys::Process->spawn_nowait($perl_path, $args);
+    my $process_id = Sys::Process->spawnvp_nowait($perl_path, $args);
     
     unless ($process_id > 0) {
       return 0;

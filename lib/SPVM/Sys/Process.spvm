@@ -55,6 +55,6 @@ class Sys::Process {
   
   native static method WIFCONTINUED : int ($wstatus : int);
   
-  native static method spawn_nowait : int ($path : string, $args : string[]);
+  native static method spawnvp_nowait : int ($path : string, $args : string[]);
   
 }

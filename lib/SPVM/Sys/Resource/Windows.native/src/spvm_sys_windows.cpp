@@ -2028,7 +2028,7 @@ int spvm_sys_windows_truncate(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
   return status;
 }
 
-int spvm_sys_windows_spawn_nowait(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, char *const argv[]) {
+int spvm_sys_windows_spawnvp_nowait(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, char *const argv[]) {
   
   assert(path);
   assert(argv);

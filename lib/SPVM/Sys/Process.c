@@ -492,9 +492,9 @@ int32_t SPVM__Sys__Process__WIFCONTINUED(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 }
 
-int32_t SPVM__Sys__Process__spawn_nowait(SPVM_ENV* env, SPVM_VALUE* stack) {
+int32_t SPVM__Sys__Process__spawnvp_nowait(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if !defined(_WIN32)
-  env->die(env, stack, "Sys::Process#spawn_nowait method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+  env->die(env, stack, "Sys::Process#spawnvp_nowait method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
   int32_t error_id = 0;
@@ -528,7 +528,7 @@ int32_t SPVM__Sys__Process__spawn_nowait(SPVM_ENV* env, SPVM_VALUE* stack) {
   assert(argv[args_length] == NULL);
   
   env->push_caller_stack(env, stack, __func__, FILE_NAME, __LINE__ + 1);
-  int32_t process_id = spvm_sys_windows_spawn_nowait(env, stack, path, argv);
+  int32_t process_id = spvm_sys_windows_spawnvp_nowait(env, stack, path, argv);
   env->pop_caller_stack(env, stack);
   
   env->free_memory_block(env, stack, argv);
