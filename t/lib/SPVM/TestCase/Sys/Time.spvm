@@ -345,33 +345,28 @@ class TestCase::Sys::Time {
     
     my $tick = Sys::Time->times($buffer);
     
-    warn $tick;
-    
     unless ($tick >= 0) {
-      return 0;
-    }
-
-    warn $buffer->tms_utime;
-    
-    unless ($buffer->tms_utime > 0) {
+      diag $tick;
       return 0;
     }
     
-    warn $buffer->tms_stime;
+    unless ($buffer->tms_utime >= 0) {
+      diag $buffer->tms_utime;
+      return 0;
+    }
     
     unless ($buffer->tms_stime >= 0) {
+      diag $buffer->tms_stime;
       return 0;
     }
-    
-    warn $buffer->tms_cutime;
     
     unless ($buffer->tms_cutime >= 0) {
+      diag $buffer->tms_cutime;
       return 0;
     }
     
-    warn $buffer->tms_cstime;
-    
     unless ($buffer->tms_cstime >= 0) {
+      diag $buffer->tms_cstime;
       return 0;
     }
     
