@@ -1,3 +1,6 @@
+0.573 2026-06-29
+  [Test Fix]
+    *  Fix telldir tests for FreeBSD.
 0.572 2026-06-22
   [Requirement Fix]
     * SPVM requirement add both CONFIGURE_REQUIRES and PREREQ_PM.
