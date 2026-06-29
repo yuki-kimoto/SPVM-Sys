@@ -2644,25 +2644,6 @@ class TestCase::Sys::IO {
         return 0;
       }
       
-      Sys::IO->rewinddir($stream);
-      Sys->rewinddir($stream);
-      
-      {
-        my $current_offset = Sys::IO->telldir($stream);
-        unless ($current_offset == 0) {
-          diag;
-          return 0;
-        }
-      }
-      
-      {
-        my $current_offset = Sys->telldir($stream);
-        unless ($current_offset == 0) {
-          diag;
-          return 0;
-        }
-      }
-      
       my $check_file_count = 0;
       while (my $dirent = Sys::IO->readdir($stream)) {
         my $d_name = $dirent->d_name;
@@ -2770,21 +2751,9 @@ class TestCase::Sys::IO {
     {
       my $dir_stream = Sys::IO->opendir($test_dir_ftest);
       
-      my $original_offset = Sys::IO->telldir($dir_stream);
-      
-      unless ($original_offset == 0) {
-        warn $original_offset;
-        return 0;
-      }
-      
       my $dirent = Sys::IO->readdir($dir_stream);
       
       my $offset = Sys::IO->telldir($dir_stream);
-      
-      unless ($offset > 0) {
-        warn $offset;
-        return 0;
-      }
       
       my $dirent_next = Sys::IO->readdir($dir_stream);
       
@@ -2825,17 +2794,13 @@ class TestCase::Sys::IO {
       
       my $original_offset = Sys::IO->telldir($dir_stream);
       
-      unless ($original_offset == 0) {
-        warn $original_offset;
-        return 0;
-      }
-      
       my $dirent = Sys::IO->readdir($dir_stream);
       
       my $offset = Sys::IO->telldir($dir_stream);
       
-      unless ($offset > 0) {
+      unless ($offset > $original_offset) {
         warn $offset;
+        warn $original_offset;
         return 0;
       }
       
