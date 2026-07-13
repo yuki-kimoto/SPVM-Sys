@@ -52,12 +52,7 @@ class Sys::Socket {
   native static method closesocket : int ($fd : int);
   
   static method close : int ($fd : int) {
-    if (Sys::OS->is_windows) {
-      return Sys::Socket->closesocket($fd);
-    }
-    else {
-      return Sys::IO->close($fd);
-    }
+    return Sys::IO->close($fd);
   }
   
   native static method recv : int ($sockfd : int, $buf : mutable string, $len : int, $flags : int, $buf_offset : int = 0);

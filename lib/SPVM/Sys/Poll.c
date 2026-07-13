@@ -33,7 +33,14 @@ int32_t SPVM__Sys__Poll__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
   int32_t timeout = stack[2].ival;
   
 #if defined(_WIN32)
-  int32_t ready_count = WSAPoll(fds, nfds, timeout);
+  struct pollfd* socket_handles = env->new_memory_block(env, stack, sizeof(struct pollfd) * nfds);
+  memcpy(socket_handles, fds, sizeof(WSAPOLLFD) * nfds);
+  for (int32_t i = 0; i < nfds; i++) {
+    socket_handles[i].fd = (SOCKET)_get_osfhandle((int)fds[i].fd);
+  }
+  int32_t ready_count = WSAPoll(socket_handles, nfds, timeout);
+  
+  env->free_memory_block(env, stack, socket_handles);
 #else
   int32_t ready_count = poll(fds, nfds, timeout);
 #endif
@@ -43,6 +50,12 @@ int32_t SPVM__Sys__Poll__poll(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
+#if defined(_WIN32)
+  for (int32_t i = 0; i < nfds; i++) {
+    fds[i].revents = socket_handles[i].revents;
+  }
+#endif
+
   stack[0].ival = ready_count;
   
   return 0;

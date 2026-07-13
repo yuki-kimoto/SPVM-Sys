@@ -40,6 +40,13 @@ int32_t SPVM__Sys__Socket__socket(SPVM_ENV* env, SPVM_VALUE* stack) {
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
   
+#if defined(_WIN32)
+  sockfd = _open_osfhandle(sockfd, 0);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
   stack[0].ival = sockfd;
   
   return 0;
@@ -58,6 +65,13 @@ int32_t SPVM__Sys__Socket__connect(SPVM_ENV* env, SPVM_VALUE* stack) {
   const struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
   
   int32_t addrlen = stack[2].ival;
+  
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
   
   int32_t status = connect(sockfd, addr, addrlen);
   
@@ -84,6 +98,13 @@ int32_t SPVM__Sys__Socket__bind(SPVM_ENV* env, SPVM_VALUE* stack) {
   const struct sockaddr* addr = env->get_pointer(env, stack, obj_addr);
   
   int32_t addrlen = stack[2].ival;
+  
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
   
   int32_t status = bind(sockfd, addr, addrlen);
   
@@ -117,6 +138,13 @@ int32_t SPVM__Sys__Socket__accept(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   socklen_t sl_addrlen = *addrlen_ref;
   
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
   int32_t client_fd = accept(sockfd, addr, &sl_addrlen);
   
   if (client_fd == -1) {
@@ -137,6 +165,13 @@ int32_t SPVM__Sys__Socket__listen(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t backlog = stack[1].ival;
   
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
   int32_t status = listen(sockfd, backlog);
   
   if (status == -1) {
@@ -155,6 +190,13 @@ int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t how = stack[1].ival;
   
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
   int32_t status = shutdown(sockfd, how);
   
   if (status == -1) {
@@ -172,9 +214,16 @@ int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
   env->die(env, stack, "Sys::Socket#closesocket method is not supported in this system(!defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
   return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
 #else
-  int32_t s = stack[0].ival;
+  int32_t sockfd = stack[0].ival;
   
-  int32_t status = closesocket(s);
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
+  int32_t status = closesocket(sockfd);
   
   if (!(status == 0)) {
     env->die(env, stack, "[System Error]close() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
@@ -208,6 +257,13 @@ int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!(len <= buf_length - buf_offset)) {
     return env->die(env, stack, "The data length $len must be less than the length of the buffer $buf minus the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
+  
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
   
   int32_t read_length = recv(sockfd, buf + buf_offset, len, flags);
   
@@ -258,6 +314,13 @@ int32_t SPVM__Sys__Socket__recvfrom(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   socklen_t addrlen_ref_tmp = -1;
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
   int32_t read_length = recvfrom(sockfd, buf + buf_offset, len, flags, src_addr, &addrlen_ref_tmp);
   
   if (read_length == -1) {
@@ -293,6 +356,13 @@ int32_t SPVM__Sys__Socket__send(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!(len <= buf_length - buf_offset)) {
     return env->die(env, stack, "The data length $len must be less than the length of the buffer $buf minus the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
+  
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
   
   int32_t bytes_length = send(sockfd, buf + buf_offset, len, flags);
   
@@ -338,6 +408,13 @@ int32_t SPVM__Sys__Socket__sendto(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The data length $len must be less than the length of the buffer $buf minus the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
   int32_t bytes_length = sendto(sockfd, buf + buf_offset, len, flags, addr, addrlen);
   
   if (bytes_length == -1) {
@@ -369,6 +446,13 @@ int32_t SPVM__Sys__Socket__getpeername(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   socklen_t sl_addrlen = *addrlen_ref;
+  
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
   
   int32_t status = getpeername(sockfd, addr, &sl_addrlen);
   
@@ -403,6 +487,13 @@ int32_t SPVM__Sys__Socket__getsockname(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   socklen_t sl_addrlen = *addrlen_ref;
+  
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
   
   int32_t status = getsockname(sockfd, addr, &sl_addrlen);
   
@@ -445,6 +536,13 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   socklen_t optlen_tmp = *optlen_ref;
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
   int32_t status = getsockopt(sockfd, level, optname, optval, &optlen_tmp);
   
   if (status == -1) {
@@ -484,6 +582,13 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
   if (!(optlen <= optval_length)) {
     env->die(env, stack, "The length stored at index 0 of $optlen_ref must be less than or equal to the length of the option value $optval.", __func__, FILE_NAME, __LINE__);
   }
+  
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
   
   int32_t status = setsockopt(sockfd, level, optname, optval, optlen);
   
@@ -547,6 +652,13 @@ int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t sockfd = stack[0].ival;
   
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
   int32_t status = sockatmark(sockfd);
   
   if (status == -1) {
@@ -576,6 +688,13 @@ int32_t SPVM__Sys__Socket__win_set_tcp_keepalive(SPVM_ENV* env, SPVM_VALUE* stac
   settings.keepalivetime = (u_long)keepalivetime_ms;
   settings.keepaliveinterval = (u_long)keepaliveinterval_ms;
 
+#if defined(_WIN32)
+  sockfd = _get_osfhandle(sockfd);
+  if (sockfd == -1) {
+    abort();
+  }
+#endif
+  
   DWORD bytes_returned = 0;
   int status = WSAIoctl(
     (SOCKET)sockfd, 

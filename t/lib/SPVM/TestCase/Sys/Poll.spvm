@@ -36,7 +36,7 @@ class TestCase::Sys::Poll {
         Sys::Socket->close($no0_socket);
         return 0;
       }
-
+      
       # Socket
       my $no1_socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
 
@@ -78,13 +78,17 @@ class TestCase::Sys::Poll {
         my $ready_count_out = Sys::Poll->poll($fds, $fds->length, $timeout);
         
         unless ($ready_count_out == 2) {
+          diag;
           return 0;
         }
         
         unless ($fds->revents(0) & POLL->POLLOUT) {
+          diag;
           return 0;
         }
+        
         unless ($fds->revents(1) & POLL->POLLOUT) {
+          diag;
           return 0;
         }
       }
@@ -114,7 +118,7 @@ class TestCase::Sys::Poll {
       unless ($no0_status_shutdown == 0) {
         return 0;
       }
-
+      
       {
         my $no1_send_buffer = "abcd";
         
