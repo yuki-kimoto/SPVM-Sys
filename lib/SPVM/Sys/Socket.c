@@ -69,7 +69,8 @@ int32_t SPVM__Sys__Socket__connect(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -102,7 +103,8 @@ int32_t SPVM__Sys__Socket__bind(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -141,7 +143,8 @@ int32_t SPVM__Sys__Socket__accept(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -154,6 +157,13 @@ int32_t SPVM__Sys__Socket__accept(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   *addrlen_ref = sl_addrlen;
   
+#if defined(_WIN32)
+  client_fd = _open_osfhandle(client_fd, 0);
+  if (client_fd == -1) {
+    abort();
+  }
+#endif
+
   stack[0].ival = client_fd;
   
   return 0;
@@ -168,7 +178,8 @@ int32_t SPVM__Sys__Socket__listen(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -193,7 +204,8 @@ int32_t SPVM__Sys__Socket__shutdown(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -219,7 +231,8 @@ int32_t SPVM__Sys__Socket__closesocket(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -261,7 +274,8 @@ int32_t SPVM__Sys__Socket__recv(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -317,7 +331,8 @@ int32_t SPVM__Sys__Socket__recvfrom(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -360,7 +375,8 @@ int32_t SPVM__Sys__Socket__send(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -411,7 +427,8 @@ int32_t SPVM__Sys__Socket__sendto(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -450,7 +467,8 @@ int32_t SPVM__Sys__Socket__getpeername(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -491,7 +509,8 @@ int32_t SPVM__Sys__Socket__getsockname(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -539,7 +558,8 @@ int32_t SPVM__Sys__Socket__getsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -586,7 +606,8 @@ int32_t SPVM__Sys__Socket__setsockopt(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -655,7 +676,8 @@ int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   
@@ -691,7 +713,8 @@ int32_t SPVM__Sys__Socket__win_set_tcp_keepalive(SPVM_ENV* env, SPVM_VALUE* stac
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
-    abort();
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
 #endif
   

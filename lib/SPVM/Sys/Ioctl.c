@@ -110,6 +110,12 @@ int32_t SPVM__Sys__Ioctl__ioctlsocket(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   SPVM_OBJ* obj_request_arg_ref = stack[2].oval;
   
+  fd = _get_osfhandle(fd);
+  if (fd == -1) {
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, fd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
   if (!obj_request_arg_ref) {
     ret = ioctlsocket(fd, request, NULL);
   }

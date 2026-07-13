@@ -800,6 +800,8 @@ class TestCase::Sys::Socket {
       my $client_socket = -1;
       my $peer_address = Sys->accept(\$client_socket, $server_socket);
       
+      Sys->setsockopt($client_socket, Sys::Socket::Constant->IPPROTO_TCP, Sys::Socket::Constant->TCP_NODELAY, 1);
+      
       my $recv_buffer = (mutable string)new_string_len 1024;
       my $recv_length = Sys::Socket->recv($client_socket, $recv_buffer, length $recv_buffer, 0);
       
