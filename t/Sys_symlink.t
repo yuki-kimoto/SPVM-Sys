@@ -54,6 +54,11 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
   ok(SPVM::TestCase::Sys->readlink("$tmp_dir"));
 }
 
+{
+  my $tmp_dir = File::Temp->newdir;
+  ok(SPVM::TestCase::Sys::IO->readlink("$tmp_dir"));
+}
+
 # File Tests
 {
   my $file_not_exists = "t/ftest/not_exists.txt";

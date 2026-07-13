@@ -115,11 +115,6 @@ else {
   ok(SPVM::TestCase::Sys::IO->chown("$tmp_dir"));
 }
 
-{
-  my $tmp_dir = File::Temp->newdir;
-  ok(SPVM::TestCase::Sys::IO->readlink("$tmp_dir"));
-}
-
 ok(SPVM::TestCase::Sys::IO->readline);
 
 ok(SPVM::TestCase::Sys::IO->ungetc);
