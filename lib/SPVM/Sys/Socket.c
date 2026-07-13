@@ -25,231 +25,6 @@
 
 static const char* FILE_NAME = "Sys/Socket.c";
 
-int32_t SPVM__Sys__Socket__htonl(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t hostlong = stack[0].ival;
-  
-  int32_t netlong = htonl(hostlong);
-  
-  stack[0].ival = netlong;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__htons(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int16_t hostshort = stack[0].sval;
-  
-  int16_t netshort = htons(hostshort);
-  
-  stack[0].sval = netshort;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__ntohl(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t netlong = stack[0].ival;
-  
-  int32_t hostlong = ntohl(netlong);
-  
-  stack[0].ival = hostlong;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int16_t netshort = stack[0].sval;
-  
-  int16_t hostshort = htons(netshort);
-  
-  stack[0].sval = hostshort;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  SPVM_OBJ* obj_cp = stack[0].oval;
-  
-  SPVM_OBJ* obj_inp = stack[1].oval;
-  
-  if (!obj_cp) {
-    return env->die(env, stack, "The address string $cp must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  const char* cp = env->get_chars(env, stack, obj_cp);
-  
-  if (!obj_inp) {
-    return env->die(env, stack, "The address data structure $inp must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  struct in_addr* st_in_addr = env->get_pointer(env, stack, obj_inp);
-  
-  int32_t status = inet_pton(AF_INET, cp, st_in_addr);
-  
-  if (status == 0) {
-    env->die(env, stack, "The got address is not a valid network address.", __func__, FILE_NAME, __LINE__);
-    return InvalidNetworkAddress;
-  }
-  else if (status == -1) {
-    env->die(env, stack, "[System Error]inet_pton() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-static SPVM_OBJ* SPVM__Sys__Socket__inet_ntoa_thread_safe(SPVM_ENV* env, SPVM_VALUE* stack, struct in_addr in) {
-  
-  int32_t my_errno = 0;
-  SPVM_OBJ* obj_output_address = NULL;
-  
-  char addr_str[INET_ADDRSTRLEN];
-  
-  if (inet_ntop(AF_INET, &in, addr_str, sizeof(addr_str)) == NULL) {
-    my_errno = spvm_socket_errno();
-    env->die(env, stack, "[System Error]inet_ntop() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror_nolen(env, stack, spvm_socket_errno()));
-    goto END_OF_FUNC;
-  }
-  
-  obj_output_address = env->new_string_nolen(env, stack, addr_str);
-  
-  END_OF_FUNC:
-  
-  errno = my_errno;
-  
-  return obj_output_address;
-}
-
-int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
-  SPVM_OBJ* obj_in = stack[0].oval;
-  
-  if (!obj_in) {
-    return env->die(env, stack, "The address data structure $in must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  struct in_addr* in = env->get_pointer(env, stack, obj_in);
-  
-  SPVM_OBJ* obj_output_address = SPVM__Sys__Socket__inet_ntoa_thread_safe(env, stack, *in);
-  if (!obj_output_address) {
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].oval = obj_output_address;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &error_id, __func__, FILE_NAME, __LINE__);
-  if (error_id) { return error_id; }
-  
-  int32_t In_addr = env->get_basic_type_id(env, stack, "Sys::Socket::In_addr");
-  if (error_id) { return error_id; }
-  
-  int32_t In6_addr = env->get_basic_type_id(env, stack, "Sys::Socket::In6_addr");
-  if (error_id) { return error_id; }
-  
-  int32_t af = stack[0].ival;
-  
-  SPVM_OBJ* obj_src = stack[1].oval;
-  
-  SPVM_OBJ* obj_dst = stack[2].oval;
-  
-  if (!(af == AF_INET || af == AF_INET6)) {
-    return env->die(env, stack, "The address family $af must be AF_INET or AF_INET6.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  if (!obj_src) {
-    return env->die(env, stack, "The address string $src must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  const char* src = env->get_chars(env, stack, obj_src);
-  
-  if (!obj_dst) {
-    return env->die(env, stack, "The address data structure $dst must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  if (af == AF_INET) {
-    if (!env->is_type_by_name(env, stack, obj_dst, "Sys::Socket::In_addr", 0)) {
-      return env->die(env, stack, "The address data structure $dst must be the Sys::Socket::In_addr class.", __func__, FILE_NAME, __LINE__);
-    }
-  }
-  else if (af == AF_INET6) {
-    if (!env->is_type_by_name(env, stack, obj_dst, "Sys::Socket::In6_addr", 0)) {
-      return env->die(env, stack, "The address data structure $dst must be the Sys::Socket::In6_addr class.", __func__, FILE_NAME, __LINE__);
-    }
-  }
-  else {
-    return env->die(env, stack, "The type of The address data structure $dst is invalid.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  void* dst = env->get_pointer(env, stack, obj_dst);
-  
-  int32_t status = inet_pton(af, src, dst);
-  
-  if (status == 0) {
-    env->die(env, stack, "The got address is not a valid network address.", __func__, FILE_NAME, __LINE__);
-    return InvalidNetworkAddress;
-  }
-  else if (status == -1) {
-    env->die(env, stack, "[System Error]inet_pton() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t af = stack[0].ival;
-  
-  SPVM_OBJ* obj_src = stack[1].oval;
-  
-  SPVM_OBJ* obj_dst = stack[2].oval;
-  
-  int32_t size = stack[3].ival;
-  
-  if (!(af == AF_INET || af == AF_INET6)) {
-    return env->die(env, stack, "The address family $af must be AF_INET or AF_INET6.", __func__, FILE_NAME, __LINE__);
-  }
-  
-  if (!obj_src) {
-    return env->die(env, stack, "The address data structure $src must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  void* src = env->get_pointer(env, stack, obj_src);
-  
-  if (!obj_dst) {
-    return env->die(env, stack, "The address string $dst must be defined.", __func__, FILE_NAME, __LINE__);
-  }
-  char* dst = (char*)env->get_chars(env, stack, obj_dst);
-  
-  const char* dst_ret = inet_ntop(af, src, dst, size);
-  
-  if (!dst_ret) {
-    env->die(env, stack, "[System Error]inet_ntop() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].oval = obj_dst;
-  
-  return 0;
-}
-
 int32_t SPVM__Sys__Socket__socket(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t domain = stack[0].ival;
@@ -764,6 +539,289 @@ int32_t SPVM__Sys__Socket__socketpair(SPVM_ENV* env, SPVM_VALUE* stack) {
 #endif
 }
 
+int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if defined(_WIN32)
+    env->die(env, stack, "Sys::Socket#sockatmark method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  
+  int32_t sockfd = stack[0].ival;
+  
+  int32_t status = sockatmark(sockfd);
+  
+  if (status == -1) {
+    env->die(env, stack, "[System Error]sockatmark() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__Socket__win_set_tcp_keepalive(SPVM_ENV* env, SPVM_VALUE* stack) {
+#if !defined(_WIN32)
+  env->die(env, stack, "Sys::Socket#win_set_tcp_keepalive method is not supported in this system.", __func__, FILE_NAME, __LINE__);
+  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
+#else
+  
+  int32_t sockfd = stack[0].ival;
+  int32_t onoff = stack[1].ival;
+  int32_t keepalivetime_ms = stack[2].ival;
+  int32_t keepaliveinterval_ms = stack[3].ival;
+
+  struct tcp_keepalive settings;
+  settings.onoff = (u_long)onoff;
+  settings.keepalivetime = (u_long)keepalivetime_ms;
+  settings.keepaliveinterval = (u_long)keepaliveinterval_ms;
+
+  DWORD bytes_returned = 0;
+  int status = WSAIoctl(
+    (SOCKET)sockfd, 
+    SIO_KEEPALIVE_VALS, 
+    &settings, sizeof(settings), 
+    NULL, 0, 
+    &bytes_returned, 
+    NULL, NULL
+  );
+
+  if (status == SOCKET_ERROR) {
+    env->die(env, stack, "[System Error]WSAIoctl() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, WSAGetLastError(), spvm_socket_strerror(env, stack, WSAGetLastError(), 0));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = 0;
+  
+  return 0;
+#endif
+}
+
+int32_t SPVM__Sys__Socket__htonl(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t hostlong = stack[0].ival;
+  
+  int32_t netlong = htonl(hostlong);
+  
+  stack[0].ival = netlong;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__htons(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int16_t hostshort = stack[0].sval;
+  
+  int16_t netshort = htons(hostshort);
+  
+  stack[0].sval = netshort;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__ntohl(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t netlong = stack[0].ival;
+  
+  int32_t hostlong = ntohl(netlong);
+  
+  stack[0].ival = hostlong;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__ntohs(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int16_t netshort = stack[0].sval;
+  
+  int16_t hostshort = htons(netshort);
+  
+  stack[0].sval = hostshort;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__inet_aton(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  SPVM_OBJ* obj_cp = stack[0].oval;
+  
+  SPVM_OBJ* obj_inp = stack[1].oval;
+  
+  if (!obj_cp) {
+    return env->die(env, stack, "The address string $cp must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* cp = env->get_chars(env, stack, obj_cp);
+  
+  if (!obj_inp) {
+    return env->die(env, stack, "The address data structure $inp must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  struct in_addr* st_in_addr = env->get_pointer(env, stack, obj_inp);
+  
+  int32_t status = inet_pton(AF_INET, cp, st_in_addr);
+  
+  if (status == 0) {
+    env->die(env, stack, "The got address is not a valid network address.", __func__, FILE_NAME, __LINE__);
+    return InvalidNetworkAddress;
+  }
+  else if (status == -1) {
+    env->die(env, stack, "[System Error]inet_pton() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+static SPVM_OBJ* SPVM__Sys__Socket__inet_ntoa_thread_safe(SPVM_ENV* env, SPVM_VALUE* stack, struct in_addr in) {
+  
+  int32_t my_errno = 0;
+  SPVM_OBJ* obj_output_address = NULL;
+  
+  char addr_str[INET_ADDRSTRLEN];
+  
+  if (inet_ntop(AF_INET, &in, addr_str, sizeof(addr_str)) == NULL) {
+    my_errno = spvm_socket_errno();
+    env->die(env, stack, "[System Error]inet_ntop() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror_nolen(env, stack, spvm_socket_errno()));
+    goto END_OF_FUNC;
+  }
+  
+  obj_output_address = env->new_string_nolen(env, stack, addr_str);
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return obj_output_address;
+}
+
+int32_t SPVM__Sys__Socket__inet_ntoa(SPVM_ENV* env, SPVM_VALUE* stack) {
+  SPVM_OBJ* obj_in = stack[0].oval;
+  
+  if (!obj_in) {
+    return env->die(env, stack, "The address data structure $in must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  struct in_addr* in = env->get_pointer(env, stack, obj_in);
+  
+  SPVM_OBJ* obj_output_address = SPVM__Sys__Socket__inet_ntoa_thread_safe(env, stack, *in);
+  if (!obj_output_address) {
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].oval = obj_output_address;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__inet_pton(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t InvalidNetworkAddress = env->get_basic_type_id_by_name(env, stack, "Sys::Socket::Error::InetInvalidNetworkAddress", &error_id, __func__, FILE_NAME, __LINE__);
+  if (error_id) { return error_id; }
+  
+  int32_t In_addr = env->get_basic_type_id(env, stack, "Sys::Socket::In_addr");
+  if (error_id) { return error_id; }
+  
+  int32_t In6_addr = env->get_basic_type_id(env, stack, "Sys::Socket::In6_addr");
+  if (error_id) { return error_id; }
+  
+  int32_t af = stack[0].ival;
+  
+  SPVM_OBJ* obj_src = stack[1].oval;
+  
+  SPVM_OBJ* obj_dst = stack[2].oval;
+  
+  if (!(af == AF_INET || af == AF_INET6)) {
+    return env->die(env, stack, "The address family $af must be AF_INET or AF_INET6.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  if (!obj_src) {
+    return env->die(env, stack, "The address string $src must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  const char* src = env->get_chars(env, stack, obj_src);
+  
+  if (!obj_dst) {
+    return env->die(env, stack, "The address data structure $dst must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  if (af == AF_INET) {
+    if (!env->is_type_by_name(env, stack, obj_dst, "Sys::Socket::In_addr", 0)) {
+      return env->die(env, stack, "The address data structure $dst must be the Sys::Socket::In_addr class.", __func__, FILE_NAME, __LINE__);
+    }
+  }
+  else if (af == AF_INET6) {
+    if (!env->is_type_by_name(env, stack, obj_dst, "Sys::Socket::In6_addr", 0)) {
+      return env->die(env, stack, "The address data structure $dst must be the Sys::Socket::In6_addr class.", __func__, FILE_NAME, __LINE__);
+    }
+  }
+  else {
+    return env->die(env, stack, "The type of The address data structure $dst is invalid.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  void* dst = env->get_pointer(env, stack, obj_dst);
+  
+  int32_t status = inet_pton(af, src, dst);
+  
+  if (status == 0) {
+    env->die(env, stack, "The got address is not a valid network address.", __func__, FILE_NAME, __LINE__);
+    return InvalidNetworkAddress;
+  }
+  else if (status == -1) {
+    env->die(env, stack, "[System Error]inet_pton() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = status;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__Socket__inet_ntop(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t af = stack[0].ival;
+  
+  SPVM_OBJ* obj_src = stack[1].oval;
+  
+  SPVM_OBJ* obj_dst = stack[2].oval;
+  
+  int32_t size = stack[3].ival;
+  
+  if (!(af == AF_INET || af == AF_INET6)) {
+    return env->die(env, stack, "The address family $af must be AF_INET or AF_INET6.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  if (!obj_src) {
+    return env->die(env, stack, "The address data structure $src must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  void* src = env->get_pointer(env, stack, obj_src);
+  
+  if (!obj_dst) {
+    return env->die(env, stack, "The address string $dst must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  char* dst = (char*)env->get_chars(env, stack, obj_dst);
+  
+  const char* dst_ret = inet_ntop(af, src, dst, size);
+  
+  if (!dst_ret) {
+    env->die(env, stack, "[System Error]inet_ntop() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].oval = obj_dst;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack);
 
 int32_t SPVM__Sys__Socket__getaddrinfo(SPVM_ENV* env, SPVM_VALUE* stack) {
@@ -892,62 +950,3 @@ int32_t SPVM__Sys__Socket__gai_strerror(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 }
-
-int32_t SPVM__Sys__Socket__sockatmark(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if defined(_WIN32)
-    env->die(env, stack, "Sys::Socket#sockatmark method is not supported in this system(defined(_WIN32)).", __func__, FILE_NAME, __LINE__);
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  
-  int32_t sockfd = stack[0].ival;
-  
-  int32_t status = sockatmark(sockfd);
-  
-  if (status == -1) {
-    env->die(env, stack, "[System Error]sockatmark() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = status;
-  
-  return 0;
-#endif
-}
-
-int32_t SPVM__Sys__Socket__win_set_tcp_keepalive(SPVM_ENV* env, SPVM_VALUE* stack) {
-#if !defined(_WIN32)
-  env->die(env, stack, "Sys::Socket#win_set_tcp_keepalive method is not supported in this system.", __func__, FILE_NAME, __LINE__);
-  return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_NOT_SUPPORTED_CLASS;
-#else
-  
-  int32_t sockfd = stack[0].ival;
-  int32_t onoff = stack[1].ival;
-  int32_t keepalivetime_ms = stack[2].ival;
-  int32_t keepaliveinterval_ms = stack[3].ival;
-
-  struct tcp_keepalive settings;
-  settings.onoff = (u_long)onoff;
-  settings.keepalivetime = (u_long)keepalivetime_ms;
-  settings.keepaliveinterval = (u_long)keepaliveinterval_ms;
-
-  DWORD bytes_returned = 0;
-  int status = WSAIoctl(
-    (SOCKET)sockfd, 
-    SIO_KEEPALIVE_VALS, 
-    &settings, sizeof(settings), 
-    NULL, 0, 
-    &bytes_returned, 
-    NULL, NULL
-  );
-
-  if (status == SOCKET_ERROR) {
-    env->die(env, stack, "[System Error]WSAIoctl() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, WSAGetLastError(), spvm_socket_strerror(env, stack, WSAGetLastError(), 0));
-    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
-  }
-  
-  stack[0].ival = 0;
-  
-  return 0;
-#endif
-}
-
