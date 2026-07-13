@@ -1,3 +1,7 @@
+0.574 2026-07-13
+  [Incompatible Changes]
+    * Methods in Sys::Socket and Sys::IO::Ioctl class use fd created by _open_osfhandle instead of SOCKET value in all places.
+    
 0.573 2026-06-29
   [Test Fix]
     *  Fix telldir tests for FreeBSD.
