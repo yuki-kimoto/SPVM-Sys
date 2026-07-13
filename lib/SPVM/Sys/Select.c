@@ -66,7 +66,15 @@ int32_t SPVM__Sys__Select__FD_SET(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   fd_set* set = env->get_pointer(env, stack, obj_set);
   
-  FD_SET(_get_osfhandle(fd), set);
+#if defined(_WIN32)
+  fd = _get_osfhandle(fd);
+  if (fd == -1) {
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, fd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#endif
+
+  FD_SET(fd, set);
   
   return 0;
 }
@@ -91,7 +99,15 @@ int32_t SPVM__Sys__Select__FD_CLR(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   fd_set* set = env->get_pointer(env, stack, obj_set);
   
-  FD_CLR(_get_osfhandle(fd), set);
+#if defined(_WIN32)
+  fd = _get_osfhandle(fd);
+  if (fd == -1) {
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, fd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#endif
+  
+  FD_CLR(fd, set);
   
   return 0;
 }
@@ -116,7 +132,14 @@ int32_t SPVM__Sys__Select__FD_ISSET(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   fd_set* set = env->get_pointer(env, stack, obj_set);
   
-  int32_t isset = FD_ISSET(_get_osfhandle(fd), set);
+#if defined(_WIN32)
+  fd = _get_osfhandle(fd);
+  if (fd == -1) {
+    env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, fd);
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+#endif
+  int32_t isset = FD_ISSET(fd, set);
   
   stack[0].ival = isset;
   

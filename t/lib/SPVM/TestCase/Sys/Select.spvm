@@ -281,7 +281,7 @@ class TestCase::Sys::Select {
 
     {
       my $set = Sys::Select::Fd_set->new;
-      my $fd = SELECT->FD_SETSIZE - 1;
+      my $fd = 2;
       
       if (Sys::Select->FD_ISSET($fd, $set)) {
         return 0;
