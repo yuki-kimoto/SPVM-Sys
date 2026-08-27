@@ -34,7 +34,7 @@ $parallel_test = 1;
 my $build_dir = '.spvm_build';
 mkpath $build_dir;
 
-my $config_global_file = '.spvm_build/global.config';
+my $config_global_file = '.spvm_build/global.build';
 &generate_config_global_file($config_global_file, {
   cc            => $cc,
   ccflags       => \@ccflags,
