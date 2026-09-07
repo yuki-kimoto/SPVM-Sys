@@ -1077,6 +1077,11 @@ class Sys {
     
     Sys::Socket->socketpair($domain, $type, $protocol, $pair);
     
+    unless (Sys::OS->is_windows) {
+      Sys->fcntl($pair->[0], IO->F_SETFD, IO->FD_CLOEXEC);
+      Sys->fcntl($pair->[1], IO->F_SETFD, IO->FD_CLOEXEC);
+    }
+    
     $$socket_fd1_ref = $pair->[0];
     
     $$socket_fd2_ref = $pair->[1];
