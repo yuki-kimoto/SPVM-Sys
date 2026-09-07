@@ -214,6 +214,7 @@ ok(SPVM::TestCase::Sys::IO->freopen);
 ok(SPVM::TestCase::Sys::IO->access);
 ok(SPVM::TestCase::Sys::IO->dup);
 ok(SPVM::TestCase::Sys::IO->dup2);
+ok(SPVM::TestCase::Sys::IO->pipepair);
 
 # realpath
 {

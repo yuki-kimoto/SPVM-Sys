@@ -3134,4 +3134,9 @@ class TestCase::Sys::IO {
     return 1;
   }
   
+  static method pipepair : int () {
+    
+    return 1;
+  }
+  
 }
