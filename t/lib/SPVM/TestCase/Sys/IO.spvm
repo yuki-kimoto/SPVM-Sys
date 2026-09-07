@@ -3136,6 +3136,36 @@ class TestCase::Sys::IO {
   
   static method pipepair : int () {
     
+    # Blocking
+    {
+      my $read_fd = -1;
+      my $write_fd = -1;
+      Sys::IO->pipepair(\$read_fd, \$write_fd);
+      
+      my $out_bytes = "Hello, SPVM pipepair!";
+      my $written = Sys->syswrite($write_fd, $out_bytes, length($out_bytes));
+      unless ($written == length($out_bytes)) {
+        diag;
+        return 0;
+      }
+      
+      my $in_bytes = new_string_len length($out_bytes);
+      my $read = Sys->sysread($read_fd, $in_bytes, length($out_bytes));
+      
+      unless ($read == length($out_bytes)) {
+        diag;
+        return 0;
+      }
+      
+      unless ($in_bytes eq $out_bytes) {
+        diag;
+        return 0;
+      }
+      
+      Sys::IO->close($read_fd);
+      Sys::IO->close($write_fd);
+    }
+    
     return 1;
   }
   
