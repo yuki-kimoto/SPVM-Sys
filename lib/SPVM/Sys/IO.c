@@ -1790,7 +1790,7 @@ int32_t SPVM__Sys__IO__pipepair(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   HANDLE hWrite = CreateFileA(
     pipename,
-    GENERIC_WRITE,
+    GENERIC_READ | GENERIC_WRITE,
     0,
     &sa,
     OPEN_EXISTING,
