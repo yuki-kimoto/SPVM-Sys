@@ -772,6 +772,42 @@ Exceptions:
 
 If dup2 function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+=head2 pipepair
+
+C<static method pipepair : void ($read_fd_ref : int*, $write_fd_ref : int*, $non_blocking : int = 0);>
+
+Generates a pair of connected sockets or named pipes for bidirectional communication.
+
+On Unix-like systems, it uses the L<socketpair|https://linux.die.net/man/2/socketpair> function with TCP stream sockets.
+
+On Windows, it emulates the functionality using named pipes with securely generated unique names.
+
+Arguments:
+
+=over 4
+
+=item * $read_fd_ref
+
+A reference to an integer where the read file descriptor will be stored.
+
+=item * $write_fd_ref
+
+A reference to an integer where the write file descriptor will be stored.
+
+=item * $non_blocking
+
+If true, sets both file descriptors to non-blocking mode. The default is 0 (blocking mode).
+
+=back
+
+Exceptions:
+
+C<$read_fd_ref> must be defined. Otherwise an exception is thrown.
+
+C<$write_fd_ref> must be defined. Otherwise an exception is thrown.
+
+If the pipepair generation failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head1 See Also
 
 =over 2
@@ -785,4 +821,3 @@ If dup2 function failed, an exception is thrown with C<eval_error_id> set to the
 Copyright (c) 2023 Yuki Kimoto
 
 MIT License
-
