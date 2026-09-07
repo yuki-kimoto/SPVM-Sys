@@ -1250,6 +1250,8 @@ The opened writing file descripor is set to the value referenced by $socket_fd2_
 
 This method calls L<Sys::Socket#socketpair|SPVM::Sys::Socket/"socketpair"> method .
 
+If the system supports C<FD_CLOEXEC>, this flag is set to $$socket_fd1_ref and $$socket_fd2_ref using L</"fcntl">.
+
 Exceptions:
 
 Exceptions thrown by L<Sys::Socket#socketpair|SPVM::Sys::Socket/"socketpair"> method could be thrown.
