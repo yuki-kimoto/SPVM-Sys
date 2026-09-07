@@ -3142,22 +3142,22 @@ class TestCase::Sys::IO {
       my $write_fd = -1;
       Sys::IO->pipepair(\$read_fd, \$write_fd);
       
-      my $out_bytes = "Hello, SPVM pipepair!";
-      my $written = Sys->syswrite($write_fd, $out_bytes, length($out_bytes));
-      unless ($written == length($out_bytes)) {
+      my $write_data = "Hello, SPVM pipepair!";
+      my $write_length = Sys->syswrite($write_fd, $write_data, length($write_data));
+      unless ($write_length == length($write_data)) {
         diag;
         return 0;
       }
       
-      my $in_bytes = new_string_len length($out_bytes);
-      my $read = Sys->sysread($read_fd, $in_bytes, length($out_bytes));
+      my $read_data = new_string_len length($write_data);
+      my $read_length = Sys->sysread($read_fd, $read_data, length($write_data));
       
-      unless ($read == length($out_bytes)) {
+      unless ($read_length == length($write_data)) {
         diag;
         return 0;
       }
       
-      unless ($in_bytes eq $out_bytes) {
+      unless ($read_data eq $write_data) {
         diag;
         return 0;
       }
