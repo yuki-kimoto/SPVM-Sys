@@ -19,6 +19,7 @@
   #include <dirent.h>
   #define MY_DIR DIR
   #define MY_DIRENT struct dirent
+  #include <sys/socket.h>
 #endif
 
 #include <stdio.h>
@@ -1725,4 +1726,102 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   return 0;
 #endif
+}
+
+int32_t SPVM__Sys__IO__pipepair(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t* read_fd_ref = stack[0].iref;
+  
+  int32_t* write_fd_ref = stack[1].iref;
+  
+  int32_t non_blocking = stack[2].ival;
+  
+  if (!read_fd_ref) {
+    return env->die(env, stack, "$read_fd_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  if (!write_fd_ref) {
+    return env->die(env, stack, "$write_fd_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+#ifdef _WIN32
+  // Generate secure GUID for named pipe
+  char pipename[128];
+  GUID guid;
+  if (CoCreateGuid(&guid) != S_OK) {
+    return env->die(env, stack, "CoCreateGuid failed.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  snprintf(
+    pipename,
+    sizeof(pipename),
+    "\\\\.\\pipe\\spvm-pipe-%08lX-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X",
+    guid.Data1, guid.Data2, guid.Data3,
+    guid.Data4[0], guid.Data4[1], guid.Data4[2], guid.Data4[3],
+    guid.Data4[4], guid.Data4[5], guid.Data4[6], guid.Data4[7]
+  );
+  
+  // Enable handle inheritance
+  SECURITY_ATTRIBUTES sa;
+  sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+  sa.lpSecurityDescriptor = NULL;
+  sa.bInheritHandle = TRUE;
+  
+  DWORD open_mode = PIPE_ACCESS_DUPLEX | FILE_FLAG_FIRST_PIPE_INSTANCE;
+  DWORD pipe_mode = PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT;
+  DWORD file_flags = 0;
+  if (non_blocking) {
+    file_flags |= FILE_FLAG_OVERLAPPED;
+  }
+  
+  HANDLE hRead = CreateNamedPipeA(
+    pipename,
+    open_mode,
+    pipe_mode,
+    1,
+    4096,
+    4096,
+    0,
+    &sa
+  );
+  if (hRead == INVALID_HANDLE_VALUE) {
+    return env->die(env, stack, "CreateNamedPipe failed.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  HANDLE hWrite = CreateFileA(
+    pipename,
+    GENERIC_WRITE,
+    0,
+    &sa,
+    OPEN_EXISTING,
+    FILE_ATTRIBUTE_NORMAL | file_flags,
+    NULL
+  );
+  if (hWrite == INVALID_HANDLE_VALUE) {
+    CloseHandle(hRead);
+    return env->die(env, stack, "CreateFile for named pipe failed.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  *read_fd_ref = _open_osfhandle((intptr_t)hRead, 0);
+  *write_fd_ref = _open_osfhandle((intptr_t)hWrite, 0);
+#else
+  // Create socketpair for Unix systems
+  int fds[2];
+  int type = SOCK_STREAM;
+  if (socketpair(AF_UNIX, type, 0, fds) < 0) {
+    return env->die(env, stack, "socketpair failed.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  if (non_blocking) {
+    int flags = fcntl(fds[0], F_GETFL, 0);
+    fcntl(fds[0], F_SETFL, flags | O_NONBLOCK);
+    flags = fcntl(fds[1], F_GETFL, 0);
+    fcntl(fds[1], F_SETFL, flags | O_NONBLOCK);
+  }
+  
+  *read_fd_ref = fds[0];
+  *write_fd_ref = fds[1];
+#endif
+
+  return 0;
 }
