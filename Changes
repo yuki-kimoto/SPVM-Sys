@@ -1,3 +1,7 @@
+0.577 2026-09-07
+  [Bug Fix]
+    * Fixed a bug in Sys#pipepair and Sys::IO#pipepair on Windows where one of the file descriptors was created as write-only and did not support reading. It is now opened with GENERIC_READ | GENERIC_WRITE to ensure proper full-duplex communication.
+    
 0.576 2026-09-07
   [Release Summary]
     * This release introduces the Sys#pipepair method, which creates a pair of connected, bidirectional anonymous pipes supporting non-blocking I/O. On Unix-like systems, it leverages native socketpair with specified streams, while on Windows, it emulates anonymous pipes using securely named named pipes generated via GUIDs.
