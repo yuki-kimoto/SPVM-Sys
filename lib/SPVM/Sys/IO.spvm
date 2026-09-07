@@ -244,6 +244,6 @@ class Sys::IO {
     return $resolved_path;
   }
   
-  native static method pipepair : void ($read_fd_ref : int*, $write_fd_ref : int*, $non_bloking : int = 0);
+  native static method pipepair : void ($fd1_ref : int*, $fd2_ref : int*, $non_bloking : int = 0);
   
 }

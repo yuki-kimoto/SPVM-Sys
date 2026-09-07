@@ -1738,13 +1738,13 @@ See L<Sys::IO::Glob#bsd_glob|SPVM::Sys::IO::Glob/"bsd_glob"> in detail.
 
 =head2 pipepair
 
-C<static method pipepair : void ($read_fd_ref : int*, $write_fd_ref : int*, $non_blocking : int = 0);>
+C<static method pipepair : void ($fd1_ref : int*, $fd2_ref : int*, $non_blocking : int = 0);>
 
 Generates a pair of connected sockets or named pipes for bidirectional communication.
 
 See L<Sys::IO#pipepair|SPVM::Sys::IO/"pipepair"> in detail.
 
-If the system supports C<FD_CLOEXEC>, this flag is set to $$read_fd_ref and $$read_fd_ref using L</"fcntl">.
+If the system supports C<FD_CLOEXEC>, this flag is set to $$fd1_ref and $$fd1_ref using L</"fcntl">.
 
 =head1 Modules
 

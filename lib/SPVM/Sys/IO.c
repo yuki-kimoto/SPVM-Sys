@@ -1730,18 +1730,18 @@ int32_t SPVM__Sys__IO__faccessat(SPVM_ENV* env, SPVM_VALUE* stack) {
 
 int32_t SPVM__Sys__IO__pipepair(SPVM_ENV* env, SPVM_VALUE* stack) {
   
-  int32_t* read_fd_ref = stack[0].iref;
+  int32_t* fd1_ref = stack[0].iref;
   
-  int32_t* write_fd_ref = stack[1].iref;
+  int32_t* fd2_ref = stack[1].iref;
   
   int32_t non_blocking = stack[2].ival;
   
-  if (!read_fd_ref) {
-    return env->die(env, stack, "$read_fd_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!fd1_ref) {
+    return env->die(env, stack, "$fd1_ref must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
-  if (!write_fd_ref) {
-    return env->die(env, stack, "$write_fd_ref must be defined.", __func__, FILE_NAME, __LINE__);
+  if (!fd2_ref) {
+    return env->die(env, stack, "$fd2_ref must be defined.", __func__, FILE_NAME, __LINE__);
   }
   
 #ifdef _WIN32
@@ -1802,8 +1802,8 @@ int32_t SPVM__Sys__IO__pipepair(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "CreateFile for named pipe failed.", __func__, FILE_NAME, __LINE__);
   }
   
-  *read_fd_ref = _open_osfhandle((intptr_t)hRead, 0);
-  *write_fd_ref = _open_osfhandle((intptr_t)hWrite, 0);
+  *fd1_ref = _open_osfhandle((intptr_t)hRead, 0);
+  *fd2_ref = _open_osfhandle((intptr_t)hWrite, 0);
 #else
   // Create socketpair for Unix systems
   int fds[2];
@@ -1819,8 +1819,8 @@ int32_t SPVM__Sys__IO__pipepair(SPVM_ENV* env, SPVM_VALUE* stack) {
     fcntl(fds[1], F_SETFL, flags | O_NONBLOCK);
   }
   
-  *read_fd_ref = fds[0];
-  *write_fd_ref = fds[1];
+  *fd1_ref = fds[0];
+  *fd2_ref = fds[1];
 #endif
 
   return 0;

@@ -774,7 +774,7 @@ If dup2 function failed, an exception is thrown with C<eval_error_id> set to the
 
 =head2 pipepair
 
-C<static method pipepair : void ($read_fd_ref : int*, $write_fd_ref : int*, $non_blocking : int = 0);>
+C<static method pipepair : void ($fd1_ref : int*, $fd2_ref : int*, $non_blocking : int = 0);>
 
 Generates a pair of connected sockets or named pipes for bidirectional communication.
 
@@ -786,11 +786,11 @@ Arguments:
 
 =over 4
 
-=item * $read_fd_ref
+=item * $fd1_ref
 
 A reference to an integer where the read file descriptor will be stored.
 
-=item * $write_fd_ref
+=item * $fd2_ref
 
 A reference to an integer where the write file descriptor will be stored.
 
@@ -802,9 +802,9 @@ If true, sets both file descriptors to non-blocking mode. The default is 0 (bloc
 
 Exceptions:
 
-C<$read_fd_ref> must be defined. Otherwise an exception is thrown.
+C<$fd1_ref> must be defined. Otherwise an exception is thrown.
 
-C<$write_fd_ref> must be defined. Otherwise an exception is thrown.
+C<$fd2_ref> must be defined. Otherwise an exception is thrown.
 
 If the pipepair generation failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 

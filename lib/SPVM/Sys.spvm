@@ -1539,13 +1539,13 @@ class Sys {
     return Sys::IO::Glob->bsd_glob($pattern);
   }
   
-  static method pipepair : void ($read_fd_ref : int*, $write_fd_ref : int*, $non_bloking : int = 0) {
+  static method pipepair : void ($fd1_ref : int*, $fd2_ref : int*, $non_bloking : int = 0) {
     
-    Sys::IO->pipepair($read_fd_ref, $write_fd_ref, $non_bloking);
+    Sys::IO->pipepair($fd1_ref, $fd2_ref, $non_bloking);
     
     unless (Sys::OS->is_windows) {
-      Sys->fcntl($$read_fd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
-      Sys->fcntl($$write_fd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+      Sys->fcntl($$fd1_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+      Sys->fcntl($$fd2_ref, IO->F_SETFD, IO->FD_CLOEXEC);
     }
   }
   
