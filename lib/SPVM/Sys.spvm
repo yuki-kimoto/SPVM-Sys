@@ -1539,4 +1539,14 @@ class Sys {
     return Sys::IO::Glob->bsd_glob($pattern);
   }
   
+  static method pipepair : void ($read_fd_ref : int*, $write_fd_ref : int*, $non_bloking : int = 0) {
+    
+    Sys::IO->pipepair($read_fd_ref, $write_fd_ref, $non_bloking);
+    
+    unless (Sys::OS->is_windows) {
+      Sys->fcntl($$read_fd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+      Sys->fcntl($$write_fd_ref, IO->F_SETFD, IO->FD_CLOEXEC);
+    }
+  }
+  
 }
