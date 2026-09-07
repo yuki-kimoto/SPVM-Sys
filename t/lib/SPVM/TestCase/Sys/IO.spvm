@@ -3166,6 +3166,37 @@ class TestCase::Sys::IO {
       Sys::IO->close($write_fd);
     }
     
+    # Non-Blocking
+    {
+      my $read_fd = -1;
+      my $write_fd = -1;
+      my $non_blocking = 1;
+      Sys::IO->pipepair(\$read_fd, \$write_fd, $non_blocking);
+      
+      my $write_data = "Hello, SPVM pipepair!";
+      my $write_length = Sys->syswrite($write_fd, $write_data, length($write_data));
+      unless ($write_length == length($write_data)) {
+        diag;
+        return 0;
+      }
+      
+      my $read_data = new_string_len length($write_data);
+      my $read_length = Sys->sysread($read_fd, $read_data, length($write_data));
+      
+      unless ($read_length == length($write_data)) {
+        diag;
+        return 0;
+      }
+      
+      unless ($read_data eq $write_data) {
+        diag;
+        return 0;
+      }
+      
+      Sys::IO->close($read_fd);
+      Sys::IO->close($write_fd);
+    }
+    
     return 1;
   }
   
