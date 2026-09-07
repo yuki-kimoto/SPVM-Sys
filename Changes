@@ -1,3 +1,12 @@
+0.576 2026-09-07
+  [Release Summary]
+    * This release introduces the Sys#pipepair method, which creates a pair of connected, bidirectional anonymous pipes supporting non-blocking I/O. On Unix-like systems, it leverages native socketpair with specified streams, while on Windows, it emulates anonymous pipes using securely named named pipes generated via GUIDs.
+  [Incompatibe Changes]
+    * Sys#socketpair set FD_CLOEXEC flag on non-Windows.
+  [New Features]
+    * Add Sys#pipepair method.
+    * Add Sys::IO#pipepiar method.
+    
 0.575 2026-08-27
   [Requirement Changes]
     * Require SPVM 0.990196.
