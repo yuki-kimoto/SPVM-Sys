@@ -60,6 +60,7 @@ class TestCase::Sys::IO {
         return 0;
       }
       Sys::IO->close($fd);
+      Sys->unlink($file);
     }
     
     IO->O_ACCMODE;

@@ -1168,6 +1168,8 @@ class TestCase::Sys {
       Sys->close($stream);
       
       Sys->chmod(0755, $file);
+      
+      Sys->unlink($file);
     }
     
     return 1;
