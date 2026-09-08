@@ -9,6 +9,21 @@ use Test::SPVM::Sys::Socket::ServerManager::IP;
 use Test::SPVM::Sys::Socket::Util;
 use Test::SPVM::Sys::Socket::Server;
 
+my $server;
+BEGIN {
+  $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
+    code => sub {
+      my ($server_manager) = @_;
+      
+      my $port = $server_manager->port;
+      
+      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
+      
+      $server->start;
+    },
+  );
+}
+
 use SPVM 'Sys::Select';
 use SPVM 'TestCase::Sys::Select';
 
@@ -24,18 +39,6 @@ ok(SPVM::TestCase::Sys::Select->select_utils);
 
 # select
 {
-  my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-  
   ok(SPVM::TestCase::Sys::Select->select($server->port));
 }
 
