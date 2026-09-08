@@ -1032,6 +1032,8 @@ class TestCase::Sys {
       my $dir = "$test_tmp_dir/mkdir_あ";
       
       Sys->mkdir($dir);
+      
+      Sys->rmdir($dir);
     }
     
     return 1;
@@ -1272,6 +1274,8 @@ class TestCase::Sys {
       unless (Sys->e($file_to)) {
         return 0;
       }
+      
+      Sys->unlink($file_to);
     }
     
     # Same name

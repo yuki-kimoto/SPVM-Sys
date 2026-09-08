@@ -1699,17 +1699,20 @@ class TestCase::Sys::IO {
       
       Sys->mkdir($dir);
       
-      my $cwd_save = Sys::IO->getcwd;
-      
-      Fn->defer([$cwd_save : string] method : void () {
-        Sys->chdir($cwd_save);
-      });
-      
-      Sys->chdir($dir);
-      
-      my $cwd = Sys::IO->getcwd;
-      
-      warn "[Test Output]getcwd non-ascii:$cwd";
+      {
+        my $cwd_save = Sys::IO->getcwd;
+        
+        Fn->defer([$cwd_save : string] method : void () {
+          Sys->chdir($cwd_save);
+        });
+        
+        Sys->chdir($dir);
+        
+        my $cwd = Sys::IO->getcwd;
+        
+        warn "[Test Output]getcwd non-ascii:$cwd";
+      }
+      Sys->rmdir($dir);
     }
     
     return 1;
@@ -1733,17 +1736,21 @@ class TestCase::Sys::IO {
         
         Sys->mkdir($dir);
         
-        my $cwd_save = Sys::IO->getcwd;
+        {
+          my $cwd_save = Sys::IO->getcwd;
+          
+          Fn->defer([$cwd_save : string] method : void () {
+            Sys->chdir($cwd_save);
+          });
+          
+          Sys->chdir($dir);
+          
+          my $dcwd = Sys::IO->getdcwd(0);
+          
+          warn "[Test Output]getdcwd non-ascii:$dcwd";
+        }
         
-        Fn->defer([$cwd_save : string] method : void () {
-          Sys->chdir($cwd_save);
-        });
-        
-        Sys->chdir($dir);
-        
-        my $dcwd = Sys::IO->getdcwd(0);
-        
-        warn "[Test Output]getdcwd non-ascii:$dcwd";
+        Sys->rmdir($dir);
       }
     }
     else {
@@ -2296,15 +2303,21 @@ class TestCase::Sys::IO {
       }
       
       Sys::IO->truncate($file, 0);
+      
+      Sys->unlink($file);
     }
     
     # Can truncate opened file.
     {
       my $file = "$test_tmp_dir/truncate_あ.txt";
       
-      Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      {
+        Sys->open(my $_ = [(Sys::IO::FileStream)undef], ">", $file);
+      }
       
       Sys::IO->truncate($file, 0);
+      
+      Sys->unlink($file);
     }
     
     return 1;
@@ -2619,9 +2632,12 @@ class TestCase::Sys::IO {
       
       Sys->mkdir($dir);
       
-      my $ds = Sys::IO->opendir($dir);
-      
-      Sys->readdir($ds);
+      {
+        my $ds = Sys::IO->opendir($dir);
+        
+        Sys->readdir($ds);
+      }
+      Sys->rmdir($dir);
     }
     
     return 1;
@@ -3091,13 +3107,17 @@ class TestCase::Sys::IO {
     {
       my $file = "$test_tmp_dir/access_あ.txt";
       
-      Sys->open([(Sys::IO::FileStream)undef], ">", $file);
+      {
+        Sys->open([(Sys::IO::FileStream)undef], ">", $file);
+      }
       
       my $ret = Sys::IO->access($file, 0);
       
       if ($ret) {
         return 0;
       }
+      
+      Sys->unlink($file);
     }
     
     return 1;
