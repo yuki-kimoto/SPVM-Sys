@@ -9,17 +9,9 @@ use Test::SPVM::Sys::Socket::ServerManager::IP;
 use Test::SPVM::Sys::Socket::Util;
 use Test::SPVM::Sys::Socket::Server;
 
-use SPVM 'Sys::Poll';
-use SPVM 'TestCase::Sys::Poll';
-use SPVM 'Sys::Poll::Constant';
-
-my $api = SPVM::api();
-
-my $start_memory_blocks_count = $api->get_memory_blocks_count;
-
-# poll
-{
-  my $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
+my $server;
+BEGIN {
+  $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
     code => sub {
       my ($server_manager) = @_;
       
@@ -30,7 +22,18 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
       $server->start;
     },
   );
-  
+}
+
+use SPVM 'Sys::Poll';
+use SPVM 'TestCase::Sys::Poll';
+use SPVM 'Sys::Poll::Constant';
+
+my $api = SPVM::api();
+
+my $start_memory_blocks_count = $api->get_memory_blocks_count;
+
+# poll
+{
   ok(SPVM::TestCase::Sys::Poll->poll($server->port));
 }
 
