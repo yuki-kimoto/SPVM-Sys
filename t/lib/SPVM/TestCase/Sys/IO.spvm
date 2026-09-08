@@ -78,10 +78,16 @@ class TestCase::Sys::IO {
       # Open same file twice as write mode
       {
         my $file = "$test_tmp_dir/sys_io_open_write_same_file.txt";
-        
-        my $fd0 = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, 0644);
-        
-        my $fd1 = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, 0644);
+          
+        {
+          my $fd0 = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, 0644);
+          
+          my $fd1 = Sys::IO->open($file, IO->O_WRONLY | IO->O_CREAT, 0644);
+          
+          Sys::IO->close($fd0);
+          
+          Sys::IO->close($fd1);
+        }
       }
     }
     
@@ -450,12 +456,13 @@ class TestCase::Sys::IO {
         my $file = "$test_tmp_dir/あいうえお.txt";
         my $stream_ref = [(Sys::IO::FileStream)undef];
         
-        Sys->open($stream_ref, ">", $file);
-        
-        unless ($stream_ref->[0]) {
-          return 0;
+        {
+          Sys->open($stream_ref, ">", $file);
+          
+          unless ($stream_ref->[0]) {
+            return 0;
+          }
         }
-        
       }
       
       {
