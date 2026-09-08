@@ -3196,13 +3196,13 @@ class TestCase::Sys::IO {
         my $stat1 = Sys->fstat($fd1);
         if (Sys::OS->is_windows) {
           unless ($stat1->st_mode == IO->S_IFIFO) {
-            diag;
+            diag $stat1->st_mode;
             return 0;
           }
         }
         else {
           unless ($stat1->st_mode == IO->S_IFSOCK) {
-            diag;
+            diag $stat1->st_mode;
             return 0;
           }
         }
@@ -3210,13 +3210,13 @@ class TestCase::Sys::IO {
         my $stat2 = Sys->fstat($fd2);
         if (Sys::OS->is_windows) {
           unless ($stat2->st_mode == IO->S_IFIFO) {
-            diag;
+            diag $stat2->st_mode;
             return 0;
           }
         }
         else {
           unless ($stat2->st_mode == IO->S_IFSOCK) {
-            diag;
+            diag $stat2->st_mode;
             return 0;
           }
         }
