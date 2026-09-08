@@ -3193,6 +3193,34 @@ class TestCase::Sys::IO {
           return 0;
         }
         
+        my $stat1 = Sys->fstat($fd1);
+        if (Sys::OS->is_windows) {
+          unless ($stat1->st_mode == IO->S_IFIFO) {
+            diag;
+            return 0;
+          }
+        }
+        else {
+          unless ($stat1->st_mode == IO->S_IFSOCK) {
+            diag;
+            return 0;
+          }
+        }
+        
+        my $stat2 = Sys->fstat($fd2);
+        if (Sys::OS->is_windows) {
+          unless ($stat2->st_mode == IO->S_IFIFO) {
+            diag;
+            return 0;
+          }
+        }
+        else {
+          unless ($stat2->st_mode == IO->S_IFSOCK) {
+            diag;
+            return 0;
+          }
+        }
+        
         Sys::IO->close($fd1);
         Sys::IO->close($fd2);
       }
