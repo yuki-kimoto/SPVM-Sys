@@ -64,7 +64,7 @@
 #include <share.h>
 #include <fcntl.h>
 #include <time.h>
-
+#include <objbase.h>
 #include "spvm_native.h"
 
 /* File type mask */
