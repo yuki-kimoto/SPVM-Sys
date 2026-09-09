@@ -1408,8 +1408,9 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   
   needed_len = GetFinalPathNameByHandleW(handle, NULL, 0, 0);
   if (needed_len == 0) {
-    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
-    my_errno = EINVAL;
+    spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
+    my_errno = errno;
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     goto END_OF_FUNC;
   }
   
@@ -1418,8 +1419,9 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   
   len = GetFinalPathNameByHandleW(handle, resolved_path_w, needed_len, 0);
   if (len == 0) {
-    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
-    my_errno = EINVAL;
+    spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
+    my_errno = errno;
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
     goto END_OF_FUNC;
   }
   
@@ -1747,7 +1749,7 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       my_errno = errno;
-      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
     }
     
@@ -1764,13 +1766,13 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       my_errno = errno;
-      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file(%d: %s). $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
     }
     else {
       errno = EINVAL;
       my_errno = errno;
-      env->die(env, stack, "[System Error]This file is not a reparse point. $path='%s'.", __func__, FILE_NAME, __LINE__, path);
+      env->die(env, stack, "[System Error]This file is not a reparse point. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
     }
   }
