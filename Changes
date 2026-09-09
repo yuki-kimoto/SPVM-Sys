@@ -1,3 +1,14 @@
+0.578 2026-09-09
+
+  [Requirement Changes]
+    * Require SPVM::Errno 0.100.
+    * Require SPVM::Math 1.013.
+    * Require SPVM::Resource::SocketUtil 1.007.
+    * Require SPVM::Resource::Utf8proc 0.005.
+  
+  [Improve exception messages on Windows]
+    * Show GetLastError() in addition to errno.
+
 0.577 2026-09-07
   [Bug Fix]
     * Fixed a bug in Sys#pipepair and Sys::IO#pipepair on Windows where one of the file descriptors was created as write-only and did not support reading. It is now opened with GENERIC_READ | GENERIC_WRITE to ensure proper full-duplex communication.
