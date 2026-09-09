@@ -654,7 +654,7 @@ int spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE ha
           else {
             spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
             my_errno = errno;
-            env->die(env, stack, "[System Error]DeviceIoControl() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+            env->die(env, stack, "[System Error]DeviceIoControl() failed. GetLastError()=%d, errno=%d(%s).", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno));
             goto END_OF_FUNC;
           }
         }
@@ -731,7 +731,7 @@ int spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE ha
             if (needed_len == 0) {
               spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
               my_errno = errno;
-              env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+              env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. GetLastError()=%d, errno=%d(%s).", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno));
               goto END_OF_FUNC;
             }
             
@@ -755,7 +755,7 @@ int spvm_sys_windows_fstat_by_handle(SPVM_ENV* env, SPVM_VALUE* stack, HANDLE ha
             if (!len) {
               spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
               my_errno = errno;
-              env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+              env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. GetLastError()=%d, errno=%d(%s).", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno));
               goto END_OF_FUNC;
             }
             
@@ -878,7 +878,7 @@ int spvm_sys_windows_stat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, SP
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       my_errno = errno;
-      env->die(env, stack, "[System Error]CreateFileW failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]CreateFileW failed. GetLastError()=%d, errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
     }
   }
@@ -920,7 +920,7 @@ int spvm_sys_windows_lstat(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, S
   if (handle == INVALID_HANDLE_VALUE) {
     spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
-    env->die(env, stack, "[System Error]CreateFileW failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    env->die(env, stack, "[System Error]CreateFileW failed. GetLastError()=%d, errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), path);
     goto END_OF_FUNC;
   }
   
@@ -1410,7 +1410,7 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   if (needed_len == 0) {
     spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
-    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. GetLastError()=%d, errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), path);
     goto END_OF_FUNC;
   }
   
@@ -1421,7 +1421,7 @@ SPVM_OBJ* spvm_sys_windows_realpath(SPVM_ENV* env, SPVM_VALUE* stack, const char
   if (len == 0) {
     spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
-    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    env->die(env, stack, "[System Error]GetFinalPathNameByHandleW() failed. GetLastError()=%d, errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), path);
     goto END_OF_FUNC;
   }
   
@@ -1559,7 +1559,7 @@ int spvm_sys_windows_rename(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_pa
   if (status == -1) {
     spvm_sys_windows_set_errno_from_windows_last_error(EACCES);
     my_errno = errno;
-    env->die(env, stack, "[System Error]MoveFileExW(). errno=%d(%s), $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
+    env->die(env, stack, "[System Error]MoveFileExW(). GetLastError()=%d, errno=%d(%s), $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
     goto END_OF_FUNC;
   }
   
@@ -1698,7 +1698,7 @@ int spvm_sys_windows_symlink(SPVM_ENV* env, SPVM_VALUE* stack, const char* old_p
   if (status == -1) {
     spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
-    env->die(env, stack, "[System Error]CreateSymbolicLinkW() failed. errno=%d(%s), $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
+    env->die(env, stack, "[System Error]CreateSymbolicLinkW() failed. GetLastError()=%d, errno=%d(%s), $old_path='%s', $new_path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), old_path, new_path);
     goto END_OF_FUNC;
   }
   
@@ -1739,7 +1739,7 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
   if (fileattr == INVALID_FILE_ATTRIBUTES) {
     spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
-    env->die(env, stack, "[System Error]GetFileAttributesW() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+    env->die(env, stack, "[System Error]GetFileAttributesW() failed. GetLastError()=%d, errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), path);
     goto END_OF_FUNC;
   }
   
@@ -1749,14 +1749,14 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       my_errno = errno;
-      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file. GetLastError()=%d, errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
     }
     
     if (!DeviceIoControl(handle, FSCTL_GET_REPARSE_POINT, NULL, 0, &linkdata, sizeof(linkdata), &linkdata_returned, NULL)) {
       spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       my_errno = errno;
-      env->die(env, stack, "[System Error]DeviceIoControl() failed. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]DeviceIoControl() failed. GetLastError()=%d, errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
     }
   }
@@ -1766,7 +1766,7 @@ SPVM_OBJ* spvm_sys_windows_readlink(SPVM_ENV* env, SPVM_VALUE* stack, const char
     if (handle == INVALID_HANDLE_VALUE) {
       spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
       my_errno = errno;
-      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file. errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno), path);
+      env->die(env, stack, "[System Error]CreateFileW() failed when opening a file. GetLastError()=%d, errno=%d(%s), $path='%s'.", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno), path);
       goto END_OF_FUNC;
     }
     else {
@@ -2104,7 +2104,7 @@ int spvm_sys_windows_spawnvp_nowait(SPVM_ENV* env, SPVM_VALUE* stack, const char
   if (process_id == 0) {
     spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
     my_errno = errno;
-    env->die(env, stack, "[System Error]GetProcessId() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    env->die(env, stack, "[System Error]GetProcessId() failed. GetLastError()=%d, errno=%d(%s).", __func__, FILE_NAME, __LINE__, GetLastError(), errno, env->strerror_nolen(env, stack, errno));
     goto END_OF_FUNC;
   }
   
