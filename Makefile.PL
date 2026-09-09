@@ -110,10 +110,10 @@ WriteMakefile(
   },
   PREREQ_PM => {
     %configure_requires_and_prereq_pm,
-    'SPVM::Errno' => '0.098',
-    'SPVM::Math' => '1.010',
-    'SPVM::Resource::SocketUtil' => '1.006',
-    'SPVM::Resource::Utf8proc' => '0.004',
+    'SPVM::Errno' => '0.100',
+    'SPVM::Math' => '1.013',
+    'SPVM::Resource::SocketUtil' => '1.007',
+    'SPVM::Resource::Utf8proc' => '0.005',
   },
 );
 
