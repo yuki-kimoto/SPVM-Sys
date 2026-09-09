@@ -1,5 +1,8 @@
-0.578 2026-09-09
+0.579 2026-09-09
+  [Test Fix]
+    * Fix test unlink failed.
 
+0.578 2026-09-09
   [Requirement Changes]
     * Require SPVM::Errno 0.100.
     * Require SPVM::Math 1.013.
