@@ -35,36 +35,59 @@ HANDLE spvm_sys_windows_util_CreateFileW_reparse_point_for_read(const WCHAR* pat
 
 void spvm_sys_windows_set_errno_from_windows_last_error(int default_errno) {
   
-  switch (GetLastError()) {
-    case ERROR_BAD_NET_NAME:
-    case ERROR_BAD_NETPATH:
-    case ERROR_BAD_PATHNAME:
+  DWORD error = GetLastError();
+  
+  switch (error) {
     case ERROR_FILE_NOT_FOUND:
-    case ERROR_FILENAME_EXCED_RANGE:
-    case ERROR_INVALID_DRIVE:
     case ERROR_PATH_NOT_FOUND:
-    {
+    case ERROR_BAD_NETPATH:
+    case ERROR_INVALID_DRIVE:
+    case ERROR_BAD_PATHNAME:
+    case ERROR_BAD_NET_NAME:
+    case ERROR_FILENAME_EXCED_RANGE: {
       errno = ENOENT;
-      break;
-    }
-    case ERROR_ALREADY_EXISTS: {
-      errno = EEXIST;
       break;
     }
     case ERROR_ACCESS_DENIED: {
       errno = EACCES;
       break;
     }
-    case ERROR_PRIVILEGE_NOT_HELD: {
-      errno = EPERM;
+    case ERROR_ALREADY_EXISTS: {
+      errno = EEXIST;
+      break;
+    }
+    case ERROR_NOT_ENOUGH_MEMORY:
+    case ERROR_OUTOFMEMORY: {
+      errno = ENOMEM;
+      break;
+    }
+    case ERROR_INVALID_PARAMETER: {
+      errno = EINVAL;
+      break;
+    }
+    case ERROR_SHARING_VIOLATION:
+    case ERROR_LOCK_VIOLATION: {
+      errno = EACCES;
+      break;
+    }
+    case ERROR_TIMEOUT: {
+      errno = ETIMEDOUT;
+      break;
+    }
+    case ERROR_BROKEN_PIPE: {
+      errno = EPIPE;
+      break;
+    }
+    case ERROR_DISK_FULL: {
+      errno = ENOSPC;
       break;
     }
     case ERROR_NOT_SAME_DEVICE: {
       errno = EXDEV;
       break;
     }
-    case ERROR_DISK_FULL: {
-      errno = ENOSPC;
+    case ERROR_PRIVILEGE_NOT_HELD: {
+      errno = EPERM;
       break;
     }
     case ERROR_NOT_ENOUGH_QUOTA: {
@@ -73,9 +96,11 @@ void spvm_sys_windows_set_errno_from_windows_last_error(int default_errno) {
     }
     default: {
       errno = default_errno;
+      break;
     }
   }
 }
+
 
 SPVM_OBJ* spvm_sys_windows_utf8_to_win_wchar(SPVM_ENV* env, SPVM_VALUE* stack, const char* utf8_string, int32_t* error_id, const char* func_name, const char* file, int32_t line) {
   
