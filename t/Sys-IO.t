@@ -216,16 +216,23 @@ ok(SPVM::TestCase::Sys::IO->dup);
 ok(SPVM::TestCase::Sys::IO->dup2);
 ok(SPVM::TestCase::Sys::IO->pipepair);
 
+sub is_same_file {
+    my ($path1, $path2) = @_;
+    my @st1 = stat($path1);
+    my @st2 = stat($path2);
+    return (@st1 && @st2 && $st1[0] == $st1[0] && $st1[1] == $st2[1]);
+}
+
 # realpath
 {
   {
     my $file_empty = "t/ftest/file_empty.txt";
-    is(SPVM::Sys::IO->realpath($file_empty), Cwd::realpath($file_empty));
+    ok(is_same_file(SPVM::Sys::IO->realpath($file_empty), Cwd::realpath($file_empty)));
   }
   
   {
     my $dir = "t/ftest";
-    is(SPVM::Sys::IO->realpath($dir), Cwd::realpath($dir));
+    ok(is_same_file(SPVM::Sys::IO->realpath($dir), Cwd::realpath($dir)));
   }
   {
     my $file_not_exists = "t/ftest/not_exists.txt";
@@ -237,43 +244,43 @@ ok(SPVM::TestCase::Sys::IO->pipepair);
     my $path = 't/Sys.t';
     my $ret = SPVM::Sys::IO->realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, $expected);
+    ok(is_same_file($ret, $expected));
   }
   {
     my $path = 't/lib/../Sys.t';
     my $ret = SPVM::Sys::IO->realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, $expected);
+    ok(is_same_file($ret, $expected));
   }
   {
     my $path = 't';
     my $ret = SPVM::Sys::IO->realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, $expected);
+    ok(is_same_file($ret, $expected));
   }
   {
     my $path = 't/';
     my $ret = SPVM::Sys::IO->realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, $expected);
+    ok(is_same_file($ret, $expected));
   }
   {
     my $path = 't//';
     my $ret = SPVM::Sys::IO->realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, $expected);
+    ok(is_same_file($ret, $expected));
   }
   {
     my $path = '/';
     my $ret = SPVM::Sys::IO->realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, $expected);
+    ok(is_same_file($ret, $expected));
   }
   {
     my $path = "$FindBin::Bin";
     my $ret = SPVM::Sys::IO->realpath($path);
     my $expected = Cwd::realpath($path);
-    is($ret, $expected);
+    ok(is_same_file($ret, $expected));
   }
   
   if ($^O eq 'MSWin32') {
@@ -281,37 +288,37 @@ ok(SPVM::TestCase::Sys::IO->pipepair);
       my $path = "t\\Sys.t";
       my $ret = SPVM::Sys::IO->realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, $expected);
+      ok(is_same_file($ret, $expected));
     }
     {
       my $path = "t\\lib\\..\\Sys.t";
       my $ret = SPVM::Sys::IO->realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, $expected);
+      ok(is_same_file($ret, $expected));
     }
     {
       my $path = "t";
       my $ret = SPVM::Sys::IO->realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, $expected);
+      ok(is_same_file($ret, $expected));
     }
     {
       my $path = "t\\";
       my $ret = SPVM::Sys::IO->realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, $expected);
+      ok(is_same_file($ret, $expected));
     }
     {
       my $path = "t\\\\";
       my $ret = SPVM::Sys::IO->realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, $expected);
+      ok(is_same_file($ret, $expected));
     }
     {
       my $path = '\\';
       my $ret = SPVM::Sys::IO->realpath($path);
       my $expected = Cwd::realpath($path);
-      is($ret, $expected);
+      ok(is_same_file($ret, $expected));
     }
   }
 }
