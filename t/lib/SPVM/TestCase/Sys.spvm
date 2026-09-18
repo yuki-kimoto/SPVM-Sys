@@ -1741,7 +1741,7 @@ class TestCase::Sys {
       my $intvl_setting = 50;
       
       # Set values explicitly
-      Sys->set_tcp_keepalive($socket_fd, $onoff, $idle_setting, $intvl_setting);
+      Sys::Socket::Util->set_tcp_keepalive($socket_fd, $onoff, $idle_setting, $intvl_setting);
       
       # Verify SO_KEEPALIVE (All platforms)
       my $onoff_binary = Sys->getsockopt($socket_fd, Sys::Socket::Constant->SOL_SOCKET, Sys::Socket::Constant->SO_KEEPALIVE);
