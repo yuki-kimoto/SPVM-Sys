@@ -1483,7 +1483,20 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    my $read_len2 = Sys::Socket->recv($socket_fd2, $recv_buf, length $recv_buf, 0);
+    my $read_len2 = -1;
+    my $max_retry = 10;
+    for (my $i = 0; $i < $max_retry; $i++) {
+      eval { $read_len2 = Sys::Socket->recv($socket_fd2, $recv_buf, length $recv_buf, 0); }
+      if ($read_len2 == $send_len) {
+        last;
+      }
+      if ($read_len2 < 0) {
+        my $is_again = Sys::Socket::Errno->is_read_again(Sys::Socket::Errno->errno);
+        unless ($is_again) {
+          last;
+        }
+      }
+    }
     
     unless ($read_len2 == $send_len) {
       diag "Failed to receive data, expected $send_len but got $read_len2";
