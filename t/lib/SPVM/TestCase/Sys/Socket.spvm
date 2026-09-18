@@ -13,6 +13,7 @@ class TestCase::Sys::Socket {
   use Sys::IO::Constant as IO;
   use Sys::Ioctl::Constant as IOCTL;
   use Sys::Socket::Util;
+  use Sys::Socket::Errno;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
   use Errno;
@@ -1466,22 +1467,11 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    my $err = Errno->errno;
+    my $again = Sys::Socket::Errno->is_read_again(Sys::Socket::Errno->errno);
     
-    if (Sys::OS->is_windows) {
-      my $wsaewouldblock = Errno->WSAEWOULDBLOCK;
-      unless ($err == $wsaewouldblock) {
-        diag "Expected errno to be WSAEWOULDBLOCK, but got $err";
-        return 0;
-      }
-    }
-    else {
-      my $eagain = Errno->EAGAIN;
-      my $ewouldblock = Errno->EWOULDBLOCK;
-      unless ($err == $eagain || $err == $ewouldblock) {
-        diag "Expected errno to be EAGAIN or EWOULDBLOCK, but got $err";
-        return 0;
-      }
+    unless ($again) {
+      diag;
+      return 0;
     }
     
     my $send_message = "Hello SPVM Nonblocking";
