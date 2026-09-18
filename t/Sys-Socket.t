@@ -273,6 +273,8 @@ ok(SPVM::TestCase::Sys::Socket->getnameinfo);
 
 ok(SPVM::TestCase::Sys::Socket->set_tcp_keepalive);
 
+ok(SPVM::TestCase::Sys::Socket->inet_socketpair);
+
 $api->destroy_runtime_permanent_vars;
 
 my $end_memory_blocks_count = $api->get_memory_blocks_count;

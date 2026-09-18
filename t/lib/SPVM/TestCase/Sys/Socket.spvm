@@ -1381,4 +1381,56 @@ class TestCase::Sys::Socket {
     return 1;
   }
   
+  static method inet_socketpair : int () {
+    
+    my $socket_fd1 = -1;
+    my $socket_fd2 = -1;
+    
+    my $domain = Sys::Socket::Constant->AF_INET;
+    my $type = Sys::Socket::Constant->SOCK_STREAM;
+    my $protocol = 0;
+    
+    # Create inet socket pair
+    Sys::Socket::Util->inet_socketpair(\$socket_fd1, \$socket_fd2, $domain, $type, $protocol);
+    
+    if ($socket_fd1 < 0 || $socket_fd2 < 0) {
+      diag "Failed to create inet_socketpair";
+      return 0;
+    }
+    
+    # Ensure sockets are closed at the end
+    Fn->defer([$socket_fd1 : int, $socket_fd2 : int] method : void () {
+      Sys::Socket->close($socket_fd1);
+      Sys::Socket->close($socket_fd2);
+    });
+    
+    # Send data from socket1 to socket2
+    my $send_message = "Hello SPVM";
+    my $send_len = length $send_message;
+    my $written = Sys::Socket->send($socket_fd1, $send_message, $send_len, 0);
+    
+    unless ($written == $send_len) {
+      diag "Failed to send data over inet_socketpair";
+      return 0;
+    }
+    
+    # Receive data from socket2
+    my $recv_buf = (mutable string)new_string_len 1024;
+    my $read_len = Sys::Socket->recv($socket_fd2, $recv_buf, length $recv_buf, 0);
+    
+    unless ($read_len == $send_len) {
+      diag "Failed to receive data over inet_socketpair";
+      return 0;
+    }
+    
+    Fn->shorten_null_char($recv_buf);
+    
+    unless ($recv_buf eq $send_message) {
+      diag "Data mismatch over inet_socketpair: expected '$send_message', but got '$recv_buf'";
+      return 0;
+    }
+    
+    return 1;
+  }
+  
 }
