@@ -271,10 +271,7 @@ ok(SPVM::TestCase::Sys::Socket->getaddrinfo);
 
 ok(SPVM::TestCase::Sys::Socket->getnameinfo);
 
-# Sys
-{
-  ok(SPVM::TestCase::Sys->set_tcp_keepalive);
-}
+ok(SPVM::TestCase::Sys::Socket->set_tcp_keepalive);
 
 $api->destroy_runtime_permanent_vars;
 
