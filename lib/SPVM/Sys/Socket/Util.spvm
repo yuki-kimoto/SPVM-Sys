@@ -14,6 +14,7 @@ class Sys::Socket::Util {
   use Sys::Socket::Sockaddr::Un;
   use Sys::IO::Constant as IO_C;
   use Sys::Ioctl::Constant as IOCTL_C;
+  use Sys::Socket::Constant as SOCKET_C;
   
   static method inet_aton : Sys::Socket::In_addr ($address : string) {
     
@@ -163,6 +164,33 @@ class Sys::Socket::Util {
       
       Sys->fcntl($fd, IO_C->F_SETFL, $newmode);
     }
+  }
+  
+  static method inet_socketpair : void ($socket_fd1_ref : int*, $socket_fd2_ref : int*, $domain : int, $type : int, $protocol : int) {
+    
+    my $client_fd = -1;
+    Sys->socket(\$client_fd, $domain, $type, $protocol);
+    
+    my $server_fd = -1;
+    Sys->socket(\$server_fd, $domain, $type, $protocol);
+    
+    my $address = Sys::Socket::Util->inet_aton("127.0.0.1");
+    my $tmp_port = 0;
+    my $tmp_socket_address = Sys::Socket::Util->sockaddr_in($tmp_port, $address);
+    Sys->bind($server_fd, $tmp_socket_address);
+    Sys->listen($server_fd, SOCKET_C->SOMAXCONN);
+    
+    my $socket_address = (Sys::Socket::Sockaddr::In)Sys->getsockname($server_fd);
+    
+    Sys->connect($client_fd, $socket_address);
+    
+    my $accepted_fd = -1;
+    Sys->accept(\$accepted_fd, $server_fd);
+    
+    Sys::IO->close($server_fd);
+    
+    $$socket_fd1_ref = $client_fd;
+    $$socket_fd2_ref = $accepted_fd;
   }
   
 }
