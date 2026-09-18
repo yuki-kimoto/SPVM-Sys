@@ -12,6 +12,8 @@ class Sys::Socket::Util {
   use Sys::Socket::Sockaddr::In6;
   use Sys::Socket::Sockaddr::Storage;
   use Sys::Socket::Sockaddr::Un;
+  use Sys::IO::Constant as IO_C;
+  use Sys::Ioctl::Constant as IOCTL_C;
   
   static method inet_aton : Sys::Socket::In_addr ($address : string) {
     
@@ -139,6 +141,27 @@ class Sys::Socket::Util {
         my $intvl_option = Sys::Socket::Constant->TCP_KEEPINTVL;
         Sys->setsockopt($socket_fd, $level, $intvl_option, $keepintvl_sec);
       }
+    }
+  }
+  
+  static method set_blocking : void ($fd : int, $blocking : int) {
+    
+    if (Sys::OS->is_windows) {
+      my $flags = [(int)!$blocking];
+      Sys->ioctl($fd, IOCTL_C->FIONBIO, $flags);
+    }
+    else {
+      my $newmode = Sys->fcntl($fd, IO_C->F_GETFL);
+      
+      if ($blocking == 0) {
+        $newmode &= ~IO_C->O_NDELAY;
+        $newmode |= IO_C->O_NONBLOCK;
+      }
+      else {
+        $newmode &= ~(IO_C->O_NDELAY|IO_C->O_NONBLOCK);
+      }
+      
+      Sys->fcntl($fd, IO_C->F_SETFL, $newmode);
     }
   }
   

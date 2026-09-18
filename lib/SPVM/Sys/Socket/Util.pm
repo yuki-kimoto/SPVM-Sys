@@ -118,6 +118,22 @@ Note that Windows does not support retrieving these time settings via C<getsocko
 
 See also L<Sys::Socket#win_set_tcp_keepalive|SPVM::Sys::Socket/"win_set_tcp_keepalive">.
 
+=head2 set_blocking
+
+C<static method set_blocking : void ($fd : int, $blocking : int);>
+
+Sets the socket file descriptor $fd to blocking or non-blocking mode in a portable way.
+
+Arguments:
+
+=over 2
+
+=item * C<$fd> : The socket file descriptor.
+
+=item * C<$blocking> : Set to a non-zero value to enable blocking mode, or 0 to enable non-blocking mode.
+
+=back
+
 =head1 See Also
 
 =over 2
