@@ -1,3 +1,9 @@
+0.581 2026-09-18
+  [Deprecatation Warning]
+    Sys#set_tcp_keepalive method is deprected and will be removed, but Add set_tcp_keepalive method to Sys::Socket::Util. Use it instead.
+  [New Features]
+    * Add inet_socketpair method to Sys::Socket::Util class.
+    * Add set_blocking method to Sys::Socket::Util class.
 0.580 2026-09-09
   [Test Fix]
     * Fix test realpath failed in some environments.
