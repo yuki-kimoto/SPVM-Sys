@@ -15,6 +15,7 @@ class TestCase::Sys::Socket {
   use Sys::Socket::Util;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
+  use Errno;
   
   use Fn;
   
@@ -1427,6 +1428,82 @@ class TestCase::Sys::Socket {
     
     unless ($recv_buf eq $send_message) {
       diag "Data mismatch over inet_socketpair: expected '$send_message', but got '$recv_buf'";
+      return 0;
+    }
+    
+    return 1;
+  }
+  
+  
+  static method set_blocking : int () {
+    
+    my $socket_fd1 = -1;
+    my $socket_fd2 = -1;
+    
+    my $domain = Sys::Socket::Constant->AF_INET;
+    my $type = Sys::Socket::Constant->SOCK_STREAM;
+    my $protocol = 0;
+    
+    Sys::Socket::Util->inet_socketpair(\$socket_fd1, \$socket_fd2, $domain, $type, $protocol);
+    
+    if ($socket_fd1 < 0 || $socket_fd2 < 0) {
+      diag "Failed to create inet_socketpair";
+      return 0;
+    }
+    
+    Fn->defer([$socket_fd1 : int, $socket_fd2 : int] method : void () {
+      Sys::Socket->close($socket_fd1);
+      Sys::Socket->close($socket_fd2);
+    });
+    
+    Sys::Socket::Util->set_blocking($socket_fd2, 0);
+    
+    my $recv_buf = (mutable string)new_string_len 1024;
+    my $read_len = -1;
+    eval { $read_len = Sys::Socket->recv($socket_fd2, $recv_buf, length $recv_buf, 0); }
+    
+    unless ($@) {
+      return 0;
+    }
+    
+    my $err = Errno->errno;
+    
+    if (Sys::OS->is_windows) {
+      my $wsaewouldblock = Errno->WSAEWOULDBLOCK;
+      unless ($err == $wsaewouldblock) {
+        diag "Expected errno to be WSAEWOULDBLOCK, but got $err";
+        return 0;
+      }
+    }
+    else {
+      my $eagain = Errno->EAGAIN;
+      my $ewouldblock = Errno->EWOULDBLOCK;
+      unless ($err == $eagain || $err == $ewouldblock) {
+        diag "Expected errno to be EAGAIN or EWOULDBLOCK, but got $err";
+        return 0;
+      }
+    }
+    
+    my $send_message = "Hello SPVM Nonblocking";
+    my $send_len = length $send_message;
+    my $written = Sys::Socket->send($socket_fd1, $send_message, $send_len, 0);
+    
+    unless ($written == $send_len) {
+      diag "Failed to send data";
+      return 0;
+    }
+    
+    my $read_len2 = Sys::Socket->recv($socket_fd2, $recv_buf, length $recv_buf, 0);
+    
+    unless ($read_len2 == $send_len) {
+      diag "Failed to receive data, expected $send_len but got $read_len2";
+      return 0;
+    }
+    
+    Fn->shorten_null_char($recv_buf);
+    
+    unless ($recv_buf eq $send_message) {
+      diag "Data mismatch: expected '$send_message', but got '$recv_buf'";
       return 0;
     }
     
