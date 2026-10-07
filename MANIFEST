@@ -237,8 +237,6 @@ Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
 README.md
-t/00_Test-SPVM-Sys-Socket-Server-IP.t
-t/00_Test-SPVM-Sys-Socket-Server-UNIX.t
 t/exit_failure.pl
 t/exit_success.pl
 t/ftest/.gitattributes
