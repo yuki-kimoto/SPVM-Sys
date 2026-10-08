@@ -1838,24 +1838,6 @@ If the system supports C<FD_CLOEXEC>, this flag is set to $$fd1_ref and $$fd1_re
 
 =back
 
-=head1 Perl Modules
-
-=over 2
-
-=item * L<Test::SPVM::Sys::Socket>
-
-=item * L<Test::SPVM::Sys::Socket::ServerManager>
-
-=item * L<Test::SPVM::Sys::Socket::ServerManager::IP>
-
-=item * L<Test::SPVM::Sys::Socket::ServerManager::UNIX>
-
-=item * L<Test::SPVM::Sys::Socket::Server>
-
-=item * L<Test::SPVM::Sys::Socket::Util>
-
-=back
-
 =head1 See Also
 
 =over 2

@@ -3,128 +3,13 @@ use Test::More;
 use strict;
 use warnings;
 use lib 't/lib';
-use Time::HiRes 'usleep';
 
 use Socket;
-use IO::Socket;
-use IO::Socket::IP;
-use Test::SPVM::Sys::Socket::ServerManager::IP;
-use Test::SPVM::Sys::Socket::Util;
-use Test::SPVM::Sys::Socket::Server;
-
-my $server_connect;
-my $server_close;
-my $server_shutdown;
-my $server_send_recv;
-my $server_sendto_recvfrom;
-my $server_accept;
-my $server_getpeername;
-my $server_getsockname;
-
-BEGIN {
-  $server_connect = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-
-  $server_close = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-
-  $server_shutdown = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-
-  $server_send_recv = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-
-  $server_sendto_recvfrom = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-
-  $server_accept = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-
-  $server_getpeername = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-
-  $server_getsockname = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-}
 
 use SPVM 'Sys::Socket';
 use SPVM 'TestCase::Sys::Socket';
 use SPVM 'TestCase::Sys';
 use SPVM 'Sys::Socket::Constant';
-
-my $localhost = "127.0.0.1";
 
 my $api = SPVM::api();
 
