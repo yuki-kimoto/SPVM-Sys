@@ -180,10 +180,7 @@ ok(SPVM::TestCase::Sys::Socket->close);
 
 ok(SPVM::TestCase::Sys::Socket->shutdown);
 
-# send and recv
-{
-  ok(SPVM::TestCase::Sys::Socket->send_and_recv($server_send_recv->port));
-}
+ok(SPVM::TestCase::Sys::Socket->send_and_recv);
 
 # sendto and recvfrom
 {
