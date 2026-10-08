@@ -655,6 +655,78 @@ class TestCase::Sys::Socket {
     return 1;
   }
   
+  static method sendto_and_recvfrom_udp : int () {
+    # Socket
+    my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_DGRAM, 0);
+    
+    unless ($socket > 0) {
+      return 0;
+    }
+    
+    Fn->defer([$socket : int] method :void () {
+      Sys::Socket->close($socket);
+    });
+    
+    # IPv4 address
+    my $sockaddr = Sys::Socket::Sockaddr::In->new;
+    $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
+    $sockaddr->set_sin_port(Sys::Socket->htons((short)0));
+    my $in_addr = $sockaddr->sin_addr;
+    Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
+    $sockaddr->set_sin_addr($in_addr);
+    
+    my $status_bind = Sys::Socket->bind($socket, $sockaddr, $sockaddr->size);
+    
+    unless ($status_bind == 0) {
+      return 0;
+    }
+    
+    my $local_address = (Sys::Socket::Sockaddr::In)Sys->getsockname($socket);
+    
+    {
+      my $send_buffer = "abcd";
+      
+      my $send_length = Sys->sendto($socket, $send_buffer, 0, $local_address);
+      
+      unless ($send_length == 4) {
+        return 0;
+      }
+    }
+    
+    {
+      my $send_buffer = "ef";
+      
+      my $send_length = Sys->sendto($socket, $send_buffer, 0, $local_address, length $send_buffer, 0);
+      
+      unless ($send_length == 2) {
+        return 0;
+      }
+    }
+    
+    my $recv_string_buffer = StringBuffer->new;
+    
+    # Receive datagrams
+    for (my $i = 0; $i < 2; $i++) {
+      my $sockaddr_tmp_ref = (Sys::Socket::Sockaddr[])undef;
+      my $recv_buffer = (mutable string)new_string_len 1024;
+      my $recv_length = Sys->recvfrom($socket, $recv_buffer, length $recv_buffer, 0, $sockaddr_tmp_ref);
+      
+      if ($recv_length > 0) {
+        my $recv_string_part = Fn->substr($recv_buffer, 0, $recv_length);
+        
+        $recv_string_buffer->push($recv_string_part);
+      }
+    }
+    
+    my $recv_string = $recv_string_buffer->to_string;
+    
+    unless ($recv_string eq "abcdef") {
+      return 0;
+    }
+    
+    return 1;
+  }
+  
   static method bind : int () {
     # Socket
     my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);

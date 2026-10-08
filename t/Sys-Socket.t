@@ -184,6 +184,8 @@ ok(SPVM::TestCase::Sys::Socket->send_and_recv);
 
 ok(SPVM::TestCase::Sys::Socket->sendto_and_recvfrom);
 
+ok(SPVM::TestCase::Sys::Socket->sendto_and_recvfrom_udp);
+
 ok(SPVM::TestCase::Sys::Socket->bind);
 
 ok(SPVM::TestCase::Sys::Socket->listen);
