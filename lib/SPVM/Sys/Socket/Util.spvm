@@ -185,19 +185,33 @@ class Sys::Socket::Util {
     }
     
     Sys->bind($server_fd, $tmp_socket_address);
-    Sys->listen($server_fd, SOCKET_C->SOMAXCONN);
     
-    my $socket_address = Sys->getsockname($server_fd);
-    
-    Sys->connect($client_fd, $socket_address);
-    
-    my $accepted_fd = -1;
-    Sys->accept(\$accepted_fd, $server_fd);
-    
-    Sys::IO->close($server_fd);
-    
-    $$socket_fd1_ref = $client_fd;
-    $$socket_fd2_ref = $accepted_fd;
+    if ($type == SOCKET_C->SOCK_STREAM) {
+      Sys->listen($server_fd, SOCKET_C->SOMAXCONN);
+      
+      my $socket_address = Sys->getsockname($server_fd);
+      
+      Sys->connect($client_fd, $socket_address);
+      
+      my $accepted_fd = -1;
+      Sys->accept(\$accepted_fd, $server_fd);
+      
+      Sys::IO->close($server_fd);
+      
+      $$socket_fd1_ref = $client_fd;
+      $$socket_fd2_ref = $accepted_fd;
+    }
+    else {
+      # For UDP (SOCK_DGRAM), bind both and connect them to each other
+      my $server_address = Sys->getsockname($server_fd);
+      Sys->connect($client_fd, $server_address);
+      
+      my $client_address = Sys->getsockname($client_fd);
+      Sys->connect($server_fd, $client_address);
+      
+      $$socket_fd1_ref = $client_fd;
+      $$socket_fd2_ref = $server_fd;
+    }
   }
   
 }
