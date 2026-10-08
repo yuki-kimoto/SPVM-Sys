@@ -199,10 +199,7 @@ ok(SPVM::TestCase::Sys::Socket->sockaddr);
   ok(SPVM::TestCase::Sys::Socket->sendto_and_recvfrom($server_sendto_recvfrom->port));
 }
 
-{
-  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
-  ok(SPVM::TestCase::Sys::Socket->bind($port));
-}
+ok(SPVM::TestCase::Sys::Socket->bind);
 
 ok(SPVM::TestCase::Sys::Socket->listen);
 
