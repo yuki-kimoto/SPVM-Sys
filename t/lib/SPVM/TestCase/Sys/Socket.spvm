@@ -377,14 +377,14 @@ class TestCase::Sys::Socket {
     return 1;
   }
   
-  static method sockaddr : int ($port : int) {
+  static method sockaddr : int () {
     
-    # IPv4
+    # IPv4 inet_aton
     {
       my $sockaddr = Sys::Socket::Sockaddr::In->new;
       
       $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-      $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
+      $sockaddr->set_sin_port(Sys::Socket->htons((short)8080));
       my $in_addr = $sockaddr->sin_addr;
       my $status = Sys::Socket->inet_aton("127.0.0.1", $in_addr);
       $sockaddr->set_sin_addr($in_addr);
@@ -394,12 +394,12 @@ class TestCase::Sys::Socket {
       }
     }
 
-    # IPv4
+    # IPv4 inet_pton
     {
       my $sockaddr = Sys::Socket::Sockaddr::In->new;
       
       $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-      $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
+      $sockaddr->set_sin_port(Sys::Socket->htons((short)8080));
       my $in_addr = $sockaddr->sin_addr;
       my $status = Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
       $sockaddr->set_sin_addr($in_addr);
@@ -413,7 +413,7 @@ class TestCase::Sys::Socket {
       my $sockaddr = Sys::Socket::Sockaddr::In6->new;
       
       $sockaddr->set_sin6_family((byte)SOCKET->AF_INET6);
-      $sockaddr->set_sin6_port(Sys::Socket->htons((short)$port));
+      $sockaddr->set_sin6_port(Sys::Socket->htons((short)8080));
       my $in6_addr = $sockaddr->sin6_addr;
       my $status = Sys::Socket->inet_pton(SOCKET->AF_INET6, "::1", $in6_addr);
       $sockaddr->set_sin6_addr($in6_addr);
