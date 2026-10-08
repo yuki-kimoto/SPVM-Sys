@@ -473,23 +473,19 @@ class TestCase::Sys::Socket {
     return 1;
   }
   
-  static method connect_ipv6 : int ($port : int) {
-  
-    # IPv6 address
+  static method connect_ipv6 : int () {
     {
-      my $socket = Sys::Socket->socket(SOCKET->AF_INET6, SOCKET->SOCK_STREAM, 0);
+      # connect method used internally
+      my $client = -1;
+      my $server = -1;
+      Sys::Socket::Util->inet_socketpair(\$client, \$server, SOCKET->AF_INET6, SOCKET->SOCK_STREAM, 0);
       
-      unless ($socket> 0) {
+      unless ($client > 0 && $server > 0) {
         return 0;
       }
       
-      my $in6_addr = (Sys::Socket::In6_addr)Sys::Socket::Util->inet_pton(SOCKET->AF_INET6, "::1");
-      my $sockaddr_in6 = Sys::Socket::Util->sockaddr_in6($port, $in6_addr);
-      Sys->connect($socket, $sockaddr_in6);
-      my $status_close = Sys::Socket->close($socket);
-      unless ($status_close == 0) {
-        return 0;
-      }
+      Sys::Socket->close($client);
+      Sys::Socket->close($server);
     }
     
     return 1;
