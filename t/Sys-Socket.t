@@ -227,15 +227,9 @@ ok(SPVM::TestCase::Sys::Socket->listen);
   $sock->close;
 }
 
-# getpeername
-{
-  ok(SPVM::TestCase::Sys::Socket->getpeername($server_getpeername->port));
-}
+ok(SPVM::TestCase::Sys::Socket->getpeername);
 
-# getsockname
-{
-  ok(SPVM::TestCase::Sys::Socket->getsockname($server_getsockname->port));
-}
+ok(SPVM::TestCase::Sys::Socket->getsockname);
 
 if ($^O eq 'MSWin32') {
   eval { SPVM::Sys::Socket->socketpair(0, 0, 0, undef) };

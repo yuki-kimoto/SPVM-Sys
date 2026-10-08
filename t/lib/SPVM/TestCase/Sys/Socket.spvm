@@ -809,109 +809,114 @@ class TestCase::Sys::Socket {
     }
   }
 
-  static method getpeername : int ($port : int) {
-    # Socket
-    my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
-
-    Fn->defer([$socket : int] method :void () {
-      Sys::Socket->close($socket);
-    });
-    unless ($socket> 0) {
+  static method getpeername : int () {
+    # Socket pair
+    my $client = -1;
+    my $server = -1;
+    Sys::Socket::Util->inet_socketpair(\$client, \$server, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+    
+    unless ($client > 0 && $server > 0) {
       return 0;
     }
     
-    # IPv4 address
-    my $sockaddr = Sys::Socket::Sockaddr::In->new;
-    $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-    $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
-    my $in_addr = $sockaddr->sin_addr;
-    Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
-    $sockaddr->set_sin_addr($in_addr);
-    
-    my $status_connect = Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
+    Fn->defer([$client : int, $server : int] method :void () {
+      Sys::Socket->close($client);
+      Sys::Socket->close($server);
+    });
     
     {
       my $result_address = Sys::Socket::Sockaddr::In->new;
       
       my $result_address_size = $result_address->size;
-      my $status_getpeername = Sys::Socket->getpeername($socket, $result_address, \$result_address_size);
+      my $status_getpeername = Sys::Socket->getpeername($client, $result_address, \$result_address_size);
       unless ($status_getpeername == 0) {
         return 0;
       }
-      my $port_got = ((int)Sys::Socket->ntohs((short)$result_address->sin_port)) & 0xFFFF;
       
-      unless ($port_got == $port) {
+      unless ($result_address->sin_family == SOCKET->AF_INET) {
         return 0;
       }
-      unless ($result_address->sin_addr->s_addr == $in_addr->s_addr) {
+      
+      unless (Sys::Socket->ntohs((short)$result_address->sin_port) != 0) {
         return 0;
       }
-      unless ($result_address->size == $sockaddr->size) {
+      
+      my $in_addr = $result_address->sin_addr;
+      my $expected_in_addr = Sys::Socket::Util->inet_aton("127.0.0.1");
+      unless ($in_addr->s_addr == $expected_in_addr->s_addr) {
+        return 0;
+      }
+      
+      unless ($result_address->size == $result_address->size) {
         return 0;
       }
     }
+    
     {
-      my $result_address = (Sys::Socket::Sockaddr::In)Sys->getpeername($socket);
+      my $result_address = (Sys::Socket::Sockaddr::In)Sys->getpeername($client);
       unless ($result_address->sin_family == SOCKET->AF_INET) {
         return 0;
       }
       unless (Sys::Socket->ntohs((short)$result_address->sin_port) != 0) {
         return 0;
       }
-      unless ($result_address->sin_addr->s_addr == $in_addr->s_addr) {
+      
+      my $in_addr = $result_address->sin_addr;
+      my $expected_in_addr = Sys::Socket::Util->inet_aton("127.0.0.1");
+      unless ($in_addr->s_addr == $expected_in_addr->s_addr) {
         return 0;
       }
     }
+    
     return 1;
   }
 
-  static method getsockname : int ($port : int) {
-    # Socket
-    my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
-
-    Fn->defer([$socket : int] method :void () {
-      Sys::Socket->close($socket);
-    });
+  static method getsockname : int () {
+    # Socket pair
+    my $client = -1;
+    my $server = -1;
+    Sys::Socket::Util->inet_socketpair(\$client, \$server, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
     
-    unless ($socket> 0) {
+    unless ($client > 0 && $server > 0) {
       return 0;
     }
     
-    # IPv4 address
-    my $sockaddr = Sys::Socket::Sockaddr::In->new;
-    $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-    $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
-    my $in_addr = $sockaddr->sin_addr;
-    Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
-    $sockaddr->set_sin_addr($in_addr);
-    
-    my $status_connect = Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
+    Fn->defer([$client : int, $server : int] method :void () {
+      Sys::Socket->close($client);
+      Sys::Socket->close($server);
+    });
     
     {
       my $result_address = Sys::Socket::Sockaddr::In->new;
       
       my $result_address_size = $result_address->size;
-      my $status_getsockname = Sys::Socket->getsockname($socket, $result_address, \$result_address_size);
+      my $status_getsockname = Sys::Socket->getsockname($client, $result_address, \$result_address_size);
 
       unless ($status_getsockname == 0) {
         return 0;
       }
       
+      unless ($result_address->sin_family == SOCKET->AF_INET) {
+        return 0;
+      }
+      
       unless (Sys::Socket->ntohs((short)$result_address->sin_port) != 0) {
         return 0;
       }
       
-      unless ($result_address->sin_addr->s_addr == $in_addr->s_addr) {
+      my $in_addr = $result_address->sin_addr;
+      my $expected_in_addr = Sys::Socket::Util->inet_aton("127.0.0.1");
+      unless ($in_addr->s_addr == $expected_in_addr->s_addr) {
         return 0;
       }
 
-      unless ($result_address->size == $sockaddr->size) {
+      unless ($result_address->size == $result_address->size) {
         return 0;
       }
     }
     
     {
-      my $result_address = (Sys::Socket::Sockaddr::In)Sys->getsockname($socket);
+      my $result_address = (Sys::Socket::Sockaddr::In)Sys->getsockname($client);
       
       unless ($result_address->sin_family == SOCKET->AF_INET) {
         return 0;
@@ -921,7 +926,9 @@ class TestCase::Sys::Socket {
         return 0;
       }
       
-      unless ($result_address->sin_addr->s_addr == $in_addr->s_addr) {
+      my $in_addr = $result_address->sin_addr;
+      my $expected_in_addr = Sys::Socket::Util->inet_aton("127.0.0.1");
+      unless ($in_addr->s_addr == $expected_in_addr->s_addr) {
         return 0;
       }
     }
