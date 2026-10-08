@@ -1,3 +1,12 @@
+0.582 2026-10-08
+  [Test Improvement]
+    * Add UDP tests.
+    * Remove using Test::SPVM::Sys::Socket::XXX classes from tests.
+      I've rewritten the socket tests from the unreliable implementation using Perl's fork to a portable test suite.
+  [New Features]
+    * Sys::Socket::Util#inet_socketpair method Supports IPv6 and UDP.
+  [Incompatible Changes]
+    * Remove all Test::SPVM::Sys::XXX classes.
 0.581 2026-09-18
   [Deprecatation Warning]
     Sys#set_tcp_keepalive method is deprected and will be removed, but Add set_tcp_keepalive method to Sys::Socket::Util. Use it instead.
