@@ -1454,6 +1454,7 @@ class TestCase::Sys::Socket {
       Sys::Socket->close($socket_fd2);
     });
     
+    Sys::Socket::Util->set_blocking($socket_fd1, 0);
     Sys::Socket::Util->set_blocking($socket_fd2, 0);
     
     my $recv_buf = (mutable string)new_string_len 1024;
