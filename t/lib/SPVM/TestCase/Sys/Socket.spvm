@@ -496,31 +496,24 @@ class TestCase::Sys::Socket {
     return 1;
   }
 
-  static method shutdown : int ($port : int) {
-    # Socket
-    my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+  static method shutdown : int () {
+    # Socket pair
+    my $client = -1;
+    my $server = -1;
+    Sys::Socket::Util->inet_socketpair(\$client, \$server, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
     
-    unless ($socket> 0) {
+    unless ($client > 0 && $server > 0) {
       return 0;
     }
     
-    # IPv4 address
-    my $sockaddr = Sys::Socket::Sockaddr::In->new;
-    $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-    $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
-    my $in_addr = $sockaddr->sin_addr;
-    Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
-    $sockaddr->set_sin_addr($in_addr);
-    
-    my $status_connect = Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
-    
-    unless ($status_connect == 0) {
-      return 0;
-    }
+    Fn->defer([$client : int, $server : int] method :void () {
+      Sys::Socket->close($client);
+      Sys::Socket->close($server);
+    });
 
-    Sys->shutdown($socket, SOCKET->SHUT_WR);
+    Sys->shutdown($client, SOCKET->SHUT_WR);
     
-    my $status_close = Sys::Socket->close($socket);
+    my $status_close = Sys::Socket->close($client);
     
     unless ($status_close == 0) {
       return 0;

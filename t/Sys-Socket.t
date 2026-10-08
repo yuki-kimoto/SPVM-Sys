@@ -178,10 +178,7 @@ ok(SPVM::TestCase::Sys::Socket->connect);
 
 ok(SPVM::TestCase::Sys::Socket->close);
 
-# shutdown
-{
-  ok(SPVM::TestCase::Sys::Socket->shutdown($server_shutdown->port));
-}
+ok(SPVM::TestCase::Sys::Socket->shutdown);
 
 # send and recv
 {
