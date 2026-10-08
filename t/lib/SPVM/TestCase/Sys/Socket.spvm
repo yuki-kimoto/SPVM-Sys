@@ -479,7 +479,7 @@ class TestCase::Sys::Socket {
     return 1;
   }
   
-  static method close : int ($port : int) {
+  static method close : int () {
     # Socket
     my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
     
@@ -487,20 +487,6 @@ class TestCase::Sys::Socket {
       return 0;
     }
     
-    # IPv4 address
-    my $sockaddr = Sys::Socket::Sockaddr::In->new;
-    $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-    $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
-    my $in_addr = $sockaddr->sin_addr;
-    Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
-    $sockaddr->set_sin_addr($in_addr);
-    
-    my $status_connect = Sys::Socket->connect($socket, $sockaddr, $sockaddr->size);
-    
-    unless ($status_connect == 0) {
-      return 0;
-    }
-
     my $status_close = Sys::Socket->close($socket);
     
     unless ($status_close == 0) {
