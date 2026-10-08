@@ -204,10 +204,8 @@ ok(SPVM::TestCase::Sys::Socket->sockaddr);
   ok(SPVM::TestCase::Sys::Socket->bind($port));
 }
 
-{
-  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
-  ok(SPVM::TestCase::Sys::Socket->listen($port));
-}
+ok(SPVM::TestCase::Sys::Socket->listen);
+
 # accept
 {
   my $sock = IO::Socket::IP->new(

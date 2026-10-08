@@ -739,7 +739,7 @@ class TestCase::Sys::Socket {
     return 1;
   }
   
-  static method listen : int ($port : int) {
+  static method listen : int () {
     # Socket
     my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
     
@@ -754,7 +754,7 @@ class TestCase::Sys::Socket {
     # IPv4 address
     my $sockaddr = Sys::Socket::Sockaddr::In->new;
     $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-    $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
+    $sockaddr->set_sin_port(Sys::Socket->htons((short)0));
     my $in_addr = $sockaddr->sin_addr;
     Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $in_addr);
     $sockaddr->set_sin_addr($in_addr);
