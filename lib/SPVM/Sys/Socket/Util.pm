@@ -138,7 +138,7 @@ Arguments:
 
 C<static method inet_socketpair : void ($socket_fd1_ref : int*, $socket_fd2_ref : int*, $domain : int, $type : int, $protocol : int);>
 
-Creates a pair of connected internet sockets (client and server-accepted sockets) using the loopback address (C<127.0.0.1>).
+Creates a pair of connected internet sockets (client and server-accepted sockets) using the loopback address (C<127.0.0.1> for C<AF_INET> or C<::1> for C<AF_INET6>).
 
 Parameters:
 
@@ -148,7 +148,7 @@ Parameters:
 
 =item * C<$socket_fd2_ref> : Reference to the integer where the second socket file descriptor will be stored.
 
-=item * C<$domain> : The communication domain (e.g., C<AF_INET>).
+=item * C<$domain> : The communication domain (e.g., C<AF_INET> or C<AF_INET6>).
 
 =item * C<$type> : The communication type (e.g., C<SOCK_STREAM>).
 
@@ -160,7 +160,7 @@ Notes:
 
 This method provides a portable way to create connected socket pairs over the network loopback interface, which is particularly useful on platforms or environments where standard L<socketpair(2)> with UNIX domain sockets is restricted or unavailable.
 
-It internally creates two sockets, binds the server side to a temporary port on C<127.0.0.1>, listens for connections, connects the client side to it, accepts the connection, and then closes the listening server socket.
+It internally creates two sockets, binds the server side to a temporary port on C<127.0.0.1> (or C<::1> when C<AF_INET6> is specified), listens for connections, connects the client side to it, accepts the connection, and then closes the listening server socket.
 
 =head1 See Also
 
