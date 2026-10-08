@@ -245,14 +245,9 @@ else {
   ok(SPVM::TestCase::Sys::Socket->socketpair);
 }
 
-{
-  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
-  ok(SPVM::TestCase::Sys::Socket->setsockopt_int($port));
-}
-{
-  my $port = Test::SPVM::Sys::Socket::Util::get_available_port;
-  ok(SPVM::TestCase::Sys::Socket->getsockopt_int($port));
-}
+ok(SPVM::TestCase::Sys::Socket->setsockopt_int);
+
+ok(SPVM::TestCase::Sys::Socket->getsockopt_int);
 
 ok(SPVM::TestCase::Sys::Socket->sockaddr_un);
 

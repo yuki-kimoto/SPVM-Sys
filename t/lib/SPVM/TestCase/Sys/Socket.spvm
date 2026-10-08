@@ -983,55 +983,43 @@ class TestCase::Sys::Socket {
     return 1;
   }
 
-  static method setsockopt_int : int ($port : int) {
-    # Socket
-    my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+  static method setsockopt_int : int () {
+    # Socket pair
+    my $client = -1;
+    my $server = -1;
+    Sys::Socket::Util->inet_socketpair(\$client, \$server, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
     
-    unless ($socket> 0) {
+    unless ($client > 0 && $server > 0) {
       return 0;
     }
-
-    Fn->defer([$socket : int] method :void () {
-      Sys::Socket->close($socket);
+    
+    Fn->defer([$client : int, $server : int] method :void () {
+      Sys::Socket->close($client);
+      Sys::Socket->close($server);
     });
     
-    
-    # IPv4 address
-    my $sockaddr = Sys::Socket::Sockaddr::In->new;
-    $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-    $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
-    my $in_addr = $sockaddr->sin_addr;
-    $in_addr->set_s_addr(Sys::Socket->htonl(SOCKET->INADDR_ANY));
-    $sockaddr->set_sin_addr($in_addr);
-    
-    Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
+    Sys->setsockopt($client, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
     
     return 1;
   }
 
-  static method getsockopt_int : int ($port : int) {
-    # Socket
-    my $socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+  static method getsockopt_int : int () {
+    # Socket pair
+    my $client = -1;
+    my $server = -1;
+    Sys::Socket::Util->inet_socketpair(\$client, \$server, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
     
-    unless ($socket> 0) {
+    unless ($client > 0 && $server > 0) {
       return 0;
     }
-
-    Fn->defer([$socket : int] method :void () {
-      Sys::Socket->close($socket);
+    
+    Fn->defer([$client : int, $server : int] method :void () {
+      Sys::Socket->close($client);
+      Sys::Socket->close($server);
     });
     
-    
-    # IPv4 address
-    my $sockaddr = Sys::Socket::Sockaddr::In->new;
-    $sockaddr->set_sin_family((byte)SOCKET->AF_INET);
-    $sockaddr->set_sin_port(Sys::Socket->htons((short)$port));
-    my $in_addr = $sockaddr->sin_addr;
-    $in_addr->set_s_addr(Sys::Socket->htonl(SOCKET->INADDR_ANY));
-    $sockaddr->set_sin_addr($in_addr);
-    
     {
-      my $result_packed = Sys->getsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR);
+      my $result_packed = Sys->getsockopt($client, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR);
       my $result_ref = [0];
       Fn->memcpy($result_ref, 0, $result_packed, 0, 4);
       my $result = $result_ref->[0];
@@ -1042,9 +1030,9 @@ class TestCase::Sys::Socket {
     }
     
     {
-      Sys->setsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
+      Sys->setsockopt($client, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR, 1);
       
-      my $result_packed = Sys->getsockopt($socket, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR);
+      my $result_packed = Sys->getsockopt($client, SOCKET->SOL_SOCKET, SOCKET->SO_REUSEADDR);
       my $result_ref = [0];
       Fn->memcpy($result_ref, 0, $result_packed, 0, 4);
       my $result = $result_ref->[0];
