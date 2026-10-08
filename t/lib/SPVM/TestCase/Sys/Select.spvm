@@ -6,78 +6,59 @@ class TestCase::Sys::Select {
   
   use Sys::Socket;
   use Sys::Socket::Constant as SOCKET;
-  use Sys::Socket::Sockaddr;
-  use Sys::Socket::Sockaddr::In;
+  use Sys::Socket::Util;
   use Sys::Process;
   
   use Fn;
   
-  static method select : int ($port : int) {
+  static method select : int () {
     {
-      # Socket
-      my $no0_socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+      # Pair 0
+      my $no0_client = -1;
+      my $no0_server = -1;
+      Sys::Socket::Util->inet_socketpair(\$no0_client, \$no0_server, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
 
-      unless ($no0_socket > 0) {
+      unless ($no0_client > 0 && $no0_server > 0) {
         return 0;
       }
       
-      Fn->defer([$no0_socket : int] method :void () {
-        Sys::Socket->close($no0_socket);
+      Sys::Socket::Util->set_blocking($no0_client, 0);
+      Sys::Socket::Util->set_blocking($no0_server, 0);
+
+      Fn->defer([$no0_client : int, $no0_server : int] method :void () {
+        Sys::Socket->close($no0_client);
+        Sys::Socket->close($no0_server);
       });
-      
-      # IPv4 address
-      my $no0_address = Sys::Socket::Sockaddr::In->new;
-      $no0_address->set_sin_family((byte)SOCKET->AF_INET);
-      $no0_address->set_sin_port(Sys::Socket->htons((short)$port));
-      my $no0_sin_addr = $no0_address->sin_addr;
-      Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $no0_sin_addr);
-      $no0_address->set_sin_addr($no0_sin_addr);
-      
-      my $no0_status_connect = Sys::Socket->connect($no0_socket, $no0_address, $no0_address->size);
-      
-      unless ($no0_status_connect == 0) {
-        Sys::Socket->close($no0_socket);
-        return 0;
-      }
 
-      # Socket
-      my $no1_socket = Sys::Socket->socket(SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+      # Pair 1
+      my $no1_client = -1;
+      my $no1_server = -1;
+      Sys::Socket::Util->inet_socketpair(\$no1_client, \$no1_server, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
 
-      unless ($no1_socket > 0) {
+      unless ($no1_client > 0 && $no1_server > 0) {
         return 0;
       }
       
-      Fn->defer([$no1_socket : int] method :void () {
-        Sys::Socket->close($no1_socket);
+      Sys::Socket::Util->set_blocking($no1_client, 0);
+      Sys::Socket::Util->set_blocking($no1_server, 0);
+
+      Fn->defer([$no1_client : int, $no1_server : int] method :void () {
+        Sys::Socket->close($no1_client);
+        Sys::Socket->close($no1_server);
       });
-      
-      # IPv4 address
-      my $no1_address = Sys::Socket::Sockaddr::In->new;
-      $no1_address->set_sin_family((byte)SOCKET->AF_INET);
-      $no1_address->set_sin_port(Sys::Socket->htons((short)$port));
-      my $no1_sin_addr = $no1_address->sin_addr;
-      Sys::Socket->inet_pton(SOCKET->AF_INET, "127.0.0.1", $no1_sin_addr);
-      $no1_address->set_sin_addr($no1_sin_addr);
-      
-      my $no1_status_connect = Sys::Socket->connect($no1_socket, $no1_address, $no1_address->size);
-      
-      unless ($no1_status_connect == 0) {
-        Sys::Socket->close($no1_socket);
-        return 0;
-      }
       
       {
         my $writefds = Sys::Select::Fd_set->new;
         
-        Sys::Select->FD_SET($no0_socket, $writefds);
-        Sys::Select->FD_SET($no1_socket, $writefds);
+        Sys::Select->FD_SET($no0_client, $writefds);
+        Sys::Select->FD_SET($no1_client, $writefds);
         
         my $socket_max = 0;
-        if ($no0_socket > $no1_socket) {
-          $socket_max = $no0_socket;
+        if ($no0_client > $no1_client) {
+          $socket_max = $no0_client;
         }
         else {
-          $socket_max = $no1_socket;
+          $socket_max = $no1_client;
         }
         
         my $timeout = 10;
@@ -88,10 +69,10 @@ class TestCase::Sys::Select {
           return 0;
         }
         
-        unless (Sys::Select->FD_ISSET($no0_socket, $writefds)) {
+        unless (Sys::Select->FD_ISSET($no0_client, $writefds)) {
           return 0;
         }
-        unless (Sys::Select->FD_ISSET($no1_socket, $writefds)) {
+        unless (Sys::Select->FD_ISSET($no1_client, $writefds)) {
           return 0;
         }
       }
@@ -99,7 +80,7 @@ class TestCase::Sys::Select {
       {
         my $no0_send_buffer = "abcd";
         
-        my $no0_send_length = Sys::Socket->send($no0_socket, $no0_send_buffer, length $no0_send_buffer, 0);
+        my $no0_send_length = Sys::Socket->send($no0_client, $no0_send_buffer, length $no0_send_buffer, 0);
         
         unless ($no0_send_length == 4) {
           return 0;
@@ -109,14 +90,14 @@ class TestCase::Sys::Select {
       {
         my $no0_send_buffer = "ef";
         
-        my $no0_send_length = Sys::Socket->send($no0_socket, $no0_send_buffer, length $no0_send_buffer, 0);
+        my $no0_send_length = Sys::Socket->send($no0_client, $no0_send_buffer, length $no0_send_buffer, 0);
         
         unless ($no0_send_length == 2) {
           return 0;
         }
       }
       
-      my $no0_status_shutdown = Sys::Socket->shutdown($no0_socket, SOCKET->SHUT_WR);
+      my $no0_status_shutdown = Sys::Socket->shutdown($no0_client, SOCKET->SHUT_WR);
       
       unless ($no0_status_shutdown == 0) {
         return 0;
@@ -125,7 +106,7 @@ class TestCase::Sys::Select {
       {
         my $no1_send_buffer = "abcd";
         
-        my $no1_send_length = Sys::Socket->send($no1_socket, $no1_send_buffer, length $no1_send_buffer, 0);
+        my $no1_send_length = Sys::Socket->send($no1_client, $no1_send_buffer, length $no1_send_buffer, 0);
         
         unless ($no1_send_length == 4) {
           return 0;
@@ -135,55 +116,55 @@ class TestCase::Sys::Select {
       {
         my $no1_send_buffer = "ef";
         
-        my $no1_send_length = Sys::Socket->send($no1_socket, $no1_send_buffer, length $no1_send_buffer, 0);
+        my $no1_send_length = Sys::Socket->send($no1_client, $no1_send_buffer, length $no1_send_buffer, 0);
         
         unless ($no1_send_length == 2) {
           return 0;
         }
       }
       
-      my $no1_status_shutdown = Sys::Socket->shutdown($no1_socket, SOCKET->SHUT_WR);
+      my $no1_status_shutdown = Sys::Socket->shutdown($no1_client, SOCKET->SHUT_WR);
       
       unless ($no1_status_shutdown == 0) {
         return 0;
       }
       
-      # Wait a little for the server
+      # Wait
       Sys::Process->sleep(1);
       
       {
         my $readfds = Sys::Select::Fd_set->new;
         
-        Sys::Select->FD_SET($no0_socket, $readfds);
-        Sys::Select->FD_SET($no1_socket, $readfds);
+        Sys::Select->FD_SET($no0_server, $readfds);
+        Sys::Select->FD_SET($no1_server, $readfds);
         
         my $socket_max = 0;
-        if ($no0_socket > $no1_socket) {
-          $socket_max = $no0_socket;
+        if ($no0_server > $no1_server) {
+          $socket_max = $no0_server;
         }
         else {
-          $socket_max = $no1_socket;
+          $socket_max = $no1_server;
         }
         
         my $timeout = 10;
         
-        my $ready_count_out = Sys->select($readfds, undef, undef, $timeout);
+        my $ready_count_in = Sys->select($readfds, undef, undef, $timeout);
         
-        unless ($ready_count_out == 2) {
+        unless ($ready_count_in == 2) {
           return 0;
         }
         
-        unless (Sys::Select->FD_ISSET($no0_socket, $readfds)) {
+        unless (Sys::Select->FD_ISSET($no0_server, $readfds)) {
           return 0;
         }
-        unless (Sys::Select->FD_ISSET($no1_socket, $readfds)) {
+        unless (Sys::Select->FD_ISSET($no1_server, $readfds)) {
           return 0;
         }
       }
       
       {
         my $no0_recv_buffer = (mutable string)new_string_len 3;
-        my $no0_recv_length = Sys::Socket->recv($no0_socket, $no0_recv_buffer, length $no0_recv_buffer, 0);
+        my $no0_recv_length = Sys::Socket->recv($no0_server, $no0_recv_buffer, length $no0_recv_buffer, 0);
         
         unless ($no0_recv_length == 3) {
           return 0;
@@ -196,7 +177,7 @@ class TestCase::Sys::Select {
       
       {
         my $no0_recv_buffer = (mutable string)new_string_len 3;
-        my $no0_recv_length = Sys::Socket->recv($no0_socket, $no0_recv_buffer, length $no0_recv_buffer, 0);
+        my $no0_recv_length = Sys::Socket->recv($no0_server, $no0_recv_buffer, length $no0_recv_buffer, 0);
         
         unless ($no0_recv_length == 3) {
           return 0;
@@ -209,7 +190,7 @@ class TestCase::Sys::Select {
 
       {
         my $no0_recv_buffer = (mutable string)new_string_len 3;
-        my $no0_recv_length = Sys::Socket->recv($no0_socket, $no0_recv_buffer, length $no0_recv_buffer, 0);
+        my $no0_recv_length = Sys::Socket->recv($no0_server, $no0_recv_buffer, length $no0_recv_buffer, 0);
         
         unless ($no0_recv_length == 0) {
           return 0;
@@ -218,7 +199,7 @@ class TestCase::Sys::Select {
       
       {
         my $no1_recv_buffer = (mutable string)new_string_len 3;
-        my $no1_recv_length = Sys::Socket->recv($no1_socket, $no1_recv_buffer, length $no1_recv_buffer, 0);
+        my $no1_recv_length = Sys::Socket->recv($no1_server, $no1_recv_buffer, length $no1_recv_buffer, 0);
         
         unless ($no1_recv_length == 3) {
           return 0;
@@ -231,7 +212,7 @@ class TestCase::Sys::Select {
       
       {
         my $no1_recv_buffer = (mutable string)new_string_len 3;
-        my $no1_recv_length = Sys::Socket->recv($no1_socket, $no1_recv_buffer, length $no1_recv_buffer, 0);
+        my $no1_recv_length = Sys::Socket->recv($no1_server, $no1_recv_buffer, length $no1_recv_buffer, 0);
         
         unless ($no1_recv_length == 3) {
           return 0;
@@ -244,7 +225,7 @@ class TestCase::Sys::Select {
 
       {
         my $no1_recv_buffer = (mutable string)new_string_len 3;
-        my $no1_recv_length = Sys::Socket->recv($no1_socket, $no1_recv_buffer, length $no1_recv_buffer, 0);
+        my $no1_recv_length = Sys::Socket->recv($no1_server, $no1_recv_buffer, length $no1_recv_buffer, 0);
         
         unless ($no1_recv_length == 0) {
           return 0;
@@ -259,7 +240,7 @@ class TestCase::Sys::Select {
 
     {
       my $set = Sys::Select::Fd_set->new;
-    
+      
       my $fd = 0;
       
       if (Sys::Select->FD_ISSET($fd, $set)) {

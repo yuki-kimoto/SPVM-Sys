@@ -3,28 +3,7 @@ use Test::More;
 use strict;
 use warnings;
 use lib 't/lib';
-use Time::HiRes 'usleep';
 
-use Test::SPVM::Sys::Socket::ServerManager::IP;
-use Test::SPVM::Sys::Socket::Util;
-use Test::SPVM::Sys::Socket::Server;
-
-my $server;
-BEGIN {
-  $server = Test::SPVM::Sys::Socket::ServerManager::IP->new(
-    code => sub {
-      my ($server_manager) = @_;
-      
-      my $port = $server_manager->port;
-      
-      my $server = Test::SPVM::Sys::Socket::Server->new_echo_server_ipv4_tcp(port => $port);
-      
-      $server->start;
-    },
-  );
-}
-
-use SPVM 'Sys::Select';
 use SPVM 'TestCase::Sys::Select';
 
 my $api = SPVM::api();
@@ -37,10 +16,7 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count;
 # FD_ISSET
 ok(SPVM::TestCase::Sys::Select->select_utils);
 
-# select
-{
-  ok(SPVM::TestCase::Sys::Select->select($server->port));
-}
+ok(SPVM::TestCase::Sys::Select->select);
 
 $api->destroy_runtime_permanent_vars;
 
