@@ -182,10 +182,7 @@ ok(SPVM::TestCase::Sys::Socket->shutdown);
 
 ok(SPVM::TestCase::Sys::Socket->send_and_recv);
 
-# sendto and recvfrom
-{
-  ok(SPVM::TestCase::Sys::Socket->sendto_and_recvfrom($server_sendto_recvfrom->port));
-}
+ok(SPVM::TestCase::Sys::Socket->sendto_and_recvfrom);
 
 ok(SPVM::TestCase::Sys::Socket->bind);
 
