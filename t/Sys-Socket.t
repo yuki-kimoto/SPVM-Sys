@@ -174,10 +174,7 @@ ok(SPVM::TestCase::Sys::Socket->socket);
 
 ok(SPVM::TestCase::Sys::Socket->sockaddr);
 
-# connect
-{
-  ok(SPVM::TestCase::Sys::Socket->connect($server_connect->port));
-}
+ok(SPVM::TestCase::Sys::Socket->connect);
 
 # close
 {
