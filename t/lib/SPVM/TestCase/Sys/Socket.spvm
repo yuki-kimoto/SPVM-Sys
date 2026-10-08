@@ -473,6 +473,24 @@ class TestCase::Sys::Socket {
     return 1;
   }
   
+  static method accept : int () {
+    {
+      # accept method used internally
+      my $client = -1;
+      my $server = -1;
+      Sys::Socket::Util->inet_socketpair(\$client, \$server, SOCKET->AF_INET, SOCKET->SOCK_STREAM, 0);
+      
+      unless ($client > 0 && $server > 0) {
+        return 0;
+      }
+      
+      Sys::Socket->close($client);
+      Sys::Socket->close($server);
+    }
+    
+    return 1;
+  }
+  
   static method connect_ipv6 : int () {
     {
       # connect method used internally

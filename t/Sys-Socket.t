@@ -203,29 +203,7 @@ ok(SPVM::TestCase::Sys::Socket->bind);
 
 ok(SPVM::TestCase::Sys::Socket->listen);
 
-# accept
-{
-  my $sock = IO::Socket::IP->new(
-    Proto    => 'tcp',
-    PeerAddr => $localhost,
-    PeerPort => $server_accept->port,
-  );
-  
-  ok($sock);
-  
-  $sock->autoflush(1);
-  
-  $sock->send("abc");
-  
-  $sock->shutdown(IO::Socket::SHUT_WR);
-  
-  my $buffer;
-  $sock->recv($buffer, 3);
-  
-  is($buffer, "abc");
-  
-  $sock->close;
-}
+ok(SPVM::TestCase::Sys::Socket->accept);
 
 ok(SPVM::TestCase::Sys::Socket->getpeername);
 
