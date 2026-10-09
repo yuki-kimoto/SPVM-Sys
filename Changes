@@ -1,3 +1,7 @@
+0.583 2026-10-09
+  [Bug Fix]
+    * Fix Sys#recvfrom Invalid Arguments bug.
+    
 0.582 2026-10-08
   [Test Improvement]
     * Add UDP tests.

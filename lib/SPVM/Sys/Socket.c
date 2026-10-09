@@ -327,7 +327,7 @@ int32_t SPVM__Sys__Socket__recvfrom(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The data length $len must be less than the length of the buffer $buf minus the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
-  socklen_t addrlen_ref_tmp = -1;
+  socklen_t addrlen_ref_tmp = 128;
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
