@@ -757,7 +757,7 @@ class TestCase::Sys::Socket {
     
     my $recv_string_buffer = StringBuffer->new;
     
-    # Receive via recvfrom and reply back using sendto with the retrieved peer address
+    # Receive via recvfrom and check peer address
     for (my $i = 0; $i < 2; $i++) {
       my $sockaddr_tmp = (Sys::Socket::Sockaddr)undef;
       my $sockaddr_tmp_ref = [$sockaddr_tmp];
@@ -768,13 +768,22 @@ class TestCase::Sys::Socket {
       if ($recv_length > 0) {
         my $recv_string_part = Fn->substr($recv_buffer, 0, $recv_length);
         
-        # Get peer address and send back
         my $peer = $sockaddr_tmp_ref->[0];
         unless ($peer) {
           return 0;
         }
         
-        my $send_back_length = Sys->sendto($server, $recv_string_part, 0, $peer);
+        # Check peer address using getsockname on client side
+        my $client_sockname = (Sys::Socket::Sockaddr::In)Sys->getsockname($client);
+        
+        # Compare family and port/addr if needed
+        my $peer_in = (Sys::Socket::Sockaddr::In)$peer;
+        unless ($peer_in->sin_family == $client_sockname->sin_family && $peer_in->sin_port == $client_sockname->sin_port) {
+          return 0;
+        }
+        
+        # Reply back using send instead of sendto to avoid EISCONN on macOS
+        my $send_back_length = Sys->send($server, $recv_string_part, 0);
         unless ($send_back_length == length $recv_string_part) {
           return 0;
         }
