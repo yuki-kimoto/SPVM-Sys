@@ -736,7 +736,7 @@ class TestCase::Sys::Socket {
     {
       my $send_buffer = "abcd";
       
-      # sendto with undef dest_addr for connected/paired socket
+      # Send first packet from client
       my $send_length = Sys->sendto($client, $send_buffer, 0, (Sys::Socket::Sockaddr)undef);
       
       unless ($send_length == 4) {
@@ -747,6 +747,7 @@ class TestCase::Sys::Socket {
     {
       my $send_buffer = "ef";
       
+      # Send second packet from client
       my $send_length = Sys->sendto($client, $send_buffer, 0, (Sys::Socket::Sockaddr)undef);
       
       unless ($send_length == 2) {
@@ -756,7 +757,7 @@ class TestCase::Sys::Socket {
     
     my $recv_string_buffer = StringBuffer->new;
     
-    # Receive datagrams by count (2 times) using recvfrom
+    # Receive via recvfrom and reply back using sendto with the retrieved peer address
     for (my $i = 0; $i < 2; $i++) {
       my $sockaddr_tmp = (Sys::Socket::Sockaddr)undef;
       my $sockaddr_tmp_ref = [$sockaddr_tmp];
@@ -766,6 +767,17 @@ class TestCase::Sys::Socket {
       
       if ($recv_length > 0) {
         my $recv_string_part = Fn->substr($recv_buffer, 0, $recv_length);
+        
+        # Get peer address and send back
+        my $peer = $sockaddr_tmp_ref->[0];
+        unless ($peer) {
+          return 0;
+        }
+        
+        my $send_back_length = Sys->sendto($server, $recv_string_part, 0, $peer);
+        unless ($send_back_length == length $recv_string_part) {
+          return 0;
+        }
         
         $recv_string_buffer->push($recv_string_part);
       }
@@ -778,6 +790,15 @@ class TestCase::Sys::Socket {
     
     unless ($recv_string eq "abcdef") {
       return 0;
+    }
+    
+    # Verify client also receives the echoed responses
+    for (my $i = 0; $i < 2; $i++) {
+      my $client_recv_buffer = (mutable string)new_string_len 1024;
+      my $client_recv_length = Sys->recv($client, $client_recv_buffer, length $client_recv_buffer, 0);
+      unless ($client_recv_length > 0) {
+        return 0;
+      }
     }
     
     return 1;
