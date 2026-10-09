@@ -14,6 +14,7 @@ class TestCase::Sys::Socket {
   use Sys::Ioctl::Constant as IOCTL;
   use Sys::Socket::Util;
   use Sys::Socket::Errno;
+  use Sys::Process;
   
   use Sys::Socket::Error::InetInvalidNetworkAddress;
   use Errno;
@@ -1577,7 +1578,7 @@ class TestCase::Sys::Socket {
     }
     
     my $read_len2 = -1;
-    my $max_retry = 10;
+    my $max_retry = 50;
     for (my $i = 0; $i < $max_retry; $i++) {
       eval { $read_len2 = Sys::Socket->recv($socket_fd2, $recv_buf, length $recv_buf, 0); }
       if ($read_len2 == $send_len) {
@@ -1589,6 +1590,7 @@ class TestCase::Sys::Socket {
           last;
         }
       }
+      Sys::Process->usleep(10000);
     }
     
     unless ($read_len2 == $send_len) {
