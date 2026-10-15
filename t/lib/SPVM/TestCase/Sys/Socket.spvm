@@ -695,10 +695,8 @@ class TestCase::Sys::Socket {
     
     # Receive datagrams by count (2 times) instead of infinite loop waiting for EOF
     for (my $i = 0; $i < 2; $i++) {
-      my $sockaddr_tmp = Sys::Socket::Sockaddr::In->new;
-      my $sockaddr_tmp_ref = [$sockaddr_tmp];
       my $recv_buffer = (mutable string)new_string_len 1024;
-      my $recv_length = Sys->recv($server, $recv_buffer, length $recv_buffer, 0);
+      my $recv_length = Sys->recvfrom($server, $recv_buffer, length $recv_buffer, 0, undef);
       
       if ($recv_length > 0) {
         my $recv_string_part = Fn->substr($recv_buffer, 0, $recv_length);
