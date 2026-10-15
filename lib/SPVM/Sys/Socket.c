@@ -327,20 +327,20 @@ int32_t SPVM__Sys__Socket__recvfrom(SPVM_ENV* env, SPVM_VALUE* stack) {
     return env->die(env, stack, "The data length $len must be less than the length of the buffer $buf minus the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
   }
   
-  socklen_t addrlen_ref_tmp = 0;
-  if (obj_src_addr) {
-    addrlen_ref_tmp = 128;
-  }
-  
+  socklen_t addrlen_ref_tmp = 128;
+  socklen_t* addrlen_ref_tmp_address = &addrlen_ref_tmp;
 #if defined(_WIN32)
   sockfd = _get_osfhandle(sockfd);
   if (sockfd == -1) {
     env->die(env, stack, "[System Error]_get_osfhandle() failed. fd=%d.", __func__, FILE_NAME, __LINE__, sockfd);
     return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
   }
+  if (!obj_src_addr) {
+    addrlen_ref_tmp_address = NULL;
+  }
 #endif
   
-  int32_t read_length = recvfrom(sockfd, buf + buf_offset, len, flags, src_addr, &addrlen_ref_tmp);
+  int32_t read_length = recvfrom(sockfd, buf + buf_offset, len, flags, src_addr, addrlen_ref_tmp_address);
   
   if (read_length == -1) {
     env->die(env, stack, "[System Error]recvfrom() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, spvm_socket_errno(), spvm_socket_strerror(env, stack, spvm_socket_errno(), 0));
