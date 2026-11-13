@@ -12,10 +12,9 @@
 #if defined(_WIN32)
   #include "spvm_sys_windows.h"
 #else
+  #include <signal.h>
   #include <unistd.h>
 #endif
-
-#include <signal.h>
 
 #include "spvm_native.h"
 

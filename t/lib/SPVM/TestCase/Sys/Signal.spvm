@@ -153,4 +153,40 @@ class TestCase::Sys::Signal {
     
     return 1;
   }
+  
+  static method signal_constants : int () {
+    unless (SIGNAL->SIGHUP == 1) {
+      return 0;
+    }
+    unless (SIGNAL->SIGINT == 2) {
+      return 0;
+    }
+    unless (SIGNAL->SIGILL == 4) {
+      return 0;
+    }
+    unless (SIGNAL->SIGFPE == 8) {
+      return 0;
+    }
+    unless (SIGNAL->SIGKILL == 9) {
+      return 0;
+    }
+    unless (SIGNAL->SIGSEGV == 11) {
+      return 0;
+    }
+    unless (SIGNAL->SIGTERM == 15) {
+      return 0;
+    }
+    
+    if (Sys::OS->is_windows) {
+      unless (SIGNAL->SIGWINCH == 28) {
+        return 0;
+      }
+    }
+    else {
+      SIGNAL->SIGWINCH;
+    }
+    
+    return 1;
+  }
+  
 }

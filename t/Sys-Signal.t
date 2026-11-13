@@ -66,6 +66,8 @@ else {
 
 ok(SPVM::TestCase::Sys::Signal->signal);
 
+ok(SPVM::TestCase::Sys::Signal->signal_constants);
+
 {
   my $tmp_dir = File::Temp->newdir;
   

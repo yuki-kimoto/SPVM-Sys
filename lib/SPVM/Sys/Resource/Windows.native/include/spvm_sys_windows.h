@@ -65,6 +65,8 @@
 #include <fcntl.h>
 #include <time.h>
 #include <objbase.h>
+#include <signal.h>
+
 #include "spvm_native.h"
 
 /* File type mask */
@@ -250,6 +252,21 @@
 #endif
 #ifndef STDERR_FILENO
   #define STDERR_FILENO 2
+#endif
+
+#ifndef SIGHUP
+  /* Console window closed */
+  #define SIGHUP 1
+#endif
+
+#ifndef SIGKILL
+  /* Force kill process */
+  #define SIGKILL 9
+#endif
+
+#ifndef SIGWINCH
+  /* Console resized */
+  #define SIGWINCH 28
 #endif
 
 // Exactly same as Perl's one in Win32.c
