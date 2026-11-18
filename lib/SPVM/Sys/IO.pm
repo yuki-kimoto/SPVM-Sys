@@ -366,6 +366,38 @@ $count must be less than the length of $buf - $buf_offset. Otherwise an exceptio
 
 If the write function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
 
+=head2 read_pipe
+
+C<static method read_pipe : int ($fd : int, $buf : mutable string, $count : int, $buf_offset : int = 0);>
+
+Calls the L<read|https://linux.die.net/man/2/read> function for a pipe and returns its return value. On Windows, it handles pipe I/O compatibility.
+
+Exceptions:
+
+$buf must be defined. Otherwise an exception is thrown.
+
+$count must be more than or equal to 0. Otherwise an exception is thrown.
+
+$count must be less than the length of $buf - $buf_offset. Otherwise an exception is thrown.
+
+If the read function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
+=head2 write_pipe
+
+C<static method write_pipe : int ($fd : int, $buf : string, $count : int, $buf_offset : int = 0);>
+
+Calls the L<write|https://linux.die.net/man/2/write> function for a pipe and returns its return value. On Windows, it handles pipe I/O compatibility.
+
+Exceptions:
+
+$buf must be defined. Otherwise an exception is thrown.
+
+$buf_offset must be greater than or equal to 0. Otherwise an exception is thrown.
+
+$count must be less than the length of $buf - $buf_offset. Otherwise an exception is thrown.
+
+If the write function failed, an exception is thrown with C<eval_error_id> set to the basic type ID of the L<Error::System|SPVM::Error::System> class.
+
 =head2 lseek
 
 C<static method lseek : long ($fd : int, $offset : long, $whence : int);>

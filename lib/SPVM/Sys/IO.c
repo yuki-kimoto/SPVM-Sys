@@ -483,6 +483,92 @@ int32_t SPVM__Sys__IO__write(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
+int32_t SPVM__Sys__IO__read_pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  SPVM_OBJ* obj_buf = stack[1].oval;
+  if (!obj_buf) {
+    return env->die(env, stack, "The buffer $buf must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  char* buf = (char*)env->get_chars(env, stack, obj_buf);
+  int32_t buf_length = env->length(env, stack, obj_buf);
+  
+  int32_t count = stack[2].ival;
+  if (!(count >= 0)) {
+    return env->die(env, stack, "The count $count must be more than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  int32_t buf_offset = stack[3].ival;
+  if (!(count <= buf_length - buf_offset)) {
+    return env->die(env, stack, "The count $count must be less than the length of the buffer $buf - the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  #if defined(_WIN32)
+  SPVM_SYS_WINDOWS_SSIZE_T read_length = spvm_sys_windows_read(env, stack, fd, buf + buf_offset, count);
+  #else
+  ssize_t read_length = read(fd, buf + buf_offset, count);
+  #endif
+  
+  if (read_length == -1) {
+    env->die(env, stack, "[System Error]read() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = (int32_t)read_length;
+  
+  return 0;
+}
+
+int32_t SPVM__Sys__IO__write_pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
+  
+  int32_t error_id = 0;
+  
+  int32_t fd = stack[0].ival;
+  
+  SPVM_OBJ* obj_buf = stack[1].oval;
+  
+  if (!obj_buf) {
+    return env->die(env, stack, "The buffer $buf must be defined.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  char* buf = (char*)env->get_chars(env, stack, obj_buf);
+  int32_t buf_length = env->length(env, stack, obj_buf);
+  
+  int32_t count = stack[2].ival;
+  
+  int32_t buf_offset = stack[3].ival;
+  
+  if (!(buf_offset >= 0)) {
+    return env->die(env, stack, "The buffer offset $buf_offset must be greater than or equal to 0.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  if (count < 0) {
+    count = buf_length - buf_offset;
+  }
+  
+  if (!(count <= buf_length - buf_offset)) {
+    return env->die(env, stack, "The count $count must be less than the length of $buf - the buffer offset $buf_offset.", __func__, FILE_NAME, __LINE__);
+  }
+  
+  #if defined(_WIN32)
+  SPVM_SYS_WINDOWS_SSIZE_T write_length = spvm_sys_windows_write(env, stack, fd, buf + buf_offset, count);
+  #else
+  ssize_t write_length = write(fd, buf + buf_offset, count);
+  #endif
+
+  if (write_length == -1) {
+    env->die(env, stack, "[System Error]write() failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    return SPVM_NATIVE_C_BASIC_TYPE_ID_ERROR_SYSTEM_CLASS;
+  }
+  
+  stack[0].ival = (int32_t)write_length;
+  
+  return 0;
+}
+
 int32_t SPVM__Sys__IO__close(SPVM_ENV* env, SPVM_VALUE* stack) {
   
   int32_t fd = stack[0].ival;
