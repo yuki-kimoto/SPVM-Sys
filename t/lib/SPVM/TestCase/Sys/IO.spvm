@@ -3174,14 +3174,14 @@ class TestCase::Sys::IO {
         Sys::IO->pipepair(\$fd1, \$fd2);
         
         my $write_data = "Hello, SPVM pipepair!";
-        my $write_length = Sys->syswrite($fd2, $write_data, length($write_data));
+        my $write_length = Sys->syswrite_pipe($fd2, $write_data, length($write_data));
         unless ($write_length == length($write_data)) {
           diag;
           return 0;
         }
         
         my $read_data = new_string_len length($write_data);
-        my $read_length = Sys->sysread($fd1, $read_data, length($write_data));
+        my $read_length = Sys->sysread_pipe($fd1, $read_data, length($write_data));
         
         unless ($read_length == length($write_data)) {
           diag;
@@ -3233,14 +3233,14 @@ class TestCase::Sys::IO {
         Sys::IO->pipepair(\$fd1, \$fd2, $non_blocking);
         
         my $write_data = "Hello, SPVM pipepair!";
-        my $write_length = Sys->syswrite($fd2, $write_data, length($write_data));
+        my $write_length = Sys->syswrite_pipe($fd2, $write_data, length($write_data));
         unless ($write_length == length($write_data)) {
           diag;
           return 0;
         }
         
         my $read_data = new_string_len length($write_data);
-        my $read_length = Sys->sysread($fd1, $read_data, length($write_data));
+        my $read_length = Sys->sysread_pipe($fd1, $read_data, length($write_data));
         
         unless ($read_length == length($write_data)) {
           diag;
@@ -3263,14 +3263,14 @@ class TestCase::Sys::IO {
         Sys::IO->pipepair(\$fd2, \$fd1);
         
         my $write_data = "Hello, SPVM pipepair!";
-        my $write_length = Sys->syswrite($fd2, $write_data, length($write_data));
+        my $write_length = Sys->syswrite_pipe($fd2, $write_data, length($write_data));
         unless ($write_length == length($write_data)) {
           diag;
           return 0;
         }
         
         my $read_data = new_string_len length($write_data);
-        my $read_length = Sys->sysread($fd1, $read_data, length($write_data));
+        my $read_length = Sys->sysread_pipe($fd1, $read_data, length($write_data));
         
         unless ($read_length == length($write_data)) {
           diag;
@@ -3297,14 +3297,14 @@ class TestCase::Sys::IO {
         Sys->pipepair(\$fd1, \$fd2);
         
         my $write_data = "Hello, SPVM pipepair!";
-        my $write_length = Sys->syswrite($fd2, $write_data, length($write_data));
+        my $write_length = Sys->syswrite_pipe($fd2, $write_data, length($write_data));
         unless ($write_length == length($write_data)) {
           diag;
           return 0;
         }
         
         my $read_data = new_string_len length($write_data);
-        my $read_length = Sys->sysread($fd1, $read_data, length($write_data));
+        my $read_length = Sys->sysread_pipe($fd1, $read_data, length($write_data));
         
         unless ($read_length == length($write_data)) {
           diag;
@@ -3328,14 +3328,14 @@ class TestCase::Sys::IO {
         Sys->pipepair(\$fd1, \$fd2, $non_blocking);
         
         my $write_data = "Hello, SPVM pipepair!";
-        my $write_length = Sys->syswrite($fd2, $write_data, length($write_data));
+        my $write_length = Sys->syswrite_pipe($fd2, $write_data, length($write_data));
         unless ($write_length == length($write_data)) {
           diag;
           return 0;
         }
         
         my $read_data = new_string_len length($write_data);
-        my $read_length = Sys->sysread($fd1, $read_data, length($write_data));
+        my $read_length = Sys->sysread_pipe($fd1, $read_data, length($write_data));
         
         unless ($read_length == length($write_data)) {
           diag;
