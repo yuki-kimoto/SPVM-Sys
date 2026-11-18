@@ -365,6 +365,8 @@ typedef struct {
   int32_t tv_usec;
 } SPVM_SYS_WINDOWS_TIMEVAL;
 
+typedef intptr_t SPVM_SYS_WINDOWS_SSIZE_T;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -459,6 +461,10 @@ int spvm_sys_windows_truncate(SPVM_ENV* env, SPVM_VALUE* stack, const char* path
 int spvm_sys_windows_spawnvp_nowait(SPVM_ENV* env, SPVM_VALUE* stack, const char* path, char *const argv[]);
 
 int spvm_sys_windows_waitpid(SPVM_ENV* env, SPVM_VALUE* stack, int process_id, int *status, int options);
+
+SPVM_SYS_WINDOWS_SSIZE_T spvm_sys_windows_read_pipe(SPVM_ENV* env, SPVM_VALUE* stack, int fd, char* buf, size_t count);
+
+SPVM_SYS_WINDOWS_SSIZE_T spvm_sys_windows_write_pipe(SPVM_ENV* env, SPVM_VALUE* stack, int fd, const char* buf, size_t count);
 
 #ifdef __cplusplus
 } // extern "C"

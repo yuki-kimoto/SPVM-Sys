@@ -2173,6 +2173,109 @@ END_OF_FUNC:
   return ret_process_id;
 }
 
+#include <stdint.h>
+#include <errno.h>
+
+typedef intptr_t SPVM_SYS_WINDOWS_SSIZE_T;
+
+SPVM_SYS_WINDOWS_SSIZE_T spvm_sys_windows_read_pipe(SPVM_ENV* env, SPVM_VALUE* stack, int fd, char* buf, size_t count) {
+  
+  int32_t my_errno = 0;
+  SPVM_SYS_WINDOWS_SSIZE_T bytes_read = -1;
+  
+  // Get OS handle from file descriptor
+  HANDLE handle = (HANDLE)_get_osfhandle(fd);
+  if (handle == INVALID_HANDLE_VALUE) {
+    errno = EBADF;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]_get_osfhandle failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    goto END_OF_FUNC;
+  }
+  
+  DWORD num_bytes_read = 0;
+  
+  // Read from handle using ReadFile
+  BOOL success = ReadFile(handle, buf, static_cast<DWORD>(count), &num_bytes_read, NULL);
+  if (!success) {
+    DWORD error = GetLastError();
+    if (error == ERROR_BROKEN_PIPE || error == ERROR_PIPE_NOT_CONNECTED) {
+      // EOF reached
+      bytes_read = 0;
+    }
+    else if (error == ERROR_NO_DATA || error == ERROR_IO_PENDING) {
+      // Would block, map to EAGAIN
+      errno = EAGAIN;
+      my_errno = errno;
+      bytes_read = -1;
+    }
+    else {
+      spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
+      my_errno = errno;
+      env->die(env, stack, "[System Error]ReadFile() failed. GetLastError()=%d, errno=%d(%s).", __func__, FILE_NAME, __LINE__, error, errno, env->strerror_nolen(env, stack, errno));
+      goto END_OF_FUNC;
+    }
+  }
+  else {
+    bytes_read = static_cast<SPVM_SYS_WINDOWS_SSIZE_T>(num_bytes_read);
+  }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return bytes_read;
+}
+
+SPVM_SYS_WINDOWS_SSIZE_T spvm_sys_windows_write_pipe(SPVM_ENV* env, SPVM_VALUE* stack, int fd, const char* buf, size_t count) {
+  
+  int32_t my_errno = 0;
+  SPVM_SYS_WINDOWS_SSIZE_T bytes_written = -1;
+  
+  // Get OS handle from file descriptor
+  HANDLE handle = (HANDLE)_get_osfhandle(fd);
+  if (handle == INVALID_HANDLE_VALUE) {
+    errno = EBADF;
+    my_errno = errno;
+    env->die(env, stack, "[System Error]_get_osfhandle failed. errno=%d(%s).", __func__, FILE_NAME, __LINE__, errno, env->strerror_nolen(env, stack, errno));
+    goto END_OF_FUNC;
+  }
+  
+  DWORD num_bytes_written = 0;
+  
+  // Write to handle using WriteFile
+  BOOL success = WriteFile(handle, buf, static_cast<DWORD>(count), &num_bytes_written, NULL);
+  if (!success) {
+    DWORD error = GetLastError();
+    if (error == ERROR_BROKEN_PIPE || error == ERROR_PIPE_NOT_CONNECTED) {
+      errno = EPIPE;
+      my_errno = errno;
+      env->die(env, stack, "[System Error]WriteFile() failed. Pipe broken. GetLastError()=%d, errno=%d(%s).", __func__, FILE_NAME, __LINE__, error, errno, env->strerror_nolen(env, stack, errno));
+      goto END_OF_FUNC;
+    }
+    else if (error == ERROR_NO_DATA || error == ERROR_IO_PENDING) {
+      // Would block, map to EAGAIN
+      errno = EAGAIN;
+      my_errno = errno;
+      bytes_written = -1;
+    }
+    else {
+      spvm_sys_windows_set_errno_from_windows_last_error(EINVAL);
+      my_errno = errno;
+      env->die(env, stack, "[System Error]WriteFile() failed. GetLastError()=%d, errno=%d(%s).", __func__, FILE_NAME, __LINE__, error, errno, env->strerror_nolen(env, stack, errno));
+      goto END_OF_FUNC;
+    }
+  }
+  else {
+    bytes_written = static_cast<SPVM_SYS_WINDOWS_SSIZE_T>(num_bytes_written);
+  }
+  
+  END_OF_FUNC:
+  
+  errno = my_errno;
+  
+  return bytes_written;
+}
+
 } // extern "C"
 
 #endif // defined(_WIN32)
