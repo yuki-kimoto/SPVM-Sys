@@ -507,7 +507,7 @@ int32_t SPVM__Sys__IO__read_pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   #if defined(_WIN32)
-  SPVM_SYS_WINDOWS_SSIZE_T read_length = spvm_sys_windows_read(env, stack, fd, buf + buf_offset, count);
+  SPVM_SYS_WINDOWS_SSIZE_T read_length = spvm_sys_windows_read_pipe(env, stack, fd, buf + buf_offset, count);
   #else
   ssize_t read_length = read(fd, buf + buf_offset, count);
   #endif
@@ -554,7 +554,7 @@ int32_t SPVM__Sys__IO__write_pipe(SPVM_ENV* env, SPVM_VALUE* stack) {
   }
   
   #if defined(_WIN32)
-  SPVM_SYS_WINDOWS_SSIZE_T write_length = spvm_sys_windows_write(env, stack, fd, buf + buf_offset, count);
+  SPVM_SYS_WINDOWS_SSIZE_T write_length = spvm_sys_windows_write_pipe(env, stack, fd, buf + buf_offset, count);
   #else
   ssize_t write_length = write(fd, buf + buf_offset, count);
   #endif
