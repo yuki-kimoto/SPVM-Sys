@@ -1,3 +1,8 @@
+0.586 2026-11-18
+  [Incompatible Changes]
+    * Remove SET_SIG_GO_WRITE_FD and SIG_GO methods from Sys::Signal class.
+  [New Features]
+    * Add sysread_pipe and syswrite_pipe methods to Sys class.
 0.585 2026-11-13
   [New Features]
     * Define SIGHUP, SIGKILL, SIGWINCH in Windows.

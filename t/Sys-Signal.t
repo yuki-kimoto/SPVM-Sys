@@ -68,12 +68,6 @@ ok(SPVM::TestCase::Sys::Signal->signal);
 
 ok(SPVM::TestCase::Sys::Signal->signal_constants);
 
-{
-  my $tmp_dir = File::Temp->newdir;
-  
-  ok(SPVM::TestCase::Sys::Signal->signal_go("$tmp_dir"));
-}
-
 $api->destroy_runtime_permanent_vars;
 
 my $end_memory_blocks_count = $api->get_memory_blocks_count;

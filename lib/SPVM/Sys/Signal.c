@@ -155,30 +155,3 @@ int32_t SPVM__Sys__Signal__SIG_IGN(SPVM_ENV* env, SPVM_VALUE* stack) {
   return 0;
 }
 
-/*
-  For SPVM::Go class
-*/
-static int32_t SIG_GO_WRITE_FD = -1;
-
-static void SPVM__Sys__Signal__signal_hander_go(int32_t signal) {
-  int32_t write_length = write(SIG_GO_WRITE_FD, &signal, sizeof(int32_t));
-}
-
-int32_t SPVM__Sys__Signal__SET_SIG_GO_WRITE_FD(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  SIG_GO_WRITE_FD = stack[0].ival;
-  
-  return 0;
-}
-
-int32_t SPVM__Sys__Signal__SIG_GO(SPVM_ENV* env, SPVM_VALUE* stack) {
-  
-  int32_t error_id = 0;
-  
-  SPVM_OBJ* obj_handler = env->new_pointer_object_by_name(env, stack, "Sys::Signal::Handler", &SPVM__Sys__Signal__signal_hander_go, &error_id, __func__, __FILE__, __LINE__);
-  if (error_id) { return error_id; }
-  
-  stack[0].oval = obj_handler;
-  
-  return 0;
-}

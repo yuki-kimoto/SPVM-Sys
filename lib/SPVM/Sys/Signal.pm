@@ -97,27 +97,9 @@ C<static method SIG_IGN : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();
 
 Creates a new signal handler that represents C<SIG_IGN>.
 
-=head2 SET_SIG_GO_WRITE_FD
-
-C<static method SET_SIG_GO_WRITE_FD : void ($fd : int);>
-
-Set a write file descriptor for L<Go::OS::Signal|SPVM::Go::OS::Signal>.
-
-Do not use this method because this method is prepared to implement the L<Go::OS::Signal|SPVM::Go::OS::Signal> class.
-
-=head2 SIG_GO
-
-C<static method SIG_GO : L<Sys::Signal::Handler|SPVM::Sys::Signal::Handler> ();>
-
-Creates a new signal handler that represents the signal handler for L<Go::OS::Signal|SPVM::Go::OS::Signal>.
-
-Do not use this signal handler because this signal handler is prepared to implement the  L<Go::OS::Signal|SPVM::Go::OS::Signal> class.
-
 =head1 See Also
 
 =over 2
-
-=item * L<Go::OS::Signal|SPVM::Go::OS::Signal>
 
 =item * L<Sys|SPVM::Sys>
 

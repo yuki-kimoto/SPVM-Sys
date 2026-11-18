@@ -21,8 +21,4 @@ class Sys::Signal {
   native static method SIG_DFL : Sys::Signal::Handler ();
   
   native static method SIG_IGN : Sys::Signal::Handler ();
-  
-  native static method SET_SIG_GO_WRITE_FD : void ($fd : int);
-  
-  native static method SIG_GO : Sys::Signal::Handler ();
 }
