@@ -292,6 +292,26 @@ Exceptions:
 
 Exceptions thrown by L<Sys::IO#write|SPVM::Sys::IO/"write"> method could be thrown.
 
+=head2 sysread_pipe
+
+C<static method sysread_pipe : int ($fd : int, $buffer : mutable string, $length : int, $buffer_offset : int = 0);>
+
+Reads data from the pipe $fd by the $length, and saves it to the buffer $buffer from the offset $buffer_offset.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::IO#read_pipe|SPVM::Sys::IO/"read_pipe"> method could be thrown.
+
+=head2 syswrite_pipe
+
+C<static method syswrite_pipe : int ($fd : int, $buffer : string, $length : int = -1, $buffer_offset : int = 0);>
+
+Writes data to the pipe $fd by the $length from the buffer $buffer at offset $buffer_offset.
+
+Exceptions:
+
+Exceptions thrown by L<Sys::IO#write_pipe|SPVM::Sys::IO/"write_pipe"> method could be thrown.
+
 =head2 sysseek
 
 C<static method sysseek : long ($fd : int, $offset : long, $whence : int);>

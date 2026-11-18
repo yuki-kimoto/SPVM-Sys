@@ -309,6 +309,16 @@ class Sys {
     return $write_length;
   }
   
+  static method sysread_pipe : int ($fd : int, $buffer : mutable string, $length : int, $buffer_offset : int = 0) {
+    my $read_length = Sys::IO->read_pipe($fd, $buffer, $length, $buffer_offset);
+    return $read_length;
+  }
+  
+  static method syswrite_pipe : int ($fd : int, $buffer : string, $length : int = -1, $buffer_offset : int = 0) {
+    my $write_length = Sys::IO->write_pipe($fd, $buffer, $length, $buffer_offset);
+    return $write_length;
+  }
+  
   static method sysseek : long ($fd : int, $offset : long, $whence : int) {
     my $result_offset = Sys::IO->lseek($fd, $offset, $whence);
     return $result_offset;
